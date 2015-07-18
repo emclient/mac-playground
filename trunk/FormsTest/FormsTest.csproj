@@ -41,7 +41,6 @@
       <HintPath>..\MonoMac.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -73,6 +72,10 @@
     <ProjectReference Include="..\mono\mcs\class\System.Drawing\System.Drawing.csproj">
       <Project>{CB1CB976-AA54-4553-B0E7-05665B199EC4}</Project>
       <Name>System.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj">
+      <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
+      <Name>System.Windows.Forms-net_4_5</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -89,7 +89,7 @@ namespace System.Windows.Forms.CocoaInternal
 		}
 
 
-/*		public override void DrawRect (NSRect dirtyRect)
+		public override void DrawRect (NSRect dirtyRect)
 		{
 			if (null == EventHandler.EventHandlerDelegate)
 				return;
@@ -104,6 +104,5 @@ namespace System.Windows.Forms.CocoaInternal
 //			Console.Error.WriteLine ("drawRect ({0}) = {1}", dirtyRect, evtRef.Description);
 			EventHandler.EventHandlerDelegate (NSValue.FromRectangleF(dirtyRect), evtRef, this);
 		}
-*/
 	}
 }

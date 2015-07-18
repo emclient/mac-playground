@@ -189,7 +189,8 @@ namespace System.Windows.Forms.CocoaInternal {
 				}
 
 				if (nonclient) {
-					DrawBorders (hwnd);
+					
+						DrawBorders (hwnd);
 				}
 
 				if (nonclient)
