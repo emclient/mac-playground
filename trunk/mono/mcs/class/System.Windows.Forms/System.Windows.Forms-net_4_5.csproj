@@ -1206,7 +1206,6 @@
     <Compile Include="System.Windows.Forms.CocoaInternal\IEventHandler.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\KeyboardHandler.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoMenuItem.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\MonoNSDelegate.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoView.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\MouseHandler.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Pasteboard.cs" />

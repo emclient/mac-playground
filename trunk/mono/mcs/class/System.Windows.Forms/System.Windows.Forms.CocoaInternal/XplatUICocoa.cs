@@ -399,7 +399,6 @@ namespace System.Windows.Forms {
 						vuWrap.Frame = cr;
 //					}
 //				}
-
 				AddExpose (hwnd, false, 0, 0, hwnd.Width, hwnd.Height);
 			}
 		}
@@ -647,7 +646,7 @@ namespace System.Windows.Forms {
 			if (top) {
 				NSWindow winWrap = vuWrap.Window;
 				nsrect.Location = winWrap.ConvertBaseToScreen (nsrect.Location);
-
+				nsrect.Size = TranslateQuartzWindowSizeToWindowSize (Control.FromHandle (hwnd.Handle).GetCreateParams (), (int)nsrect.Width, (int)nsrect.Height);
 				mrect = NativeToMonoScreen (nsrect);
 			} else {
 				NSView superVuWrap = vuWrap.Superview;
@@ -1169,8 +1168,9 @@ namespace System.Windows.Forms {
 //				}
 
 				nsrect = MonoToNativeFramed (mrect, superVuWrap.Frame.Size.Height);
-				if (vuWrap.Frame != nsrect)
+				if (vuWrap.Frame != nsrect) {
 					vuWrap.Frame = nsrect;
+				}
 			}
 #if DriverDebug
 			Console.WriteLine ("HwndToNative ({0}) : {1}", hwnd, nsrect);
@@ -1566,7 +1566,8 @@ namespace System.Windows.Forms {
 			}
 
 			InvalidateNC (hwnd.Handle);
-			Invalidate (hwnd.Handle, Rectangle.Empty, true);
+			if (cp.Width > 0 && cp.Height > 0)
+				Invalidate (hwnd.Handle, Rectangle.Empty, true);
 
 			return hwnd.Handle;
 		}
@@ -2549,6 +2550,9 @@ namespace System.Windows.Forms {
 				return;
 			}
 
+			if (hwnd.Parent != null)
+				AddExpose (hwnd.Parent, true, hwnd.x, hwnd.y, hwnd.width, hwnd.height);
+
 			hwnd.x = x;
 			hwnd.y = y;
 			hwnd.width = width;
@@ -2558,26 +2562,6 @@ namespace System.Windows.Forms {
 				HwndPositionToNative (hwnd);
 				SendMessage (hwnd.Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 
-//				NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
-//				Control ctrl = Control.FromHandle (handle);
-//				CreateParams cp = ctrl.GetCreateParams ();
-//				Size TranslatedSize = TranslateWindowSizeToQuartzWindowSize (cp, new Size (width, height));
-//				NSRect rect;
-
-//				if (WindowMapping [hwnd.Handle] != null) {
-//					if (StyleSet (cp.Style, WindowStyles.WS_POPUP))
-//						rect = new NSRect (x, y, TranslatedSize.Width, TranslatedSize.Height);
-//					else
-//						rect = new NSRect (x, y + MenuBarHeight, TranslatedSize.Width, TranslatedSize.Height);
-//
-//					NSWindow winWrap = vuWrap.window ();
-//					rect = winWrap.frameRectForContentRect (rect);
-//					winWrap.setFrame_display (rect, true);
-//					SetCaretPos (Caret.Hwnd, Caret.X, Caret.Y);
-//				} else {
-//					rect = new NSRect (x, y, TranslatedSize.Width, TranslatedSize.Height);
-//					vuWrap.setFrame (rect);
-//				}
 #if DriverDebug
 				Console.WriteLine ("SetWindowPos ({0}, {1}, {2}, {3}, {4})", hwnd, x, y, width, height);
 #endif

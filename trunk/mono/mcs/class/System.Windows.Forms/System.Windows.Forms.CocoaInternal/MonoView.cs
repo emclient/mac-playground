@@ -114,27 +114,22 @@ namespace System.Windows.Forms.CocoaInternal
 		}
 
 		private void DrawBorders (Hwnd hwnd) {
+			Graphics g;
+
 			switch (hwnd.BorderStyle) {
-			case FormBorderStyle.Fixed3D: {
-					Graphics g;
-
-					g = Graphics.FromHwnd(hwnd.WholeWindow);
+			case FormBorderStyle.Fixed3D:
+				using (g = Graphics.FromHwnd (hwnd.WholeWindow)) {
 					if (hwnd.border_static)
-						ControlPaint.DrawBorder3D(g, new Rectangle(0, 0, hwnd.Width, hwnd.Height), Border3DStyle.SunkenOuter);
+						ControlPaint.DrawBorder3D (g, new Rectangle (0, 0, hwnd.Width, hwnd.Height), Border3DStyle.SunkenOuter);
 					else
-						ControlPaint.DrawBorder3D(g, new Rectangle(0, 0, hwnd.Width, hwnd.Height), Border3DStyle.Sunken);
-					g.Dispose();
-					break;
+						ControlPaint.DrawBorder3D (g, new Rectangle (0, 0, hwnd.Width, hwnd.Height), Border3DStyle.Sunken);
 				}
+				break;
 
-			case FormBorderStyle.FixedSingle: {
-					Graphics g;
-
-					g = Graphics.FromHwnd(hwnd.WholeWindow);
-					ControlPaint.DrawBorder(g, new Rectangle(0, 0, hwnd.Width, hwnd.Height), Color.Black, ButtonBorderStyle.Solid);
-					g.Dispose();
-					break;
-				}
+			case FormBorderStyle.FixedSingle:
+				using (g = Graphics.FromHwnd (hwnd.WholeWindow))
+					ControlPaint.DrawBorder (g, new Rectangle (0, 0, hwnd.Width, hwnd.Height), Color.Black, ButtonBorderStyle.Solid);
+				break;
 			}
 		}
 	}
