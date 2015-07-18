@@ -657,7 +657,6 @@ namespace System.Windows.Forms {
 			NSView clientVuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
 			NSRect nsrect = vuWrap.Frame;
 			Rectangle mrect;
-			hwnd.ClientRect = NativeToMonoFramed (clientVuWrap.Frame, nsrect.Size.Height);
 
 			bool top = null != WindowMapping [hwnd.Handle];
 			if (top) {
@@ -746,6 +745,7 @@ namespace System.Windows.Forms {
 //			/*TODO? if (winWrap.contentView() != vuWrap) */ {
 //				point += (Size) hwnd.client_rectangle.Location;
 //			}
+
 
 			NSPoint nspoint = MonoToNativeFramed (point, vuWrap.Frame.Size.Height);
 
@@ -1476,12 +1476,13 @@ namespace System.Windows.Forms {
 				WindowHandle = (IntPtr) windowWrapper.Handle;
 //				wholeHandle = WindowHandle;
 				windowWrapper.ContentView = viewWrapper;
-				WholeRect = windowWrapper.ContentRectFor (windowWrapper.Frame);
-				Rectangle realFrame = NativeToMonoScreen (WholeRect);
+				//WholeRect = windowWrapper.FrameRectFor (windowWrapper.Frame);
+				/*Rectangle realFrame = NativeToMonoScreen (WholeRect);
 				hwnd.x = X = realFrame.X;
 				hwnd.y = Y = realFrame.Y;
 				hwnd.width = Width = realFrame.Width;
-				hwnd.height = Height = realFrame.Height;
+				hwnd.height = Height = realFrame.Height;*/
+
 				//				Cocoa.EventHandler.InstallWindowHandler (WindowHandle);
 				//windowWrapper.Delegate = viewWrapper; -- FIXME
 				//				ClientWrapper.addTrackingRect_owner_userData_assumeInside (rect, ClientWrapper, 0, false);
@@ -1583,6 +1584,7 @@ namespace System.Windows.Forms {
 
 			InvalidateNC (hwnd.Handle);
 			Invalidate (hwnd.Handle, Rectangle.Empty, true);
+
 
 			return hwnd.Handle;
 		}
