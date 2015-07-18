@@ -148,61 +148,6 @@ namespace System.Windows.Forms.CocoaInternal {
 			client = hwnd.ClientWindow == handle;
 
 			switch (kind) {
-			case kEventControlDraw: {
-//				IntPtr rgn = IntPtr.Zero;
-				NSValue nsvalue = callref as NSValue;
-				NSRect nsbounds = NSRect.Empty;
-				if (null != nsvalue)
-					nsbounds = nsvalue.RectangleFValue;
-				if (NSRect.Empty == nsbounds)
-					nsbounds = vuWrap.Frame;
-
-//				GetEventParameter (eventref, kEventParamRgnHandle, typeQDRgnHandle, IntPtr.Zero, (uint) Marshal.SizeOf (typeof (IntPtr)), IntPtr.Zero, ref rgn);
-
-//				if (rgn != IntPtr.Zero) {
-//					Rect rbounds = new Rect ();
-//					
-//					GetRegionBounds (rgn, ref rbounds);
-//					
-//					bounds.origin.x = rbounds.left;
-//					bounds.origin.y = rbounds.top;
-//					bounds.size.width = rbounds.right - rbounds.left;
-//					bounds.size.height = rbounds.bottom - rbounds.top;
-//				} else {
-//					HIViewGetBounds (handle, ref bounds);
-//				}
-
-				Rectangle bounds = Driver.NativeToMonoFramed (nsbounds, vuWrap.Frame.Size.Height);
-				Rectangle clientBounds = bounds;
-//				clientBounds.Intersect (hwnd.ClientRect);
-//				client = ! clientBounds.IsEmpty;
-//				bool nonclient = clientBounds != bounds;
-				bool nonclient = ! client;
-
-				if (!hwnd.visible) {
-					if (client)
-						hwnd.expose_pending = false;
-					if (nonclient)
-						hwnd.nc_expose_pending = false;
-
-					return EventHandledBy.Handler;
-				}
-
-				if (nonclient) {
-					
-						DrawBorders (hwnd);
-				}
-
-				if (nonclient)
-					Driver.AddExpose (hwnd, false, bounds);
-
-				if (client) {
-//					clientBounds.Location -= (Size) hwnd.ClientRect.Location;
-					Driver.AddExpose (hwnd, true, clientBounds);
-				}
-
-				return EventHandledBy.Handler;
-			}
 			case kEventControlVisibilityChanged: {
 				if (client) {
 					msg.message = Msg.WM_SHOWWINDOW;
@@ -237,44 +182,5 @@ namespace System.Windows.Forms.CocoaInternal {
 
 			return EventHandledBy.NativeOS;
 		}
-
-		private void DrawBorders (Hwnd hwnd) {
-			switch (hwnd.BorderStyle) {
-				case FormBorderStyle.Fixed3D: {
-					Graphics g;
-
-					g = Graphics.FromHwnd(hwnd.WholeWindow);
-					if (hwnd.border_static)
-						ControlPaint.DrawBorder3D(g, new Rectangle(0, 0, hwnd.Width, hwnd.Height), Border3DStyle.SunkenOuter);
-					else
-						ControlPaint.DrawBorder3D(g, new Rectangle(0, 0, hwnd.Width, hwnd.Height), Border3DStyle.Sunken);
-					g.Dispose();
-					break;
-				}
-
-				case FormBorderStyle.FixedSingle: {
-					Graphics g;
-
-					g = Graphics.FromHwnd(hwnd.WholeWindow);
-					ControlPaint.DrawBorder(g, new Rectangle(0, 0, hwnd.Width, hwnd.Height), Color.Black, ButtonBorderStyle.Solid);
-					g.Dispose();
-					break;
-				}
-			}
-		}
-			
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int GetRegionBounds (IntPtr rgnhandle, ref Rect region);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int GetEventParameter (IntPtr eventref, uint name, uint type, IntPtr outtype, uint size, IntPtr outsize, ref IntPtr data);
-		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-		static extern int SetEventParameter (IntPtr eventref, uint name, uint type, uint size, ref short data);
-
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int HIViewGetBounds (IntPtr handle, ref HIRect rect);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int HIViewGetFrame (IntPtr handle, ref HIRect rect);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static bool HIViewIsVisible (IntPtr vHnd);
 	}
 }

@@ -157,21 +157,8 @@ namespace System.Windows.Forms {
 		public static XplatUICocoa GetInstance() {
 			lock (instancelock) {
 				if (Instance == null) {
-					// Mobjc/MCocoa requirement:
-					// This should be set once all assemblies with dependencies upon
-					// mobjc are loaded. (If an NSObject is created before this is set
-					// an exception will be thrown).
-					//Registrar.CanInit = true;
-					//NSApplication.sharedApplication();
-
-					NSApplication.Init();
-
-					Type gdiPlusType = System.Reflection.Assembly.GetAssembly(typeof(System.Drawing.Point)).GetType("System.Drawing.GDIPlus");
-					if (gdiPlusType != null) {
-						var field = gdiPlusType.GetField ("UseCocoaDrawable");
-						if (field != null)
-							field.SetValue (null, true);
-					}
+					NSApplication.Init ();
+					NSApplication.InitDrawingBridge ();
 
 					Instance = new XplatUICocoa ();
 				}
@@ -287,8 +274,6 @@ namespace System.Windows.Forms {
 			Cocoa.EventHandler.Driver = this;
 			ApplicationHandler = new Cocoa.ApplicationHandler (this);
 			ControlHandler = new Cocoa.ControlHandler (this);
-//FIXME! Translate or kill HIObject things?
-//			HIObjectHandler = new Cocoa.HIObjectHandler (this);
 			KeyboardHandler = new Cocoa.KeyboardHandler (this);
 			MouseHandler = new Cocoa.MouseHandler (this);
 			WindowHandler = new Cocoa.WindowHandler (this);
@@ -319,12 +304,12 @@ namespace System.Windows.Forms {
 
 //			// Initialize the FosterParent
 			NSRect rect = NSRect.Empty;
-//			Cocoa.ProcessSerialNumber psn = new Cocoa.ProcessSerialNumber();
-//
-//			GetCurrentProcess( ref psn );
-//			TransformProcessType (ref psn, 1);
-//			SetFrontProcess (ref psn);
-			NSProcessInfo.ProcessInfo.ProcessName = new NSString(Application.ProductName);
+			Cocoa.ProcessSerialNumber psn = new Cocoa.ProcessSerialNumber();
+
+			GetCurrentProcess( ref psn );
+			TransformProcessType (ref psn, 1);
+			SetFrontProcess (ref psn);
+			NSProcessInfo.ProcessInfo.ProcessName = Application.ProductName;
 //
 //			HIObjectRegisterSubclass (__CFStringMakeConstantString ("com.novell.mwfview"), __CFStringMakeConstantString ("com.apple.hiview"), 0, Cocoa.EventHandler.EventHandlerDelegate, (uint)Cocoa.EventHandler.HIObjectEvents.Length, Cocoa.EventHandler.HIObjectEvents, IntPtr.Zero, ref Subclass);
 //
@@ -356,11 +341,11 @@ namespace System.Windows.Forms {
 				tempMenu = false;
 			}
 
-			if (tempMenu) {
+			/*if (tempMenu) {
 				mainMenu = new NSMenu();
 				NSApp.MainMenu = mainMenu;
 			}
-			MenuBarHeight = (int) mainMenu.MenuBarHeight;
+			MenuBarHeight = (int) mainMenu.MenuBarHeight;*/
 //			Console.WriteLine ("MenuBarHeight = {0}", MenuBarHeight);
 //			Console.WriteLine ("{0}", mainMenu.Description);
 
@@ -1128,9 +1113,7 @@ namespace System.Windows.Forms {
 					msg.refobject = rgn;
 					msg.hwnd = hwnd.Handle;
 					EnqueueMessage (msg);
-
 					hwnd.nc_expose_pending = true;
-
 				}
 			}
 		}
@@ -1425,7 +1408,7 @@ namespace System.Windows.Forms {
 				WholeRect = MonoToNativeScreen (mWholeRect);
 			}
 
-			NSView viewWrapper = Cocoa.MonoView.CreateWithFrame (WholeRect);
+			NSView viewWrapper = new Cocoa.MonoView (this, WholeRect);
 			wholeHandle = (IntPtr) viewWrapper.Handle;
 
 			SetHwndStyles(hwnd, cp);
@@ -1484,7 +1467,7 @@ namespace System.Windows.Forms {
 				hwnd.height = Height = realFrame.Height;*/
 
 				//				Cocoa.EventHandler.InstallWindowHandler (WindowHandle);
-				//windowWrapper.Delegate = viewWrapper; -- FIXME
+				windowWrapper.WeakDelegate = viewWrapper;
 				//				ClientWrapper.addTrackingRect_owner_userData_assumeInside (rect, ClientWrapper, 0, false);
 
 				if (StyleSet (cp.Style, WindowStyles.WS_POPUP))
@@ -1512,7 +1495,7 @@ namespace System.Windows.Forms {
 //			HIViewNewTrackingArea (wholeHandle, IntPtr.Zero, (UInt64)wholeHandle, ref WholeWindowTracking);
 			Rectangle QClientRect = TranslateClientRectangleToQuartzClientRectangle (hwnd, cp.control);
 			NSRect ClientRect = MonoToNativeFramed (QClientRect, WholeRect.Size.Height);
-			NSView clientWrapper = Cocoa.MonoView.CreateWithFrame (ClientRect);
+			NSView clientWrapper = new Cocoa.MonoView (this, ClientRect);
 			clientHandle = (IntPtr) clientWrapper.Handle;
 
 			hwnd.WholeWindow = wholeHandle;
@@ -1584,7 +1567,6 @@ namespace System.Windows.Forms {
 
 			InvalidateNC (hwnd.Handle);
 			Invalidate (hwnd.Handle, Rectangle.Empty, true);
-
 
 			return hwnd.Handle;
 		}
@@ -3003,155 +2985,15 @@ namespace System.Windows.Forms {
 		internal override event EventHandler Idle;
 		#endregion Override properties XplatUIDriver
 
-
-//		internal static IntPtr GetWindowFromViewHwnd (IntPtr aView)
-//		{
-//			Hwnd hwnd = Hwnd.ObjectFromHandle (aView);
-//			return hwnd.WholeWindow;
-//		}
-
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static IntPtr NSDefaultRunLoopMode;
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int HIViewConvertPoint (ref Cocoa.CGPoint point, IntPtr pView, IntPtr cView);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int HIViewChangeFeatures (IntPtr aView, ulong bitsin, ulong bitsout);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int HIViewFindByID (IntPtr rootWnd, Cocoa.HIViewID id, ref IntPtr outPtr);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int HIGrowBoxViewSetTransparent (IntPtr GrowBox, bool transparency);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static IntPtr HIViewGetRoot (IntPtr hWnd);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int HIObjectCreate (IntPtr cfStr, uint what, ref IntPtr hwnd);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int HIObjectRegisterSubclass (IntPtr classid, IntPtr superclassid, uint options, Cocoa.EventDelegate upp, uint count, Cocoa.EventTypeSpec [] list, IntPtr state, ref IntPtr cls);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int HIViewPlaceInSuperviewAt (IntPtr view, float x, float y);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int HIViewAddSubview (IntPtr parentHnd, IntPtr childHnd);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static IntPtr HIViewGetPreviousView (IntPtr aView);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static IntPtr HIViewGetSuperview (IntPtr aView);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int HIViewRemoveFromSuperview (IntPtr aView);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int HIViewSetVisible (IntPtr vHnd, bool visible);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static bool HIViewIsVisible (IntPtr vHnd);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int HIViewGetBounds (IntPtr vHnd, ref Cocoa.HIRect r);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int HIViewScrollRect (IntPtr vHnd, ref Cocoa.HIRect rect, float x, float y);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int HIViewSetZOrder (IntPtr hWnd, int cmd, IntPtr oHnd);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int HIViewNewTrackingArea (IntPtr inView, IntPtr inShape, UInt64 inID, ref IntPtr outRef);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static IntPtr HIViewGetWindow (IntPtr aView);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int HIViewSetFrame (IntPtr view_handle, ref Cocoa.HIRect bounds);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		internal extern static int HIViewSetNeedsDisplayInRect (IntPtr view_handle, ref Cocoa.HIRect rect, bool needs_display);
-		
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static void SetRect (ref Cocoa.Rect r, short left, short top, short right, short bottom);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int ActivateWindow (IntPtr windowHnd, bool inActivate);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern bool IsWindowActive (IntPtr windowHnd);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int SetAutomaticControlDragTrackingEnabledForWindow (IntPtr window, bool enabled);
-
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static IntPtr GetEventDispatcherTarget ();
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int SendEventToEventTarget (IntPtr evt, IntPtr target);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int ReleaseEvent (IntPtr evt);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int ReceiveNextEvent (uint evtCount, IntPtr evtTypes, double timeout, bool processEvt, ref IntPtr evt);
-
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static bool IsWindowCollapsed (IntPtr hWnd);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static bool IsWindowInStandardState (IntPtr hWnd, IntPtr a, IntPtr b);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static void CollapseWindow (IntPtr hWnd, bool collapse);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static void ZoomWindow (IntPtr hWnd, short partCode, bool front);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int GetWindowAttributes (IntPtr hWnd, ref Cocoa.WindowAttributes outAttributes);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int ChangeWindowAttributes (IntPtr hWnd, Cocoa.WindowAttributes inAttributes, Cocoa.WindowAttributes outAttributes);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		internal extern static int GetGlobalMouse (ref Cocoa.QDPoint outData);
-		
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int BeginAppModalStateForWindow (IntPtr window);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int EndAppModalStateForWindow (IntPtr window);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int CreateNewWindow (Cocoa.WindowClass klass, Cocoa.WindowAttributes attributes, ref Cocoa.Rect r, ref IntPtr window);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int DisposeWindow (IntPtr wHnd);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		internal extern static int ShowWindow (IntPtr wHnd);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		internal extern static int HideWindow (IntPtr wHnd);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		internal extern static bool IsWindowVisible (IntPtr wHnd);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int SetWindowBounds (IntPtr wHnd, uint reg, ref Cocoa.Rect rect);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int GetWindowBounds (IntPtr wHnd, uint reg, ref Cocoa.Rect rect);
-
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int SetControlTitleWithCFString (IntPtr hWnd, IntPtr titleCFStr);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int SetWindowTitleWithCFString (IntPtr hWnd, IntPtr titleCFStr);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		internal extern static IntPtr __CFStringMakeConstantString (string cString);
-		
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		internal extern static int CFRelease (IntPtr wHnd);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static short GetMBarHeight ();
-		
-//		#region Cursor imports
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static Cocoa.HIRect CGDisplayBounds (IntPtr displayID);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static IntPtr CGMainDisplayID ();
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static void CGDisplayShowCursor (IntPtr display);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static void CGDisplayHideCursor (IntPtr display);
+		#region Process imports
+		[DllImport("/System/Library/Frameworks/ApplicationServices.framework/Versions/Current/ApplicationServices")]
+		extern static int GetCurrentProcess (ref Cocoa.ProcessSerialNumber psn);
+		[DllImport("/System/Library/Frameworks/ApplicationServices.framework/Versions/Current/ApplicationServices")]
+		extern static int TransformProcessType (ref Cocoa.ProcessSerialNumber psn, uint type);
+		[DllImport("/System/Library/Frameworks/ApplicationServices.framework/Versions/Current/ApplicationServices")]
+		extern static int SetFrontProcess (ref Cocoa.ProcessSerialNumber psn);
+		#endregion
 		[DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
 		extern static void CGDisplayMoveCursorToPoint (UInt32 display, Cocoa.CGPoint point);
-//		#endregion
-
-		#region Process imports
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int GetCurrentProcess (ref Cocoa.ProcessSerialNumber psn);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int TransformProcessType (ref Cocoa.ProcessSerialNumber psn, uint type);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static int SetFrontProcess (ref Cocoa.ProcessSerialNumber psn);
-		#endregion
-
-		#region Dock tile imports
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static IntPtr CGColorSpaceCreateDeviceRGB();
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static IntPtr CGDataProviderCreateWithData (IntPtr info, IntPtr [] data, int size, IntPtr releasefunc);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static IntPtr CGImageCreate (int width, int height, int bitsPerComponent, int bitsPerPixel, int bytesPerRow, IntPtr colorspace, uint bitmapInfo, IntPtr provider, IntPtr decode, int shouldInterpolate, int intent);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static void SetApplicationDockTileImage(IntPtr imageRef);
-//		[DllImport("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		extern static void RestoreApplicationDockTileImage();
-		#endregion
 	}
 }

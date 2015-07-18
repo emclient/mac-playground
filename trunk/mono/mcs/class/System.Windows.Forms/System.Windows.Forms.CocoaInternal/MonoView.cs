@@ -37,21 +37,15 @@ namespace System.Windows.Forms.CocoaInternal
 	//[ExportClass("MonoView", "NSView")]
 	internal class MonoView : NSView
 	{
+		XplatUICocoa driver;
+
 		private MonoView (IntPtr instance) : base (instance)
 		{
 		}
 
-		public MonoView () : base ()
+		public MonoView (XplatUICocoa driver, NSRect frameRect) : base(frameRect)
 		{
-		}
-
-		public MonoView (NSRect frameRect) : base(frameRect)
-		{
-		}
-
-		public static MonoView CreateWithFrame (NSRect frameRect)
-		{
-			return new MonoView (frameRect);
+			this.driver = driver;
 		}
 
 //		public new bool isFlipped ()
@@ -71,8 +65,12 @@ namespace System.Windows.Forms.CocoaInternal
 			return base.TryToPerformwith (anAction, anObject);
 		}
 
+		[Export("windowShouldClose")]
 		public bool windowShouldClose (NSObject sender)
 		{
+			// FIXME: Send WM_CLOSING/WM_CLOSE
+			return true;
+			/*
 			if (null == EventHandler.EventHandlerDelegate)
 				return true;
 
@@ -85,24 +83,59 @@ namespace System.Windows.Forms.CocoaInternal
 
 //			Console.Error.WriteLine ("Close window {0}", evtRef.Description);
 			return EventHandledBy.NativeOS == (EventHandledBy.NativeOS & 
-						EventHandler.EventHandlerDelegate (sender, evtRef, this));
+						EventHandler.EventHandlerDelegate (sender, evtRef, this));*/
 		}
-
 
 		public override void DrawRect (NSRect dirtyRect)
 		{
-			if (null == EventHandler.EventHandlerDelegate)
+			Hwnd hwnd = Hwnd.ObjectFromWindow (Handle);
+			NSRect nsbounds = dirtyRect;
+			bool client = hwnd.ClientWindow == Handle;
+			Rectangle bounds = driver.NativeToMonoFramed (nsbounds, Frame.Size.Height);
+			Rectangle clientBounds = bounds;
+			bool nonclient = ! client;
+
+			if (!hwnd.visible) {
+				if (client)
+					hwnd.expose_pending = false;
+				if (nonclient)
+					hwnd.nc_expose_pending = false;
 				return;
+			}
 
-			NSWindow winWrap = Window;
-			NSEvent evtRef = NSApplication.SharedApplication.CurrentEvent;
-			evtRef = NSEvent.OtherEvent(
-				NSEventType.ApplicationDefined, winWrap.Frame.Location, KeyboardHandler.key_modifiers, 
-					((UInt32) Environment.TickCount) / 1000.0, winWrap.WindowNumber, winWrap.GraphicsContext, 0, 
-					(int) EventHandler.kEventClassControl, (int) ControlHandler.kEventControlDraw);
+			if (nonclient) {
+				DrawBorders (hwnd);
+			}
 
-//			Console.Error.WriteLine ("drawRect ({0}) = {1}", dirtyRect, evtRef.Description);
-			EventHandler.EventHandlerDelegate (NSValue.FromRectangleF(dirtyRect), evtRef, this);
+			if (nonclient)
+				driver.AddExpose (hwnd, false, bounds);
+			if (client)
+				driver.AddExpose (hwnd, true, clientBounds);
+		}
+
+		private void DrawBorders (Hwnd hwnd) {
+			switch (hwnd.BorderStyle) {
+			case FormBorderStyle.Fixed3D: {
+					Graphics g;
+
+					g = Graphics.FromHwnd(hwnd.WholeWindow);
+					if (hwnd.border_static)
+						ControlPaint.DrawBorder3D(g, new Rectangle(0, 0, hwnd.Width, hwnd.Height), Border3DStyle.SunkenOuter);
+					else
+						ControlPaint.DrawBorder3D(g, new Rectangle(0, 0, hwnd.Width, hwnd.Height), Border3DStyle.Sunken);
+					g.Dispose();
+					break;
+				}
+
+			case FormBorderStyle.FixedSingle: {
+					Graphics g;
+
+					g = Graphics.FromHwnd(hwnd.WholeWindow);
+					ControlPaint.DrawBorder(g, new Rectangle(0, 0, hwnd.Width, hwnd.Height), Color.Black, ButtonBorderStyle.Solid);
+					g.Dispose();
+					break;
+				}
+			}
 		}
 	}
 }

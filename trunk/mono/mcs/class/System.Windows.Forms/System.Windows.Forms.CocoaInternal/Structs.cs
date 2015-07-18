@@ -60,26 +60,6 @@ using System.Drawing;
 using MonoMac.Foundation;
 
 namespace System.Windows.Forms.CocoaInternal {
-	internal struct CGSize {
-		public float width;
-		public float height;
-
-		public CGSize (int w, int h) {
-			this.width = (float)w;
-			this.height = (float)h;
-		}
-	}
-
-//	internal struct QDPoint {
-//		public short y;
-//		public short x;
-//
-//		public QDPoint (short x, short y) {
-//			this.x = x;
-//			this.y = y;
-//		}
-//	}
-
 	internal struct CGPoint {
 		public float x;
 		public float y;
@@ -88,61 +68,6 @@ namespace System.Windows.Forms.CocoaInternal {
 			this.x = (float)x;
 			this.y = (float)y;
 		}
-	}
-
-//	internal struct HIRect {
-//		public CGPoint origin;
-//		public CGSize size;
-//
-//		public HIRect (int x, int y, int w, int h) {
-//			this.origin = new CGPoint (x, y);
-//			this.size = new CGSize (w, h);
-//		}
-//	}
-
-//	internal struct HIViewID {
-//		public uint type;
-//		public uint id;
-//
-//		public HIViewID (uint type, uint id) {
-//			this.type = type;
-//			this.id = id;
-//		}
-//	}
-	
-	internal struct EventTypeSpec {
-		public UInt32 eventClass;
-		public UInt32 eventKind;
-
-		public EventTypeSpec (UInt32 eventClass, UInt32 eventKind)
-		{
-			this.eventClass = eventClass;
-			this.eventKind = eventKind;
-		}
-	}
-	
-	internal struct CocoaEvent {
-		public IntPtr hWnd;
-		public IntPtr evt;
-
-		public CocoaEvent (IntPtr hWnd, IntPtr evt)
-		{
-			this.hWnd = hWnd;
-			this.evt = evt;
-		}
-	}
-	
-	internal struct RGBColor {
-		public short red;
-		public short green;
-		public short blue;
-	}
-
-	internal struct Rect {
-		public short top;
-		public short left;
-		public short bottom;
-		public short right;
 	}
 
 	internal struct Caret {
@@ -166,25 +91,6 @@ namespace System.Windows.Forms.CocoaInternal {
 		internal int Interval;
 	}
 
-	internal struct CGAffineTransform {
-		internal float a;
-		internal float b;
-		internal float c;
-		internal float d;
-		internal float tx;
-		internal float ty;
-	}
-	
-	internal struct MouseTrackingRegionID {
-		public uint signature;
-		public uint id;
-		
-		public MouseTrackingRegionID (uint signature, uint id) {
-			this.signature = signature;
-			this.id = id;
-		}
-	}
-	
 	internal struct ProcessSerialNumber {
 		public ulong highLongOfPSN;
 		public ulong lowLongOfPSN;
