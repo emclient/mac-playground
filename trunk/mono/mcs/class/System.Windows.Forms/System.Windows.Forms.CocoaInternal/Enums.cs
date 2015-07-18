@@ -59,26 +59,6 @@ using System;
 
 namespace System.Windows.Forms.CocoaInternal
 {
-	internal enum WindowClass : uint
-	{
-		kAlertWindowClass = 1,
-		kMovableAlertWindowClass = 2,
-		kModalWindowClass = 3,
-		kMovableModalWindowClass = 4,
-		kFloatingWindowClass = 5,
-		kDocumentWindowClass = 6,
-		kUtilityWindowClass = 8,
-		kHelpWindowClass = 10,
-		kSheetWindowClass = 11,
-		kToolbarWindowClass = 12,
-		kPlainWindowClass = 13,
-		kOverlayWindowClass = 14,
-		kSheetAlertWindowClass = 15,
-		kAltPlainWindowClass = 16,
-		kDrawerWindowClass = 20,
-		kAllWindowClasses = 0xffffffffu
-	}
-
 	internal enum WindowAttributes : uint
 	{
 		kWindowNoAttributes = 0,
@@ -105,77 +85,6 @@ namespace System.Windows.Forms.CocoaInternal
 		kWindowNoConstrainAttribute = (1u << 31),
 		kWindowStandardDocumentAttributes = (kWindowCloseBoxAttribute | kWindowFullZoomAttribute | kWindowCollapseBoxAttribute | kWindowResizableAttribute),
 		kWindowStandardFloatingAttributes = (kWindowCloseBoxAttribute | kWindowCollapseBoxAttribute)
-	}
-
-//	internal enum WindowStyle : uint
-//	{
-//		NSBorderlessWindowMask = 0,
-//		NSTitledWindowMask = 1 << 0,
-//		NSClosableWindowMask = 1 << 1,
-//		NSMiniaturizableWindowMask = 1 << 2,
-//		NSResizableWindowMask = 1 << 3,
-//		NSTexturedBackgroundWindowMask = 1 << 8
-//	}
-
-	internal enum ThemeCursor : uint
-	{
-		kThemeArrowCursor = 0,
-		kThemeCopyArrowCursor = 1,
-		kThemeAliasArrowCursor = 2,
-		kThemeContextualMenuArrowCursor = 3,
-		kThemeIBeamCursor = 4,
-		kThemeCrossCursor = 5,
-		kThemePlusCursor = 6,
-		kThemeWatchCursor = 7,
-		kThemeClosedHandCursor = 8,
-		kThemeOpenHandCursor = 9,
-		kThemePointingHandCursor = 10,
-		kThemeCountingUpHandCursor = 11,
-		kThemeCountingDownHandCursor = 12,
-		kThemeCountingUpAndDownHandCursor = 13,
-		kThemeSpinningCursor = 14,
-		kThemeResizeLeftCursor = 15,
-		kThemeResizeRightCursor = 16,
-		kThemeResizeLeftRightCursor = 17,
-		kThemeNotAllowedCursor = 18
-	}
-
-	internal enum MouseTrackingResult : ushort
-	{
-		kMouseTrackingMouseDown = 1,
-		kMouseTrackingMouseUp = 2,
-		kMouseTrackingMouseExited = 3,
-		kMouseTrackingMouseEntered = 4,
-		kMouseTrackingMouseDragged = 5,
-		kMouseTrackingKeyModifiersChanged = 6,
-		kMouseTrackingUserCancelled = 7,
-		kMouseTrackingTimedOut = 8,
-		kMouseTrackingMouseMoved = 9
-	}
-
-	internal enum NSWindowLevel : int
-	{
-		NSBaseWindowLevel = 0,
-		NSMinimumWindowLevel,
-		NSDesktopWindowLevel,
-		NSBackstopMenuLevel,
-		NSNormalWindowLevel,
-		NSFloatingWindowLevel,
-		NSTornOffMenuWindowLevel,
-		NSDockWindowLevel,
-		NSMainMenuWindowLevel,
-		NSStatusWindowLevel,
-		NSModalPanelWindowLevel,
-		NSPopUpMenuWindowLevel,
-		NSDraggingWindowLevel,
-		NSScreenSaverWindowLevel,
-		NSMaximumWindowLevel,
-		NSOverlayWindowLevel,
-		NSHelpWindowLevel,
-		NSUtilityWindowLevel,
-		NSDesktopIconWindowLevel,
-		NSCursorWindowLevel,
-		NSNumberOfWindowLevels
 	}
 
 	internal enum NSMouseButtons : long {
