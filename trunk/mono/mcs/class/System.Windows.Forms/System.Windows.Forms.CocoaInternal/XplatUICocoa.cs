@@ -163,14 +163,9 @@ namespace System.Windows.Forms {
 					// an exception will be thrown).
 					//Registrar.CanInit = true;
 					//NSApplication.sharedApplication();
+
 					NSApplication.Init();
 
-					// FIXME
-//					Type gdiPlusType = Type.GetType("System.Drawing.GDIPlus");
-//					if (gdiPlusType != null)
-//						gdiPlusType.GetField("UseCocoaDrawable", Reflection.BindingFlags.NonPublic | Reflection.BindingFlags.Static).SetValue(null, true);
-
-					// FIXED:
 					Type gdiPlusType = System.Reflection.Assembly.GetAssembly(typeof(System.Drawing.Point)).GetType("System.Drawing.GDIPlus");
 					if (gdiPlusType != null) {
 						var field = gdiPlusType.GetField ("UseCocoaDrawable");
@@ -649,7 +644,7 @@ namespace System.Windows.Forms {
 
 		internal Rectangle NativeToMonoFramed (NSRect nativeRect, float frameHeight)
 		{
-			return new Rectangle ((int) nativeRect.Left, (int) (frameHeight - nativeRect.Top), 
+			return new Rectangle ((int) nativeRect.Left, (int) (frameHeight - nativeRect.Bottom), 
 						(int) nativeRect.Size.Width, (int) nativeRect.Size.Height);
 		}
 
@@ -1133,6 +1128,7 @@ namespace System.Windows.Forms {
 					msg.refobject = rgn;
 					msg.hwnd = hwnd.Handle;
 					EnqueueMessage (msg);
+
 					hwnd.nc_expose_pending = true;
 
 				}
@@ -2025,7 +2021,7 @@ namespace System.Windows.Forms {
 			hwnd = Hwnd.ObjectFromHandle(handle);
 
 			if (clear) {
-				AddExpose (hwnd, true, hwnd.X, hwnd.Y, hwnd.Width, hwnd.Height);
+				AddExpose (hwnd, true, 0, 0, hwnd.Width, hwnd.Height);
 			} else {
 				AddExpose (hwnd, true, rc.X, rc.Y, rc.Width, rc.Height);
 			} 
@@ -2087,6 +2083,7 @@ namespace System.Windows.Forms {
 
 			if (client) {
 				dc = Graphics.FromHwnd (paint_hwnd.ClientWindow);
+
 
 				if (null == dc)
 					return null;

@@ -60,18 +60,21 @@ namespace System.Drawing {
 		}
 
 		internal static CocoaContext GetCGContextForNSView (IntPtr handle) {
-			IntPtr graphicsContext = objc_msgSend (objc_getClass ("NSGraphicsContext"), sel_registerName ("currentContext"));
-			IntPtr ctx = objc_msgSend (graphicsContext, sel_registerName ("graphicsPort"));
-			Rect bounds = new Rect ();
-
 			IntPtr focusView = objc_msgSend (objc_getClass ("NSView"), sel_registerName ("focusView"));
 			IntPtr focusHandle = IntPtr.Zero;
 			if (focusView != handle) {
 				if (!bool_objc_msgSend (handle, sel_registerName ("lockFocusIfCanDraw")))
 					//return null;
-					throw new NotSupportedException();
+					//throw new NotSupportedException();
+					return new CocoaContext(IntPtr.Zero, IntPtr.Zero, 0, 0);
+
 				focusHandle = handle;
 			}
+
+			IntPtr windowHandle = objc_msgSend (handle, sel_registerName ("window"));
+			IntPtr graphicsContext = objc_msgSend (windowHandle, sel_registerName ("graphicsContext"));
+			IntPtr ctx = objc_msgSend (graphicsContext, sel_registerName ("graphicsPort"));
+			Rect bounds = new Rect ();
 
 			CGContextSaveGState (ctx);
 
@@ -81,6 +84,38 @@ namespace System.Drawing {
 			if (isFlipped) {
 				CGContextTranslateCTM (ctx, bounds.origin.x, bounds.size.height);
 				CGContextScaleCTM (ctx,1.0f,-1.0f);
+			}
+
+			Rect rc_clip = new Rect (0, 0, bounds.size.width, bounds.size.height);
+			Rectangle [] clip_rectangles = (Rectangle []) hwnd_delegate.DynamicInvoke (new object [] {handle});
+			if (clip_rectangles != null && clip_rectangles.Length > 0) {
+				int length = clip_rectangles.Length;
+
+				CGContextBeginPath (ctx);
+				CGContextAddRect (ctx, rc_clip);
+
+				for (int i = 0; i < length; i++) {
+					CGContextAddRect (ctx, new Rect (clip_rectangles [i].X, bounds.size.height - clip_rectangles [i].Y - clip_rectangles [i].Height, clip_rectangles [i].Width, clip_rectangles [i].Height));
+				}
+				CGContextClosePath (ctx);
+				CGContextEOClip (ctx);
+				#if DEBUG_CLIPPING
+				if (clip_rectangles.Length >= debug_threshold) {
+					CGContextSetRGBFillColor (ctx, red, green, blue, 0.5f);
+					CGContextFillRect (ctx, rc_clip);
+					CGContextFlush (ctx);
+
+					if (red == 1.0f) { red = 0.0f; blue = 1.0f; } 
+					else if (blue == 1.0f) { blue = 0.0f; green = 1.0f; } 
+
+					else if (green == 1.0f) { green = 0.0f; red = 1.0f; } 
+				}
+				#endif
+			} else {
+				CGContextBeginPath (ctx);
+				CGContextAddRect (ctx, rc_clip);
+				CGContextClosePath (ctx);
+				CGContextClip (ctx);
 			}
 
 			return new CocoaContext (focusHandle, ctx, (int) bounds.size.width, (int) bounds.size.height);
@@ -362,6 +397,8 @@ namespace System.Drawing {
 
 		public void Release ()
 		{
+
+			MacSupport.CGContextFlush (ctx); // FIXME
 			MacSupport.CGContextRestoreGState(ctx);
 
 			if (IntPtr.Zero != focusHandle)

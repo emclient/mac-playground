@@ -1421,7 +1421,6 @@
     <Reference Include="Mono.WebBrowser" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="System.Windows.Forms.CocoaInternal\.DS_Store" />
     <None Include="System.Windows.Forms.CocoaInternal\ChangeLog" />
   </ItemGroup>
   <ItemGroup>

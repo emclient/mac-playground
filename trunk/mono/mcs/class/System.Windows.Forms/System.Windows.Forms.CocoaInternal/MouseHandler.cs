@@ -203,8 +203,8 @@ namespace System.Windows.Forms.CocoaInternal {
 			case NSEventType.LeftMouseDown:
 			case NSEventType.RightMouseDown:
 			case NSEventType.OtherMouseDown:
-				if ((uint)NSEventMouseSubtype.Mouse != eventref.Subtype)
-					return EventHandledBy.NativeOS;
+				//if ((uint)NSEventMouseSubtype.Mouse != eventref.Subtype)
+				//	return EventHandledBy.NativeOS;
 
 				UpdateMouseState (button, true);
 				msg.message = (client ? Msg.WM_LBUTTONDOWN : Msg.WM_NCLBUTTONDOWN) + msgOffset4Button;
@@ -228,8 +228,8 @@ namespace System.Windows.Forms.CocoaInternal {
 			case NSEventType.LeftMouseUp:
 			case NSEventType.RightMouseUp:
 			case NSEventType.OtherMouseUp:
-				if ((uint)NSEventMouseSubtype.Mouse != eventref.Subtype)
-					return EventHandledBy.NativeOS;
+				//if ((uint)NSEventMouseSubtype.Mouse != eventref.Subtype)
+				//	return EventHandledBy.NativeOS;
 
 				UpdateMouseState (button, false);
 				msg.message = (client ? Msg.WM_LBUTTONUP : Msg.WM_NCLBUTTONUP) + msgOffset4Button;
@@ -242,8 +242,8 @@ namespace System.Windows.Forms.CocoaInternal {
 			case NSEventType.LeftMouseDragged:
 			case NSEventType.RightMouseDragged:
 			case NSEventType.OtherMouseDragged:
-				if ((uint)NSEventMouseSubtype.Mouse != eventref.Subtype)
-					return EventHandledBy.NativeOS;
+				//if ((uint)NSEventMouseSubtype.Mouse != eventref.Subtype)
+				//	return EventHandledBy.NativeOS;
 
 				if (XplatUICocoa.Grab.Hwnd == IntPtr.Zero) {
 					IntPtr ht = IntPtr.Zero;

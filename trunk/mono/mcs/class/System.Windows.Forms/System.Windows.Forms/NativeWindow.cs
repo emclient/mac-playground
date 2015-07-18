@@ -262,6 +262,7 @@ namespace System.Windows.Forms
 					if (msg == Msg.WM_PAINT && window is Control.ControlNativeWindow) {
 						// Replace control with a red cross
 						var control = ((Control.ControlNativeWindow)window).Owner;
+
 						control.Hide ();
 						var redCross = new Control (control.Parent, string.Empty);
 						redCross.BackColor = Color.White;
