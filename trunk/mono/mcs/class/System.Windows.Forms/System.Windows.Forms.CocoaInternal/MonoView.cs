@@ -65,27 +65,6 @@ namespace System.Windows.Forms.CocoaInternal
 			return base.TryToPerformwith (anAction, anObject);
 		}
 
-		[Export("windowShouldClose")]
-		public bool windowShouldClose (NSObject sender)
-		{
-			// FIXME: Send WM_CLOSING/WM_CLOSE
-			return true;
-			/*
-			if (null == EventHandler.EventHandlerDelegate)
-				return true;
-
-			NSWindow winWrap = Window;
-			NSEvent evtRef = NSApplication.SharedApplication.CurrentEvent;
-			evtRef = NSEvent.OtherEvent(
-				NSEventType.ApplicationDefined, winWrap.Frame.Location, evtRef.ModifierFlags, evtRef.Timestamp, 
-					winWrap.WindowNumber, winWrap.GraphicsContext, 0, (int) EventHandler.kEventClassWindow, 
-					(int) WindowHandler.kEventWindowClose);
-
-//			Console.Error.WriteLine ("Close window {0}", evtRef.Description);
-			return EventHandledBy.NativeOS == (EventHandledBy.NativeOS & 
-						EventHandler.EventHandlerDelegate (sender, evtRef, this));*/
-		}
-
 		public override void DrawRect (NSRect dirtyRect)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromWindow (Handle);
