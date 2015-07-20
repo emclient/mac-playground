@@ -40,6 +40,7 @@ namespace System.Drawing {
 		internal static object lockobj = new object ();
 
 		internal static Delegate hwnd_delegate;
+		internal static Delegate hwnd_delegate_cocoa;
 
 #if DEBUG_CLIPPING
 		internal static float red = 1.0f;
@@ -54,6 +55,10 @@ namespace System.Drawing {
 					Type driver_type = asm.GetType ("System.Windows.Forms.XplatUICarbon");
 					if (driver_type != null) {
 						hwnd_delegate = (Delegate) driver_type.GetField ("HwndDelegate", BindingFlags.NonPublic | BindingFlags.Static).GetValue (null);
+					}
+					driver_type = asm.GetType ("System.Windows.Forms.XplatUICocoa");
+					if (driver_type != null) {
+						hwnd_delegate_cocoa = (Delegate) driver_type.GetField ("HwndDelegate", BindingFlags.NonPublic | BindingFlags.Static).GetValue (null);
 					}
 				}
 			}
@@ -87,7 +92,7 @@ namespace System.Drawing {
 			}
 
 			Rect rc_clip = new Rect (0, 0, bounds.size.width, bounds.size.height);
-			Rectangle [] clip_rectangles = (Rectangle []) hwnd_delegate.DynamicInvoke (new object [] {handle});
+			Rectangle [] clip_rectangles = (Rectangle []) hwnd_delegate_cocoa.DynamicInvoke (new object [] {handle});
 			if (clip_rectangles != null && clip_rectangles.Length > 0) {
 				int length = clip_rectangles.Length;
 
@@ -104,6 +109,7 @@ namespace System.Drawing {
 					CGContextSetRGBFillColor (ctx, red, green, blue, 0.5f);
 					CGContextFillRect (ctx, rc_clip);
 					CGContextFlush (ctx);
+
 
 					if (red == 1.0f) { red = 0.0f; blue = 1.0f; } 
 					else if (blue == 1.0f) { blue = 0.0f; green = 1.0f; } 
@@ -178,7 +184,7 @@ namespace System.Drawing {
 					CGContextSetRGBFillColor (context, red, green, blue, 0.5f);
 					CGContextFillRect (context, rc_clip);
 					CGContextFlush (context);
-					System.Threading.Thread.Sleep (500);
+					System.Threading.Thread.Sleep (5000);
 					if (red == 1.0f) { red = 0.0f; blue = 1.0f; } 
 					else if (blue == 1.0f) { blue = 0.0f; green = 1.0f; } 
 					else if (green == 1.0f) { green = 0.0f; red = 1.0f; } 
@@ -397,7 +403,6 @@ namespace System.Drawing {
 
 		public void Release ()
 		{
-
 			MacSupport.CGContextFlush (ctx); // FIXME
 			MacSupport.CGContextRestoreGState(ctx);
 
