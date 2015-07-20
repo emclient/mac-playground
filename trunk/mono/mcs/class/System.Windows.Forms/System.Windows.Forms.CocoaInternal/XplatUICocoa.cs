@@ -384,23 +384,18 @@ namespace System.Windows.Forms {
 			ncp = (XplatUIWin32.NCCALCSIZE_PARAMS) Marshal.PtrToStructure (ptr, typeof (XplatUIWin32.NCCALCSIZE_PARAMS));
 			Marshal.FreeHGlobal(ptr);
 
+			rect = new Rectangle(ncp.rgrc1.left, ncp.rgrc1.top, ncp.rgrc1.right - ncp.rgrc1.left, ncp.rgrc1.bottom - ncp.rgrc1.top);
+			hwnd.ClientRect = rect;
 
-//			rect = new Rectangle(ncp.rgrc1.left, ncp.rgrc1.top, ncp.rgrc1.right - ncp.rgrc1.left, ncp.rgrc1.bottom - ncp.rgrc1.top);
-			rect = ncp.rgrc1;
-			if (hwnd.ClientRect != rect) {
-				hwnd.ClientRect = rect;
+			rect = TranslateClientRectangleToQuartzClientRectangle (hwnd);
 
-//				if (hwnd.visible) {
-					rect = TranslateClientRectangleToQuartzClientRectangle (hwnd);
-					NSRect cr = MonoToNativeFramed (rect, hwnd.Height);
-//					object wh = WindowMapping [hwnd.Handle];
-//					if (null != wh) { 
-						NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
-						vuWrap.Frame = cr;
-//					}
-//				}
-				AddExpose (hwnd, false, 0, 0, hwnd.Width, hwnd.Height);
+			if (hwnd.visible) {
+				NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
+				NSRect cr = MonoToNativeFramed (rect, vuWrap.Superview.Frame.Height);
+				vuWrap.Frame = cr;
 			}
+
+			AddExpose (hwnd, false, 0, 0, hwnd.Width, hwnd.Height);
 		}
 
 		internal void ScreenToClientWindow (IntPtr handle, ref NSPoint point)
@@ -662,7 +657,8 @@ namespace System.Windows.Forms {
 			}
 
 
-			bool moved = hwnd.X != mrect.X || hwnd.Y != mrect.Y;
+			bool 
+			d = hwnd.X != mrect.X || hwnd.Y != mrect.Y;
 			if (moved || hwnd.Width != mrect.Width || hwnd.Height != mrect.Height) {
 				hwnd.X = mrect.X;
 				hwnd.Y = mrect.Y;
@@ -1467,7 +1463,7 @@ namespace System.Windows.Forms {
 				hwnd.height = Height = realFrame.Height;*/
 
 				//				Cocoa.EventHandler.InstallWindowHandler (WindowHandle);
-				windowWrapper.Delegate = new Cocoa.MonoWindowDelegate(this);
+				windowWrapper.Delegate = new Cocoa.MonoWindowDelegate(this, viewWrapper);
 				//				ClientWrapper.addTrackingRect_owner_userData_assumeInside (rect, ClientWrapper, 0, false);
 
 				if (StyleSet (cp.Style, WindowStyles.WS_POPUP))
