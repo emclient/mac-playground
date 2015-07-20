@@ -1050,7 +1050,6 @@ namespace System.Windows.Forms {
 					AccumulateDestroyedHandles (controls[i], list);
 				}
 			}
-			
 		}
 
 		private void CleanupCachedWindows (Hwnd hwnd)
@@ -1719,9 +1718,7 @@ namespace System.Windows.Forms {
 			if (null == hwnd) {
 				return;
 			}
-
-			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
-
+				
 			SendParentNotify (hwnd.Handle, Msg.WM_DESTROY, int.MaxValue, int.MaxValue);
 				
 			CleanupCachedWindows (hwnd);
@@ -1730,37 +1727,26 @@ namespace System.Windows.Forms {
 
 			AccumulateDestroyedHandles (Control.ControlNativeWindow.ControlFromHandle (hwnd.Handle), windows);
 
-
 			foreach (Hwnd h in windows) {
 				SendMessage (h.Handle, Msg.WM_DESTROY, IntPtr.Zero, IntPtr.Zero);
-				// zombie = not Dispose()d yet
-				h.zombie = h.expose_pending || h.nc_expose_pending || IntPtr.Zero != h.ClientWindow || 
-					IntPtr.Zero != h.WholeWindow || null != h.Parent || 0 < h.marshal_free_list.Count;
+				h.zombie = true;
 			}
 
-			// TODO: This is crashing swf-messageboxes
-			/*
-			if (false && hwnd.whole_window != IntPtr.Zero)
-				CFRelease (hwnd.whole_window);
-			if (false && hwnd.client_window != IntPtr.Zero)
-				CFRelease (hwnd.client_window);
-			*/
+			foreach (Hwnd h in windows) {
+				h.UserData = null;
+				object wh = WindowMapping [h.Handle];
+				if (null != wh) { 
+					NSWindow winWrap = (NSWindow)MonoMac.ObjCRuntime.Runtime.GetNSObject((IntPtr) wh);
+					winWrap.Close ();
+					WindowMapping.Remove (h.Handle);
+					HandleMapping.Remove ((IntPtr) wh);
+				} else {
+					NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(h.WholeWindow);
+					vuWrap.RemoveFromSuperviewWithoutNeedingDisplay ();
+				}
 
-			hwnd.UserData = null;
-			object wh = WindowMapping [hwnd.Handle];
-			if (null != wh) { 
-				NSWindow winWrap = (NSWindow)MonoMac.ObjCRuntime.Runtime.GetNSObject((IntPtr) wh);
-				WindowMapping.Remove (hwnd.Handle);
-				HandleMapping.Remove ((IntPtr) wh);
-				winWrap.Close ();
-			} else {
-				vuWrap.RemoveFromSuperview ();
-			}
-
-			foreach (Hwnd h in windows)
 				h.Dispose ();
-
-			hwnd.Dispose ();
+			}
 		}
 
 		internal override IntPtr DispatchMessage(ref MSG msg) {
@@ -2781,6 +2767,7 @@ namespace System.Windows.Forms {
 
 			if (!hwnd.visible || vuWrap.IsHiddenOrHasHiddenAncestor || NSRect.Empty == vuWrap.VisibleRect())
 				return;
+
 
 			SendMessage(handle, Msg.WM_PAINT, IntPtr.Zero, IntPtr.Zero);
 		}
