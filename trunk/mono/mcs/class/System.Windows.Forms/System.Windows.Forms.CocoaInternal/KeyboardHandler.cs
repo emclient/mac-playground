@@ -62,6 +62,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
+using System.Collections.Generic;
 
 namespace System.Windows.Forms.CocoaInternal {
 	internal class KeyboardHandler : EventHandlerBase, IEventHandler {
@@ -83,11 +84,58 @@ namespace System.Windows.Forms.CocoaInternal {
 //		internal static byte [] key_modifier_table;
 		internal static byte [] key_translation_table;
 		internal static byte [] char_translation_table;
+		private static Dictionary<NSKey, Keys> keyNames;
 
 		internal static bool translate_modifier = false;
 		internal static NSEventModifierMask key_modifiers = 0;
 
 		static KeyboardHandler () {
+			keyNames = new Dictionary<NSKey, Keys> ();
+			keyNames.Add (NSKey.Backslash, Keys.OemBackslash);
+			keyNames.Add (NSKey.CapsLock, Keys.Capital);
+			keyNames.Add (NSKey.Comma, Keys.Oemcomma);
+			keyNames.Add (NSKey.Command, Keys.LWin);
+			keyNames.Add (NSKey.Delete, Keys.Back);
+			keyNames.Add (NSKey.DownArrow, Keys.Down);
+			keyNames.Add (NSKey.Equal, Keys.Oemplus);
+			keyNames.Add (NSKey.ForwardDelete, Keys.Delete);
+			keyNames.Add (NSKey.Keypad0, Keys.D0);
+			keyNames.Add (NSKey.Keypad1, Keys.D1);
+			keyNames.Add (NSKey.Keypad2, Keys.D2);
+			keyNames.Add (NSKey.Keypad3, Keys.D3);
+			keyNames.Add (NSKey.Keypad4, Keys.D4);
+			keyNames.Add (NSKey.Keypad5, Keys.D5);
+			keyNames.Add (NSKey.Keypad6, Keys.D6);
+			keyNames.Add (NSKey.Keypad7, Keys.D7);
+			keyNames.Add (NSKey.Keypad8, Keys.D8);
+			keyNames.Add (NSKey.Keypad9, Keys.D9);
+			keyNames.Add (NSKey.KeypadDecimal, Keys.Decimal);
+			keyNames.Add (NSKey.KeypadDivide, Keys.Divide);
+			keyNames.Add (NSKey.KeypadEnter, Keys.Enter);
+			keyNames.Add (NSKey.KeypadEquals, Keys.Oemplus);
+			keyNames.Add (NSKey.KeypadMinus, Keys.OemMinus);
+			keyNames.Add (NSKey.KeypadMultiply, Keys.Multiply);
+			keyNames.Add (NSKey.KeypadPlus, Keys.Oemplus | Keys.Shift);
+			keyNames.Add (NSKey.LeftArrow, Keys.Left);
+			keyNames.Add (NSKey.LeftBracket, Keys.OemOpenBrackets);
+			keyNames.Add (NSKey.Minus, Keys.OemMinus);
+			keyNames.Add (NSKey.Mute, Keys.VolumeMute);
+			keyNames.Add (NSKey.Next, Keys.MediaNextTrack);
+			keyNames.Add (NSKey.Option, Keys.Alt);
+			keyNames.Add (NSKey.Pause, Keys.MediaPlayPause);
+			keyNames.Add (NSKey.Prev, Keys.MediaPreviousTrack);
+			keyNames.Add (NSKey.Quote, Keys.OemQuotes);
+			keyNames.Add (NSKey.RightArrow, Keys.Right);
+			keyNames.Add (NSKey.RightBracket, Keys.OemCloseBrackets);
+			keyNames.Add (NSKey.RightControl, Keys.RControlKey);
+			keyNames.Add (NSKey.RightOption, Keys.Alt);
+			keyNames.Add (NSKey.RightShift, Keys.RShiftKey);
+			keyNames.Add (NSKey.ScrollLock, Keys.Scroll);
+			keyNames.Add (NSKey.Semicolon, Keys.OemSemicolon);
+			keyNames.Add (NSKey.Slash, Keys.OemQuestion);
+			keyNames.Add (NSKey.UpArrow, Keys.Up);
+
+
 			// our key filter table is a 256 byte array - if the corresponding byte 
 			// is set the key should be filtered from WM_CHAR (apple pushes unicode events
 			// for some keys which win32 only handles as KEYDOWN
@@ -245,17 +293,21 @@ namespace System.Windows.Forms.CocoaInternal {
 //		}
 
 		public void ProcessKeyPress (NSEvent eventref, ref MSG msg) {
-			byte charCode = 0x0;
+			ushort charCode = 0x0;
 			byte keyCode = 0x0;
 
 			string chars = eventref.CharactersIgnoringModifiers;
 			if (chars.Length > 0)
-				charCode = (byte) chars[0];
+				charCode = chars[0];
 
 			keyCode = (byte) eventref.KeyCode;
 
-			msg.lParam = (IntPtr) charCode;
-			msg.wParam = charCode == 0x10 ? (IntPtr) key_translation_table [keyCode] : (IntPtr) char_translation_table [charCode];
+			Keys key;
+			msg.lParam = (IntPtr) (byte)charCode;
+			if (keyNames.TryGetValue ((NSKey)charCode, out key))
+				msg.wParam = (IntPtr) key;
+			else
+				msg.wParam = charCode == 0x10 ? (IntPtr) key_translation_table [keyCode] : (IntPtr) char_translation_table [(byte)charCode];
 			msg.hwnd = XplatUICocoa.FocusWindow;
 		}
 
@@ -344,15 +396,6 @@ namespace System.Windows.Forms.CocoaInternal {
 				return keys;
 			}
 		}
-
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int GetEventParameter (IntPtr eventref, uint name, uint type, IntPtr outtype, uint size, ref UInt32 outsize, IntPtr data);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int GetEventParameter (IntPtr eventref, uint name, uint type, IntPtr outtype, uint size, IntPtr outsize, IntPtr data);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int GetEventParameter (IntPtr eventref, uint name, uint type, IntPtr outtype, uint size, IntPtr outsize, ref byte data);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int GetEventParameter (IntPtr eventref, uint name, uint type, IntPtr outtype, uint size, IntPtr outsize, ref UInt32 data);
 	}
 
 //	internal enum KeyboardModifiers : uint {
