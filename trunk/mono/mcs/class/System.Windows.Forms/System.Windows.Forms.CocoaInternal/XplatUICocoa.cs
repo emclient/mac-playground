@@ -1467,7 +1467,7 @@ namespace System.Windows.Forms {
 				hwnd.height = Height = realFrame.Height;*/
 
 				//				Cocoa.EventHandler.InstallWindowHandler (WindowHandle);
-				windowWrapper.WeakDelegate = viewWrapper;
+				windowWrapper.Delegate = new Cocoa.MonoWindowDelegate(this);
 				//				ClientWrapper.addTrackingRect_owner_userData_assumeInside (rect, ClientWrapper, 0, false);
 
 				if (StyleSet (cp.Style, WindowStyles.WS_POPUP))
