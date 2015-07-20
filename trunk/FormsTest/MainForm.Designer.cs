@@ -60,7 +60,7 @@
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(75, 23);
 			this.button2.TabIndex = 0;
-			this.button2.Text = "Inval";
+			this.button2.Text = "Poroď";
 			this.button2.UseVisualStyleBackColor = true;
 			this.button2.Click += new System.EventHandler(this.button2_Click);
 			// 
@@ -73,6 +73,7 @@
             this.label1.Size = new System.Drawing.Size(49, 17);
             this.label1.TabIndex = 1;
             this.label1.Text = "Jméno";
+
             // 
             // listBox1
             // 

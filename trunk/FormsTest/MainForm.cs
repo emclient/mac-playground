@@ -63,7 +63,13 @@ namespace FormsTest
 
 		private void button2_Click(object sender, System.EventArgs e)
 		{
-			Invalidate ();
+			var form = new Form();
+			form.Show();
+		}
+
+		protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+		{
+			base.OnClosing(e);
 		}
     }
 }

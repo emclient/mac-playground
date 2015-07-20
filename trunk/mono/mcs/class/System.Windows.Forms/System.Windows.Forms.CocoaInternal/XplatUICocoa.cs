@@ -72,6 +72,7 @@ using Cocoa = System.Windows.Forms.CocoaInternal;
 using MonoMac.AppKit;
 using NSPoint = System.Drawing.PointF;
 using NSRect = System.Drawing.RectangleF;
+using System.Windows.Forms.CocoaInternal;
 
 
 namespace System.Windows.Forms {
@@ -657,8 +658,7 @@ namespace System.Windows.Forms {
 			}
 
 
-			bool 
-			d = hwnd.X != mrect.X || hwnd.Y != mrect.Y;
+			bool moved = hwnd.X != mrect.X || hwnd.Y != mrect.Y;
 			if (moved || hwnd.Width != mrect.Width || hwnd.Height != mrect.Height) {
 				hwnd.X = mrect.X;
 				hwnd.Y = mrect.Y;
@@ -1451,7 +1451,7 @@ namespace System.Windows.Forms {
 //				HIGrowBoxViewSetTransparent (GrowBox, true);
 //				SetAutomaticControlDragTrackingEnabledForWindow (, true);
 //				ParentHandle = WindowView;
-				windowWrapper = new NSWindow(WholeRect, attributes, NSBackingStore.Buffered, true);
+				windowWrapper = new MonoWindow(WholeRect, attributes, NSBackingStore.Buffered, true);
 				WindowHandle = (IntPtr) windowWrapper.Handle;
 //				wholeHandle = WindowHandle;
 				windowWrapper.ContentView = viewWrapper;
@@ -1463,7 +1463,7 @@ namespace System.Windows.Forms {
 				hwnd.height = Height = realFrame.Height;*/
 
 				//				Cocoa.EventHandler.InstallWindowHandler (WindowHandle);
-				windowWrapper.Delegate = new Cocoa.MonoWindowDelegate(this, viewWrapper);
+				windowWrapper.WeakDelegate = windowWrapper;
 				//				ClientWrapper.addTrackingRect_owner_userData_assumeInside (rect, ClientWrapper, 0, false);
 
 				if (StyleSet (cp.Style, WindowStyles.WS_POPUP))
