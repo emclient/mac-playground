@@ -409,6 +409,11 @@ namespace System.Windows.Forms {
 				throw new ArgumentException ("XplatUICocoa.ScreenToClientWindow() requires NSView*");
 
 			NSWindow windowWrapper = viewWrapper.Window;
+			if (windowWrapper == null) {
+				point = new NSPoint (0, 0);
+				return;
+			}
+
 			point = windowWrapper.ConvertScreenToBase (point);
 			point = viewWrapper.ConvertPointFromView (point, null);
 
@@ -1162,7 +1167,10 @@ namespace System.Windows.Forms {
 //					mrect.Y += clientOffset.Y;
 //				}
 
-				nsrect = MonoToNativeFramed (mrect, superVuWrap.Frame.Size.Height);
+				if (superVuWrap != null)
+					nsrect = MonoToNativeFramed (mrect, superVuWrap.Frame.Size.Height);
+				else
+					nsrect = mrect;
 				if (vuWrap.Frame != nsrect) {
 					vuWrap.Frame = nsrect;
 				}
@@ -2429,9 +2437,8 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 			NSWindow winWrap = vuWrap.Window;
-			winWrap.OrderFront (winWrap);
 //			object window = WindowMapping [hwnd.Handle];
-			if (vuWrap.Superview != null)
+			if (winWrap == null || vuWrap.Superview != null)
 				vuWrap.Hidden = !visible;
 			else if (visible)
 				winWrap.OrderFront (winWrap);
