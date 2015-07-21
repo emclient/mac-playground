@@ -1551,7 +1551,7 @@ namespace System.Windows.Forms {
 						}
 					}
 					windowWrapper.OrderFront (viewWrapper);
-					WaitForHwndMessage (hwnd, Msg.WM_SHOWWINDOW);
+					//WaitForHwndMessage (hwnd, Msg.WM_SHOWWINDOW);
 				}
 
 				viewWrapper.Hidden = false;

@@ -39,7 +39,7 @@ namespace System.Windows.Forms.CocoaInternal
 	{
 		XplatUICocoa driver;
 
-		private MonoView (IntPtr instance) : base (instance)
+		public MonoView (IntPtr instance) : base (instance)
 		{
 		}
 
