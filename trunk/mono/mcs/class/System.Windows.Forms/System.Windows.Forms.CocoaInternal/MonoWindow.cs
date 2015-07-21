@@ -7,6 +7,10 @@ namespace System.Windows.Forms.CocoaInternal
 {
 	internal class MonoWindow : NSWindow
 	{
+		public MonoWindow (IntPtr handle) : base(handle)
+		{
+		}
+
 		//[Export ("initWithContentRect:styleMask:backing:defer:"), CompilerGenerated]
 		internal MonoWindow (RectangleF contentRect, NSWindowStyle aStyle, NSBackingStore bufferingType, bool deferCreation) 
 			: base(contentRect, aStyle, bufferingType, deferCreation)

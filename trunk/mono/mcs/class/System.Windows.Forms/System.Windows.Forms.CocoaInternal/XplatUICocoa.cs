@@ -322,6 +322,7 @@ namespace System.Windows.Forms {
 			ReverseWindow = new NSWindow(rect, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
 //			CreateNewWindow (Cocoa.WindowClass.kOverlayWindowClass, Cocoa.WindowAttributes.kWindowNoUpdatesAttribute | Cocoa.WindowAttributes.kWindowNoActivatesAttribute, ref rect, ref CaretWindow);
 			CaretWindow = new NSWindow(rect, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
+			CaretWindow.ContentView = new NSView (NSRect.Empty);
 //
 //			// Get some values about bar heights
 //			Cocoa.Rect structRect = new Cocoa.Rect ();
@@ -1026,7 +1027,7 @@ namespace System.Windows.Forms {
 				return;
 			Caret.On = true;
 			CaretWindow.OrderFront (CaretWindow);
-			Graphics g = Graphics.FromHwnd ((IntPtr) CaretWindow.Handle);
+			Graphics g = Graphics.FromHwnd ((IntPtr) CaretWindow.ContentView.Handle);
 
 			g.FillRectangle (new SolidBrush (Color.Black), new Rectangle (0, 0, Caret.Width, Caret.Height));
 
@@ -2282,6 +2283,7 @@ namespace System.Windows.Forms {
 				Caret.Y = y;
 //				ClientToScreen (handle, ref x, ref y);
 //				CaretWindow.setFrame_display (new NSRect (x, y, Caret.Width, Caret.Height), 0 < Caret.Visible);
+
 				PositionWindowInClient (Caret.rect, CaretWindow, handle);
 				Caret.Timer.Stop ();
 				HideCaret ();
