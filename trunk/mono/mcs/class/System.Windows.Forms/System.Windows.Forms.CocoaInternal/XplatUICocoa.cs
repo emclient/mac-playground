@@ -2083,7 +2083,7 @@ namespace System.Windows.Forms {
 				// FIXME: Clip region is hosed
 				dc.Clip = clip_region;
 				paint_event = new PaintEventArgs (dc, hwnd.Invalid);
-//				hwnd.expose_pending = false;
+				//hwnd.expose_pending = false;
 				hwnd.ClearInvalidArea ();
 
 				hwnd.drawing_stack.Push (paint_event);
@@ -2105,7 +2105,7 @@ namespace System.Windows.Forms {
 //				// Clip drawing to exclude the client area.
 //				dc.ExcludeClip (hwnd.ClientRect);
 
-//				hwnd.nc_expose_pending = false;
+				//hwnd.nc_expose_pending = false;
 				hwnd.ClearNcInvalidArea ();
 
 				hwnd.drawing_stack.Push (paint_event);
@@ -2404,6 +2404,7 @@ namespace System.Windows.Forms {
 				hwnd.Parent = newParent;
 				if (newParentWrap != null) {
 					newParentWrap.AddSubview (vuWrap);
+					vuWrap.Frame = MonoToNativeFramed (new Rectangle (hwnd.X, hwnd.Y, hwnd.Width, hwnd.Height), newParentWrap.Frame.Height);
 					if (adoption)
 						vuWrap.Release ();
 				}
@@ -2524,14 +2525,16 @@ namespace System.Windows.Forms {
 			// X requires a sanity check for width & height; otherwise it dies
 			if (hwnd.zero_sized && width > 0 && height > 0) {
 				if (hwnd.visible) {
-					SetVisible(handle, true, true);
+					NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+					vuWrap.Hidden = false;
 				}
 				hwnd.zero_sized = false;
 			}
 
 			if ((width < 1) || (height < 1)) {
 				hwnd.zero_sized = true;
-				SetVisible(handle, false, true);
+				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+				vuWrap.Hidden = true;
 			}
 
 			// Save a server roundtrip (and prevent a feedback loop)
@@ -2698,15 +2701,17 @@ namespace System.Windows.Forms {
 			// Top level/Content View: Reorder the Window.
 			NSWindow itWinWrap = itVuWrap.Window;
 
-			if (Bottom) {
-				itWinWrap.OrderWindow (NSWindowOrderingMode.Below, 0);
-			} else if (!Top && afterVuWrap != null) {
-				NSWindow afterWinWrap = afterVuWrap.Window;
-				if (itWinWrap == afterWinWrap)
-					return false;	// Cannot reorder relative to self.
-				itWinWrap.OrderWindow (NSWindowOrderingMode.Below, afterVuWrap.Window.WindowNumber);
-			} else {
-				itWinWrap.OrderWindow (NSWindowOrderingMode.Above, 0);
+			if (itWinWrap != null) {
+				if (Bottom) {
+					itWinWrap.OrderWindow (NSWindowOrderingMode.Below, 0);
+				} else if (!Top && afterVuWrap != null) {
+					NSWindow afterWinWrap = afterVuWrap.Window;
+					if (itWinWrap == afterWinWrap)
+						return false;	// Cannot reorder relative to self.
+					itWinWrap.OrderWindow (NSWindowOrderingMode.Below, afterVuWrap.Window.WindowNumber);
+				} else {
+					itWinWrap.OrderWindow (NSWindowOrderingMode.Above, 0);
+				}
 			}
 
 			return true;
