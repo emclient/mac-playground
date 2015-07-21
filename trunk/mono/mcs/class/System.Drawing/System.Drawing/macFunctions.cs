@@ -69,9 +69,9 @@ namespace System.Drawing {
 			IntPtr focusHandle = IntPtr.Zero;
 			if (focusView != handle) {
 				if (!bool_objc_msgSend (handle, sel_registerName ("lockFocusIfCanDraw")))
-					//return null;
+					return null;
 					//throw new NotSupportedException();
-					return new CocoaContext(IntPtr.Zero, IntPtr.Zero, 0, 0);
+					//return new CocoaContext(IntPtr.Zero, IntPtr.Zero, 0, 0);
 
 				focusHandle = handle;
 			}
@@ -381,7 +381,7 @@ namespace System.Drawing {
 		}
 	}
 
-	internal struct CocoaContext : IMacContext
+	internal class CocoaContext : IMacContext
 	{
 		public IntPtr focusHandle;
 		public IntPtr ctx;

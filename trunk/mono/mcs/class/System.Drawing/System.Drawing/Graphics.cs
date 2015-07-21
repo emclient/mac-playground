@@ -1706,6 +1706,10 @@ namespace System.Drawing
 
 			if (GDIPlus.UseCocoaDrawable) {
 				CocoaContext context = MacSupport.GetCGContextForNSView (hwnd);
+				if (context == null) {
+					return Graphics.FromImage(new Bitmap (1, 1));
+				}
+
 				GDIPlus.GdipCreateFromContext_macosx (context.ctx, context.width, context.height, out graphics);
 
 				Graphics g = new Graphics (graphics);
