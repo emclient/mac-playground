@@ -2440,16 +2440,18 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 			NSWindow winWrap = vuWrap.Window;
-//			object window = WindowMapping [hwnd.Handle];
-			if (winWrap == null || vuWrap.Superview != null)
-				vuWrap.Hidden = !visible;
-			else if (visible)
-				winWrap.OrderFront (winWrap);
-			else
-				winWrap.OrderOut (winWrap);
-			
+			object window = WindowMapping [hwnd.Handle];
+			if (window != null && winWrap != null) {
+				if (visible)
+					winWrap.OrderFront (winWrap);
+				else
+					winWrap.OrderOut (winWrap);
+			}
+
 			if (visible)
 				SendMessage (handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
+
+			vuWrap.Hidden = !visible;
 
 			hwnd.visible = visible;
 			hwnd.Mapped = true;
