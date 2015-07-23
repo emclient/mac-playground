@@ -302,16 +302,21 @@ namespace System.Windows.Forms.CocoaInternal {
 		{
 			if (msg.message == Msg.WM_MOUSEMOVE || msg.message == Msg.WM_NCMOUSEMOVE) {
 				Hwnd hwnd = Hwnd.ObjectFromHandle (msg.hwnd);
-				if (XplatUICocoa.MouseHwnd == null) { 
-					Driver.PostMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
-					Cursor.SetCursor (hwnd.Cursor);
-				} else if (XplatUICocoa.MouseHwnd.Handle != hwnd.Handle) {
-					Driver.PostMessage (XplatUICocoa.MouseHwnd.Handle, Msg.WM_MOUSELEAVE, IntPtr.Zero, 
-								IntPtr.Zero);
-					Driver.PostMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
-					Cursor.SetCursor (hwnd.Cursor);
+				// TODO: Address case when hwnd == null
+				if (hwnd != null) {
+					if (XplatUICocoa.MouseHwnd == null) { 
+						Driver.PostMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
+						Cursor.SetCursor (hwnd.Cursor);
+					} else if (XplatUICocoa.MouseHwnd.Handle != hwnd.Handle) {
+						Driver.PostMessage (XplatUICocoa.MouseHwnd.Handle, Msg.WM_MOUSELEAVE, IntPtr.Zero, 
+							IntPtr.Zero);
+						Driver.PostMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
+						Cursor.SetCursor (hwnd.Cursor);
+					}
+					XplatUICocoa.MouseHwnd = hwnd;
+				} else {
+					Console.WriteLine ("TODO: Hwnd is null in MouseHandler.TranslateMessage");
 				}
-				XplatUICocoa.MouseHwnd = hwnd;
 			}
 			
 			return false;
