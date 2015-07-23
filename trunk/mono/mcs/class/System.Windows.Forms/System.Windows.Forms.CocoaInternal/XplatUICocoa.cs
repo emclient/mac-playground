@@ -418,10 +418,12 @@ namespace System.Windows.Forms {
 			point = windowWrapper.ConvertScreenToBase (point);
 			point = viewWrapper.ConvertPointFromView (point, null);
 
-//			/*TODO? if (windowWrapper.contentView() != viewWrapper) */ {
+			// TODO?
+//			if (windowWrapper.ContentView != viewWrapper) 
+//			{
 //				Point clientOrigin = hwnd.client_rectangle.Location;
-//				point.x -= clientOrigin.X;
-//				point.y -= clientOrigin.Y;
+//				point.X -= clientOrigin.X;
+//				point.Y -= clientOrigin.Y;
 //			}
 		}
 
@@ -436,10 +438,12 @@ namespace System.Windows.Forms {
 
 			NSWindow windowWrapper = viewWrapper.Window;
 
-//			/*TODO? if (windowWrapper.contentView() != viewWrapper) */ {
+			//TODO?
+//			if (windowWrapper.ContentView != viewWrapper)
+//			{
 //				Point clientOrigin = hwnd.client_rectangle.Location;
-//				point.x += clientOrigin.X;
-//				point.y += clientOrigin.Y;
+//				point.X += clientOrigin.X;
+//				point.Y += clientOrigin.Y;
 //			}
 
 			point = viewWrapper.ConvertPointToView (point, null);
@@ -1158,10 +1162,12 @@ namespace System.Windows.Forms {
 					winWrap.SetFrame (nsrect, false);
 					SetCaretPos (hwnd.Handle, Caret.X, Caret.Y);
 				}
+
 			} else {
 				NSView superVuWrap = vuWrap.Superview;
-//				Hwnd parent = hwnd.Parent;
+				Hwnd parent = hwnd.Parent;
 
+				// ?
 //				if (null != parent) {
 //					Point clientOffset = parent.ClientRect.Location;
 //					mrect.X += clientOffset.X;
@@ -1172,6 +1178,7 @@ namespace System.Windows.Forms {
 					nsrect = MonoToNativeFramed (mrect, superVuWrap.Frame.Size.Height);
 				else
 					nsrect = mrect;
+
 				if (vuWrap.Frame != nsrect) {
 					vuWrap.Frame = nsrect;
 				}
@@ -1459,7 +1466,7 @@ namespace System.Windows.Forms {
 //				HIGrowBoxViewSetTransparent (GrowBox, true);
 //				SetAutomaticControlDragTrackingEnabledForWindow (, true);
 //				ParentHandle = WindowView;
-				windowWrapper = new MonoWindow(WholeRect, attributes, NSBackingStore.Buffered, true);
+				windowWrapper = new MonoWindow(WholeRect, attributes, NSBackingStore.Buffered, true, this);
 				WindowHandle = (IntPtr) windowWrapper.Handle;
 //				wholeHandle = WindowHandle;
 				windowWrapper.ContentView = viewWrapper;

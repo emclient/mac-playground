@@ -291,7 +291,7 @@ namespace System.Windows.Forms.CocoaInternal {
 					msg.message = Msg.WM_WINDOWPOSCHANGED;
 //					Driver.SetCaretPos (XplatUICocoa.Caret.Hwnd, XplatUICocoa.Caret.X, XplatUICocoa.Caret.Y);
 
-					return  EventHandledBy.PostMessage |  EventHandledBy.Handler;
+						return  EventHandledBy.PostMessage |  EventHandledBy.Handler | EventHandledBy.NativeOS;
 				}
 				case (uint)NSEventSubtype.WindowExposed: {
 					msg.message = Msg.WM_PAINT;
