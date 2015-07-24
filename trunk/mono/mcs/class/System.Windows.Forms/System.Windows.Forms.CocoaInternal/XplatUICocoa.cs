@@ -391,11 +391,11 @@ namespace System.Windows.Forms {
 
 			rect = TranslateClientRectangleToQuartzClientRectangle (hwnd);
 
-			if (hwnd.visible) {
+			//if (hwnd.visible) {
 				NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
 				NSRect cr = MonoToNativeFramed (rect, vuWrap.Superview.Frame.Height);
 				vuWrap.Frame = cr;
-			}
+			//}
 
 			AddExpose (hwnd, false, 0, 0, hwnd.Width, hwnd.Height);
 		}
