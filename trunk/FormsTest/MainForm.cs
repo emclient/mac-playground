@@ -22,11 +22,6 @@ namespace FormsTest
 			}
 		}		
 
-		private void button1_Click(object sender, System.EventArgs e)
-        {
-            Application.Exit();
-        }
-
         void ListFontFamilies(ListBox listBox)
         {
             var fonts = new InstalledFontCollection();
@@ -61,15 +56,27 @@ namespace FormsTest
 //			}
 //		}
 
+		protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+		{
+			base.OnClosing(e);
+		}
+
+		private void button1_Click(object sender, System.EventArgs e)
+		{
+			Application.Exit();
+		}
+
 		private void button2_Click(object sender, System.EventArgs e)
 		{
 			var form = new Form();
 			form.Show();
 		}
 
-		protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+		private void button3_Click(object sender, System.EventArgs e)
 		{
-			base.OnClosing(e);
+			MessageBox.Show (loremIpsum);
 		}
+
+		static readonly string loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
     }
 }
