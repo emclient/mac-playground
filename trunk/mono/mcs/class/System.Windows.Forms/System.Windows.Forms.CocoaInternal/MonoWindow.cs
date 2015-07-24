@@ -53,7 +53,7 @@ namespace System.Windows.Forms.CocoaInternal
 			IntPtr wParam = new IntPtr(8); //WMSZ_BOTTOMRIGHT;
 
 			NativeWindow.WndProc (hwnd.Handle, Msg.WM_SIZING, wParam, lpRect);
-			var rect2 = Marshal.PtrToStructure<XplatUIWin32.RECT> (lpRect);
+			var rect2 = (Rectangle)Marshal.PtrToStructure (lpRect, typeof(Rectangle));
 			toFrameSize.Width = rect2.Width;
 			toFrameSize.Height = rect2.Height;	
 
