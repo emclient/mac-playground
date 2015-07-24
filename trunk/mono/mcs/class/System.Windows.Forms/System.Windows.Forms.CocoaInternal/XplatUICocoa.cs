@@ -1580,6 +1580,8 @@ namespace System.Windows.Forms {
 			if (cp.Width > 0 && cp.Height > 0)
 				Invalidate (hwnd.Handle, Rectangle.Empty, true);
 
+			hwnd.UserData = new object[] { windowWrapper, viewWrapper, clientWrapper };
+
 			return hwnd.Handle;
 		}
 
@@ -1749,7 +1751,6 @@ namespace System.Windows.Forms {
 			}
 
 			foreach (Hwnd h in windows) {
-				h.UserData = null;
 				object wh = WindowMapping [h.Handle];
 				if (null != wh) { 
 					NSWindow winWrap = (NSWindow)MonoMac.ObjCRuntime.Runtime.GetNSObject((IntPtr) wh);
@@ -1761,6 +1762,7 @@ namespace System.Windows.Forms {
 					vuWrap.RemoveFromSuperviewWithoutNeedingDisplay ();
 				}
 
+				h.UserData = null;
 				h.Dispose ();
 			}
 		}
