@@ -104,7 +104,7 @@ namespace System.Windows.Forms.CocoaInternal {
 				return EventHandledBy.NativeOS;
 			}
 
-			return EventHandledBy.PostMessage | EventHandledBy.Handler;
+			return EventHandledBy.PostMessage | EventHandledBy.Handler | EventHandledBy.NativeOS;
 		}
 	}
 }
