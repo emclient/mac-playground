@@ -204,14 +204,15 @@ namespace System.Windows.Forms {
 		}
 
 		internal static Rectangle [] GetClippingRectangles (IntPtr handle) {
-			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
+			/*Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 
 			if (hwnd == null)
 				return null;
  			if (hwnd.Handle != handle)
 				return new Rectangle [] {hwnd.ClientRect};
 
-			return (Rectangle []) hwnd.GetClippingRectangles ().ToArray (typeof (Rectangle));
+			return (Rectangle []) hwnd.GetClippingRectangles ().ToArray (typeof (Rectangle));*/
+			return null;
 		}
 
 		internal IntPtr GetMousewParam(int Delta) {
@@ -1170,9 +1171,9 @@ namespace System.Windows.Forms {
 #if DriverDebug
 			Console.WriteLine ("HwndToNative ({0}) : {1}", hwnd, nsrect);
 #endif
-			NSView clientVuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
+			/*NSView clientVuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
 			nsrect = MonoToNativeFramed (hwnd.ClientRect, nsrect.Size.Height);
-			clientVuWrap.Frame = nsrect;
+			clientVuWrap.Frame = nsrect;*/
 		}
 		#endregion Private Methods
 
@@ -1249,7 +1250,12 @@ namespace System.Windows.Forms {
 		
 		internal override bool CalculateWindowRect (ref Rectangle ClientRect, CreateParams cp, Menu menu, 
 							    out Rectangle WindowRect) {
-			WindowRect = Hwnd.GetWindowRectangle (cp, menu, ClientRect);
+			if (StyleSet(cp.Style, WindowStyles.WS_CHILD)) {
+				WindowRect = Hwnd.GetWindowRectangle (cp, menu, ClientRect);
+			} else {				
+				var nsrect = NSWindow.FrameRectFor (ClientRect, StyleFromCreateParams (cp));
+				WindowRect = new Rectangle((int)nsrect.X, (int)nsrect.Y, (int)nsrect.Width, (int)nsrect.Height);
+			}
 			return true;
 		}
 
@@ -1321,6 +1327,24 @@ namespace System.Windows.Forms {
 			Caret.Height = height;
 			Caret.Visible = 0;
 			Caret.On = false;
+		}
+
+		private NSWindowStyle StyleFromCreateParams(CreateParams cp)
+		{
+			NSWindowStyle attributes = NSWindowStyle.Borderless;
+			if (StyleSet (cp.Style, WindowStyles.WS_MINIMIZEBOX)) {
+				attributes |= NSWindowStyle.Miniaturizable | NSWindowStyle.Titled;
+			}
+			if (StyleSet (cp.Style, WindowStyles.WS_MAXIMIZEBOX)) {
+				attributes |= NSWindowStyle.Resizable | NSWindowStyle.Titled;
+			}
+			if (StyleSet (cp.Style, WindowStyles.WS_SYSMENU)) {
+				attributes |= NSWindowStyle.Closable | NSWindowStyle.Titled;
+			}
+			if (StyleSet (cp.Style, WindowStyles.WS_CAPTION)) {
+				attributes |= NSWindowStyle.Titled;
+			}
+			return attributes;
 		}
 
 		internal override IntPtr CreateWindow (CreateParams cp)
@@ -1412,19 +1436,7 @@ namespace System.Windows.Forms {
 //				IntPtr WindowView = IntPtr.Zero;
 //				IntPtr GrowBox = IntPtr.Zero;
 //				Cocoa.WindowClass windowklass = Cocoa.WindowClass.kOverlayWindowClass;
-				NSWindowStyle attributes = NSWindowStyle.Borderless;
-				if (StyleSet (cp.Style, WindowStyles.WS_MINIMIZEBOX)) {
-					attributes |= NSWindowStyle.Miniaturizable | NSWindowStyle.Titled;
-				}
-				if (StyleSet (cp.Style, WindowStyles.WS_MAXIMIZEBOX)) {
-					attributes |= NSWindowStyle.Resizable | NSWindowStyle.Titled;
-				}
-				if (StyleSet (cp.Style, WindowStyles.WS_SYSMENU)) {
-					attributes |= NSWindowStyle.Closable | NSWindowStyle.Titled;
-				}
-				if (StyleSet (cp.Style, WindowStyles.WS_CAPTION)) {
-					attributes |= NSWindowStyle.Titled;
-				}
+				NSWindowStyle attributes = StyleFromCreateParams(cp);
 //				if (hwnd.border_style == FormBorderStyle.FixedToolWindow) {
 //					windowklass = Cocoa.WindowClass.kUtilityWindowClass;
 //				} else if (hwnd.border_style == FormBorderStyle.SizableToolWindow) {
@@ -2330,7 +2342,7 @@ namespace System.Windows.Forms {
 	
 					bitmap = new Bitmap (128, 128);
 					using (Graphics g = Graphics.FromImage (bitmap)) {
-						g.DrawImage (icon.ToBitmap (), 0, 0, 128, 128);
+						g.DrawIcon (icon, new Rectangle(0, 0, 128, 128));
 					}
 
 					var stream = new System.IO.MemoryStream();

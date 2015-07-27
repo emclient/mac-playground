@@ -169,6 +169,7 @@ namespace System.Windows.Forms.CocoaInternal {
 					Console.Error.WriteLine ("vuWrap = {0}", null != vuWrapQ ? vuWrapQ.Description : "<null>");
 #endif
 					vuWrap = vuWrapQ as MonoView;
+					return EventHandledBy.NativeOS;
 				}
 
 				Hwnd hwnd = Hwnd.ObjectFromWindow ((IntPtr) vuWrap.Handle);
