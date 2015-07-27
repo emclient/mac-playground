@@ -48,10 +48,17 @@ namespace System.Windows.Forms.CocoaInternal
 			this.driver = driver;
 		}
 
-//		public new bool isFlipped ()
-//		{
-//			return true;
-//		}
+		public override bool IsFlipped {
+			get {
+				return true;
+			}
+		}
+
+		public override bool IsOpaque {
+			get {
+				return true;
+			}
+		}
 
 		public override bool TryToPerformwith (MonoMac.ObjCRuntime.Selector anAction, NSObject anObject)
 		{
@@ -86,10 +93,15 @@ namespace System.Windows.Forms.CocoaInternal
 				DrawBorders (hwnd);
 			}
 
-			if (nonclient)
-				driver.AddExpose (hwnd, false, bounds);
-			if (client)
-				driver.AddExpose (hwnd, true, clientBounds);
+			if (nonclient) {
+				hwnd.AddNcInvalidArea (bounds);
+				driver.SendMessage (hwnd.Handle, Msg.WM_NCPAINT, IntPtr.Zero, IntPtr.Zero);
+			}
+			if (client) {
+				// FIXME: Use getRectsBeingDrawn		
+				hwnd.AddInvalidArea (clientBounds);
+				driver.SendMessage (hwnd.Handle, Msg.WM_PAINT, IntPtr.Zero, IntPtr.Zero);
+			}
 		}
 
 		private void DrawBorders (Hwnd hwnd) {

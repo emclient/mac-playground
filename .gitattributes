@@ -450,7 +450,6 @@ trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Key
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoMenuItem.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoView.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoWindow.cs -text
-trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoWindowDelegate.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MouseHandler.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Pasteboard.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Structs.cs -text

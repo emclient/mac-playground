@@ -160,6 +160,7 @@ namespace System.Windows.Forms {
 				if (Instance == null) {
 					NSApplication.Init ();
 					NSApplication.InitDrawingBridge ();
+					NSApplication.SharedApplication.FinishLaunching ();
 
 					Instance = new XplatUICocoa ();
 				}
@@ -599,42 +600,43 @@ namespace System.Windows.Forms {
 
 		internal NSPoint MonoToNativeScreen (Point monoPoint)
 		{
-			return MonoToNativeFramed (monoPoint, screenHeight);
+			return new NSPoint (monoPoint.X, screenHeight - monoPoint.Y);
 		}
 
 		internal NSPoint MonoToNativeFramed (Point monoPoint, float frameHeight)
 		{
-			return new NSPoint (monoPoint.X, frameHeight - monoPoint.Y);
+			return new NSPoint (monoPoint.X, monoPoint.Y);
 		}
 
 		internal Point NativeToMonoScreen (NSPoint nativePoint)
 		{
-			return NativeToMonoFramed (nativePoint, screenHeight);
+			return new Point ((int) nativePoint.X, (int) (screenHeight - nativePoint.Y));
 		}
 
 		internal Point NativeToMonoFramed (NSPoint nativePoint, float frameHeight)
 		{
-			return new Point ((int) nativePoint.X, (int) (frameHeight - nativePoint.Y));
+			return new Point ((int) nativePoint.X, (int) (nativePoint.Y));
 		}
 
 		internal NSRect MonoToNativeScreen (Rectangle monoRect)
 		{
-			return MonoToNativeFramed (monoRect, screenHeight);
+			return new NSRect(monoRect.Left, screenHeight - monoRect.Bottom, monoRect.Width, monoRect.Height);
 		}
 
 		internal NSRect MonoToNativeFramed (Rectangle monoRect, float frameHeight)
 		{
-			return new NSRect(monoRect.Left, frameHeight - monoRect.Bottom, monoRect.Width, monoRect.Height);
+			return new NSRect(monoRect.Left, monoRect.Top, monoRect.Width, monoRect.Height);
 		}
 
 		internal Rectangle NativeToMonoScreen (NSRect nativeRect)
 		{
-			return NativeToMonoFramed (nativeRect, screenHeight);
+			return new Rectangle ((int) nativeRect.Left, (int) (screenHeight - nativeRect.Bottom), 
+				(int) nativeRect.Size.Width, (int) nativeRect.Size.Height);
 		}
 
 		internal Rectangle NativeToMonoFramed (NSRect nativeRect, float frameHeight)
 		{
-			return new Rectangle ((int) nativeRect.Left, (int) (frameHeight - nativeRect.Bottom), 
+			return new Rectangle ((int) nativeRect.Left, (int) nativeRect.Top, 
 						(int) nativeRect.Size.Width, (int) nativeRect.Size.Height);
 		}
 
@@ -842,9 +844,6 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		private readonly string NSDefaultRunLoopMode = "kCFRunLoopDefaultMode";
-		private readonly NSDate distantFuture = NSDate.DistantFuture;
-
 		private bool PumpNativeEvent (bool wait)
 		{
 			NSDate timeout = NSDate.DistantPast;
@@ -854,11 +853,11 @@ namespace System.Windows.Forms {
 
 			if (wait) 
 				if (TimerList.Count == 0)
-					timeout = distantFuture;
+					timeout = NSDate.DistantFuture;
 				else
 					timeout = NSDate.FromTimeIntervalSinceNow (NextTimeout ());
 
-			NSEvent evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSDefaultRunLoopMode, true);
+			NSEvent evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, true);
 			if (evtRef == null)
 				return false;
 
@@ -1098,27 +1097,12 @@ namespace System.Windows.Forms {
 			}
 
 			if (client) {
-				hwnd.AddInvalidArea (x, y, width, height);
-				if (!hwnd.expose_pending && hwnd.visible) {
-					MSG msg = new MSG ();
-					msg.message = Msg.WM_PAINT;
-					msg.hwnd = hwnd.Handle;
-					EnqueueMessage (msg);
-					hwnd.expose_pending = true;
-				}
+				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
+				NSRect nsrect = MonoToNativeFramed (new Rectangle (x, y, width, height), vuWrap.Frame.Height);
+				vuWrap.SetNeedsDisplayInRect (nsrect);
 			} else {
-				hwnd.AddNcInvalidArea (x, y, width, height);
-				if (!hwnd.nc_expose_pending && hwnd.visible) {
-					MSG msg = new MSG ();
-					Region rgn = new Region (hwnd.Invalid);
-					IntPtr hrgn = rgn.GetHrgn (null); // Graphics object isn't needed
-					msg.message = Msg.WM_NCPAINT;
-					msg.wParam = hrgn == IntPtr.Zero ? (IntPtr) 1 : hrgn;
-					msg.refobject = rgn;
-					msg.hwnd = hwnd.Handle;
-					EnqueueMessage (msg);
-					hwnd.nc_expose_pending = true;
-				}
+				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+				vuWrap.NeedsDisplay = true;
 			}
 		}
 
@@ -1156,7 +1140,7 @@ namespace System.Windows.Forms {
 				nsrect = MonoToNativeScreen (mrect);
 
 				NSWindow winWrap = vuWrap.Window;
-				nsrect = winWrap.FrameRectFor (nsrect);
+				//nsrect = winWrap.FrameRectFor (nsrect);
 
 				if (winWrap.Frame != nsrect) {
 					winWrap.SetFrame (nsrect, false);
@@ -1418,7 +1402,7 @@ namespace System.Windows.Forms {
 			} else {
 				WholeRect = MonoToNativeScreen (mWholeRect);
 			}
-
+				
 			NSView viewWrapper = new Cocoa.MonoView (this, WholeRect);
 			wholeHandle = (IntPtr) viewWrapper.Handle;
 
@@ -2031,10 +2015,9 @@ namespace System.Windows.Forms {
 		
 		internal override void KillTimer(Timer timer) {
 			lock (TimerList) {
-				TimerList.Remove(timer);
+				TimerList.Remove (timer);
 			}
 		}
-
 
 		internal override void OverrideCursor (IntPtr cursor) {
 		}
@@ -2068,8 +2051,6 @@ namespace System.Windows.Forms {
 
 			if (client) {
 				dc = Graphics.FromHwnd (paint_hwnd.ClientWindow);
-
-
 				if (null == dc)
 					return null;
 
@@ -2351,22 +2332,12 @@ namespace System.Windows.Forms {
 					using (Graphics g = Graphics.FromImage (bitmap)) {
 						g.DrawImage (icon.ToBitmap (), 0, 0, 128, 128);
 					}
-					index = 0;
-					size = bitmap.Width * bitmap.Height * 4;
-					byte[]		bytes = new byte[size];
-	
-					for (int y = 0; y < bitmap.Height; ++y) {
-						for (int x = 0; x < bitmap.Width; ++x) {
-							Color pixel = bitmap.GetPixel (x, y);
-							bytes[index++] = pixel.A;
-							bytes[index++] = pixel.R;
-							bytes[index++] = pixel.G;
-							bytes[index++] = pixel.B;
-						}
-					}
 
-					NSData data = NSData.FromArray (bytes);
-					NSImage image = new NSImage(data);
+					var stream = new System.IO.MemoryStream();
+					bitmap.Save (stream, System.Drawing.Imaging.ImageFormat.Png);
+
+					NSData data = NSData.FromArray(stream.ToArray());
+					NSImage image = new NSImage (data);
 					NSApplication.SharedApplication.ApplicationIconImage = image;
 				}
 			}
