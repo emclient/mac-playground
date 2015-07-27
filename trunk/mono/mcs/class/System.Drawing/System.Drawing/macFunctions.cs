@@ -403,7 +403,9 @@ namespace System.Drawing {
 
 		public void Release ()
 		{
-			MacSupport.CGContextFlush (ctx); // FIXME
+			if (IntPtr.Zero != focusHandle)
+				MacSupport.CGContextFlush (ctx);
+			
 			MacSupport.CGContextRestoreGState(ctx);
 
 			if (IntPtr.Zero != focusHandle)
