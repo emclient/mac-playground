@@ -66,6 +66,7 @@ namespace System.Windows.Forms.CocoaInternal
 		internal virtual void windowDidResize (NSNotification notification)
 		{
 			// resizeWinForm, invalidate and update?
+			resizeWinForm(Hwnd.GetObjectFromWindow(this.ContentView.Handle));
 		}
 
 		[Export ("windowWillStartLiveResize:")]
@@ -98,7 +99,7 @@ namespace System.Windows.Forms.CocoaInternal
 		// Tells win form to update it's content
 		internal virtual void resizeWinForm(Hwnd contentViewHandle)
 		{
-			var f = this.ConvertRectToScreen(this.ContentView.Frame);
+			var f = /*this.ConvertRectToScreen(*/this.Frame/*)*/;
 			var r = driver.NativeToMonoScreen(f);
 			XplatUI.SetWindowPos (contentViewHandle.Handle,  (int)r.Left, (int)r.Top, (int)r.Width, (int)r.Height);
 		}
