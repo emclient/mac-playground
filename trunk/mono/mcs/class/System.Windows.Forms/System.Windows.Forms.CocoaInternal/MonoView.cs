@@ -40,7 +40,7 @@ namespace System.Windows.Forms.CocoaInternal
 	internal class MonoView : NSView
 	{
 		XplatUICocoa driver;
-		int trackingRect;
+		NSTrackingArea trackingArea;
 
 		public MonoView (IntPtr instance) : base (instance)
 		{
@@ -49,7 +49,6 @@ namespace System.Windows.Forms.CocoaInternal
 		public MonoView (XplatUICocoa driver, NSRect frameRect) : base(frameRect)
 		{
 			this.driver = driver;
-			trackingRect = AddTrackingRect (frameRect, this, IntPtr.Zero, false);
 		}
 
 		public override bool IsFlipped {
@@ -121,10 +120,24 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
+		public override void ViewDidMoveToWindow ()
+		{
+			UpdateTrackingAreas ();
+			base.ViewDidMoveToWindow ();
+		}
+
 		public override void UpdateTrackingAreas ()
 		{
-			RemoveTrackingRect (trackingRect);
-			trackingRect = AddTrackingRect (Frame, this, IntPtr.Zero, false);
+			if (trackingArea != null)
+				RemoveTrackingArea (trackingArea);	
+			trackingArea = new NSTrackingArea (
+				Frame,
+				NSTrackingAreaOptions.ActiveInKeyWindow |
+				NSTrackingAreaOptions.MouseMoved |
+				NSTrackingAreaOptions.InVisibleRect,
+				this,
+				new NSDictionary());
+			AddTrackingArea (trackingArea);
 		}
 
 		#region Mouse
@@ -208,6 +221,13 @@ namespace System.Windows.Forms.CocoaInternal
 			} else {
 				driver.mouse_position = driver.NativeToMonoScreen (globalNSPoint);
 			}
+				
+			// FIXME: There has to be a better way. Obscured windows are still receiving MouseMoved events.
+			var windowNumber = NSWindow.WindowNumberAtPoint (
+				globalNSPoint,
+				0);
+			if (windowNumber != winWrap.WindowNumber)
+				return;
 
 			Point localMonoPoint = driver.mouse_position;
 			NSView vuWrap = null;
@@ -391,8 +411,6 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public void ProcessKeyPress (NSEvent eventref, Msg msg)
 		{
-			var ta = this.TrackingAreas();
-
 			Hwnd hwnd = Hwnd.ObjectFromWindow (Handle);
 			ushort charCode = 0x0;
 			byte keyCode = 0x0;

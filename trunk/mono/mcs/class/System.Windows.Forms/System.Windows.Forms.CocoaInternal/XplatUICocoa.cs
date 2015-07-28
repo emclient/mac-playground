@@ -2416,12 +2416,12 @@ namespace System.Windows.Forms {
 					winWrap.MakeKeyAndOrderFront (winWrap);
 				else
 					winWrap.OrderOut (winWrap);
+			} else {
+				vuWrap.Hidden = !visible;
 			}
 
 			if (visible)
 				SendMessage (handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
-
-			vuWrap.Hidden = !visible;
 
 			hwnd.visible = visible;
 			hwnd.Mapped = true;
