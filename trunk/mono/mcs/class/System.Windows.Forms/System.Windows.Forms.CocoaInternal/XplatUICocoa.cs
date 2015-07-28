@@ -102,19 +102,15 @@ namespace System.Windows.Forms {
 		internal static Cocoa.HwndDelegate HwndDelegate = new Cocoa.HwndDelegate (GetClippingRectangles);
 		// Instance members
 		internal Point mouse_position;
+		internal static NSEventModifierMask key_modifiers = 0;
+		internal bool translate_modifier = false;
 
 		// Event handlers
-		internal Cocoa.ApplicationHandler ApplicationHandler;
-		internal Cocoa.ControlHandler ControlHandler;
-//		internal Cocoa.HIObjectHandler HIObjectHandler;
-		internal Cocoa.KeyboardHandler KeyboardHandler;
-		internal Cocoa.MouseHandler MouseHandler;
-		internal Cocoa.WindowHandler WindowHandler;
+		private MonoApplicationDelegate applicationDelegate;
 		
 		// Cocoa Specific
 		internal static GrabStruct Grab;
 		internal static Cocoa.Caret Caret;
-		private static Cocoa.Dnd Dnd;
 		private static Hashtable WindowMapping;
 		private static Hashtable HandleMapping;
 //		private static IntPtr FosterParent;
@@ -273,13 +269,9 @@ namespace System.Windows.Forms {
 				screenHeight = size.Height;
 			}
 
-			// Initialize the event handlers	
-			Cocoa.EventHandler.Driver = this;
-			ApplicationHandler = new Cocoa.ApplicationHandler (this);
-			ControlHandler = new Cocoa.ControlHandler (this);
-			KeyboardHandler = new Cocoa.KeyboardHandler (this);
-			MouseHandler = new Cocoa.MouseHandler (this);
-			WindowHandler = new Cocoa.WindowHandler (this);
+			// Initialize the event handlers
+			applicationDelegate = new MonoApplicationDelegate (this);
+			NSApplication.SharedApplication.Delegate = applicationDelegate;
 
 			// Initilize the mouse controls
 			Hover.Interval = 500;
@@ -297,9 +289,6 @@ namespace System.Windows.Forms {
 			Caret.Timer.Interval = 500;
 			Caret.Timer.Tick += new EventHandler (CaretCallback);
 
-			// Initialize the D&D
-			Dnd = new Cocoa.Dnd (); 
-			
 			// Initialize the Cocoa Specific stuff
 			WindowMapping = new Hashtable ();
 			HandleMapping = new Hashtable ();
@@ -315,8 +304,6 @@ namespace System.Windows.Forms {
 			NSProcessInfo.ProcessInfo.ProcessName = Application.ProductName;
 //
 //			HIObjectRegisterSubclass (__CFStringMakeConstantString ("com.novell.mwfview"), __CFStringMakeConstantString ("com.apple.hiview"), 0, Cocoa.EventHandler.EventHandlerDelegate, (uint)Cocoa.EventHandler.HIObjectEvents.Length, Cocoa.EventHandler.HIObjectEvents, IntPtr.Zero, ref Subclass);
-//
-//			Cocoa.EventHandler.InstallApplicationHandler ();
 //
 //			CreateNewWindow (Cocoa.WindowClass.kDocumentWindowClass, Cocoa.WindowAttributes.kWindowStandardHandlerAttribute | Cocoa.WindowAttributes.kWindowCloseBoxAttribute | Cocoa.WindowAttributes.kWindowFullZoomAttribute | Cocoa.WindowAttributes.kWindowCollapseBoxAttribute | Cocoa.WindowAttributes.kWindowResizableAttribute | Cocoa.WindowAttributes.kWindowCompositingAttribute, ref rect, ref FosterParent);
 //			
@@ -862,11 +849,7 @@ namespace System.Windows.Forms {
 			if (evtRef == null)
 				return false;
 
-			if (null == Cocoa.EventHandler.EventHandlerDelegate || 
-					Cocoa.EventHandledBy.NativeOS == (Cocoa.EventHandledBy.NativeOS & 
-					Cocoa.EventHandler.EventHandlerDelegate (evtRef, evtRef, null)))
-				NSApp.SendEvent (evtRef);
-
+			NSApp.SendEvent (evtRef);
 			return true;
 		}
 
@@ -2323,7 +2306,12 @@ namespace System.Windows.Forms {
 			if (FocusWindow != IntPtr.Zero) {
 				PostMessage (FocusWindow, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
 			}
-			PostMessage (handle, Msg.WM_SETFOCUS, FocusWindow, IntPtr.Zero);
+			if (handle != IntPtr.Zero) {
+				Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
+				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
+				vuWrap.Window.MakeFirstResponder (vuWrap);
+				PostMessage (handle, Msg.WM_SETFOCUS, FocusWindow, IntPtr.Zero);
+			}
 			FocusWindow = handle;
 		}
 
@@ -2452,18 +2440,19 @@ namespace System.Windows.Forms {
 
 		internal override void SetAllowDrop (IntPtr handle, bool value)
 		{
-			Dnd.SetAllowDrop (Hwnd.ObjectFromHandle (handle), value);
+			//Dnd.SetAllowDrop (Hwnd.ObjectFromHandle (handle), value);
 		}
 
 		internal override DragDropEffects StartDrag (IntPtr handle, object data, DragDropEffects allowed_effects)
 		{
-			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
+			/*Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			
 			if (hwnd == null)
 				throw new ArgumentException ("Attempt to begin drag from invalid window handle (" + 
 								handle.ToInt32 () + ").");
 
-			return Dnd.StartDrag (hwnd.ClientWindow, data, allowed_effects);
+			return Dnd.StartDrag (hwnd.ClientWindow, data, allowed_effects);*/
+			throw new NotImplementedException ();
 		}
 
 		internal override void SetBorderStyle (IntPtr handle, FormBorderStyle border_style) {
@@ -2570,9 +2559,9 @@ namespace System.Windows.Forms {
 					break;
 				}
 				case FormWindowState.Normal: {
-					if ( winWrap.IsMiniaturized )
+					if (winWrap.IsMiniaturized)
 						winWrap.Deminiaturize (vuWrap);
-					else if (winWrap.IsZoomed )
+					else if (winWrap.IsZoomed)
 						winWrap.Zoom (vuWrap);
 					break;
 				}
@@ -2603,7 +2592,7 @@ namespace System.Windows.Forms {
 			SetHwndStyles(hwnd, cp);
 			
 			if (WindowMapping [hwnd.Handle] != null) {
-				Cocoa.WindowAttributes attributes = Cocoa.WindowAttributes.kWindowCompositingAttribute | Cocoa.WindowAttributes.kWindowStandardHandlerAttribute;
+				/*Cocoa.WindowAttributes attributes = Cocoa.WindowAttributes.kWindowCompositingAttribute | Cocoa.WindowAttributes.kWindowStandardHandlerAttribute;
 				if ((cp.Style & ((int)WindowStyles.WS_MINIMIZEBOX)) != 0) { 
 					attributes |= Cocoa.WindowAttributes.kWindowCollapseBoxAttribute;
 				}
@@ -2616,7 +2605,7 @@ namespace System.Windows.Forms {
 				if ((cp.ExStyle & ((int)WindowExStyles.WS_EX_TOOLWINDOW)) != 0) {
 					attributes = Cocoa.WindowAttributes.kWindowStandardHandlerAttribute | Cocoa.WindowAttributes.kWindowCompositingAttribute;
 				}
-				attributes |= Cocoa.WindowAttributes.kWindowLiveResizeAttribute;
+				attributes |= Cocoa.WindowAttributes.kWindowLiveResizeAttribute;*/
 
 //				Cocoa.WindowAttributes outAttributes = Cocoa.WindowAttributes.kWindowNoAttributes;
 // FIXME: How to set these on a NSWindow after init?
@@ -2781,7 +2770,48 @@ namespace System.Windows.Forms {
 		}
 
 		internal override bool TranslateMessage (ref MSG msg) {
-			return Cocoa.EventHandler.TranslateMessage (ref msg);
+			bool res = false;
+
+			if (msg.message >= Msg.WM_KEYFIRST && msg.message <= Msg.WM_KEYLAST) {
+				if (msg.message != Msg.WM_KEYDOWN && msg.message != Msg.WM_SYSKEYDOWN && msg.message != Msg.WM_KEYUP && msg.message != Msg.WM_SYSKEYUP)
+					return false;
+
+				if (0 != (NSEventModifierMask.CommandKeyMask & key_modifiers) && 0 == (NSEventModifierMask.ControlKeyMask & key_modifiers)) {
+					if (msg.message == Msg.WM_KEYDOWN) {
+						msg.message = Msg.WM_SYSKEYDOWN;
+					} else if (msg.message == Msg.WM_CHAR) {
+						msg.message = Msg.WM_SYSCHAR;
+						translate_modifier = true;
+					} else if (msg.message == Msg.WM_KEYUP) {
+						msg.message = Msg.WM_SYSKEYUP;
+					} else {
+						return res;
+					}
+
+					msg.lParam = new IntPtr (0x20000000);
+				} else if (msg.message == Msg.WM_SYSKEYUP && translate_modifier && msg.wParam == (IntPtr)18) {
+					msg.message = Msg.WM_KEYUP;
+					msg.lParam = IntPtr.Zero;
+					translate_modifier = false;
+				}
+
+				return true;
+			}
+				
+			if (msg.message == Msg.WM_MOUSEMOVE || msg.message == Msg.WM_NCMOUSEMOVE) {
+				Hwnd hwnd = Hwnd.ObjectFromHandle (msg.hwnd);
+				if (MouseHwnd == null) { 
+					PostMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
+					Cocoa.Cursor.SetCursor (hwnd.Cursor);
+				} else if (MouseHwnd.Handle != hwnd.Handle) {
+					PostMessage (MouseHwnd.Handle, Msg.WM_MOUSELEAVE, IntPtr.Zero, IntPtr.Zero);
+					PostMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
+					Cocoa.Cursor.SetCursor (hwnd.Cursor);
+				}
+				MouseHwnd = hwnd;
+			}
+
+			return false;
 		}
 
 		#region Reversible regions
@@ -2873,7 +2903,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override  Size CursorSize { get{ throw new NotImplementedException(); } }
-		internal override  bool DragFullWindows { get{ throw new NotImplementedException(); } }
+		internal override  bool DragFullWindows { get{ return true; } }
 		internal override  Size DragSize {
 			get {
 				return new Size(4, 4);
@@ -2903,7 +2933,11 @@ namespace System.Windows.Forms {
 
 		internal override Keys ModifierKeys {
 			get {
-				return KeyboardHandler.ModifierKeys;
+				Keys keys = Keys.None;
+				if ((NSEventModifierMask.ShiftKeyMask & key_modifiers) != 0)        { keys |= Keys.Shift; }
+				if ((NSEventModifierMask.CommandKeyMask & key_modifiers) != 0)      { keys |= Keys.Alt; }
+				if ((NSEventModifierMask.ControlKeyMask & key_modifiers) != 0)      { keys |= Keys.Control; }
+				return keys;
 			}
 		}
 		internal override Size SmallIconSize { get{ throw new NotImplementedException(); } }
@@ -2968,7 +3002,7 @@ namespace System.Windows.Forms {
 		[DllImport("/System/Library/Frameworks/ApplicationServices.framework/Versions/Current/ApplicationServices")]
 		extern static int SetFrontProcess (ref Cocoa.ProcessSerialNumber psn);
 		#endregion
-		[DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		extern static void CGDisplayMoveCursorToPoint (UInt32 display, Cocoa.CGPoint point);
 	}
 }

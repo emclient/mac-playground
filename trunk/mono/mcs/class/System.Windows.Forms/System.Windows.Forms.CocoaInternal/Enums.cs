@@ -59,34 +59,6 @@ using System;
 
 namespace System.Windows.Forms.CocoaInternal
 {
-	internal enum WindowAttributes : uint
-	{
-		kWindowNoAttributes = 0,
-		kWindowCloseBoxAttribute = (1u << 0),
-		kWindowHorizontalZoomAttribute = (1u << 1),
-		kWindowVerticalZoomAttribute = (1u << 2),
-		kWindowFullZoomAttribute = (kWindowVerticalZoomAttribute | kWindowHorizontalZoomAttribute),
-		kWindowCollapseBoxAttribute = (1u << 3),
-		kWindowResizableAttribute = (1u << 4),
-		kWindowSideTitlebarAttribute = (1u << 5),
-		kWindowToolbarButtonAttribute = (1u << 6),
-		kWindowMetalAttribute = (1u << 8),
-		kWindowNoUpdatesAttribute = (1u << 16),
-		kWindowNoActivatesAttribute = (1u << 17),
-		kWindowOpaqueForEventsAttribute = (1u << 18),
-		kWindowCompositingAttribute = (1u << 19),
-		kWindowNoShadowAttribute = (1u << 21),
-		kWindowHideOnSuspendAttribute = (1u << 24),
-		kWindowStandardHandlerAttribute = (1u << 25),
-		kWindowHideOnFullScreenAttribute = (1u << 26),
-		kWindowInWindowMenuAttribute = (1u << 27),
-		kWindowLiveResizeAttribute = (1u << 28),
-		kWindowIgnoreClicksAttribute = (1u << 29),
-		kWindowNoConstrainAttribute = (1u << 31),
-		kWindowStandardDocumentAttributes = (kWindowCloseBoxAttribute | kWindowFullZoomAttribute | kWindowCollapseBoxAttribute | kWindowResizableAttribute),
-		kWindowStandardFloatingAttributes = (kWindowCloseBoxAttribute | kWindowCollapseBoxAttribute)
-	}
-
 	internal enum NSMouseButtons : long {
 		None		= -1,
 		Left		= 0,
