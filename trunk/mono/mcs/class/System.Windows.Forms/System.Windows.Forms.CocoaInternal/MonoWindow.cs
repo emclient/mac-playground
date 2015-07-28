@@ -26,8 +26,7 @@ namespace System.Windows.Forms.CocoaInternal
 		internal virtual bool shouldClose (NSObject sender)
 		{
 			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
-			NativeWindow.WndProc (hwnd.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
-
+			driver.SendMessage (hwnd.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
 			return false;
 		}
 
@@ -149,11 +148,6 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.HwndPositionFromNative(contentViewHandle);
 			driver.PerformNCCalc (contentViewHandle);
 			driver.SendMessage (contentViewHandle.Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
-		}
-
-		public override void FlagsChanged (NSEvent theEvent)
-		{
-			base.FlagsChanged (theEvent);
 		}
 	}
 }
