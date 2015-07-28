@@ -339,7 +339,7 @@ namespace System.Windows.Forms.CocoaInternal
 				return;
 			}
 
-			driver.SendMessage(msg.hwnd, msg.message, msg.wParam, msg.lParam);
+			driver.EnqueueMessage(msg);
 		}
 
 		private void UpdateMouseState (int button, bool down)
@@ -391,6 +391,8 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public void ProcessKeyPress (NSEvent eventref, Msg msg)
 		{
+			var ta = this.TrackingAreas();
+
 			Hwnd hwnd = Hwnd.ObjectFromWindow (Handle);
 			ushort charCode = 0x0;
 			byte keyCode = 0x0;
