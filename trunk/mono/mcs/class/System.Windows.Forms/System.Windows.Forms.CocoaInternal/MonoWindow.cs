@@ -13,12 +13,13 @@ namespace System.Windows.Forms.CocoaInternal
 		public MonoWindow (IntPtr handle) : base(handle)
 		{
 		}
-
+			
 		//[Export ("initWithContentRect:styleMask:backing:defer:"), CompilerGenerated]
 		internal MonoWindow (RectangleF contentRect, NSWindowStyle aStyle, NSBackingStore bufferingType, bool deferCreation, XplatUICocoa driver) 
 			: base(contentRect, aStyle, bufferingType, deferCreation)
 		{
 			this.driver = driver;
+			this.AcceptsMouseMovedEvents = true;
 		}
 
 		[Export("windowShouldClose:")]
@@ -86,6 +87,49 @@ namespace System.Windows.Forms.CocoaInternal
 			NativeWindow.WndProc (hwnd.Handle, Msg.WM_EXITSIZEMOVE, IntPtr.Zero, IntPtr.Zero);
 		}
 
+		[Export ("windowDidMove:")]
+		internal virtual void windowDidMove(NSNotification notification)
+		{
+			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
+			resizeWinForm (hwnd);
+		}
+
+		[Export ("windowDidChangeScreen:")]
+		internal virtual void windowDidChangeScreen(NSNotification notification)
+		{
+			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
+			resizeWinForm (hwnd);
+		}
+
+		[Export ("windowDidBecomeKey:")]
+		internal virtual void windowDidBecomeKey(NSNotification notification)
+		{
+			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
+			driver.SendMessage (hwnd.Handle, Msg.WM_ACTIVATE, (IntPtr) WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
+			XplatUICocoa.ActiveWindow = hwnd.Handle;
+
+			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows) {
+				if (utility_window != this && ! utility_window.IsVisible)
+					utility_window.OrderFront (utility_window);
+			}	
+		}
+
+		[Export ("windowDidResignKey:")]
+		internal virtual void windowDidResignKey(NSNotification notification)
+		{
+			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
+			driver.SendMessage (hwnd.Handle, Msg.WM_ACTIVATE, (IntPtr) WindowActiveFlags.WA_INACTIVE, IntPtr.Zero);
+			if (XplatUICocoa.ActiveWindow == hwnd.Handle)
+				XplatUICocoa.ActiveWindow = IntPtr.Zero;
+			
+			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows) {
+				if (utility_window != this && utility_window.IsVisible)
+					utility_window.OrderOut (utility_window);
+			}
+		}
+
+		// TODO: expanding, collapsing
+
 //		[Export ("windowDidUpdate:")]
 //		internal virtual void windowDidUpdate (NSNotification notification)
 //		{
@@ -107,6 +151,10 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.SendMessage (contentViewHandle.Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
 
+		public override void FlagsChanged (NSEvent theEvent)
+		{
+			base.FlagsChanged (theEvent);
+		}
 	}
 }
 
