@@ -1771,6 +1771,7 @@ namespace System.Windows.Forms {
 
 		internal void Exit () {
 			GetMessageResult = false;
+			NSApplication.SharedApplication.Delegate = null;
 		}
 		
 		internal override IntPtr GetActive () {
@@ -2800,15 +2801,17 @@ namespace System.Windows.Forms {
 				
 			if (msg.message == Msg.WM_MOUSEMOVE || msg.message == Msg.WM_NCMOUSEMOVE) {
 				Hwnd hwnd = Hwnd.ObjectFromHandle (msg.hwnd);
-				if (MouseHwnd == null) { 
-					PostMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
-					Cocoa.Cursor.SetCursor (hwnd.Cursor);
-				} else if (MouseHwnd.Handle != hwnd.Handle) {
-					PostMessage (MouseHwnd.Handle, Msg.WM_MOUSELEAVE, IntPtr.Zero, IntPtr.Zero);
-					PostMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
-					Cocoa.Cursor.SetCursor (hwnd.Cursor);
+				if (hwnd != null) {
+					if (MouseHwnd == null) { 
+						PostMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
+						Cocoa.Cursor.SetCursor (hwnd.Cursor);
+					} else if (MouseHwnd.Handle != hwnd.Handle) {
+						PostMessage (MouseHwnd.Handle, Msg.WM_MOUSELEAVE, IntPtr.Zero, IntPtr.Zero);
+						PostMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
+						Cocoa.Cursor.SetCursor (hwnd.Cursor);
+					}
+					MouseHwnd = hwnd;
 				}
-				MouseHwnd = hwnd;
 			}
 
 			return false;
