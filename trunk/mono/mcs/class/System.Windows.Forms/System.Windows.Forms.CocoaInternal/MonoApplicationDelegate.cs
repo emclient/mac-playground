@@ -23,10 +23,9 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void DidResignActive (MonoMac.Foundation.NSNotification notification)
 		{
-			if (XplatUICocoa.FocusWindow != IntPtr.Zero) {
-				driver.SendMessage (XplatUICocoa.FocusWindow, Msg.WM_KILLFOCUS, 
-					IntPtr.Zero, IntPtr.Zero);
-			} 
+			IntPtr focusWindow = driver.GetFocus ();
+			if (focusWindow != IntPtr.Zero)
+				driver.SendMessage (focusWindow, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
 
 			if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero) {
 				driver.SendMessage (Hwnd.ObjectFromHandle (XplatUICocoa.Grab.Hwnd).Handle, 

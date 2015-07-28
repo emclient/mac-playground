@@ -40,6 +40,7 @@ namespace System.Windows.Forms.CocoaInternal
 	internal class MonoView : NSView
 	{
 		XplatUICocoa driver;
+		int trackingRect;
 
 		public MonoView (IntPtr instance) : base (instance)
 		{
@@ -48,6 +49,7 @@ namespace System.Windows.Forms.CocoaInternal
 		public MonoView (XplatUICocoa driver, NSRect frameRect) : base(frameRect)
 		{
 			this.driver = driver;
+			trackingRect = AddTrackingRect (frameRect, this, IntPtr.Zero, false);
 		}
 
 		public override bool IsFlipped {
@@ -117,6 +119,12 @@ namespace System.Windows.Forms.CocoaInternal
 					ControlPaint.DrawBorder (g, new Rectangle (0, 0, hwnd.Width, hwnd.Height), Color.Black, ButtonBorderStyle.Solid);
 				break;
 			}
+		}
+
+		public override void UpdateTrackingAreas ()
+		{
+			RemoveTrackingRect (trackingRect);
+			trackingRect = AddTrackingRect (Frame, this, IntPtr.Zero, false);
 		}
 
 		#region Mouse
@@ -194,10 +202,7 @@ namespace System.Windows.Forms.CocoaInternal
 			if (winWrap != null) {
 				globalNSPoint = winWrap.ConvertBaseToScreen (nspoint);
 				driver.mouse_position = driver.NativeToMonoScreen (globalNSPoint);
-				IntPtr contentHandle = driver.WindowToHandle ((IntPtr) winWrap.Handle);
-				if (IntPtr.Zero == contentHandle)
-					return;
-				Hwnd contentHwnd = Hwnd.ObjectFromWindow (contentHandle);
+				Hwnd contentHwnd = Hwnd.ObjectFromWindow (Handle);
 				if (null == contentHwnd || contentHwnd.zombie)
 					return;
 			} else {
@@ -310,11 +315,12 @@ namespace System.Windows.Forms.CocoaInternal
 				break;
 
 			case NSEventType.ScrollWheel:
-				int delta = (int) ( eventref.DeltaY * 40.0);
-				if (0 == delta || IntPtr.Zero == XplatUICocoa.FocusWindow)
+				int delta = (int)(eventref.DeltaY * 40.0);
+				MonoView focusedView = winWrap.FirstResponder as MonoView;
+				if (0 == delta || focusedView == null)
 					return;
 
-				msg.hwnd = XplatUICocoa.FocusWindow;
+				msg.hwnd = focusedView.Handle;
 				msg.message = Msg.WM_MOUSEWHEEL;
 				msg.wParam = driver.GetMousewParam (delta);
 				break;
@@ -333,7 +339,7 @@ namespace System.Windows.Forms.CocoaInternal
 				return;
 			}
 
-			driver.EnqueueMessage(msg);
+			driver.SendMessage(msg.hwnd, msg.message, msg.wParam, msg.lParam);
 		}
 
 		private void UpdateMouseState (int button, bool down)

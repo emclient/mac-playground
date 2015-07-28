@@ -89,7 +89,6 @@ namespace System.Windows.Forms {
 		private static bool themes_enabled;
 
 		// Internal members available to the event handler sub-system
-		internal static IntPtr FocusWindow;
 		internal static IntPtr ActiveWindow;
 		internal static NSWindow ReverseWindow;
 		internal static NSWindow CaretWindow;
@@ -112,9 +111,6 @@ namespace System.Windows.Forms {
 		internal static GrabStruct Grab;
 		internal static Cocoa.Caret Caret;
 		private static Hashtable WindowMapping;
-		private static Hashtable HandleMapping;
-//		private static IntPtr FosterParent;
-//		private static IntPtr Subclass;
 		private static int MenuBarHeight;
 		internal static ArrayList UtilityWindows;
 		internal static readonly Stack<IntPtr> ModalSessions = new Stack<IntPtr>();
@@ -254,12 +250,6 @@ namespace System.Windows.Forms {
 			return IntPtr.Zero;
 		}
 
-		internal IntPtr WindowToHandle (IntPtr winRef) {
-			if (HandleMapping [winRef] != null)
-				return (IntPtr) HandleMapping [winRef];
-			return IntPtr.Zero;
-		}
-
 		internal void Initialize ()
 		{
 			// Cache main screen height for flipping screen coordinates.
@@ -291,7 +281,6 @@ namespace System.Windows.Forms {
 
 			// Initialize the Cocoa Specific stuff
 			WindowMapping = new Hashtable ();
-			HandleMapping = new Hashtable ();
 			UtilityWindows = new ArrayList ();
 
 //			// Initialize the FosterParent
@@ -343,9 +332,6 @@ namespace System.Windows.Forms {
 			// JV
 //			if (tempMenu)
 //				NSApp.MainMenu = null;
-
-			// Focus
-			FocusWindow = IntPtr.Zero;
 
 			// Message loop
 			GetMessageResult = true;
@@ -1052,9 +1038,8 @@ namespace System.Windows.Forms {
 				ActiveWindow = IntPtr.Zero;
 			}
 
-			if (FocusWindow == hwnd.Handle) {
+			if (GetFocus() == hwnd.Handle) {
 				SendMessage (hwnd.Handle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
-				FocusWindow = IntPtr.Zero;
 			}
 
 			if (Grab.Hwnd == hwnd.Handle) {
@@ -1493,8 +1478,6 @@ namespace System.Windows.Forms {
 //			hwnd.UserData = viewWrapper;
 
 			viewWrapper.AddSubview (clientWrapper);
-			viewWrapper.AddTrackingRect (WholeRect, viewWrapper, IntPtr.Zero, false);
-			clientWrapper.AddTrackingRect(ClientRect, clientWrapper, IntPtr.Zero, false);
 //			Cocoa.HIRect WholeRect;
 //			if (WindowHandle != IntPtr.Zero) {
 //				WholeRect = new Cocoa.HIRect (0, 0, QWindowSize.Width, QWindowSize.Height);
@@ -1506,7 +1489,6 @@ namespace System.Windows.Forms {
 
 			if (WindowHandle != IntPtr.Zero) {
 				WindowMapping [hwnd.Handle] = WindowHandle;
-				HandleMapping [WindowHandle] = hwnd.Handle;
 				if (hwnd.border_style == FormBorderStyle.FixedToolWindow || 
 				    hwnd.border_style == FormBorderStyle.SizableToolWindow) {
 					UtilityWindows.Add (windowWrapper);
@@ -1537,7 +1519,7 @@ namespace System.Windows.Forms {
 							SendMessage(hwnd.Handle, Msg.WM_SHOWWINDOW, (IntPtr)1, IntPtr.Zero);
 						}
 					}
-					windowWrapper.OrderFront (viewWrapper);
+					windowWrapper.MakeKeyAndOrderFront (viewWrapper);
 					//WaitForHwndMessage (hwnd, Msg.WM_SHOWWINDOW);
 				}
 
@@ -1735,7 +1717,6 @@ namespace System.Windows.Forms {
 					NSWindow winWrap = (NSWindow)MonoMac.ObjCRuntime.Runtime.GetNSObject((IntPtr) wh);
 					winWrap.Close ();
 					WindowMapping.Remove (h.Handle);
-					HandleMapping.Remove ((IntPtr) wh);
 				} else {
 					NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(h.WholeWindow);
 					vuWrap.RemoveFromSuperviewWithoutNeedingDisplay ();
@@ -1841,7 +1822,13 @@ namespace System.Windows.Forms {
 		}
 
 		internal override IntPtr GetFocus() {
-			return FocusWindow;
+			if (ActiveWindow != IntPtr.Zero) {
+				NSView activeWindowWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (ActiveWindow);
+				MonoView view = activeWindowWrap.Window.FirstResponder as MonoView;
+				if (view != null)
+					return view.Handle;
+			}
+			return IntPtr.Zero;
 		}
 
 		
@@ -2177,9 +2164,8 @@ namespace System.Windows.Forms {
 		{
 			NSWindow winWrap = NSApplication.SharedApplication.MainWindow;
 			if (winWrap != null) {
-				object vuHndl = HandleMapping [(IntPtr) winWrap.Handle];
-				if (null != vuHndl)
-					PostMessage ((IntPtr) vuHndl, Msg.WM_QUIT, IntPtr.Zero, IntPtr.Zero);
+				var hwnd = Hwnd.ObjectFromHandle (winWrap.ContentView.Handle);
+				PostMessage (hwnd.Handle, Msg.WM_QUIT, IntPtr.Zero, IntPtr.Zero);
 			}
 
 			PostMessage (IntPtr.Zero, Msg.WM_QUIT, IntPtr.Zero, IntPtr.Zero);
@@ -2304,16 +2290,19 @@ namespace System.Windows.Forms {
 		}
 
 		internal override void SetFocus (IntPtr handle) {
-			if (FocusWindow != IntPtr.Zero) {
-				PostMessage (FocusWindow, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
+			IntPtr focusWindow = GetFocus();
+			if (focusWindow != IntPtr.Zero) {
+				PostMessage (focusWindow, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
+				Hwnd hwnd = Hwnd.ObjectFromHandle (focusWindow);
+				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
+				vuWrap.Window.MakeFirstResponder (null);
 			}
 			if (handle != IntPtr.Zero) {
 				Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
 				vuWrap.Window.MakeFirstResponder (vuWrap);
-				PostMessage (handle, Msg.WM_SETFOCUS, FocusWindow, IntPtr.Zero);
+				PostMessage (handle, Msg.WM_SETFOCUS, focusWindow, IntPtr.Zero);
 			}
-			FocusWindow = handle;
 		}
 
 		internal override void SetIcon (IntPtr handle, Icon icon)
@@ -2424,7 +2413,7 @@ namespace System.Windows.Forms {
 			object window = WindowMapping [hwnd.Handle];
 			if (window != null && winWrap != null) {
 				if (visible)
-					winWrap.OrderFront (winWrap);
+					winWrap.MakeKeyAndOrderFront (winWrap);
 				else
 					winWrap.OrderOut (winWrap);
 			}
