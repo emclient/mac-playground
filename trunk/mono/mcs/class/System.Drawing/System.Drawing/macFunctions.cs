@@ -40,7 +40,6 @@ namespace System.Drawing {
 		internal static object lockobj = new object ();
 
 		internal static Delegate hwnd_delegate;
-		internal static Delegate hwnd_delegate_cocoa;
 
 #if DEBUG_CLIPPING
 		internal static float red = 1.0f;
@@ -56,10 +55,6 @@ namespace System.Drawing {
 					if (driver_type != null) {
 						hwnd_delegate = (Delegate) driver_type.GetField ("HwndDelegate", BindingFlags.NonPublic | BindingFlags.Static).GetValue (null);
 					}
-					driver_type = asm.GetType ("System.Windows.Forms.XplatUICocoa");
-					if (driver_type != null) {
-						hwnd_delegate_cocoa = (Delegate) driver_type.GetField ("HwndDelegate", BindingFlags.NonPublic | BindingFlags.Static).GetValue (null);
-					}
 				}
 			}
 		}
@@ -70,8 +65,6 @@ namespace System.Drawing {
 			if (focusView != handle) {
 				if (!bool_objc_msgSend (handle, sel_registerName ("lockFocusIfCanDraw")))
 					return null;
-					//throw new NotSupportedException();
-					//return new CocoaContext(IntPtr.Zero, IntPtr.Zero, 0, 0);
 
 				focusHandle = handle;
 			}
@@ -89,39 +82,6 @@ namespace System.Drawing {
 			if (isFlipped) {
 				CGContextTranslateCTM (ctx, bounds.origin.x, bounds.size.height);
 				CGContextScaleCTM (ctx,1.0f,-1.0f);
-			}
-
-			Rect rc_clip = new Rect (0, 0, bounds.size.width, bounds.size.height);
-			Rectangle [] clip_rectangles = (Rectangle []) hwnd_delegate_cocoa.DynamicInvoke (new object [] {handle});
-			if (clip_rectangles != null && clip_rectangles.Length > 0) {
-				int length = clip_rectangles.Length;
-
-				CGContextBeginPath (ctx);
-				CGContextAddRect (ctx, rc_clip);
-
-				for (int i = 0; i < length; i++) {
-					CGContextAddRect (ctx, new Rect (clip_rectangles [i].X, bounds.size.height - clip_rectangles [i].Y - clip_rectangles [i].Height, clip_rectangles [i].Width, clip_rectangles [i].Height));
-				}
-				CGContextClosePath (ctx);
-				CGContextEOClip (ctx);
-				#if DEBUG_CLIPPING
-				if (clip_rectangles.Length >= debug_threshold) {
-					CGContextSetRGBFillColor (ctx, red, green, blue, 0.5f);
-					CGContextFillRect (ctx, rc_clip);
-					CGContextFlush (ctx);
-
-
-					if (red == 1.0f) { red = 0.0f; blue = 1.0f; } 
-					else if (blue == 1.0f) { blue = 0.0f; green = 1.0f; } 
-
-					else if (green == 1.0f) { green = 0.0f; red = 1.0f; } 
-				}
-				#endif
-			} else {
-				CGContextBeginPath (ctx);
-				CGContextAddRect (ctx, rc_clip);
-				CGContextClosePath (ctx);
-				CGContextClip (ctx);
 			}
 
 			return new CocoaContext (focusHandle, ctx, (int) bounds.size.width, (int) bounds.size.height);
