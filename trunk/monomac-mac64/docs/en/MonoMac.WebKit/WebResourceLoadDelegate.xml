@@ -1,0 +1,396 @@
+<Type Name="WebResourceLoadDelegate" FullName="MonoMac.WebKit.WebResourceLoadDelegate">
+  <TypeSignature Language="C#" Value="public class WebResourceLoadDelegate : MonoMac.Foundation.NSObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit WebResourceLoadDelegate extends MonoMac.Foundation.NSObject" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.Foundation.NSObject</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.Foundation.Model</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>MonoMac.Foundation.Register("WebResourceLoadDelegate", true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public WebResourceLoadDelegate ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("init")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters />
+      <Docs>
+        <summary>Default constructor, initializes a new instance of this class.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public WebResourceLoadDelegate (MonoMac.Foundation.NSCoder coder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSCoder coder) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithCoder:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="coder" Type="MonoMac.Foundation.NSCoder" />
+      </Parameters>
+      <Docs>
+        <param name="coder">The unarchiver object.</param>
+        <summary>A constructor that initializes the object from the data stored in the unarchiver object.</summary>
+        <remarks>This constructor is provided to allow the class to be initialized from an unarchiver (for example, during NIB deserialization).</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public WebResourceLoadDelegate (MonoMac.Foundation.NSObjectFlag t);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSObjectFlag t) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="t" Type="MonoMac.Foundation.NSObjectFlag" />
+      </Parameters>
+      <Docs>
+        <param name="t">Unused sentinel value, pass NSObjectFlag.Empty.</param>
+        <summary>Constructor to call on derived classes when the derived class has an [Export] constructor.</summary>
+        <remarks>
+          <para>This constructor should be called by derived classes when they are initialized using an [Export] attribute. The argument value is ignore, typically the chaining would look like this:</para>
+          <example>
+            <code lang="C#">
+public class MyClass : BaseClass {
+    [Export ("initWithFoo:")]
+    public MyClass (string foo) : base (NSObjectFlag.Empty)
+    {
+        ...
+    }
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public WebResourceLoadDelegate (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">Pointer (handle) to the unmanaged object.</param>
+        <summary>A constructor used when creating managed representations of unmanaged objects;  Called by the runtime.</summary>
+        <remarks>
+          <para>This constructor is invoked by the runtime infrastructure (<see cref="M:MonoMac.ObjCRuntime.GetNSObject (System.IntPtr)" />) to create a new managed representation for a pointer to an unmanaged Objective-C object.    You should not invoke this method directly, instead you should call the GetNSObject method as it will prevent two instances of a managed object to point to the same native object.</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnCancelledAuthenticationChallenge">
+      <MemberSignature Language="C#" Value="public virtual void OnCancelledAuthenticationChallenge (MonoMac.WebKit.WebView sender, MonoMac.Foundation.NSObject identifier, MonoMac.Foundation.NSUrlAuthenticationChallenge challenge, MonoMac.WebKit.WebDataSource dataSource);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void OnCancelledAuthenticationChallenge(class MonoMac.WebKit.WebView sender, class MonoMac.Foundation.NSObject identifier, class MonoMac.Foundation.NSUrlAuthenticationChallenge challenge, class MonoMac.WebKit.WebDataSource dataSource) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("webView:resource:didCancelAuthenticationChallenge:fromDataSource:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.WebKit.WebView" />
+        <Parameter Name="identifier" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="challenge" Type="MonoMac.Foundation.NSUrlAuthenticationChallenge" />
+        <Parameter Name="dataSource" Type="MonoMac.WebKit.WebDataSource" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <param name="identifier">To be added.</param>
+        <param name="challenge">To be added.</param>
+        <param name="dataSource">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnFailedLoading">
+      <MemberSignature Language="C#" Value="public virtual void OnFailedLoading (MonoMac.WebKit.WebView sender, MonoMac.Foundation.NSObject identifier, MonoMac.Foundation.NSError withError, MonoMac.WebKit.WebDataSource dataSource);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void OnFailedLoading(class MonoMac.WebKit.WebView sender, class MonoMac.Foundation.NSObject identifier, class MonoMac.Foundation.NSError withError, class MonoMac.WebKit.WebDataSource dataSource) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("webView:resource:didFailLoadingWithError:fromDataSource:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.WebKit.WebView" />
+        <Parameter Name="identifier" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="withError" Type="MonoMac.Foundation.NSError" />
+        <Parameter Name="dataSource" Type="MonoMac.WebKit.WebDataSource" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <param name="identifier">To be added.</param>
+        <param name="withError">To be added.</param>
+        <param name="dataSource">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnFinishedLoading">
+      <MemberSignature Language="C#" Value="public virtual void OnFinishedLoading (MonoMac.WebKit.WebView sender, MonoMac.Foundation.NSObject identifier, MonoMac.WebKit.WebDataSource dataSource);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void OnFinishedLoading(class MonoMac.WebKit.WebView sender, class MonoMac.Foundation.NSObject identifier, class MonoMac.WebKit.WebDataSource dataSource) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("webView:resource:didFinishLoadingFromDataSource:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.WebKit.WebView" />
+        <Parameter Name="identifier" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="dataSource" Type="MonoMac.WebKit.WebDataSource" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <param name="identifier">To be added.</param>
+        <param name="dataSource">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnIdentifierForInitialRequest">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSObject OnIdentifierForInitialRequest (MonoMac.WebKit.WebView sender, MonoMac.Foundation.NSUrlRequest request, MonoMac.WebKit.WebDataSource dataSource);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSObject OnIdentifierForInitialRequest(class MonoMac.WebKit.WebView sender, class MonoMac.Foundation.NSUrlRequest request, class MonoMac.WebKit.WebDataSource dataSource) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("webView:identifierForInitialRequest:fromDataSource:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.WebKit.WebView" />
+        <Parameter Name="request" Type="MonoMac.Foundation.NSUrlRequest" />
+        <Parameter Name="dataSource" Type="MonoMac.WebKit.WebDataSource" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <param name="request">To be added.</param>
+        <param name="dataSource">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnPlugInFailed">
+      <MemberSignature Language="C#" Value="public virtual void OnPlugInFailed (MonoMac.WebKit.WebView sender, MonoMac.Foundation.NSError error, MonoMac.WebKit.WebDataSource dataSource);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void OnPlugInFailed(class MonoMac.WebKit.WebView sender, class MonoMac.Foundation.NSError error, class MonoMac.WebKit.WebDataSource dataSource) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("webView:plugInFailedWithError:dataSource:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.WebKit.WebView" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError" />
+        <Parameter Name="dataSource" Type="MonoMac.WebKit.WebDataSource" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <param name="error">To be added.</param>
+        <param name="dataSource">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnReceivedAuthenticationChallenge">
+      <MemberSignature Language="C#" Value="public virtual void OnReceivedAuthenticationChallenge (MonoMac.WebKit.WebView sender, MonoMac.Foundation.NSObject identifier, MonoMac.Foundation.NSUrlAuthenticationChallenge challenge, MonoMac.WebKit.WebDataSource dataSource);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void OnReceivedAuthenticationChallenge(class MonoMac.WebKit.WebView sender, class MonoMac.Foundation.NSObject identifier, class MonoMac.Foundation.NSUrlAuthenticationChallenge challenge, class MonoMac.WebKit.WebDataSource dataSource) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("webView:resource:didReceiveAuthenticationChallenge:fromDataSource:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.WebKit.WebView" />
+        <Parameter Name="identifier" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="challenge" Type="MonoMac.Foundation.NSUrlAuthenticationChallenge" />
+        <Parameter Name="dataSource" Type="MonoMac.WebKit.WebDataSource" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <param name="identifier">To be added.</param>
+        <param name="challenge">To be added.</param>
+        <param name="dataSource">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnReceivedContentLength">
+      <MemberSignature Language="C#" Value="public virtual void OnReceivedContentLength (MonoMac.WebKit.WebView sender, MonoMac.Foundation.NSObject identifier, int length, MonoMac.WebKit.WebDataSource dataSource);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void OnReceivedContentLength(class MonoMac.WebKit.WebView sender, class MonoMac.Foundation.NSObject identifier, int32 length, class MonoMac.WebKit.WebDataSource dataSource) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("webView:resource:didReceiveContentLength:fromDataSource:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.WebKit.WebView" />
+        <Parameter Name="identifier" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="length" Type="System.Int32" />
+        <Parameter Name="dataSource" Type="MonoMac.WebKit.WebDataSource" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <param name="identifier">To be added.</param>
+        <param name="length">To be added.</param>
+        <param name="dataSource">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnReceivedResponse">
+      <MemberSignature Language="C#" Value="public virtual void OnReceivedResponse (MonoMac.WebKit.WebView sender, MonoMac.Foundation.NSObject identifier, MonoMac.Foundation.NSUrlResponse responseReceived, MonoMac.WebKit.WebDataSource dataSource);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void OnReceivedResponse(class MonoMac.WebKit.WebView sender, class MonoMac.Foundation.NSObject identifier, class MonoMac.Foundation.NSUrlResponse responseReceived, class MonoMac.WebKit.WebDataSource dataSource) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("webView:resource:didReceiveResponse:fromDataSource:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.WebKit.WebView" />
+        <Parameter Name="identifier" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="responseReceived" Type="MonoMac.Foundation.NSUrlResponse" />
+        <Parameter Name="dataSource" Type="MonoMac.WebKit.WebDataSource" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <param name="identifier">To be added.</param>
+        <param name="responseReceived">To be added.</param>
+        <param name="dataSource">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnSendRequest">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSUrlRequest OnSendRequest (MonoMac.WebKit.WebView sender, MonoMac.Foundation.NSObject identifier, MonoMac.Foundation.NSUrlRequest request, MonoMac.Foundation.NSUrlResponse redirectResponse, MonoMac.WebKit.WebDataSource dataSource);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSUrlRequest OnSendRequest(class MonoMac.WebKit.WebView sender, class MonoMac.Foundation.NSObject identifier, class MonoMac.Foundation.NSUrlRequest request, class MonoMac.Foundation.NSUrlResponse redirectResponse, class MonoMac.WebKit.WebDataSource dataSource) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("webView:resource:willSendRequest:redirectResponse:fromDataSource:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSUrlRequest</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.WebKit.WebView" />
+        <Parameter Name="identifier" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="request" Type="MonoMac.Foundation.NSUrlRequest" />
+        <Parameter Name="redirectResponse" Type="MonoMac.Foundation.NSUrlResponse" />
+        <Parameter Name="dataSource" Type="MonoMac.WebKit.WebDataSource" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <param name="identifier">To be added.</param>
+        <param name="request">To be added.</param>
+        <param name="redirectResponse">To be added.</param>
+        <param name="dataSource">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

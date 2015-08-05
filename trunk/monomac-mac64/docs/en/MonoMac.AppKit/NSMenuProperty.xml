@@ -1,0 +1,106 @@
+<Type Name="NSMenuProperty" FullName="MonoMac.AppKit.NSMenuProperty">
+  <TypeSignature Language="C#" Value="public enum NSMenuProperty" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed NSMenuProperty extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Flags</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="AccessibilityDescription">
+      <MemberSignature Language="C#" Value="AccessibilityDescription" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSMenuProperty AccessibilityDescription = int32(32)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSMenuProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AttributedTitle">
+      <MemberSignature Language="C#" Value="AttributedTitle" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSMenuProperty AttributedTitle = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSMenuProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Enabled">
+      <MemberSignature Language="C#" Value="Enabled" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSMenuProperty Enabled = int32(16)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSMenuProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Image">
+      <MemberSignature Language="C#" Value="Image" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSMenuProperty Image = int32(8)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSMenuProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="KeyEquivalent">
+      <MemberSignature Language="C#" Value="KeyEquivalent" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSMenuProperty KeyEquivalent = int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSMenuProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Title">
+      <MemberSignature Language="C#" Value="Title" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSMenuProperty Title = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSMenuProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

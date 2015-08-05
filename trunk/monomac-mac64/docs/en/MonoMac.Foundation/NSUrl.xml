@@ -1,0 +1,2544 @@
+<Type Name="NSUrl" FullName="MonoMac.Foundation.NSUrl">
+  <TypeSignature Language="C#" Value="public class NSUrl : MonoMac.Foundation.NSObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit NSUrl extends MonoMac.Foundation.NSObject" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.Foundation.NSObject</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.Foundation.Register("NSURL", true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>Represents a URL.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSUrl (MonoMac.Foundation.NSCoder coder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSCoder coder) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithCoder:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="coder" Type="MonoMac.Foundation.NSCoder" />
+      </Parameters>
+      <Docs>
+        <param name="coder">The unarchiver object.</param>
+        <summary>A constructor that initializes the object from the data stored in the unarchiver object.</summary>
+        <remarks>This constructor is provided to allow the class to be initialized from an unarchiver (for example, during NIB deserialization).</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSUrl (MonoMac.Foundation.NSObjectFlag t);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSObjectFlag t) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="t" Type="MonoMac.Foundation.NSObjectFlag" />
+      </Parameters>
+      <Docs>
+        <param name="t">Unused sentinel value, pass NSObjectFlag.Empty.</param>
+        <summary>Constructor to call on derived classes when the derived class has an [Export] constructor.</summary>
+        <remarks>
+          <para>This constructor should be called by derived classes when they are initialized using an [Export] attribute. The argument value is ignore, typically the chaining would look like this:</para>
+          <example>
+            <code lang="C#">
+public class MyClass : BaseClass {
+    [Export ("initWithFoo:")]
+    public MyClass (string foo) : base (NSObjectFlag.Empty)
+    {
+        ...
+    }
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSUrl (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">Pointer (handle) to the unmanaged object.</param>
+        <summary>A constructor used when creating managed representations of unmanaged objects;  Called by the runtime.</summary>
+        <remarks>
+          <para>This constructor is invoked by the runtime infrastructure (<see cref="M:MonoMac.ObjCRuntime.GetNSObject (System.IntPtr)" />) to create a new managed representation for a pointer to an unmanaged Objective-C object.    You should not invoke this method directly, instead you should call the GetNSObject method as it will prevent two instances of a managed object to point to the same native object.</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSUrl (string path);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string path) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithString:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="path">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSUrl (string path, MonoMac.Foundation.NSUrl relativeToUrl);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string path, class MonoMac.Foundation.NSUrl relativeToUrl) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithString:relativeToURL:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+        <Parameter Name="relativeToUrl" Type="MonoMac.Foundation.NSUrl" />
+      </Parameters>
+      <Docs>
+        <param name="path">To be added.</param>
+        <param name="relativeToUrl">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSUrl (string path, bool isDir);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string path, bool isDir) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initFileURLWithPath:isDirectory:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+        <Parameter Name="isDir" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="path">To be added.</param>
+        <param name="isDir">To be added.</param>
+        <summary>The challenge that the server sends to the client.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSUrl (string path, string relativeToUrl);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string path, string relativeToUrl) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+        <Parameter Name="relativeToUrl" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="path">To be added.</param>
+        <param name="relativeToUrl">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSUrl (string scheme, string host, string path);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string scheme, string host, string path) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithScheme:host:path:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="scheme" Type="System.String" />
+        <Parameter Name="host" Type="System.String" />
+        <Parameter Name="path" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="scheme">To be added.</param>
+        <param name="host">To be added.</param>
+        <param name="path">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSUrl (MonoMac.Foundation.NSData bookmarkData, MonoMac.Foundation.NSUrlBookmarkResolutionOptions resolutionOptions, MonoMac.Foundation.NSUrl relativeUrl, out bool bookmarkIsStale, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSData bookmarkData, valuetype MonoMac.Foundation.NSUrlBookmarkResolutionOptions resolutionOptions, class MonoMac.Foundation.NSUrl relativeUrl, bool bookmarkIsStale, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="bookmarkData" Type="MonoMac.Foundation.NSData" />
+        <Parameter Name="resolutionOptions" Type="MonoMac.Foundation.NSUrlBookmarkResolutionOptions" />
+        <Parameter Name="relativeUrl" Type="MonoMac.Foundation.NSUrl" />
+        <Parameter Name="bookmarkIsStale" Type="System.Boolean&amp;" RefType="out" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="bookmarkData">To be added.</param>
+        <param name="resolutionOptions">To be added.</param>
+        <param name="relativeUrl">To be added.</param>
+        <param name="bookmarkIsStale">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AbsoluteString">
+      <MemberSignature Language="C#" Value="public virtual string AbsoluteString { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string AbsoluteString" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("absoluteString")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AbsoluteUrl">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSUrl AbsoluteUrl { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSUrl AbsoluteUrl" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("absoluteURL")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSUrl</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Append">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSUrl Append (string pathComponent, bool isDirectory);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSUrl Append(string pathComponent, bool isDirectory) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("URLByAppendingPathComponent:isDirectory:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSUrl</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="pathComponent" Type="System.String" />
+        <Parameter Name="isDirectory" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="pathComponent">To be added.</param>
+        <param name="isDirectory">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AttributeModificationDateKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString AttributeModificationDateKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString AttributeModificationDateKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLAttributeModificationDateKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BaseUrl">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSUrl BaseUrl { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSUrl BaseUrl" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("baseURL")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSUrl</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ClassHandle">
+      <MemberSignature Language="C#" Value="public override IntPtr ClassHandle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int ClassHandle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The handle for this class.</summary>
+        <value>The pointer to the Objective-C class.</value>
+        <remarks>Each MonoMac class mirrors an unmanaged Objective-C class.   This value contains the pointer to the Objective-C class, it is similar to calling objc_getClass with the object name.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ContentAccessDateKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ContentAccessDateKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ContentAccessDateKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLContentAccessDateKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ContentModificationDateKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ContentModificationDateKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ContentModificationDateKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLContentModificationDateKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateBookmarkData">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSData CreateBookmarkData (MonoMac.Foundation.NSUrlBookmarkCreationOptions options, string[] resourceValues, MonoMac.Foundation.NSUrl relativeUrl, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSData CreateBookmarkData(valuetype MonoMac.Foundation.NSUrlBookmarkCreationOptions options, string[] resourceValues, class MonoMac.Foundation.NSUrl relativeUrl, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("bookmarkDataWithOptions:includingResourceValuesForKeys:relativeToURL:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSData</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="options" Type="MonoMac.Foundation.NSUrlBookmarkCreationOptions" />
+        <Parameter Name="resourceValues" Type="System.String[]" />
+        <Parameter Name="relativeUrl" Type="MonoMac.Foundation.NSUrl" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="options">To be added.</param>
+        <param name="resourceValues">To be added.</param>
+        <param name="relativeUrl">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreationDateKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString CreationDateKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString CreationDateKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLCreationDateKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CustomIconKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString CustomIconKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString CustomIconKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLCustomIconKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected override void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <para>If set to <see langword="true" />, the method is invoked directly and will dispose manage and unmanaged resources;   If set to <see langword="false" /> the method is being called by the garbage collector finalizer and should only release unmanaged resources.</para>
+        </param>
+        <summary>Releases the resources used by the NSUrl object.</summary>
+        <remarks>
+          <para>This Dispose method releases the resources used by the NSUrl class.</para>
+          <para>This method is called by both the Dispose() method and the object finalizer (Finalize).    When invoked by the Dispose method, the parameter disposting <paramref name="disposing" /> is set to <see langword="true" /> and any managed object references that this object holds are also disposed or released;  when invoked by the object finalizer, on the finalizer thread the value is set to <see langword="false" />. </para>
+          <para>Calling the Dispose method when you are finished using the NSUrl ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.</para>
+          <para>  For more information on how to override this method and on the Dispose/IDisposable pattern, read the ``Implementing a Dispose Method'' document at http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EffectiveIconKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString EffectiveIconKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString EffectiveIconKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLEffectiveIconKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Equals">
+      <MemberSignature Language="C#" Value="public override bool Equals (object t);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool Equals(object t) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="t" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="t">To be added.</param>
+        <summary>Returns true if the two objects represent the same URL.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileAllocatedSizeKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FileAllocatedSizeKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FileAllocatedSizeKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLFileAllocatedSizeKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileResourceIdentifierKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FileResourceIdentifierKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FileResourceIdentifierKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLFileResourceIdentifierKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileResourceTypeBlockSpecial">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FileResourceTypeBlockSpecial { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FileResourceTypeBlockSpecial" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLFileResourceTypeBlockSpecial</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileResourceTypeCharacterSpecial">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FileResourceTypeCharacterSpecial { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FileResourceTypeCharacterSpecial" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLFileResourceTypeCharacterSpecial</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileResourceTypeDirectory">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FileResourceTypeDirectory { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FileResourceTypeDirectory" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLFileResourceTypeDirectory</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileResourceTypeKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FileResourceTypeKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FileResourceTypeKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLFileResourceTypeKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileResourceTypeNamedPipe">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FileResourceTypeNamedPipe { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FileResourceTypeNamedPipe" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLFileResourceTypeNamedPipe</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileResourceTypeRegular">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FileResourceTypeRegular { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FileResourceTypeRegular" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLFileResourceTypeRegular</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileResourceTypeSocket">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FileResourceTypeSocket { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FileResourceTypeSocket" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLFileResourceTypeSocket</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileResourceTypeSymbolicLink">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FileResourceTypeSymbolicLink { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FileResourceTypeSymbolicLink" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLFileResourceTypeSymbolicLink</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileResourceTypeUnknown">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FileResourceTypeUnknown { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FileResourceTypeUnknown" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLFileResourceTypeUnknown</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileSecurityKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FileSecurityKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FileSecurityKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLFileSecurityKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileSizeKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FileSizeKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FileSizeKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLFileSizeKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Fragment">
+      <MemberSignature Language="C#" Value="public virtual string Fragment { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Fragment" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("fragment")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromFilename">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSUrl FromFilename (string url);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.Foundation.NSUrl FromFilename(string url) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSUrl</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="url" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="url">The filename.</param>
+        <summary>Creates an NSUrl from a filename.</summary>
+        <returns>An NSUrl that points to the given filename.</returns>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="FromPasteboard">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSUrl FromPasteboard (MonoMac.AppKit.NSPasteboard pasteboard);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.Foundation.NSUrl FromPasteboard(class MonoMac.AppKit.NSPasteboard pasteboard) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("URLFromPasteboard:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSUrl</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="pasteboard" Type="MonoMac.AppKit.NSPasteboard" />
+      </Parameters>
+      <Docs>
+        <param name="pasteboard">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromString">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSUrl FromString (string s);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.Foundation.NSUrl FromString(string s) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("URLWithString:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSUrl</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="s" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="s">To be added.</param>
+        <summary>Creates a Url from the given strings.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetHashCode">
+      <MemberSignature Language="C#" Value="public override int GetHashCode ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 GetHashCode() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Generates a hash code for the current instance.</summary>
+        <returns>A int containing the hash code for this instance.</returns>
+        <remarks>The algorithm used to generate the hash code is unspecified.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetResourceValues">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSDictionary GetResourceValues (MonoMac.Foundation.NSString[] keys, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSDictionary GetResourceValues(class MonoMac.Foundation.NSString[] keys, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("resourceValuesForKeys:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDictionary</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="keys" Type="MonoMac.Foundation.NSString[]" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="keys">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="HasHiddenExtensionKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString HasHiddenExtensionKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString HasHiddenExtensionKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLHasHiddenExtensionKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Host">
+      <MemberSignature Language="C#" Value="public virtual string Host { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Host" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("host")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsAliasFileKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsAliasFileKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsAliasFileKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLIsAliasFileKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsDirectoryKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsDirectoryKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsDirectoryKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLIsDirectoryKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsEqual">
+      <MemberSignature Language="C#" Value="public virtual bool IsEqual (MonoMac.Foundation.NSUrl other);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool IsEqual(class MonoMac.Foundation.NSUrl other) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("isEqual:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="other" Type="MonoMac.Foundation.NSUrl" />
+      </Parameters>
+      <Docs>
+        <param name="other">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsExcludedFromBackupKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsExcludedFromBackupKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsExcludedFromBackupKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLIsExcludedFromBackupKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsExecutableKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsExecutableKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsExecutableKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLIsExecutableKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsFileUrl">
+      <MemberSignature Language="C#" Value="public virtual bool IsFileUrl { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsFileUrl" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("isFileURL")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsHiddenKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsHiddenKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsHiddenKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLIsHiddenKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsMountTriggerKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsMountTriggerKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsMountTriggerKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLIsMountTriggerKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsPackageKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsPackageKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsPackageKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLIsPackageKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsReadableKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsReadableKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsReadableKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLIsReadableKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsRegularFileKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsRegularFileKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsRegularFileKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLIsRegularFileKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsSymbolicLinkKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsSymbolicLinkKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsSymbolicLinkKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLIsSymbolicLinkKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsSystemImmutableKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsSystemImmutableKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsSystemImmutableKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLIsSystemImmutableKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsUbiquitousItemKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsUbiquitousItemKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsUbiquitousItemKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLIsUbiquitousItemKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsUserImmutableKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsUserImmutableKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsUserImmutableKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLIsUserImmutableKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsVolumeKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsVolumeKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsVolumeKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLIsVolumeKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsWritableKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsWritableKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsWritableKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLIsWritableKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="KeysOfUnsetValuesKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString KeysOfUnsetValuesKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString KeysOfUnsetValuesKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLKeysOfUnsetValuesKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LabelColorKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString LabelColorKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString LabelColorKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLLabelColorKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LabelNumberKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString LabelNumberKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString LabelNumberKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLLabelNumberKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LinkCountKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString LinkCountKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString LinkCountKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLLinkCountKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LocalizedLabelKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString LocalizedLabelKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString LocalizedLabelKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLLocalizedLabelKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LocalizedNameKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString LocalizedNameKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString LocalizedNameKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLLocalizedNameKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LocalizedTypeDescriptionKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString LocalizedTypeDescriptionKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString LocalizedTypeDescriptionKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLLocalizedTypeDescriptionKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MakeRelative">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSUrl MakeRelative (string url);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSUrl MakeRelative(string url) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSUrl</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="url" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="url">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="NameKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString NameKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString NameKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLNameKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Implicit">
+      <MemberSignature Language="C#" Value="public static Uri op_Implicit (MonoMac.Foundation.NSUrl url);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class System.Uri op_Implicit(class MonoMac.Foundation.NSUrl url) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Uri</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="url" Type="MonoMac.Foundation.NSUrl" />
+      </Parameters>
+      <Docs>
+        <param name="url">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Implicit">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSUrl op_Implicit (Uri uri);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class MonoMac.Foundation.NSUrl op_Implicit(class System.Uri uri) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSUrl</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="uri" Type="System.Uri" />
+      </Parameters>
+      <Docs>
+        <param name="uri">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ParameterString">
+      <MemberSignature Language="C#" Value="public virtual string ParameterString { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ParameterString" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("parameterString")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ParentDirectoryURLKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ParentDirectoryURLKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ParentDirectoryURLKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLParentDirectoryURLKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Password">
+      <MemberSignature Language="C#" Value="public virtual string Password { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Password" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("password")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Path">
+      <MemberSignature Language="C#" Value="public virtual string Path { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Path" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("path")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PathKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString PathKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString PathKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PreferredIOBlockSizeKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString PreferredIOBlockSizeKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString PreferredIOBlockSizeKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLPreferredIOBlockSizeKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Query">
+      <MemberSignature Language="C#" Value="public virtual string Query { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Query" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("query")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RelativePath">
+      <MemberSignature Language="C#" Value="public virtual string RelativePath { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string RelativePath" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("relativePath")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RelativeString">
+      <MemberSignature Language="C#" Value="public virtual string RelativeString { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string RelativeString" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("relativeString")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ResourceSpecifier">
+      <MemberSignature Language="C#" Value="public virtual string ResourceSpecifier { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ResourceSpecifier" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("resourceSpecifier")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Scheme">
+      <MemberSignature Language="C#" Value="public virtual string Scheme { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Scheme" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("scheme")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetResource">
+      <MemberSignature Language="C#" Value="public bool SetResource (string key, MonoMac.Foundation.NSObject value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool SetResource(string key, class MonoMac.Foundation.NSObject value) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="System.String" />
+        <Parameter Name="value" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="key">To be added.</param>
+        <param name="value">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetResource">
+      <MemberSignature Language="C#" Value="public bool SetResource (string key, MonoMac.Foundation.NSObject value, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool SetResource(string key, class MonoMac.Foundation.NSObject value, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="System.String" />
+        <Parameter Name="value" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="key">To be added.</param>
+        <param name="value">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StandardizedUrl">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSUrl StandardizedUrl { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSUrl StandardizedUrl" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("standardizedURL")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSUrl</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToString">
+      <MemberSignature Language="C#" Value="public override string ToString ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Returns a string representation of the value of the current instance.</summary>
+        <returns>
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TotalFileAllocatedSizeKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString TotalFileAllocatedSizeKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString TotalFileAllocatedSizeKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLTotalFileAllocatedSizeKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TotalFileSizeKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString TotalFileSizeKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString TotalFileSizeKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLTotalFileSizeKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TryGetResource">
+      <MemberSignature Language="C#" Value="public bool TryGetResource (string key, out MonoMac.Foundation.NSObject value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool TryGetResource(string key, class MonoMac.Foundation.NSObject value) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="System.String" />
+        <Parameter Name="value" Type="MonoMac.Foundation.NSObject&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="key">To be added.</param>
+        <param name="value">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TryGetResource">
+      <MemberSignature Language="C#" Value="public bool TryGetResource (string key, out MonoMac.Foundation.NSObject value, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool TryGetResource(string key, class MonoMac.Foundation.NSObject value, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="System.String" />
+        <Parameter Name="value" Type="MonoMac.Foundation.NSObject&amp;" RefType="out" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="key">To be added.</param>
+        <param name="value">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TypeIdentifierKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString TypeIdentifierKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString TypeIdentifierKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLTypeIdentifierKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UbiquitousItemHasUnresolvedConflictsKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString UbiquitousItemHasUnresolvedConflictsKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString UbiquitousItemHasUnresolvedConflictsKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLUbiquitousItemHasUnresolvedConflictsKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UbiquitousItemIsDownloadedKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString UbiquitousItemIsDownloadedKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString UbiquitousItemIsDownloadedKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLUbiquitousItemIsDownloadedKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UbiquitousItemIsDownloadingKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString UbiquitousItemIsDownloadingKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString UbiquitousItemIsDownloadingKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLUbiquitousItemIsDownloadingKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UbiquitousItemIsUploadedKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString UbiquitousItemIsUploadedKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString UbiquitousItemIsUploadedKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLUbiquitousItemIsUploadedKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UbiquitousItemIsUploadingKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString UbiquitousItemIsUploadingKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString UbiquitousItemIsUploadingKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLUbiquitousItemIsUploadingKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UbiquitousItemPercentDownloadedKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString UbiquitousItemPercentDownloadedKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString UbiquitousItemPercentDownloadedKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLUbiquitousItemPercentDownloadedKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UbiquitousItemPercentUploadedKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString UbiquitousItemPercentUploadedKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString UbiquitousItemPercentUploadedKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLUbiquitousItemPercentUploadedKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="User">
+      <MemberSignature Language="C#" Value="public virtual string User { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string User" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("user")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeAvailableCapacityKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeAvailableCapacityKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeAvailableCapacityKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeAvailableCapacityKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeCreationDateKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeCreationDateKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeCreationDateKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeCreationDateKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeIdentifierKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeIdentifierKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeIdentifierKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeIdentifierKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeIsAutomountedKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeIsAutomountedKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeIsAutomountedKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeIsAutomountedKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeIsBrowsableKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeIsBrowsableKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeIsBrowsableKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeIsBrowsableKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeIsEjectableKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeIsEjectableKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeIsEjectableKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeIsEjectableKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeIsInternalKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeIsInternalKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeIsInternalKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeIsInternalKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeIsJournalingKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeIsJournalingKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeIsJournalingKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeIsJournalingKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeIsLocalKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeIsLocalKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeIsLocalKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeIsLocalKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeIsReadOnlyKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeIsReadOnlyKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeIsReadOnlyKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeIsReadOnlyKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeIsRemovableKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeIsRemovableKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeIsRemovableKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeIsRemovableKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeLocalizedFormatDescriptionKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeLocalizedFormatDescriptionKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeLocalizedFormatDescriptionKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeLocalizedFormatDescriptionKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeLocalizedNameKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeLocalizedNameKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeLocalizedNameKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeLocalizedNameKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeMaximumFileSizeKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeMaximumFileSizeKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeMaximumFileSizeKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeMaximumFileSizeKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeNameKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeNameKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeNameKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeNameKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeResourceCountKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeResourceCountKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeResourceCountKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeResourceCountKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeSupportsAdvisoryFileLockingKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeSupportsAdvisoryFileLockingKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeSupportsAdvisoryFileLockingKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeSupportsAdvisoryFileLockingKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeSupportsCasePreservedNamesKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeSupportsCasePreservedNamesKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeSupportsCasePreservedNamesKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeSupportsCasePreservedNamesKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeSupportsCaseSensitiveNamesKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeSupportsCaseSensitiveNamesKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeSupportsCaseSensitiveNamesKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeSupportsCaseSensitiveNamesKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeSupportsExtendedSecurityKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeSupportsExtendedSecurityKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeSupportsExtendedSecurityKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeSupportsExtendedSecurityKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeSupportsHardLinksKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeSupportsHardLinksKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeSupportsHardLinksKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeSupportsHardLinksKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeSupportsJournalingKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeSupportsJournalingKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeSupportsJournalingKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeSupportsJournalingKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeSupportsPersistentIDsKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeSupportsPersistentIDsKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeSupportsPersistentIDsKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeSupportsPersistentIDsKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeSupportsRenamingKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeSupportsRenamingKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeSupportsRenamingKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeSupportsRenamingKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeSupportsRootDirectoryDatesKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeSupportsRootDirectoryDatesKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeSupportsRootDirectoryDatesKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeSupportsRootDirectoryDatesKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeSupportsSparseFilesKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeSupportsSparseFilesKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeSupportsSparseFilesKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeSupportsSparseFilesKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeSupportsSymbolicLinksKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeSupportsSymbolicLinksKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeSupportsSymbolicLinksKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeSupportsSymbolicLinksKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeSupportsVolumeSizesKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeSupportsVolumeSizesKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeSupportsVolumeSizesKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeSupportsVolumeSizesKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeSupportsZeroRunsKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeSupportsZeroRunsKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeSupportsZeroRunsKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeSupportsZeroRunsKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeTotalCapacityKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeTotalCapacityKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeTotalCapacityKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeTotalCapacityKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeURLForRemountingKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeURLForRemountingKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeURLForRemountingKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeURLForRemountingKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeURLKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeURLKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeURLKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeURLKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeUUIDStringKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeUUIDStringKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeUUIDStringKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSURLVolumeUUIDStringKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WriteToPasteboard">
+      <MemberSignature Language="C#" Value="public virtual void WriteToPasteboard (MonoMac.AppKit.NSPasteboard pasteboard);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void WriteToPasteboard(class MonoMac.AppKit.NSPasteboard pasteboard) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("writeToPasteboard:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="pasteboard" Type="MonoMac.AppKit.NSPasteboard" />
+      </Parameters>
+      <Docs>
+        <param name="pasteboard">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

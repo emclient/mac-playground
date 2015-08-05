@@ -1,0 +1,148 @@
+<Type Name="CFException" FullName="MonoMac.CoreFoundation.CFException">
+  <TypeSignature Language="C#" Value="public class CFException : Exception" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit CFException extends System.Exception" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Exception</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CFException (string description, MonoMac.Foundation.NSString domain, int code, string failureReason, string recoverySuggestion);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string description, class MonoMac.Foundation.NSString domain, int32 code, string failureReason, string recoverySuggestion) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="description" Type="System.String" />
+        <Parameter Name="domain" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="code" Type="System.Int32" />
+        <Parameter Name="failureReason" Type="System.String" />
+        <Parameter Name="recoverySuggestion" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="description">To be added.</param>
+        <param name="domain">To be added.</param>
+        <param name="code">To be added.</param>
+        <param name="failureReason">To be added.</param>
+        <param name="recoverySuggestion">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Code">
+      <MemberSignature Language="C#" Value="public int Code { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Code" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Domain">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSString Domain { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSString Domain" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FailureReason">
+      <MemberSignature Language="C#" Value="public string FailureReason { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string FailureReason" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromCFError">
+      <MemberSignature Language="C#" Value="public static MonoMac.CoreFoundation.CFException FromCFError (IntPtr cfErrorHandle);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.CoreFoundation.CFException FromCFError(native int cfErrorHandle) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreFoundation.CFException</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="cfErrorHandle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="cfErrorHandle">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromCFError">
+      <MemberSignature Language="C#" Value="public static MonoMac.CoreFoundation.CFException FromCFError (IntPtr cfErrorHandle, bool release);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.CoreFoundation.CFException FromCFError(native int cfErrorHandle, bool release) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreFoundation.CFException</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="cfErrorHandle" Type="System.IntPtr" />
+        <Parameter Name="release" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="cfErrorHandle">To be added.</param>
+        <param name="release">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RecoverySuggestion">
+      <MemberSignature Language="C#" Value="public string RecoverySuggestion { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string RecoverySuggestion" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

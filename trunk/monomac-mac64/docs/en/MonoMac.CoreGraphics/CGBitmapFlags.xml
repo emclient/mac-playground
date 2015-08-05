@@ -1,0 +1,259 @@
+<Type Name="CGBitmapFlags" FullName="MonoMac.CoreGraphics.CGBitmapFlags">
+  <TypeSignature Language="C#" Value="public enum CGBitmapFlags" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed CGBitmapFlags extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Flags</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>Bitmap encoding.</summary>
+    <remarks>
+      <para>
+This enumeration specifies the layout information for the component data in a bitmap.
+</para>
+      <para>
+Quartz supports a number of color models: red, green and blue (RGB), cyan, magenta, yellow and key black (CMYK) and grayscale.    Additionally, it is possible to specify an alpha channel that determines the transparency of the color when compositing an image with another one.
+</para>
+      <para>
+This enumeration determines the in-memory organization of the data and includes the color model, whether there is an alpha channel present and whether the component values have been premultiplied.
+</para>
+      <para>
+Pre-multiplication means that the values for red, green and blue have already been multiplied by the alpha value.   This helps speed up rendering as it avoids three multiplications per pixel at render time.
+</para>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="AlphaInfoMask">
+      <MemberSignature Language="C#" Value="AlphaInfoMask" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags AlphaInfoMask = int32(31)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The image has an alpha channel.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ByteOrder16Big">
+      <MemberSignature Language="C#" Value="ByteOrder16Big" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags ByteOrder16Big = int32(12288)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>16-bit big endian format.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ByteOrder16Little">
+      <MemberSignature Language="C#" Value="ByteOrder16Little" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags ByteOrder16Little = int32(4096)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>16-bit little endian format.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ByteOrder32Big">
+      <MemberSignature Language="C#" Value="ByteOrder32Big" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags ByteOrder32Big = int32(16384)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>32-big big endian format.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ByteOrder32Little">
+      <MemberSignature Language="C#" Value="ByteOrder32Little" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags ByteOrder32Little = int32(8192)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>32-bit little endian format.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ByteOrderDefault">
+      <MemberSignature Language="C#" Value="ByteOrderDefault" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags ByteOrderDefault = int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The default byte order.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ByteOrderMask">
+      <MemberSignature Language="C#" Value="ByteOrderMask" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags ByteOrderMask = int32(28672)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Mask for extracting the byte ordering from the result.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="First">
+      <MemberSignature Language="C#" Value="First" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags First = int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Alpha channel comes first using 32-bits per pixel and 8 bits per channel (ARGB).</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="FloatComponents">
+      <MemberSignature Language="C#" Value="FloatComponents" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags FloatComponents = int32(256)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The components of the bitmap are floating point values.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Last">
+      <MemberSignature Language="C#" Value="Last" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags Last = int32(3)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Last	Alpha comes last, 32-bit per pixel, 8-bits per channel (RGBA).</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="None">
+      <MemberSignature Language="C#" Value="None" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags None = int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Used for CMYK processing, 32-bits per pixel, 8-bits per channel (CMYK). </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="NoneSkipFirst">
+      <MemberSignature Language="C#" Value="NoneSkipFirst" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags NoneSkipFirst = int32(6)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>There is no alpha channel, 32-bits per pixel, 8 bits per channel, with the topmost channel ignored (xRGB). </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="NoneSkipLast">
+      <MemberSignature Language="C#" Value="NoneSkipLast" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags NoneSkipLast = int32(5)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>There is no alpha channel, 32-bits per pixel, 8 bits per channel, with the lower channel ignored (RGBx). </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Only">
+      <MemberSignature Language="C#" Value="Only" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags Only = int32(7)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>No color data, only alpha channel data. </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="PremultipliedFirst">
+      <MemberSignature Language="C#" Value="PremultipliedFirst" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags PremultipliedFirst = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Premultipled values for RGB, alpha channel comes first using 32-bits per pixel and 8 bits per channel (ARGB) </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="PremultipliedLast">
+      <MemberSignature Language="C#" Value="PremultipliedLast" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGBitmapFlags PremultipliedLast = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGBitmapFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Premultipled values for RGB, alpha comes last, 32-bit per pixel, 8-bits per channel (RGBA).  </summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

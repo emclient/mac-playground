@@ -1,0 +1,25 @@
+<Type Name="NSWindowResize" FullName="MonoMac.AppKit.NSWindowResize">
+  <TypeSignature Language="C#" Value="public delegate System.Drawing.SizeF NSWindowResize(NSWindow sender, SizeF toFrameSize);" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed NSWindowResize extends System.MulticastDelegate" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Parameters>
+    <Parameter Name="sender" Type="MonoMac.AppKit.NSWindow" />
+    <Parameter Name="toFrameSize" Type="System.Drawing.SizeF" />
+  </Parameters>
+  <ReturnValue>
+    <ReturnType>System.Drawing.SizeF</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <param name="sender">To be added.</param>
+    <param name="toFrameSize">To be added.</param>
+    <summary>To be added.</summary>
+    <returns>To be added.</returns>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Type>

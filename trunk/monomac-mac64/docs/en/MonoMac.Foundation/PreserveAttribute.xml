@@ -1,0 +1,83 @@
+<Type Name="PreserveAttribute" FullName="MonoMac.Foundation.PreserveAttribute">
+  <TypeSignature Language="C#" Value="public sealed class PreserveAttribute : Attribute" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit PreserveAttribute extends System.Attribute" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Attribute</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.AttributeUsage(System.AttributeTargets.Assembly | System.AttributeTargets.Class | System.AttributeTargets.Struct | System.AttributeTargets.Enum | System.AttributeTargets.Constructor | System.AttributeTargets.Method | System.AttributeTargets.Property | System.AttributeTargets.Field | System.AttributeTargets.Event | System.AttributeTargets.Interface | System.AttributeTargets.Delegate | System.AttributeTargets.All)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>Prevents the MonoMac linker from linking the target.</summary>
+    <remarks>
+      <para>
+This attribute is used at link time by the MonoMac linker to skip certain classes, structures, enumerations or other objects from being linked.   
+</para>
+      <para>
+By applying this attribute all of the members of the target will be kept as if they had been referenced by the code.   
+</para>
+      <para>
+This attribute is useful for example when using classes that use reflection (for example web services) and that use this information for serialization and deserialization.
+</para>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public PreserveAttribute ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AllMembers">
+      <MemberSignature Language="C#" Value="public bool AllMembers;" />
+      <MemberSignature Language="ILAsm" Value=".field public bool AllMembers" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Ensures that all members of this type are preserved.</summary>
+        <remarks>All members of this type, including fields, properties, methods, subclasses are preserved during linking.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Conditional">
+      <MemberSignature Language="C#" Value="public bool Conditional;" />
+      <MemberSignature Language="ILAsm" Value=".field public bool Conditional" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Flags the method as a method to preserve during linking if the container class is pulled in.</summary>
+        <remarks>
+          <para>
+	    If the Conditional value is set on a Preserve attribute on a method, then the method will be preserved if the containing NSObject is kept after the linker has done its job.
+	  </para>
+          <para>
+	    You would typically use this for callbacks that you know will be called in your code dynamically (for example with a selector invocation from Objective-C) since a static linker would not be able to infer that this particual method is required.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

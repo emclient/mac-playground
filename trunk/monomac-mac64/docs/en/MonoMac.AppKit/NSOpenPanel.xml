@@ -1,0 +1,520 @@
+<Type Name="NSOpenPanel" FullName="MonoMac.AppKit.NSOpenPanel">
+  <TypeSignature Language="C#" Value="public class NSOpenPanel : MonoMac.AppKit.NSSavePanel" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit NSOpenPanel extends MonoMac.AppKit.NSSavePanel" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.AppKit.NSSavePanel</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.Foundation.Register("NSOpenPanel", true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSOpenPanel ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("init")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters />
+      <Docs>
+        <summary>Default constructor, initializes a new instance of this class.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSOpenPanel (MonoMac.Foundation.NSCoder coder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSCoder coder) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithCoder:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="coder" Type="MonoMac.Foundation.NSCoder" />
+      </Parameters>
+      <Docs>
+        <param name="coder">The unarchiver object.</param>
+        <summary>A constructor that initializes the object from the data stored in the unarchiver object.</summary>
+        <remarks>This constructor is provided to allow the class to be initialized from an unarchiver (for example, during NIB deserialization).</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSOpenPanel (MonoMac.Foundation.NSObjectFlag t);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSObjectFlag t) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="t" Type="MonoMac.Foundation.NSObjectFlag" />
+      </Parameters>
+      <Docs>
+        <param name="t">Unused sentinel value, pass NSObjectFlag.Empty.</param>
+        <summary>Constructor to call on derived classes when the derived class has an [Export] constructor.</summary>
+        <remarks>
+          <para>This constructor should be called by derived classes when they are initialized using an [Export] attribute. The argument value is ignore, typically the chaining would look like this:</para>
+          <example>
+            <code lang="C#">
+public class MyClass : BaseClass {
+    [Export ("initWithFoo:")]
+    public MyClass (string foo) : base (NSObjectFlag.Empty)
+    {
+        ...
+    }
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSOpenPanel (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">Pointer (handle) to the unmanaged object.</param>
+        <summary>A constructor used when creating managed representations of unmanaged objects;  Called by the runtime.</summary>
+        <remarks>
+          <para>This constructor is invoked by the runtime infrastructure (<see cref="M:MonoMac.ObjCRuntime.GetNSObject (System.IntPtr)" />) to create a new managed representation for a pointer to an unmanaged Objective-C object.    You should not invoke this method directly, instead you should call the GetNSObject method as it will prevent two instances of a managed object to point to the same native object.</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AllowsMultipleSelection">
+      <MemberSignature Language="C#" Value="public virtual bool AllowsMultipleSelection { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool AllowsMultipleSelection" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("allowsMultipleSelection")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoMac.Foundation.Export("setAllowsMultipleSelection:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Begin">
+      <MemberSignature Language="C#" Value="public virtual void Begin (string directory, string fileName, string[] fileTypes, MonoMac.Foundation.NSObject modelessDelegate, MonoMac.ObjCRuntime.Selector didEndSelector, IntPtr contextInfo);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Begin(string directory, string fileName, string[] fileTypes, class MonoMac.Foundation.NSObject modelessDelegate, class MonoMac.ObjCRuntime.Selector didEndSelector, native int contextInfo) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("beginForDirectory:file:types:modelessDelegate:didEndSelector:contextInfo:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Obsolete("On 10.6 and newer use runWithCompletionHandler:", false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="directory" Type="System.String" />
+        <Parameter Name="fileName" Type="System.String" />
+        <Parameter Name="fileTypes" Type="System.String[]" />
+        <Parameter Name="modelessDelegate" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="didEndSelector" Type="MonoMac.ObjCRuntime.Selector" />
+        <Parameter Name="contextInfo" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="directory">To be added.</param>
+        <param name="fileName">To be added.</param>
+        <param name="fileTypes">To be added.</param>
+        <param name="modelessDelegate">To be added.</param>
+        <param name="didEndSelector">To be added.</param>
+        <param name="contextInfo">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BeginSheet">
+      <MemberSignature Language="C#" Value="public void BeginSheet (string directory, string fileName, string[] fileTypes, MonoMac.AppKit.NSWindow modalForWindow);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void BeginSheet(string directory, string fileName, string[] fileTypes, class MonoMac.AppKit.NSWindow modalForWindow) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="directory" Type="System.String" />
+        <Parameter Name="fileName" Type="System.String" />
+        <Parameter Name="fileTypes" Type="System.String[]" />
+        <Parameter Name="modalForWindow" Type="MonoMac.AppKit.NSWindow" />
+      </Parameters>
+      <Docs>
+        <param name="directory">To be added.</param>
+        <param name="fileName">To be added.</param>
+        <param name="fileTypes">To be added.</param>
+        <param name="modalForWindow">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BeginSheet">
+      <MemberSignature Language="C#" Value="public void BeginSheet (string directory, string fileName, string[] fileTypes, MonoMac.AppKit.NSWindow modalForWindow, MonoMac.Foundation.NSAction onEnded);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void BeginSheet(string directory, string fileName, string[] fileTypes, class MonoMac.AppKit.NSWindow modalForWindow, class MonoMac.Foundation.NSAction onEnded) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="directory" Type="System.String" />
+        <Parameter Name="fileName" Type="System.String" />
+        <Parameter Name="fileTypes" Type="System.String[]" />
+        <Parameter Name="modalForWindow" Type="MonoMac.AppKit.NSWindow" />
+        <Parameter Name="onEnded" Type="MonoMac.Foundation.NSAction" />
+      </Parameters>
+      <Docs>
+        <param name="directory">To be added.</param>
+        <param name="fileName">To be added.</param>
+        <param name="fileTypes">To be added.</param>
+        <param name="modalForWindow">To be added.</param>
+        <param name="onEnded">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BeginSheet">
+      <MemberSignature Language="C#" Value="public virtual void BeginSheet (string directory, string fileName, string[] fileTypes, MonoMac.AppKit.NSWindow modalForWindow, MonoMac.Foundation.NSObject modalDelegate, MonoMac.ObjCRuntime.Selector didEndSelector, IntPtr contextInfo);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void BeginSheet(string directory, string fileName, string[] fileTypes, class MonoMac.AppKit.NSWindow modalForWindow, class MonoMac.Foundation.NSObject modalDelegate, class MonoMac.ObjCRuntime.Selector didEndSelector, native int contextInfo) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("beginSheetForDirectory:file:types:modalForWindow:modalDelegate:didEndSelector:contextInfo:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Obsolete("On 10.6 and newer use runModalForWindow:", false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="directory" Type="System.String" />
+        <Parameter Name="fileName" Type="System.String" />
+        <Parameter Name="fileTypes" Type="System.String[]" />
+        <Parameter Name="modalForWindow" Type="MonoMac.AppKit.NSWindow" />
+        <Parameter Name="modalDelegate" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="didEndSelector" Type="MonoMac.ObjCRuntime.Selector" />
+        <Parameter Name="contextInfo" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="directory">To be added.</param>
+        <param name="fileName">To be added.</param>
+        <param name="fileTypes">To be added.</param>
+        <param name="modalForWindow">To be added.</param>
+        <param name="modalDelegate">To be added.</param>
+        <param name="didEndSelector">To be added.</param>
+        <param name="contextInfo">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CanChooseDirectories">
+      <MemberSignature Language="C#" Value="public virtual bool CanChooseDirectories { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool CanChooseDirectories" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("canChooseDirectories")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoMac.Foundation.Export("setCanChooseDirectories:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CanChooseFiles">
+      <MemberSignature Language="C#" Value="public virtual bool CanChooseFiles { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool CanChooseFiles" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("canChooseFiles")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoMac.Foundation.Export("setCanChooseFiles:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ClassHandle">
+      <MemberSignature Language="C#" Value="public override IntPtr ClassHandle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int ClassHandle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The handle for this class.</summary>
+        <value>The pointer to the Objective-C class.</value>
+        <remarks>Each MonoMac class mirrors an unmanaged Objective-C class.   This value contains the pointer to the Objective-C class, it is similar to calling objc_getClass with the object name.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected override void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <para>If set to <see langword="true" />, the method is invoked directly and will dispose manage and unmanaged resources;   If set to <see langword="false" /> the method is being called by the garbage collector finalizer and should only release unmanaged resources.</para>
+        </param>
+        <summary>Releases the resources used by the NSOpenPanel object.</summary>
+        <remarks>
+          <para>This Dispose method releases the resources used by the NSOpenPanel class.</para>
+          <para>This method is called by both the Dispose() method and the object finalizer (Finalize).    When invoked by the Dispose method, the parameter disposting <paramref name="disposing" /> is set to <see langword="true" /> and any managed object references that this object holds are also disposed or released;  when invoked by the object finalizer, on the finalizer thread the value is set to <see langword="false" />. </para>
+          <para>Calling the Dispose method when you are finished using the NSOpenPanel ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.</para>
+          <para>  For more information on how to override this method and on the Dispose/IDisposable pattern, read the ``Implementing a Dispose Method'' document at http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Filenames">
+      <MemberSignature Language="C#" Value="public virtual string[] Filenames { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string[] Filenames" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("On 10.6 and newer, use Uris", false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("filenames")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoMac.Foundation.Export("setFilenames:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OpenPanel">
+      <MemberSignature Language="C#" Value="public static MonoMac.AppKit.NSOpenPanel OpenPanel { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.AppKit.NSOpenPanel OpenPanel" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("openPanel")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSOpenPanel</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ResolvesAliases">
+      <MemberSignature Language="C#" Value="public virtual bool ResolvesAliases { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool ResolvesAliases" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("resolvesAliases")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoMac.Foundation.Export("setResolvesAliases:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RunModal">
+      <MemberSignature Language="C#" Value="public virtual int RunModal (string[] types);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 RunModal(string[] types) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("runModalForTypes:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Obsolete("On 10.6 and newer use runModal:", false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="types" Type="System.String[]" />
+      </Parameters>
+      <Docs>
+        <param name="types">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RunModal">
+      <MemberSignature Language="C#" Value="public virtual int RunModal (string directory, string fileName, string[] types);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 RunModal(string directory, string fileName, string[] types) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("runModalForDirectory:file:types:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Obsolete("On 10.6 and newer use runModal:", false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="directory" Type="System.String" />
+        <Parameter Name="fileName" Type="System.String" />
+        <Parameter Name="types" Type="System.String[]" />
+      </Parameters>
+      <Docs>
+        <param name="directory">To be added.</param>
+        <param name="fileName">To be added.</param>
+        <param name="types">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Urls">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSUrl[] Urls { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSUrl[] Urls" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("URLs")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSUrl[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

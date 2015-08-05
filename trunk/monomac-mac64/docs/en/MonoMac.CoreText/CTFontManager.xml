@@ -1,0 +1,220 @@
+<Type Name="CTFontManager" FullName="MonoMac.CoreText.CTFontManager">
+  <TypeSignature Language="C#" Value="public class CTFontManager" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi CTFontManager extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.ObjCRuntime.Since(4, 1)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>Manages the central CoreText Font System.</summary>
+    <remarks>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CTFontManager ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ErrorDomain">
+      <MemberSignature Language="C#" Value="public static readonly MonoMac.Foundation.NSString ErrorDomain;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class MonoMac.Foundation.NSString ErrorDomain" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The error domain string key.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ErrorFontUrlsKey">
+      <MemberSignature Language="C#" Value="public static readonly MonoMac.Foundation.NSString ErrorFontUrlsKey;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class MonoMac.Foundation.NSString ErrorFontUrlsKey" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsFontSupported">
+      <MemberSignature Language="C#" Value="public static bool IsFontSupported (MonoMac.Foundation.NSUrl url);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool IsFontSupported(class MonoMac.Foundation.NSUrl url) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="url" Type="MonoMac.Foundation.NSUrl" />
+      </Parameters>
+      <Docs>
+        <param name="url">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RegisterFontsForUrl">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSError RegisterFontsForUrl (MonoMac.Foundation.NSUrl fontUrl, MonoMac.CoreText.CTFontManagerScope scope);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.Foundation.NSError RegisterFontsForUrl(class MonoMac.Foundation.NSUrl fontUrl, valuetype MonoMac.CoreText.CTFontManagerScope scope) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSError</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="fontUrl" Type="MonoMac.Foundation.NSUrl" />
+        <Parameter Name="scope" Type="MonoMac.CoreText.CTFontManagerScope" />
+      </Parameters>
+      <Docs>
+        <param name="fontUrl">To be added.</param>
+        <param name="scope">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RegisterFontsForUrl">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSError[] RegisterFontsForUrl (MonoMac.Foundation.NSUrl[] fontUrls, MonoMac.CoreText.CTFontManagerScope scope);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.Foundation.NSError[] RegisterFontsForUrl(class MonoMac.Foundation.NSUrl[] fontUrls, valuetype MonoMac.CoreText.CTFontManagerScope scope) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSError[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="fontUrls" Type="MonoMac.Foundation.NSUrl[]" />
+        <Parameter Name="scope" Type="MonoMac.CoreText.CTFontManagerScope" />
+      </Parameters>
+      <Docs>
+        <param name="fontUrls">To be added.</param>
+        <param name="scope">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RegisterGraphicsFont">
+      <MemberSignature Language="C#" Value="public static bool RegisterGraphicsFont (MonoMac.CoreGraphics.CGFont font, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool RegisterGraphicsFont(class MonoMac.CoreGraphics.CGFont font, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="font" Type="MonoMac.CoreGraphics.CGFont" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="font">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UnregisterFontsForUrl">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSError UnregisterFontsForUrl (MonoMac.Foundation.NSUrl fontUrl, MonoMac.CoreText.CTFontManagerScope scope);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.Foundation.NSError UnregisterFontsForUrl(class MonoMac.Foundation.NSUrl fontUrl, valuetype MonoMac.CoreText.CTFontManagerScope scope) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSError</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="fontUrl" Type="MonoMac.Foundation.NSUrl" />
+        <Parameter Name="scope" Type="MonoMac.CoreText.CTFontManagerScope" />
+      </Parameters>
+      <Docs>
+        <param name="fontUrl">To be added.</param>
+        <param name="scope">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UnregisterFontsForUrl">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSError[] UnregisterFontsForUrl (MonoMac.Foundation.NSUrl[] fontUrls, MonoMac.CoreText.CTFontManagerScope scope);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.Foundation.NSError[] UnregisterFontsForUrl(class MonoMac.Foundation.NSUrl[] fontUrls, valuetype MonoMac.CoreText.CTFontManagerScope scope) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSError[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="fontUrls" Type="MonoMac.Foundation.NSUrl[]" />
+        <Parameter Name="scope" Type="MonoMac.CoreText.CTFontManagerScope" />
+      </Parameters>
+      <Docs>
+        <param name="fontUrls">To be added.</param>
+        <param name="scope">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UnregisterGraphicsFont">
+      <MemberSignature Language="C#" Value="public static bool UnregisterGraphicsFont (MonoMac.CoreGraphics.CGFont font, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool UnregisterGraphicsFont(class MonoMac.CoreGraphics.CGFont font, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="font" Type="MonoMac.CoreGraphics.CGFont" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="font">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

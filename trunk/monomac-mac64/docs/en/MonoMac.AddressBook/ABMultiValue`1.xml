@@ -1,0 +1,453 @@
+<Type Name="ABMultiValue&lt;T&gt;" FullName="MonoMac.AddressBook.ABMultiValue&lt;T&gt;">
+  <TypeSignature Language="C#" Value="public class ABMultiValue&lt;T&gt; : IDisposable, MonoMac.ObjCRuntime.INativeObject, System.Collections.Generic.IEnumerable&lt;MonoMac.AddressBook.ABMultiValueEntry&lt;T&gt;&gt;" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ABMultiValue`1&lt;T&gt; extends System.Object implements class MonoMac.ObjCRuntime.INativeObject, class System.Collections.Generic.IEnumerable`1&lt;valuetype MonoMac.AddressBook.ABMultiValueEntry`1&lt;!T&gt;&gt;, class System.Collections.IEnumerable, class System.IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <TypeParameters>
+    <TypeParameter Name="T" />
+  </TypeParameters>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>MonoMac.ObjCRuntime.INativeObject</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.Generic.IEnumerable&lt;MonoMac.AddressBook.ABMultiValueEntry&lt;T&gt;&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <typeparam name="T">
+      The type of value stored in the <c>ABMultiValue&lt;T&gt;</c> collection.
+    </typeparam>
+    <summary>
+      A collection of
+      <see cref="T:MonoMac.AddressBook.ABMultiValueEntry{T}" /> entries.
+    </summary>
+    <remarks>
+      <para>
+        <c>ABMultiValue&lt;T&gt;</c> instances are used for
+        <see cref="T:MonoMac.AddressBook.ABPerson" /> properties which
+        are collections of values of the same type.  For example,
+        <see cref="M:MonoMac.AddressBook.ABPerson.GetPhones" /> returns
+        a <c>ABMultiValue&lt;string&gt;</c> containing phone numbers.
+      </para>
+      <para>
+        A <c>ABMultiValue&lt;T&gt;</c> is a collection of
+        <see cref="T:MonoMac.AddressBook.ABMultiValueEntry{T}" /> entries,
+        where each entry contains a
+        <see cref="P:MonoMac.AddressBook.ABMultiValueEntry{T}.Value" />,
+        <see cref="P:MonoMac.AddressBook.ABMultiValueEntry{T}.Label" />,
+        and
+        <see cref="P:MonoMac.AddressBook.ABMultiValueEntry{T}.Identifier" />.
+      </para>
+      <para>
+        Supported operations include:
+      </para>
+      <list type="bullet">
+        <item>
+          <term>
+            Getting values, labels, and identifiers:
+            <see cref="P:MonoMac.AddressBook.ABMultiValue{T}.Count" />,
+            <see cref="M:MonoMac.AddressBook.ABMultiValue{T}.GetEnumerator" />,
+            <see cref="M:MonoMac.AddressBook.ABMultiValue{T}.GetFirstIndexOfValue(MonoMac.Foundation.NSObject)" />,
+            <see cref="M:MonoMac.AddressBook.ABMultiValue{T}.GetIndexForIdentifier(System.Int32)" />,
+            <see cref="M:MonoMac.AddressBook.ABMultiValue{T}.GetValues" />,
+            <see cref="P:MonoMac.AddressBook.ABMultiValue{T}.Item(System.Int32)" />.
+          </term>
+        </item>
+        <item>
+          <term>
+            Getting Property Information:
+            <see cref="P:MonoMac.AddressBook.ABMultiValue{T}.PropertyType" />.
+          </term>
+        </item>
+        <item>
+          <term>
+            Changing properties:
+            <see cref="M:MonoMac.AddressBook.ABMultiValue{T}.ToMutableMultiValue" />.
+          </term>
+        </item>
+      </list>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Count">
+      <MemberSignature Language="C#" Value="public int Count { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Count" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          The number of entries in the
+          <see cref="T:MonoMac.AddressBook.ABMultiValue{T}" />.
+        </summary>
+        <value>
+          A <see cref="T:System.Int32" /> containing the number of entries in
+          the <see cref="T:MonoMac.AddressBook.ABMultiValue{T}" />.
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Releases the resources used by the ABMultiValue`1 object.</summary>
+        <remarks>
+          <para>The Dispose method releases the resources used by the ABMultiValue`1 class.</para>
+          <para>Calling the Dispose method when you are finished using the ABMultiValue`1 ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.  For more information on releasing resources see ``Cleaning up Unmananaged Resources'' at http://msdn.microsoft.com/en-us/library/498928w2.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <para>If set to <see langword="true" />, the method is invoked directly and will dispose manage and unmanaged resources;   If set to <see langword="false" /> the method is being called by the garbage collector finalizer and should only release unmanaged resources.</para>
+        </param>
+        <summary>Releases the resources used by the ABMultiValue`1 object.</summary>
+        <remarks>
+          <para>This Dispose method releases the resources used by the ABMultiValue`1 class.</para>
+          <para>This method is called by both the Dispose() method and the object finalizer (Finalize).    When invoked by the Dispose method, the parameter disposting <paramref name="disposing" /> is set to <see langword="true" /> and any managed object references that this object holds are also disposed or released;  when invoked by the object finalizer, on the finalizer thread the value is set to <see langword="false" />. </para>
+          <para>Calling the Dispose method when you are finished using the ABMultiValue`1 ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.</para>
+          <para>  For more information on how to override this method and on the Dispose/IDisposable pattern, read the ``Implementing a Dispose Method'' document at http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~ABMultiValue`1 ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Finalizer for the ABMultiValue`1 object</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetEnumerator">
+      <MemberSignature Language="C#" Value="public System.Collections.Generic.IEnumerator&lt;MonoMac.AddressBook.ABMultiValueEntry&lt;T&gt;&gt; GetEnumerator ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Collections.Generic.IEnumerator`1&lt;valuetype MonoMac.AddressBook.ABMultiValueEntry`1&lt;!T&gt;&gt; GetEnumerator() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.IEnumerator&lt;MonoMac.AddressBook.ABMultiValueEntry&lt;T&gt;&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          Returns an enumerator that iterates through all entries in the
+          <see cref="T:MonoMac.AddressBook.ABMultiValue{T}" />.
+        </summary>
+        <returns>
+          An
+          <see cref="T:System.Collections.Generic.IEnumerator{MonoMac.AddressBook.ABMultiValueEntry{T}}" />
+          which will return all entries in the
+          <see cref="T:MonoMac.AddressBook.ABMultiValue{T}" />.
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetFirstIndexOfValue">
+      <MemberSignature Language="C#" Value="public int GetFirstIndexOfValue (MonoMac.Foundation.NSObject value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int32 GetFirstIndexOfValue(class MonoMac.Foundation.NSObject value) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          A <see cref="T:MonoMac.AddressBook.NSObject" /> containing
+          the value to get the first index of.
+        </param>
+        <summary>
+          Gets the first index of <paramref name="value" /> within the collection.
+        </summary>
+        <returns>
+          <para>
+          A <see cref="T:System.Int32" /> containing the first index of
+          <paramref name="value" /> within the collection.
+          If <paramref name="value" /> isn't present, <c>-1</c> is returned.
+          </para>
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetIndexForIdentifier">
+      <MemberSignature Language="C#" Value="public int GetIndexForIdentifier (int identifier);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int32 GetIndexForIdentifier(int32 identifier) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="identifier" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="identifier">
+          A <see cref="T:System.Int32" /> containing the
+          <see cref="P:MonoMac.AddressBook.ABMultiValueEntry{T}.Identifier" />
+          to lookup.
+        </param>
+        <summary>
+          Gets the index within this collection of the
+          <see cref="T:MonoMac.AddressBook.ABMultiValueEntry{T}" />
+          entry having an
+          <see cref="P:MonoMac.AddressBook.ABMultiValueEntry{T}.Identifier" />
+          value equal to <paramref name="identifier" />.
+        </summary>
+        <returns>
+          A <see cref="T:System.Int32" /> containing the index within
+          the collection of the
+          <see cref="T:MonoMac.AddressBook.ABMultiValueEntry{T}" />
+          entry having an
+          <see cref="P:MonoMac.AddressBook.ABMultiValueEntry{T}.Identifier" />
+          value equal to <paramref name="identifier" />.
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetValues">
+      <MemberSignature Language="C#" Value="public T[] GetValues ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance !T[] GetValues() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>T[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          Gets all values within the collection.
+        </summary>
+        <returns>
+          A <typeparamref name="T" /> array containing all
+          <see cref="P:MonoMac.AddressBook.ABMultiValueEntry{T}.Value" />s
+          within the collection.
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Handle">
+      <MemberSignature Language="C#" Value="public IntPtr Handle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int Handle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Handle (pointer) to the unmanaged object representation.</summary>
+        <value>A pointer</value>
+        <remarks>This IntPtr is a handle to the underlying unmanaged representation for this object.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsReadOnly">
+      <MemberSignature Language="C#" Value="public virtual bool IsReadOnly { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsReadOnly" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          Gets a value indicating whether the
+          <see cref="T:MonoMac.AddressBook.ABMultiValue{T}" />
+          is read-only.
+        </summary>
+        <value>
+          <see langword="true" /> if the current instance and
+          <see cref="T:MonoMac.AddressBook.ABMultiValueEntry{T}" /> instances
+          within the current collection can be changed; otherwise,
+          <see langword="false" />.
+        </value>
+        <remarks>
+          <para>
+            Use
+            <see cref="M:MonoMac.AddressBook.ABMultiValue{T}.ToMutableMultiValue" />
+            to get an instance where
+            <see cref="P:MonoMac.AddressBook.ABMultiValue{T}.IsReadOnly" /> is
+            <see langword="false" />.
+          </para>
+        </remarks>
+        <altmember cref="M:MonoMac.AddressBook.ABMultiValue{T}.ToMutableMultiValue" />
+        <altmember cref="T:MonoMac.AddressBook.ABMutableDateMultiValue" />
+        <altmember cref="T:MonoMac.AddressBook.ABMutableDictionaryMultiValue" />
+        <altmember cref="T:MonoMac.AddressBook.ABMutableStringMultiValue" />
+      </Docs>
+    </Member>
+    <Member MemberName="Item">
+      <MemberSignature Language="C#" Value="public MonoMac.AddressBook.ABMultiValueEntry&lt;T&gt; this[int index] { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.AddressBook.ABMultiValueEntry`1&lt;!T&gt; Item(int32)" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABMultiValueEntry&lt;T&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="index" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="index">
+          A <see cref="T:System.Int32" /> containing the index of the
+          <see cref="T:MonoMac.AddressBook.ABMultiValueEntry{T}" /> instances
+          to obtain.
+        </param>
+        <summary>
+          Gets the <see cref="T:MonoMac.AddressBook.ABMultiValueEntry{T}" />
+          instances at the specified <paramref name="index" />.
+        </summary>
+        <value>
+          The <see cref="T:MonoMac.AddressBook.ABMultiValueEntry{T}" />
+          value at the specified index.
+        </value>
+        <remarks>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <paramref name="index" /> is less than zero or greater than or
+          equal to <see cref="P:MonoMac.AddressBook.ABMultiValue{T}.Count" />.
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="PropertyType">
+      <MemberSignature Language="C#" Value="public MonoMac.AddressBook.ABPropertyType PropertyType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.AddressBook.ABPropertyType PropertyType" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABPropertyType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          The type of the values in the collection.
+        </summary>
+        <value>
+          A <see cref="T:MonoMac.AddressBook.ABPropertyType" /> specifying
+          the type of values in the collection.
+        </value>
+        <remarks>
+          <para>
+            <see cref="F:MonoMac.AddressBook.ABPropertyType.Invalid" />
+            is returned if the instance contains values of multiple different
+            types or if the collection has no values.
+          </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.Collections.IEnumerable.GetEnumerator">
+      <MemberSignature Language="C#" Value="System.Collections.IEnumerator IEnumerable.GetEnumerator ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance class System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.IEnumerator</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          Returns an enumerator that iterates through all entries in the
+          <see cref="T:MonoMac.AddressBook.ABMultiValue{T}" />.
+        </summary>
+        <returns>
+          An
+          <see cref="T:System.Collections.IEnumerator" />
+          which will return all entries in the
+          <see cref="T:MonoMac.AddressBook.ABMultiValue{T}" />.
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToMutableMultiValue">
+      <MemberSignature Language="C#" Value="public MonoMac.AddressBook.ABMutableMultiValue&lt;T&gt; ToMutableMultiValue ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.AddressBook.ABMutableMultiValue`1&lt;!T&gt; ToMutableMultiValue() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABMutableMultiValue&lt;T&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          Returns an enumerator that iterates through all entries in the
+          <see cref="T:MonoMac.AddressBook.ABMultiValue{T}" />.
+        </summary>
+        <returns>
+          An <see cref="T:System.Collections.IEnumerator" />
+          which will return all entries in the
+          <see cref="T:MonoMac.AddressBook.ABMultiValue{T}" />.
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

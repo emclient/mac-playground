@@ -1,0 +1,400 @@
+<Type Name="CAPropertyAnimation" FullName="MonoMac.CoreAnimation.CAPropertyAnimation">
+  <TypeSignature Language="C#" Value="public class CAPropertyAnimation : MonoMac.CoreAnimation.CAAnimation" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit CAPropertyAnimation extends MonoMac.CoreAnimation.CAAnimation" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.CoreAnimation.CAAnimation</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.Foundation.Register("CAPropertyAnimation", true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>An animation that can animate object properties.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CAPropertyAnimation ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("init")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters />
+      <Docs>
+        <summary>Default constructor that initializes a new instance of this class with no parameters.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CAPropertyAnimation (MonoMac.Foundation.NSCoder coder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSCoder coder) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithCoder:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="coder" Type="MonoMac.Foundation.NSCoder" />
+      </Parameters>
+      <Docs>
+        <param name="coder">The unarchiver object.</param>
+        <summary>A constructor that initializes the object from the data stored in the unarchiver object.</summary>
+        <remarks>This constructor is provided to allow the class to be initialized from an unarchiver (for example, during NIB deserialization).</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CAPropertyAnimation (MonoMac.Foundation.NSObjectFlag t);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSObjectFlag t) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="t" Type="MonoMac.Foundation.NSObjectFlag" />
+      </Parameters>
+      <Docs>
+        <param name="t">Unused sentinel value, pass NSObjectFlag.Empty.</param>
+        <summary>Constructor to call on derived classes when the derived class has an [Export] constructor.</summary>
+        <remarks>
+          <para>This constructor should be called by derived classes when they are initialized using an [Export] attribute. The argument value is ignore, typically the chaining would look like this:</para>
+          <example>
+            <code lang="C#">
+public class MyClass : BaseClass {
+    [Export ("initWithFoo:")]
+    public MyClass (string foo) : base (NSObjectFlag.Empty)
+    {
+        ...
+    }
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CAPropertyAnimation (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">Pointer (handle) to the unmanaged object.</param>
+        <summary>A constructor used when creating managed representations of unmanaged objects;  Called by the runtime.</summary>
+        <remarks>
+          <para>This constructor is invoked by the runtime infrastructure (<see cref="M:MonoMac.ObjCRuntime.GetNSObject (System.IntPtr)" />) to create a new managed representation for a pointer to an unmanaged Objective-C object.    You should not invoke this method directly, instead you should call the GetNSObject method as it will prevent two instances of a managed object to point to the same native object.</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Additive">
+      <MemberSignature Language="C#" Value="public virtual bool Additive { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool Additive" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("isAdditive")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoMac.Foundation.Export("setAdditive:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ClassHandle">
+      <MemberSignature Language="C#" Value="public override IntPtr ClassHandle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int ClassHandle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The handle for this class.</summary>
+        <value>The pointer to the Objective-C class.</value>
+        <remarks>Each MonoMac class mirrors an unmanaged Objective-C class.   This value contains the pointer to the Objective-C class, it is similar to calling objc_getClass with the object name.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Cumulative">
+      <MemberSignature Language="C#" Value="public virtual bool Cumulative { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool Cumulative" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("isCumulative")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoMac.Foundation.Export("setCumulative:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected override void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <para>If set to <see langword="true" />, the method is invoked directly and will dispose manage and unmanaged resources;   If set to <see langword="false" /> the method is being called by the garbage collector finalizer and should only release unmanaged resources.</para>
+        </param>
+        <summary>Releases the resources used by the CAPropertyAnimation object.</summary>
+        <remarks>
+          <para>This Dispose method releases the resources used by the CAPropertyAnimation class.</para>
+          <para>This method is called by both the Dispose() method and the object finalizer (Finalize).    When invoked by the Dispose method, the parameter disposting <paramref name="disposing" /> is set to <see langword="true" /> and any managed object references that this object holds are also disposed or released;  when invoked by the object finalizer, on the finalizer thread the value is set to <see langword="false" />. </para>
+          <para>Calling the Dispose method when you are finished using the CAPropertyAnimation ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.</para>
+          <para>  For more information on how to override this method and on the Dispose/IDisposable pattern, read the ``Implementing a Dispose Method'' document at http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromKeyPath">
+      <MemberSignature Language="C#" Value="public static MonoMac.CoreAnimation.CAPropertyAnimation FromKeyPath (string path);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.CoreAnimation.CAPropertyAnimation FromKeyPath(string path) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("animationWithKeyPath:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreAnimation.CAPropertyAnimation</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="path">A key path represening the property to animate.</param>
+        <summary>Creates a property animation from the specified keypath.</summary>
+        <returns>The new animation.</returns>
+        <remarks>
+          <para>The animation created will animate the property specified by the keypath.</para>
+          <list type="table">
+            <listheader>
+              <term>Property</term>
+              <description>Actio</description>
+            </listheader>
+            <item>
+              <term>anchorPoint</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation.</description>
+            </item>
+            <item>
+              <term>backgroundColor</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation.   Subproperties are animated with basic animations.</description>
+            </item>
+            <item>
+              <term>backgroundFilters</term>
+              <description>Animates using a CATransition for 0.25 seconds or the duration of the transaction.   The default animation type is CATransition.Fade and the range is from 0.0 to 1.0. The filter subproperties are animated with a CABasicAnimation.</description>
+            </item>
+            <item>
+              <term>borderColor</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation.</description>
+            </item>
+            <item>
+              <term>borderWidth</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation.</description>
+            </item>
+            <item>
+              <term>bounds</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation.</description>
+            </item>
+            <item>
+              <term>compositingFilter</term>
+              <description>Animates using a CATransition for 0.25 seconds or the duration of the transaction.   The default animation type is CATransition.Fade and the range is from 0.0 to 1.0. Subproperties are animated with basic animations.</description>
+            </item>
+            <item>
+              <term>contents</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation.</description>
+            </item>
+            <item>
+              <term>contentsRect</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation.</description>
+            </item>
+            <item>
+              <term>cornerRadius</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation.</description>
+            </item>
+            <item>
+              <term>doubleSided</term>
+              <description>No default implied animation is set.</description>
+            </item>
+            <item>
+              <term>filters</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation. Sub-properties of the filters are animated using the default implied CABasicAnimation described in Table 10.</description>
+            </item>
+            <item>
+              <term>frame</term>
+              <description>The frame property itself is not animatable. You can achieve the same results by modifying the bounds and position properties instead.</description>
+            </item>
+            <item>
+              <term>hidden</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation.</description>
+            </item>
+            <item>
+              <term>mask</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation. This property is available only on Mac OS X.</description>
+            </item>
+            <item>
+              <term>masksToBounds</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation.</description>
+            </item>
+            <item>
+              <term>opacity</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation.</description>
+            </item>
+            <item>
+              <term>position</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation.</description>
+            </item>
+            <item>
+              <term>shadowColor</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation. This property is available only on Mac OS X.</description>
+            </item>
+            <item>
+              <term>shadowOffset</term>
+              <description>Uses the default implied CABasicAnimation described in Table 10. This property is available only on Mac OS X.</description>
+            </item>
+            <item>
+              <term>shadowOpacity</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation. This property is available only on Mac OS X.</description>
+            </item>
+            <item>
+              <term>shadowRadius</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation. This property is available only on Mac OS X.</description>
+            </item>
+            <item>
+              <term>sublayers</term>
+              <description>Animates using a CATransition for 0.25 seconds or the duration of the transaction.   The default animation type is CATransition.Fade and the range is from 0.0 to 1.0..</description>
+            </item>
+            <item>
+              <term>sublayerTransform</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation.</description>
+            </item>
+            <item>
+              <term>transform</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation.</description>
+            </item>
+            <item>
+              <term>zPosition</term>
+              <description>Animates for 0.25 seconds or the duration of the current transaction using a CABasiCanimation.</description>
+            </item>
+          </list>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="KeyPath">
+      <MemberSignature Language="C#" Value="public virtual string KeyPath { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string KeyPath" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("keyPath", MonoMac.ObjCRuntime.ArgumentSemantic.Copy)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoMac.Foundation.Export("setKeyPath:", MonoMac.ObjCRuntime.ArgumentSemantic.Copy)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ValueFunction">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.CoreAnimation.CAValueFunction ValueFunction { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.CoreAnimation.CAValueFunction ValueFunction" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("valueFunction", MonoMac.ObjCRuntime.ArgumentSemantic.Retain)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoMac.Foundation.Export("setValueFunction:", MonoMac.ObjCRuntime.ArgumentSemantic.Retain)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreAnimation.CAValueFunction</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

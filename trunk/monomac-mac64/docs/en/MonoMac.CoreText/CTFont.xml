@@ -1,0 +1,1498 @@
+<Type Name="CTFont" FullName="MonoMac.CoreText.CTFont">
+  <TypeSignature Language="C#" Value="public class CTFont : IDisposable, MonoMac.ObjCRuntime.INativeObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit CTFont extends System.Object implements class MonoMac.ObjCRuntime.INativeObject, class System.IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>MonoMac.ObjCRuntime.INativeObject</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.ObjCRuntime.Since(3, 2)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>Represents a CoreText Font.</summary>
+    <remarks>
+      <para>
+
+	CoreText does not synthesize font styles (italic and bold).
+	This means that if you pick a font that has neither a Bolded
+	or Italicized versions available, CoreText will not create a
+	dynamic font that is merely a slanted version of the font for
+	italic, or a boldened version from the original font.  In
+	those cases, if you want to synthesize the font, you could
+	apply a Matrix transformation to slant the font (it will still
+	be wrong, but will look slanted).  For bolding, you could
+	stroke the font twice, or manually extend the glyph path.
+
+      </para>
+    </remarks>
+    <related type="sample" href="http://samples.xamarin.com/Samples/ByGuid?guid=cb71419a-f5de-4239-aa70-260ce1813e55">SimpleTextInput</related>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CTFont (MonoMac.CoreText.CTFontDescriptor descriptor, float size);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.CoreText.CTFontDescriptor descriptor, float32 size) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="descriptor" Type="MonoMac.CoreText.CTFontDescriptor" />
+        <Parameter Name="size" Type="System.Single" />
+      </Parameters>
+      <Docs>
+        <param name="descriptor">Font descriptor to use to create the font.</param>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CTFont (string name, float size);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name, float32 size) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="size" Type="System.Single" />
+      </Parameters>
+      <Docs>
+        <param name="name">The name of the font.   Use PostScript names (for example "HelveticaNeue").</param>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <summary>To be added.</summary>
+        <remarks>
+          <para>
+
+	    Although currently iOS this allows the "name" parameter to
+	    use aliases to the font, in addition to the Postscript
+	    name, use of non-Postscript names for this parameter has
+	    been deprecated, due to the slow and expensive fallback
+	    scan.   
+
+	  </para>
+          <para>
+
+	    If you want to create fonts from other names (like the fullname "Helvetica Neue" instead of the PostScript name "HelveticaNeue") you can use <see cref="C:MonoMac.CoreText.CTFontDescriptor(MonoMac.CoreText.CTFontDescriptorAttributes)" />. 
+
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CTFont (MonoMac.CoreGraphics.CGFont font, float size, MonoMac.CoreGraphics.CGAffineTransform transform);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.CoreGraphics.CGFont font, float32 size, valuetype MonoMac.CoreGraphics.CGAffineTransform transform) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="font" Type="MonoMac.CoreGraphics.CGFont" />
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="transform" Type="MonoMac.CoreGraphics.CGAffineTransform" />
+      </Parameters>
+      <Docs>
+        <param name="font">To be added.</param>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="transform">Transformation matrix for the font, if null, it uses the identity matrix.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CTFont (MonoMac.CoreGraphics.CGFont font, float size, MonoMac.CoreText.CTFontDescriptor descriptor);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.CoreGraphics.CGFont font, float32 size, class MonoMac.CoreText.CTFontDescriptor descriptor) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="font" Type="MonoMac.CoreGraphics.CGFont" />
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="descriptor" Type="MonoMac.CoreText.CTFontDescriptor" />
+      </Parameters>
+      <Docs>
+        <param name="font">The CoreGraphics CGFont.</param>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="descriptor">Font descriptor to use to create the font.</param>
+        <summary>Creates a CTFont from a CoreGraphics CGFont.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CTFont (MonoMac.CoreText.CTFontDescriptor descriptor, float size, ref MonoMac.CoreGraphics.CGAffineTransform matrix);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.CoreText.CTFontDescriptor descriptor, float32 size, valuetype MonoMac.CoreGraphics.CGAffineTransform matrix) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="descriptor" Type="MonoMac.CoreText.CTFontDescriptor" />
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="matrix" Type="MonoMac.CoreGraphics.CGAffineTransform&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="descriptor">Font descriptor to use to create the font.</param>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="matrix">Transformation matrix for the font, if null, it uses the identity matrix.</param>
+        <summary>Creates a CTFont from a CTFontDescriptor.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CTFont (MonoMac.CoreText.CTFontDescriptor descriptor, float size, MonoMac.CoreText.CTFontOptions options);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.CoreText.CTFontDescriptor descriptor, float32 size, valuetype MonoMac.CoreText.CTFontOptions options) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="descriptor" Type="MonoMac.CoreText.CTFontDescriptor" />
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="options" Type="MonoMac.CoreText.CTFontOptions" />
+      </Parameters>
+      <Docs>
+        <param name="descriptor">Font descriptor to use to create the font.</param>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="options">Configuration options for the font creation.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CTFont (MonoMac.CoreText.CTFontUIFontType uiType, float size, string language);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype MonoMac.CoreText.CTFontUIFontType uiType, float32 size, string language) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="uiType" Type="MonoMac.CoreText.CTFontUIFontType" />
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="language" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="uiType">To be added.</param>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="language">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CTFont (string name, float size, ref MonoMac.CoreGraphics.CGAffineTransform matrix);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name, float32 size, valuetype MonoMac.CoreGraphics.CGAffineTransform matrix) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="matrix" Type="MonoMac.CoreGraphics.CGAffineTransform&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="name">The name of the font.   Use PostScript names (for example "HelveticaNeue").</param>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="matrix">Transformation matrix for the font, if null, it uses the identity matrix.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CTFont (string name, float size, MonoMac.CoreText.CTFontOptions options);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name, float32 size, valuetype MonoMac.CoreText.CTFontOptions options) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="options" Type="MonoMac.CoreText.CTFontOptions" />
+      </Parameters>
+      <Docs>
+        <param name="name">The name of the font.   Use PostScript names (for example "HelveticaNeue").</param>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="options">Configuration options for the font creation.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CTFont (MonoMac.CoreGraphics.CGFont font, float size, MonoMac.CoreGraphics.CGAffineTransform transform, MonoMac.CoreText.CTFontDescriptor descriptor);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.CoreGraphics.CGFont font, float32 size, valuetype MonoMac.CoreGraphics.CGAffineTransform transform, class MonoMac.CoreText.CTFontDescriptor descriptor) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="font" Type="MonoMac.CoreGraphics.CGFont" />
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="transform" Type="MonoMac.CoreGraphics.CGAffineTransform" />
+        <Parameter Name="descriptor" Type="MonoMac.CoreText.CTFontDescriptor" />
+      </Parameters>
+      <Docs>
+        <param name="font">To be added.</param>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="transform">Transformation matrix for the font, if null, it uses the identity matrix.</param>
+        <param name="descriptor">Font descriptor to use to create the font.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CTFont (MonoMac.CoreText.CTFontDescriptor descriptor, float size, MonoMac.CoreText.CTFontOptions options, ref MonoMac.CoreGraphics.CGAffineTransform matrix);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.CoreText.CTFontDescriptor descriptor, float32 size, valuetype MonoMac.CoreText.CTFontOptions options, valuetype MonoMac.CoreGraphics.CGAffineTransform matrix) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="descriptor" Type="MonoMac.CoreText.CTFontDescriptor" />
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="options" Type="MonoMac.CoreText.CTFontOptions" />
+        <Parameter Name="matrix" Type="MonoMac.CoreGraphics.CGAffineTransform&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="descriptor">Font descriptor to use to create the font.</param>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="options">Configuration options for the font creation.</param>
+        <param name="matrix">Transformation matrix for the font, if null, it uses the identity matrix.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CTFont (string name, float size, ref MonoMac.CoreGraphics.CGAffineTransform matrix, MonoMac.CoreText.CTFontOptions options);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name, float32 size, valuetype MonoMac.CoreGraphics.CGAffineTransform matrix, valuetype MonoMac.CoreText.CTFontOptions options) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="matrix" Type="MonoMac.CoreGraphics.CGAffineTransform&amp;" RefType="ref" />
+        <Parameter Name="options" Type="MonoMac.CoreText.CTFontOptions" />
+      </Parameters>
+      <Docs>
+        <param name="name">The name of the font.   Use PostScript names (for example "HelveticaNeue").</param>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="matrix">Transformation matrix for the font, if null, it uses the identity matrix.</param>
+        <param name="options">Configuration options for the font creation.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AscentMetric">
+      <MemberSignature Language="C#" Value="public float AscentMetric { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float32 AscentMetric" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BoundingBox">
+      <MemberSignature Language="C#" Value="public System.Drawing.RectangleF BoundingBox { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Drawing.RectangleF BoundingBox" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Drawing.RectangleF</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CapHeightMetric">
+      <MemberSignature Language="C#" Value="public float CapHeightMetric { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float32 CapHeightMetric" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CharacterSet">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSCharacterSet CharacterSet { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSCharacterSet CharacterSet" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSCharacterSet</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DescentMetric">
+      <MemberSignature Language="C#" Value="public float DescentMetric { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float32 DescentMetric" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DisplayName">
+      <MemberSignature Language="C#" Value="public string DisplayName { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string DisplayName" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Releases the resources used by the CTFont object.</summary>
+        <remarks>
+          <para>The Dispose method releases the resources used by the CTFont class.</para>
+          <para>Calling the Dispose method when you are finished using the CTFont ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.  For more information on releasing resources see ``Cleaning up Unmananaged Resources'' at http://msdn.microsoft.com/en-us/library/498928w2.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <para>If set to <see langword="true" />, the method is invoked directly and will dispose manage and unmanaged resources;   If set to <see langword="false" /> the method is being called by the garbage collector finalizer and should only release unmanaged resources.</para>
+        </param>
+        <summary>Releases the resources used by the CTFont object.</summary>
+        <remarks>
+          <para>This Dispose method releases the resources used by the CTFont class.</para>
+          <para>This method is called by both the Dispose() method and the object finalizer (Finalize).    When invoked by the Dispose method, the parameter disposting <paramref name="disposing" /> is set to <see langword="true" /> and any managed object references that this object holds are also disposed or released;  when invoked by the object finalizer, on the finalizer thread the value is set to <see langword="false" />. </para>
+          <para>Calling the Dispose method when you are finished using the CTFont ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.</para>
+          <para>  For more information on how to override this method and on the Dispose/IDisposable pattern, read the ``Implementing a Dispose Method'' document at http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DrawGlyphs">
+      <MemberSignature Language="C#" Value="public void DrawGlyphs (MonoMac.CoreGraphics.CGContext context, ushort[] glyphs, System.Drawing.PointF[] positions);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void DrawGlyphs(class MonoMac.CoreGraphics.CGContext context, unsigned int16[] glyphs, valuetype System.Drawing.PointF[] positions) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(4, 2)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="context" Type="MonoMac.CoreGraphics.CGContext" />
+        <Parameter Name="glyphs" Type="System.UInt16[]" />
+        <Parameter Name="positions" Type="System.Drawing.PointF[]" />
+      </Parameters>
+      <Docs>
+        <param name="context">To be added.</param>
+        <param name="glyphs">To be added.</param>
+        <param name="positions">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FamilyName">
+      <MemberSignature Language="C#" Value="public string FamilyName { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string FamilyName" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~CTFont ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Finalizer for the CTFont object</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ForString">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFont ForString (string value, MonoMac.Foundation.NSRange range);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreText.CTFont ForString(string value, valuetype MonoMac.Foundation.NSRange range) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFont</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.String" />
+        <Parameter Name="range" Type="MonoMac.Foundation.NSRange" />
+      </Parameters>
+      <Docs>
+        <param name="value">To be added.</param>
+        <param name="range">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FullName">
+      <MemberSignature Language="C#" Value="public string FullName { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string FullName" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetAdvancesForGlyphs">
+      <MemberSignature Language="C#" Value="public double GetAdvancesForGlyphs (MonoMac.CoreText.CTFontOrientation orientation, ushort[] glyphs);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance float64 GetAdvancesForGlyphs(valuetype MonoMac.CoreText.CTFontOrientation orientation, unsigned int16[] glyphs) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="orientation" Type="MonoMac.CoreText.CTFontOrientation" />
+        <Parameter Name="glyphs" Type="System.UInt16[]" />
+      </Parameters>
+      <Docs>
+        <param name="orientation">To be added.</param>
+        <param name="glyphs">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetAdvancesForGlyphs">
+      <MemberSignature Language="C#" Value="public double GetAdvancesForGlyphs (MonoMac.CoreText.CTFontOrientation orientation, ushort[] glyphs, System.Drawing.SizeF[] advances, int count);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance float64 GetAdvancesForGlyphs(valuetype MonoMac.CoreText.CTFontOrientation orientation, unsigned int16[] glyphs, valuetype System.Drawing.SizeF[] advances, int32 count) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="orientation" Type="MonoMac.CoreText.CTFontOrientation" />
+        <Parameter Name="glyphs" Type="System.UInt16[]" />
+        <Parameter Name="advances" Type="System.Drawing.SizeF[]" />
+        <Parameter Name="count" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="orientation">To be added.</param>
+        <param name="glyphs">To be added.</param>
+        <param name="advances">To be added.</param>
+        <param name="count">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetAttribute">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSObject GetAttribute (MonoMac.Foundation.NSString attribute);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSObject GetAttribute(class MonoMac.Foundation.NSString attribute) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="attribute" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="attribute">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetAvailableTables">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFontTable[] GetAvailableTables (MonoMac.CoreText.CTFontTableOptions options);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.CoreText.CTFontTable[] GetAvailableTables(valuetype MonoMac.CoreText.CTFontTableOptions options) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontTable[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="options" Type="MonoMac.CoreText.CTFontTableOptions" />
+      </Parameters>
+      <Docs>
+        <param name="options">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetBoundingRects">
+      <MemberSignature Language="C#" Value="public System.Drawing.RectangleF GetBoundingRects (MonoMac.CoreText.CTFontOrientation orientation, ushort[] glyphs);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Drawing.RectangleF GetBoundingRects(valuetype MonoMac.CoreText.CTFontOrientation orientation, unsigned int16[] glyphs) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Drawing.RectangleF</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="orientation" Type="MonoMac.CoreText.CTFontOrientation" />
+        <Parameter Name="glyphs" Type="System.UInt16[]" />
+      </Parameters>
+      <Docs>
+        <param name="orientation">To be added.</param>
+        <param name="glyphs">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetBoundingRects">
+      <MemberSignature Language="C#" Value="public System.Drawing.RectangleF GetBoundingRects (MonoMac.CoreText.CTFontOrientation orientation, ushort[] glyphs, System.Drawing.RectangleF[] boundingRects, int count);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Drawing.RectangleF GetBoundingRects(valuetype MonoMac.CoreText.CTFontOrientation orientation, unsigned int16[] glyphs, valuetype System.Drawing.RectangleF[] boundingRects, int32 count) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Drawing.RectangleF</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="orientation" Type="MonoMac.CoreText.CTFontOrientation" />
+        <Parameter Name="glyphs" Type="System.UInt16[]" />
+        <Parameter Name="boundingRects" Type="System.Drawing.RectangleF[]" />
+        <Parameter Name="count" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="orientation">To be added.</param>
+        <param name="glyphs">To be added.</param>
+        <param name="boundingRects">To be added.</param>
+        <param name="count">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetDefaultCascadeList">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFontDescriptor[] GetDefaultCascadeList (string[] languages);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreText.CTFontDescriptor[] GetDefaultCascadeList(string[] languages) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(6, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontDescriptor[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="languages" Type="System.String[]" />
+      </Parameters>
+      <Docs>
+        <param name="languages">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetFeatures">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFontFeatures[] GetFeatures ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreText.CTFontFeatures[] GetFeatures() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontFeatures[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetFeatureSettings">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFontFeatureSettings[] GetFeatureSettings ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreText.CTFontFeatureSettings[] GetFeatureSettings() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontFeatureSettings[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetFontDescriptor">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFontDescriptor GetFontDescriptor ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreText.CTFontDescriptor GetFontDescriptor() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontDescriptor</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetFontTableData">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSData GetFontTableData (MonoMac.CoreText.CTFontTable table, MonoMac.CoreText.CTFontTableOptions options);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSData GetFontTableData(valuetype MonoMac.CoreText.CTFontTable table, valuetype MonoMac.CoreText.CTFontTableOptions options) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSData</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="table" Type="MonoMac.CoreText.CTFontTable" />
+        <Parameter Name="options" Type="MonoMac.CoreText.CTFontTableOptions" />
+      </Parameters>
+      <Docs>
+        <param name="table">To be added.</param>
+        <param name="options">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetGlyphsForCharacters">
+      <MemberSignature Language="C#" Value="public bool GetGlyphsForCharacters (char[] characters, ushort[] glyphs);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool GetGlyphsForCharacters(char[] characters, unsigned int16[] glyphs) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="characters" Type="System.Char[]" />
+        <Parameter Name="glyphs" Type="System.UInt16[]" />
+      </Parameters>
+      <Docs>
+        <param name="characters">To be added.</param>
+        <param name="glyphs">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetGlyphsForCharacters">
+      <MemberSignature Language="C#" Value="public bool GetGlyphsForCharacters (char[] characters, ushort[] glyphs, int count);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool GetGlyphsForCharacters(char[] characters, unsigned int16[] glyphs, int32 count) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="characters" Type="System.Char[]" />
+        <Parameter Name="glyphs" Type="System.UInt16[]" />
+        <Parameter Name="count" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="characters">To be added.</param>
+        <param name="glyphs">To be added.</param>
+        <param name="count">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetGlyphWithName">
+      <MemberSignature Language="C#" Value="public ushort GetGlyphWithName (string glyphName);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance unsigned int16 GetGlyphWithName(string glyphName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.UInt16</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="glyphName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="glyphName">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetLigatureCaretPositions">
+      <MemberSignature Language="C#" Value="public int GetLigatureCaretPositions (ushort glyph, float[] positions);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int32 GetLigatureCaretPositions(unsigned int16 glyph, float32[] positions) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(4, 2)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="glyph" Type="System.UInt16" />
+        <Parameter Name="positions" Type="System.Single[]" />
+      </Parameters>
+      <Docs>
+        <param name="glyph">To be added.</param>
+        <param name="positions">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetLocalizedName">
+      <MemberSignature Language="C#" Value="public string GetLocalizedName (MonoMac.CoreText.CTFontNameKey nameKey);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance string GetLocalizedName(valuetype MonoMac.CoreText.CTFontNameKey nameKey) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="nameKey" Type="MonoMac.CoreText.CTFontNameKey" />
+      </Parameters>
+      <Docs>
+        <param name="nameKey">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetName">
+      <MemberSignature Language="C#" Value="public string GetName (MonoMac.CoreText.CTFontNameKey nameKey);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance string GetName(valuetype MonoMac.CoreText.CTFontNameKey nameKey) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="nameKey" Type="MonoMac.CoreText.CTFontNameKey" />
+      </Parameters>
+      <Docs>
+        <param name="nameKey">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetOpticalBounds">
+      <MemberSignature Language="C#" Value="public System.Drawing.RectangleF GetOpticalBounds (ushort[] glyphs, System.Drawing.RectangleF[] boundingRects, int count, MonoMac.CoreText.CTFontOptions options = MonoMac.CoreText.CTFontOptions.Default);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Drawing.RectangleF GetOpticalBounds(unsigned int16[] glyphs, valuetype System.Drawing.RectangleF[] boundingRects, int32 count, valuetype MonoMac.CoreText.CTFontOptions options) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(6, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Drawing.RectangleF</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="glyphs" Type="System.UInt16[]" />
+        <Parameter Name="boundingRects" Type="System.Drawing.RectangleF[]" />
+        <Parameter Name="count" Type="System.Int32" />
+        <Parameter Name="options" Type="MonoMac.CoreText.CTFontOptions" />
+      </Parameters>
+      <Docs>
+        <param name="glyphs">To be added.</param>
+        <param name="boundingRects">To be added.</param>
+        <param name="count">To be added.</param>
+        <param name="options">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetPathForGlyph">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreGraphics.CGPath GetPathForGlyph (ushort glyph);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreGraphics.CGPath GetPathForGlyph(unsigned int16 glyph) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGPath</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="glyph" Type="System.UInt16" />
+      </Parameters>
+      <Docs>
+        <param name="glyph">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetPathForGlyph">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreGraphics.CGPath GetPathForGlyph (ushort glyph, ref MonoMac.CoreGraphics.CGAffineTransform transform);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreGraphics.CGPath GetPathForGlyph(unsigned int16 glyph, valuetype MonoMac.CoreGraphics.CGAffineTransform transform) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGPath</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="glyph" Type="System.UInt16" />
+        <Parameter Name="transform" Type="MonoMac.CoreGraphics.CGAffineTransform&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="glyph">To be added.</param>
+        <param name="transform">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetSupportedLanguages">
+      <MemberSignature Language="C#" Value="public string[] GetSupportedLanguages ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance string[] GetSupportedLanguages() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetTraits">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFontTraits GetTraits ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreText.CTFontTraits GetTraits() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontTraits</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetTypeID">
+      <MemberSignature Language="C#" Value="public static int GetTypeID ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig pinvokeimpl (&quot;/System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreText.framework/CoreText&quot; as &quot;CTFontGetTypeID&quot; winapi)int32 GetTypeID() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetVariation">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFontVariation GetVariation ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreText.CTFontVariation GetVariation() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontVariation</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetVariationAxes">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFontVariationAxes[] GetVariationAxes ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreText.CTFontVariationAxes[] GetVariationAxes() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontVariationAxes[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetVerticalTranslationsForGlyphs">
+      <MemberSignature Language="C#" Value="public void GetVerticalTranslationsForGlyphs (ushort[] glyphs, System.Drawing.SizeF[] translations, int count);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void GetVerticalTranslationsForGlyphs(unsigned int16[] glyphs, valuetype System.Drawing.SizeF[] translations, int32 count) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="glyphs" Type="System.UInt16[]" />
+        <Parameter Name="translations" Type="System.Drawing.SizeF[]" />
+        <Parameter Name="count" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="glyphs">To be added.</param>
+        <param name="translations">To be added.</param>
+        <param name="count">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GlyphCount">
+      <MemberSignature Language="C#" Value="public int GlyphCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 GlyphCount" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Handle">
+      <MemberSignature Language="C#" Value="public IntPtr Handle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int Handle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Handle (pointer) to the unmanaged object representation.</summary>
+        <value>A pointer</value>
+        <remarks>This IntPtr is a handle to the underlying unmanaged representation for this object.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LeadingMetric">
+      <MemberSignature Language="C#" Value="public float LeadingMetric { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float32 LeadingMetric" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Matrix">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreGraphics.CGAffineTransform Matrix { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.CoreGraphics.CGAffineTransform Matrix" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGAffineTransform</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The transformation matrix used when this font was created.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PostScriptName">
+      <MemberSignature Language="C#" Value="public string PostScriptName { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string PostScriptName" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Size">
+      <MemberSignature Language="C#" Value="public float Size { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float32 Size" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The font size.</summary>
+        <value>
+        </value>
+        <remarks>This is the size that was used when the font was constructed.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SlantAngle">
+      <MemberSignature Language="C#" Value="public float SlantAngle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float32 SlantAngle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StringEncoding">
+      <MemberSignature Language="C#" Value="public uint StringEncoding { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance unsigned int32 StringEncoding" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.UInt32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SymbolicTraits">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFontSymbolicTraits SymbolicTraits { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.CoreText.CTFontSymbolicTraits SymbolicTraits" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontSymbolicTraits</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToCGFont">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreGraphics.CGFont ToCGFont ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreGraphics.CGFont ToCGFont() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGFont</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToCGFont">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreGraphics.CGFont ToCGFont (MonoMac.CoreText.CTFontDescriptor attributes);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreGraphics.CGFont ToCGFont(class MonoMac.CoreText.CTFontDescriptor attributes) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGFont</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="attributes" Type="MonoMac.CoreText.CTFontDescriptor" />
+      </Parameters>
+      <Docs>
+        <param name="attributes">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToString">
+      <MemberSignature Language="C#" Value="public override string ToString ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UnderlinePosition">
+      <MemberSignature Language="C#" Value="public float UnderlinePosition { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float32 UnderlinePosition" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UnderlineThickness">
+      <MemberSignature Language="C#" Value="public float UnderlineThickness { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float32 UnderlineThickness" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UnitsPerEmMetric">
+      <MemberSignature Language="C#" Value="public uint UnitsPerEmMetric { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance unsigned int32 UnitsPerEmMetric" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.UInt32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WithAttributes">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFont WithAttributes (float size, MonoMac.CoreText.CTFontDescriptor attributes);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreText.CTFont WithAttributes(float32 size, class MonoMac.CoreText.CTFontDescriptor attributes) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFont</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="attributes" Type="MonoMac.CoreText.CTFontDescriptor" />
+      </Parameters>
+      <Docs>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="attributes">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WithAttributes">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFont WithAttributes (float size, MonoMac.CoreText.CTFontDescriptor attributes, ref MonoMac.CoreGraphics.CGAffineTransform matrix);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreText.CTFont WithAttributes(float32 size, class MonoMac.CoreText.CTFontDescriptor attributes, valuetype MonoMac.CoreGraphics.CGAffineTransform matrix) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFont</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="attributes" Type="MonoMac.CoreText.CTFontDescriptor" />
+        <Parameter Name="matrix" Type="MonoMac.CoreGraphics.CGAffineTransform&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="attributes">To be added.</param>
+        <param name="matrix">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WithFamily">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFont WithFamily (float size, string family);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreText.CTFont WithFamily(float32 size, string family) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFont</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="family" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="family">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WithFamily">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFont WithFamily (float size, string family, ref MonoMac.CoreGraphics.CGAffineTransform matrix);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreText.CTFont WithFamily(float32 size, string family, valuetype MonoMac.CoreGraphics.CGAffineTransform matrix) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFont</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="family" Type="System.String" />
+        <Parameter Name="matrix" Type="MonoMac.CoreGraphics.CGAffineTransform&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="family">To be added.</param>
+        <param name="matrix">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WithSymbolicTraits">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFont WithSymbolicTraits (float size, MonoMac.CoreText.CTFontSymbolicTraits symTraitValue, MonoMac.CoreText.CTFontSymbolicTraits symTraitMask);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreText.CTFont WithSymbolicTraits(float32 size, valuetype MonoMac.CoreText.CTFontSymbolicTraits symTraitValue, valuetype MonoMac.CoreText.CTFontSymbolicTraits symTraitMask) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFont</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="symTraitValue" Type="MonoMac.CoreText.CTFontSymbolicTraits" />
+        <Parameter Name="symTraitMask" Type="MonoMac.CoreText.CTFontSymbolicTraits" />
+      </Parameters>
+      <Docs>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="symTraitValue">To be added.</param>
+        <param name="symTraitMask">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WithSymbolicTraits">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFont WithSymbolicTraits (float size, MonoMac.CoreText.CTFontSymbolicTraits symTraitValue, MonoMac.CoreText.CTFontSymbolicTraits symTraitMask, ref MonoMac.CoreGraphics.CGAffineTransform matrix);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreText.CTFont WithSymbolicTraits(float32 size, valuetype MonoMac.CoreText.CTFontSymbolicTraits symTraitValue, valuetype MonoMac.CoreText.CTFontSymbolicTraits symTraitMask, valuetype MonoMac.CoreGraphics.CGAffineTransform matrix) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFont</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="size" Type="System.Single" />
+        <Parameter Name="symTraitValue" Type="MonoMac.CoreText.CTFontSymbolicTraits" />
+        <Parameter Name="symTraitMask" Type="MonoMac.CoreText.CTFontSymbolicTraits" />
+        <Parameter Name="matrix" Type="MonoMac.CoreGraphics.CGAffineTransform&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="size">The desired font size.  If you specify zero, it will use the system default.</param>
+        <param name="symTraitValue">To be added.</param>
+        <param name="symTraitMask">To be added.</param>
+        <param name="matrix">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="XHeightMetric">
+      <MemberSignature Language="C#" Value="public float XHeightMetric { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float32 XHeightMetric" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

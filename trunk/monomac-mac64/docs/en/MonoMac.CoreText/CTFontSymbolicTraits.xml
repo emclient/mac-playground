@@ -1,0 +1,208 @@
+<Type Name="CTFontSymbolicTraits" FullName="MonoMac.CoreText.CTFontSymbolicTraits">
+  <TypeSignature Language="C#" Value="public enum CTFontSymbolicTraits" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed CTFontSymbolicTraits extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.ObjCRuntime.Since(3, 2)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Flags</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>Describes the style of a font.</summary>
+    <remarks>
+      <para>
+	You can use this to query trait information about a font.
+      </para>
+      <example>
+        <code lang="c#">
+void ShowInfo (CTFont font)
+{
+    var traits = font.GetTraits ();
+    if (traits.Bold)
+	Console.WriteLine ("Bold font, weight={0}", traits.Weight);
+    if (traits.Italic)
+	Console.WriteLine ("Italic font, slant={0}", traits.Slant);
+    if (traits.Condensed || traits.Expanded)
+	Console.WriteLine ("Condensed/Expanded font, width={0}", traits.Width);
+    if (traits.ColorGlyphs)
+	Console.WriteLine ("Font has colored glyphs");
+    if (traits.MonoSpace)
+	Console.WriteLine ("Font is monospaced");
+    if (traits.Vertical)
+	Console.WriteLine ("Font contains vertical metrics");
+}
+	</code>
+      </example>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Bold">
+      <MemberSignature Language="C#" Value="Bold" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontSymbolicTraits Bold = unsigned int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontSymbolicTraits</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+	  This is a bold font.  If querying <see cref="T:MonoMac.CoreText.CTFontTraits" /> you can get more
+	  information about the weight from the <see cref="P:MonoMac.CoreText.CTFontTraits.Weight" /> property.
+	</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ColorGlyphs">
+      <MemberSignature Language="C#" Value="ColorGlyphs" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontSymbolicTraits ColorGlyphs = unsigned int32(8192)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontSymbolicTraits</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>This font contains glyphs with colors (for example, some Emoji fonts).</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Composite">
+      <MemberSignature Language="C#" Value="Composite" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontSymbolicTraits Composite = unsigned int32(16384)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontSymbolicTraits</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Condensed">
+      <MemberSignature Language="C#" Value="Condensed" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontSymbolicTraits Condensed = unsigned int32(64)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontSymbolicTraits</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>This is a condensed font.  If querying <see cref="T:MonoMac.CoreText.CTFontTraits" /> you can get more
+	  information about the width from the <see cref="P:MonoMac.CoreText.CTFontTraits.Width" /> property.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Expanded">
+      <MemberSignature Language="C#" Value="Expanded" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontSymbolicTraits Expanded = unsigned int32(32)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontSymbolicTraits</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>This is an expanded font.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Italic">
+      <MemberSignature Language="C#" Value="Italic" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontSymbolicTraits Italic = unsigned int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontSymbolicTraits</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>This is an italic font.  If querying <see cref="T:MonoMac.CoreText.CTFontTraits" /> you can get more
+	  information about the slant from the <see cref="P:MonoMac.CoreText.CTFontTraits.Slant" /> property.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Mask">
+      <MemberSignature Language="C#" Value="Mask" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontSymbolicTraits Mask = unsigned int32(4026531840)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontSymbolicTraits</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MonoSpace">
+      <MemberSignature Language="C#" Value="MonoSpace" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontSymbolicTraits MonoSpace = unsigned int32(1024)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontSymbolicTraits</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Use fixed fonts if available.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="None">
+      <MemberSignature Language="C#" Value="None" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontSymbolicTraits None = unsigned int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontSymbolicTraits</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Used when no values are set.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="UIOptimized">
+      <MemberSignature Language="C#" Value="UIOptimized" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontSymbolicTraits UIOptimized = unsigned int32(4096)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontSymbolicTraits</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The font is optimized for UI rendering.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Vertical">
+      <MemberSignature Language="C#" Value="Vertical" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontSymbolicTraits Vertical = unsigned int32(2048)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontSymbolicTraits</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The font has vertical information for rendering.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

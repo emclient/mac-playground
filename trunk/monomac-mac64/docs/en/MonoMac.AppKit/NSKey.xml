@@ -1,0 +1,2173 @@
+<Type Name="NSKey" FullName="MonoMac.AppKit.NSKey">
+  <TypeSignature Language="C#" Value="public enum NSKey" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed NSKey extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="A">
+      <MemberSignature Language="C#" Value="A" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey A = int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="B">
+      <MemberSignature Language="C#" Value="B" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey B = int32(11)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Backslash">
+      <MemberSignature Language="C#" Value="Backslash" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Backslash = int32(42)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Begin">
+      <MemberSignature Language="C#" Value="Begin" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Begin = int32(63274)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Break">
+      <MemberSignature Language="C#" Value="Break" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Break = int32(63282)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="C">
+      <MemberSignature Language="C#" Value="C" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey C = int32(8)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="CapsLock">
+      <MemberSignature Language="C#" Value="CapsLock" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey CapsLock = int32(57)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ClearDisplay">
+      <MemberSignature Language="C#" Value="ClearDisplay" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey ClearDisplay = int32(63290)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ClearLine">
+      <MemberSignature Language="C#" Value="ClearLine" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey ClearLine = int32(63289)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Comma">
+      <MemberSignature Language="C#" Value="Comma" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Comma = int32(43)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Command">
+      <MemberSignature Language="C#" Value="Command" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Command = int32(55)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Control">
+      <MemberSignature Language="C#" Value="Control" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Control = int32(59)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="D">
+      <MemberSignature Language="C#" Value="D" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey D = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="D0">
+      <MemberSignature Language="C#" Value="D0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey D0 = int32(29)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="D1">
+      <MemberSignature Language="C#" Value="D1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey D1 = int32(18)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="D2">
+      <MemberSignature Language="C#" Value="D2" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey D2 = int32(19)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="D3">
+      <MemberSignature Language="C#" Value="D3" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey D3 = int32(20)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="D4">
+      <MemberSignature Language="C#" Value="D4" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey D4 = int32(21)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="D5">
+      <MemberSignature Language="C#" Value="D5" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey D5 = int32(23)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="D6">
+      <MemberSignature Language="C#" Value="D6" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey D6 = int32(22)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="D7">
+      <MemberSignature Language="C#" Value="D7" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey D7 = int32(26)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="D8">
+      <MemberSignature Language="C#" Value="D8" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey D8 = int32(28)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="D9">
+      <MemberSignature Language="C#" Value="D9" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey D9 = int32(25)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Delete">
+      <MemberSignature Language="C#" Value="Delete" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Delete = int32(51)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DeleteChar">
+      <MemberSignature Language="C#" Value="DeleteChar" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey DeleteChar = int32(63294)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DeleteLine">
+      <MemberSignature Language="C#" Value="DeleteLine" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey DeleteLine = int32(63292)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DownArrow">
+      <MemberSignature Language="C#" Value="DownArrow" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey DownArrow = int32(63233)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="E">
+      <MemberSignature Language="C#" Value="E" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey E = int32(14)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="End">
+      <MemberSignature Language="C#" Value="End" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey End = int32(63275)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Equal">
+      <MemberSignature Language="C#" Value="Equal" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Equal = int32(24)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Escape">
+      <MemberSignature Language="C#" Value="Escape" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Escape = int32(53)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Execute">
+      <MemberSignature Language="C#" Value="Execute" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Execute = int32(63298)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F">
+      <MemberSignature Language="C#" Value="F" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F = int32(3)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F1">
+      <MemberSignature Language="C#" Value="F1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F1 = int32(63236)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F10">
+      <MemberSignature Language="C#" Value="F10" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F10 = int32(63245)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F11">
+      <MemberSignature Language="C#" Value="F11" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F11 = int32(63246)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F12">
+      <MemberSignature Language="C#" Value="F12" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F12 = int32(63247)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F13">
+      <MemberSignature Language="C#" Value="F13" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F13 = int32(63248)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F14">
+      <MemberSignature Language="C#" Value="F14" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F14 = int32(63249)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F15">
+      <MemberSignature Language="C#" Value="F15" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F15 = int32(63250)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F16">
+      <MemberSignature Language="C#" Value="F16" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F16 = int32(63251)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F17">
+      <MemberSignature Language="C#" Value="F17" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F17 = int32(63252)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F18">
+      <MemberSignature Language="C#" Value="F18" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F18 = int32(63253)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F19">
+      <MemberSignature Language="C#" Value="F19" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F19 = int32(63254)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F2">
+      <MemberSignature Language="C#" Value="F2" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F2 = int32(63237)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F20">
+      <MemberSignature Language="C#" Value="F20" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F20 = int32(63255)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F21">
+      <MemberSignature Language="C#" Value="F21" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F21 = int32(63256)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F22">
+      <MemberSignature Language="C#" Value="F22" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F22 = int32(63257)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F23">
+      <MemberSignature Language="C#" Value="F23" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F23 = int32(63258)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F24">
+      <MemberSignature Language="C#" Value="F24" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F24 = int32(63259)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F25">
+      <MemberSignature Language="C#" Value="F25" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F25 = int32(63260)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F26">
+      <MemberSignature Language="C#" Value="F26" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F26 = int32(63261)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F27">
+      <MemberSignature Language="C#" Value="F27" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F27 = int32(63262)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F28">
+      <MemberSignature Language="C#" Value="F28" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F28 = int32(63263)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F29">
+      <MemberSignature Language="C#" Value="F29" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F29 = int32(63264)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F3">
+      <MemberSignature Language="C#" Value="F3" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F3 = int32(63238)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F30">
+      <MemberSignature Language="C#" Value="F30" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F30 = int32(63265)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F31">
+      <MemberSignature Language="C#" Value="F31" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F31 = int32(63266)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F32">
+      <MemberSignature Language="C#" Value="F32" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F32 = int32(63267)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F33">
+      <MemberSignature Language="C#" Value="F33" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F33 = int32(63268)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F34">
+      <MemberSignature Language="C#" Value="F34" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F34 = int32(63269)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F35">
+      <MemberSignature Language="C#" Value="F35" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F35 = int32(63270)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F4">
+      <MemberSignature Language="C#" Value="F4" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F4 = int32(63239)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F5">
+      <MemberSignature Language="C#" Value="F5" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F5 = int32(63240)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F6">
+      <MemberSignature Language="C#" Value="F6" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F6 = int32(63241)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F7">
+      <MemberSignature Language="C#" Value="F7" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F7 = int32(63242)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F8">
+      <MemberSignature Language="C#" Value="F8" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F8 = int32(63243)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="F9">
+      <MemberSignature Language="C#" Value="F9" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey F9 = int32(63244)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Find">
+      <MemberSignature Language="C#" Value="Find" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Find = int32(63301)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ForwardDelete">
+      <MemberSignature Language="C#" Value="ForwardDelete" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey ForwardDelete = int32(117)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Function">
+      <MemberSignature Language="C#" Value="Function" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Function = int32(63)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="G">
+      <MemberSignature Language="C#" Value="G" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey G = int32(5)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Grave">
+      <MemberSignature Language="C#" Value="Grave" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Grave = int32(50)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="H">
+      <MemberSignature Language="C#" Value="H" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey H = int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Help">
+      <MemberSignature Language="C#" Value="Help" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Help = int32(63302)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Home">
+      <MemberSignature Language="C#" Value="Home" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Home = int32(63273)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="I">
+      <MemberSignature Language="C#" Value="I" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey I = int32(34)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Insert">
+      <MemberSignature Language="C#" Value="Insert" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Insert = int32(63271)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="InsertChar">
+      <MemberSignature Language="C#" Value="InsertChar" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey InsertChar = int32(63293)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="InsertLine">
+      <MemberSignature Language="C#" Value="InsertLine" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey InsertLine = int32(63291)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="J">
+      <MemberSignature Language="C#" Value="J" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey J = int32(38)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="K">
+      <MemberSignature Language="C#" Value="K" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey K = int32(40)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Keypad0">
+      <MemberSignature Language="C#" Value="Keypad0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Keypad0 = int32(82)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Keypad1">
+      <MemberSignature Language="C#" Value="Keypad1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Keypad1 = int32(83)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Keypad2">
+      <MemberSignature Language="C#" Value="Keypad2" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Keypad2 = int32(84)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Keypad3">
+      <MemberSignature Language="C#" Value="Keypad3" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Keypad3 = int32(85)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Keypad4">
+      <MemberSignature Language="C#" Value="Keypad4" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Keypad4 = int32(86)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Keypad5">
+      <MemberSignature Language="C#" Value="Keypad5" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Keypad5 = int32(87)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Keypad6">
+      <MemberSignature Language="C#" Value="Keypad6" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Keypad6 = int32(88)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Keypad7">
+      <MemberSignature Language="C#" Value="Keypad7" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Keypad7 = int32(89)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Keypad8">
+      <MemberSignature Language="C#" Value="Keypad8" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Keypad8 = int32(91)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Keypad9">
+      <MemberSignature Language="C#" Value="Keypad9" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Keypad9 = int32(92)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="KeypadClear">
+      <MemberSignature Language="C#" Value="KeypadClear" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey KeypadClear = int32(71)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="KeypadDecimal">
+      <MemberSignature Language="C#" Value="KeypadDecimal" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey KeypadDecimal = int32(65)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="KeypadDivide">
+      <MemberSignature Language="C#" Value="KeypadDivide" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey KeypadDivide = int32(75)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="KeypadEnter">
+      <MemberSignature Language="C#" Value="KeypadEnter" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey KeypadEnter = int32(76)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="KeypadEquals">
+      <MemberSignature Language="C#" Value="KeypadEquals" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey KeypadEquals = int32(81)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="KeypadMinus">
+      <MemberSignature Language="C#" Value="KeypadMinus" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey KeypadMinus = int32(78)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="KeypadMultiply">
+      <MemberSignature Language="C#" Value="KeypadMultiply" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey KeypadMultiply = int32(67)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="KeypadPlus">
+      <MemberSignature Language="C#" Value="KeypadPlus" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey KeypadPlus = int32(69)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="L">
+      <MemberSignature Language="C#" Value="L" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey L = int32(37)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="LeftArrow">
+      <MemberSignature Language="C#" Value="LeftArrow" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey LeftArrow = int32(63234)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="LeftBracket">
+      <MemberSignature Language="C#" Value="LeftBracket" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey LeftBracket = int32(33)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="M">
+      <MemberSignature Language="C#" Value="M" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey M = int32(46)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Menu">
+      <MemberSignature Language="C#" Value="Menu" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Menu = int32(63285)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Minus">
+      <MemberSignature Language="C#" Value="Minus" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Minus = int32(27)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ModeSwitch">
+      <MemberSignature Language="C#" Value="ModeSwitch" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey ModeSwitch = int32(63303)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Mute">
+      <MemberSignature Language="C#" Value="Mute" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Mute = int32(74)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="N">
+      <MemberSignature Language="C#" Value="N" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey N = int32(45)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Next">
+      <MemberSignature Language="C#" Value="Next" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Next = int32(63296)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="O">
+      <MemberSignature Language="C#" Value="O" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey O = int32(31)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Option">
+      <MemberSignature Language="C#" Value="Option" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Option = int32(58)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="P">
+      <MemberSignature Language="C#" Value="P" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey P = int32(35)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="PageDown">
+      <MemberSignature Language="C#" Value="PageDown" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey PageDown = int32(63277)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="PageUp">
+      <MemberSignature Language="C#" Value="PageUp" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey PageUp = int32(63276)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Pause">
+      <MemberSignature Language="C#" Value="Pause" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Pause = int32(63280)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Period">
+      <MemberSignature Language="C#" Value="Period" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Period = int32(47)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Prev">
+      <MemberSignature Language="C#" Value="Prev" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Prev = int32(63295)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Print">
+      <MemberSignature Language="C#" Value="Print" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Print = int32(63288)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="PrintScreen">
+      <MemberSignature Language="C#" Value="PrintScreen" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey PrintScreen = int32(63278)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Q">
+      <MemberSignature Language="C#" Value="Q" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Q = int32(12)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Quote">
+      <MemberSignature Language="C#" Value="Quote" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Quote = int32(39)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="R">
+      <MemberSignature Language="C#" Value="R" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey R = int32(15)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Redo">
+      <MemberSignature Language="C#" Value="Redo" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Redo = int32(63300)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Reset">
+      <MemberSignature Language="C#" Value="Reset" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Reset = int32(63283)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Return">
+      <MemberSignature Language="C#" Value="Return" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Return = int32(36)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="RightArrow">
+      <MemberSignature Language="C#" Value="RightArrow" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey RightArrow = int32(63235)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="RightBracket">
+      <MemberSignature Language="C#" Value="RightBracket" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey RightBracket = int32(30)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="RightControl">
+      <MemberSignature Language="C#" Value="RightControl" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey RightControl = int32(62)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="RightOption">
+      <MemberSignature Language="C#" Value="RightOption" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey RightOption = int32(61)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="RightShift">
+      <MemberSignature Language="C#" Value="RightShift" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey RightShift = int32(60)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="S">
+      <MemberSignature Language="C#" Value="S" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey S = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ScrollLock">
+      <MemberSignature Language="C#" Value="ScrollLock" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey ScrollLock = int32(63279)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Select">
+      <MemberSignature Language="C#" Value="Select" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Select = int32(63297)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Semicolon">
+      <MemberSignature Language="C#" Value="Semicolon" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Semicolon = int32(41)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Shift">
+      <MemberSignature Language="C#" Value="Shift" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Shift = int32(56)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Slash">
+      <MemberSignature Language="C#" Value="Slash" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Slash = int32(44)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Space">
+      <MemberSignature Language="C#" Value="Space" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Space = int32(49)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Stop">
+      <MemberSignature Language="C#" Value="Stop" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Stop = int32(63284)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="SysReq">
+      <MemberSignature Language="C#" Value="SysReq" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey SysReq = int32(63281)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="System">
+      <MemberSignature Language="C#" Value="System" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey System = int32(63287)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="T">
+      <MemberSignature Language="C#" Value="T" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey T = int32(17)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Tab">
+      <MemberSignature Language="C#" Value="Tab" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Tab = int32(48)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="U">
+      <MemberSignature Language="C#" Value="U" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey U = int32(32)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Undo">
+      <MemberSignature Language="C#" Value="Undo" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Undo = int32(63299)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="UpArrow">
+      <MemberSignature Language="C#" Value="UpArrow" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey UpArrow = int32(63232)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="User">
+      <MemberSignature Language="C#" Value="User" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey User = int32(63286)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="V">
+      <MemberSignature Language="C#" Value="V" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey V = int32(9)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeDown">
+      <MemberSignature Language="C#" Value="VolumeDown" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey VolumeDown = int32(73)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeUp">
+      <MemberSignature Language="C#" Value="VolumeUp" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey VolumeUp = int32(72)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="W">
+      <MemberSignature Language="C#" Value="W" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey W = int32(13)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="X">
+      <MemberSignature Language="C#" Value="X" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey X = int32(7)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Y">
+      <MemberSignature Language="C#" Value="Y" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Y = int32(16)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Z">
+      <MemberSignature Language="C#" Value="Z" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSKey Z = int32(6)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSKey</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

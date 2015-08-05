@@ -1,0 +1,6 @@
+<Namespace Name="MonoMac.CoreData">
+  <Docs>
+    <summary>Bindings to the database access layer CoreData.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Namespace>

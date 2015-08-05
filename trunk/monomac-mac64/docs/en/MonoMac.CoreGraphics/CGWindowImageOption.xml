@@ -1,0 +1,78 @@
+<Type Name="CGWindowImageOption" FullName="MonoMac.CoreGraphics.CGWindowImageOption">
+  <TypeSignature Language="C#" Value="public enum CGWindowImageOption" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed CGWindowImageOption extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Flags</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="BoundsIgnoreFraming">
+      <MemberSignature Language="C#" Value="BoundsIgnoreFraming" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGWindowImageOption BoundsIgnoreFraming = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGWindowImageOption</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Default">
+      <MemberSignature Language="C#" Value="Default" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGWindowImageOption Default = int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGWindowImageOption</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="OnlyShadows">
+      <MemberSignature Language="C#" Value="OnlyShadows" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGWindowImageOption OnlyShadows = int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGWindowImageOption</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ShouldBeOpaque">
+      <MemberSignature Language="C#" Value="ShouldBeOpaque" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGWindowImageOption ShouldBeOpaque = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGWindowImageOption</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

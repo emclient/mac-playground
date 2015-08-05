@@ -1,0 +1,742 @@
+<Type Name="NSTextViewDelegate" FullName="MonoMac.AppKit.NSTextViewDelegate">
+  <TypeSignature Language="C#" Value="public class NSTextViewDelegate : MonoMac.AppKit.NSTextDelegate" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit NSTextViewDelegate extends MonoMac.AppKit.NSTextDelegate" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.AppKit.NSTextDelegate</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.Foundation.Model</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>MonoMac.Foundation.Register("NSTextViewDelegate", true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSTextViewDelegate ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("init")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters />
+      <Docs>
+        <summary>Default constructor, initializes a new instance of this class.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSTextViewDelegate (MonoMac.Foundation.NSCoder coder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSCoder coder) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithCoder:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="coder" Type="MonoMac.Foundation.NSCoder" />
+      </Parameters>
+      <Docs>
+        <param name="coder">The unarchiver object.</param>
+        <summary>A constructor that initializes the object from the data stored in the unarchiver object.</summary>
+        <remarks>This constructor is provided to allow the class to be initialized from an unarchiver (for example, during NIB deserialization).</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSTextViewDelegate (MonoMac.Foundation.NSObjectFlag t);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSObjectFlag t) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="t" Type="MonoMac.Foundation.NSObjectFlag" />
+      </Parameters>
+      <Docs>
+        <param name="t">Unused sentinel value, pass NSObjectFlag.Empty.</param>
+        <summary>Constructor to call on derived classes when the derived class has an [Export] constructor.</summary>
+        <remarks>
+          <para>This constructor should be called by derived classes when they are initialized using an [Export] attribute. The argument value is ignore, typically the chaining would look like this:</para>
+          <example>
+            <code lang="C#">
+public class MyClass : BaseClass {
+    [Export ("initWithFoo:")]
+    public MyClass (string foo) : base (NSObjectFlag.Empty)
+    {
+        ...
+    }
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSTextViewDelegate (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">Pointer (handle) to the unmanaged object.</param>
+        <summary>A constructor used when creating managed representations of unmanaged objects;  Called by the runtime.</summary>
+        <remarks>
+          <para>This constructor is invoked by the runtime infrastructure (<see cref="M:MonoMac.ObjCRuntime.GetNSObject (System.IntPtr)" />) to create a new managed representation for a pointer to an unmanaged Objective-C object.    You should not invoke this method directly, instead you should call the GetNSObject method as it will prevent two instances of a managed object to point to the same native object.</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CellClicked">
+      <MemberSignature Language="C#" Value="public virtual void CellClicked (MonoMac.AppKit.NSTextView textView, MonoMac.AppKit.NSTextAttachmentCell cell, System.Drawing.RectangleF cellFrame, uint charIndex);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void CellClicked(class MonoMac.AppKit.NSTextView textView, class MonoMac.AppKit.NSTextAttachmentCell cell, valuetype System.Drawing.RectangleF cellFrame, unsigned int32 charIndex) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:clickedOnCell:inRect:atIndex:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="textView" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="cell" Type="MonoMac.AppKit.NSTextAttachmentCell" />
+        <Parameter Name="cellFrame" Type="System.Drawing.RectangleF" />
+        <Parameter Name="charIndex" Type="System.UInt32" />
+      </Parameters>
+      <Docs>
+        <param name="textView">To be added.</param>
+        <param name="cell">To be added.</param>
+        <param name="cellFrame">To be added.</param>
+        <param name="charIndex">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CellDoubleClicked">
+      <MemberSignature Language="C#" Value="public virtual void CellDoubleClicked (MonoMac.AppKit.NSTextView textView, MonoMac.AppKit.NSTextAttachmentCell cell, System.Drawing.RectangleF cellFrame, uint charIndex);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void CellDoubleClicked(class MonoMac.AppKit.NSTextView textView, class MonoMac.AppKit.NSTextAttachmentCell cell, valuetype System.Drawing.RectangleF cellFrame, unsigned int32 charIndex) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:doubleClickedOnCell:inRect:atIndex:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="textView" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="cell" Type="MonoMac.AppKit.NSTextAttachmentCell" />
+        <Parameter Name="cellFrame" Type="System.Drawing.RectangleF" />
+        <Parameter Name="charIndex" Type="System.UInt32" />
+      </Parameters>
+      <Docs>
+        <param name="textView">To be added.</param>
+        <param name="cell">To be added.</param>
+        <param name="cellFrame">To be added.</param>
+        <param name="charIndex">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DidChangeSelection">
+      <MemberSignature Language="C#" Value="public virtual void DidChangeSelection (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DidChangeSelection(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textViewDidChangeSelection:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DidChangeTypingAttributes">
+      <MemberSignature Language="C#" Value="public virtual void DidChangeTypingAttributes (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DidChangeTypingAttributes(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textViewDidChangeTypingAttributes:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DidCheckText">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSTextCheckingResult[] DidCheckText (MonoMac.AppKit.NSTextView view, MonoMac.Foundation.NSRange range, MonoMac.Foundation.NSTextCheckingTypes checkingTypes, MonoMac.Foundation.NSDictionary options, MonoMac.Foundation.NSTextCheckingResult[] results, MonoMac.Foundation.NSOrthography orthography, int wordCount);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSTextCheckingResult[] DidCheckText(class MonoMac.AppKit.NSTextView view, valuetype MonoMac.Foundation.NSRange range, valuetype MonoMac.Foundation.NSTextCheckingTypes checkingTypes, class MonoMac.Foundation.NSDictionary options, class MonoMac.Foundation.NSTextCheckingResult[] results, class MonoMac.Foundation.NSOrthography orthography, int32 wordCount) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:didCheckTextInRange:types:options:results:orthography:wordCount:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSTextCheckingResult[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="view" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="range" Type="MonoMac.Foundation.NSRange" />
+        <Parameter Name="checkingTypes" Type="MonoMac.Foundation.NSTextCheckingTypes" />
+        <Parameter Name="options" Type="MonoMac.Foundation.NSDictionary" />
+        <Parameter Name="results" Type="MonoMac.Foundation.NSTextCheckingResult[]" />
+        <Parameter Name="orthography" Type="MonoMac.Foundation.NSOrthography" />
+        <Parameter Name="wordCount" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="view">To be added.</param>
+        <param name="range">To be added.</param>
+        <param name="checkingTypes">To be added.</param>
+        <param name="options">To be added.</param>
+        <param name="results">To be added.</param>
+        <param name="orthography">To be added.</param>
+        <param name="wordCount">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DoCommandBySelector">
+      <MemberSignature Language="C#" Value="public virtual bool DoCommandBySelector (MonoMac.AppKit.NSTextView textView, MonoMac.ObjCRuntime.Selector commandSelector);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool DoCommandBySelector(class MonoMac.AppKit.NSTextView textView, class MonoMac.ObjCRuntime.Selector commandSelector) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:doCommandBySelector:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="textView" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="commandSelector" Type="MonoMac.ObjCRuntime.Selector" />
+      </Parameters>
+      <Docs>
+        <param name="textView">To be added.</param>
+        <param name="commandSelector">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DraggedCell">
+      <MemberSignature Language="C#" Value="public virtual void DraggedCell (MonoMac.AppKit.NSTextView view, MonoMac.AppKit.NSTextAttachmentCell cell, System.Drawing.RectangleF rect, MonoMac.AppKit.NSEvent theevent);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DraggedCell(class MonoMac.AppKit.NSTextView view, class MonoMac.AppKit.NSTextAttachmentCell cell, valuetype System.Drawing.RectangleF rect, class MonoMac.AppKit.NSEvent theevent) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:draggedCell:inRect:event:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="view" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="cell" Type="MonoMac.AppKit.NSTextAttachmentCell" />
+        <Parameter Name="rect" Type="System.Drawing.RectangleF" />
+        <Parameter Name="theevent" Type="MonoMac.AppKit.NSEvent" />
+      </Parameters>
+      <Docs>
+        <param name="view">To be added.</param>
+        <param name="cell">To be added.</param>
+        <param name="rect">To be added.</param>
+        <param name="theevent">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetCompletions">
+      <MemberSignature Language="C#" Value="public virtual string[] GetCompletions (MonoMac.AppKit.NSTextView textView, string[] words, MonoMac.Foundation.NSRange charRange, int index);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance string[] GetCompletions(class MonoMac.AppKit.NSTextView textView, string[] words, valuetype MonoMac.Foundation.NSRange charRange, int32 index) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:completions:forPartialWordRange:indexOfSelectedItem:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="textView" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="words" Type="System.String[]" />
+        <Parameter Name="charRange" Type="MonoMac.Foundation.NSRange" />
+        <Parameter Name="index" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="textView">To be added.</param>
+        <param name="words">To be added.</param>
+        <param name="charRange">To be added.</param>
+        <param name="index">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetUndoManager">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSUndoManager GetUndoManager (MonoMac.AppKit.NSTextView view);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSUndoManager GetUndoManager(class MonoMac.AppKit.NSTextView view) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("undoManagerForTextView:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSUndoManager</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="view" Type="MonoMac.AppKit.NSTextView" />
+      </Parameters>
+      <Docs>
+        <param name="view">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetWritablePasteboardTypes">
+      <MemberSignature Language="C#" Value="public virtual string[] GetWritablePasteboardTypes (MonoMac.AppKit.NSTextView view, MonoMac.AppKit.NSTextAttachmentCell forCell, uint charIndex);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance string[] GetWritablePasteboardTypes(class MonoMac.AppKit.NSTextView view, class MonoMac.AppKit.NSTextAttachmentCell forCell, unsigned int32 charIndex) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:writablePasteboardTypesForCell:atIndex:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="view" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="forCell" Type="MonoMac.AppKit.NSTextAttachmentCell" />
+        <Parameter Name="charIndex" Type="System.UInt32" />
+      </Parameters>
+      <Docs>
+        <param name="view">To be added.</param>
+        <param name="forCell">To be added.</param>
+        <param name="charIndex">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LinkClicked">
+      <MemberSignature Language="C#" Value="public virtual bool LinkClicked (MonoMac.AppKit.NSTextView textView, MonoMac.Foundation.NSObject link, uint charIndex);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool LinkClicked(class MonoMac.AppKit.NSTextView textView, class MonoMac.Foundation.NSObject link, unsigned int32 charIndex) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:clickedOnLink:atIndex:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="textView" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="link" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="charIndex" Type="System.UInt32" />
+      </Parameters>
+      <Docs>
+        <param name="textView">To be added.</param>
+        <param name="link">To be added.</param>
+        <param name="charIndex">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MenuForEvent">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.AppKit.NSMenu MenuForEvent (MonoMac.AppKit.NSTextView view, MonoMac.AppKit.NSMenu menu, MonoMac.AppKit.NSEvent theEvent, uint charIndex);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.AppKit.NSMenu MenuForEvent(class MonoMac.AppKit.NSTextView view, class MonoMac.AppKit.NSMenu menu, class MonoMac.AppKit.NSEvent theEvent, unsigned int32 charIndex) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:menu:forEvent:atIndex:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSMenu</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="view" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="menu" Type="MonoMac.AppKit.NSMenu" />
+        <Parameter Name="theEvent" Type="MonoMac.AppKit.NSEvent" />
+        <Parameter Name="charIndex" Type="System.UInt32" />
+      </Parameters>
+      <Docs>
+        <param name="view">To be added.</param>
+        <param name="menu">To be added.</param>
+        <param name="theEvent">To be added.</param>
+        <param name="charIndex">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ShouldChangeTextInRange">
+      <MemberSignature Language="C#" Value="public virtual bool ShouldChangeTextInRange (MonoMac.AppKit.NSTextView textView, MonoMac.Foundation.NSRange affectedCharRange, string replacementString);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool ShouldChangeTextInRange(class MonoMac.AppKit.NSTextView textView, valuetype MonoMac.Foundation.NSRange affectedCharRange, string replacementString) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:shouldChangeTextInRange:replacementString:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="textView" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="affectedCharRange" Type="MonoMac.Foundation.NSRange" />
+        <Parameter Name="replacementString" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="textView">To be added.</param>
+        <param name="affectedCharRange">To be added.</param>
+        <param name="replacementString">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ShouldChangeTextInRanges">
+      <MemberSignature Language="C#" Value="public virtual bool ShouldChangeTextInRanges (MonoMac.AppKit.NSTextView textView, MonoMac.Foundation.NSValue[] affectedRanges, string[] replacementStrings);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool ShouldChangeTextInRanges(class MonoMac.AppKit.NSTextView textView, class MonoMac.Foundation.NSValue[] affectedRanges, string[] replacementStrings) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:shouldChangeTextInRanges:replacementStrings:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="textView" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="affectedRanges" Type="MonoMac.Foundation.NSValue[]" />
+        <Parameter Name="replacementStrings" Type="System.String[]" />
+      </Parameters>
+      <Docs>
+        <param name="textView">To be added.</param>
+        <param name="affectedRanges">To be added.</param>
+        <param name="replacementStrings">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ShouldChangeTypingAttributes">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSDictionary ShouldChangeTypingAttributes (MonoMac.AppKit.NSTextView textView, MonoMac.Foundation.NSDictionary oldTypingAttributes, MonoMac.Foundation.NSDictionary newTypingAttributes);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSDictionary ShouldChangeTypingAttributes(class MonoMac.AppKit.NSTextView textView, class MonoMac.Foundation.NSDictionary oldTypingAttributes, class MonoMac.Foundation.NSDictionary newTypingAttributes) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:shouldChangeTypingAttributes:toAttributes:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDictionary</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="textView" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="oldTypingAttributes" Type="MonoMac.Foundation.NSDictionary" />
+        <Parameter Name="newTypingAttributes" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="textView">To be added.</param>
+        <param name="oldTypingAttributes">To be added.</param>
+        <param name="newTypingAttributes">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ShouldSetSpellingState">
+      <MemberSignature Language="C#" Value="public virtual int ShouldSetSpellingState (MonoMac.AppKit.NSTextView textView, int value, MonoMac.Foundation.NSRange affectedCharRange);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 ShouldSetSpellingState(class MonoMac.AppKit.NSTextView textView, int32 value, valuetype MonoMac.Foundation.NSRange affectedCharRange) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:shouldSetSpellingState:range:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="textView" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="value" Type="System.Int32" />
+        <Parameter Name="affectedCharRange" Type="MonoMac.Foundation.NSRange" />
+      </Parameters>
+      <Docs>
+        <param name="textView">To be added.</param>
+        <param name="value">To be added.</param>
+        <param name="affectedCharRange">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillChangeSelection">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSRange WillChangeSelection (MonoMac.AppKit.NSTextView textView, MonoMac.Foundation.NSRange oldSelectedCharRange, MonoMac.Foundation.NSRange newSelectedCharRange);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype MonoMac.Foundation.NSRange WillChangeSelection(class MonoMac.AppKit.NSTextView textView, valuetype MonoMac.Foundation.NSRange oldSelectedCharRange, valuetype MonoMac.Foundation.NSRange newSelectedCharRange) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:willChangeSelectionFromCharacterRange:toCharacterRange:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSRange</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="textView" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="oldSelectedCharRange" Type="MonoMac.Foundation.NSRange" />
+        <Parameter Name="newSelectedCharRange" Type="MonoMac.Foundation.NSRange" />
+      </Parameters>
+      <Docs>
+        <param name="textView">To be added.</param>
+        <param name="oldSelectedCharRange">To be added.</param>
+        <param name="newSelectedCharRange">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillChangeSelectionFromRanges">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSValue[] WillChangeSelectionFromRanges (MonoMac.AppKit.NSTextView textView, MonoMac.Foundation.NSValue[] oldSelectedCharRanges, MonoMac.Foundation.NSValue[] newSelectedCharRanges);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSValue[] WillChangeSelectionFromRanges(class MonoMac.AppKit.NSTextView textView, class MonoMac.Foundation.NSValue[] oldSelectedCharRanges, class MonoMac.Foundation.NSValue[] newSelectedCharRanges) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:willChangeSelectionFromCharacterRanges:toCharacterRanges:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSValue[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="textView" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="oldSelectedCharRanges" Type="MonoMac.Foundation.NSValue[]" />
+        <Parameter Name="newSelectedCharRanges" Type="MonoMac.Foundation.NSValue[]" />
+      </Parameters>
+      <Docs>
+        <param name="textView">To be added.</param>
+        <param name="oldSelectedCharRanges">To be added.</param>
+        <param name="newSelectedCharRanges">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillCheckText">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSDictionary WillCheckText (MonoMac.AppKit.NSTextView view, MonoMac.Foundation.NSRange range, MonoMac.Foundation.NSDictionary options, MonoMac.Foundation.NSTextCheckingTypes checkingTypes);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSDictionary WillCheckText(class MonoMac.AppKit.NSTextView view, valuetype MonoMac.Foundation.NSRange range, class MonoMac.Foundation.NSDictionary options, valuetype MonoMac.Foundation.NSTextCheckingTypes checkingTypes) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:willCheckTextInRange:options:types:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDictionary</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="view" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="range" Type="MonoMac.Foundation.NSRange" />
+        <Parameter Name="options" Type="MonoMac.Foundation.NSDictionary" />
+        <Parameter Name="checkingTypes" Type="MonoMac.Foundation.NSTextCheckingTypes" />
+      </Parameters>
+      <Docs>
+        <param name="view">To be added.</param>
+        <param name="range">To be added.</param>
+        <param name="options">To be added.</param>
+        <param name="checkingTypes">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillDisplayToolTip">
+      <MemberSignature Language="C#" Value="public virtual string WillDisplayToolTip (MonoMac.AppKit.NSTextView textView, string tooltip, uint characterIndex);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance string WillDisplayToolTip(class MonoMac.AppKit.NSTextView textView, string tooltip, unsigned int32 characterIndex) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:willDisplayToolTip:forCharacterAtIndex:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="textView" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="tooltip" Type="System.String" />
+        <Parameter Name="characterIndex" Type="System.UInt32" />
+      </Parameters>
+      <Docs>
+        <param name="textView">To be added.</param>
+        <param name="tooltip">To be added.</param>
+        <param name="characterIndex">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WriteCell">
+      <MemberSignature Language="C#" Value="public virtual bool WriteCell (MonoMac.AppKit.NSTextView view, MonoMac.AppKit.NSTextAttachmentCell cell, uint charIndex, MonoMac.AppKit.NSPasteboard pboard, string type);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool WriteCell(class MonoMac.AppKit.NSTextView view, class MonoMac.AppKit.NSTextAttachmentCell cell, unsigned int32 charIndex, class MonoMac.AppKit.NSPasteboard pboard, string type) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("textView:writeCell:atIndex:toPasteboard:type:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="view" Type="MonoMac.AppKit.NSTextView" />
+        <Parameter Name="cell" Type="MonoMac.AppKit.NSTextAttachmentCell" />
+        <Parameter Name="charIndex" Type="System.UInt32" />
+        <Parameter Name="pboard" Type="MonoMac.AppKit.NSPasteboard" />
+        <Parameter Name="type" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="view">To be added.</param>
+        <param name="cell">To be added.</param>
+        <param name="charIndex">To be added.</param>
+        <param name="pboard">To be added.</param>
+        <param name="type">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

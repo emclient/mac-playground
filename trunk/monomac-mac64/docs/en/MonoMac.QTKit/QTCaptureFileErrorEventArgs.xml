@@ -1,0 +1,88 @@
+<Type Name="QTCaptureFileErrorEventArgs" FullName="MonoMac.QTKit.QTCaptureFileErrorEventArgs">
+  <TypeSignature Language="C#" Value="public class QTCaptureFileErrorEventArgs : EventArgs" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit QTCaptureFileErrorEventArgs extends System.EventArgs" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.EventArgs</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Provides data for the <see cref="E:MonoMac.QTKit.QTCaptureFileErrorEventArgs.DidFinishRecording" />, <see cref="E:MonoMac.QTKit.QTCaptureFileErrorEventArgs.MustChangeOutputFile" /> and <see cref="E:MonoMac.QTKit.QTCaptureFileErrorEventArgs.WillFinishRecording" /> events.</summary>
+    <remarks>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public QTCaptureFileErrorEventArgs (MonoMac.Foundation.NSUrl outputFileURL, MonoMac.QTKit.QTCaptureConnection[] connections, MonoMac.Foundation.NSError reason);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSUrl outputFileURL, class MonoMac.QTKit.QTCaptureConnection[] connections, class MonoMac.Foundation.NSError reason) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="outputFileURL" Type="MonoMac.Foundation.NSUrl" />
+        <Parameter Name="connections" Type="MonoMac.QTKit.QTCaptureConnection[]" />
+        <Parameter Name="reason" Type="MonoMac.Foundation.NSError" />
+      </Parameters>
+      <Docs>
+        <param name="outputFileURL">To be added.</param>
+        <param name="connections">To be added.</param>
+        <param name="reason">To be added.</param>
+        <summary>Initializes a new instance of the QTCaptureFileErrorEventArgs class.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Connections">
+      <MemberSignature Language="C#" Value="public MonoMac.QTKit.QTCaptureConnection[] Connections { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.QTKit.QTCaptureConnection[] Connections" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTCaptureConnection[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OutputFileURL">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSUrl OutputFileURL { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSUrl OutputFileURL" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSUrl</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Reason">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSError Reason { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSError Reason" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSError</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

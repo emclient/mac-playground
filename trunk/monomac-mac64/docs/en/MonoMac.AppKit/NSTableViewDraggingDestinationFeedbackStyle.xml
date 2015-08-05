@@ -1,0 +1,59 @@
+<Type Name="NSTableViewDraggingDestinationFeedbackStyle" FullName="MonoMac.AppKit.NSTableViewDraggingDestinationFeedbackStyle">
+  <TypeSignature Language="C#" Value="public enum NSTableViewDraggingDestinationFeedbackStyle" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed NSTableViewDraggingDestinationFeedbackStyle extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="None">
+      <MemberSignature Language="C#" Value="None" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSTableViewDraggingDestinationFeedbackStyle None = int32(-1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSTableViewDraggingDestinationFeedbackStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Regular">
+      <MemberSignature Language="C#" Value="Regular" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSTableViewDraggingDestinationFeedbackStyle Regular = int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSTableViewDraggingDestinationFeedbackStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="SourceList">
+      <MemberSignature Language="C#" Value="SourceList" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSTableViewDraggingDestinationFeedbackStyle SourceList = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSTableViewDraggingDestinationFeedbackStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

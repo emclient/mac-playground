@@ -1,0 +1,27 @@
+ImageIO:
+	Must bind the CGImageProperties file, contains public extern keys for hashtables
+
+AudioServices:
+	Must bind AudioConverter
+	Must bind AudioServices
+	AudioServices.SystemSound needs SoundCompletion binding
+
+AVFoundation:
+	Bind and expose the constants for metadata from:
+	avmetadataformat.h
+	Strongly typed configuration for AVVideoSettings.h
+
+CoreData:
+	Review where errors are raised, and make sure we bind the
+	enum (currently unbound) of errors
+
+	NSPersistentStoreCoordinator has many NSDictionary-based APIs that should be strongly typed instead
+
+ImageIO:
+	The CGImageSource.CopyProperties exposes one of those ugly NSDictionary's
+	to expose data.   This should be strongly typed
+
+Foundation:
+
+	For NSFilePresenter the various block operations have not been
+	bound because they look like nested blocks

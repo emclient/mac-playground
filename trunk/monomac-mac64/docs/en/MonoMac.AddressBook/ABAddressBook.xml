@@ -1,0 +1,853 @@
+<Type Name="ABAddressBook" FullName="MonoMac.AddressBook.ABAddressBook">
+  <TypeSignature Language="C#" Value="public class ABAddressBook : IDisposable, MonoMac.ObjCRuntime.INativeObject, System.Collections.Generic.IEnumerable&lt;MonoMac.AddressBook.ABRecord&gt;" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi ABAddressBook extends System.Object implements class MonoMac.ObjCRuntime.INativeObject, class System.Collections.Generic.IEnumerable`1&lt;class MonoMac.AddressBook.ABRecord&gt;, class System.Collections.IEnumerable, class System.IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>MonoMac.ObjCRuntime.INativeObject</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.Generic.IEnumerable&lt;MonoMac.AddressBook.ABRecord&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      Provides access to the system Address Book.
+    </summary>
+    <remarks>
+      <para>
+        The Address Book is a centralized database which stores information contacts,
+        such as people and businesses.  The notion of "groups" containing one or more
+        contacts is also supported.  <c>ABAddressBook</c> supports:
+      </para>
+      <list type="bullet">
+        <item>
+          <term>
+            Managing address books:
+            <see cref="C:MonoMac.AddressBook.ABAddressBook" />,
+            <see cref="P:MonoMac.AddressBook.ABAddressBook.HasUnsavedChanges" />,
+            <see cref="M:MonoMac.AddressBook.ABAddressBook.Save" />,
+            <see cref="M:MonoMac.AddressBook.ABAddressBook.Revert" />.
+          </term>
+        </item>
+        <item>
+          <term>
+            Managing address books records:
+            <see cref="M:MonoMac.AddressBook.ABAddressBook.Add(MonoMac.AddressBook.ABRecord)" />,
+            <see cref="M:MonoMac.AddressBook.ABAddressBook.Remove(MonoMac.AddressBook.ABRecord)" />,
+            <see cref="P:MonoMac.AddressBook.ABAddressBook.PeopleCount" />,
+            <see cref="M:MonoMac.AddressBook.ABAddressBook.GetPeople" />,
+            <see cref="M:MonoMac.AddressBook.ABAddressBook.GetPerson(System.Int32)" />,
+            <see cref="P:MonoMac.AddressBook.ABAddressBook.GroupCount" />,
+            <see cref="M:MonoMac.AddressBook.ABAddressBook.GetGroups" />,
+            <see cref="M:MonoMac.AddressBook.ABAddressBook.GetGroup(System.Int32)" />,
+            <see cref="M:MonoMac.AddressBook.ABAddressBook.GetEnumerator" />.
+          </term>
+        </item>
+        <item>
+          <term>
+            Change notifications
+            <see cref="E:MonoMac.AddressBook.ABAddressBook.ExternalChange" />.
+          </term>
+        </item>
+        <item>
+          <term>
+            Localizing Text:
+            <see cref="M:MonoMac.AddressBook.ABAddressBook.LocalizedLabel(MonoMac.Foundation.NSString)" />.
+          </term>
+        </item>
+      </list>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ABAddressBook ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("Use static Create method in iOS 6.0")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters />
+      <Docs>
+        <summary>
+          Creates and initializes a
+          <see cref="T:MonoMac.AddressBook.ABAddressBook" />
+          instance.
+        </summary>
+        <remarks>
+          <para>
+            Changes made to the <c>ABAddressBook</c> instance are visible to
+            other applications only after
+            <see cref="M:MonoMac.AddressBook.ABAddressBook.Save" /> is called.
+          </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Add">
+      <MemberSignature Language="C#" Value="public void Add (MonoMac.AddressBook.ABRecord record);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Add(class MonoMac.AddressBook.ABRecord record) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="record" Type="MonoMac.AddressBook.ABRecord" />
+      </Parameters>
+      <Docs>
+        <param name="record">
+          A <see cref="T:MonoMac.AddressBook.ABRecord" /> containing
+          the record to add to the address book.
+        </param>
+        <summary>
+          Adds a record to the address book.
+        </summary>
+        <remarks>
+        </remarks>
+        <exception cref="T:MonoMac.CoreFoundation.CFException">
+          The record couldn't be added to the address book.
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Create">
+      <MemberSignature Language="C#" Value="public static MonoMac.AddressBook.ABAddressBook Create (out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.AddressBook.ABAddressBook Create(class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(6, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABAddressBook</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Releases the resources used by the ABAddressBook object.</summary>
+        <remarks>
+          <para>The Dispose method releases the resources used by the ABAddressBook class.</para>
+          <para>Calling the Dispose method when you are finished using the ABAddressBook ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.  For more information on releasing resources see ``Cleaning up Unmananaged Resources'' at http://msdn.microsoft.com/en-us/library/498928w2.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <para>If set to <see langword="true" />, the method is invoked directly and will dispose manage and unmanaged resources;   If set to <see langword="false" /> the method is being called by the garbage collector finalizer and should only release unmanaged resources.</para>
+        </param>
+        <summary>Releases the resources used by the ABAddressBook object.</summary>
+        <remarks>
+          <para>This Dispose method releases the resources used by the ABAddressBook class.</para>
+          <para>This method is called by both the Dispose() method and the object finalizer (Finalize).    When invoked by the Dispose method, the parameter disposting <paramref name="disposing" /> is set to <see langword="true" /> and any managed object references that this object holds are also disposed or released;  when invoked by the object finalizer, on the finalizer thread the value is set to <see langword="false" />. </para>
+          <para>Calling the Dispose method when you are finished using the ABAddressBook ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.</para>
+          <para>  For more information on how to override this method and on the Dispose/IDisposable pattern, read the ``Implementing a Dispose Method'' document at http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ErrorDomain">
+      <MemberSignature Language="C#" Value="public static readonly MonoMac.Foundation.NSString ErrorDomain;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class MonoMac.Foundation.NSString ErrorDomain" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          Identifies the error domain under which address book errors are grouped.
+        </summary>
+        <remarks>
+          When an <see cref="T:MonoMac.CoreFoundation.CFException" /> is
+          thrown from a <see cref="T:MonoMac.AddressBook.ABAddressBook" />
+          method, the
+          <see cref="P:MonoMac.CoreFoundation.CFException.Domain" /> property
+          will be equal to <c>ErrorDomain</c>.
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ExternalChange">
+      <MemberSignature Language="C#" Value="public event EventHandler&lt;MonoMac.AddressBook.ExternalChangeEventArgs&gt; ExternalChange;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler`1&lt;class MonoMac.AddressBook.ExternalChangeEventArgs&gt; ExternalChange" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler&lt;MonoMac.AddressBook.ExternalChangeEventArgs&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          Occurs when the address book is modified.
+        </summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~ABAddressBook ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Finalizer for the ABAddressBook object</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetAllSources">
+      <MemberSignature Language="C#" Value="public MonoMac.AddressBook.ABSource[] GetAllSources ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.AddressBook.ABSource[] GetAllSources() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABSource[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Returns all of the addresbook sources available on the system.</summary>
+        <returns>
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetAuthorizationStatus">
+      <MemberSignature Language="C#" Value="public static MonoMac.AddressBook.ABAuthorizationStatus GetAuthorizationStatus ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype MonoMac.AddressBook.ABAuthorizationStatus GetAuthorizationStatus() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(6, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABAuthorizationStatus</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetDefaultSource">
+      <MemberSignature Language="C#" Value="public MonoMac.AddressBook.ABSource GetDefaultSource ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.AddressBook.ABSource GetDefaultSource() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABSource</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Returns the default addressbook source for the system.</summary>
+        <returns>
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetEnumerator">
+      <MemberSignature Language="C#" Value="public System.Collections.Generic.IEnumerator&lt;MonoMac.AddressBook.ABRecord&gt; GetEnumerator ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Collections.Generic.IEnumerator`1&lt;class MonoMac.AddressBook.ABRecord&gt; GetEnumerator() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.IEnumerator&lt;MonoMac.AddressBook.ABRecord&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          Returns an enumerator that iterates through all records and groups
+          in the address book.
+        </summary>
+        <returns>
+          An
+          <see cref="T:System.Collections.Generic.IEnumerator{MonoMac.AddressBook.ABRecord}" />
+          which will return all records and groups in the address book.
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetGroup">
+      <MemberSignature Language="C#" Value="public MonoMac.AddressBook.ABGroup GetGroup (int recordId);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.AddressBook.ABGroup GetGroup(int32 recordId) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABGroup</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="recordId" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="recordId">
+          A <see cref="T:System.Int32" /> containing the record ID.
+        </param>
+        <summary>
+          Returns the <see cref="T:MonoMac.AddressBook.ABGroup" />
+          with the given record ID.
+        </summary>
+        <returns>
+          A <see cref="T:MonoMac.AddressBook.ABGroup" /> where
+          <see cref="P:MonoMac.AddressBook.ABRecord.Id" /> is
+          equal to <paramref name="recordId" />, or
+          <see langword="null" /> if there is no such group.
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetGroups">
+      <MemberSignature Language="C#" Value="public MonoMac.AddressBook.ABGroup[] GetGroups ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.AddressBook.ABGroup[] GetGroups() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABGroup[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          Gets all groups in the address book.
+        </summary>
+        <returns>
+          A <see cref="T:MonoMac.AddressBook.ABGroup" /> array containing
+          all groups in the address book.
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetGroups">
+      <MemberSignature Language="C#" Value="public MonoMac.AddressBook.ABGroup[] GetGroups (MonoMac.AddressBook.ABRecord source);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.AddressBook.ABGroup[] GetGroups(class MonoMac.AddressBook.ABRecord source) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(4, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABGroup[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="source" Type="MonoMac.AddressBook.ABRecord" />
+      </Parameters>
+      <Docs>
+        <param name="source">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetPeople">
+      <MemberSignature Language="C#" Value="public MonoMac.AddressBook.ABPerson[] GetPeople ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.AddressBook.ABPerson[] GetPeople() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABPerson[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          Gets all people in the address book.
+        </summary>
+        <returns>
+          A <see cref="T:MonoMac.AddressBook.ABPerson" /> array containing
+          all people in the address book.
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetPeople">
+      <MemberSignature Language="C#" Value="public MonoMac.AddressBook.ABPerson[] GetPeople (MonoMac.AddressBook.ABRecord source);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.AddressBook.ABPerson[] GetPeople(class MonoMac.AddressBook.ABRecord source) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(4, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABPerson[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="source" Type="MonoMac.AddressBook.ABRecord" />
+      </Parameters>
+      <Docs>
+        <param name="source">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetPeople">
+      <MemberSignature Language="C#" Value="public MonoMac.AddressBook.ABPerson[] GetPeople (MonoMac.AddressBook.ABRecord source, MonoMac.AddressBook.ABPersonSortBy sortOrdering);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.AddressBook.ABPerson[] GetPeople(class MonoMac.AddressBook.ABRecord source, valuetype MonoMac.AddressBook.ABPersonSortBy sortOrdering) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(4, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABPerson[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="source" Type="MonoMac.AddressBook.ABRecord" />
+        <Parameter Name="sortOrdering" Type="MonoMac.AddressBook.ABPersonSortBy" />
+      </Parameters>
+      <Docs>
+        <param name="source">To be added.</param>
+        <param name="sortOrdering">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetPeopleWithName">
+      <MemberSignature Language="C#" Value="public MonoMac.AddressBook.ABPerson[] GetPeopleWithName (string name);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.AddressBook.ABPerson[] GetPeopleWithName(string name) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABPerson[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          A <see cref="T:System.String" /> containing the name of the person
+          to search for.
+        </param>
+        <summary>
+          Gets all <see cref="T:MonoMac.AddressBook.ABPerson" /> array
+          containing all records with a matching name.
+        </summary>
+        <returns>
+          A <see cref="T:MonoMac.AddressBook.ABPerson" /> array
+          containing all records where <paramref name="name" />
+          matches the records composite name.
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetPerson">
+      <MemberSignature Language="C#" Value="public MonoMac.AddressBook.ABPerson GetPerson (int recordId);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.AddressBook.ABPerson GetPerson(int32 recordId) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABPerson</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="recordId" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="recordId">
+          A <see cref="T:System.Int32" /> containing the record ID.
+        </param>
+        <summary>
+          Returns the <see cref="T:MonoMac.AddressBook.ABPerson" />
+          with the given record ID.
+        </summary>
+        <returns>
+          A <see cref="T:MonoMac.AddressBook.ABPerson" /> where
+          <see cref="P:MonoMac.AddressBook.ABRecord.Id" /> is
+          equal to <paramref name="recordId" />, or
+          <see langword="null" /> if there is no such group.
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetSource">
+      <MemberSignature Language="C#" Value="public MonoMac.AddressBook.ABSource GetSource (int sourceID);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.AddressBook.ABSource GetSource(int32 sourceID) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABSource</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sourceID" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="sourceID">To be added.</param>
+        <summary>Returns a specific addressbook source</summary>
+        <returns>
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GroupCount">
+      <MemberSignature Language="C#" Value="public int GroupCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 GroupCount" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          Gets the number of groups in the address book.
+        </summary>
+        <value>
+          A <see cref="T:System.Int32" /> containing the number of
+          <see cref="T:MonoMac.AddressBook.ABGroup" /> records
+          in the address book.
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Handle">
+      <MemberSignature Language="C#" Value="public IntPtr Handle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int Handle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Handle (pointer) to the unmanaged object representation.</summary>
+        <value>A pointer</value>
+        <remarks>This IntPtr is a handle to the underlying unmanaged representation for this object.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="HasUnsavedChanges">
+      <MemberSignature Language="C#" Value="public bool HasUnsavedChanges { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool HasUnsavedChanges" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          Indicates whether or not this instance has changes which haven't been
+          saved to the global address book.
+        </summary>
+        <value>
+          <see langword="true" /> if the current instance has unsaved changes;
+          otherwise, <see langword="false" />.
+        </value>
+        <remarks>
+        </remarks>
+        <altmember cref="M:MonoMac.AddressBook.ABAddressBook.Save" />
+        <altmember cref="M:MonoMac.AddressBook.ABAddressBook.Revert" />
+      </Docs>
+    </Member>
+    <Member MemberName="LocalizedLabel">
+      <MemberSignature Language="C#" Value="public static string LocalizedLabel (MonoMac.Foundation.NSString label);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string LocalizedLabel(class MonoMac.Foundation.NSString label) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="label" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="label">
+          A <see cref="T:MonoMac.Foundation.NSString" /> containing
+          the label to localize.
+        </param>
+        <summary>
+          Localize a record-property label into the current UI language.
+        </summary>
+        <returns>
+          A <see cref="T:System.String" /> containing the localized
+          version of the record-property label <paramref name="label" />.
+        </returns>
+        <remarks>
+          <para>
+            <paramref name="label" /> should be a field from one of the
+            <c>ABPerson*Label</c> types, e.g.
+            <see cref="F:MonoMac.AddressBook.ABPersonPhoneLabel.iPhone" />.
+          </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnExternalChange">
+      <MemberSignature Language="C#" Value="protected virtual void OnExternalChange (MonoMac.AddressBook.ExternalChangeEventArgs e);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnExternalChange(class MonoMac.AddressBook.ExternalChangeEventArgs e) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="e" Type="MonoMac.AddressBook.ExternalChangeEventArgs" />
+      </Parameters>
+      <Docs>
+        <param name="e">
+          A <see cref="T:MonoMac.AddressBook.ExternalChangeEventArgs" />
+          instance containing information about the external change.
+        </param>
+        <summary>
+          Raises the
+          <see cref="E:MonoMac.AddressBook.ABAddressBook.ExternalChange" />
+          event.
+        </summary>
+        <remarks>
+          <block subset="none" type="overrides">
+            Call <c>base.OnExternalChange(e)</c> in order to raise
+            the
+            <see cref="E:MonoMac.AddressBook.ABAddressBook.ExternalChange" />
+            event.
+          </block>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PeopleCount">
+      <MemberSignature Language="C#" Value="public int PeopleCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 PeopleCount" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          Gets the number of <see cref="T:MonoMac.AddressBook.ABPerson" />
+          records in the address book.
+        </summary>
+        <value>
+          A <see cref="T:System.Int32" /> containing the number of
+          <see cref="T:MonoMac.AddressBook.ABPerson" />
+          records in the address book.
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Remove">
+      <MemberSignature Language="C#" Value="public void Remove (MonoMac.AddressBook.ABRecord record);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Remove(class MonoMac.AddressBook.ABRecord record) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="record" Type="MonoMac.AddressBook.ABRecord" />
+      </Parameters>
+      <Docs>
+        <param name="record">
+          A <see cref="T:MonoMac.AddressBook.ABRecord" /> containing
+          the record to remove from the address book.
+        </param>
+        <summary>
+          Removes a record from the address book.
+        </summary>
+        <remarks>
+        </remarks>
+        <exception cref="T:MonoMac.CoreFoundation.CFException">
+          The record couldn't be removed from the address book.
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="RequestAccess">
+      <MemberSignature Language="C#" Value="public void RequestAccess (Action&lt;bool,MonoMac.Foundation.NSError&gt; onCompleted);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RequestAccess(class System.Action`2&lt;bool, class MonoMac.Foundation.NSError&gt; onCompleted) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(6, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="onCompleted" Type="System.Action&lt;System.Boolean,MonoMac.Foundation.NSError&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="onCompleted">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Revert">
+      <MemberSignature Language="C#" Value="public void Revert ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Revert() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          Discards unsaved changes to the address book.
+        </summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Save">
+      <MemberSignature Language="C#" Value="public void Save ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Save() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          Saves unsaved changes made to the current instance to the
+          global Address Book database.
+        </summary>
+        <remarks>
+        </remarks>
+        <exception cref="T:MonoMac.CoreFoundation.CFException">
+          The record couldn't be removed from the address book.
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="System.Collections.IEnumerable.GetEnumerator">
+      <MemberSignature Language="C#" Value="System.Collections.IEnumerator IEnumerable.GetEnumerator ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance class System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.IEnumerator</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          Returns an enumerator that iterates through all records and groups
+          in the address book.
+        </summary>
+        <returns>
+          An <see cref="T:System.Collections.IEnumerator" />
+          which will return all records and groups in the address book.
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

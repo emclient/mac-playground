@@ -1,0 +1,227 @@
+<Type Name="NSBezelStyle" FullName="MonoMac.AppKit.NSBezelStyle">
+  <TypeSignature Language="C#" Value="public enum NSBezelStyle" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed NSBezelStyle extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Circular">
+      <MemberSignature Language="C#" Value="Circular" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSBezelStyle Circular = int32(7)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSBezelStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Disclosure">
+      <MemberSignature Language="C#" Value="Disclosure" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSBezelStyle Disclosure = int32(5)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSBezelStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="HelpButton">
+      <MemberSignature Language="C#" Value="HelpButton" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSBezelStyle HelpButton = int32(9)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSBezelStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Inline">
+      <MemberSignature Language="C#" Value="Inline" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSBezelStyle Inline = int32(15)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSBezelStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Recessed">
+      <MemberSignature Language="C#" Value="Recessed" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSBezelStyle Recessed = int32(13)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSBezelStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="RegularSquare">
+      <MemberSignature Language="C#" Value="RegularSquare" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSBezelStyle RegularSquare = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSBezelStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Rounded">
+      <MemberSignature Language="C#" Value="Rounded" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSBezelStyle Rounded = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSBezelStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="RoundedDisclosure">
+      <MemberSignature Language="C#" Value="RoundedDisclosure" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSBezelStyle RoundedDisclosure = int32(14)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSBezelStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="RoundRect">
+      <MemberSignature Language="C#" Value="RoundRect" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSBezelStyle RoundRect = int32(12)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSBezelStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ShadowlessSquare">
+      <MemberSignature Language="C#" Value="ShadowlessSquare" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSBezelStyle ShadowlessSquare = int32(6)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSBezelStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="SmallSquare">
+      <MemberSignature Language="C#" Value="SmallSquare" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSBezelStyle SmallSquare = int32(10)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSBezelStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="TexturedRounded">
+      <MemberSignature Language="C#" Value="TexturedRounded" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSBezelStyle TexturedRounded = int32(11)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSBezelStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="TexturedSquare">
+      <MemberSignature Language="C#" Value="TexturedSquare" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSBezelStyle TexturedSquare = int32(8)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSBezelStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ThickerSquare">
+      <MemberSignature Language="C#" Value="ThickerSquare" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSBezelStyle ThickerSquare = int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSBezelStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ThickSquare">
+      <MemberSignature Language="C#" Value="ThickSquare" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AppKit.NSBezelStyle ThickSquare = int32(3)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSBezelStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

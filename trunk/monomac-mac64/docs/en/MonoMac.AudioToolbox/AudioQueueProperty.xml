@@ -1,0 +1,227 @@
+<Type Name="AudioQueueProperty" FullName="MonoMac.AudioToolbox.AudioQueueProperty">
+  <TypeSignature Language="C#" Value="public enum AudioQueueProperty" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed AudioQueueProperty extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="ChannelAssignments">
+      <MemberSignature Language="C#" Value="ChannelAssignments" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioQueueProperty ChannelAssignments = unsigned int32(1634820961)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ChannelLayout">
+      <MemberSignature Language="C#" Value="ChannelLayout" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioQueueProperty ChannelLayout = unsigned int32(1634820972)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ConverterError">
+      <MemberSignature Language="C#" Value="ConverterError" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioQueueProperty ConverterError = unsigned int32(1902343781)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentDevice">
+      <MemberSignature Language="C#" Value="CurrentDevice" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioQueueProperty CurrentDevice = unsigned int32(1634820964)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentLevelMeter">
+      <MemberSignature Language="C#" Value="CurrentLevelMeter" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioQueueProperty CurrentLevelMeter = unsigned int32(1634823542)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentLevelMeterDB">
+      <MemberSignature Language="C#" Value="CurrentLevelMeterDB" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioQueueProperty CurrentLevelMeterDB = unsigned int32(1634823524)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DecodeBufferSizeFrames">
+      <MemberSignature Language="C#" Value="DecodeBufferSizeFrames" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioQueueProperty DecodeBufferSizeFrames = unsigned int32(1684234854)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DeviceNumberChannels">
+      <MemberSignature Language="C#" Value="DeviceNumberChannels" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioQueueProperty DeviceNumberChannels = unsigned int32(1634821219)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DeviceSampleRate">
+      <MemberSignature Language="C#" Value="DeviceSampleRate" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioQueueProperty DeviceSampleRate = unsigned int32(1634825074)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="EnableLevelMetering">
+      <MemberSignature Language="C#" Value="EnableLevelMetering" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioQueueProperty EnableLevelMetering = unsigned int32(1634823525)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="HardwareCodecPolicy">
+      <MemberSignature Language="C#" Value="HardwareCodecPolicy" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioQueueProperty HardwareCodecPolicy = unsigned int32(1634820976)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="IsRunning">
+      <MemberSignature Language="C#" Value="IsRunning" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioQueueProperty IsRunning = unsigned int32(1634824814)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MagicCookie">
+      <MemberSignature Language="C#" Value="MagicCookie" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioQueueProperty MagicCookie = unsigned int32(1634823523)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MaximumOutputPacketSize">
+      <MemberSignature Language="C#" Value="MaximumOutputPacketSize" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioQueueProperty MaximumOutputPacketSize = unsigned int32(2020569203)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="StreamDescription">
+      <MemberSignature Language="C#" Value="StreamDescription" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioQueueProperty StreamDescription = unsigned int32(1634821748)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,909 @@
+<Type Name="AudioSession" FullName="MonoMac.AudioToolbox.AudioSession">
+  <TypeSignature Language="C#" Value="public static class AudioSession" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit AudioSession extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Interface to to control the audio context of your application</summary>
+    <remarks>
+      <para>
+
+	You use the various AudioSession methods to control how the
+	input and output are handled by the operating system,
+	configure the recorder and speakers, control where the audio
+	is played to, and where the audio is recorded from.
+	AudioSession also provides a mechanism to start and stop using
+	the audio system and to monitor changes to the audio system.
+
+      </para>
+      <para>
+	Both the initialization sequence and the use of some
+	properties on AudioSession can throw an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+      </para>
+      <para>
+
+	Your application can use the <see cref="M:MonoMac.AudioToolbox.AudioSession.AddListener(MonoMac.AudioToolbox.AudioSessionProperty, MonoMac.AudioToolbox.AudioSession.PropertyListener)" />
+	method with the AudioInputAvailable value to monitor when the microphone becomes available. 
+ 
+      </para>
+    </remarks>
+    <related type="sample" href="http://samples.xamarin.com/Samples/ByGuid?guid=26d904c2-c44a-46f2-883a-a01bb5657309">StreamingAudio</related>
+    <related type="sample" href="http://samples.xamarin.com/Samples/ByGuid?guid=133bdad4-776a-454d-a265-889d009d0335">SysSound</related>
+  </Docs>
+  <Members>
+    <Member MemberName="AddListener">
+      <MemberSignature Language="C#" Value="public static void AddListener (MonoMac.AudioToolbox.AudioSessionProperty property, MonoMac.AudioToolbox.AudioSession.PropertyListener listener);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void AddListener(valuetype MonoMac.AudioToolbox.AudioSessionProperty property, class MonoMac.AudioToolbox.AudioSession/PropertyListener listener) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="property" Type="MonoMac.AudioToolbox.AudioSessionProperty" />
+        <Parameter Name="listener" Type="MonoMac.AudioToolbox.AudioSession+PropertyListener" />
+      </Parameters>
+      <Docs>
+        <param name="property">The property to monitor.</param>
+        <param name="listener">Callback to invoke when the property changes.</param>
+        <summary>Registers a method to be invoked when an audio session property changes.</summary>
+        <remarks>Use the RemoveListener method to stop receiving property change notifications.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioInputAvailable">
+      <MemberSignature Language="C#" Value="public static bool AudioInputAvailable { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property bool AudioInputAvailable" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Determines whether audio input is available.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+
+	    This property determines whether input is available.
+	    Phones always have input available, while iPod Touch
+	    devices only have input available if a microphone or a
+	    headset with a microphone is plugged.
+
+	  </para>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioRoute">
+      <MemberSignature Language="C#" Value="public static string AudioRoute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property string AudioRoute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("Use InputRoute or OutputRoute instead")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Obsolete method.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioShouldDuck">
+      <MemberSignature Language="C#" Value="public static bool AudioShouldDuck { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property bool AudioShouldDuck" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Controls audio ducking for your application.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+	    When this property is set to true, if there is background
+	    music playing and you have configured this session to
+	    allow audio mixing, when your application produces sound,
+	    the background music volume is reduced.  After you play
+	    your sound, you should reset the value to false.
+	  </para>
+          <para>
+	    By default, this property is set to false, and no audio ducking takes place.
+	  </para>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Category">
+      <MemberSignature Language="C#" Value="public static MonoMac.AudioToolbox.AudioSessionCategory Category { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property valuetype MonoMac.AudioToolbox.AudioSessionCategory Category" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionCategory</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Controls how the operating system treats the audio from your application.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+
+	    This property is used to control how the operating system
+	    treat your audio.  It can be used to control whether your
+	    application needs exclusive access to the microphones or
+	    speakers or to configure if the audio can be mixed with
+	    background music.
+
+	  </para>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentHardwareInputLatency">
+      <MemberSignature Language="C#" Value="public static float CurrentHardwareInputLatency { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property float32 CurrentHardwareInputLatency" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The current hardware input latency in seconds.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentHardwareInputNumberChannels">
+      <MemberSignature Language="C#" Value="public static int CurrentHardwareInputNumberChannels { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property int32 CurrentHardwareInputNumberChannels" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The number of hardware input channels.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentHardwareIOBufferDuration">
+      <MemberSignature Language="C#" Value="public static float CurrentHardwareIOBufferDuration { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property float32 CurrentHardwareIOBufferDuration" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The size in seconds of the hardware input and output buffer.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentHardwareOutputLatency">
+      <MemberSignature Language="C#" Value="public static float CurrentHardwareOutputLatency { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property float32 CurrentHardwareOutputLatency" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The current hardware output latency in seconds.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentHardwareOutputNumberChannels">
+      <MemberSignature Language="C#" Value="public static int CurrentHardwareOutputNumberChannels { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property int32 CurrentHardwareOutputNumberChannels" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Number of hardware output channels.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentHardwareOutputVolume">
+      <MemberSignature Language="C#" Value="public static float CurrentHardwareOutputVolume { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property float32 CurrentHardwareOutputVolume" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Your application volume, from 0 to 1.</summary>
+        <value>Floating point value between 0 and 1.</value>
+        <remarks>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentHardwareSampleRate">
+      <MemberSignature Language="C#" Value="public static double CurrentHardwareSampleRate { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property float64 CurrentHardwareSampleRate" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The current hardware sample rate.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Initialize">
+      <MemberSignature Language="C#" Value="public static void Initialize ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void Initialize() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Initializes the Audio Session.</summary>
+        <remarks>
+          <para>
+
+	    In addition to calling the Initialize method on
+	    AudioSession, you will want to set the <see cref="P:MonoMac.AudioToolbox.AudioSession.Category" />
+	    and the <see cref="P:MonoMac.AudioToolbox.AudioSession.Mode" />
+	    properties to control the priority of your audio and the
+	    rules for mixing your audio with other audio playing on
+	    the device.
+
+	  </para>
+          <para>
+
+	    When you call this variation of Initialize, both the <see cref="E:MonoMac.AudioToolbox.AudioSession.Interrupted" />
+	    and <see cref="E:MonoMac.AudioToolbox.AudioSession.Resumed" />
+	    events are raised on the main loop.  Use the <see cref="P:MonoMac.AudioToolbox.AudioSession.Initialize(MonoMac.CoreFoundation.CFRunLoop&#xA;	    runLoop, System.String runMode)" /> if you want to specify
+	    a different runloop.
+
+	  </para>
+          <para>
+	    If there is an error initializing the AudioSession, this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+          <example>
+            <code lang="c#">
+//
+// Initialize the audio session for audio playback
+//
+AudioSession.Initialize ();
+AudioSession.Category = AudioSessionCategory.MediaPlayback;
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Initialize">
+      <MemberSignature Language="C#" Value="public static void Initialize (MonoMac.CoreFoundation.CFRunLoop runLoop, string runMode);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void Initialize(class MonoMac.CoreFoundation.CFRunLoop runLoop, string runMode) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="runLoop" Type="MonoMac.CoreFoundation.CFRunLoop" />
+        <Parameter Name="runMode" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="runLoop">The runloop to execute on.</param>
+        <param name="runMode">Run loop mode (see NSRunLoop for the various modes).</param>
+        <summary>Initializes the Audio Session.</summary>
+        <remarks>
+          <para>
+
+	    In addition to calling the Initialize method on
+	    AudioSession, you will want to set the <see cref="P:MonoMac.AudioToolbox.AudioSession.Category" />
+	    and the <see cref="P:MonoMac.AudioToolbox.AudioSession.Mode" />
+	    properties to control the priority of your audio and the
+	    rules for mixing your audio with other audio playing on
+	    the device.
+
+	  </para>
+          <para>
+
+	    When you call this variation of Initialize, both the <see cref="E:MonoMac.AudioToolbox.AudioSession.Interrupted" />
+	    and <see cref="E:MonoMac.AudioToolbox.AudioSession.Resumed" />
+	    events are raised on the specified run loop with the
+	    specified run loop mode.  Use the <see cref="P:MonoMac.AudioToolbox.AudioSession.Initialize()" />
+	    if you want those events to be raised on the main thread.
+
+	  </para>
+          <example>
+            <code lang="c#">
+//
+// Initialize the audio session for audio playback
+//
+AudioSession.Initialize (myRunLoop, myRunMode);
+AudioSession.Category = AudioSessionCategory.MediaPlayback;
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InputGainAvailable">
+      <MemberSignature Language="C#" Value="public static bool InputGainAvailable { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property bool InputGainAvailable" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(5, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InputGainScalar">
+      <MemberSignature Language="C#" Value="public static float InputGainScalar { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property float32 InputGainScalar" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(5, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InputRoute">
+      <MemberSignature Language="C#" Value="public static MonoMac.AudioToolbox.AudioSessionInputRouteKind InputRoute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property valuetype MonoMac.AudioToolbox.AudioSessionInputRouteKind InputRoute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(5, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionInputRouteKind</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Controls the source for audio input.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InputSources">
+      <MemberSignature Language="C#" Value="public static MonoMac.AudioToolbox.AccessoryInfo[] InputSources { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.AudioToolbox.AccessoryInfo[] InputSources" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(5, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AccessoryInfo[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Interrupted">
+      <MemberSignature Language="C#" Value="public static event EventHandler Interrupted;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler Interrupted" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Event raised when the audio session has been interrupted.</summary>
+        <remarks>
+          <para>
+
+	    You can use the <see cref="P:MonoMac.AudioToolbox.AudioSession.InterruptionType" /> property to determine the cause of the interruption.
+
+	  </para>
+          <para>
+	    In addition, the Resumed event is raised when the audio session is resumed.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InterruptionType">
+      <MemberSignature Language="C#" Value="public static MonoMac.AudioToolbox.AudioSessionInterruptionType InterruptionType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property valuetype MonoMac.AudioToolbox.AudioSessionInterruptionType InterruptionType" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(4, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionInterruptionType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The type of interruption, used to determine the appropriate course of action when the AudioSession is interrupted.</summary>
+        <value>
+        </value>
+        <remarks>
+	  The value of this property is only valid when called from the <see cref="E:MonoMac.AudioToolbox.AudioSession.Interrupted" /> event handler.
+	</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Mode">
+      <MemberSignature Language="C#" Value="public static MonoMac.AudioToolbox.AudioSessionMode Mode { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property valuetype MonoMac.AudioToolbox.AudioSessionMode Mode" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(5, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionMode</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Configuration modes for Audio, it provides finer control over the Category property.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+
+	    This property is used to do the fine-level control over
+	    the audio session.  The major component is determined by
+	    the <see cref="P:MonoMac.AudioToolbox.AudioSession.Category" />
+	    property and this is used to tune whether the session
+	    behaves in the default mode (what every app got in the pre
+	    iOS 5.0 days), Voice Chat, Video Recording or is being
+	    used in Measurement mode (where you get raw data, without
+	    any gain changes for Audio).
+
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OtherAudioIsPlaying">
+      <MemberSignature Language="C#" Value="public static bool OtherAudioIsPlaying { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property bool OtherAudioIsPlaying" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Whether another application is currently playing back audio.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OutputDestinations">
+      <MemberSignature Language="C#" Value="public static MonoMac.AudioToolbox.AccessoryInfo[] OutputDestinations { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.AudioToolbox.AccessoryInfo[] OutputDestinations" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(5, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AccessoryInfo[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OutputRoutes">
+      <MemberSignature Language="C#" Value="public static MonoMac.AudioToolbox.AudioSessionOutputRouteKind[] OutputRoutes { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property valuetype MonoMac.AudioToolbox.AudioSessionOutputRouteKind[] OutputRoutes" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(5, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionOutputRouteKind[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Retrives information about the available audio output routes.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OverrideCategoryDefaultToSpeaker">
+      <MemberSignature Language="C#" Value="public static bool OverrideCategoryDefaultToSpeaker { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property bool OverrideCategoryDefaultToSpeaker" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OverrideCategoryEnableBluetoothInput">
+      <MemberSignature Language="C#" Value="public static bool OverrideCategoryEnableBluetoothInput { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property bool OverrideCategoryEnableBluetoothInput" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>If input is coming from a bluetooth headset, it routes the audio output to the headset.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OverrideCategoryMixWithOthers">
+      <MemberSignature Language="C#" Value="public static bool OverrideCategoryMixWithOthers { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property bool OverrideCategoryMixWithOthers" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Mixes the background audio with the audio generated by the application, regardless of the default <see cref="P:MonoMac.AudioToolbox.AudioSession.Category" /> setting.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+	    This setting can be used when the <see cref="P:MonoMac.AudioToolbox.AudioSession.Category" /> session is set to either MediaPlayback or PlayAndRecord.
+	  </para>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PreferredHardwareIOBufferDuration">
+      <MemberSignature Language="C#" Value="public static float PreferredHardwareIOBufferDuration { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property float32 PreferredHardwareIOBufferDuration" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Your application desired buffer size in seconds. </summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+	    There is no guarantee that you will get the number of requested seconds, you can determine the actual number of seconds by reading the <see cref="P:MonoMac.AudioToolbox.AudioSession.CurrentHardwareIOBufferDuration" /> property.
+	  </para>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PreferredHardwareSampleRate">
+      <MemberSignature Language="C#" Value="public static double PreferredHardwareSampleRate { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property float64 PreferredHardwareSampleRate" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Your desired audio sample rate.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+	    There is no guarantee that you will get the requested sample rate, you can determine the actual number by reading the <see cref="P:MonoMac.AudioToolbox.AudioSession.CurrentHardwareSampleRate" /> property.
+	  </para>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveListener">
+      <MemberSignature Language="C#" Value="public static void RemoveListener (MonoMac.AudioToolbox.AudioSessionProperty property, MonoMac.AudioToolbox.AudioSession.PropertyListener listener);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RemoveListener(valuetype MonoMac.AudioToolbox.AudioSessionProperty property, class MonoMac.AudioToolbox.AudioSession/PropertyListener listener) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="property" Type="MonoMac.AudioToolbox.AudioSessionProperty" />
+        <Parameter Name="listener" Type="MonoMac.AudioToolbox.AudioSession+PropertyListener" />
+      </Parameters>
+      <Docs>
+        <param name="property">The monitored property.</param>
+        <param name="listener">The Callback that was specified in the call to AddListener.</param>
+        <summary>Removes the specified listener from the list of monitored audio session properties.</summary>
+        <remarks>Properties to monitor are registered with the AddListener method.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Resumed">
+      <MemberSignature Language="C#" Value="public static event EventHandler Resumed;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler Resumed" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Event raised when the audio session has resumed.</summary>
+        <remarks>In addition, the Interrupted event is raised when the audio session is interrupted.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RoutingOverride">
+      <MemberSignature Language="C#" Value="public static MonoMac.AudioToolbox.AudioSessionRoutingOverride RoutingOverride { set; }" />
+      <MemberSignature Language="ILAsm" Value=".property valuetype MonoMac.AudioToolbox.AudioSessionRoutingOverride RoutingOverride" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionRoutingOverride</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Controls the output route, overriding the default set by the <see cref="P:MonoMac.AudioToolbox.AudioSession.Category" />.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+	    This property is only valid if the Category is set to PlayAndRecord.
+	  </para>
+          <para>
+	    If this property is set to Speaker when a headset is
+	    plugged, this will also switch the input to use the system
+	    microphone, and not the one on the headset.
+	  </para>
+          <para>
+	    The setting of this variable is reset when a headset are plugged or unplugged.
+	  </para>
+          <para>
+	    If there is an error reading or setting the property,
+	    this will raise an <see cref="T:MonoMac.AudioToolbox.AudioSessionException" />.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetActive">
+      <MemberSignature Language="C#" Value="public static void SetActive (bool active);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetActive(bool active) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="active" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="active">Whether to enable the audio session.</param>
+        <summary>Enables or Disables the audio session.</summary>
+        <remarks>
+          <para>
+	    This method is used to enable and disable the audio session.
+	  </para>
+          <para>
+	    This method can throw an AudioSessionException if another
+	    application is currently using the AudioSession in the
+	    foreground and does not support audio mixing.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetActive">
+      <MemberSignature Language="C#" Value="public static MonoMac.AudioToolbox.AudioSessionErrors SetActive (bool active, MonoMac.AudioToolbox.AudioSessionActiveFlags flags);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype MonoMac.AudioToolbox.AudioSessionErrors SetActive(bool active, valuetype MonoMac.AudioToolbox.AudioSessionActiveFlags flags) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(4, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionErrors</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="active" Type="System.Boolean" />
+        <Parameter Name="flags" Type="MonoMac.AudioToolbox.AudioSessionActiveFlags" />
+      </Parameters>
+      <Docs>
+        <param name="active">To be added.</param>
+        <param name="flags">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

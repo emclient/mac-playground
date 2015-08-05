@@ -1,0 +1,158 @@
+<Type Name="Class" FullName="MonoMac.ObjCRuntime.Class">
+  <TypeSignature Language="C#" Value="public class Class : MonoMac.ObjCRuntime.INativeObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit Class extends System.Object implements class MonoMac.ObjCRuntime.INativeObject" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>MonoMac.ObjCRuntime.INativeObject</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>Managed representation for an Objective-C class.</summary>
+    <remarks />
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public Class (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">The pointer to the unmanaged Objective-C Class object.</param>
+        <summary>Creates an instance from an unmanaged handle.</summary>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public Class (string name);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="name">The name of the Objective-C class.</param>
+        <summary>Creates a class from a name.</summary>
+        <remarks>MonoMac will look up the class in the Objective-C space and return the instance or throw an ArgumentException if the class does not exist, or the library was not linked in.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public Class (Type type);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Type type) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="type" Type="System.Type" />
+      </Parameters>
+      <Docs>
+        <param name="type">A C# type.</param>
+        <summary>Creates a class from the specified Type.</summary>
+        <remarks>This will trigger the class regstration with the Monotouch runtime.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetHandle">
+      <MemberSignature Language="C#" Value="public static IntPtr GetHandle (string name);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig native int GetHandle(string name) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="name">The name of the class to lookup.</param>
+        <summary>Returns the unmanaged handle to the Objective-C Class.</summary>
+        <returns>The unmanaged handle for the specified Objective-C class.</returns>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="Handle">
+      <MemberSignature Language="C#" Value="public IntPtr Handle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int Handle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Handle (pointer) to the unmanaged object representation.</summary>
+        <value>A pointer</value>
+        <remarks>This IntPtr is a handle to the underlying unmanaged representation for this object.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsCustomType">
+      <MemberSignature Language="C#" Value="public static bool IsCustomType (Type type);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool IsCustomType(class System.Type type) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="type" Type="System.Type" />
+      </Parameters>
+      <Docs>
+        <param name="type">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Name">
+      <MemberSignature Language="C#" Value="public string Name { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Name" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The Objective-C name for this class.</summary>
+        <value />
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="SuperClass">
+      <MemberSignature Language="C#" Value="public IntPtr SuperClass { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int SuperClass" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The Objective-C handle to the super class for this class.</summary>
+        <value />
+        <remarks />
+      </Docs>
+    </Member>
+  </Members>
+</Type>

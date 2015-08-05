@@ -1,0 +1,213 @@
+<Type Name="AudioSource" FullName="MonoMac.AudioToolbox.AudioSource">
+  <TypeSignature Language="C#" Value="public abstract class AudioSource : MonoMac.AudioToolbox.AudioFile" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract AudioSource extends MonoMac.AudioToolbox.AudioFile" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.AudioToolbox.AudioFile</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>A derived class from AudioFile that exposes virtual methods that can be hooked into (for reading and writing)</summary>
+    <remarks>
+      <para>
+AudioSource is an abstract class that derives from AudioFile that allows developers to hook up into the reading and writing stages of the AudioFile.   This can be used for example to read from an in-memory audio file, or to write to an in-memory buffer.
+</para>
+      <para>
+When you write data into the AudioSource using any of the methods from AudioFile, instead of writing the encoded data into a file, the data is sent to the Read abstract method.
+</para>
+      <para>
+To use this class, you must create a class that derives from AudioSource and override the Read, Write methods and the Size property.
+</para>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public AudioSource ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>Constructor used when creating subclasses</summary>
+        <remarks>
+	  This constructor is provided as a convenience for
+	  developers that need to decouple the creation of the
+	  AudioSource from starting the read and write process.    Once you have created this object, you need to invoke the <see cref="M:MonoMac.AudioToolbox.AudioSource.Initialize" /> method to complete the setup.
+	</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public AudioSource (MonoMac.AudioToolbox.AudioFileType fileTypeHint);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype MonoMac.AudioToolbox.AudioFileType fileTypeHint) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="fileTypeHint" Type="MonoMac.AudioToolbox.AudioFileType" />
+      </Parameters>
+      <Docs>
+        <param name="fileTypeHint">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public AudioSource (MonoMac.AudioToolbox.AudioFileType inFileType, MonoMac.AudioToolbox.AudioStreamBasicDescription format);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype MonoMac.AudioToolbox.AudioFileType inFileType, valuetype MonoMac.AudioToolbox.AudioStreamBasicDescription format) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="inFileType" Type="MonoMac.AudioToolbox.AudioFileType" />
+        <Parameter Name="format" Type="MonoMac.AudioToolbox.AudioStreamBasicDescription" />
+      </Parameters>
+      <Docs>
+        <param name="inFileType">To be added.</param>
+        <param name="format">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected override void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <para>If set to <see langword="true" />, the method is invoked directly and will dispose manage and unmanaged resources;   If set to <see langword="false" /> the method is being called by the garbage collector finalizer and should only release unmanaged resources.</para>
+        </param>
+        <summary>Releases the resources used by the AudioSource object.</summary>
+        <remarks>
+          <para>This Dispose method releases the resources used by the AudioSource class.</para>
+          <para>This method is called by both the Dispose() method and the object finalizer (Finalize).    When invoked by the Dispose method, the parameter disposting <paramref name="disposing" /> is set to <see langword="true" /> and any managed object references that this object holds are also disposed or released;  when invoked by the object finalizer, on the finalizer thread the value is set to <see langword="false" />. </para>
+          <para>Calling the Dispose method when you are finished using the AudioSource ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.</para>
+          <para>  For more information on how to override this method and on the Dispose/IDisposable pattern, read the ``Implementing a Dispose Method'' document at http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Initialize">
+      <MemberSignature Language="C#" Value="protected void Initialize (MonoMac.AudioToolbox.AudioFileType inFileType, MonoMac.AudioToolbox.AudioStreamBasicDescription format);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void Initialize(valuetype MonoMac.AudioToolbox.AudioFileType inFileType, valuetype MonoMac.AudioToolbox.AudioStreamBasicDescription format) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="inFileType" Type="MonoMac.AudioToolbox.AudioFileType" />
+        <Parameter Name="format" Type="MonoMac.AudioToolbox.AudioStreamBasicDescription" />
+      </Parameters>
+      <Docs>
+        <param name="inFileType">To be added.</param>
+        <param name="format">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Open">
+      <MemberSignature Language="C#" Value="protected void Open (MonoMac.AudioToolbox.AudioFileType fileTypeHint);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void Open(valuetype MonoMac.AudioToolbox.AudioFileType fileTypeHint) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="fileTypeHint" Type="MonoMac.AudioToolbox.AudioFileType" />
+      </Parameters>
+      <Docs>
+        <param name="fileTypeHint">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Read">
+      <MemberSignature Language="C#" Value="public abstract bool Read (long position, int requestCount, IntPtr buffer, out int actualCount);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool Read(int64 position, int32 requestCount, native int buffer, int32 actualCount) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="position" Type="System.Int64" />
+        <Parameter Name="requestCount" Type="System.Int32" />
+        <Parameter Name="buffer" Type="System.IntPtr" />
+        <Parameter Name="actualCount" Type="System.Int32&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="position">Position in the audio stream that the data should be read from.</param>
+        <param name="requestCount">Number of bytes to read.</param>
+        <param name="buffer">Pointer to the buffer where the data should be stored.</param>
+        <param name="actualCount">On return, set this value to the number of bytes actually read.</param>
+        <summary>Callback invoked to read encoded audio data.</summary>
+        <returns>true on success, false on failure.</returns>
+        <remarks>This method is called by the AudioSource when more data is requested.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Size">
+      <MemberSignature Language="C#" Value="public abstract long Size { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int64 Size" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Used to set or get the size of the audio stream.</summary>
+        <value>The size of the file.</value>
+        <remarks>If the AudioSource is created in reading mode, this method should return the size of the audio data.   If the AudioSource is created to write data, this method is invoked to set the audio file size.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Write">
+      <MemberSignature Language="C#" Value="public abstract bool Write (long position, int requestCount, IntPtr buffer, out int actualCount);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool Write(int64 position, int32 requestCount, native int buffer, int32 actualCount) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="position" Type="System.Int64" />
+        <Parameter Name="requestCount" Type="System.Int32" />
+        <Parameter Name="buffer" Type="System.IntPtr" />
+        <Parameter Name="actualCount" Type="System.Int32&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="position">Position where the data should be stored.</param>
+        <param name="requestCount">Number of bytes to write.</param>
+        <param name="buffer">Pointer to the buffer that contains the data to be written.</param>
+        <param name="actualCount">Set this value to indicate the number of bytes actually written.</param>
+        <summary>Callback used to write audio data into the audio stream.</summary>
+        <returns>True on success, false on failure.</returns>
+        <remarks>This method is called by the AudioSource when it has encoded the data and it need to write it out.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

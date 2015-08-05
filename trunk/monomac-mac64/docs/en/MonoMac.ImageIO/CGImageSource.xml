@@ -1,0 +1,582 @@
+<Type Name="CGImageSource" FullName="MonoMac.ImageIO.CGImageSource">
+  <TypeSignature Language="C#" Value="public class CGImageSource : IDisposable, MonoMac.ObjCRuntime.INativeObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit CGImageSource extends System.Object implements class MonoMac.ObjCRuntime.INativeObject, class System.IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>MonoMac.ObjCRuntime.INativeObject</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>Image Loader.</summary>
+    <remarks>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="CopyProperties">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSDictionary CopyProperties (MonoMac.Foundation.NSDictionary dict);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSDictionary CopyProperties(class MonoMac.Foundation.NSDictionary dict) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("Use GetProperties")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDictionary</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dict" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="dict">Properties to copy.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CopyProperties">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSDictionary CopyProperties (MonoMac.ImageIO.CGImageOptions options);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSDictionary CopyProperties(class MonoMac.ImageIO.CGImageOptions options) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("Use GetProperties")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDictionary</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="options" Type="MonoMac.ImageIO.CGImageOptions" />
+      </Parameters>
+      <Docs>
+        <param name="options">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CopyProperties">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSDictionary CopyProperties (MonoMac.Foundation.NSDictionary dict, int imageIndex);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSDictionary CopyProperties(class MonoMac.Foundation.NSDictionary dict, int32 imageIndex) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("Use GetProperties")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDictionary</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dict" Type="MonoMac.Foundation.NSDictionary" />
+        <Parameter Name="imageIndex" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="dict">Properties to copy.</param>
+        <param name="imageIndex">Image index.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CopyProperties">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSDictionary CopyProperties (MonoMac.ImageIO.CGImageOptions options, int imageIndex);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSDictionary CopyProperties(class MonoMac.ImageIO.CGImageOptions options, int32 imageIndex) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("Use GetProperties")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDictionary</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="options" Type="MonoMac.ImageIO.CGImageOptions" />
+        <Parameter Name="imageIndex" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="options">To be added.</param>
+        <param name="imageIndex">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateImage">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreGraphics.CGImage CreateImage (int index, MonoMac.ImageIO.CGImageOptions options);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreGraphics.CGImage CreateImage(int32 index, class MonoMac.ImageIO.CGImageOptions options) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGImage</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="index" Type="System.Int32" />
+        <Parameter Name="options" Type="MonoMac.ImageIO.CGImageOptions" />
+      </Parameters>
+      <Docs>
+        <param name="index">Index of the image to create.</param>
+        <param name="options">Image creation options.</param>
+        <summary>Creates a CGImage from this loader.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateIncremental">
+      <MemberSignature Language="C#" Value="public static MonoMac.ImageIO.CGImageSource CreateIncremental (MonoMac.ImageIO.CGImageOptions options);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.ImageIO.CGImageSource CreateIncremental(class MonoMac.ImageIO.CGImageOptions options) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ImageIO.CGImageSource</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="options" Type="MonoMac.ImageIO.CGImageOptions" />
+      </Parameters>
+      <Docs>
+        <param name="options">Image creation options.</param>
+        <summary>Creates an incremental image loader.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateThumbnail">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreGraphics.CGImage CreateThumbnail (int index, MonoMac.ImageIO.CGImageThumbnailOptions options);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreGraphics.CGImage CreateThumbnail(int32 index, class MonoMac.ImageIO.CGImageThumbnailOptions options) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGImage</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="index" Type="System.Int32" />
+        <Parameter Name="options" Type="MonoMac.ImageIO.CGImageThumbnailOptions" />
+      </Parameters>
+      <Docs>
+        <param name="index">Index of the image to load.</param>
+        <param name="options">Thumbnail image creation options.</param>
+        <summary>Creates a CGImage thumbnail from this loader..</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Releases the resources used by the CGImageSource object.</summary>
+        <remarks>
+          <para>The Dispose method releases the resources used by the CGImageSource class.</para>
+          <para>Calling the Dispose method when you are finished using the CGImageSource ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.  For more information on releasing resources see ``Cleaning up Unmananaged Resources'' at http://msdn.microsoft.com/en-us/library/498928w2.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <para>If set to <see langword="true" />, the method is invoked directly and will dispose manage and unmanaged resources;   If set to <see langword="false" /> the method is being called by the garbage collector finalizer and should only release unmanaged resources.</para>
+        </param>
+        <summary>Releases the resources used by the CGImageSource object.</summary>
+        <remarks>
+          <para>This Dispose method releases the resources used by the CGImageSource class.</para>
+          <para>This method is called by both the Dispose() method and the object finalizer (Finalize).    When invoked by the Dispose method, the parameter disposting <paramref name="disposing" /> is set to <see langword="true" /> and any managed object references that this object holds are also disposed or released;  when invoked by the object finalizer, on the finalizer thread the value is set to <see langword="false" />. </para>
+          <para>Calling the Dispose method when you are finished using the CGImageSource ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.</para>
+          <para>  For more information on how to override this method and on the Dispose/IDisposable pattern, read the ``Implementing a Dispose Method'' document at http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~CGImageSource ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Finalizer for the CGImageSource object</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromData">
+      <MemberSignature Language="C#" Value="public static MonoMac.ImageIO.CGImageSource FromData (MonoMac.Foundation.NSData data);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.ImageIO.CGImageSource FromData(class MonoMac.Foundation.NSData data) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ImageIO.CGImageSource</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="data" Type="MonoMac.Foundation.NSData" />
+      </Parameters>
+      <Docs>
+        <param name="data">Block of bytes containing the image.</param>
+        <summary>Creates an image loader from the block of bytes.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromData">
+      <MemberSignature Language="C#" Value="public static MonoMac.ImageIO.CGImageSource FromData (MonoMac.Foundation.NSData data, MonoMac.ImageIO.CGImageOptions options);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.ImageIO.CGImageSource FromData(class MonoMac.Foundation.NSData data, class MonoMac.ImageIO.CGImageOptions options) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ImageIO.CGImageSource</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="data" Type="MonoMac.Foundation.NSData" />
+        <Parameter Name="options" Type="MonoMac.ImageIO.CGImageOptions" />
+      </Parameters>
+      <Docs>
+        <param name="data">Block of bytes containing the image.</param>
+        <param name="options">Image creation options.</param>
+        <summary>Creates an image loader from the block of bytes.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromDataProvider">
+      <MemberSignature Language="C#" Value="public static MonoMac.ImageIO.CGImageSource FromDataProvider (MonoMac.CoreGraphics.CGDataProvider provider);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.ImageIO.CGImageSource FromDataProvider(class MonoMac.CoreGraphics.CGDataProvider provider) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ImageIO.CGImageSource</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="provider" Type="MonoMac.CoreGraphics.CGDataProvider" />
+      </Parameters>
+      <Docs>
+        <param name="provider">Dynamic data provider.</param>
+        <summary>Creates an image loader using a dynamic data provider.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromDataProvider">
+      <MemberSignature Language="C#" Value="public static MonoMac.ImageIO.CGImageSource FromDataProvider (MonoMac.CoreGraphics.CGDataProvider provider, MonoMac.ImageIO.CGImageOptions options);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.ImageIO.CGImageSource FromDataProvider(class MonoMac.CoreGraphics.CGDataProvider provider, class MonoMac.ImageIO.CGImageOptions options) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ImageIO.CGImageSource</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="provider" Type="MonoMac.CoreGraphics.CGDataProvider" />
+        <Parameter Name="options" Type="MonoMac.ImageIO.CGImageOptions" />
+      </Parameters>
+      <Docs>
+        <param name="provider">Dynamic data provider.</param>
+        <param name="options">Image creation options.</param>
+        <summary>Creates an image loader using a dynamic data provider.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromUrl">
+      <MemberSignature Language="C#" Value="public static MonoMac.ImageIO.CGImageSource FromUrl (MonoMac.Foundation.NSUrl url);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.ImageIO.CGImageSource FromUrl(class MonoMac.Foundation.NSUrl url) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ImageIO.CGImageSource</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="url" Type="MonoMac.Foundation.NSUrl" />
+      </Parameters>
+      <Docs>
+        <param name="url">Url to load the image from.</param>
+        <summary>Creates an image loader that loads the file from the given url.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromUrl">
+      <MemberSignature Language="C#" Value="public static MonoMac.ImageIO.CGImageSource FromUrl (MonoMac.Foundation.NSUrl url, MonoMac.ImageIO.CGImageOptions options);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.ImageIO.CGImageSource FromUrl(class MonoMac.Foundation.NSUrl url, class MonoMac.ImageIO.CGImageOptions options) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ImageIO.CGImageSource</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="url" Type="MonoMac.Foundation.NSUrl" />
+        <Parameter Name="options" Type="MonoMac.ImageIO.CGImageOptions" />
+      </Parameters>
+      <Docs>
+        <param name="url">Url to load the image from.</param>
+        <param name="options">Image creation options.</param>
+        <summary>Creates an image loader that loads the file from the given url.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetProperties">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreGraphics.CGImageProperties GetProperties (MonoMac.ImageIO.CGImageOptions options = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreGraphics.CGImageProperties GetProperties(class MonoMac.ImageIO.CGImageOptions options) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGImageProperties</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="options" Type="MonoMac.ImageIO.CGImageOptions" />
+      </Parameters>
+      <Docs>
+        <param name="options">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetProperties">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreGraphics.CGImageProperties GetProperties (int index, MonoMac.ImageIO.CGImageOptions options = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.CoreGraphics.CGImageProperties GetProperties(int32 index, class MonoMac.ImageIO.CGImageOptions options) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGImageProperties</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="index" Type="System.Int32" />
+        <Parameter Name="options" Type="MonoMac.ImageIO.CGImageOptions" />
+      </Parameters>
+      <Docs>
+        <param name="index">To be added.</param>
+        <param name="options">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetStatus">
+      <MemberSignature Language="C#" Value="public MonoMac.ImageIO.CGImageSourceStatus GetStatus ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.ImageIO.CGImageSourceStatus GetStatus() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ImageIO.CGImageSourceStatus</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Returns the loader status.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetStatus">
+      <MemberSignature Language="C#" Value="public MonoMac.ImageIO.CGImageSourceStatus GetStatus (int index);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.ImageIO.CGImageSourceStatus GetStatus(int32 index) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ImageIO.CGImageSourceStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="index" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="index">Image index.</param>
+        <summary>Returns the loader status.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetTypeID">
+      <MemberSignature Language="C#" Value="public static int GetTypeID ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig pinvokeimpl (&quot;/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ImageIO.framework/ImageIO&quot; as &quot;CGImageSourceGetTypeID&quot; winapi)int32 GetTypeID() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>The CoreFoundation TypeID.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Handle">
+      <MemberSignature Language="C#" Value="public IntPtr Handle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int Handle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Handle (pointer) to the unmanaged object representation.</summary>
+        <value>A pointer</value>
+        <remarks>This IntPtr is a handle to the underlying unmanaged representation for this object.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ImageCount">
+      <MemberSignature Language="C#" Value="public int ImageCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 ImageCount" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Number of images loaded (does not include the Thumbnail).</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TypeIdentifier">
+      <MemberSignature Language="C#" Value="public string TypeIdentifier { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string TypeIdentifier" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The image type of the underling image.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TypeIdentifiers">
+      <MemberSignature Language="C#" Value="public static string[] TypeIdentifiers { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property string[] TypeIdentifiers" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The type identifiers for the formats supported by the image loader.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UpdateData">
+      <MemberSignature Language="C#" Value="public void UpdateData (MonoMac.Foundation.NSData data, bool final);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void UpdateData(class MonoMac.Foundation.NSData data, bool final) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="data" Type="MonoMac.Foundation.NSData" />
+        <Parameter Name="final" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="data">Block of bytes containing the image.</param>
+        <param name="final">Whether this block is the last block of data.</param>
+        <summary>Pushes new data into a dynamic image loader.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UpdateDataProvider">
+      <MemberSignature Language="C#" Value="public void UpdateDataProvider (MonoMac.CoreGraphics.CGDataProvider provider);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void UpdateDataProvider(class MonoMac.CoreGraphics.CGDataProvider provider) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="provider" Type="MonoMac.CoreGraphics.CGDataProvider" />
+      </Parameters>
+      <Docs>
+        <param name="provider">Dynamic data provider.</param>
+        <summary>Use this to swap out the data provider used by this image loader.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

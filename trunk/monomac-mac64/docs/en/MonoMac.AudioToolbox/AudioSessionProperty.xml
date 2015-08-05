@@ -1,0 +1,428 @@
+<Type Name="AudioSessionProperty" FullName="MonoMac.AudioToolbox.AudioSessionProperty">
+  <TypeSignature Language="C#" Value="public enum AudioSessionProperty" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed AudioSessionProperty extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="AudioCategory">
+      <MemberSignature Language="C#" Value="AudioCategory" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty AudioCategory = int32(1633902964)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioInputAvailable">
+      <MemberSignature Language="C#" Value="AudioInputAvailable" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty AudioInputAvailable = int32(1634296182)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioRoute">
+      <MemberSignature Language="C#" Value="AudioRoute" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty AudioRoute = int32(1919907188)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("Use AudioRouteDescription")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioRouteChange">
+      <MemberSignature Language="C#" Value="AudioRouteChange" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty AudioRouteChange = int32(1919902568)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioRouteDescription">
+      <MemberSignature Language="C#" Value="AudioRouteDescription" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty AudioRouteDescription = int32(1668440434)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentHardwareInputLatency">
+      <MemberSignature Language="C#" Value="CurrentHardwareInputLatency" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty CurrentHardwareInputLatency = int32(1667853428)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentHardwareInputNumberChannels">
+      <MemberSignature Language="C#" Value="CurrentHardwareInputNumberChannels" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty CurrentHardwareInputNumberChannels = int32(1667787107)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentHardwareIOBufferDuration">
+      <MemberSignature Language="C#" Value="CurrentHardwareIOBufferDuration" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty CurrentHardwareIOBufferDuration = int32(1667785316)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentHardwareOutputLatency">
+      <MemberSignature Language="C#" Value="CurrentHardwareOutputLatency" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty CurrentHardwareOutputLatency = int32(1668246644)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentHardwareOutputNumberChannels">
+      <MemberSignature Language="C#" Value="CurrentHardwareOutputNumberChannels" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty CurrentHardwareOutputNumberChannels = int32(1667788643)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentHardwareOutputVolume">
+      <MemberSignature Language="C#" Value="CurrentHardwareOutputVolume" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty CurrentHardwareOutputVolume = int32(1667788662)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentHardwareSampleRate">
+      <MemberSignature Language="C#" Value="CurrentHardwareSampleRate" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty CurrentHardwareSampleRate = int32(1667789682)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="InputGainAvailable">
+      <MemberSignature Language="C#" Value="InputGainAvailable" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty InputGainAvailable = int32(1768382838)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="InputGainScalar">
+      <MemberSignature Language="C#" Value="InputGainScalar" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty InputGainScalar = int32(1768387427)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="InputSource">
+      <MemberSignature Language="C#" Value="InputSource" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty InputSource = int32(1769173603)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="InputSources">
+      <MemberSignature Language="C#" Value="InputSources" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty InputSources = int32(1936876403)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="InterruptionType">
+      <MemberSignature Language="C#" Value="InterruptionType" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty InterruptionType = int32(561148781)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Mode">
+      <MemberSignature Language="C#" Value="Mode" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty Mode = int32(1836016741)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="OtherAudioIsPlaying">
+      <MemberSignature Language="C#" Value="OtherAudioIsPlaying" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty OtherAudioIsPlaying = int32(1869899890)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="OtherMixableAudioShouldDuck">
+      <MemberSignature Language="C#" Value="OtherMixableAudioShouldDuck" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty OtherMixableAudioShouldDuck = int32(1685414763)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="OutputDestination">
+      <MemberSignature Language="C#" Value="OutputDestination" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty OutputDestination = int32(1868854132)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="OutputDestinations">
+      <MemberSignature Language="C#" Value="OutputDestinations" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty OutputDestinations = int32(1685288051)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="OverrideAudioRoute">
+      <MemberSignature Language="C#" Value="OverrideAudioRoute" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty OverrideAudioRoute = int32(1870033508)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="OverrideCategoryDefaultToSpeaker">
+      <MemberSignature Language="C#" Value="OverrideCategoryDefaultToSpeaker" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty OverrideCategoryDefaultToSpeaker = int32(1668509803)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="OverrideCategoryEnableBluetoothInput">
+      <MemberSignature Language="C#" Value="OverrideCategoryEnableBluetoothInput" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty OverrideCategoryEnableBluetoothInput = int32(1667394677)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="OverrideCategoryMixWithOthers">
+      <MemberSignature Language="C#" Value="OverrideCategoryMixWithOthers" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty OverrideCategoryMixWithOthers = int32(1668114808)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="PreferredHardwareIOBufferDuration">
+      <MemberSignature Language="C#" Value="PreferredHardwareIOBufferDuration" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty PreferredHardwareIOBufferDuration = int32(1768907364)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="PreferredHardwareSampleRate">
+      <MemberSignature Language="C#" Value="PreferredHardwareSampleRate" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty PreferredHardwareSampleRate = int32(1752658802)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ServerDied">
+      <MemberSignature Language="C#" Value="ServerDied" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionProperty ServerDied = int32(1684628836)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

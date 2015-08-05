@@ -1,0 +1,120 @@
+<Type Name="CAAutoresizingMask" FullName="MonoMac.CoreAnimation.CAAutoresizingMask">
+  <TypeSignature Language="C#" Value="public enum CAAutoresizingMask" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed CAAutoresizingMask extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Flags</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="HeightSizable">
+      <MemberSignature Language="C#" Value="HeightSizable" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreAnimation.CAAutoresizingMask HeightSizable = int32(16)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreAnimation.CAAutoresizingMask</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MaxXMargin">
+      <MemberSignature Language="C#" Value="MaxXMargin" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreAnimation.CAAutoresizingMask MaxXMargin = int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreAnimation.CAAutoresizingMask</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MaxYMargin">
+      <MemberSignature Language="C#" Value="MaxYMargin" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreAnimation.CAAutoresizingMask MaxYMargin = int32(32)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreAnimation.CAAutoresizingMask</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MinXMargin">
+      <MemberSignature Language="C#" Value="MinXMargin" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreAnimation.CAAutoresizingMask MinXMargin = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreAnimation.CAAutoresizingMask</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MinYMargin">
+      <MemberSignature Language="C#" Value="MinYMargin" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreAnimation.CAAutoresizingMask MinYMargin = int32(8)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreAnimation.CAAutoresizingMask</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="NotSizable">
+      <MemberSignature Language="C#" Value="NotSizable" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreAnimation.CAAutoresizingMask NotSizable = int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreAnimation.CAAutoresizingMask</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="WidthSizable">
+      <MemberSignature Language="C#" Value="WidthSizable" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreAnimation.CAAutoresizingMask WidthSizable = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreAnimation.CAAutoresizingMask</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

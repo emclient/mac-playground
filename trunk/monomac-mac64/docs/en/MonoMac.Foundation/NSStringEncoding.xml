@@ -1,0 +1,325 @@
+<Type Name="NSStringEncoding" FullName="MonoMac.Foundation.NSStringEncoding">
+  <TypeSignature Language="C#" Value="public enum NSStringEncoding" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed NSStringEncoding extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>Encodings supported by NSString.Encode.</summary>
+    <remarks>The encodings supported by NSData and NSString.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="ASCIIStringEncoding">
+      <MemberSignature Language="C#" Value="ASCIIStringEncoding" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding ASCIIStringEncoding = unsigned int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>ASCII encoding contains, 7-bit of information stored in 8 bits.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ISO2022JP">
+      <MemberSignature Language="C#" Value="ISO2022JP" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding ISO2022JP = unsigned int32(21)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary />
+      </Docs>
+    </Member>
+    <Member MemberName="ISOLatin1">
+      <MemberSignature Language="C#" Value="ISOLatin1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding ISOLatin1 = unsigned int32(5)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>8-bit ISO/IEC 8859-1, also knows as Latin1 encoding.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ISOLatin2">
+      <MemberSignature Language="C#" Value="ISOLatin2" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding ISOLatin2 = unsigned int32(9)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>8-bit ISO/IEC 8859-2, also knows as Latin2 encoding.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="JapaneseEUC">
+      <MemberSignature Language="C#" Value="JapaneseEUC" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding JapaneseEUC = unsigned int32(3)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MacOSRoman">
+      <MemberSignature Language="C#" Value="MacOSRoman" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding MacOSRoman = unsigned int32(30)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="NEXTSTEP">
+      <MemberSignature Language="C#" Value="NEXTSTEP" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding NEXTSTEP = unsigned int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="NonLossyASCII">
+      <MemberSignature Language="C#" Value="NonLossyASCII" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding NonLossyASCII = unsigned int32(7)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ShiftJIS">
+      <MemberSignature Language="C#" Value="ShiftJIS" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding ShiftJIS = unsigned int32(8)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Symbol">
+      <MemberSignature Language="C#" Value="Symbol" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding Symbol = unsigned int32(6)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Unicode">
+      <MemberSignature Language="C#" Value="Unicode" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding Unicode = unsigned int32(10)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="UTF16BigEndian">
+      <MemberSignature Language="C#" Value="UTF16BigEndian" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding UTF16BigEndian = unsigned int32(2415919360)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>16 bit-based variable length encoding, blocks are interpreted as big endian.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="UTF16LittleEndian">
+      <MemberSignature Language="C#" Value="UTF16LittleEndian" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding UTF16LittleEndian = unsigned int32(2483028224)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>16 bit-based variable length encoding, blocks are interpreted as litle endian. </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="UTF32">
+      <MemberSignature Language="C#" Value="UTF32" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding UTF32 = unsigned int32(2348810496)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>32-bit unicode encoding.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="UTF32BigEndian">
+      <MemberSignature Language="C#" Value="UTF32BigEndian" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding UTF32BigEndian = unsigned int32(2550137088)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>32 bit encoding, blocks are interpreted as big endian.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="UTF32LittleEndian">
+      <MemberSignature Language="C#" Value="UTF32LittleEndian" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding UTF32LittleEndian = unsigned int32(2617245952)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>32 bit encoding, blocks are interpreted as little endian.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="UTF8">
+      <MemberSignature Language="C#" Value="UTF8" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding UTF8 = unsigned int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>8-bit based variable-length character encoding for Unicode. </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="WindowsCP1250">
+      <MemberSignature Language="C#" Value="WindowsCP1250" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding WindowsCP1250 = unsigned int32(15)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary />
+      </Docs>
+    </Member>
+    <Member MemberName="WindowsCP1251">
+      <MemberSignature Language="C#" Value="WindowsCP1251" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding WindowsCP1251 = unsigned int32(11)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary />
+      </Docs>
+    </Member>
+    <Member MemberName="WindowsCP1252">
+      <MemberSignature Language="C#" Value="WindowsCP1252" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding WindowsCP1252 = unsigned int32(12)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary />
+      </Docs>
+    </Member>
+    <Member MemberName="WindowsCP1253">
+      <MemberSignature Language="C#" Value="WindowsCP1253" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding WindowsCP1253 = unsigned int32(13)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary />
+      </Docs>
+    </Member>
+    <Member MemberName="WindowsCP1254">
+      <MemberSignature Language="C#" Value="WindowsCP1254" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSStringEncoding WindowsCP1254 = unsigned int32(14)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSStringEncoding</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary />
+      </Docs>
+    </Member>
+  </Members>
+</Type>

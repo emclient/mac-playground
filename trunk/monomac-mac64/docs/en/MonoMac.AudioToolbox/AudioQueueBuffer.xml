@@ -1,0 +1,139 @@
+<Type Name="AudioQueueBuffer" FullName="MonoMac.AudioToolbox.AudioQueueBuffer">
+  <TypeSignature Language="C#" Value="public struct AudioQueueBuffer" />
+  <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit AudioQueueBuffer extends System.ValueType" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.ValueType</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Represents an audio queue buffer.</summary>
+    <remarks />
+  </Docs>
+  <Members>
+    <Member MemberName="AudioData">
+      <MemberSignature Language="C#" Value="public IntPtr AudioData;" />
+      <MemberSignature Language="ILAsm" Value=".field public native int AudioData" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Pointer to the audio data.</summary>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="AudioDataBytesCapacity">
+      <MemberSignature Language="C#" Value="public uint AudioDataBytesCapacity;" />
+      <MemberSignature Language="ILAsm" Value=".field public unsigned int32 AudioDataBytesCapacity" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.UInt32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioDataByteSize">
+      <MemberSignature Language="C#" Value="public uint AudioDataByteSize;" />
+      <MemberSignature Language="ILAsm" Value=".field public unsigned int32 AudioDataByteSize" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.UInt32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IntPtrPacketDescriptions">
+      <MemberSignature Language="C#" Value="public IntPtr IntPtrPacketDescriptions;" />
+      <MemberSignature Language="ILAsm" Value=".field public native int IntPtrPacketDescriptions" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PacketDescriptionCapacity">
+      <MemberSignature Language="C#" Value="public uint PacketDescriptionCapacity;" />
+      <MemberSignature Language="ILAsm" Value=".field public unsigned int32 PacketDescriptionCapacity" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.UInt32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PacketDescriptionCount">
+      <MemberSignature Language="C#" Value="public int PacketDescriptionCount;" />
+      <MemberSignature Language="ILAsm" Value=".field public int32 PacketDescriptionCount" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PacketDescriptions">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioStreamPacketDescription[] PacketDescriptions { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.AudioToolbox.AudioStreamPacketDescription[] PacketDescriptions" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioStreamPacketDescription[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UserData">
+      <MemberSignature Language="C#" Value="public IntPtr UserData;" />
+      <MemberSignature Language="ILAsm" Value=".field public native int UserData" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

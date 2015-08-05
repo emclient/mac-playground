@@ -1,0 +1,4333 @@
+<Type Name="QTMovie" FullName="MonoMac.QTKit.QTMovie">
+  <TypeSignature Language="C#" Value="public class QTMovie : MonoMac.Foundation.NSObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit QTMovie extends MonoMac.Foundation.NSObject" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.Foundation.NSObject</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.Foundation.Register("QTMovie", true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public QTMovie ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("init")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters />
+      <Docs>
+        <summary>Default constructor, initializes a new instance of this class.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public QTMovie (MonoMac.Foundation.NSCoder coder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSCoder coder) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithCoder:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="coder" Type="MonoMac.Foundation.NSCoder" />
+      </Parameters>
+      <Docs>
+        <param name="coder">The unarchiver object.</param>
+        <summary>A constructor that initializes the object from the data stored in the unarchiver object.</summary>
+        <remarks>This constructor is provided to allow the class to be initialized from an unarchiver (for example, during NIB deserialization).</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public QTMovie (MonoMac.Foundation.NSObjectFlag t);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSObjectFlag t) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="t" Type="MonoMac.Foundation.NSObjectFlag" />
+      </Parameters>
+      <Docs>
+        <param name="t">Unused sentinel value, pass NSObjectFlag.Empty.</param>
+        <summary>Constructor to call on derived classes when the derived class has an [Export] constructor.</summary>
+        <remarks>
+          <para>This constructor should be called by derived classes when they are initialized using an [Export] attribute. The argument value is ignore, typically the chaining would look like this:</para>
+          <example>
+            <code lang="C#">
+public class MyClass : BaseClass {
+    [Export ("initWithFoo:")]
+    public MyClass (string foo) : base (NSObjectFlag.Empty)
+    {
+        ...
+    }
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public QTMovie (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">Pointer (handle) to the unmanaged object.</param>
+        <summary>A constructor used when creating managed representations of unmanaged objects;  Called by the runtime.</summary>
+        <remarks>
+          <para>This constructor is invoked by the runtime infrastructure (<see cref="M:MonoMac.ObjCRuntime.GetNSObject (System.IntPtr)" />) to create a new managed representation for a pointer to an unmanaged Objective-C object.    You should not invoke this method directly, instead you should call the GetNSObject method as it will prevent two instances of a managed object to point to the same native object.</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public QTMovie (MonoMac.AppKit.NSPasteboard pasteboard, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.AppKit.NSPasteboard pasteboard, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithPasteboard:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="pasteboard" Type="MonoMac.AppKit.NSPasteboard" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="pasteboard">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public QTMovie (MonoMac.Foundation.NSData data, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSData data, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithData:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="data" Type="MonoMac.Foundation.NSData" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="data">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public QTMovie (MonoMac.Foundation.NSDictionary attributes, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSDictionary attributes, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithAttributes:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="attributes" Type="MonoMac.Foundation.NSDictionary" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="attributes">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public QTMovie (MonoMac.Foundation.NSMutableData data, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSMutableData data, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initToWritableData:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="data" Type="MonoMac.Foundation.NSMutableData" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="data">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public QTMovie (MonoMac.Foundation.NSUrl url, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSUrl url, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithURL:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="url" Type="MonoMac.Foundation.NSUrl" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="url">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public QTMovie (MonoMac.QTKit.QTDataReference dataReference, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.QTKit.QTDataReference dataReference, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithDataReference:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="dataReference" Type="MonoMac.QTKit.QTDataReference" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="dataReference">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public QTMovie (string fileName, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string fileName, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithFile:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="fileName" Type="System.String" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="fileName">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public QTMovie (MonoMac.QTKit.QTMovie movie, MonoMac.QTKit.QTTimeRange range, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.QTKit.QTMovie movie, valuetype MonoMac.QTKit.QTTimeRange range, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithMovie:timeRange:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="movie" Type="MonoMac.QTKit.QTMovie" />
+        <Parameter Name="range" Type="MonoMac.QTKit.QTTimeRange" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="movie">To be added.</param>
+        <param name="range">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ActiveSegmentAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ActiveSegmentAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ActiveSegmentAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieActiveSegmentAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddImage">
+      <MemberSignature Language="C#" Value="public virtual void AddImage (MonoMac.AppKit.NSImage image, MonoMac.QTKit.QTTime duration, MonoMac.Foundation.NSDictionary attributes);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void AddImage(class MonoMac.AppKit.NSImage image, valuetype MonoMac.QTKit.QTTime duration, class MonoMac.Foundation.NSDictionary attributes) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("addImage:forDuration:withAttributes:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="image" Type="MonoMac.AppKit.NSImage" />
+        <Parameter Name="duration" Type="MonoMac.QTKit.QTTime" />
+        <Parameter Name="attributes" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="image">To be added.</param>
+        <param name="duration">To be added.</param>
+        <param name="attributes">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddImage">
+      <MemberSignature Language="C#" Value="public void AddImage (MonoMac.AppKit.NSImage image, MonoMac.QTKit.QTTime forDuration, MonoMac.QTKit.QTImageAttributes attributes);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddImage(class MonoMac.AppKit.NSImage image, valuetype MonoMac.QTKit.QTTime forDuration, class MonoMac.QTKit.QTImageAttributes attributes) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="image" Type="MonoMac.AppKit.NSImage" />
+        <Parameter Name="forDuration" Type="MonoMac.QTKit.QTTime" />
+        <Parameter Name="attributes" Type="MonoMac.QTKit.QTImageAttributes" />
+      </Parameters>
+      <Docs>
+        <param name="image">To be added.</param>
+        <param name="forDuration">To be added.</param>
+        <param name="attributes">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApertureModeAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ApertureModeAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ApertureModeAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieApertureModeAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApertureModeClassic">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ApertureModeClassic { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ApertureModeClassic" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieApertureModeClassic</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApertureModeClean">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ApertureModeClean { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ApertureModeClean" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieApertureModeClean</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApertureModeDidChangeNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ApertureModeDidChangeNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ApertureModeDidChangeNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for ApertureModeDidChange</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.ApertureModeDidChangeNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.ApertureModeDidChangeNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApertureModeEncodedPixels">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ApertureModeEncodedPixels { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ApertureModeEncodedPixels" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieApertureModeEncodedPixels</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApertureModeProduction">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ApertureModeProduction { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ApertureModeProduction" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieApertureModeProduction</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AppendSelectionFromMovie">
+      <MemberSignature Language="C#" Value="public virtual void AppendSelectionFromMovie (MonoMac.QTKit.QTMovie movie);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void AppendSelectionFromMovie(class MonoMac.QTKit.QTMovie movie) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("appendSelectionFromMovie:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="movie" Type="MonoMac.QTKit.QTMovie" />
+      </Parameters>
+      <Docs>
+        <param name="movie">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AskUnresolvedDataRefsAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString AskUnresolvedDataRefsAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString AskUnresolvedDataRefsAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieAskUnresolvedDataRefsAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AttachToCurrentThread">
+      <MemberSignature Language="C#" Value="public virtual bool AttachToCurrentThread ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool AttachToCurrentThread() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("attachToCurrentThread")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AutoAlternatesAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString AutoAlternatesAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString AutoAlternatesAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieAutoAlternatesAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Autoplay">
+      <MemberSignature Language="C#" Value="public virtual void Autoplay ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Autoplay() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("autoplay")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CanInitWithFile">
+      <MemberSignature Language="C#" Value="public static bool CanInitWithFile (string fileName);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool CanInitWithFile(string fileName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("canInitWithFile:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="fileName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="fileName">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CanInitWithPasteboard">
+      <MemberSignature Language="C#" Value="public static bool CanInitWithPasteboard (MonoMac.AppKit.NSPasteboard pasteboard);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool CanInitWithPasteboard(class MonoMac.AppKit.NSPasteboard pasteboard) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("canInitWithPasteboard:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="pasteboard" Type="MonoMac.AppKit.NSPasteboard" />
+      </Parameters>
+      <Docs>
+        <param name="pasteboard">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CanInitWithUrl">
+      <MemberSignature Language="C#" Value="public static bool CanInitWithUrl (MonoMac.Foundation.NSUrl url);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool CanInitWithUrl(class MonoMac.Foundation.NSUrl url) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("canInitWithURL:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="url" Type="MonoMac.Foundation.NSUrl" />
+      </Parameters>
+      <Docs>
+        <param name="url">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CanUpdateMovieFile">
+      <MemberSignature Language="C#" Value="public virtual bool CanUpdateMovieFile { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool CanUpdateMovieFile" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("canUpdateMovieFile")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ChapterCount">
+      <MemberSignature Language="C#" Value="public virtual int ChapterCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 ChapterCount" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("chapterCount")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ChapterDidChangeNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ChapterDidChangeNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ChapterDidChangeNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for ChapterDidChange</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.ChapterDidChangeNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.ChapterDidChangeNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ChapterIndexForTime">
+      <MemberSignature Language="C#" Value="public virtual int ChapterIndexForTime (MonoMac.QTKit.QTTime time);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 ChapterIndexForTime(valuetype MonoMac.QTKit.QTTime time) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("chapterIndexForTime:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="time" Type="MonoMac.QTKit.QTTime" />
+      </Parameters>
+      <Docs>
+        <param name="time">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ChapterListDidChangeNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ChapterListDidChangeNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ChapterListDidChangeNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for ChapterListDidChange</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.ChapterListDidChangeNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.ChapterListDidChangeNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ChapterName">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ChapterName { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ChapterName" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieChapterName</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Chapters">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSDictionary[] Chapters ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSDictionary[] Chapters() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("chapters")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDictionary[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ChapterStartTime">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ChapterStartTime { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ChapterStartTime" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieChapterStartTime</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ChapterTargetTrackAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ChapterTargetTrackAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ChapterTargetTrackAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieChapterTargetTrackAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ClassHandle">
+      <MemberSignature Language="C#" Value="public override IntPtr ClassHandle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int ClassHandle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The handle for this class.</summary>
+        <value>The pointer to the Objective-C class.</value>
+        <remarks>Each MonoMac class mirrors an unmanaged Objective-C class.   This value contains the pointer to the Objective-C class, it is similar to calling objc_getClass with the object name.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CloseWindowRequestNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString CloseWindowRequestNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString CloseWindowRequestNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for CloseWindowRequest</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.CloseWindowRequestNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.CloseWindowRequestNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CopyrightAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString CopyrightAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString CopyrightAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieCopyrightAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreationTimeAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString CreationTimeAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString CreationTimeAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieCreationTimeAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentFrameImage">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.AppKit.NSImage CurrentFrameImage { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.AppKit.NSImage CurrentFrameImage" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("currentFrameImage")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSImage</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentSizeAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString CurrentSizeAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString CurrentSizeAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieCurrentSizeAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentTime">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.QTKit.QTTime CurrentTime { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.QTKit.QTTime CurrentTime" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("currentTime")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoMac.Foundation.Export("setCurrentTime:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTTime</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentTimeAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString CurrentTimeAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString CurrentTimeAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieCurrentTimeAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DataAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString DataAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString DataAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieDataAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DataReferenceAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString DataReferenceAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString DataReferenceAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieDataReferenceAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DataSizeAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString DataSizeAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString DataSizeAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieDataSizeAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DelegateAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString DelegateAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString DelegateAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieDelegateAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DeleteSegment">
+      <MemberSignature Language="C#" Value="public virtual void DeleteSegment (MonoMac.QTKit.QTTimeRange segment);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DeleteSegment(valuetype MonoMac.QTKit.QTTimeRange segment) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("deleteSegment:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="segment" Type="MonoMac.QTKit.QTTimeRange" />
+      </Parameters>
+      <Docs>
+        <param name="segment">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DetachFromCurrentThread">
+      <MemberSignature Language="C#" Value="public virtual bool DetachFromCurrentThread ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool DetachFromCurrentThread() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("detachFromCurrentThread")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DidEndNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString DidEndNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString DidEndNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for DidEnd</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.DidEndNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.DidEndNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DisplayNameAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString DisplayNameAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString DisplayNameAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieDisplayNameAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected override void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <para>If set to <see langword="true" />, the method is invoked directly and will dispose manage and unmanaged resources;   If set to <see langword="false" /> the method is being called by the garbage collector finalizer and should only release unmanaged resources.</para>
+        </param>
+        <summary>Releases the resources used by the QTMovie object.</summary>
+        <remarks>
+          <para>This Dispose method releases the resources used by the QTMovie class.</para>
+          <para>This method is called by both the Dispose() method and the object finalizer (Finalize).    When invoked by the Dispose method, the parameter disposting <paramref name="disposing" /> is set to <see langword="true" /> and any managed object references that this object holds are also disposed or released;  when invoked by the object finalizer, on the finalizer thread the value is set to <see langword="false" />. </para>
+          <para>Calling the Dispose method when you are finished using the QTMovie ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.</para>
+          <para>  For more information on how to override this method and on the Dispose/IDisposable pattern, read the ``Implementing a Dispose Method'' document at http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DontInteractWithUserAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString DontInteractWithUserAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString DontInteractWithUserAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieDontInteractWithUserAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Duration">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.QTKit.QTTime Duration { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.QTKit.QTTime Duration" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("duration")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTTime</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DurationAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString DurationAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString DurationAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieDurationAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EditabilityDidChangeNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString EditabilityDidChangeNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString EditabilityDidChangeNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for EditabilityDidChange</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.EditabilityDidChangeNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.EditabilityDidChangeNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EditableAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString EditableAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString EditableAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieEditableAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EditedNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString EditedNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString EditedNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for Edited</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.EditedNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.EditedNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EnterFullScreenRequestNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString EnterFullScreenRequestNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString EnterFullScreenRequestNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for EnterFullScreenRequest</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.EnterFullScreenRequestNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.EnterFullScreenRequestNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EnterQTKitOnThread">
+      <MemberSignature Language="C#" Value="public static void EnterQTKitOnThread ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void EnterQTKitOnThread() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("enterQTKitOnThread")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EnterQTKitOnThreadDisablingThreadSafetyProtection">
+      <MemberSignature Language="C#" Value="public static void EnterQTKitOnThreadDisablingThreadSafetyProtection ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void EnterQTKitOnThreadDisablingThreadSafetyProtection() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("enterQTKitOnThreadDisablingThreadSafetyProtection")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ExitFullScreenRequestNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ExitFullScreenRequestNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ExitFullScreenRequestNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for ExitFullScreenRequest</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.ExitFullScreenRequestNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.ExitFullScreenRequestNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ExitQTKitOnThread">
+      <MemberSignature Language="C#" Value="public static void ExitQTKitOnThread ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void ExitQTKitOnThread() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("exitQTKitOnThread")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileNameAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FileNameAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FileNameAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieFileNameAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileOffsetAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FileOffsetAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FileOffsetAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieFileOffsetAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameImageAtTime">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.AppKit.NSImage FrameImageAtTime (MonoMac.QTKit.QTTime time);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.AppKit.NSImage FrameImageAtTime(valuetype MonoMac.QTKit.QTTime time) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("frameImageAtTime:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSImage</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="time" Type="MonoMac.QTKit.QTTime" />
+      </Parameters>
+      <Docs>
+        <param name="time">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameImageAtTime">
+      <MemberSignature Language="C#" Value="public virtual IntPtr FrameImageAtTime (MonoMac.QTKit.QTTime time, MonoMac.Foundation.NSDictionary attributes, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance native int FrameImageAtTime(valuetype MonoMac.QTKit.QTTime time, class MonoMac.Foundation.NSDictionary attributes, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("frameImageAtTime:withAttributes:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="time" Type="MonoMac.QTKit.QTTime" />
+        <Parameter Name="attributes" Type="MonoMac.Foundation.NSDictionary" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="time">To be added.</param>
+        <param name="attributes">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameImageDeinterlaceFields">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FrameImageDeinterlaceFields { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FrameImageDeinterlaceFields" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieFrameImageDeinterlaceFields</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameImageHighQuality">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FrameImageHighQuality { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FrameImageHighQuality" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieFrameImageHighQuality</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameImageOpenGLContext">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FrameImageOpenGLContext { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FrameImageOpenGLContext" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieFrameImageOpenGLContext</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameImagePixelFormat">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FrameImagePixelFormat { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FrameImagePixelFormat" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieFrameImagePixelFormat</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameImageRepresentationsType">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FrameImageRepresentationsType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FrameImageRepresentationsType" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieFrameImageRepresentationsType</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameImageSingleField">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FrameImageSingleField { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FrameImageSingleField" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieFrameImageSingleField</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameImageSize">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FrameImageSize { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FrameImageSize" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieFrameImageSize</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameImageType">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FrameImageType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FrameImageType" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieFrameImageType</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameImageTypeCGImageRef">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FrameImageTypeCGImageRef { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FrameImageTypeCGImageRef" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieFrameImageTypeCGImageRef</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameImageTypeCIImage">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FrameImageTypeCIImage { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FrameImageTypeCIImage" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieFrameImageTypeCIImage</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameImageTypeCVOpenGLTextureRef">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FrameImageTypeCVOpenGLTextureRef { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FrameImageTypeCVOpenGLTextureRef" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieFrameImageTypeCVOpenGLTextureRef</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameImageTypeCVPixelBufferRef">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FrameImageTypeCVPixelBufferRef { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FrameImageTypeCVPixelBufferRef" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieFrameImageTypeCVPixelBufferRef</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameImageTypeNSImage">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FrameImageTypeNSImage { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString FrameImageTypeNSImage" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieFrameImageTypeNSImage</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromAttributes">
+      <MemberSignature Language="C#" Value="public static MonoMac.QTKit.QTMovie FromAttributes (MonoMac.Foundation.NSDictionary attributes, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.QTKit.QTMovie FromAttributes(class MonoMac.Foundation.NSDictionary attributes, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("movieWithAttributes:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTMovie</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="attributes" Type="MonoMac.Foundation.NSDictionary" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="attributes">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromData">
+      <MemberSignature Language="C#" Value="public static MonoMac.QTKit.QTMovie FromData (MonoMac.Foundation.NSData data, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.QTKit.QTMovie FromData(class MonoMac.Foundation.NSData data, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("movieWithData:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTMovie</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="data" Type="MonoMac.Foundation.NSData" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="data">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromFile">
+      <MemberSignature Language="C#" Value="public static MonoMac.QTKit.QTMovie FromFile (string fileName, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.QTKit.QTMovie FromFile(string fileName, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("movieWithFile:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTMovie</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="fileName" Type="System.String" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="fileName">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromMovieNamed">
+      <MemberSignature Language="C#" Value="public static MonoMac.QTKit.QTMovie FromMovieNamed (string name, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.QTKit.QTMovie FromMovieNamed(string name, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("movieNamed:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTMovie</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="name">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromPasteboard">
+      <MemberSignature Language="C#" Value="public static MonoMac.QTKit.QTMovie FromPasteboard (MonoMac.AppKit.NSPasteboard pasteboard, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.QTKit.QTMovie FromPasteboard(class MonoMac.AppKit.NSPasteboard pasteboard, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("movieWithPasteboard:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTMovie</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="pasteboard" Type="MonoMac.AppKit.NSPasteboard" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="pasteboard">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromTimeRange">
+      <MemberSignature Language="C#" Value="public static MonoMac.QTKit.QTMovie FromTimeRange (MonoMac.QTKit.QTTimeRange range, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.QTKit.QTMovie FromTimeRange(valuetype MonoMac.QTKit.QTTimeRange range, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("movieWithTimeRange:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTMovie</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="range" Type="MonoMac.QTKit.QTTimeRange" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="range">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromUrl">
+      <MemberSignature Language="C#" Value="public static MonoMac.QTKit.QTMovie FromUrl (MonoMac.Foundation.NSUrl url, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.QTKit.QTMovie FromUrl(class MonoMac.Foundation.NSUrl url, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("movieWithURL:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTMovie</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="url" Type="MonoMac.Foundation.NSUrl" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="url">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GenerateApertureModeDimensions">
+      <MemberSignature Language="C#" Value="public virtual void GenerateApertureModeDimensions ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void GenerateApertureModeDimensions() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("generateApertureModeDimensions")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetAttribute">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSObject GetAttribute (string attributeKey);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSObject GetAttribute(string attributeKey) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("attributeForKey:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="attributeKey" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="attributeKey">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GotoBeginning">
+      <MemberSignature Language="C#" Value="public virtual void GotoBeginning ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void GotoBeginning() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("gotoBeginning")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GotoEnd">
+      <MemberSignature Language="C#" Value="public virtual void GotoEnd ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void GotoEnd() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("gotoEnd")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GotoNextSelectionPoint">
+      <MemberSignature Language="C#" Value="public virtual void GotoNextSelectionPoint ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void GotoNextSelectionPoint() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("gotoNextSelectionPoint")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GotoPosterTime">
+      <MemberSignature Language="C#" Value="public virtual void GotoPosterTime ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void GotoPosterTime() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("gotoPosterTime")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GotoPreviousSelectionPoint">
+      <MemberSignature Language="C#" Value="public virtual void GotoPreviousSelectionPoint ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void GotoPreviousSelectionPoint() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("gotoPreviousSelectionPoint")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="HasApertureModeDimensionsAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString HasApertureModeDimensionsAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString HasApertureModeDimensionsAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieHasApertureModeDimensionsAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="HasAudioAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString HasAudioAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString HasAudioAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieHasAudioAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="HasChapters">
+      <MemberSignature Language="C#" Value="public virtual bool HasChapters { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool HasChapters" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("hasChapters")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="HasDurationAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString HasDurationAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString HasDurationAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieHasDurationAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="HasVideoAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString HasVideoAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString HasVideoAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieHasVideoAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Idling">
+      <MemberSignature Language="C#" Value="public virtual bool Idling { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool Idling" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("isIdling")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InsertEmptySegmentAt">
+      <MemberSignature Language="C#" Value="public virtual void InsertEmptySegmentAt (MonoMac.QTKit.QTTimeRange range);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void InsertEmptySegmentAt(valuetype MonoMac.QTKit.QTTimeRange range) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("insertEmptySegmentAt:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="range" Type="MonoMac.QTKit.QTTimeRange" />
+      </Parameters>
+      <Docs>
+        <param name="range">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InsertSegmentOfMovieFromRange">
+      <MemberSignature Language="C#" Value="public virtual void InsertSegmentOfMovieFromRange (MonoMac.QTKit.QTMovie movie, MonoMac.QTKit.QTTimeRange srcRange, MonoMac.QTKit.QTTimeRange dstRange);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void InsertSegmentOfMovieFromRange(class MonoMac.QTKit.QTMovie movie, valuetype MonoMac.QTKit.QTTimeRange srcRange, valuetype MonoMac.QTKit.QTTimeRange dstRange) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("insertSegmentOfMovie:fromRange:scaledToRange:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="movie" Type="MonoMac.QTKit.QTMovie" />
+        <Parameter Name="srcRange" Type="MonoMac.QTKit.QTTimeRange" />
+        <Parameter Name="dstRange" Type="MonoMac.QTKit.QTTimeRange" />
+      </Parameters>
+      <Docs>
+        <param name="movie">To be added.</param>
+        <param name="srcRange">To be added.</param>
+        <param name="dstRange">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InsertSegmentOfMovieTimeRange">
+      <MemberSignature Language="C#" Value="public virtual void InsertSegmentOfMovieTimeRange (MonoMac.QTKit.QTMovie movie, MonoMac.QTKit.QTTimeRange range, MonoMac.QTKit.QTTime time);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void InsertSegmentOfMovieTimeRange(class MonoMac.QTKit.QTMovie movie, valuetype MonoMac.QTKit.QTTimeRange range, valuetype MonoMac.QTKit.QTTime time) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("insertSegmentOfMovie:timeRange:atTime:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="movie" Type="MonoMac.QTKit.QTMovie" />
+        <Parameter Name="range" Type="MonoMac.QTKit.QTTimeRange" />
+        <Parameter Name="time" Type="MonoMac.QTKit.QTTime" />
+      </Parameters>
+      <Docs>
+        <param name="movie">To be added.</param>
+        <param name="range">To be added.</param>
+        <param name="time">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InsertSegmentOfTrackFromRange">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.QTKit.QTTrack InsertSegmentOfTrackFromRange (MonoMac.QTKit.QTTrack track, MonoMac.QTKit.QTTimeRange srcRange, MonoMac.QTKit.QTTimeRange dstRange);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.QTKit.QTTrack InsertSegmentOfTrackFromRange(class MonoMac.QTKit.QTTrack track, valuetype MonoMac.QTKit.QTTimeRange srcRange, valuetype MonoMac.QTKit.QTTimeRange dstRange) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("insertSegmentOfTrack:fromRange:scaledToRange:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTTrack</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="track" Type="MonoMac.QTKit.QTTrack" />
+        <Parameter Name="srcRange" Type="MonoMac.QTKit.QTTimeRange" />
+        <Parameter Name="dstRange" Type="MonoMac.QTKit.QTTimeRange" />
+      </Parameters>
+      <Docs>
+        <param name="track">To be added.</param>
+        <param name="srcRange">To be added.</param>
+        <param name="dstRange">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InsertSegmentOfTrackTimeRange">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.QTKit.QTTrack InsertSegmentOfTrackTimeRange (MonoMac.QTKit.QTTrack track, MonoMac.QTKit.QTTimeRange range, MonoMac.QTKit.QTTime time);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.QTKit.QTTrack InsertSegmentOfTrackTimeRange(class MonoMac.QTKit.QTTrack track, valuetype MonoMac.QTKit.QTTimeRange range, valuetype MonoMac.QTKit.QTTime time) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("insertSegmentOfTrack:timeRange:atTime:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTTrack</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="track" Type="MonoMac.QTKit.QTTrack" />
+        <Parameter Name="range" Type="MonoMac.QTKit.QTTimeRange" />
+        <Parameter Name="time" Type="MonoMac.QTKit.QTTime" />
+      </Parameters>
+      <Docs>
+        <param name="track">To be added.</param>
+        <param name="range">To be added.</param>
+        <param name="time">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Invalidate">
+      <MemberSignature Language="C#" Value="public virtual void Invalidate ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Invalidate() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("invalidate")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsActiveAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsActiveAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsActiveAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieIsActiveAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsInteractiveAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsInteractiveAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsInteractiveAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieIsInteractiveAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsLinearAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsLinearAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsLinearAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieIsLinearAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsSteppableAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString IsSteppableAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString IsSteppableAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieIsSteppableAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LoadStateAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString LoadStateAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString LoadStateAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieLoadStateAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LoadStateDidChangeNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString LoadStateDidChangeNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString LoadStateDidChangeNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for LoadStateDidChange</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.LoadStateDidChangeNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.LoadStateDidChangeNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LoopModeDidChangeNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString LoopModeDidChangeNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString LoopModeDidChangeNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for LoopModeDidChange</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.LoopModeDidChangeNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.LoopModeDidChangeNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LoopsAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString LoopsAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString LoopsAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieLoopsAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LoopsBackAndForthAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString LoopsBackAndForthAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString LoopsBackAndForthAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieLoopsBackAndForthAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MessageNotificationParameter">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString MessageNotificationParameter { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString MessageNotificationParameter" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieMessageNotificationParameter</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.MessageNotificationParameter, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.MessageNotificationParameter, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MessageStringPostedNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString MessageStringPostedNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString MessageStringPostedNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for MessageStringPosted</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.MessageStringPostedNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.MessageStringPostedNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ModificationTimeAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ModificationTimeAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ModificationTimeAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieModificationTimeAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Movie">
+      <MemberSignature Language="C#" Value="public static MonoMac.QTKit.QTMovie Movie { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.QTKit.QTMovie Movie" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("movie")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTMovie</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MovieAttributes">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSDictionary MovieAttributes { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSDictionary MovieAttributes" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("movieAttributes")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDictionary</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MovieFileTypes">
+      <MemberSignature Language="C#" Value="public static string[] MovieFileTypes (MonoMac.QTKit.QTMovieFileTypeOptions types);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string[] MovieFileTypes(valuetype MonoMac.QTKit.QTMovieFileTypeOptions types) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("movieFileTypes:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="types" Type="MonoMac.QTKit.QTMovieFileTypeOptions" />
+      </Parameters>
+      <Docs>
+        <param name="types">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MovieFormatRepresentation">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSData MovieFormatRepresentation ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSData MovieFormatRepresentation() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("movieFormatRepresentation")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSData</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MovieTypesWithOptions">
+      <MemberSignature Language="C#" Value="public static string[] MovieTypesWithOptions (MonoMac.QTKit.QTMovie qTMovieInitialization, MonoMac.QTKit.QTMovieFileTypeOptions types);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string[] MovieTypesWithOptions(class MonoMac.QTKit.QTMovie qTMovieInitialization, valuetype MonoMac.QTKit.QTMovieFileTypeOptions types) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("movieTypesWithOptions:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="qTMovieInitialization" Type="MonoMac.QTKit.QTMovie" />
+        <Parameter Name="types" Type="MonoMac.QTKit.QTMovieFileTypeOptions" />
+      </Parameters>
+      <Docs>
+        <param name="qTMovieInitialization">To be added.</param>
+        <param name="types">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MovieUnfilteredFileTypes">
+      <MemberSignature Language="C#" Value="public static string[] MovieUnfilteredFileTypes ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string[] MovieUnfilteredFileTypes() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("movieUnfilteredFileTypes")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MovieUnfilteredPasteboardTypes">
+      <MemberSignature Language="C#" Value="public static string[] MovieUnfilteredPasteboardTypes ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string[] MovieUnfilteredPasteboardTypes() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("movieUnfilteredPasteboardTypes")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Muted">
+      <MemberSignature Language="C#" Value="public virtual bool Muted { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool Muted" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("muted")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoMac.Foundation.Export("setMuted:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MutedAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString MutedAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString MutedAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieMutedAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="NaturalSizeAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString NaturalSizeAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString NaturalSizeAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieNaturalSizeAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OpenAsyncOKAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString OpenAsyncOKAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString OpenAsyncOKAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieOpenAsyncOKAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PasteboardAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString PasteboardAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString PasteboardAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMoviePasteboardAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PasteboardType">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString PasteboardType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString PasteboardType" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMoviePasteboardType</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Play">
+      <MemberSignature Language="C#" Value="public virtual void Play ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Play() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("play")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PlaysAllFramesAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString PlaysAllFramesAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString PlaysAllFramesAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMoviePlaysAllFramesAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PlaysSelectionOnlyAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString PlaysSelectionOnlyAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString PlaysSelectionOnlyAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMoviePlaysSelectionOnlyAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PosterImage">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.AppKit.NSImage PosterImage { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.AppKit.NSImage PosterImage" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("posterImage")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSImage</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PosterTimeAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString PosterTimeAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString PosterTimeAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMoviePosterTimeAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PreferredMutedAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString PreferredMutedAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString PreferredMutedAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMoviePreferredMutedAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PreferredRateAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString PreferredRateAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString PreferredRateAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMoviePreferredRateAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PreferredVolumeAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString PreferredVolumeAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString PreferredVolumeAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMoviePreferredVolumeAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PreviewModeAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString PreviewModeAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString PreviewModeAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMoviePreviewModeAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PreviewRangeAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString PreviewRangeAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString PreviewRangeAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMoviePreviewRangeAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Rate">
+      <MemberSignature Language="C#" Value="public virtual float Rate { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float32 Rate" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("rate")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoMac.Foundation.Export("setRate:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RateAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString RateAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString RateAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieRateAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RateChangesPreservePitchAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString RateChangesPreservePitchAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString RateChangesPreservePitchAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieRateChangesPreservePitchAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RateDidChangeNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString RateDidChangeNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString RateDidChangeNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for RateDidChange</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.RateDidChangeNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.RateDidChangeNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RateDidChangeNotificationParameter">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString RateDidChangeNotificationParameter { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString RateDidChangeNotificationParameter" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieRateDidChangeNotificationParameter</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.RateDidChangeNotificationParameter, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.RateDidChangeNotificationParameter, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveApertureModeDimensions">
+      <MemberSignature Language="C#" Value="public virtual void RemoveApertureModeDimensions ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void RemoveApertureModeDimensions() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("removeApertureModeDimensions")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveChapters">
+      <MemberSignature Language="C#" Value="public virtual bool RemoveChapters ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool RemoveChapters() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("removeChapters")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveTrack">
+      <MemberSignature Language="C#" Value="public virtual void RemoveTrack (MonoMac.QTKit.QTTrack track);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void RemoveTrack(class MonoMac.QTKit.QTTrack track) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("removeTrack:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="track" Type="MonoMac.QTKit.QTTrack" />
+      </Parameters>
+      <Docs>
+        <param name="track">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReplaceSelectionWithSelectionFromMovie">
+      <MemberSignature Language="C#" Value="public virtual void ReplaceSelectionWithSelectionFromMovie (MonoMac.QTKit.QTMovie movie);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ReplaceSelectionWithSelectionFromMovie(class MonoMac.QTKit.QTMovie movie) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("replaceSelectionWithSelectionFromMovie:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="movie" Type="MonoMac.QTKit.QTMovie" />
+      </Parameters>
+      <Docs>
+        <param name="movie">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ResolveDataRefsAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ResolveDataRefsAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ResolveDataRefsAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieResolveDataRefsAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SaveTo">
+      <MemberSignature Language="C#" Value="public virtual bool SaveTo (string fileName, MonoMac.Foundation.NSDictionary attributes);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool SaveTo(string fileName, class MonoMac.Foundation.NSDictionary attributes) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("writeToFile:withAttributes:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="fileName" Type="System.String" />
+        <Parameter Name="attributes" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="fileName">To be added.</param>
+        <param name="attributes">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SaveTo">
+      <MemberSignature Language="C#" Value="public bool SaveTo (string fileName, MonoMac.QTKit.QTMovieSaveOptions options);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool SaveTo(string fileName, class MonoMac.QTKit.QTMovieSaveOptions options) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="fileName" Type="System.String" />
+        <Parameter Name="options" Type="MonoMac.QTKit.QTMovieSaveOptions" />
+      </Parameters>
+      <Docs>
+        <param name="fileName">To be added.</param>
+        <param name="options">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SaveTo">
+      <MemberSignature Language="C#" Value="public virtual bool SaveTo (string fileName, MonoMac.Foundation.NSDictionary attributes, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool SaveTo(string fileName, class MonoMac.Foundation.NSDictionary attributes, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("writeToFile:withAttributes:error:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="fileName" Type="System.String" />
+        <Parameter Name="attributes" Type="MonoMac.Foundation.NSDictionary" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="fileName">To be added.</param>
+        <param name="attributes">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SaveTo">
+      <MemberSignature Language="C#" Value="public bool SaveTo (string fileName, MonoMac.QTKit.QTMovieSaveOptions options, out MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool SaveTo(string fileName, class MonoMac.QTKit.QTMovieSaveOptions options, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="fileName" Type="System.String" />
+        <Parameter Name="options" Type="MonoMac.QTKit.QTMovieSaveOptions" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="fileName">To be added.</param>
+        <param name="options">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ScaleSegmentNewDuration">
+      <MemberSignature Language="C#" Value="public virtual void ScaleSegmentNewDuration (MonoMac.QTKit.QTTimeRange segment, MonoMac.QTKit.QTTime newDuration);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ScaleSegmentNewDuration(valuetype MonoMac.QTKit.QTTimeRange segment, valuetype MonoMac.QTKit.QTTime newDuration) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("scaleSegment:newDuration:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="segment" Type="MonoMac.QTKit.QTTimeRange" />
+        <Parameter Name="newDuration" Type="MonoMac.QTKit.QTTime" />
+      </Parameters>
+      <Docs>
+        <param name="segment">To be added.</param>
+        <param name="newDuration">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SelectionAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString SelectionAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString SelectionAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieSelectionAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SelectionDidChangeNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString SelectionDidChangeNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString SelectionDidChangeNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for SelectionDidChange</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.SelectionDidChangeNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.SelectionDidChangeNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SelectionDuration">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.QTKit.QTTime SelectionDuration ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype MonoMac.QTKit.QTTime SelectionDuration() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("selectionDuration")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTTime</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SelectionEnd">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.QTKit.QTTime SelectionEnd ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype MonoMac.QTKit.QTTime SelectionEnd() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("selectionEnd")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTTime</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SelectionStart">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.QTKit.QTTime SelectionStart ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype MonoMac.QTKit.QTTime SelectionStart() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("selectionStart")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTTime</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetAttribute">
+      <MemberSignature Language="C#" Value="public virtual void SetAttribute (MonoMac.Foundation.NSObject value, string attributeKey);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetAttribute(class MonoMac.Foundation.NSObject value, string attributeKey) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("setAttribute:forKey:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="attributeKey" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="value">To be added.</param>
+        <param name="attributeKey">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetSelection">
+      <MemberSignature Language="C#" Value="public virtual void SetSelection (MonoMac.QTKit.QTTimeRange selection);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetSelection(valuetype MonoMac.QTKit.QTTimeRange selection) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("setSelection:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="selection" Type="MonoMac.QTKit.QTTimeRange" />
+      </Parameters>
+      <Docs>
+        <param name="selection">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SizeDidChangeNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString SizeDidChangeNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString SizeDidChangeNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for SizeDidChange</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.SizeDidChangeNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.SizeDidChangeNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StartTimeOfChapter">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.QTKit.QTTime StartTimeOfChapter (int chapterIndex);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype MonoMac.QTKit.QTTime StartTimeOfChapter(int32 chapterIndex) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("startTimeOfChapter:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTTime</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="chapterIndex" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="chapterIndex">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StatusCodeNotificationParameter">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString StatusCodeNotificationParameter { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString StatusCodeNotificationParameter" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieStatusCodeNotificationParameter</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.StatusCodeNotificationParameter, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.StatusCodeNotificationParameter, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StatusFlagsNotificationParameter">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString StatusFlagsNotificationParameter { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString StatusFlagsNotificationParameter" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieStatusFlagsNotificationParameter</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.StatusFlagsNotificationParameter, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.StatusFlagsNotificationParameter, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StatusStringNotificationParameter">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString StatusStringNotificationParameter { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString StatusStringNotificationParameter" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieStatusStringNotificationParameter</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.StatusStringNotificationParameter, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.StatusStringNotificationParameter, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StatusStringPostedNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString StatusStringPostedNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString StatusStringPostedNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for StatusStringPosted</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.StatusStringPostedNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.StatusStringPostedNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StepBackward">
+      <MemberSignature Language="C#" Value="public virtual void StepBackward ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void StepBackward() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("stepBackward")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StepForward">
+      <MemberSignature Language="C#" Value="public virtual void StepForward ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void StepForward() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("stepForward")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Stop">
+      <MemberSignature Language="C#" Value="public virtual void Stop ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Stop() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("stop")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TargetIDNotificationParameter">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString TargetIDNotificationParameter { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString TargetIDNotificationParameter" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieTargetIDNotificationParameter</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.TargetIDNotificationParameter, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.TargetIDNotificationParameter, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TargetNameNotificationParameter">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString TargetNameNotificationParameter { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString TargetNameNotificationParameter" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieTargetNameNotificationParameter</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.TargetNameNotificationParameter, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.TargetNameNotificationParameter, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TimeDidChangeNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString TimeDidChangeNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString TimeDidChangeNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for TimeDidChange</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.TimeDidChangeNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.TimeDidChangeNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TimeScaleAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString TimeScaleAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString TimeScaleAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieTimeScaleAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Tracks">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.QTKit.QTTrack[] Tracks { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.QTKit.QTTrack[] Tracks" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("tracks")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTTrack[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TracksOfMediaType">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.QTKit.QTTrack[] TracksOfMediaType (string type);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.QTKit.QTTrack[] TracksOfMediaType(string type) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("tracksOfMediaType:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTTrack[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="type" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="type">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UneditableException">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString UneditableException { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString UneditableException" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieUneditableException</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UpdateMovieFile">
+      <MemberSignature Language="C#" Value="public virtual bool UpdateMovieFile ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool UpdateMovieFile() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("updateMovieFile")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="URLAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString URLAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString URLAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieURLAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Volume">
+      <MemberSignature Language="C#" Value="public virtual float Volume { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float32 Volume" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("volume")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoMac.Foundation.Export("setVolume:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeAttribute">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeAttribute { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeAttribute" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant QTMovieVolumeAttribute</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeDidChangeNotification">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString VolumeDidChangeNotification { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString VolumeDidChangeNotification" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification constant for VolumeDidChange</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        QTMovie.VolumeDidChangeNotification, (notification) =&gt; {Console.WriteLine ("Received the notification QTMovie", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification QTMovie", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (QTMovie.VolumeDidChangeNotification, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WeakDelegate">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSObject WeakDelegate { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSObject WeakDelegate" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("delegate")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoMac.Foundation.Export("setDelegate:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>An object that can respond to the delegate protocol for this type</summary>
+        <value>
+          <para>The instance that will respond to events and data requests.</para>
+          <para tool="nullallowed">This value can be <see langword="null" />.</para>
+        </value>
+        <remarks>
+          <para>The delegate instance assigned to this object will be used to handle events or provide data on demand to this class.</para>
+          <para>When setting the Delegate or WeakDelegate values events will be delivered to the specified instance instead of being delivered to the C#-style events</para>
+          <para>   Methods must be decorated with the [Export ("selectorName")] attribute to respond to each method from the protocol.   Alternatively use the Delegate method which is strongly typed and does not require the [Export] attributes on methods.</para>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

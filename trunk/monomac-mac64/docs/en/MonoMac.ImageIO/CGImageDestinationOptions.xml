@@ -1,0 +1,65 @@
+<Type Name="CGImageDestinationOptions" FullName="MonoMac.ImageIO.CGImageDestinationOptions">
+  <TypeSignature Language="C#" Value="public class CGImageDestinationOptions" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit CGImageDestinationOptions extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Use an instance of this class to configure the CGImageDestination.</summary>
+    <remarks>
+      <para>Use this class to configure the parameters when you create an image using CGImageDestination.</para>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CGImageDestinationOptions ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>Default constructor.</summary>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="DestinationBackgroundColor">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreGraphics.CGColor DestinationBackgroundColor { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.CoreGraphics.CGColor DestinationBackgroundColor" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGColor</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The background color used during image compositing for transparent regions of the image.</summary>
+        <value>The color used for background compositing.</value>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="LossyCompressionQuality">
+      <MemberSignature Language="C#" Value="public Nullable&lt;float&gt; LossyCompressionQuality { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Nullable`1&lt;float32&gt; LossyCompressionQuality" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Nullable&lt;System.Single&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The quality used to encode the image.</summary>
+        <value>Values between 0.0 (maximum compression) and 1.0 (no compression, use lossless).</value>
+        <remarks />
+      </Docs>
+    </Member>
+  </Members>
+</Type>

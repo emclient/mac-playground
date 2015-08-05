@@ -1,0 +1,25 @@
+<Type Name="NSAnimationProgress" FullName="MonoMac.AppKit.NSAnimationProgress">
+  <TypeSignature Language="C#" Value="public delegate float NSAnimationProgress(NSAnimation animation, float progress);" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed NSAnimationProgress extends System.MulticastDelegate" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Parameters>
+    <Parameter Name="animation" Type="MonoMac.AppKit.NSAnimation" />
+    <Parameter Name="progress" Type="System.Single" />
+  </Parameters>
+  <ReturnValue>
+    <ReturnType>System.Single</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <param name="animation">To be added.</param>
+    <param name="progress">To be added.</param>
+    <summary>To be added.</summary>
+    <returns>To be added.</returns>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Type>

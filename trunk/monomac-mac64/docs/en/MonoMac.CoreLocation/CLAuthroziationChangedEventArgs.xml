@@ -1,0 +1,41 @@
+<Type Name="CLAuthroziationChangedEventArgs" FullName="MonoMac.CoreLocation.CLAuthroziationChangedEventArgs">
+  <TypeSignature Language="C#" Value="public class CLAuthroziationChangedEventArgs : MonoMac.CoreLocation.CLAuthorizationChangedEventArgs" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit CLAuthroziationChangedEventArgs extends MonoMac.CoreLocation.CLAuthorizationChangedEventArgs" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.CoreLocation.CLAuthorizationChangedEventArgs</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Obsolete("Use CLAuthorizationChangedEventArgs")</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>Provides data for the  event.</summary>
+    <remarks>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CLAuthroziationChangedEventArgs (MonoMac.CoreLocation.CLAuthorizationStatus status);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype MonoMac.CoreLocation.CLAuthorizationStatus status) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="status" Type="MonoMac.CoreLocation.CLAuthorizationStatus" />
+      </Parameters>
+      <Docs>
+        <param name="status">To be added.</param>
+        <summary>Initializes a new instance of the CLAuthroziationChangedEventArgs class.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

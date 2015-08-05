@@ -1,0 +1,59 @@
+<Type Name="CGLineJoin" FullName="MonoMac.CoreGraphics.CGLineJoin">
+  <TypeSignature Language="C#" Value="public enum CGLineJoin" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed CGLineJoin extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>Join type for drawing operations.</summary>
+    <remarks>Specifies how to join consecutive line or curve segments in a figure.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Bevel">
+      <MemberSignature Language="C#" Value="Bevel" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGLineJoin Bevel = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGLineJoin</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Specifies a beveled join. This produces a diagonal corner.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Miter">
+      <MemberSignature Language="C#" Value="Miter" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGLineJoin Miter = int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGLineJoin</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Specifies a mitered join. This produces a sharp corner or a clipped corner.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Round">
+      <MemberSignature Language="C#" Value="Round" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGLineJoin Round = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGLineJoin</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Specifies a circular join. This produces a circular arc between the lines.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,22 @@
+<Type Name="AudioQueue+AudioQueuePropertyChanged" FullName="MonoMac.AudioToolbox.AudioQueue+AudioQueuePropertyChanged">
+  <TypeSignature Language="C#" Value="public delegate void AudioQueue.AudioQueuePropertyChanged(AudioQueueProperty property);" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi sealed AudioQueue/AudioQueuePropertyChanged extends System.MulticastDelegate" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Parameters>
+    <Parameter Name="property" Type="MonoMac.AudioToolbox.AudioQueueProperty" />
+  </Parameters>
+  <ReturnValue>
+    <ReturnType>System.Void</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <param name="property">To be added.</param>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Type>

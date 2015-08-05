@@ -1,0 +1,255 @@
+<Type Name="CVReturn" FullName="MonoMac.CoreVideo.CVReturn">
+  <TypeSignature Language="C#" Value="public enum CVReturn" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed CVReturn extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="AllocationFailed">
+      <MemberSignature Language="C#" Value="AllocationFailed" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn AllocationFailed = int32(-6662)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DisplayLinkAlreadyRunning">
+      <MemberSignature Language="C#" Value="DisplayLinkAlreadyRunning" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn DisplayLinkAlreadyRunning = int32(-6671)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DisplayLinkCallbacksNotSet">
+      <MemberSignature Language="C#" Value="DisplayLinkCallbacksNotSet" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn DisplayLinkCallbacksNotSet = int32(-6673)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DisplayLinkNotRunning">
+      <MemberSignature Language="C#" Value="DisplayLinkNotRunning" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn DisplayLinkNotRunning = int32(-6672)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Error">
+      <MemberSignature Language="C#" Value="Error" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn Error = int32(-6660)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="First">
+      <MemberSignature Language="C#" Value="First" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn First = int32(-6660)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="InvalidArgument">
+      <MemberSignature Language="C#" Value="InvalidArgument" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn InvalidArgument = int32(-6661)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="InvalidDisplay">
+      <MemberSignature Language="C#" Value="InvalidDisplay" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn InvalidDisplay = int32(-6670)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="InvalidPixelBufferAttributes">
+      <MemberSignature Language="C#" Value="InvalidPixelBufferAttributes" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn InvalidPixelBufferAttributes = int32(-6682)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="InvalidPixelFormat">
+      <MemberSignature Language="C#" Value="InvalidPixelFormat" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn InvalidPixelFormat = int32(-6680)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="InvalidPoolAttributes">
+      <MemberSignature Language="C#" Value="InvalidPoolAttributes" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn InvalidPoolAttributes = int32(-6691)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="InvalidSize">
+      <MemberSignature Language="C#" Value="InvalidSize" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn InvalidSize = int32(-6681)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Last">
+      <MemberSignature Language="C#" Value="Last" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn Last = int32(-6699)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="PixelBufferNotOpenGLCompatible">
+      <MemberSignature Language="C#" Value="PixelBufferNotOpenGLCompatible" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn PixelBufferNotOpenGLCompatible = int32(-6683)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="PoolAllocationFailed">
+      <MemberSignature Language="C#" Value="PoolAllocationFailed" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn PoolAllocationFailed = int32(-6690)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Success">
+      <MemberSignature Language="C#" Value="Success" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn Success = int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="WouldExceedAllocationThreshold">
+      <MemberSignature Language="C#" Value="WouldExceedAllocationThreshold" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreVideo.CVReturn WouldExceedAllocationThreshold = int32(-6689)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreVideo.CVReturn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

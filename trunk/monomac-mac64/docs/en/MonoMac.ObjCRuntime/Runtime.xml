@@ -1,0 +1,110 @@
+<Type Name="Runtime" FullName="MonoMac.ObjCRuntime.Runtime">
+  <TypeSignature Language="C#" Value="public static class Runtime" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Runtime extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Provides information about the MonoMac Runtime.</summary>
+    <remarks />
+    <related type="sample" href="http://samples.xamarin.com/Samples/ByGuid?guid=133bdad4-776a-454d-a265-889d009d0335">SysSound</related>
+  </Docs>
+  <Members>
+    <Member MemberName="ConnectMethod">
+      <MemberSignature Language="C#" Value="public static void ConnectMethod (System.Reflection.MethodInfo method, MonoMac.ObjCRuntime.Selector selector);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void ConnectMethod(class System.Reflection.MethodInfo method, class MonoMac.ObjCRuntime.Selector selector) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="method" Type="System.Reflection.MethodInfo" />
+        <Parameter Name="selector" Type="MonoMac.ObjCRuntime.Selector" />
+      </Parameters>
+      <Docs>
+        <param name="method">Method to register with the runtime.</param>
+        <param name="selector">Selector that will we want to connect to.</param>
+        <summary>This call allows the specified method in this method to respond to message invocations on this selector.</summary>
+        <remarks>
+          <para>
+	    The method must be declared on an NSObject-derived class.    
+	  </para>
+          <para>
+
+	    You can use this method to dynamically reconfigure which
+	    methods on a class should respond to which Objective-C
+	    selectors.
+
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetNSObject">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSObject GetNSObject (IntPtr ptr);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.Foundation.NSObject GetNSObject(native int ptr) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="ptr" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="ptr">A pointer to an unmanaged NSObject or any class that derives from the Objective-C NSObject class.</param>
+        <summary>Wraps an unmanaged IntPtr into a fully typed NSObject.</summary>
+        <returns>An instance of a class that derives from MonoMac.Foundation.NSObject.</returns>
+        <remarks>The runtime create an instance of the most derived class.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RegisterAssembly">
+      <MemberSignature Language="C#" Value="public static void RegisterAssembly (System.Reflection.Assembly a);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RegisterAssembly(class System.Reflection.Assembly a) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="System.Reflection.Assembly" />
+      </Parameters>
+      <Docs>
+        <param name="a">The assembly to process.</param>
+        <summary>Registers all of the classes in the specified assembly.</summary>
+        <remarks>This iterates over all the types that derive from NSObject in the specified assembly and registers them with the runtime.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TryGetNSObject">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSObject TryGetNSObject (IntPtr ptr);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.Foundation.NSObject TryGetNSObject(native int ptr) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="ptr" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="ptr">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

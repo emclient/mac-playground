@@ -1,0 +1,107 @@
+<Type Name="CTFontFormat" FullName="MonoMac.CoreText.CTFontFormat">
+  <TypeSignature Language="C#" Value="public enum CTFontFormat" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed CTFontFormat extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.ObjCRuntime.Since(3, 2)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>Font format.</summary>
+    <remarks>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Bitmap">
+      <MemberSignature Language="C#" Value="Bitmap" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontFormat Bitmap = unsigned int32(5)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontFormat</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Bitmap font.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="OpenTypePostScript">
+      <MemberSignature Language="C#" Value="OpenTypePostScript" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontFormat OpenTypePostScript = unsigned int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontFormat</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>OpenType PostScript font.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="OpenTypeTrueType">
+      <MemberSignature Language="C#" Value="OpenTypeTrueType" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontFormat OpenTypeTrueType = unsigned int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontFormat</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>OpenType TrueType font.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="PostScript">
+      <MemberSignature Language="C#" Value="PostScript" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontFormat PostScript = unsigned int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontFormat</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>PostScript font.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="TrueType">
+      <MemberSignature Language="C#" Value="TrueType" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontFormat TrueType = unsigned int32(3)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontFormat</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>TrueType font.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Unrecognized">
+      <MemberSignature Language="C#" Value="Unrecognized" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreText.CTFontFormat Unrecognized = unsigned int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontFormat</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>An unrecognized font format.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

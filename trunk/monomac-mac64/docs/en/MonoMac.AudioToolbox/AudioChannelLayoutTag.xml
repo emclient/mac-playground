@@ -1,0 +1,1767 @@
+<Type Name="AudioChannelLayoutTag" FullName="MonoMac.AudioToolbox.AudioChannelLayoutTag">
+  <TypeSignature Language="C#" Value="public enum AudioChannelLayoutTag" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed AudioChannelLayoutTag extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="AAC_3_0">
+      <MemberSignature Language="C#" Value="AAC_3_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AAC_3_0 = int32(7471107)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AAC_4_0">
+      <MemberSignature Language="C#" Value="AAC_4_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AAC_4_0 = int32(7602180)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AAC_5_0">
+      <MemberSignature Language="C#" Value="AAC_5_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AAC_5_0 = int32(7864325)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AAC_5_1">
+      <MemberSignature Language="C#" Value="AAC_5_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AAC_5_1 = int32(8126470)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AAC_6_0">
+      <MemberSignature Language="C#" Value="AAC_6_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AAC_6_0 = int32(9240582)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AAC_6_1">
+      <MemberSignature Language="C#" Value="AAC_6_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AAC_6_1 = int32(9306119)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AAC_7_0">
+      <MemberSignature Language="C#" Value="AAC_7_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AAC_7_0 = int32(9371655)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AAC_7_1">
+      <MemberSignature Language="C#" Value="AAC_7_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AAC_7_1 = int32(8323080)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AAC_Octagonal">
+      <MemberSignature Language="C#" Value="AAC_Octagonal" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AAC_Octagonal = int32(9437192)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AAC_Quadraphonic">
+      <MemberSignature Language="C#" Value="AAC_Quadraphonic" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AAC_Quadraphonic = int32(7077892)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AC3_1_0_1">
+      <MemberSignature Language="C#" Value="AC3_1_0_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AC3_1_0_1 = int32(9764866)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AC3_2_1_1">
+      <MemberSignature Language="C#" Value="AC3_2_1_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AC3_2_1_1 = int32(10027012)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AC3_3_0">
+      <MemberSignature Language="C#" Value="AC3_3_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AC3_3_0 = int32(9830403)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AC3_3_0_1">
+      <MemberSignature Language="C#" Value="AC3_3_0_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AC3_3_0_1 = int32(9961476)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AC3_3_1">
+      <MemberSignature Language="C#" Value="AC3_3_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AC3_3_1 = int32(9895940)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AC3_3_1_1">
+      <MemberSignature Language="C#" Value="AC3_3_1_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AC3_3_1_1 = int32(10092549)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Ambisonic_B_Format">
+      <MemberSignature Language="C#" Value="Ambisonic_B_Format" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag Ambisonic_B_Format = int32(7012356)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioUnit_4">
+      <MemberSignature Language="C#" Value="AudioUnit_4" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AudioUnit_4 = int32(7077892)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioUnit_5">
+      <MemberSignature Language="C#" Value="AudioUnit_5" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AudioUnit_5 = int32(7143429)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioUnit_5_0">
+      <MemberSignature Language="C#" Value="AudioUnit_5_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AudioUnit_5_0 = int32(7733253)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioUnit_5_1">
+      <MemberSignature Language="C#" Value="AudioUnit_5_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AudioUnit_5_1 = int32(7929862)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioUnit_6">
+      <MemberSignature Language="C#" Value="AudioUnit_6" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AudioUnit_6 = int32(7208966)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioUnit_6_0">
+      <MemberSignature Language="C#" Value="AudioUnit_6_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AudioUnit_6_0 = int32(9109510)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioUnit_6_1">
+      <MemberSignature Language="C#" Value="AudioUnit_6_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AudioUnit_6_1 = int32(8192007)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioUnit_7_0">
+      <MemberSignature Language="C#" Value="AudioUnit_7_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AudioUnit_7_0 = int32(9175047)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioUnit_7_0_Front">
+      <MemberSignature Language="C#" Value="AudioUnit_7_0_Front" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AudioUnit_7_0_Front = int32(9699335)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioUnit_7_1">
+      <MemberSignature Language="C#" Value="AudioUnit_7_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AudioUnit_7_1 = int32(8388616)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioUnit_7_1_Front">
+      <MemberSignature Language="C#" Value="AudioUnit_7_1_Front" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AudioUnit_7_1_Front = int32(8257544)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioUnit_8">
+      <MemberSignature Language="C#" Value="AudioUnit_8" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag AudioUnit_8 = int32(7274504)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Binaural">
+      <MemberSignature Language="C#" Value="Binaural" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag Binaural = int32(6946818)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Cube">
+      <MemberSignature Language="C#" Value="Cube" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag Cube = int32(7340040)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DiscreteInOrder">
+      <MemberSignature Language="C#" Value="DiscreteInOrder" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DiscreteInOrder = int32(9633792)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DTS_3_1">
+      <MemberSignature Language="C#" Value="DTS_3_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DTS_3_1 = int32(11010052)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DTS_4_1">
+      <MemberSignature Language="C#" Value="DTS_4_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DTS_4_1 = int32(11075589)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DTS_6_0_A">
+      <MemberSignature Language="C#" Value="DTS_6_0_A" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DTS_6_0_A = int32(11141126)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DTS_6_0_B">
+      <MemberSignature Language="C#" Value="DTS_6_0_B" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DTS_6_0_B = int32(11206662)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DTS_6_0_C">
+      <MemberSignature Language="C#" Value="DTS_6_0_C" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DTS_6_0_C = int32(11272198)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DTS_6_1_A">
+      <MemberSignature Language="C#" Value="DTS_6_1_A" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DTS_6_1_A = int32(11337735)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DTS_6_1_B">
+      <MemberSignature Language="C#" Value="DTS_6_1_B" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DTS_6_1_B = int32(11403271)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DTS_6_1_C">
+      <MemberSignature Language="C#" Value="DTS_6_1_C" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DTS_6_1_C = int32(11468807)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DTS_6_1_D">
+      <MemberSignature Language="C#" Value="DTS_6_1_D" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DTS_6_1_D = int32(11927559)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DTS_7_0">
+      <MemberSignature Language="C#" Value="DTS_7_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DTS_7_0 = int32(11534343)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DTS_7_1">
+      <MemberSignature Language="C#" Value="DTS_7_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DTS_7_1 = int32(11599880)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DTS_8_0_A">
+      <MemberSignature Language="C#" Value="DTS_8_0_A" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DTS_8_0_A = int32(11665416)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DTS_8_0_B">
+      <MemberSignature Language="C#" Value="DTS_8_0_B" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DTS_8_0_B = int32(11730952)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DTS_8_1_A">
+      <MemberSignature Language="C#" Value="DTS_8_1_A" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DTS_8_1_A = int32(11796489)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DTS_8_1_B">
+      <MemberSignature Language="C#" Value="DTS_8_1_B" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DTS_8_1_B = int32(11862025)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_0">
+      <MemberSignature Language="C#" Value="DVD_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_0 = int32(6553601)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_1">
+      <MemberSignature Language="C#" Value="DVD_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_1 = int32(6619138)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_10">
+      <MemberSignature Language="C#" Value="DVD_10" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_10 = int32(8912900)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_11">
+      <MemberSignature Language="C#" Value="DVD_11" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_11 = int32(8978437)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_12">
+      <MemberSignature Language="C#" Value="DVD_12" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_12 = int32(7929862)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_13">
+      <MemberSignature Language="C#" Value="DVD_13" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_13 = int32(7536644)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_14">
+      <MemberSignature Language="C#" Value="DVD_14" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_14 = int32(7667717)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_15">
+      <MemberSignature Language="C#" Value="DVD_15" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_15 = int32(8912900)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_16">
+      <MemberSignature Language="C#" Value="DVD_16" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_16 = int32(8978437)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_17">
+      <MemberSignature Language="C#" Value="DVD_17" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_17 = int32(7929862)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_18">
+      <MemberSignature Language="C#" Value="DVD_18" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_18 = int32(9043973)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_19">
+      <MemberSignature Language="C#" Value="DVD_19" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_19 = int32(7733253)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_2">
+      <MemberSignature Language="C#" Value="DVD_2" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_2 = int32(8585219)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_20">
+      <MemberSignature Language="C#" Value="DVD_20" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_20 = int32(7995398)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_3">
+      <MemberSignature Language="C#" Value="DVD_3" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_3 = int32(8650756)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_4">
+      <MemberSignature Language="C#" Value="DVD_4" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_4 = int32(8716291)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_5">
+      <MemberSignature Language="C#" Value="DVD_5" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_5 = int32(8781828)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_6">
+      <MemberSignature Language="C#" Value="DVD_6" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_6 = int32(8847365)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_7">
+      <MemberSignature Language="C#" Value="DVD_7" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_7 = int32(7405571)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_8">
+      <MemberSignature Language="C#" Value="DVD_8" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_8 = int32(7536644)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DVD_9">
+      <MemberSignature Language="C#" Value="DVD_9" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag DVD_9 = int32(7667717)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="EAC_6_0_A">
+      <MemberSignature Language="C#" Value="EAC_6_0_A" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag EAC_6_0_A = int32(10158086)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="EAC_7_0_A">
+      <MemberSignature Language="C#" Value="EAC_7_0_A" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag EAC_7_0_A = int32(10223623)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="EAC3_6_1_A">
+      <MemberSignature Language="C#" Value="EAC3_6_1_A" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag EAC3_6_1_A = int32(10289159)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="EAC3_6_1_B">
+      <MemberSignature Language="C#" Value="EAC3_6_1_B" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag EAC3_6_1_B = int32(10354695)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="EAC3_6_1_C">
+      <MemberSignature Language="C#" Value="EAC3_6_1_C" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag EAC3_6_1_C = int32(10420231)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="EAC3_7_1_A">
+      <MemberSignature Language="C#" Value="EAC3_7_1_A" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag EAC3_7_1_A = int32(10485768)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="EAC3_7_1_B">
+      <MemberSignature Language="C#" Value="EAC3_7_1_B" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag EAC3_7_1_B = int32(10551304)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="EAC3_7_1_C">
+      <MemberSignature Language="C#" Value="EAC3_7_1_C" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag EAC3_7_1_C = int32(10616840)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="EAC3_7_1_D">
+      <MemberSignature Language="C#" Value="EAC3_7_1_D" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag EAC3_7_1_D = int32(10682376)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="EAC3_7_1_E">
+      <MemberSignature Language="C#" Value="EAC3_7_1_E" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag EAC3_7_1_E = int32(10747912)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="EAC3_7_1_F">
+      <MemberSignature Language="C#" Value="EAC3_7_1_F" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag EAC3_7_1_F = int32(10813448)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="EAC3_7_1_G">
+      <MemberSignature Language="C#" Value="EAC3_7_1_G" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag EAC3_7_1_G = int32(10878984)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="EAC3_7_1_H">
+      <MemberSignature Language="C#" Value="EAC3_7_1_H" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag EAC3_7_1_H = int32(10944520)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Emagic_Default_7_1">
+      <MemberSignature Language="C#" Value="Emagic_Default_7_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag Emagic_Default_7_1 = int32(8454152)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Hexagonal">
+      <MemberSignature Language="C#" Value="Hexagonal" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag Hexagonal = int32(7208966)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ITU_1_0">
+      <MemberSignature Language="C#" Value="ITU_1_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag ITU_1_0 = int32(6553601)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ITU_2_0">
+      <MemberSignature Language="C#" Value="ITU_2_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag ITU_2_0 = int32(6619138)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ITU_2_1">
+      <MemberSignature Language="C#" Value="ITU_2_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag ITU_2_1 = int32(8585219)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ITU_2_2">
+      <MemberSignature Language="C#" Value="ITU_2_2" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag ITU_2_2 = int32(8650756)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ITU_3_0">
+      <MemberSignature Language="C#" Value="ITU_3_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag ITU_3_0 = int32(7405571)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ITU_3_1">
+      <MemberSignature Language="C#" Value="ITU_3_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag ITU_3_1 = int32(7536644)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ITU_3_2">
+      <MemberSignature Language="C#" Value="ITU_3_2" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag ITU_3_2 = int32(7667717)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ITU_3_2_1">
+      <MemberSignature Language="C#" Value="ITU_3_2_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag ITU_3_2_1 = int32(7929862)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ITU_3_4_1">
+      <MemberSignature Language="C#" Value="ITU_3_4_1" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag ITU_3_4_1 = int32(8388616)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MatrixStereo">
+      <MemberSignature Language="C#" Value="MatrixStereo" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MatrixStereo = int32(6750210)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MidSide">
+      <MemberSignature Language="C#" Value="MidSide" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MidSide = int32(6815746)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Mono">
+      <MemberSignature Language="C#" Value="Mono" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag Mono = int32(6553601)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_1_0">
+      <MemberSignature Language="C#" Value="MPEG_1_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_1_0 = int32(6553601)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_2_0">
+      <MemberSignature Language="C#" Value="MPEG_2_0" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_2_0 = int32(6619138)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_3_0_A">
+      <MemberSignature Language="C#" Value="MPEG_3_0_A" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_3_0_A = int32(7405571)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_3_0_B">
+      <MemberSignature Language="C#" Value="MPEG_3_0_B" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_3_0_B = int32(7471107)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_4_0_A">
+      <MemberSignature Language="C#" Value="MPEG_4_0_A" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_4_0_A = int32(7536644)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_4_0_B">
+      <MemberSignature Language="C#" Value="MPEG_4_0_B" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_4_0_B = int32(7602180)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_5_0_A">
+      <MemberSignature Language="C#" Value="MPEG_5_0_A" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_5_0_A = int32(7667717)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_5_0_B">
+      <MemberSignature Language="C#" Value="MPEG_5_0_B" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_5_0_B = int32(7733253)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_5_0_C">
+      <MemberSignature Language="C#" Value="MPEG_5_0_C" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_5_0_C = int32(7798789)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_5_0_D">
+      <MemberSignature Language="C#" Value="MPEG_5_0_D" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_5_0_D = int32(7864325)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_5_1_A">
+      <MemberSignature Language="C#" Value="MPEG_5_1_A" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_5_1_A = int32(7929862)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_5_1_B">
+      <MemberSignature Language="C#" Value="MPEG_5_1_B" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_5_1_B = int32(7995398)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_5_1_C">
+      <MemberSignature Language="C#" Value="MPEG_5_1_C" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_5_1_C = int32(8060934)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_5_1_D">
+      <MemberSignature Language="C#" Value="MPEG_5_1_D" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_5_1_D = int32(8126470)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_6_1_A">
+      <MemberSignature Language="C#" Value="MPEG_6_1_A" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_6_1_A = int32(8192007)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_7_1_A">
+      <MemberSignature Language="C#" Value="MPEG_7_1_A" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_7_1_A = int32(8257544)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_7_1_B">
+      <MemberSignature Language="C#" Value="MPEG_7_1_B" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_7_1_B = int32(8323080)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MPEG_7_1_C">
+      <MemberSignature Language="C#" Value="MPEG_7_1_C" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag MPEG_7_1_C = int32(8388616)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Octagonal">
+      <MemberSignature Language="C#" Value="Octagonal" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag Octagonal = int32(7274504)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Pentagonal">
+      <MemberSignature Language="C#" Value="Pentagonal" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag Pentagonal = int32(7143429)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Quadraphonic">
+      <MemberSignature Language="C#" Value="Quadraphonic" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag Quadraphonic = int32(7077892)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="SMPTE_DTV">
+      <MemberSignature Language="C#" Value="SMPTE_DTV" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag SMPTE_DTV = int32(8519688)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Stereo">
+      <MemberSignature Language="C#" Value="Stereo" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag Stereo = int32(6619138)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="StereoHeadphones">
+      <MemberSignature Language="C#" Value="StereoHeadphones" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag StereoHeadphones = int32(6684674)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="TMH_10_2_full">
+      <MemberSignature Language="C#" Value="TMH_10_2_full" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag TMH_10_2_full = int32(9568277)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="TMH_10_2_std">
+      <MemberSignature Language="C#" Value="TMH_10_2_std" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag TMH_10_2_std = int32(9502736)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Unknown">
+      <MemberSignature Language="C#" Value="Unknown" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag Unknown = int32(-65536)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="UseChannelBitmap">
+      <MemberSignature Language="C#" Value="UseChannelBitmap" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag UseChannelBitmap = int32(65536)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="UseChannelDescriptions">
+      <MemberSignature Language="C#" Value="UseChannelDescriptions" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag UseChannelDescriptions = int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="XY">
+      <MemberSignature Language="C#" Value="XY" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioChannelLayoutTag XY = int32(6881282)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayoutTag</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

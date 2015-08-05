@@ -1,0 +1,52 @@
+<Type Name="WebViewPrintEventArgs" FullName="MonoMac.WebKit.WebViewPrintEventArgs">
+  <TypeSignature Language="C#" Value="public class WebViewPrintEventArgs : EventArgs" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit WebViewPrintEventArgs extends System.EventArgs" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.EventArgs</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Provides data for the <see cref="E:MonoMac.WebKit.WebViewPrintEventArgs.UIPrintFrameView" /> event.</summary>
+    <remarks>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public WebViewPrintEventArgs (MonoMac.WebKit.WebFrameView frameView);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.WebKit.WebFrameView frameView) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="frameView" Type="MonoMac.WebKit.WebFrameView" />
+      </Parameters>
+      <Docs>
+        <param name="frameView">To be added.</param>
+        <summary>Initializes a new instance of the WebViewPrintEventArgs class.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameView">
+      <MemberSignature Language="C#" Value="public MonoMac.WebKit.WebFrameView FrameView { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.WebKit.WebFrameView FrameView" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.WebKit.WebFrameView</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

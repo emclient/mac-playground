@@ -1,0 +1,87 @@
+<Type Name="CGInterpolationQuality" FullName="MonoMac.CoreGraphics.CGInterpolationQuality">
+  <TypeSignature Language="C#" Value="public enum CGInterpolationQuality" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed CGInterpolationQuality extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>Quality of interpolation for drawing images.</summary>
+    <remarks />
+  </Docs>
+  <Members>
+    <Member MemberName="Default">
+      <MemberSignature Language="C#" Value="Default" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGInterpolationQuality Default = int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGInterpolationQuality</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Let the context pick the best interpolation mode.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="High">
+      <MemberSignature Language="C#" Value="High" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGInterpolationQuality High = int32(3)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGInterpolationQuality</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>High quality, at the cost of speed.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Low">
+      <MemberSignature Language="C#" Value="Low" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGInterpolationQuality Low = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGInterpolationQuality</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Low interpolation quality, fast processing.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Medium">
+      <MemberSignature Language="C#" Value="Medium" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGInterpolationQuality Medium = int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGInterpolationQuality</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="None">
+      <MemberSignature Language="C#" Value="None" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGInterpolationQuality None = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGInterpolationQuality</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Do not interpolate.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

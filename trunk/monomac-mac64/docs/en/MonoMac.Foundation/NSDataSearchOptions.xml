@@ -1,0 +1,51 @@
+<Type Name="NSDataSearchOptions" FullName="MonoMac.Foundation.NSDataSearchOptions">
+  <TypeSignature Language="C#" Value="public enum NSDataSearchOptions" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed NSDataSearchOptions extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Flags</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>Flags controling the search in NSData's Find method.</summary>
+    <remarks>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="SearchAnchored">
+      <MemberSignature Language="C#" Value="SearchAnchored" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSDataSearchOptions SearchAnchored = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDataSearchOptions</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Limits the search to the start (or end if SearchBackwards is specified)</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="SearchBackwards">
+      <MemberSignature Language="C#" Value="SearchBackwards" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSDataSearchOptions SearchBackwards = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDataSearchOptions</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Starts search from the end, instead of the start.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

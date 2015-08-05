@@ -1,0 +1,6 @@
+<Namespace Name="MonoMac.AudioUnit">
+  <Docs>
+    <summary>Bindings to use AudioUnits in OSX.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Namespace>

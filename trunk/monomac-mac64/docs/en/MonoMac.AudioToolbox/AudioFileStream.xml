@@ -1,0 +1,647 @@
+<Type Name="AudioFileStream" FullName="MonoMac.AudioToolbox.AudioFileStream">
+  <TypeSignature Language="C#" Value="public class AudioFileStream : IDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi AudioFileStream extends System.Object implements class System.IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>Process partial audio files.</summary>
+    <remarks>
+      <para>
+You use AudioFileStream when you want to decode audio content that does not live in an local file or if you want to decode it in chunks.   New data is fed into the AudioFileStream using one of the ParseBytes method and decoded audio is provided on the PacketDecoded event (or the OnPacketDecoded virtual method) and information about the stream is raised on the PropertyFound event (or the OnPropertyFound virtual method).
+</para>
+      <para>
+This can be used to parse audio files when you are streaming audio from the network for example.
+</para>
+    </remarks>
+    <related type="sample" href="http://samples.xamarin.com/Samples/ByGuid?guid=26d904c2-c44a-46f2-883a-a01bb5657309">StreamingAudio</related>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public AudioFileStream (MonoMac.AudioToolbox.AudioFileType fileTypeHint);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype MonoMac.AudioToolbox.AudioFileType fileTypeHint) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="fileTypeHint" Type="MonoMac.AudioToolbox.AudioFileType" />
+      </Parameters>
+      <Docs>
+        <param name="fileTypeHint">Hint about the audio file type.</param>
+        <summary>Creates a new instance of this object.</summary>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="AverageBytesPerPacket">
+      <MemberSignature Language="C#" Value="public double AverageBytesPerPacket { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 AverageBytesPerPacket" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Average bytes per packet.   This value is precise for audio files with constant bit rates or audio files that have a packet index, otherwise it is a computed average.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BitRate">
+      <MemberSignature Language="C#" Value="public int BitRate { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 BitRate" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ByteToPacket">
+      <MemberSignature Language="C#" Value="public long ByteToPacket (long byteval, out int byteOffsetInPacket, out bool isEstimate);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int64 ByteToPacket(int64 byteval, int32 byteOffsetInPacket, bool isEstimate) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="byteval" Type="System.Int64" />
+        <Parameter Name="byteOffsetInPacket" Type="System.Int32&amp;" RefType="out" />
+        <Parameter Name="isEstimate" Type="System.Boolean&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="byteval">The location in the file.</param>
+        <param name="byteOffsetInPacket">Return value, byte offset within the packet.</param>
+        <param name="isEstimate">Return value, whether the return is an estimate or not.</param>
+        <summary>Maps a position in the file to an audio packet.</summary>
+        <returns>The packet number that corresponds to this byte in the file.</returns>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="ChannelLayout">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioChannelLayout ChannelLayout { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.AudioToolbox.AudioChannelLayout ChannelLayout" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayout</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Close">
+      <MemberSignature Language="C#" Value="public void Close ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Close() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Closes (and disposes the audio stream).</summary>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="DataByteCount">
+      <MemberSignature Language="C#" Value="public long DataByteCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int64 DataByteCount" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DataOffset">
+      <MemberSignature Language="C#" Value="public long DataOffset { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int64 DataOffset" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DataPacketCount">
+      <MemberSignature Language="C#" Value="public long DataPacketCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int64 DataPacketCount" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Releases the resources used by the AudioFileStream object.</summary>
+        <remarks>
+          <para>The Dispose method releases the resources used by the AudioFileStream class.</para>
+          <para>Calling the Dispose method when you are finished using the AudioFileStream ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.  For more information on releasing resources see ``Cleaning up Unmananaged Resources'' at http://msdn.microsoft.com/en-us/library/498928w2.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <para>If set to <see langword="true" />, the method is invoked directly and will dispose manage and unmanaged resources;   If set to <see langword="false" /> the method is being called by the garbage collector finalizer and should only release unmanaged resources.</para>
+        </param>
+        <summary>Releases the resources used by the AudioFileStream object.</summary>
+        <remarks>
+          <para>This Dispose method releases the resources used by the AudioFileStream class.</para>
+          <para>This method is called by both the Dispose() method and the object finalizer (Finalize).    When invoked by the Dispose method, the parameter disposting <paramref name="disposing" /> is set to <see langword="true" /> and any managed object references that this object holds are also disposed or released;  when invoked by the object finalizer, on the finalizer thread the value is set to <see langword="false" />. </para>
+          <para>Calling the Dispose method when you are finished using the AudioFileStream ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.</para>
+          <para>  For more information on how to override this method and on the Dispose/IDisposable pattern, read the ``Implementing a Dispose Method'' document at http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FileType">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioFileType FileType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.AudioToolbox.AudioFileType FileType" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFileType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~AudioFileStream ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Finalizer for the AudioFileStream object</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FrameToPacket">
+      <MemberSignature Language="C#" Value="public long FrameToPacket (long frame, out int frameOffsetInPacket);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int64 FrameToPacket(int64 frame, int32 frameOffsetInPacket) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="frame" Type="System.Int64" />
+        <Parameter Name="frameOffsetInPacket" Type="System.Int32&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="frame">The audio frame number.</param>
+        <param name="frameOffsetInPacket">The frame offset in the packet.</param>
+        <summary>Returns the packet number and the frame offset in the packet (on the out parameter) corresponding to the requested audio frame.</summary>
+        <returns>The packet number that corresponds to the specified frame.</returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetProperty">
+      <MemberSignature Language="C#" Value="public IntPtr GetProperty (MonoMac.AudioToolbox.AudioFileStreamProperty property, out int size);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance native int GetProperty(valuetype MonoMac.AudioToolbox.AudioFileStreamProperty property, int32 size) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="property" Type="MonoMac.AudioToolbox.AudioFileStreamProperty" />
+        <Parameter Name="size" Type="System.Int32&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="property">To be added.</param>
+        <param name="size">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetProperty">
+      <MemberSignature Language="C#" Value="public bool GetProperty (MonoMac.AudioToolbox.AudioFileStreamProperty property, ref int dataSize, IntPtr outPropertyData);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool GetProperty(valuetype MonoMac.AudioToolbox.AudioFileStreamProperty property, int32 dataSize, native int outPropertyData) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="property" Type="MonoMac.AudioToolbox.AudioFileStreamProperty" />
+        <Parameter Name="dataSize" Type="System.Int32&amp;" RefType="ref" />
+        <Parameter Name="outPropertyData" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="property">To be added.</param>
+        <param name="dataSize">To be added.</param>
+        <param name="outPropertyData">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MagicCookie">
+      <MemberSignature Language="C#" Value="public byte[] MagicCookie { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance unsigned int8[] MagicCookie" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Byte[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MaximumPacketSize">
+      <MemberSignature Language="C#" Value="public int MaximumPacketSize { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 MaximumPacketSize" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnPacketDecoded">
+      <MemberSignature Language="C#" Value="protected virtual void OnPacketDecoded (int numberOfBytes, IntPtr inputData, MonoMac.AudioToolbox.AudioStreamPacketDescription[] packetDescriptions);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnPacketDecoded(int32 numberOfBytes, native int inputData, valuetype MonoMac.AudioToolbox.AudioStreamPacketDescription[] packetDescriptions) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="numberOfBytes" Type="System.Int32" />
+        <Parameter Name="inputData" Type="System.IntPtr" />
+        <Parameter Name="packetDescriptions" Type="MonoMac.AudioToolbox.AudioStreamPacketDescription[]" />
+      </Parameters>
+      <Docs>
+        <param name="numberOfBytes">The number of bytes available in the decoded packet.</param>
+        <param name="inputData">Pointer to the decoded data.</param>
+        <param name="packetDescriptions">A description of the packets decoded.</param>
+        <summary>Invoked when a packet has been decoded.</summary>
+        <remarks>The default implementation raises the PacketDecoded event.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnPropertyFound">
+      <MemberSignature Language="C#" Value="protected virtual void OnPropertyFound (MonoMac.AudioToolbox.AudioFileStreamProperty propertyID, ref MonoMac.AudioToolbox.AudioFileStreamPropertyFlag ioFlags);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnPropertyFound(valuetype MonoMac.AudioToolbox.AudioFileStreamProperty propertyID, valuetype MonoMac.AudioToolbox.AudioFileStreamPropertyFlag ioFlags) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="propertyID" Type="MonoMac.AudioToolbox.AudioFileStreamProperty" />
+        <Parameter Name="ioFlags" Type="MonoMac.AudioToolbox.AudioFileStreamPropertyFlag&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="propertyID">The property that has been found.</param>
+        <param name="ioFlags" />
+        <summary>Invoked when a propety is found.</summary>
+        <remarks>The default implementation merely raises the PropetyFound event.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PacketDecoded">
+      <MemberSignature Language="C#" Value="public EventHandler&lt;MonoMac.AudioToolbox.PacketReceivedEventArgs&gt; PacketDecoded;" />
+      <MemberSignature Language="ILAsm" Value=".field public class System.EventHandler`1&lt;class MonoMac.AudioToolbox.PacketReceivedEventArgs&gt; PacketDecoded" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler&lt;MonoMac.AudioToolbox.PacketReceivedEventArgs&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>This event is raised when a packet has been decoded.</summary>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="PacketSizeUpperBound">
+      <MemberSignature Language="C#" Value="public int PacketSizeUpperBound { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 PacketSizeUpperBound" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PacketToByte">
+      <MemberSignature Language="C#" Value="public long PacketToByte (long packet, out bool isEstimate);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int64 PacketToByte(int64 packet, bool isEstimate) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="packet" Type="System.Int64" />
+        <Parameter Name="isEstimate" Type="System.Boolean&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="packet">To be added.</param>
+        <param name="isEstimate">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PacketToFrame">
+      <MemberSignature Language="C#" Value="public long PacketToFrame (long packet);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int64 PacketToFrame(int64 packet) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="packet" Type="System.Int64" />
+      </Parameters>
+      <Docs>
+        <param name="packet">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ParseBytes">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioFileStreamStatus ParseBytes (byte[] bytes, bool discontinuity);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioFileStreamStatus ParseBytes(unsigned int8[] bytes, bool discontinuity) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFileStreamStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="bytes" Type="System.Byte[]" />
+        <Parameter Name="discontinuity" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="bytes">The buffer that contains the audio data to decode.</param>
+        <param name="discontinuity">True if this invocation to ParseBytes is contiguous to the previous one, false otherwise.</param>
+        <summary>Parse and decode the array of bytes provided.</summary>
+        <returns>Parsing status.</returns>
+        <remarks>The OnPacketDecoded/OnProperty found methods are invoked as data is parsed.   If you have not subclassed this class, you can alternatively hook up to the PacketDecoded and PropertyFound events to receive parsing notifications.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ParseBytes">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioFileStreamStatus ParseBytes (int size, IntPtr data, bool discontinuity);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioFileStreamStatus ParseBytes(int32 size, native int data, bool discontinuity) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFileStreamStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="size" Type="System.Int32" />
+        <Parameter Name="data" Type="System.IntPtr" />
+        <Parameter Name="discontinuity" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="size">The number of bytes to parse from the provided block.</param>
+        <param name="data">A pointer to the audio data to decode.</param>
+        <param name="discontinuity">True if this invocation to ParseBytes is contiguous to the previous one, false otherwise.</param>
+        <summary>Parse and decode the block of data provided.</summary>
+        <returns>Parse status.</returns>
+        <remarks>The OnPacketDecoded/OnProperty found methods are invoked as data is parsed.   If you have not subclassed this class, you can alternatively hook up to the PacketDecoded and PropertyFound events to receive parsing notifications.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ParseBytes">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioFileStreamStatus ParseBytes (byte[] bytes, int offset, int count, bool discontinuity);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioFileStreamStatus ParseBytes(unsigned int8[] bytes, int32 offset, int32 count, bool discontinuity) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFileStreamStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="bytes" Type="System.Byte[]" />
+        <Parameter Name="offset" Type="System.Int32" />
+        <Parameter Name="count" Type="System.Int32" />
+        <Parameter Name="discontinuity" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="bytes">Buffer containing the data.</param>
+        <param name="offset">First byte withing the array that contains the data to decode.</param>
+        <param name="count">Number of bytes to parse.</param>
+        <param name="discontinuity">True if this invocation to ParseBytes is contiguous to the previous one, false otherwise.</param>
+        <summary>Parses and decode a portion of the array of bytes provided.</summary>
+        <returns>The status from parsing the buffer.</returns>
+        <remarks>The OnPacketDecoded/OnProperty found methods are invoked as data is parsed.   If you have not subclassed this class, you can alternatively hook up to the PacketDecoded and PropertyFound events to receive parsing notifications.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PropertyFound">
+      <MemberSignature Language="C#" Value="public EventHandler&lt;MonoMac.AudioToolbox.PropertyFoundEventArgs&gt; PropertyFound;" />
+      <MemberSignature Language="ILAsm" Value=".field public class System.EventHandler`1&lt;class MonoMac.AudioToolbox.PropertyFoundEventArgs&gt; PropertyFound" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler&lt;MonoMac.AudioToolbox.PropertyFoundEventArgs&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>This event is raised when a property has been found on the decoded data.</summary>
+        <remarks>The most interesting property that is raised is AudioFileStreamProperty.ReadyToProducePackets;   When this property is parsed there is enough information to create the output queue.   The MagicCookie and the StreamBasicDescription contain the information necessary to create a working instance of the OutputAudioQueue.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReadyToProducePackets">
+      <MemberSignature Language="C#" Value="public bool ReadyToProducePackets { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool ReadyToProducePackets" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Seek">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioFileStreamStatus Seek (long packetOffset, out long dataByteOffset, out bool isEstimate);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioFileStreamStatus Seek(int64 packetOffset, int64 dataByteOffset, bool isEstimate) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFileStreamStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="packetOffset" Type="System.Int64" />
+        <Parameter Name="dataByteOffset" Type="System.Int64&amp;" RefType="out" />
+        <Parameter Name="isEstimate" Type="System.Boolean&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="packetOffset">To be added.</param>
+        <param name="dataByteOffset">To be added.</param>
+        <param name="isEstimate">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetProperty">
+      <MemberSignature Language="C#" Value="public bool SetProperty (MonoMac.AudioToolbox.AudioFileStreamProperty property, int dataSize, IntPtr propertyData);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool SetProperty(valuetype MonoMac.AudioToolbox.AudioFileStreamProperty property, int32 dataSize, native int propertyData) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="property" Type="MonoMac.AudioToolbox.AudioFileStreamProperty" />
+        <Parameter Name="dataSize" Type="System.Int32" />
+        <Parameter Name="propertyData" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="property">The property to set.</param>
+        <param name="dataSize">The size of the data to set.</param>
+        <param name="propertyData">Pointer to the property data.</param>
+        <summary>Low-level property setting API.   Use the exposed managed properties instead.</summary>
+        <returns>true if the operation successful.</returns>
+        <remarks>Most properties have been exposed with C# properties, there should be no need to call this directly, unless new properties are introduced that are not bound by Monotouch.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StreamBasicDescription">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioStreamBasicDescription StreamBasicDescription { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.AudioToolbox.AudioStreamBasicDescription StreamBasicDescription" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioStreamBasicDescription</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

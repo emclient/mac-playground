@@ -1,0 +1,226 @@
+<Type Name="AudioStreamBasicDescription" FullName="MonoMac.AudioToolbox.AudioStreamBasicDescription">
+  <TypeSignature Language="C#" Value="public struct AudioStreamBasicDescription" />
+  <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit AudioStreamBasicDescription extends System.ValueType" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.ValueType</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>An AudioStream description.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public AudioStreamBasicDescription (MonoMac.AudioToolbox.AudioFormatType formatType);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype MonoMac.AudioToolbox.AudioFormatType formatType) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="formatType" Type="MonoMac.AudioToolbox.AudioFormatType" />
+      </Parameters>
+      <Docs>
+        <param name="formatType">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioStreamAnyRate">
+      <MemberSignature Language="C#" Value="public const double AudioStreamAnyRate = 0;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal float64 AudioStreamAnyRate = (0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <MemberValue>0</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BitsPerChannel">
+      <MemberSignature Language="C#" Value="public int BitsPerChannel;" />
+      <MemberSignature Language="ILAsm" Value=".field public int32 BitsPerChannel" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BytesPerFrame">
+      <MemberSignature Language="C#" Value="public int BytesPerFrame;" />
+      <MemberSignature Language="ILAsm" Value=".field public int32 BytesPerFrame" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BytesPerPacket">
+      <MemberSignature Language="C#" Value="public int BytesPerPacket;" />
+      <MemberSignature Language="ILAsm" Value=".field public int32 BytesPerPacket" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ChannelsPerFrame">
+      <MemberSignature Language="C#" Value="public int ChannelsPerFrame;" />
+      <MemberSignature Language="ILAsm" Value=".field public int32 ChannelsPerFrame" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateLinearPCM">
+      <MemberSignature Language="C#" Value="public static MonoMac.AudioToolbox.AudioStreamBasicDescription CreateLinearPCM (double sampleRate = 441000, uint channelsPerFrame = 2, uint bitsPerChannel = 16);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype MonoMac.AudioToolbox.AudioStreamBasicDescription CreateLinearPCM(float64 sampleRate, unsigned int32 channelsPerFrame, unsigned int32 bitsPerChannel) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioStreamBasicDescription</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sampleRate" Type="System.Double" />
+        <Parameter Name="channelsPerFrame" Type="System.UInt32" />
+        <Parameter Name="bitsPerChannel" Type="System.UInt32" />
+      </Parameters>
+      <Docs>
+        <param name="sampleRate">To be added.</param>
+        <param name="channelsPerFrame">To be added.</param>
+        <param name="bitsPerChannel">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Format">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioFormatType Format;" />
+      <MemberSignature Language="ILAsm" Value=".field public valuetype MonoMac.AudioToolbox.AudioFormatType Format" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FormatFlags">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioFormatFlags FormatFlags;" />
+      <MemberSignature Language="ILAsm" Value=".field public valuetype MonoMac.AudioToolbox.AudioFormatFlags FormatFlags" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FramesPerPacket">
+      <MemberSignature Language="C#" Value="public int FramesPerPacket;" />
+      <MemberSignature Language="ILAsm" Value=".field public int32 FramesPerPacket" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Reserved">
+      <MemberSignature Language="C#" Value="public int Reserved;" />
+      <MemberSignature Language="ILAsm" Value=".field public int32 Reserved" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SampleRate">
+      <MemberSignature Language="C#" Value="public double SampleRate;" />
+      <MemberSignature Language="ILAsm" Value=".field public float64 SampleRate" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToString">
+      <MemberSignature Language="C#" Value="public override string ToString ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

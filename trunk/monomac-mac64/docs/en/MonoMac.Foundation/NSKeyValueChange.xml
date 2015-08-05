@@ -1,0 +1,73 @@
+<Type Name="NSKeyValueChange" FullName="MonoMac.Foundation.NSKeyValueChange">
+  <TypeSignature Language="C#" Value="public enum NSKeyValueChange" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed NSKeyValueChange extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Insertion">
+      <MemberSignature Language="C#" Value="Insertion" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSKeyValueChange Insertion = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSKeyValueChange</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Removal">
+      <MemberSignature Language="C#" Value="Removal" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSKeyValueChange Removal = int32(3)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSKeyValueChange</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Replacement">
+      <MemberSignature Language="C#" Value="Replacement" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSKeyValueChange Replacement = int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSKeyValueChange</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Setting">
+      <MemberSignature Language="C#" Value="Setting" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSKeyValueChange Setting = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSKeyValueChange</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

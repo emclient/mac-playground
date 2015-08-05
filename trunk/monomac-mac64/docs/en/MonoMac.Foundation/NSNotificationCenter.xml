@@ -1,0 +1,664 @@
+<Type Name="NSNotificationCenter" FullName="MonoMac.Foundation.NSNotificationCenter">
+  <TypeSignature Language="C#" Value="public class NSNotificationCenter : MonoMac.Foundation.NSObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit NSNotificationCenter extends MonoMac.Foundation.NSObject" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.Foundation.NSObject</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.Foundation.Register("NSNotificationCenter", true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>A notification hub for the application.</summary>
+    <remarks>
+      <para>
+
+	The NSNotificationCenter is a hub that is used to listen to
+	broadcast messages and post broadcast messages in an
+	application.    The messages that are posted are synchronous.
+      </para>
+      <para> 
+	The NSNotificationCenter.DefaultCenter plays a central
+	role in the application as this is where system notifications
+	are posted for interesting system-level events.  
+      </para>
+      <para>
+
+	Posting a notification is a synchronous process, which means
+	that invoking one of the Post messages on the notification
+	center will block execution until all of the notification handlers have completed running. 
+
+      </para>
+      <para>
+
+	Notifications are posted on the same thread as the calling
+	thread which could have undesired effects.  If you need to
+	deliver notifications from a background thread, use the <see cref="M:MonoMac.Foundation.NSObject.BeginInvokeOnMainThread(MonoMac.Foundation.NSAction&#xA; action" /> method to wrap your posting into a delegate that is
+	invoked on the main thread.
+
+      </para>
+      <para>
+
+	When subscribing to a notification, it is possible to
+	subscribe only to a certain kind of notification by specifying
+	the notification name (or null to listen to all notifications
+	posted to the notification center).  It is also possible to
+	subscribe only to notifications issued by a specific object.
+	This can be used to filter the amount of notifications
+	received.
+
+      </para>
+      <para>
+
+	Notifications are usually NSString fields that are hosted in
+	some class, for example the Objetive-C
+	UITextViewTextDidChangeNotification is found in the class
+	UITextView as the <see cref="F:MonoMac.UIKit.UITextView.TextDidChangeNotification" />.
+	For convenience there are overloads that take C# strings.
+
+      </para>
+      <para>
+
+	To register for notifications, you can use the AddObserver
+	method.  We recommend that you use the C# versions of these
+	methods, as you can directly connect delegates, lambdas and
+	methods directly into your code.  When you use any of the
+	AddObserver methods in this class that take an
+	Action&lt;NSNotification;&gt; parameter, the AddObserver will
+	return a token.  This token is then used as the parameter to
+	RemoveNotification when you want to stop listening to a
+	particular event.
+
+      </para>
+      <example>
+        <code lang="C#">
+NSObject notificationToken;
+
+void Setup ()
+{
+	notificationToken = NSNotificationCenter.DefaultCenter.AddObserver (FooBar.ClockNotification, OnClockChange);
+}
+
+void OnClockChange (NSNotification notification)
+{
+	Console.WriteLine ("The ClockNotification message was posted");
+}
+
+void Teardown ()
+{
+	NSNotificationCenter.DefaultCenter.RemoveObserver (notificationToken);
+}
+</code>
+      </example>
+      <para>
+
+	Starting with MonoMac 5.4, calling Dispose on the returned
+	notification token will also remove the observer for you,
+	making the code shorter.   For example:
+
+      </para>
+      <example>
+        <code lang="C#">
+NSObject notificationToken;
+
+void Setup ()
+{
+	notificationToken = NSNotificationCenter.DefaultCenter.AddObserver (FooBar.ClockNotification, OnClockChange);
+}
+
+void OnClockChange (NSNotification notification)
+{
+	Console.WriteLine ("The ClockNotification message was posted");
+}
+
+void Teardown ()
+{
+	notificationToken.Dispose ();
+}
+</code>
+      </example>
+    </remarks>
+    <related type="sample" href="http://samples.xamarin.com/Samples/ByGuid?guid=67b46eb2-81d9-477f-a448-18e68db1227b">AppPrefs</related>
+    <related type="sample" href="http://samples.xamarin.com/Samples/ByGuid?guid=23a2571b-45eb-4889-bb67-d88937cb68c1">monocatalog</related>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSNotificationCenter ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("init")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters />
+      <Docs>
+        <summary>Default constructor that initializes a new instance of this class with no parameters.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSNotificationCenter (MonoMac.Foundation.NSCoder coder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSCoder coder) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithCoder:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="coder" Type="MonoMac.Foundation.NSCoder" />
+      </Parameters>
+      <Docs>
+        <param name="coder">The unarchiver object.</param>
+        <summary>A constructor that initializes the object from the data stored in the unarchiver object.</summary>
+        <remarks>This constructor is provided to allow the class to be initialized from an unarchiver (for example, during NIB deserialization).</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSNotificationCenter (MonoMac.Foundation.NSObjectFlag t);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSObjectFlag t) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="t" Type="MonoMac.Foundation.NSObjectFlag" />
+      </Parameters>
+      <Docs>
+        <param name="t">Unused sentinel value, pass NSObjectFlag.Empty.</param>
+        <summary>Constructor to call on derived classes when the derived class has an [Export] constructor.</summary>
+        <remarks>
+          <para>This constructor should be called by derived classes when they are initialized using an [Export] attribute. The argument value is ignore, typically the chaining would look like this:</para>
+          <example>
+            <code lang="C#">
+public class MyClass : BaseClass {
+    [Export ("initWithFoo:")]
+    public MyClass (string foo) : base (NSObjectFlag.Empty)
+    {
+        ...
+    }
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSNotificationCenter (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">Pointer (handle) to the unmanaged object.</param>
+        <summary>A constructor used when creating managed representations of unmanaged objects;  Called by the runtime.</summary>
+        <remarks>
+          <para>This constructor is invoked by the runtime infrastructure (<see cref="M:MonoMac.ObjCRuntime.GetNSObject (System.IntPtr)" />) to create a new managed representation for a pointer to an unmanaged Objective-C object.    You should not invoke this method directly, instead you should call the GetNSObject method as it will prevent two instances of a managed object to point to the same native object.</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddObserver">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSObject AddObserver (MonoMac.Foundation.NSString aName, Action&lt;MonoMac.Foundation.NSNotification&gt; notify);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSObject AddObserver(class MonoMac.Foundation.NSString aName, class System.Action`1&lt;class MonoMac.Foundation.NSNotification&gt; notify) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="aName" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="notify" Type="System.Action&lt;MonoMac.Foundation.NSNotification&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="aName">The name of the notification to observe.</param>
+        <param name="notify">The delegate that will be invoked when the notification is posted.</param>
+        <summary>Adds an observer for the specified notification</summary>
+        <returns>An observer token that can be used later as the parameter passed to RemoveObserver (NSObject observer).</returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddObserver">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSObject AddObserver (string aName, Action&lt;MonoMac.Foundation.NSNotification&gt; notify);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSObject AddObserver(string aName, class System.Action`1&lt;class MonoMac.Foundation.NSNotification&gt; notify) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("Use AddObserver(NSString, Action&lt;NSNotification&gt;) instead")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="aName" Type="System.String" />
+        <Parameter Name="notify" Type="System.Action&lt;MonoMac.Foundation.NSNotification&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="aName">The name of the notification to observe.</param>
+        <param name="notify">The delegate that will be invoked when the notification is posted.</param>
+        <summary>Adds an observer for the specified notification</summary>
+        <returns>An observer token that can be used later as the parameter passed to RemoveObserver (NSObject observer).</returns>
+        <remarks>Use this overload if you are using a C# string.   Usually you would be using an NSString constant using the pattern ClassName.SomeNotification.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddObserver">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSObject AddObserver (MonoMac.Foundation.NSString aName, Action&lt;MonoMac.Foundation.NSNotification&gt; notify, MonoMac.Foundation.NSObject fromObject);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSObject AddObserver(class MonoMac.Foundation.NSString aName, class System.Action`1&lt;class MonoMac.Foundation.NSNotification&gt; notify, class MonoMac.Foundation.NSObject fromObject) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="aName" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="notify" Type="System.Action&lt;MonoMac.Foundation.NSNotification&gt;" />
+        <Parameter Name="fromObject" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="aName">The name of the notification to observe.</param>
+        <param name="notify">The delegate that will be invoked when the notification is posted.</param>
+        <param name="fromObject">If not-null, filters the notifications to those sent by this object.</param>
+        <summary>Adds an observer for the specified notification</summary>
+        <returns>An observer token that can be used later as the parameter passed to RemoveObserver (NSObject observer).</returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddObserver">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSObject AddObserver (string aName, Action&lt;MonoMac.Foundation.NSNotification&gt; notify, MonoMac.Foundation.NSObject fromObject);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSObject AddObserver(string aName, class System.Action`1&lt;class MonoMac.Foundation.NSNotification&gt; notify, class MonoMac.Foundation.NSObject fromObject) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("Use AddObserver(NSString, Action&lt;NSNotification&gt;, NSObject)")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="aName" Type="System.String" />
+        <Parameter Name="notify" Type="System.Action&lt;MonoMac.Foundation.NSNotification&gt;" />
+        <Parameter Name="fromObject" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="aName">The name of the notification to observe.</param>
+        <param name="notify">The delegate that will be invoked when the notification is posted.</param>
+        <param name="fromObject">If not-null, filters the notifications to those sent by this object.</param>
+        <summary>Adds an observer for the specified notification</summary>
+        <returns>An observer token that can be used later as the parameter passed to RemoveObserver (NSObject observer).</returns>
+        <remarks>Use this overload if you are using a C# string.   Usually you would be using an NSString constant using the pattern ClassName.SomeNotification.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddObserver">
+      <MemberSignature Language="C#" Value="public virtual void AddObserver (MonoMac.Foundation.NSObject observer, MonoMac.ObjCRuntime.Selector aSelector, MonoMac.Foundation.NSString aName, MonoMac.Foundation.NSObject anObject);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void AddObserver(class MonoMac.Foundation.NSObject observer, class MonoMac.ObjCRuntime.Selector aSelector, class MonoMac.Foundation.NSString aName, class MonoMac.Foundation.NSObject anObject) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("addObserver:selector:name:object:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="observer" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="aSelector" Type="MonoMac.ObjCRuntime.Selector" />
+        <Parameter Name="aName" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="anObject" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="observer">To be added.</param>
+        <param name="aSelector">To be added.</param>
+        <param name="aName">
+          <para>Optional name that you want to register with and filter delivery by this name.   Use null if you do not want filtering to take place.</para>
+          <para tool="nullallowed">This parameter can be <see langword="null" />.</para>
+        </param>
+        <param name="anObject">
+          <para>The object that we want to receive notifications from, or null for receiving the specified notifications sent by all objects.</para>
+          <para tool="nullallowed">This parameter can be <see langword="null" />.</para>
+        </param>
+        <summary>Low-level add-bserver API</summary>
+        <remarks>
+          <para>
+	    This is a low-level version of the AddObserver API that allows the consumer to contorl the observer and the selector to notify upon notifications.   
+	  </para>
+          <para>
+	    Users are encouraged to use the high-level <see cref="M:MonoMac.Foundation.NSNotificationCenter.AddObserver(MonoMac.Foundation.NSString,System.Action&lt;NSNotification&gt;, MonoMac.Foundation.NSObject)" /> variant.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddObserver">
+      <MemberSignature Language="C#" Value="public void AddObserver (MonoMac.Foundation.NSObject observer, MonoMac.ObjCRuntime.Selector aSelector, string aname, MonoMac.Foundation.NSObject anObject);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddObserver(class MonoMac.Foundation.NSObject observer, class MonoMac.ObjCRuntime.Selector aSelector, string aname, class MonoMac.Foundation.NSObject anObject) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("Use AddObserver(NSObject, Selector, NSString, NSObject) instead")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="observer" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="aSelector" Type="MonoMac.ObjCRuntime.Selector" />
+        <Parameter Name="aname" Type="System.String" />
+        <Parameter Name="anObject" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="observer">To be added.</param>
+        <param name="aSelector">To be added.</param>
+        <param name="aname">To be added.</param>
+        <param name="anObject">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>
+          <para>
+	    This is a low-level version of the AddObserver API that allows the consumer to contorl the observer and the selector to notify upon notifications.   
+	  </para>
+          <para>
+	    Users are encouraged to use the high-level <see cref="M:MonoMac.Foundation.NSNotificationCenter.AddObserver(MonoMac.Foundation.NSString,System.Action&lt;NSNotification&gt;, MonoMac.Foundation.NSObject)" /> variant.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddObserver">
+      <MemberSignature Language="C#" Value="public virtual void AddObserver (string name, MonoMac.Foundation.NSObject obj, MonoMac.Foundation.NSOperationQueue queue, MonoMac.Foundation.NSNotificationHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void AddObserver(string name, class MonoMac.Foundation.NSObject obj, class MonoMac.Foundation.NSOperationQueue queue, class MonoMac.Foundation.NSNotificationHandler handler) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("addObserverForName:object:queue:usingBlock:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="obj" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="queue" Type="MonoMac.Foundation.NSOperationQueue" />
+        <Parameter Name="handler" Type="MonoMac.Foundation.NSNotificationHandler" />
+      </Parameters>
+      <Docs>
+        <param name="name">To be added.</param>
+        <param name="obj">To be added.</param>
+        <param name="queue">To be added.</param>
+        <param name="handler">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ClassHandle">
+      <MemberSignature Language="C#" Value="public override IntPtr ClassHandle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int ClassHandle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The handle for this class.</summary>
+        <value>The pointer to the Objective-C class.</value>
+        <remarks>Each MonoMac class mirrors an unmanaged Objective-C class.   This value contains the pointer to the Objective-C class, it is similar to calling objc_getClass with the object name.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DefaultCenter">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSNotificationCenter DefaultCenter { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSNotificationCenter DefaultCenter" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("defaultCenter")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSNotificationCenter</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The default notification center, system notifications and system-level events are posted to this notification center.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para>
+
+	    The NSNotificationCenter.DefaultCenter plays a central
+	    role in the application as this is where system notifications
+	    are posted for interesting system-level events.  
+
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PostNotification">
+      <MemberSignature Language="C#" Value="public virtual void PostNotification (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void PostNotification(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("postNotification:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">Notification to post</param>
+        <summary>Posts a notification that is broadcast to everyoned subscribing to that notification.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PostNotificationName">
+      <MemberSignature Language="C#" Value="public virtual void PostNotificationName (string aName, MonoMac.Foundation.NSObject anObject);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void PostNotificationName(string aName, class MonoMac.Foundation.NSObject anObject) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("postNotificationName:object:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="aName" Type="System.String" />
+        <Parameter Name="anObject" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="aName">To be added.</param>
+        <param name="anObject">
+          <para>The reference object posting this notification, can be null.</para>
+          <para tool="nullallowed">This parameter can be <see langword="null" />.</para>
+        </param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PostNotificationName">
+      <MemberSignature Language="C#" Value="public virtual void PostNotificationName (string aName, MonoMac.Foundation.NSObject anObject, MonoMac.Foundation.NSDictionary aUserInfo);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void PostNotificationName(string aName, class MonoMac.Foundation.NSObject anObject, class MonoMac.Foundation.NSDictionary aUserInfo) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("postNotificationName:object:userInfo:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="aName" Type="System.String" />
+        <Parameter Name="anObject" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="aUserInfo" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="aName">To be added.</param>
+        <param name="anObject">
+          <para>The reference object posting this notification, can be null.</para>
+          <para tool="nullallowed">This parameter can be <see langword="null" />.</para>
+        </param>
+        <param name="aUserInfo">
+          <para>To be added.</para>
+          <para tool="nullallowed">This parameter can be <see langword="null" />.</para>
+        </param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveObserver">
+      <MemberSignature Language="C#" Value="public virtual void RemoveObserver (MonoMac.Foundation.NSObject observer);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void RemoveObserver(class MonoMac.Foundation.NSObject observer) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("removeObserver:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="observer" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="observer">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks> The observer parameter is either the return value
+	  from the AddObserver methods that take a
+	  Action&lt;NSNotification&gt; parameter (the C# style API) or
+	  the "observer" parameter that is passed to AddObserver (the
+	  Objective-C style API).
+	</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveObserver">
+      <MemberSignature Language="C#" Value="public virtual void RemoveObserver (MonoMac.Foundation.NSObject observer, string aName, MonoMac.Foundation.NSObject anObject);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void RemoveObserver(class MonoMac.Foundation.NSObject observer, string aName, class MonoMac.Foundation.NSObject anObject) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("removeObserver:name:object:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="observer" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="aName" Type="System.String" />
+        <Parameter Name="anObject" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="observer">To be added.</param>
+        <param name="aName">
+          <para>Optional name that you registered.   Use null if you do not want filtering to take place.</para>
+          <para tool="nullallowed">This parameter can be <see langword="null" />.</para>
+        </param>
+        <param name="anObject">
+          <para>The object that you originally registered interest in.</para>
+          <para tool="nullallowed">This parameter can be <see langword="null" />.</para>
+        </param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveObservers">
+      <MemberSignature Language="C#" Value="public void RemoveObservers (System.Collections.Generic.IEnumerable&lt;MonoMac.Foundation.NSObject&gt; keys);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RemoveObservers(class System.Collections.Generic.IEnumerable`1&lt;class MonoMac.Foundation.NSObject&gt; keys) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="keys" Type="System.Collections.Generic.IEnumerable&lt;MonoMac.Foundation.NSObject&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="keys">To be added.</param>
+        <summary>Removes multiple observers in one call.</summary>
+        <remarks>This removes all of the observers in the IEnumerable&lt;NSObject&gt; parameter.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,317 @@
+<Type Name="Midi" FullName="MonoMac.CoreMidi.Midi">
+  <TypeSignature Language="C#" Value="public static class Midi" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Midi extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Global methods and constants for using CoreMidi.</summary>
+    <remarks>
+    </remarks>
+    <related type="sample" href="http://samples.xamarin.com/Samples/ByGuid?guid=C30005F2-43D7-4242-85C8-5C13BFE7BBA5">CoreMidiSample</related>
+  </Docs>
+  <Members>
+    <Member MemberName="DestinationCount">
+      <MemberSignature Language="C#" Value="public static int DestinationCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property int32 DestinationCount" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The number of MIDI destinations.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DeviceCount">
+      <MemberSignature Language="C#" Value="public static int DeviceCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property int32 DeviceCount" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The number of MIDI devices in the system (do not confused with external connected devices).</summary>
+        <value>
+        </value>
+        <remarks>You can retrieve a specific MIDI device by using the <see cref="T:MonoMac.CoreMidi.Midi.GetDevice(int)" />.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ExternalDeviceCount">
+      <MemberSignature Language="C#" Value="public static int ExternalDeviceCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property int32 ExternalDeviceCount" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The number of external devices connected to this system.</summary>
+        <value>
+        </value>
+        <remarks>You can retrieve a specific MIDI device by using the <see cref="T:MonoMac.CoreMidi.Midi.GetExternalDevice(int)" />.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetDevice">
+      <MemberSignature Language="C#" Value="public static MonoMac.CoreMidi.MidiDevice GetDevice (int deviceIndex);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.CoreMidi.MidiDevice GetDevice(int32 deviceIndex) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreMidi.MidiDevice</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="deviceIndex" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="deviceIndex">The device index.</param>
+        <summary>Returns an object representing the specified MIDI device.</summary>
+        <returns>An instance of MidiDevice, or null on error.</returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetExternalDevice">
+      <MemberSignature Language="C#" Value="public static MonoMac.CoreMidi.MidiDevice GetExternalDevice (int deviceIndex);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.CoreMidi.MidiDevice GetExternalDevice(int32 deviceIndex) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreMidi.MidiDevice</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="deviceIndex" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="deviceIndex">The external MIDI device index.</param>
+        <summary>Returns an object representing the specified external MIDI device.</summary>
+        <returns>An instance of MidiDevice, or null on error.</returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="NetworkBonjourServiceType">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString NetworkBonjourServiceType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString NetworkBonjourServiceType" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant MIDINetworkBonjourServiceType</summary>
+        <value>
+        </value>
+        <remarks>You can pass this type to <see cref="M:MonoMac.Foundation.NSNetServiceBrowser.SearchForServices(System.String type, System.String domain)" /> to find MIDI devices available
+        over bonjour.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="NetworkNotificationContactsDidChange">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString NetworkNotificationContactsDidChange { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString NetworkNotificationContactsDidChange" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification raised when the MIDI network has changed.</summary>
+        <value>
+        </value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoTouch.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <para id="tool-remark">If you want to subscribe to this notification, you can use the convenience <see cref="T:Midi+Notifications" />.<see cref="M:Midi+Notifications.ObserveNetworkNotificationConta" /> method which offers strongly typed access to the parameters of the notification.</para>
+          <para>The following example shows how to use the strongly typed Notifications class, to take the guesswork out of the available properties in the notification:</para>
+          <example>
+            <code lang="c#">
+//
+// Lambda style
+//
+
+// listening
+notification = Midi.Notifications.ObserveNetworkNotificationConta ((sender, args) =&gt; {
+    /* Access strongly typed args */
+    Console.WriteLine ("Notification: {0}", args.Notification);
+});
+
+// To stop listening:
+notification.Dispose ();
+
+//
+// Method style
+//
+NSObject notification;
+void Callback (object sender, NetworkNotificationConta args)
+{
+    // Access strongly typed args
+    Console.WriteLine ("Notification: {0}", args.Notification);
+}
+
+void Setup ()
+{
+    notification = Midi.Notifications.ObserveNetworkNotificationConta (Callback);
+}
+
+void Teardown ()
+{
+    notification.Dispose ();
+}</code>
+          </example>
+          <para>The following example shows how to use the notification with the DefaultCenter API:</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        Midi.NetworkNotificationContactsDidChange, (notification) =&gt; {Console.WriteLine ("Received the notification Midi", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification Midi", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (Midi.NetworkNotificationContactsDidChange, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="NetworkNotificationSessionDidChange">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString NetworkNotificationSessionDidChange { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString NetworkNotificationSessionDidChange" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Notification raised when the MIDI session has changed</summary>
+        <value>
+        </value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoTouch.Foundation.NSNotificationCenter" /> to register a listener for this notification.   This is an NSString instead of a string, because these values can be used as tokens in some native libraries instead of being used purely for their actual string content.    The 'notification' parameter to the callback contains extra information that is specific to the notification type.</para>
+          <para id="tool-remark">If you want to subscribe to this notification, you can use the convenience <see cref="T:Midi+Notifications" />.<see cref="M:Midi+Notifications.ObserveNetworkNotificationSess" /> method which offers strongly typed access to the parameters of the notification.</para>
+          <para>The following example shows how to use the strongly typed Notifications class, to take the guesswork out of the available properties in the notification:</para>
+          <example>
+            <code lang="c#">
+//
+// Lambda style
+//
+
+// listening
+notification = Midi.Notifications.ObserveNetworkNotificationSess ((sender, args) =&gt; {
+    /* Access strongly typed args */
+    Console.WriteLine ("Notification: {0}", args.Notification);
+});
+
+// To stop listening:
+notification.Dispose ();
+
+//
+// Method style
+//
+NSObject notification;
+void Callback (object sender, NetworkNotificationSess args)
+{
+    // Access strongly typed args
+    Console.WriteLine ("Notification: {0}", args.Notification);
+}
+
+void Setup ()
+{
+    notification = Midi.Notifications.ObserveNetworkNotificationSess (Callback);
+}
+
+void Teardown ()
+{
+    notification.Dispose ();
+}</code>
+          </example>
+          <para>The following example shows how to use the notification with the DefaultCenter API:</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (
+        Midi.NetworkNotificationSessionDidChange, (notification) =&gt; {Console.WriteLine ("Received the notification Midi", notification); }
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification Midi", notification);
+}
+
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (Midi.NetworkNotificationSessionDidChange, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Restart">
+      <MemberSignature Language="C#" Value="public static void Restart ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void Restart() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Restarts the MIDI Subsystem.</summary>
+        <remarks>This stops the MIDI subsystems and forces it to be reinitialized.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SourceCount">
+      <MemberSignature Language="C#" Value="public static int SourceCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property int32 SourceCount" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Returns the number of sources in the system.</summary>
+        <value>
+        </value>
+        <remarks>Use the <see cref="T:MonoMac.CoreMidi.MidiEndpoint.GetSource(int)" /> to fetch a specific source (represented by a MidiEndpoint).</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

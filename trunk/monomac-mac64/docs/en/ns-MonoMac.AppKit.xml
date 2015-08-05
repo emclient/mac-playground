@@ -1,0 +1,6 @@
+<Namespace Name="MonoMac.AppKit">
+  <Docs>
+    <summary>Main namespace for creating Mac native user interfaces.</summary>
+    <remarks></remarks>
+  </Docs>
+</Namespace>

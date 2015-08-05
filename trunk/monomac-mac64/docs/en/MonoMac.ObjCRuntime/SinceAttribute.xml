@@ -1,0 +1,90 @@
+<Type Name="SinceAttribute" FullName="MonoMac.ObjCRuntime.SinceAttribute">
+  <TypeSignature Language="C#" Value="public class SinceAttribute : Attribute" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit SinceAttribute extends System.Attribute" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Attribute</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Used to specify when the API first became available.</summary>
+    <remarks>
+      <para> 
+	This attribute can be applied at the class level, to
+	indicate that the class was introduced in a particular
+	revision of the OS, or in independent members (properties,
+	fields, methods, constructors) to indicate that one of those
+	components was introduced in that version.  It can also be
+	applied to enumeration values, as this might be useful for
+	developers to know.
+      </para>
+      <para>
+
+	You should not use the [Since] attribute on C# delegates,
+	since those delegates are always usable from C#.  They might
+	not be used as a parameter to some method, but those methods
+	would have already been flagged with the [Since] attribute.
+
+      </para>
+      <para>
+	MonoMac started using the [Since] attribute starting with
+	the iPad release (version 3.2) to flag new methods, class and
+	enumeration values that became available with the new OS.
+      </para>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public SinceAttribute (byte major, byte minor);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(unsigned int8 major, unsigned int8 minor) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="major" Type="System.Byte" />
+        <Parameter Name="minor" Type="System.Byte" />
+      </Parameters>
+      <Docs>
+        <param name="major">iOS major version.</param>
+        <param name="minor">iOS minor version.</param>
+        <summary>Constructor used to flag that this component was introduced on the specifid major/version of iOS.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Major">
+      <MemberSignature Language="C#" Value="public byte Major;" />
+      <MemberSignature Language="ILAsm" Value=".field public unsigned int8 Major" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Byte</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Major version of iPhoneOS/iOS when this API became available.</summary>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="Minor">
+      <MemberSignature Language="C#" Value="public byte Minor;" />
+      <MemberSignature Language="ILAsm" Value=".field public unsigned int8 Minor" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Byte</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Minor version of iPhoneOS/iOS when this API became available.</summary>
+        <remarks />
+      </Docs>
+    </Member>
+  </Members>
+</Type>

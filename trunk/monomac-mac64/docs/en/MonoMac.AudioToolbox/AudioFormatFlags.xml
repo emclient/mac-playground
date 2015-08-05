@@ -1,0 +1,340 @@
+<Type Name="AudioFormatFlags" FullName="MonoMac.AudioToolbox.AudioFormatFlags">
+  <TypeSignature Language="C#" Value="public enum AudioFormatFlags" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed AudioFormatFlags extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Flags</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>Flags describing the stream in the <see cref="T:MonoMac.AudioToolbox.AudioStreamBasicDescription" />.</summary>
+    <remarks>
+      <para> The core set of flags describe properties of the audio
+	stream (integer vs float values, endianess, interleaved) while
+	the other flags are only used if the AudioFormatType is set to
+	either LinearPCM (those are the values prefixed with
+	LinearPCM) or AppleLossles (enumeration values prefixed with
+	AppleLossles).
+      </para>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="AppleLossless16BitSourceData">
+      <MemberSignature Language="C#" Value="AppleLossless16BitSourceData" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags AppleLossless16BitSourceData = unsigned int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AppleLossless20BitSourceData">
+      <MemberSignature Language="C#" Value="AppleLossless20BitSourceData" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags AppleLossless20BitSourceData = unsigned int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AppleLossless24BitSourceData">
+      <MemberSignature Language="C#" Value="AppleLossless24BitSourceData" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags AppleLossless24BitSourceData = unsigned int32(3)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AppleLossless32BitSourceData">
+      <MemberSignature Language="C#" Value="AppleLossless32BitSourceData" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags AppleLossless32BitSourceData = unsigned int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="FlagsAreAllClear">
+      <MemberSignature Language="C#" Value="FlagsAreAllClear" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags FlagsAreAllClear = unsigned int32(2147483648)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="IsAlignedHigh">
+      <MemberSignature Language="C#" Value="IsAlignedHigh" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags IsAlignedHigh = unsigned int32(16)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="IsBigEndian">
+      <MemberSignature Language="C#" Value="IsBigEndian" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags IsBigEndian = unsigned int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>If this flag is set, the data is encoded in big endian format otherwise it is in little endian.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="IsFloat">
+      <MemberSignature Language="C#" Value="IsFloat" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags IsFloat = unsigned int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>If this flag is set, the data is encoded using floating point values instead of integers.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="IsNonInterleaved">
+      <MemberSignature Language="C#" Value="IsNonInterleaved" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags IsNonInterleaved = unsigned int32(32)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="IsNonMixable">
+      <MemberSignature Language="C#" Value="IsNonMixable" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags IsNonMixable = unsigned int32(64)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="IsPacked">
+      <MemberSignature Language="C#" Value="IsPacked" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags IsPacked = unsigned int32(8)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="IsSignedInteger">
+      <MemberSignature Language="C#" Value="IsSignedInteger" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags IsSignedInteger = unsigned int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>If the data encoded using integers (the IsFloat flag is cleared) this determines whether they are signed or unsigned.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="LinearPCMFlagsAreAllClear">
+      <MemberSignature Language="C#" Value="LinearPCMFlagsAreAllClear" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags LinearPCMFlagsAreAllClear = unsigned int32(2147483648)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="LinearPCMIsAlignedHigh">
+      <MemberSignature Language="C#" Value="LinearPCMIsAlignedHigh" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags LinearPCMIsAlignedHigh = unsigned int32(16)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="LinearPCMIsBigEndian">
+      <MemberSignature Language="C#" Value="LinearPCMIsBigEndian" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags LinearPCMIsBigEndian = unsigned int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="LinearPCMIsFloat">
+      <MemberSignature Language="C#" Value="LinearPCMIsFloat" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags LinearPCMIsFloat = unsigned int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="LinearPCMIsNonInterleaved">
+      <MemberSignature Language="C#" Value="LinearPCMIsNonInterleaved" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags LinearPCMIsNonInterleaved = unsigned int32(32)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>If this flag is set then there are separate <see cref="T:MonoMac.AudioToolbox.AudioBuffer" />s for each
+        channel, otherwise the data for the left and right channels is
+        interleaved in the same buffer.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="LinearPCMIsNonMixable">
+      <MemberSignature Language="C#" Value="LinearPCMIsNonMixable" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags LinearPCMIsNonMixable = unsigned int32(64)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="LinearPCMIsPacked">
+      <MemberSignature Language="C#" Value="LinearPCMIsPacked" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags LinearPCMIsPacked = unsigned int32(8)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="LinearPCMIsSignedInteger">
+      <MemberSignature Language="C#" Value="LinearPCMIsSignedInteger" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags LinearPCMIsSignedInteger = unsigned int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="LinearPCMSampleFractionMask">
+      <MemberSignature Language="C#" Value="LinearPCMSampleFractionMask" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags LinearPCMSampleFractionMask = unsigned int32(8064)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="LinearPCMSampleFractionShift">
+      <MemberSignature Language="C#" Value="LinearPCMSampleFractionShift" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioFormatFlags LinearPCMSampleFractionShift = unsigned int32(7)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioFormatFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

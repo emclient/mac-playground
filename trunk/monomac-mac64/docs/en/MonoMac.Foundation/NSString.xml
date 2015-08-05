@@ -1,0 +1,910 @@
+<Type Name="NSString" FullName="MonoMac.Foundation.NSString">
+  <TypeSignature Language="C#" Value="public class NSString : MonoMac.Foundation.NSObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit NSString extends MonoMac.Foundation.NSObject" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.Foundation.NSObject</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.Foundation.Register("NSString", true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>The Foundation String class.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSString ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("init")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters />
+      <Docs>
+        <summary>Default constructor that initializes a new instance of this class with no parameters.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSString (MonoMac.Foundation.NSCoder coder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSCoder coder) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithCoder:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="coder" Type="MonoMac.Foundation.NSCoder" />
+      </Parameters>
+      <Docs>
+        <param name="coder">The unarchiver object.</param>
+        <summary>A constructor that initializes the object from the data stored in the unarchiver object.</summary>
+        <remarks>This constructor is provided to allow the class to be initialized from an unarchiver (for example, during NIB deserialization).</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSString (MonoMac.Foundation.NSObjectFlag t);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSObjectFlag t) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="t" Type="MonoMac.Foundation.NSObjectFlag" />
+      </Parameters>
+      <Docs>
+        <param name="t">Unused sentinel value, pass NSObjectFlag.Empty.</param>
+        <summary>Constructor to call on derived classes when the derived class has an [Export] constructor.</summary>
+        <remarks>
+          <para>This constructor should be called by derived classes when they are initialized using an [Export] attribute. The argument value is ignore, typically the chaining would look like this:</para>
+          <example>
+            <code lang="C#">
+public class MyClass : BaseClass {
+    [Export ("initWithFoo:")]
+    public MyClass (string foo) : base (NSObjectFlag.Empty)
+    {
+        ...
+    }
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSString (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">Pointer (handle) to the unmanaged object.</param>
+        <summary>A constructor used when creating managed representations of unmanaged objects;  Called by the runtime.</summary>
+        <remarks>
+          <para>This constructor is invoked by the runtime infrastructure (<see cref="M:MonoMac.ObjCRuntime.GetNSObject (System.IntPtr)" />) to create a new managed representation for a pointer to an unmanaged Objective-C object.    You should not invoke this method directly, instead you should call the GetNSObject method as it will prevent two instances of a managed object to point to the same native object.</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSString (string str);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string str) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="str" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="str">A string.</param>
+        <summary>Creates an NSString from a C# string.</summary>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="_characterAtIndex">
+      <MemberSignature Language="C#" Value="public virtual char _characterAtIndex (int index);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance char _characterAtIndex(int32 index) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("characterAtIndex:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Char</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="index" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="index">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BoundingRectWithSize">
+      <MemberSignature Language="C#" Value="public System.Drawing.RectangleF BoundingRectWithSize (System.Drawing.SizeF size, MonoMac.Foundation.NSStringDrawingOptions options, MonoMac.Foundation.NSDictionary attributes);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Drawing.RectangleF BoundingRectWithSize(valuetype System.Drawing.SizeF size, valuetype MonoMac.Foundation.NSStringDrawingOptions options, class MonoMac.Foundation.NSDictionary attributes) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Drawing.RectangleF</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="size" Type="System.Drawing.SizeF" />
+        <Parameter Name="options" Type="MonoMac.Foundation.NSStringDrawingOptions" />
+        <Parameter Name="attributes" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="size">To be added.</param>
+        <param name="options">To be added.</param>
+        <param name="attributes">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Capitalize">
+      <MemberSignature Language="C#" Value="public virtual string Capitalize (MonoMac.Foundation.NSLocale locale);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance string Capitalize(class MonoMac.Foundation.NSLocale locale) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("capitalizedStringWithLocale:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="locale" Type="MonoMac.Foundation.NSLocale" />
+      </Parameters>
+      <Docs>
+        <param name="locale">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ClassHandle">
+      <MemberSignature Language="C#" Value="public override IntPtr ClassHandle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int ClassHandle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The handle for this class.</summary>
+        <value>The pointer to the Objective-C class.</value>
+        <remarks>Each MonoMac class mirrors an unmanaged Objective-C class.   This value contains the pointer to the Objective-C class, it is similar to calling objc_getClass with the object name.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Compare">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSComparisonResult Compare (MonoMac.Foundation.NSString aString);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype MonoMac.Foundation.NSComparisonResult Compare(class MonoMac.Foundation.NSString aString) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("compare:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSComparisonResult</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="aString" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="aString">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Compare">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSComparisonResult Compare (MonoMac.Foundation.NSString aString, MonoMac.Foundation.NSStringCompareOptions mask);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype MonoMac.Foundation.NSComparisonResult Compare(class MonoMac.Foundation.NSString aString, valuetype MonoMac.Foundation.NSStringCompareOptions mask) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("compare:options:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSComparisonResult</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="aString" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="mask" Type="MonoMac.Foundation.NSStringCompareOptions" />
+      </Parameters>
+      <Docs>
+        <param name="aString">To be added.</param>
+        <param name="mask">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Compare">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSComparisonResult Compare (MonoMac.Foundation.NSString aString, MonoMac.Foundation.NSStringCompareOptions mask, MonoMac.Foundation.NSRange range);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype MonoMac.Foundation.NSComparisonResult Compare(class MonoMac.Foundation.NSString aString, valuetype MonoMac.Foundation.NSStringCompareOptions mask, valuetype MonoMac.Foundation.NSRange range) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("compare:options:range:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSComparisonResult</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="aString" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="mask" Type="MonoMac.Foundation.NSStringCompareOptions" />
+        <Parameter Name="range" Type="MonoMac.Foundation.NSRange" />
+      </Parameters>
+      <Docs>
+        <param name="aString">To be added.</param>
+        <param name="mask">To be added.</param>
+        <param name="range">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Compare">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSComparisonResult Compare (MonoMac.Foundation.NSString aString, MonoMac.Foundation.NSStringCompareOptions mask, MonoMac.Foundation.NSRange range, MonoMac.Foundation.NSLocale locale);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype MonoMac.Foundation.NSComparisonResult Compare(class MonoMac.Foundation.NSString aString, valuetype MonoMac.Foundation.NSStringCompareOptions mask, valuetype MonoMac.Foundation.NSRange range, class MonoMac.Foundation.NSLocale locale) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("compare:options:range:locale:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSComparisonResult</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="aString" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="mask" Type="MonoMac.Foundation.NSStringCompareOptions" />
+        <Parameter Name="range" Type="MonoMac.Foundation.NSRange" />
+        <Parameter Name="locale" Type="MonoMac.Foundation.NSLocale" />
+      </Parameters>
+      <Docs>
+        <param name="aString">To be added.</param>
+        <param name="mask">To be added.</param>
+        <param name="range">To be added.</param>
+        <param name="locale">
+          <para>Locale to use for the comparison.</para>
+          <para tool="nullallowed">This parameter can be <see langword="null" />.</para>
+        </param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateNative">
+      <MemberSignature Language="C#" Value="public static IntPtr CreateNative (string str);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig native int CreateNative(string str) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="str" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="str">C# String to wrap</param>
+        <summary>Creates an Objective-C NSString from the C# string and returns a pointer to it.</summary>
+        <returns>Pointer to the NSString object, must be released with ReleaseNative.</returns>
+        <remarks>
+          <para>
+	    This method creates an Objective-C NSString and returns an
+	    IntPtr that points to it.  This does not create the managed
+	    NSString object that points to it, which is ideal for
+	    transient strings that must be passed to Objectiv-C as it is
+	    not necessary for Mono's Garbage collector or the
+	    MonoMac/MonoMac engines to track this object.
+	  </para>
+          <para>
+
+	    The memory associated with this object should be released
+	    by calling the <see cref="M:MonoMac.Foundation.NSString.ReleaseNative(System.IntPtr)" />
+	    method.
+	  </para>
+          <example>
+            <code lang="c#">
+IntPtr objcString = NSString.CreateNative ("Hello");
+// You can pass objcString to any methods that expect an Objective-C NSString pointer
+NSString.ReleaseNative (objcString);
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DataUsingEncoding">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSData DataUsingEncoding (MonoMac.Foundation.NSStringEncoding enc);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSData DataUsingEncoding(valuetype MonoMac.Foundation.NSStringEncoding enc) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("Use Encode instead")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSData</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="enc" Type="MonoMac.Foundation.NSStringEncoding" />
+      </Parameters>
+      <Docs>
+        <param name="enc">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DataUsingEncoding">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSData DataUsingEncoding (MonoMac.Foundation.NSStringEncoding enc, bool allowLossyConversion);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSData DataUsingEncoding(valuetype MonoMac.Foundation.NSStringEncoding enc, bool allowLossyConversion) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("Use Encode instead")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSData</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="enc" Type="MonoMac.Foundation.NSStringEncoding" />
+        <Parameter Name="allowLossyConversion" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="enc">To be added.</param>
+        <param name="allowLossyConversion">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DrawString">
+      <MemberSignature Language="C#" Value="public void DrawString (System.Drawing.PointF point, MonoMac.Foundation.NSDictionary attributes);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void DrawString(valuetype System.Drawing.PointF point, class MonoMac.Foundation.NSDictionary attributes) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="point" Type="System.Drawing.PointF" />
+        <Parameter Name="attributes" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="point">To be added.</param>
+        <param name="attributes">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DrawString">
+      <MemberSignature Language="C#" Value="public void DrawString (System.Drawing.RectangleF rect, MonoMac.Foundation.NSDictionary attributes);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void DrawString(valuetype System.Drawing.RectangleF rect, class MonoMac.Foundation.NSDictionary attributes) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="rect" Type="System.Drawing.RectangleF" />
+        <Parameter Name="attributes" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="rect">To be added.</param>
+        <param name="attributes">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DrawString">
+      <MemberSignature Language="C#" Value="public void DrawString (System.Drawing.RectangleF rect, MonoMac.Foundation.NSStringDrawingOptions options, MonoMac.Foundation.NSDictionary attributes);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void DrawString(valuetype System.Drawing.RectangleF rect, valuetype MonoMac.Foundation.NSStringDrawingOptions options, class MonoMac.Foundation.NSDictionary attributes) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="rect" Type="System.Drawing.RectangleF" />
+        <Parameter Name="options" Type="MonoMac.Foundation.NSStringDrawingOptions" />
+        <Parameter Name="attributes" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="rect">To be added.</param>
+        <param name="options">To be added.</param>
+        <param name="attributes">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Encode">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSData Encode (MonoMac.Foundation.NSStringEncoding enc);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSData Encode(valuetype MonoMac.Foundation.NSStringEncoding enc) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSData</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="enc" Type="MonoMac.Foundation.NSStringEncoding" />
+      </Parameters>
+      <Docs>
+        <param name="enc">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Encode">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSData Encode (MonoMac.Foundation.NSStringEncoding enc, bool allowLossyConversion);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSData Encode(valuetype MonoMac.Foundation.NSStringEncoding enc, bool allowLossyConversion) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSData</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="enc" Type="MonoMac.Foundation.NSStringEncoding" />
+        <Parameter Name="allowLossyConversion" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="enc">To be added.</param>
+        <param name="allowLossyConversion">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Equals">
+      <MemberSignature Language="C#" Value="public override bool Equals (object obj);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool Equals(object obj) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="obj" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="obj">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Equals">
+      <MemberSignature Language="C#" Value="public static bool Equals (MonoMac.Foundation.NSString a, MonoMac.Foundation.NSString b);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool Equals(class MonoMac.Foundation.NSString a, class MonoMac.Foundation.NSString b) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="b" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromData">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString FromData (MonoMac.Foundation.NSData data, MonoMac.Foundation.NSStringEncoding encoding);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.Foundation.NSString FromData(class MonoMac.Foundation.NSData data, valuetype MonoMac.Foundation.NSStringEncoding encoding) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="data" Type="MonoMac.Foundation.NSData" />
+        <Parameter Name="encoding" Type="MonoMac.Foundation.NSStringEncoding" />
+      </Parameters>
+      <Docs>
+        <param name="data">The byte buffer.</param>
+        <param name="encoding">Use this encoding to intepret the byte buffer.</param>
+        <summary>Creates an NSString from an NSData source.</summary>
+        <returns>An NSString created by parsing the byte buffer using the specified encoding.</returns>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="FromHandle">
+      <MemberSignature Language="C#" Value="public static string FromHandle (IntPtr usrhandle);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string FromHandle(native int usrhandle) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="usrhandle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="usrhandle">Pointer to an Objective-C NSString object (not the managed NSString object).</param>
+        <summary>Utility method that returns a string from a pointer that points to an Objective-C NSString object.</summary>
+        <returns>The Objective-C string in the NSString as a C# string.</returns>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="GetHashCode">
+      <MemberSignature Language="C#" Value="public override int GetHashCode ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 GetHashCode() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Generates a hash code for the current instance.</summary>
+        <returns>A int containing the hash code for this instance.</returns>
+        <remarks>The algorithm used to generate the hash code is unspecified.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Item">
+      <MemberSignature Language="C#" Value="public char this[int idx] { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance char Item(int32)" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Char</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="idx" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="idx">To be added.</param>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Length">
+      <MemberSignature Language="C#" Value="public virtual int Length { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Length" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("length")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Equality">
+      <MemberSignature Language="C#" Value="public static bool op_Equality (MonoMac.Foundation.NSString a, MonoMac.Foundation.NSString b);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_Equality(class MonoMac.Foundation.NSString a, class MonoMac.Foundation.NSString b) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="b" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Explicit">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString op_Explicit (string str);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class MonoMac.Foundation.NSString op_Explicit(string str) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="str" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="str">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Implicit">
+      <MemberSignature Language="C#" Value="public static string op_Implicit (MonoMac.Foundation.NSString str);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname string op_Implicit(class MonoMac.Foundation.NSString str) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="str" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="str">The NSString.</param>
+        <summary>Converts the NSString to a CIL/C# string.</summary>
+        <returns />
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="op_Inequality">
+      <MemberSignature Language="C#" Value="public static bool op_Inequality (MonoMac.Foundation.NSString a, MonoMac.Foundation.NSString b);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_Inequality(class MonoMac.Foundation.NSString a, class MonoMac.Foundation.NSString b) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="b" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReleaseNative">
+      <MemberSignature Language="C#" Value="public static void ReleaseNative (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void ReleaseNative(native int handle) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">Pointer (handle) to the unmanaged object.</param>
+        <summary>A constructor used when creating managed representations of unmanaged objects;  Called by the runtime.</summary>
+        <remarks>
+          <para>This constructor is invoked by the runtime infrastructure (<see cref="M:MonoMac.ObjCRuntime.GetNSObject (System.IntPtr)" />) to create a new managed representation for a pointer to an unmanaged Objective-C object.    You should not invoke this method directly, instead you should call the GetNSObject method as it will prevent two instances of a managed object to point to the same native object.</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Replace">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSString Replace (MonoMac.Foundation.NSRange range, MonoMac.Foundation.NSString replacement);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSString Replace(valuetype MonoMac.Foundation.NSRange range, class MonoMac.Foundation.NSString replacement) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("stringByReplacingCharactersInRange:withString:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="range" Type="MonoMac.Foundation.NSRange" />
+        <Parameter Name="replacement" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="range">To be added.</param>
+        <param name="replacement">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StringSize">
+      <MemberSignature Language="C#" Value="public System.Drawing.SizeF StringSize (MonoMac.Foundation.NSDictionary attributedStringAttributes);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Drawing.SizeF StringSize(class MonoMac.Foundation.NSDictionary attributedStringAttributes) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Drawing.SizeF</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="attributedStringAttributes" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="attributedStringAttributes">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToLower">
+      <MemberSignature Language="C#" Value="public virtual string ToLower (MonoMac.Foundation.NSLocale locale);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance string ToLower(class MonoMac.Foundation.NSLocale locale) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("lowercaseStringWithLocale:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="locale" Type="MonoMac.Foundation.NSLocale" />
+      </Parameters>
+      <Docs>
+        <param name="locale">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToString">
+      <MemberSignature Language="C#" Value="public override string ToString ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Returns a string representation of the value of the current instance.</summary>
+        <returns>
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToUpper">
+      <MemberSignature Language="C#" Value="public virtual string ToUpper (MonoMac.Foundation.NSLocale locale);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance string ToUpper(class MonoMac.Foundation.NSLocale locale) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("uppercaseStringWithLocale:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="locale" Type="MonoMac.Foundation.NSLocale" />
+      </Parameters>
+      <Docs>
+        <param name="locale">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
