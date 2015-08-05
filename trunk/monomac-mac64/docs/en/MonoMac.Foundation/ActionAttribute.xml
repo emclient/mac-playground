@@ -1,0 +1,67 @@
+<Type Name="ActionAttribute" FullName="MonoMac.Foundation.ActionAttribute">
+  <TypeSignature Language="C#" Value="public sealed class ActionAttribute : MonoMac.Foundation.ExportAttribute" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit ActionAttribute extends MonoMac.Foundation.ExportAttribute" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.Foundation.ExportAttribute</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.AttributeUsage(System.AttributeTargets.Method)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>Flags a method to respond to an Objective-C action</summary>
+    <remarks>
+      <para>
+	You can apply this attribute to a method, turning it into an action that can be invoked by the Objective-C world. 
+      </para>
+      <example>
+        <code lang="C#">
+	    [Action ("clicked:")]
+	    void Submit (NSObject sender)
+	    {
+		    // User has clicked on the Submit button, respond to this action
+	    }
+	  </code>
+      </example>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ActionAttribute ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>Initializes a new instance of an Action attribute</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ActionAttribute (string selector);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string selector) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="selector" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="selector">Name for the selector to expose</param>
+        <summary>Creates a new instance of the action attribtue with the given selector.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

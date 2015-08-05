@@ -1550,9 +1550,6 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
-    <Reference Include="MonoMac">
-      <HintPath>..\MonoMac.dll</HintPath>
-    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
@@ -1560,15 +1557,18 @@
     <Reference Include="System" />
     <Reference Include="Mono.Posix" />
     <Reference Include="Mono.WebBrowser" />
+    <Reference Include="MonoMac">
+      <HintPath>..\..\..\..\MonoMac.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="System.Windows.Forms.CocoaInternal\ChangeLog" />
     <None Include="System.Windows.Forms.Design\ChangeLog" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\System.Drawing\System.Drawing-net_4_5.csproj">
+    <ProjectReference Include="..\System.Drawing\System.Drawing.csproj">
       <Project>{CB1CB976-AA54-4553-B0E7-05665B199EC4}</Project>
-      <Name>System.Drawing-net_4_5</Name>
+      <Name>System.Drawing</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

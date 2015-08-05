@@ -1,0 +1,219 @@
+<Type Name="ABPersonInstantMessageService" FullName="MonoMac.AddressBook.ABPersonInstantMessageService">
+  <TypeSignature Language="C#" Value="public static class ABPersonInstantMessageService" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed ABPersonInstantMessageService extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      Possible
+      <see cref="F:MonoMac.AddressBook.ABPersonInstantMessageKey.Service" />
+      key values.
+    </summary>
+    <remarks>
+      <para>
+        Instant message information is stored within
+        <see cref="T:MonoMac.Foundation.NSDictionary" /> instances where
+        the the
+        <see cref="F:MonoMac.AddressBook.ABPersonInstantMessageKey.Service" />
+        key is used to store the service name, and the
+        <see cref="F:MonoMac.AddressBook.ABPersonInstantMessageKey.Username" />
+        key is used to store the service login name.
+      </para>
+      <para>
+        The <c>ABPersonInstantMessageService</c> stores predefined
+        <see cref="F:MonoMac.AddressBook.ABPersonInstantMessageKey.Service" />
+        values.
+      </para>
+    </remarks>
+    <altmember cref="M:MonoMac.AddressBook.ABPerson.GetInstantMessages" />
+    <altmember cref="M:MonoMac.AddressBook.ABPerson.SetInstantMessages(MonoMac.AddressBook.ABMultiValue{MonoMac.Foundation.NSDictionary})" />
+  </Docs>
+  <Members>
+    <Member MemberName="Aim">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString Aim { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString Aim" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant kABPersonInstantMessageServiceAIM</summary>
+        <value>
+          A <see cref="T:MonoMac.Foundation.NSString" /> containing
+          the AIM instant message service.
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Facebook">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString Facebook { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString Facebook" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GaduGadu">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString GaduGadu { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString GaduGadu" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GoogleTalk">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString GoogleTalk { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString GoogleTalk" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Icq">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString Icq { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString Icq" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant kABPersonInstantMessageServiceICQ</summary>
+        <value>
+          A <see cref="T:MonoMac.Foundation.NSString" /> containing
+          the ICQ instant message service.
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Jabber">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString Jabber { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString Jabber" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant kABPersonInstantMessageServiceJabber</summary>
+        <value>
+          A <see cref="T:MonoMac.Foundation.NSString" /> containing
+          the Jabber instant message service.
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Msn">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString Msn { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString Msn" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant kABPersonInstantMessageServiceMSN</summary>
+        <value>
+          A <see cref="T:MonoMac.Foundation.NSString" /> containing
+          the MSN instant message service.
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="QQ">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString QQ { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString QQ" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Skype">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString Skype { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString Skype" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Yahoo">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString Yahoo { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString Yahoo" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant kABPersonInstantMessageServiceYahoo</summary>
+        <value>
+          A <see cref="T:MonoMac.Foundation.NSString" /> containing
+          the Yahoo instant message service.
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

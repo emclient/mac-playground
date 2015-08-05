@@ -1,0 +1,22 @@
+<Type Name="CGPattern+DrawPattern" FullName="MonoMac.CoreGraphics.CGPattern+DrawPattern">
+  <TypeSignature Language="C#" Value="public delegate void CGPattern.DrawPattern(CGContext ctx);" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi sealed CGPattern/DrawPattern extends System.MulticastDelegate" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Parameters>
+    <Parameter Name="ctx" Type="MonoMac.CoreGraphics.CGContext" />
+  </Parameters>
+  <ReturnValue>
+    <ReturnType>System.Void</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <param name="ctx">The CGContext on which the pattern is being drawn.</param>
+    <summary>Callback signature used to draw patterns on the screen.</summary>
+    <remarks>This is the delegate that is passed to the CGPattern method.</remarks>
+  </Docs>
+</Type>

@@ -1,0 +1,129 @@
+<Type Name="CGColorSpaceModel" FullName="MonoMac.CoreGraphics.CGColorSpaceModel">
+  <TypeSignature Language="C#" Value="public enum CGColorSpaceModel" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed CGColorSpaceModel extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>Color space model.</summary>
+    <remarks />
+  </Docs>
+  <Members>
+    <Member MemberName="CMYK">
+      <MemberSignature Language="C#" Value="CMYK" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGColorSpaceModel CMYK = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGColorSpaceModel</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Cyan, Magenta, Yellow and Key Black.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="DeviceN">
+      <MemberSignature Language="C#" Value="DeviceN" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGColorSpaceModel DeviceN = int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGColorSpaceModel</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>DeviceN color space.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Indexed">
+      <MemberSignature Language="C#" Value="Indexed" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGColorSpaceModel Indexed = int32(5)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGColorSpaceModel</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Indexed color model, up to 256 values that are looked up.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Lab">
+      <MemberSignature Language="C#" Value="Lab" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGColorSpaceModel Lab = int32(3)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGColorSpaceModel</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>CIELAB color space (L* a* b*).</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Monochrome">
+      <MemberSignature Language="C#" Value="Monochrome" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGColorSpaceModel Monochrome = int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGColorSpaceModel</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Monochrome color space model.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Pattern">
+      <MemberSignature Language="C#" Value="Pattern" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGColorSpaceModel Pattern = int32(6)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGColorSpaceModel</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Pattern color space, used when stroking or filling with a pattern.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="RGB">
+      <MemberSignature Language="C#" Value="RGB" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGColorSpaceModel RGB = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGColorSpaceModel</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Red, Green and Blue model.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Unknown">
+      <MemberSignature Language="C#" Value="Unknown" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGColorSpaceModel Unknown = int32(-1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGColorSpaceModel</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Unknown color space model.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,6 @@
+<Namespace Name="MonoMac.CoreVideo">
+  <Docs>
+    <summary>Bindings to the CoreVideo APIs.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Namespace>

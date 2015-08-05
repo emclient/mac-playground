@@ -1,0 +1,83 @@
+Binding:
+	Would be nice to have interfaces that describe some protocols, so
+	we could do:
+
+	   class foo : INSValidatedUserInterfaceItem {
+	   }
+
+	And expose INSValidatedUserInterfaceItem in the APIs, instead of the 
+	few places where we have NSObject due to this.
+
+Missing: @interface NSObject(NSDraggingSource)
+	Discussion: perhaps those should be turned into INSDraggingSource?
+	as they are real interfaces
+
+From Foundation:
+NSFetchRequest
+NSManagedObjectContext
+
+Figure out how to prototype things like:
+
+       void Addaccessorycontroller (NSViewController<NSPrintPanelAccessorizing> foo)
+
+NSTreeNode
+	It exposes an MutableChildren method that allows the caller to add/remove
+	nodes, but it is not currently bound since we do not have NSMutableArray
+
+Right now we clear the type and just make it an NSViewController,
+without requiring that it implements those extra methods.
+
+* Do we support "out" parameters yet?
+* Then we should support out NSError in a bunch of places
+* Review that all delegates have NullAllowed
+* Review that all classes with a WeakDelegate have the Events/Type declaration
+* Review that all ctors from base class are copy/pasted to derived
+* Review that all classes that have a Delegate have the WeakDelegate (I forgot in some cases)
+* Review ArgumentSemantics
+* DElegates need NulLAllowed
+* NSColorPanel has no ctors (inherits from NSPanel0
+* Scan all APPKIT_EXTERN strings
+* Support ref values for a few structures
+* Ensure we have UTI type defines
+* Need to add support for a few Ptr types (pointers to structs in te API)
+* In NSDrawer: generator cant cope with "open" and "open:"
+
+Audit consistency of Properties, in many cases I was not consistent with the
+IsOpaque vs Opaque and other similar properties.
+
+#import <AppKit/NSAccessibility.h>
+#import <AppKit/NSAppleScriptExtensions.h>
+#import <AppKit/NSErrors.h>
+#import <AppKit/NSHelpManager.h>
+#import <AppKit/NSGraphics.h>  - Partial in NSGraphics
+#import <AppKit/NSNibLoading.h>
+#import <AppKit/NSSpellProtocol.h>
+#import <AppKit/NSRunningApplication.h>
+#import <AppKit/NSAttributedString.h>
+#import <AppKit/NSLayoutManager.h>
+// #import <AppKit/NSInputManager.h>  - Deprecated with 10.6
+#import <AppKit/NSInputServer.h>
+#import <AppKit/NSStringDrawing.h>
+// #import <AppKit/NSInterfaceStyle.h> - they dont do anything anymore
+#import <AppKit/NSNibDeclarations.h>
+#import <AppKit/NSPICTImageRep.h>
+#import <AppKit/NSPDFImageRep.h>
+#import <AppKit/NSQuickDrawView.h>
+#import <AppKit/NSOpenGL.h>
+#import <AppKit/NSOpenGLLayer.h>
+#import <AppKit/NSApplicationScripting.h>
+#import <AppKit/NSDocumentScripting.h>
+#import <AppKit/NSTextStorageScripting.h>
+#import <AppKit/NSToolbarItemGroup.h>
+#import <AppKit/NSWindowScripting.h>
+#import <AppKit/NSStepperCell.h>
+#import <AppKit/NSGlyphInfo.h>
+#import <AppKit/NSATSTypesetter.h>
+#import <AppKit/NSGlyphGenerator.h>
+#import <AppKit/NSDictionaryController.h>
+#import <AppKit/NSUserDefaultsController.h>
+#import <AppKit/NSKeyValueBinding.h>
+#import <AppKit/NSPersistentDocument.h>
+#import <AppKit/NSTextInputClient.h>
+#import <AppKit/NSTextInputContext.h>
+#import <AppKit/NSUserInterfaceItemSearching.h>

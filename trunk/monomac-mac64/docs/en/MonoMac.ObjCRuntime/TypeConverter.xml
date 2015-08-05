@@ -1,0 +1,58 @@
+<Type Name="TypeConverter" FullName="MonoMac.ObjCRuntime.TypeConverter">
+  <TypeSignature Language="C#" Value="public static class TypeConverter" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit TypeConverter extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Converts Obj-C type encodings to managed types.</summary>
+    <remarks>This class provides a way of converting Objective-C encoded type strings to .NET and viceversa.   The full details are available at: http://developer.apple.com/documentation/DeveloperTools/gcc-4.0.1/gcc/Type-encoding.html</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="ToManaged">
+      <MemberSignature Language="C#" Value="public static Type ToManaged (string type);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Type ToManaged(string type) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Type</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="type" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="type">Type description.</param>
+        <summary>Converts the specified Objective-C description into the .NET type.</summary>
+        <returns>The .NET type.</returns>
+        <remarks>For example: TypeConverter.ToManaged ("@") returns typeof (IntPtr).</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToNative">
+      <MemberSignature Language="C#" Value="public static string ToNative (Type type);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string ToNative(class System.Type type) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="type" Type="System.Type" />
+      </Parameters>
+      <Docs>
+        <param name="type">A .NET type.</param>
+        <summary>Converts a .NET type into the Objective-C type code.</summary>
+        <returns />
+        <remarks>For example: TypeConverter.ToNative (int.GetType ()) will return "i".</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

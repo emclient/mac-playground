@@ -1,0 +1,323 @@
+<Type Name="CVBuffer" FullName="MonoMac.CoreVideo.CVBuffer">
+  <TypeSignature Language="C#" Value="public class CVBuffer : IDisposable, MonoMac.ObjCRuntime.INativeObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi CVBuffer extends System.Object implements class MonoMac.ObjCRuntime.INativeObject, class System.IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>MonoMac.ObjCRuntime.INativeObject</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.ObjCRuntime.Since(4, 0)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Releases the resources used by the CVBuffer object.</summary>
+        <remarks>
+          <para>The Dispose method releases the resources used by the CVBuffer class.</para>
+          <para>Calling the Dispose method when you are finished using the CVBuffer ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.  For more information on releasing resources see ``Cleaning up Unmananaged Resources'' at http://msdn.microsoft.com/en-us/library/498928w2.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <para>If set to <see langword="true" />, the method is invoked directly and will dispose manage and unmanaged resources;   If set to <see langword="false" /> the method is being called by the garbage collector finalizer and should only release unmanaged resources.</para>
+        </param>
+        <summary>Releases the resources used by the CVBuffer object.</summary>
+        <remarks>
+          <para>This Dispose method releases the resources used by the CVBuffer class.</para>
+          <para>This method is called by both the Dispose() method and the object finalizer (Finalize).    When invoked by the Dispose method, the parameter disposting <paramref name="disposing" /> is set to <see langword="true" /> and any managed object references that this object holds are also disposed or released;  when invoked by the object finalizer, on the finalizer thread the value is set to <see langword="false" />. </para>
+          <para>Calling the Dispose method when you are finished using the CVBuffer ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.</para>
+          <para>  For more information on how to override this method and on the Dispose/IDisposable pattern, read the ``Implementing a Dispose Method'' document at http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~CVBuffer ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Finalizer for the CVBuffer object</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetAttachment">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSObject GetAttachment (MonoMac.Foundation.NSString key, out MonoMac.CoreVideo.CVAttachmentMode attachmentMode);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSObject GetAttachment(class MonoMac.Foundation.NSString key, valuetype MonoMac.CoreVideo.CVAttachmentMode attachmentMode) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="attachmentMode" Type="MonoMac.CoreVideo.CVAttachmentMode&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="key">To be added.</param>
+        <param name="attachmentMode">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetAttachments">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSDictionary GetAttachments (MonoMac.CoreVideo.CVAttachmentMode attachmentMode);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSDictionary GetAttachments(valuetype MonoMac.CoreVideo.CVAttachmentMode attachmentMode) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDictionary</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="attachmentMode" Type="MonoMac.CoreVideo.CVAttachmentMode" />
+      </Parameters>
+      <Docs>
+        <param name="attachmentMode">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Handle">
+      <MemberSignature Language="C#" Value="public IntPtr Handle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int Handle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Handle (pointer) to the unmanaged object representation.</summary>
+        <value>A pointer</value>
+        <remarks>This IntPtr is a handle to the underlying unmanaged representation for this object.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MovieTimeKey">
+      <MemberSignature Language="C#" Value="public static readonly MonoMac.Foundation.NSString MovieTimeKey;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class MonoMac.Foundation.NSString MovieTimeKey" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="NonPropagatedAttachmentsKey">
+      <MemberSignature Language="C#" Value="public static readonly MonoMac.Foundation.NSString NonPropagatedAttachmentsKey;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class MonoMac.Foundation.NSString NonPropagatedAttachmentsKey" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PropagatedAttachmentsKey">
+      <MemberSignature Language="C#" Value="public static readonly MonoMac.Foundation.NSString PropagatedAttachmentsKey;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class MonoMac.Foundation.NSString PropagatedAttachmentsKey" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PropogateAttachments">
+      <MemberSignature Language="C#" Value="public void PropogateAttachments (MonoMac.CoreVideo.CVBuffer destinationBuffer);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void PropogateAttachments(class MonoMac.CoreVideo.CVBuffer destinationBuffer) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="destinationBuffer" Type="MonoMac.CoreVideo.CVBuffer" />
+      </Parameters>
+      <Docs>
+        <param name="destinationBuffer">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveAllAttachments">
+      <MemberSignature Language="C#" Value="public void RemoveAllAttachments ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RemoveAllAttachments() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveAttachment">
+      <MemberSignature Language="C#" Value="public void RemoveAttachment (MonoMac.Foundation.NSString key);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RemoveAttachment(class MonoMac.Foundation.NSString key) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="key">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetAttachment">
+      <MemberSignature Language="C#" Value="public void SetAttachment (MonoMac.Foundation.NSString key, MonoMac.Foundation.NSObject value, MonoMac.CoreVideo.CVAttachmentMode attachmentMode);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttachment(class MonoMac.Foundation.NSString key, class MonoMac.Foundation.NSObject value, valuetype MonoMac.CoreVideo.CVAttachmentMode attachmentMode) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="value" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="attachmentMode" Type="MonoMac.CoreVideo.CVAttachmentMode" />
+      </Parameters>
+      <Docs>
+        <param name="key">To be added.</param>
+        <param name="value">To be added.</param>
+        <param name="attachmentMode">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetAttachments">
+      <MemberSignature Language="C#" Value="public void SetAttachments (MonoMac.Foundation.NSDictionary theAttachments, MonoMac.CoreVideo.CVAttachmentMode attachmentMode);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttachments(class MonoMac.Foundation.NSDictionary theAttachments, valuetype MonoMac.CoreVideo.CVAttachmentMode attachmentMode) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="theAttachments" Type="MonoMac.Foundation.NSDictionary" />
+        <Parameter Name="attachmentMode" Type="MonoMac.CoreVideo.CVAttachmentMode" />
+      </Parameters>
+      <Docs>
+        <param name="theAttachments">To be added.</param>
+        <param name="attachmentMode">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TimeScaleKey">
+      <MemberSignature Language="C#" Value="public static readonly MonoMac.Foundation.NSString TimeScaleKey;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class MonoMac.Foundation.NSString TimeScaleKey" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TimeValueKey">
+      <MemberSignature Language="C#" Value="public static readonly MonoMac.Foundation.NSString TimeValueKey;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class MonoMac.Foundation.NSString TimeValueKey" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

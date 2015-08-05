@@ -1,0 +1,22 @@
+<Type Name="CGPath+ApplierFunction" FullName="MonoMac.CoreGraphics.CGPath+ApplierFunction">
+  <TypeSignature Language="C#" Value="public delegate void CGPath.ApplierFunction(CGPathElement element);" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi sealed CGPath/ApplierFunction extends System.MulticastDelegate" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Parameters>
+    <Parameter Name="element" Type="MonoMac.CoreGraphics.CGPathElement" />
+  </Parameters>
+  <ReturnValue>
+    <ReturnType>System.Void</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <param name="element">The element to process.</param>
+    <summary>A function that can make changes to a CGPathElement.</summary>
+    <remarks>This is the function signature that is called back from CGPath.Apply for each element in a path. </remarks>
+  </Docs>
+</Type>

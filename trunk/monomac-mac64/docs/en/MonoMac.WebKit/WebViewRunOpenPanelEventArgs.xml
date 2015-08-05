@@ -1,0 +1,52 @@
+<Type Name="WebViewRunOpenPanelEventArgs" FullName="MonoMac.WebKit.WebViewRunOpenPanelEventArgs">
+  <TypeSignature Language="C#" Value="public class WebViewRunOpenPanelEventArgs : EventArgs" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit WebViewRunOpenPanelEventArgs extends System.EventArgs" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.EventArgs</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Provides data for the <see cref="E:MonoMac.WebKit.WebViewRunOpenPanelEventArgs.UIRunOpenPanelForFileButton" /> event.</summary>
+    <remarks>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public WebViewRunOpenPanelEventArgs (MonoMac.WebKit.WebOpenPanelResultListener resultListener);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.WebKit.WebOpenPanelResultListener resultListener) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="resultListener" Type="MonoMac.WebKit.WebOpenPanelResultListener" />
+      </Parameters>
+      <Docs>
+        <param name="resultListener">To be added.</param>
+        <summary>Initializes a new instance of the WebViewRunOpenPanelEventArgs class.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ResultListener">
+      <MemberSignature Language="C#" Value="public MonoMac.WebKit.WebOpenPanelResultListener ResultListener { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.WebKit.WebOpenPanelResultListener ResultListener" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.WebKit.WebOpenPanelResultListener</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

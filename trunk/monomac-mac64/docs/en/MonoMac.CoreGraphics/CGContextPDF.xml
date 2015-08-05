@@ -1,0 +1,256 @@
+<Type Name="CGContextPDF" FullName="MonoMac.CoreGraphics.CGContextPDF">
+  <TypeSignature Language="C#" Value="public class CGContextPDF : MonoMac.CoreGraphics.CGContext" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit CGContextPDF extends MonoMac.CoreGraphics.CGContext" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.CoreGraphics.CGContext</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>PDF Rendering CGContext class.  Use this class to create a CGContext that will output the results to a PDF file.</summary>
+    <remarks>You can use all of the regular CGContext methods, the
+    result, instead of being rendered into the screen or an image, the
+    commands are turned into PDF commands and stored in a PDF
+    file.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CGContextPDF (MonoMac.Foundation.NSUrl url);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSUrl url) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="url" Type="MonoMac.Foundation.NSUrl" />
+      </Parameters>
+      <Docs>
+        <param name="url">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CGContextPDF (MonoMac.Foundation.NSUrl url, MonoMac.CoreGraphics.CGPDFInfo info);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSUrl url, class MonoMac.CoreGraphics.CGPDFInfo info) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="url" Type="MonoMac.Foundation.NSUrl" />
+        <Parameter Name="info" Type="MonoMac.CoreGraphics.CGPDFInfo" />
+      </Parameters>
+      <Docs>
+        <param name="url">To be added.</param>
+        <param name="info">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CGContextPDF (MonoMac.Foundation.NSUrl url, System.Drawing.RectangleF mediaBox);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSUrl url, valuetype System.Drawing.RectangleF mediaBox) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="url" Type="MonoMac.Foundation.NSUrl" />
+        <Parameter Name="mediaBox" Type="System.Drawing.RectangleF" />
+      </Parameters>
+      <Docs>
+        <param name="url">The PDF file will be stored in this url</param>
+        <param name="mediaBox">The size of the media box to generate, specified in points.</param>
+        <summary>Creates a new CGContext that records its commands into a PDF file with the mediaBox dimensions stored in the specified url.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CGContextPDF (MonoMac.Foundation.NSUrl url, System.Drawing.RectangleF mediaBox, MonoMac.CoreGraphics.CGPDFInfo info);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSUrl url, valuetype System.Drawing.RectangleF mediaBox, class MonoMac.CoreGraphics.CGPDFInfo info) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="url" Type="MonoMac.Foundation.NSUrl" />
+        <Parameter Name="mediaBox" Type="System.Drawing.RectangleF" />
+        <Parameter Name="info" Type="MonoMac.CoreGraphics.CGPDFInfo" />
+      </Parameters>
+      <Docs>
+        <param name="url">The PDF file will be stored in this url</param>
+        <param name="mediaBox">The size of the media box to generate, specified in points.</param>
+        <param name="info">PDF Configuration options</param>
+        <summary>Creates a new CGContext that records its commands into a PDF file with the mediaBox dimensions stored in the specified url.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddDestination">
+      <MemberSignature Language="C#" Value="public void AddDestination (string name, System.Drawing.PointF point);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddDestination(string name, valuetype System.Drawing.PointF point) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="point" Type="System.Drawing.PointF" />
+      </Parameters>
+      <Docs>
+        <param name="name">The name of the destination point.</param>
+        <param name="point">The location of the destination.</param>
+        <summary>Adds a destination name at the specified location.</summary>
+        <remarks>Use this to add destinations in a PDF document.   These destinations can be reached by the user when they click on a region of the document that was defined with SetDestination.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddDocumentMetadata">
+      <MemberSignature Language="C#" Value="public void AddDocumentMetadata (MonoMac.Foundation.NSData data);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddDocumentMetadata(class MonoMac.Foundation.NSData data) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="data" Type="MonoMac.Foundation.NSData" />
+      </Parameters>
+      <Docs>
+        <param name="data">PDF Metadata encoded in XML format following the specification of the "Extensible Metadata Platform" from the PDF spec.</param>
+        <summary>
+        </summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BeginPage">
+      <MemberSignature Language="C#" Value="public void BeginPage (MonoMac.CoreGraphics.CGPDFPageInfo info);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void BeginPage(class MonoMac.CoreGraphics.CGPDFPageInfo info) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="info" Type="MonoMac.CoreGraphics.CGPDFPageInfo" />
+      </Parameters>
+      <Docs>
+        <param name="info">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Close">
+      <MemberSignature Language="C#" Value="public void Close ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Close() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected override void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <para>If set to <see langword="true" />, the method is invoked directly and will dispose manage and unmanaged resources;   If set to <see langword="false" /> the method is being called by the garbage collector finalizer and should only release unmanaged resources.</para>
+        </param>
+        <summary>Releases the resources used by the CGContextPDF object.</summary>
+        <remarks>
+          <para>This Dispose method releases the resources used by the CGContextPDF class.</para>
+          <para>This method is called by both the Dispose() method and the object finalizer (Finalize).    When invoked by the Dispose method, the parameter disposting <paramref name="disposing" /> is set to <see langword="true" /> and any managed object references that this object holds are also disposed or released;  when invoked by the object finalizer, on the finalizer thread the value is set to <see langword="false" />. </para>
+          <para>Calling the Dispose method when you are finished using the CGContextPDF ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.</para>
+          <para>  For more information on how to override this method and on the Dispose/IDisposable pattern, read the ``Implementing a Dispose Method'' document at http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EndPage">
+      <MemberSignature Language="C#" Value="public void EndPage ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void EndPage() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetDestination">
+      <MemberSignature Language="C#" Value="public void SetDestination (string name, System.Drawing.RectangleF rect);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetDestination(string name, valuetype System.Drawing.RectangleF rect) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="rect" Type="System.Drawing.RectangleF" />
+      </Parameters>
+      <Docs>
+        <param name="name">The name for the destination.</param>
+        <param name="rect">The region that will respond to user input.</param>
+        <summary>If the user clicks or taps in the specified region, the PDF viewer will jump to the named destination</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetUrl">
+      <MemberSignature Language="C#" Value="public void SetUrl (MonoMac.Foundation.NSUrl url, System.Drawing.RectangleF region);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetUrl(class MonoMac.Foundation.NSUrl url, valuetype System.Drawing.RectangleF region) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="url" Type="MonoMac.Foundation.NSUrl" />
+        <Parameter Name="region" Type="System.Drawing.RectangleF" />
+      </Parameters>
+      <Docs>
+        <param name="url">The target url.</param>
+        <param name="region">The region.</param>
+        <summary>Associates a region in the screen with a url.   When the user clicks or taps in that region, he will be redirected to that url on their PDF viewer.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

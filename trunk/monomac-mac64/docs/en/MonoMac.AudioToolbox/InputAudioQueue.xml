@@ -1,0 +1,139 @@
+<Type Name="InputAudioQueue" FullName="MonoMac.AudioToolbox.InputAudioQueue">
+  <TypeSignature Language="C#" Value="public class InputAudioQueue : MonoMac.AudioToolbox.AudioQueue" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit InputAudioQueue extends MonoMac.AudioToolbox.AudioQueue" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.AudioToolbox.AudioQueue</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>An Input Audio Queue, used for audio capturing and recording.</summary>
+    <remarks>
+
+      To receive input completed notifications, you can either hook up
+      to the C# event InputCompleted or you can subclass and override the 
+      OnInputCompleted method.   They serve the same purpose.
+
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public InputAudioQueue (MonoMac.AudioToolbox.AudioStreamBasicDescription desc);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype MonoMac.AudioToolbox.AudioStreamBasicDescription desc) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="desc" Type="MonoMac.AudioToolbox.AudioStreamBasicDescription" />
+      </Parameters>
+      <Docs>
+        <param name="desc">Audio stream description.</param>
+        <summary>Creates an AudioQueue for recording, and invokes the notification callback on an internal AudioQueue thread.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public InputAudioQueue (MonoMac.AudioToolbox.AudioStreamBasicDescription desc, MonoMac.CoreFoundation.CFRunLoop runLoop, string runMode);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype MonoMac.AudioToolbox.AudioStreamBasicDescription desc, class MonoMac.CoreFoundation.CFRunLoop runLoop, string runMode) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="desc" Type="MonoMac.AudioToolbox.AudioStreamBasicDescription" />
+        <Parameter Name="runLoop" Type="MonoMac.CoreFoundation.CFRunLoop" />
+        <Parameter Name="runMode" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="desc">Audio stream description.</param>
+        <param name="runLoop">If you specify null, InputAudioQueue will invoke the callback on an internal thread.   Otherwise the callback will be invoked on the specified runLoop thread.</param>
+        <param name="runMode">The run mode for the run loop.</param>
+        <summary>Creates an AudioQueue for recording, specifying on which run loop events are delivered.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EnqueueBuffer">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus EnqueueBuffer (MonoMac.AudioToolbox.AudioQueueBuffer* buffer);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus EnqueueBuffer(valuetype MonoMac.AudioToolbox.AudioQueueBuffer* buffer) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="buffer" Type="MonoMac.AudioToolbox.AudioQueueBuffer*" />
+      </Parameters>
+      <Docs>
+        <param name="buffer">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InputCompleted">
+      <MemberSignature Language="C#" Value="public event EventHandler&lt;MonoMac.AudioToolbox.InputCompletedEventArgs&gt; InputCompleted;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler`1&lt;class MonoMac.AudioToolbox.InputCompletedEventArgs&gt; InputCompleted" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler&lt;MonoMac.AudioToolbox.InputCompletedEventArgs&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Event raised when a buffer has been filled up with recorded data.</summary>
+        <remarks>This event is raised when the audio system has
+        completely filled one of the buffers with audio data.  You
+        would typically connect to this event a method that would save
+        the contents of the buffer to a disk, encode it using <see cref="T:MonoMac.AudioToolbox.AudioFile" /> or do some
+        real-time processing with the audio packets.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnInputCompleted">
+      <MemberSignature Language="C#" Value="protected virtual void OnInputCompleted (IntPtr audioQueueBuffer, MonoMac.AudioToolbox.AudioTimeStamp timeStamp, MonoMac.AudioToolbox.AudioStreamPacketDescription[] packetDescriptions);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnInputCompleted(native int audioQueueBuffer, valuetype MonoMac.AudioToolbox.AudioTimeStamp timeStamp, valuetype MonoMac.AudioToolbox.AudioStreamPacketDescription[] packetDescriptions) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="audioQueueBuffer" Type="System.IntPtr" />
+        <Parameter Name="timeStamp" Type="MonoMac.AudioToolbox.AudioTimeStamp" />
+        <Parameter Name="packetDescriptions" Type="MonoMac.AudioToolbox.AudioStreamPacketDescription[]" />
+      </Parameters>
+      <Docs>
+        <param name="audioQueueBuffer">.</param>
+        <param name="timeStamp">To be added.</param>
+        <param name="packetDescriptions">To be added.</param>
+        <summary>Method invoked .</summary>
+        <remarks>
+          <para>
+
+	    This method is invoked when the audio system has
+	    completely filled one of the buffers with audio data.  You
+	    would override this method to process the data, to either
+	    save the raw bytes to disk, encode them using the <see cref="T:MonoMac.AudioToolbox.AudioFile" /> or do some
+	    real-time processing with the audio packets.  
+	  </para>
+          <para>
+	    If you override this method, you do not necessarily
+	    need to call base.OnInputComplete (audioQueueBuffer,
+	    timeStamp, packetDescriptions) unless you are interested in
+	    raising the C# events to potential consumers of your class.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

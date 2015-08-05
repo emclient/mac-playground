@@ -1,0 +1,164 @@
+<Type Name="NSDataWritingOptions" FullName="MonoMac.Foundation.NSDataWritingOptions">
+  <TypeSignature Language="C#" Value="public enum NSDataWritingOptions" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed NSDataWritingOptions extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Flags</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Atomic">
+      <MemberSignature Language="C#" Value="Atomic" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSDataWritingOptions Atomic = unsigned int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDataWritingOptions</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Coordinated">
+      <MemberSignature Language="C#" Value="Coordinated" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSDataWritingOptions Coordinated = unsigned int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("no longer available")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDataWritingOptions</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="FileProtectionComplete">
+      <MemberSignature Language="C#" Value="FileProtectionComplete" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSDataWritingOptions FileProtectionComplete = unsigned int32(536870912)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(4, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDataWritingOptions</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="FileProtectionCompleteUnlessOpen">
+      <MemberSignature Language="C#" Value="FileProtectionCompleteUnlessOpen" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSDataWritingOptions FileProtectionCompleteUnlessOpen = unsigned int32(805306368)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(5, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDataWritingOptions</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="FileProtectionCompleteUntilFirstUserAuthentication">
+      <MemberSignature Language="C#" Value="FileProtectionCompleteUntilFirstUserAuthentication" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSDataWritingOptions FileProtectionCompleteUntilFirstUserAuthentication = unsigned int32(1073741824)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(5, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDataWritingOptions</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="FileProtectionMask">
+      <MemberSignature Language="C#" Value="FileProtectionMask" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSDataWritingOptions FileProtectionMask = unsigned int32(4026531840)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(4, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDataWritingOptions</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="FileProtectionNone">
+      <MemberSignature Language="C#" Value="FileProtectionNone" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSDataWritingOptions FileProtectionNone = unsigned int32(268435456)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(4, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDataWritingOptions</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="WithoutOverwriting">
+      <MemberSignature Language="C#" Value="WithoutOverwriting" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.Foundation.NSDataWritingOptions WithoutOverwriting = unsigned int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDataWritingOptions</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

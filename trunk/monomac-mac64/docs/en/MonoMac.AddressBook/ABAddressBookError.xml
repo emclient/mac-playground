@@ -1,0 +1,52 @@
+<Type Name="ABAddressBookError" FullName="MonoMac.AddressBook.ABAddressBookError">
+  <TypeSignature Language="C#" Value="public enum ABAddressBookError" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed ABAddressBookError extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>Possible <see cref="T:MonoMac.AddressBook.ABAddressBook" /> errors.</summary>
+    <remarks>
+      When the <see cref="P:MonoMac.CoreFoundation.CFException.Domain" />
+      property is set to
+      <see cref="F:MonoMac.AddressBook.ABAddressBook.ErrorDomain" />,
+      then <see cref="P:MonoMac.CoreFoundation.CFException.Code" />
+      will be one of the
+      <see cref="T:MonoMac.AddressBook.ABAddressBookError" /> values.
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="OperationNotPermittedByStore">
+      <MemberSignature Language="C#" Value="OperationNotPermittedByStore" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AddressBook.ABAddressBookError OperationNotPermittedByStore = int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABAddressBookError</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The operation is not permitted.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="OperationNotPermittedByUserError">
+      <MemberSignature Language="C#" Value="OperationNotPermittedByUserError" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AddressBook.ABAddressBookError OperationNotPermittedByUserError = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AddressBook.ABAddressBookError</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

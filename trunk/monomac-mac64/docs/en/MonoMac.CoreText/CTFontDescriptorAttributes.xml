@@ -1,0 +1,499 @@
+<Type Name="CTFontDescriptorAttributes" FullName="MonoMac.CoreText.CTFontDescriptorAttributes">
+  <TypeSignature Language="C#" Value="public class CTFontDescriptorAttributes" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit CTFontDescriptorAttributes extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.ObjCRuntime.Since(3, 2)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>Strongly typed class that contains font attributes.</summary>
+    <remarks>
+      <para>
+	This is a class that allows developers to easily consume and configure font descriptor attributes.
+      </para>
+      <example>
+        <code lang="c#">
+var attributes = new CTFontDescriptorAttributes () {
+	FamilyName = "Times New Roman"
+};
+
+var fontDescriptor = new CTFontDescriptor (attributes);
+	</code>
+      </example>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CTFontDescriptorAttributes ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>Default constructor.</summary>
+        <remarks>
+          <para>Typically used to initialize objects with the C# initializer syntax.</para>
+          <example>
+            <code lang="c#">
+var attributes = new CTFontDescriptorAttributes () {
+	FamilyName = "Times New Roman"
+};
+
+var fontDescriptor = new CTFontDescriptor (attributes);
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CTFontDescriptorAttributes (MonoMac.Foundation.NSDictionary dictionary);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSDictionary dictionary) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="dictionary" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="dictionary">An NSDictionary containing CTFontDescriptorAttributes keys and values.</param>
+        <summary>Creates a strongly typed CTFontDescriptorAttributes from a weakly typed NSDictionary.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BaselineAdjust">
+      <MemberSignature Language="C#" Value="public Nullable&lt;float&gt; BaselineAdjust { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Nullable`1&lt;float32&gt; BaselineAdjust" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Nullable&lt;System.Single&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The Baseline Adjustment.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CascadeList">
+      <MemberSignature Language="C#" Value="public System.Collections.Generic.IEnumerable&lt;MonoMac.CoreText.CTFontDescriptor&gt; CascadeList { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.Generic.IEnumerable`1&lt;class MonoMac.CoreText.CTFontDescriptor&gt; CascadeList" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.IEnumerable&lt;MonoMac.CoreText.CTFontDescriptor&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Cascade list of font descriptors.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CharacterSet">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSCharacterSet CharacterSet { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSCharacterSet CharacterSet" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSCharacterSet</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The character set.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dictionary">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSDictionary Dictionary { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSDictionary Dictionary" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDictionary</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The NSDictionary that reflects the current values in the strongly typed CTFontDescriptorAttributes.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DisplayName">
+      <MemberSignature Language="C#" Value="public string DisplayName { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string DisplayName" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The font display name</summary>
+        <value>
+        </value>
+        <remarks>For example the display name for the PostScript name "HelveticaNeue" is "Helvetica Neue".</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Enabled">
+      <MemberSignature Language="C#" Value="public bool Enabled { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool Enabled" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Enabled state.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FamilyName">
+      <MemberSignature Language="C#" Value="public string FamilyName { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string FamilyName" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The font family name.</summary>
+        <value>
+        </value>
+        <remarks>
+          <example>
+            <code lang="c#">
+var attributes = new CTFontDescriptorAttributes () {
+	FamilyName = "Times New Roman"
+};
+
+var fontDescriptor = new CTFontDescriptor (attributes);
+	</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Features">
+      <MemberSignature Language="C#" Value="public System.Collections.Generic.IEnumerable&lt;MonoMac.CoreText.CTFontFeatures&gt; Features { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.Generic.IEnumerable`1&lt;class MonoMac.CoreText.CTFontFeatures&gt; Features" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.IEnumerable&lt;MonoMac.CoreText.CTFontFeatures&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The font features for a font reference.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FeatureSettings">
+      <MemberSignature Language="C#" Value="public System.Collections.Generic.IEnumerable&lt;MonoMac.CoreText.CTFontFeatureSettings&gt; FeatureSettings { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.Generic.IEnumerable`1&lt;class MonoMac.CoreText.CTFontFeatureSettings&gt; FeatureSettings" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.IEnumerable&lt;MonoMac.CoreText.CTFontFeatureSettings&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Feature settings for the font.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FixedAdvance">
+      <MemberSignature Language="C#" Value="public Nullable&lt;float&gt; FixedAdvance { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Nullable`1&lt;float32&gt; FixedAdvance" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Nullable&lt;System.Single&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>If set, overrides the font built-in constant advance.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FontFormat">
+      <MemberSignature Language="C#" Value="public Nullable&lt;MonoMac.CoreText.CTFontFormat&gt; FontFormat { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Nullable`1&lt;valuetype MonoMac.CoreText.CTFontFormat&gt; FontFormat" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Nullable&lt;MonoMac.CoreText.CTFontFormat&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Font format.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FontOrientation">
+      <MemberSignature Language="C#" Value="public Nullable&lt;MonoMac.CoreText.CTFontOrientation&gt; FontOrientation { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Nullable`1&lt;valuetype MonoMac.CoreText.CTFontOrientation&gt; FontOrientation" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Nullable&lt;MonoMac.CoreText.CTFontOrientation&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The font orientation.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Languages">
+      <MemberSignature Language="C#" Value="public System.Collections.Generic.IEnumerable&lt;string&gt; Languages { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.Generic.IEnumerable`1&lt;string&gt; Languages" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.IEnumerable&lt;System.String&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>List of supported languages by the font, must be encoded in RFC3066bis standard.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MacintoshEncodings">
+      <MemberSignature Language="C#" Value="public Nullable&lt;float&gt; MacintoshEncodings { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Nullable`1&lt;float32&gt; MacintoshEncodings" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Nullable&lt;System.Single&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>If set, the Macintosh encodings for this font.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Matrix">
+      <MemberSignature Language="C#" Value="public Nullable&lt;MonoMac.CoreGraphics.CGAffineTransform&gt; Matrix { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Nullable`1&lt;valuetype MonoMac.CoreGraphics.CGAffineTransform&gt; Matrix" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Nullable&lt;MonoMac.CoreGraphics.CGAffineTransform&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>If set, the transformation matrix used when creating the font.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Name">
+      <MemberSignature Language="C#" Value="public string Name { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Name" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The PostScript name for the font.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Priority">
+      <MemberSignature Language="C#" Value="public Nullable&lt;MonoMac.CoreText.CTFontPriority&gt; Priority { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Nullable`1&lt;valuetype MonoMac.CoreText.CTFontPriority&gt; Priority" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Nullable&lt;MonoMac.CoreText.CTFontPriority&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The font priority used when resolving font duplicates.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RegistrationScope">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSNumber RegistrationScope { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSNumber RegistrationScope" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSNumber</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The font registration scope.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Size">
+      <MemberSignature Language="C#" Value="public Nullable&lt;float&gt; Size { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Nullable`1&lt;float32&gt; Size" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Nullable&lt;System.Single&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The font point size, if not specified, the default 12.0 is used.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StyleName">
+      <MemberSignature Language="C#" Value="public string StyleName { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string StyleName" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The font stylename</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Traits">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFontTraits Traits { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.CoreText.CTFontTraits Traits" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontTraits</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The font traits.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Url">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSUrl Url { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSUrl Url" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSUrl</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Used to access the URL for the font.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Variation">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreText.CTFontVariation Variation { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.CoreText.CTFontVariation Variation" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreText.CTFontVariation</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Font variation.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

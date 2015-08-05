@@ -1,0 +1,1186 @@
+<Type Name="AudioQueue" FullName="MonoMac.AudioToolbox.AudioQueue">
+  <TypeSignature Language="C#" Value="public abstract class AudioQueue : IDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit AudioQueue extends System.Object implements class System.IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>Base class for Input and Output audio queues.</summary>
+    <remarks>
+      <para>
+
+	AudioQueues can be used to record audio from the system input
+	devices into a stream, and to play back audio.  They are
+	responsible for encoding your audio when recording or decoding
+	your compressed audio when playing back and interact directly
+	with the audio hardware and decoding hardware where
+	appropriate.
+
+      </para>
+      <para> AudioQueue is a base class for both the <see cref="T:MonoMac.AudioToolBox.InputAudioQueue" /> which is
+	used to record audio and the <see cref="T:MonoMac.AudioToolBox.OutputAudioQueue" /> which is
+	used to playback audio.  This class provides services to
+	start, prime, stop, pause the queues as well as volume
+	control, resource management and event notifications.
+
+      </para>
+      <para>
+
+	When you use AudioQueues, you must allocate buffers for
+	playback or recording.  You use the <see cref=" M:MonoMac.AudioToolBox.AllocateBuffer" /> method or the
+	<see cref="M:MonoMac.AudioToolBox.AllocateBufferWithPacketDescriptors" />
+	to allocate them and you use the <see cref="M:MonoMac.AudioToolBox.FreeBuffer" /> to release them.
+	You keep a collection of buffers around that the underlying
+	hardware can use to either playback audio, or record into.  As
+	the buffers are used, a notification callback is invoked.  In
+	the OutputAudioQueue case, you connect to the OutputCompleted
+	event to be notified when a buffer has been fully played back,
+	and in the InputAudioQueue you use the InputCompleted event to
+	be notified when a recording has fully utilized a buffer.
+
+      </para>
+      <para>
+
+	Unless otherwise specified, the callbacks for processing a
+	filled audio buffer, or filling out an audio buffer are
+	invoked on an AudioQueue thread.  You can change this by
+	providing an instance of the CFRunLoop that you want to use
+	for processing the events in your queue.
+
+      </para>
+      <para> 
+
+	When processing an input or output queue, you might want to
+	listen to a few property changes raised by the queues during
+	their processing (See the <see cref="E:MonoMac.AudioToolBox.AudioQueueProperty" /> for a
+	list of events that you can listen to).  To do this, use the
+	<see cref="M:MonoMac.AudioToolBox.AddListener(MonoMac.AudioToolBox.AudioQueueProperty,AudioQueuePropertyChanged)" />
+	method to add a listener and use the <see cref="M:MonoMac.AudioToolBox.RemoveListener(MonoMac.AudioToolBox.AudioQueueProperty,AudioQueuePropertyChanged)" />
+	method to remove the listener.
+
+      </para>
+      <para>
+        <format type="text/html">
+          <span>You can see the <a href="https://github.com/xamarin/monotouch-samples/tree/master/StreamingAudio">StreamingAudio</a>
+	to see how to use AudioBuffers. </span>
+        </format>
+      </para>
+      <para>
+
+	The various AudioQueue properties are exposed as high-level C#
+	properties.  In addition to the high-level properties, a
+	low-level interface to the AudioQueue property system is
+	exposed in case Apple introduces a new property that was not
+	previously bound or if you need finer grained control.  The
+	low-level interface is provided by the GetProperty and
+	SetProperty family of methods.
+	
+      </para>
+    </remarks>
+    <related type="sample" href="http://samples.xamarin.com/Samples/ByGuid?guid=26d904c2-c44a-46f2-883a-a01bb5657309">StreamingAudio</related>
+  </Docs>
+  <Members>
+    <Member MemberName="AddListener">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus AddListener (MonoMac.AudioToolbox.AudioQueueProperty property, MonoMac.AudioToolbox.AudioQueue.AudioQueuePropertyChanged callback);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus AddListener(valuetype MonoMac.AudioToolbox.AudioQueueProperty property, class MonoMac.AudioToolbox.AudioQueue/AudioQueuePropertyChanged callback) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="property" Type="MonoMac.AudioToolbox.AudioQueueProperty" />
+        <Parameter Name="callback" Type="MonoMac.AudioToolbox.AudioQueue+AudioQueuePropertyChanged" />
+      </Parameters>
+      <Docs>
+        <param name="property">To be added.</param>
+        <param name="callback">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AllocateBuffer">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus AllocateBuffer (int bufferSize, out MonoMac.AudioToolbox.AudioQueueBuffer* audioQueueBuffer);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus AllocateBuffer(int32 bufferSize, valuetype MonoMac.AudioToolbox.AudioQueueBuffer* audioQueueBuffer) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="bufferSize" Type="System.Int32" />
+        <Parameter Name="audioQueueBuffer" Type="MonoMac.AudioToolbox.AudioQueueBuffer*&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="bufferSize">The audio buffer size to allocate (in bytes).</param>
+        <param name="audioQueueBuffer">Returns the allocated buffer as an unsafe AudioQueueBuffer pointer.</param>
+        <summary>Allocates an audio buffer associated with this AudioQueue</summary>
+        <returns>AudioQueueStatus.Ok on success, otherwise the error. </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AllocateBuffer">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus AllocateBuffer (int bufferSize, out IntPtr audioQueueBuffer);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus AllocateBuffer(int32 bufferSize, native int audioQueueBuffer) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="bufferSize" Type="System.Int32" />
+        <Parameter Name="audioQueueBuffer" Type="System.IntPtr&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="bufferSize">The audio buffer size to allocate (in bytes).</param>
+        <param name="audioQueueBuffer">Returns the pointer to the allocated buffer as an IntPtr.</param>
+        <summary>Allocates an audio buffer associated with this AudioQueue, used for fixed bit rate buffers.</summary>
+        <returns>AudioQueueStatus.Ok on success, otherwise the error. </returns>
+        <remarks>
+
+	  Use the <see cref="M:MonoMac.AudioToolBox.AllocateBufferWithPacketDescriptors" /> to allocate buffers that will be used with variable bit
+	  rate encodings.
+
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AllocateBufferWithPacketDescriptors">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus AllocateBufferWithPacketDescriptors (int bufferSize, int nPackets, out IntPtr audioQueueBuffer);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus AllocateBufferWithPacketDescriptors(int32 bufferSize, int32 nPackets, native int audioQueueBuffer) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="bufferSize" Type="System.Int32" />
+        <Parameter Name="nPackets" Type="System.Int32" />
+        <Parameter Name="audioQueueBuffer" Type="System.IntPtr&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="bufferSize">Size of the buffer to allocate.</param>
+        <param name="nPackets">Number of packets descriptors in the audio queue buffer.</param>
+        <param name="audioQueueBuffer">The allocated buffer on return</param>
+        <summary>Allocates an audio queue object for variable-bit-rate buffers.</summary>
+        <returns>AudioQueueStatus.Ok on success and the audioQueueBuffer pointing to the buffer, otherwise the error.</returns>
+        <remarks>
+	  Use the <see cref="M:MonoMac.AudioToolBox.AllocateBuffer" /> to allocate buffers that will be used with fixed bit
+	  rate encodings.
+	</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioStreamPacketDescription">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioStreamBasicDescription AudioStreamPacketDescription { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.AudioToolbox.AudioStreamBasicDescription AudioStreamPacketDescription" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioStreamBasicDescription</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ChannelLayout">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioChannelLayout ChannelLayout { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.AudioToolbox.AudioChannelLayout ChannelLayout" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioChannelLayout</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The audio layout.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ConverterError">
+      <MemberSignature Language="C#" Value="public uint ConverterError { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance unsigned int32 ConverterError" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.UInt32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateProcessingTap">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueProcessingTap CreateProcessingTap (MonoMac.AudioToolbox.AudioQueueProcessingTapCallback processingCallback, MonoMac.AudioToolbox.AudioQueueProcessingTapFlags flags, out MonoMac.AudioToolbox.AudioQueueStatus status);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.AudioToolbox.AudioQueueProcessingTap CreateProcessingTap(class MonoMac.AudioToolbox.AudioQueueProcessingTapCallback processingCallback, valuetype MonoMac.AudioToolbox.AudioQueueProcessingTapFlags flags, valuetype MonoMac.AudioToolbox.AudioQueueStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.ObjCRuntime.Since(6, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueProcessingTap</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="processingCallback" Type="MonoMac.AudioToolbox.AudioQueueProcessingTapCallback" />
+        <Parameter Name="flags" Type="MonoMac.AudioToolbox.AudioQueueProcessingTapFlags" />
+        <Parameter Name="status" Type="MonoMac.AudioToolbox.AudioQueueStatus&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="processingCallback">To be added.</param>
+        <param name="flags">To be added.</param>
+        <param name="status">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateTimeline">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueTimeline CreateTimeline ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.AudioToolbox.AudioQueueTimeline CreateTimeline() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueTimeline</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentDevice">
+      <MemberSignature Language="C#" Value="public string CurrentDevice { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string CurrentDevice" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentLevelMeter">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueLevelMeterState[] CurrentLevelMeter { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.AudioToolbox.AudioQueueLevelMeterState[] CurrentLevelMeter" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueLevelMeterState[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentLevelMeterDB">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueLevelMeterState[] CurrentLevelMeterDB { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.AudioToolbox.AudioQueueLevelMeterState[] CurrentLevelMeterDB" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueLevelMeterState[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentTime">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioTimeStamp CurrentTime { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.AudioToolbox.AudioTimeStamp CurrentTime" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioTimeStamp</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DecodeBufferSizeFrames">
+      <MemberSignature Language="C#" Value="public int DecodeBufferSizeFrames { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 DecodeBufferSizeFrames" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DeviceChannels">
+      <MemberSignature Language="C#" Value="public int DeviceChannels { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 DeviceChannels" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Releases the resources used by the AudioQueue object.</summary>
+        <remarks>
+          <para>The Dispose method releases the resources used by the AudioQueue class.</para>
+          <para>Calling the Dispose method when you are finished using the AudioQueue ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.  For more information on releasing resources see ``Cleaning up Unmananaged Resources'' at http://msdn.microsoft.com/en-us/library/498928w2.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public virtual void Dispose (bool disposing, bool immediate);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose(bool disposing, bool immediate) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+        <Parameter Name="immediate" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <para>If set to <see langword="true" />, the method is invoked directly and will dispose manage and unmanaged resources;   If set to <see langword="false" /> the method is being called by the garbage collector finalizer and should only release unmanaged resources.</para>
+        </param>
+        <param name="immediate">To be added.</param>
+        <summary>Releases the resources used by the AudioQueue object.</summary>
+        <remarks>
+          <para>This Dispose method releases the resources used by the AudioQueue class.</para>
+          <para>This method is called by both the Dispose() method and the object finalizer (Finalize).    When invoked by the Dispose method, the parameter disposting <paramref name="disposing" /> is set to <see langword="true" /> and any managed object references that this object holds are also disposed or released;  when invoked by the object finalizer, on the finalizer thread the value is set to <see langword="false" />. </para>
+          <para>Calling the Dispose method when you are finished using the AudioQueue ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.</para>
+          <para>  For more information on how to override this method and on the Dispose/IDisposable pattern, read the ``Implementing a Dispose Method'' document at http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EnableLevelMetering">
+      <MemberSignature Language="C#" Value="public bool EnableLevelMetering { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool EnableLevelMetering" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EnqueueBuffer">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus EnqueueBuffer (MonoMac.AudioToolbox.AudioQueueBuffer* audioQueueBuffer, MonoMac.AudioToolbox.AudioStreamPacketDescription[] desc);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus EnqueueBuffer(valuetype MonoMac.AudioToolbox.AudioQueueBuffer* audioQueueBuffer, valuetype MonoMac.AudioToolbox.AudioStreamPacketDescription[] desc) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="audioQueueBuffer" Type="MonoMac.AudioToolbox.AudioQueueBuffer*" />
+        <Parameter Name="desc" Type="MonoMac.AudioToolbox.AudioStreamPacketDescription[]" />
+      </Parameters>
+      <Docs>
+        <param name="audioQueueBuffer">The audio queue buffer to add to the buffer queue.</param>
+        <param name="desc">An array of packet descriptors for the packets that will be added to the queue.</param>
+        <summary>Adds a buffer to the buffer queue of an audio queue.</summary>
+        <returns>AudioQueueStatus.Ok on success, otherwise the error.</returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EnqueueBuffer">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus EnqueueBuffer (IntPtr audioQueueBuffer, int bytes, MonoMac.AudioToolbox.AudioStreamPacketDescription[] desc);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus EnqueueBuffer(native int audioQueueBuffer, int32 bytes, valuetype MonoMac.AudioToolbox.AudioStreamPacketDescription[] desc) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="audioQueueBuffer" Type="System.IntPtr" />
+        <Parameter Name="bytes" Type="System.Int32" />
+        <Parameter Name="desc" Type="MonoMac.AudioToolbox.AudioStreamPacketDescription[]" />
+      </Parameters>
+      <Docs>
+        <param name="audioQueueBuffer">The audio queue buffer to add to the buffer queue.</param>
+        <param name="bytes">The number of bytes from the queue buffer to add to the buffer queue. The audioQueueBuffer parameter will be updated with this value.</param>
+        <param name="desc">An array of packet descriptors for the packets that will be added to the queue.</param>
+        <summary>Adds a buffer to the buffer queue of an audio queue.</summary>
+        <returns>AudioQueueStatus.Ok on success, otherwise the error.</returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EnqueueBuffer">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus EnqueueBuffer (MonoMac.AudioToolbox.AudioQueueBuffer* audioQueueBuffer, int bytes, MonoMac.AudioToolbox.AudioStreamPacketDescription[] desc, int trimFramesAtStart, int trimFramesAtEnd, MonoMac.AudioToolbox.AudioQueueParameterEvent[] parameterEvents, out MonoMac.AudioToolbox.AudioTimeStamp actualStartTime);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus EnqueueBuffer(valuetype MonoMac.AudioToolbox.AudioQueueBuffer* audioQueueBuffer, int32 bytes, valuetype MonoMac.AudioToolbox.AudioStreamPacketDescription[] desc, int32 trimFramesAtStart, int32 trimFramesAtEnd, valuetype MonoMac.AudioToolbox.AudioQueueParameterEvent[] parameterEvents, valuetype MonoMac.AudioToolbox.AudioTimeStamp actualStartTime) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="audioQueueBuffer" Type="MonoMac.AudioToolbox.AudioQueueBuffer*" />
+        <Parameter Name="bytes" Type="System.Int32" />
+        <Parameter Name="desc" Type="MonoMac.AudioToolbox.AudioStreamPacketDescription[]" />
+        <Parameter Name="trimFramesAtStart" Type="System.Int32" />
+        <Parameter Name="trimFramesAtEnd" Type="System.Int32" />
+        <Parameter Name="parameterEvents" Type="MonoMac.AudioToolbox.AudioQueueParameterEvent[]" />
+        <Parameter Name="actualStartTime" Type="MonoMac.AudioToolbox.AudioTimeStamp&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="audioQueueBuffer">To be added.</param>
+        <param name="bytes">To be added.</param>
+        <param name="desc">To be added.</param>
+        <param name="trimFramesAtStart">To be added.</param>
+        <param name="trimFramesAtEnd">To be added.</param>
+        <param name="parameterEvents">To be added.</param>
+        <param name="actualStartTime">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EnqueueBuffer">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus EnqueueBuffer (IntPtr audioQueueBuffer, int bytes, MonoMac.AudioToolbox.AudioStreamPacketDescription[] desc, int trimFramesAtStart, int trimFramesAtEnd, MonoMac.AudioToolbox.AudioQueueParameterEvent[] parameterEvents, out MonoMac.AudioToolbox.AudioTimeStamp actualStartTime);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus EnqueueBuffer(native int audioQueueBuffer, int32 bytes, valuetype MonoMac.AudioToolbox.AudioStreamPacketDescription[] desc, int32 trimFramesAtStart, int32 trimFramesAtEnd, valuetype MonoMac.AudioToolbox.AudioQueueParameterEvent[] parameterEvents, valuetype MonoMac.AudioToolbox.AudioTimeStamp actualStartTime) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="audioQueueBuffer" Type="System.IntPtr" />
+        <Parameter Name="bytes" Type="System.Int32" />
+        <Parameter Name="desc" Type="MonoMac.AudioToolbox.AudioStreamPacketDescription[]" />
+        <Parameter Name="trimFramesAtStart" Type="System.Int32" />
+        <Parameter Name="trimFramesAtEnd" Type="System.Int32" />
+        <Parameter Name="parameterEvents" Type="MonoMac.AudioToolbox.AudioQueueParameterEvent[]" />
+        <Parameter Name="actualStartTime" Type="MonoMac.AudioToolbox.AudioTimeStamp&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="audioQueueBuffer">To be added.</param>
+        <param name="bytes">To be added.</param>
+        <param name="desc">To be added.</param>
+        <param name="trimFramesAtStart">To be added.</param>
+        <param name="trimFramesAtEnd">To be added.</param>
+        <param name="parameterEvents">To be added.</param>
+        <param name="actualStartTime">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EnqueueBuffer">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus EnqueueBuffer (MonoMac.AudioToolbox.AudioQueueBuffer* audioQueueBuffer, int bytes, MonoMac.AudioToolbox.AudioStreamPacketDescription[] desc, int trimFramesAtStart, int trimFramesAtEnd, MonoMac.AudioToolbox.AudioQueueParameterEvent[] parameterEvents, ref MonoMac.AudioToolbox.AudioTimeStamp startTime, out MonoMac.AudioToolbox.AudioTimeStamp actualStartTime);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus EnqueueBuffer(valuetype MonoMac.AudioToolbox.AudioQueueBuffer* audioQueueBuffer, int32 bytes, valuetype MonoMac.AudioToolbox.AudioStreamPacketDescription[] desc, int32 trimFramesAtStart, int32 trimFramesAtEnd, valuetype MonoMac.AudioToolbox.AudioQueueParameterEvent[] parameterEvents, valuetype MonoMac.AudioToolbox.AudioTimeStamp startTime, valuetype MonoMac.AudioToolbox.AudioTimeStamp actualStartTime) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="audioQueueBuffer" Type="MonoMac.AudioToolbox.AudioQueueBuffer*" />
+        <Parameter Name="bytes" Type="System.Int32" />
+        <Parameter Name="desc" Type="MonoMac.AudioToolbox.AudioStreamPacketDescription[]" />
+        <Parameter Name="trimFramesAtStart" Type="System.Int32" />
+        <Parameter Name="trimFramesAtEnd" Type="System.Int32" />
+        <Parameter Name="parameterEvents" Type="MonoMac.AudioToolbox.AudioQueueParameterEvent[]" />
+        <Parameter Name="startTime" Type="MonoMac.AudioToolbox.AudioTimeStamp&amp;" RefType="ref" />
+        <Parameter Name="actualStartTime" Type="MonoMac.AudioToolbox.AudioTimeStamp&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="audioQueueBuffer">To be added.</param>
+        <param name="bytes">To be added.</param>
+        <param name="desc">To be added.</param>
+        <param name="trimFramesAtStart">To be added.</param>
+        <param name="trimFramesAtEnd">To be added.</param>
+        <param name="parameterEvents">To be added.</param>
+        <param name="startTime">To be added.</param>
+        <param name="actualStartTime">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EnqueueBuffer">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus EnqueueBuffer (IntPtr audioQueueBuffer, int bytes, MonoMac.AudioToolbox.AudioStreamPacketDescription[] desc, int trimFramesAtStart, int trimFramesAtEnd, MonoMac.AudioToolbox.AudioQueueParameterEvent[] parameterEvents, ref MonoMac.AudioToolbox.AudioTimeStamp startTime, out MonoMac.AudioToolbox.AudioTimeStamp actualStartTime);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus EnqueueBuffer(native int audioQueueBuffer, int32 bytes, valuetype MonoMac.AudioToolbox.AudioStreamPacketDescription[] desc, int32 trimFramesAtStart, int32 trimFramesAtEnd, valuetype MonoMac.AudioToolbox.AudioQueueParameterEvent[] parameterEvents, valuetype MonoMac.AudioToolbox.AudioTimeStamp startTime, valuetype MonoMac.AudioToolbox.AudioTimeStamp actualStartTime) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="audioQueueBuffer" Type="System.IntPtr" />
+        <Parameter Name="bytes" Type="System.Int32" />
+        <Parameter Name="desc" Type="MonoMac.AudioToolbox.AudioStreamPacketDescription[]" />
+        <Parameter Name="trimFramesAtStart" Type="System.Int32" />
+        <Parameter Name="trimFramesAtEnd" Type="System.Int32" />
+        <Parameter Name="parameterEvents" Type="MonoMac.AudioToolbox.AudioQueueParameterEvent[]" />
+        <Parameter Name="startTime" Type="MonoMac.AudioToolbox.AudioTimeStamp&amp;" RefType="ref" />
+        <Parameter Name="actualStartTime" Type="MonoMac.AudioToolbox.AudioTimeStamp&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="audioQueueBuffer">To be added.</param>
+        <param name="bytes">To be added.</param>
+        <param name="desc">To be added.</param>
+        <param name="trimFramesAtStart">To be added.</param>
+        <param name="trimFramesAtEnd">To be added.</param>
+        <param name="parameterEvents">To be added.</param>
+        <param name="startTime">To be added.</param>
+        <param name="actualStartTime">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FillAudioData">
+      <MemberSignature Language="C#" Value="public static void FillAudioData (IntPtr audioQueueBuffer, int offset, IntPtr source, int sourceOffset, int size);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void FillAudioData(native int audioQueueBuffer, int32 offset, native int source, int32 sourceOffset, int32 size) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="audioQueueBuffer" Type="System.IntPtr" />
+        <Parameter Name="offset" Type="System.Int32" />
+        <Parameter Name="source" Type="System.IntPtr" />
+        <Parameter Name="sourceOffset" Type="System.Int32" />
+        <Parameter Name="size" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="audioQueueBuffer">An audio buffer allocated with either the <see cref=" M:MonoMac.AudioToolBox.AllocateBuffer" /> method or the
+	<see cref="M:MonoMac.AudioToolBox.AllocateBufferWithPacketDescriptors" /> methods.</param>
+        <param name="offset">Offset into the audio queue buffer to copy the data to.</param>
+        <param name="source">Pointer to the data source to copy into the audio queue buffer.</param>
+        <param name="sourceOffset">Offset inside the source.</param>
+        <param name="size">Number of bytes to copy into the audio queue buffer.</param>
+        <summary>
+	  Copies raw audio data contained at the location pointed to by source+sourceOffset at the specified offset into the AudioQueueBuffer.
+	</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Flush">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus Flush ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus Flush() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>AudioQueueStatus.Ok on success, otherwise the error.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FreeBuffer">
+      <MemberSignature Language="C#" Value="public void FreeBuffer (IntPtr audioQueueBuffer);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void FreeBuffer(native int audioQueueBuffer) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="audioQueueBuffer" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="audioQueueBuffer">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="gch">
+      <MemberSignature Language="C#" Value="protected System.Runtime.InteropServices.GCHandle gch;" />
+      <MemberSignature Language="ILAsm" Value=".field familyorassembly valuetype System.Runtime.InteropServices.GCHandle gch" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Runtime.InteropServices.GCHandle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetCurrentTime">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus GetCurrentTime (MonoMac.AudioToolbox.AudioQueueTimeline timeline, ref MonoMac.AudioToolbox.AudioTimeStamp time, ref bool timelineDiscontinuty);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus GetCurrentTime(class MonoMac.AudioToolbox.AudioQueueTimeline timeline, valuetype MonoMac.AudioToolbox.AudioTimeStamp time, bool timelineDiscontinuty) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeline" Type="MonoMac.AudioToolbox.AudioQueueTimeline" />
+        <Parameter Name="time" Type="MonoMac.AudioToolbox.AudioTimeStamp&amp;" RefType="ref" />
+        <Parameter Name="timelineDiscontinuty" Type="System.Boolean&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="timeline">To be added.</param>
+        <param name="time">To be added.</param>
+        <param name="timelineDiscontinuty">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>AudioQueueStatus.Ok on success, otherwise the error.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetNearestStartTime">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioTimeStamp GetNearestStartTime (MonoMac.AudioToolbox.AudioTimeStamp requestedStartTime);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioTimeStamp GetNearestStartTime(valuetype MonoMac.AudioToolbox.AudioTimeStamp requestedStartTime) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioTimeStamp</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="requestedStartTime" Type="MonoMac.AudioToolbox.AudioTimeStamp" />
+      </Parameters>
+      <Docs>
+        <param name="requestedStartTime">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetProperty">
+      <MemberSignature Language="C#" Value="public IntPtr GetProperty (MonoMac.AudioToolbox.AudioQueueProperty property, out int size);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance native int GetProperty(valuetype MonoMac.AudioToolbox.AudioQueueProperty property, int32 size) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="property" Type="MonoMac.AudioToolbox.AudioQueueProperty" />
+        <Parameter Name="size" Type="System.Int32&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="property">To be added.</param>
+        <param name="size">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetProperty">
+      <MemberSignature Language="C#" Value="public bool GetProperty (MonoMac.AudioToolbox.AudioQueueProperty property, ref int dataSize, IntPtr outdata);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool GetProperty(valuetype MonoMac.AudioToolbox.AudioQueueProperty property, int32 dataSize, native int outdata) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="property" Type="MonoMac.AudioToolbox.AudioQueueProperty" />
+        <Parameter Name="dataSize" Type="System.Int32&amp;" RefType="ref" />
+        <Parameter Name="outdata" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="property">To be added.</param>
+        <param name="dataSize">To be added.</param>
+        <param name="outdata">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetProperty&lt;T&gt;">
+      <MemberSignature Language="C#" Value="public T GetProperty&lt;T&gt; (MonoMac.AudioToolbox.AudioQueueProperty property);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance !!T GetProperty&lt;T&gt;(valuetype MonoMac.AudioToolbox.AudioQueueProperty property) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>T</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="T" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="property" Type="MonoMac.AudioToolbox.AudioQueueProperty" />
+      </Parameters>
+      <Docs>
+        <typeparam name="T">To be added.</typeparam>
+        <param name="property">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="handle">
+      <MemberSignature Language="C#" Value="protected IntPtr handle;" />
+      <MemberSignature Language="ILAsm" Value=".field familyorassembly native int handle" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Handle">
+      <MemberSignature Language="C#" Value="public IntPtr Handle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int Handle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Handle (pointer) to the unmanaged object representation.</summary>
+        <value>A pointer</value>
+        <remarks>This IntPtr is a handle to the underlying unmanaged representation for this object.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsRunning">
+      <MemberSignature Language="C#" Value="public bool IsRunning { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsRunning" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MagicCookie">
+      <MemberSignature Language="C#" Value="public byte[] MagicCookie { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance unsigned int8[] MagicCookie" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Byte[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Audio metadata required by certain formats.</summary>
+        <value>Opaque byte array with a codec-specific token.</value>
+        <remarks>
+
+	  Certain file format produce a MagicCookie that
+	  contains audio metadata.  When playing back or recording, you need to copy
+	  this magic cookie from the AudioQueue to the <see cref="T:MonoMac.AudioToolbox.AudioFileStream" /> by copying this property to the 
+	  <see cref="P:MonoMac.AudioToolbox.AudioFileStream.MagicCookie" />
+	  property.   
+	</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MaximumOutputPacketSize">
+      <MemberSignature Language="C#" Value="public int MaximumOutputPacketSize { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 MaximumOutputPacketSize" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Pan">
+      <MemberSignature Language="C#" Value="public float Pan { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float32 Pan" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Pause">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus Pause ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus Pause() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>AudioQueueStatus.Ok on success, otherwise the error.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Prime">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus Prime (int toPrepare, out int prepared);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus Prime(int32 toPrepare, int32 prepared) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="toPrepare" Type="System.Int32" />
+        <Parameter Name="prepared" Type="System.Int32&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="toPrepare">Number of frames to process.  If you pass zero, this will process all the frames.</param>
+        <param name="prepared">Returns the number of frames actually processed</param>
+        <summary>Used to prepare the audio buffers to play back and ensure that there is data ready to be played by the audio hardware.</summary>
+        <returns>AudioQueueStatus.Ok on success, otherwise the error.</returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="QueueDispose">
+      <MemberSignature Language="C#" Value="public void QueueDispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void QueueDispose() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveListener">
+      <MemberSignature Language="C#" Value="public void RemoveListener (MonoMac.AudioToolbox.AudioQueueProperty property, MonoMac.AudioToolbox.AudioQueue.AudioQueuePropertyChanged callback);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RemoveListener(valuetype MonoMac.AudioToolbox.AudioQueueProperty property, class MonoMac.AudioToolbox.AudioQueue/AudioQueuePropertyChanged callback) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="property" Type="MonoMac.AudioToolbox.AudioQueueProperty" />
+        <Parameter Name="callback" Type="MonoMac.AudioToolbox.AudioQueue+AudioQueuePropertyChanged" />
+      </Parameters>
+      <Docs>
+        <param name="property">To be added.</param>
+        <param name="callback">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Reset">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus Reset ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus Reset() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>AudioQueueStatus.Ok on success, otherwise the error.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SampleRate">
+      <MemberSignature Language="C#" Value="public double SampleRate { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 SampleRate" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetProperty">
+      <MemberSignature Language="C#" Value="public bool SetProperty (MonoMac.AudioToolbox.AudioQueueProperty property, int dataSize, IntPtr propertyData);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool SetProperty(valuetype MonoMac.AudioToolbox.AudioQueueProperty property, int32 dataSize, native int propertyData) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="property" Type="MonoMac.AudioToolbox.AudioQueueProperty" />
+        <Parameter Name="dataSize" Type="System.Int32" />
+        <Parameter Name="propertyData" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="property">To be added.</param>
+        <param name="dataSize">To be added.</param>
+        <param name="propertyData">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Start">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus Start ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus Start() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Starts the audio queue.</summary>
+        <returns>AudioQueueStatus.Ok on success, otherwise the error.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Start">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus Start (MonoMac.AudioToolbox.AudioTimeStamp startTime);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus Start(valuetype MonoMac.AudioToolbox.AudioTimeStamp startTime) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="startTime" Type="MonoMac.AudioToolbox.AudioTimeStamp" />
+      </Parameters>
+      <Docs>
+        <param name="startTime">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>AudioQueueStatus.Ok on success, otherwise the error.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Stop">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueStatus Stop (bool immediate);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioQueueStatus Stop(bool immediate) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueStatus</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="immediate" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="immediate">If true, by the time the function returns, audio would have stopped playing.   Otherwise the pending buffers are flushed and audio continues to play or be recorded until then.</param>
+        <summary>Stops the AudioQueue.</summary>
+        <returns>AudioQueueStatus.Ok on success, otherwise the error.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TranslateTime">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioTimeStamp TranslateTime (MonoMac.AudioToolbox.AudioTimeStamp timeToTranslate);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype MonoMac.AudioToolbox.AudioTimeStamp TranslateTime(valuetype MonoMac.AudioToolbox.AudioTimeStamp timeToTranslate) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioTimeStamp</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeToTranslate" Type="MonoMac.AudioToolbox.AudioTimeStamp" />
+      </Parameters>
+      <Docs>
+        <param name="timeToTranslate">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Volume">
+      <MemberSignature Language="C#" Value="public float Volume { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float32 Volume" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The volume</summary>
+        <value>Value between 0.0 and 1.0.</value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VolumeRampTime">
+      <MemberSignature Language="C#" Value="public float VolumeRampTime { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float32 VolumeRampTime" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

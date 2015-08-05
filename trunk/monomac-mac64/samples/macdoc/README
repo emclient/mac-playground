@@ -1,0 +1,19 @@
+
+MacDoc
+======
+
+MonoMac Monodoc replacement used to display your Mono/MonoTouch/Mono for Android/... documentation and better integrate with Mac OS X.
+
+There is also a subproject called AppleDocWizard which is a tiny application that perform the merging of MT/MonoMac doc with Apple documentation. It is launched by macdoc and/or the MonoTouch installer and needs to be run as root.
+
+Building
+--------
+
+- AppleDocWizard: Ionic.Zip.dll and AgilityPack.dll are provided in the repository, as an extra you just need a recent MonoMac.dll (not necessarily from master).
+- macdoc: you will need a master version of both monodoc.dll (part of mono) and MonoMac.dll (that you can build from here). For the doc merging step to work correctly, you also need to manually copy AppleDocWizard.app inside macdoc.app/Contents/MacOS folder.
+
+Running
+-------
+
+- AppleDocWizard: the tool needs to be run as root. Using the 'open' command or launching from the Finder won't work. Macdoc uses authexec and MonoTouch installer uses Apple script to correctly launch the tool as root. If you want to run it yourself from the command line, use: sudo ./AppleDocWizard.app/Contents/MacOS/AppleDocWizard
+

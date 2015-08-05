@@ -1,0 +1,87 @@
+<Type Name="CGColorRenderingIntent" FullName="MonoMac.CoreGraphics.CGColorRenderingIntent">
+  <TypeSignature Language="C#" Value="public enum CGColorRenderingIntent" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed CGColorRenderingIntent extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>Determines how Quartz maps colors from the source color space to the gamut of the destination.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="AbsoluteColorimetric">
+      <MemberSignature Language="C#" Value="AbsoluteColorimetric" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGColorRenderingIntent AbsoluteColorimetric = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGColorRenderingIntent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Clamps colors outside of the gamut of the device into the space supported by the device.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Default">
+      <MemberSignature Language="C#" Value="Default" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGColorRenderingIntent Default = int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGColorRenderingIntent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The default rendering intent.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Perceptual">
+      <MemberSignature Language="C#" Value="Perceptual" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGColorRenderingIntent Perceptual = int32(3)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGColorRenderingIntent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Preserves the color relationship by compressing the gamut of the graphics context to fit the output device.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="RelativeColorimetric">
+      <MemberSignature Language="C#" Value="RelativeColorimetric" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGColorRenderingIntent RelativeColorimetric = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGColorRenderingIntent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Shifts all colors to adjust for the requirements of the context.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Saturation">
+      <MemberSignature Language="C#" Value="Saturation" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.CoreGraphics.CGColorRenderingIntent Saturation = int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreGraphics.CGColorRenderingIntent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Preserves the relative saturation.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

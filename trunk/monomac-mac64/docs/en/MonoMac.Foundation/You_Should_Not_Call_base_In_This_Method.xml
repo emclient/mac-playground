@@ -1,0 +1,34 @@
+<Type Name="You_Should_Not_Call_base_In_This_Method" FullName="MonoMac.Foundation.You_Should_Not_Call_base_In_This_Method">
+  <TypeSignature Language="C#" Value="public class You_Should_Not_Call_base_In_This_Method : Exception" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit You_Should_Not_Call_base_In_This_Method extends System.Exception" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Exception</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>This exception is thrown by models.</summary>
+    <remarks>
+      <para>This exception is thrown in case that your code calls base.XXX when you are reimplementing a MonoMac Model.</para>
+      <para>Unlike regular classes, Model classes (those that are flagged with the [<see cref="T:MonoMac.Foundation.ModelAttribute" />]) are merely a skeleton used to bring to C# the equivalent of "optional" methods in an Objective-C protocol.   The methods exposed by the class are not exposed to the Objective-C world, only methods that are explicitly overwritten are exposed.</para>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public You_Should_Not_Call_base_In_This_Method ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>Default constructor.</summary>
+        <remarks>See the class documentation for information about this exception.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

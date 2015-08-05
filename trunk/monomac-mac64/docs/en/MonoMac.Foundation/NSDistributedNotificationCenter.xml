@@ -1,0 +1,391 @@
+<Type Name="NSDistributedNotificationCenter" FullName="MonoMac.Foundation.NSDistributedNotificationCenter">
+  <TypeSignature Language="C#" Value="public class NSDistributedNotificationCenter : MonoMac.Foundation.NSNotificationCenter" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit NSDistributedNotificationCenter extends MonoMac.Foundation.NSNotificationCenter" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.Foundation.NSNotificationCenter</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.Foundation.Register("NSDistributedNotificationCenter", true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSDistributedNotificationCenter ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("init")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSDistributedNotificationCenter (MonoMac.Foundation.NSCoder coder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSCoder coder) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithCoder:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="coder" Type="MonoMac.Foundation.NSCoder" />
+      </Parameters>
+      <Docs>
+        <param name="coder">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSDistributedNotificationCenter (MonoMac.Foundation.NSObjectFlag t);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSObjectFlag t) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="t" Type="MonoMac.Foundation.NSObjectFlag" />
+      </Parameters>
+      <Docs>
+        <param name="t">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSDistributedNotificationCenter (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddObserver">
+      <MemberSignature Language="C#" Value="public virtual void AddObserver (MonoMac.Foundation.NSObject observer, MonoMac.ObjCRuntime.Selector aSelector, string aName, MonoMac.Foundation.NSObject anObject);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void AddObserver(class MonoMac.Foundation.NSObject observer, class MonoMac.ObjCRuntime.Selector aSelector, string aName, class MonoMac.Foundation.NSObject anObject) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("addObserver:selector:name:object:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="observer" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="aSelector" Type="MonoMac.ObjCRuntime.Selector" />
+        <Parameter Name="aName" Type="System.String" />
+        <Parameter Name="anObject" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="observer">To be added.</param>
+        <param name="aSelector">To be added.</param>
+        <param name="aName">To be added.</param>
+        <param name="anObject">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddObserver">
+      <MemberSignature Language="C#" Value="public virtual void AddObserver (MonoMac.Foundation.NSObject observer, MonoMac.ObjCRuntime.Selector selector, string notificationName, string notificationSenderc, MonoMac.Foundation.NSNotificationSuspensionBehavior suspensionBehavior);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void AddObserver(class MonoMac.Foundation.NSObject observer, class MonoMac.ObjCRuntime.Selector selector, string notificationName, string notificationSenderc, valuetype MonoMac.Foundation.NSNotificationSuspensionBehavior suspensionBehavior) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("addObserver:selector:name:object:suspensionBehavior:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="observer" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="selector" Type="MonoMac.ObjCRuntime.Selector" />
+        <Parameter Name="notificationName" Type="System.String" />
+        <Parameter Name="notificationSenderc" Type="System.String" />
+        <Parameter Name="suspensionBehavior" Type="MonoMac.Foundation.NSNotificationSuspensionBehavior" />
+      </Parameters>
+      <Docs>
+        <param name="observer">To be added.</param>
+        <param name="selector">To be added.</param>
+        <param name="notificationName">To be added.</param>
+        <param name="notificationSenderc">To be added.</param>
+        <param name="suspensionBehavior">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ClassHandle">
+      <MemberSignature Language="C#" Value="public override IntPtr ClassHandle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int ClassHandle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DefaultCenter">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSObject DefaultCenter { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSObject DefaultCenter" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("defaultCenter")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="NSLocalNotificationCenterType">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString NSLocalNotificationCenterType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString NSLocalNotificationCenterType" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PostNotificationName">
+      <MemberSignature Language="C#" Value="public virtual void PostNotificationName (string aName, string anObject);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void PostNotificationName(string aName, string anObject) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("postNotificationName:object:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="aName" Type="System.String" />
+        <Parameter Name="anObject" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="aName">To be added.</param>
+        <param name="anObject">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PostNotificationName">
+      <MemberSignature Language="C#" Value="public virtual void PostNotificationName (string aName, string anObject, MonoMac.Foundation.NSDictionary aUserInfo);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void PostNotificationName(string aName, string anObject, class MonoMac.Foundation.NSDictionary aUserInfo) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("postNotificationName:object:userInfo:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="aName" Type="System.String" />
+        <Parameter Name="anObject" Type="System.String" />
+        <Parameter Name="aUserInfo" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="aName">To be added.</param>
+        <param name="anObject">To be added.</param>
+        <param name="aUserInfo">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PostNotificationName">
+      <MemberSignature Language="C#" Value="public virtual void PostNotificationName (string name, string anObjecb, MonoMac.Foundation.NSDictionary userInfo, MonoMac.Foundation.NSNotificationFlags options);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void PostNotificationName(string name, string anObjecb, class MonoMac.Foundation.NSDictionary userInfo, valuetype MonoMac.Foundation.NSNotificationFlags options) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("postNotificationName:object:userInfo:options:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="anObjecb" Type="System.String" />
+        <Parameter Name="userInfo" Type="MonoMac.Foundation.NSDictionary" />
+        <Parameter Name="options" Type="MonoMac.Foundation.NSNotificationFlags" />
+      </Parameters>
+      <Docs>
+        <param name="name">To be added.</param>
+        <param name="anObjecb">To be added.</param>
+        <param name="userInfo">To be added.</param>
+        <param name="options">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PostNotificationName">
+      <MemberSignature Language="C#" Value="public virtual void PostNotificationName (string name, string anObject, MonoMac.Foundation.NSDictionary userInfo, bool deliverImmediately);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void PostNotificationName(string name, string anObject, class MonoMac.Foundation.NSDictionary userInfo, bool deliverImmediately) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("postNotificationName:object:userInfo:deliverImmediately:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="anObject" Type="System.String" />
+        <Parameter Name="userInfo" Type="MonoMac.Foundation.NSDictionary" />
+        <Parameter Name="deliverImmediately" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="name">To be added.</param>
+        <param name="anObject">To be added.</param>
+        <param name="userInfo">To be added.</param>
+        <param name="deliverImmediately">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveObserver">
+      <MemberSignature Language="C#" Value="public virtual void RemoveObserver (MonoMac.Foundation.NSObject observer, string aName, MonoMac.Foundation.NSObject anObject);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void RemoveObserver(class MonoMac.Foundation.NSObject observer, string aName, class MonoMac.Foundation.NSObject anObject) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("removeObserver:name:object:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="observer" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="aName" Type="System.String" />
+        <Parameter Name="anObject" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="observer">To be added.</param>
+        <param name="aName">To be added.</param>
+        <param name="anObject">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Suspended">
+      <MemberSignature Language="C#" Value="public virtual bool Suspended { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool Suspended" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("suspended")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoMac.Foundation.Export("setSuspended:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

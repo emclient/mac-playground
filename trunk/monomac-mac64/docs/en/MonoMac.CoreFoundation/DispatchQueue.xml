@@ -1,0 +1,265 @@
+<Type Name="DispatchQueue" FullName="MonoMac.CoreFoundation.DispatchQueue">
+  <TypeSignature Language="C#" Value="public class DispatchQueue : MonoMac.CoreFoundation.DispatchObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit DispatchQueue extends MonoMac.CoreFoundation.DispatchObject" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.CoreFoundation.DispatchObject</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Provides a task queue that can perform tasks either synchronously or asynchronously.</summary>
+    <remarks>
+      <para>
+	
+	Queues are the fundamental mechanism for scheduling blocks for execution within the Apple Grand Central Dispatch framework.
+      </para>
+      <para> All blocks submitted to dispatch queues are dequeued in
+	FIFO order.  By default, queues created with the default
+	constructor wait for the previously dequeued block to complete
+	before dequeuing the next block. This FIFO completion behavior
+	is sometimes simply described as a "serial queue."  Queues are
+	not bound to any specific thread of execution and blocks
+	submitted to independent queues may execute con- currently.
+	Queues, like all dispatch objects, are reference counted and
+	newly created queues have a reference count of one.
+      </para>
+      <para>
+	The optional label argument is used to describe the purpose of the queue and is useful during debugging
+	and performance analysis. By convention, clients should pass a reverse DNS style label.  If a label is
+	provided, it is copied. If a label is not provided, then Label property returns an empty C
+	string.  For example:
+      </para>
+      <example>
+        <code lang="C#">
+	  var my_queue = new DispatchQueue ("com.example.subsystem.taskXYZ");
+	</code>
+      </example>
+      <para>
+
+	Queues may be temporarily suspended and resumed with the
+	functions <see cref="M:MonoMac.CoreFoundation.DispatchObject.Suspend()" />
+	and <see cref="M:MonoMac.CoreFoundation.DispatchObject.Resume()" />
+	respectively. Suspension is checked prior to block execution
+	and is not preemptive.
+
+      </para>
+    </remarks>
+    <related type="sample" href="http://samples.xamarin.com/Samples/ByGuid?guid=9fa28988-64fe-4365-b2b7-95542daf4f9b">avcaptureframes</related>
+    <related type="sample" href="http://samples.xamarin.com/Samples/ByGuid?guid=8c3c89cd-ce96-4d5e-9ba6-a85eab94faaa">CoreTelephonyDemo</related>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public DispatchQueue (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">Handle to an unmanaged dispatch queue.</param>
+        <summary>Surfaces an unmanaged DispatchQueue as a managed object.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public DispatchQueue (string label);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string label) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="label" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="label">Name for the dispatch queue, as a convention, use reverse-style DNS names for your queue name.</param>
+        <summary>Creates a named dispatch queue.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentQueue">
+      <MemberSignature Language="C#" Value="public static MonoMac.CoreFoundation.DispatchQueue CurrentQueue { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.CoreFoundation.DispatchQueue CurrentQueue" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreFoundation.DispatchQueue</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Returns the current dispatch queue.</summary>
+        <value>The current dispatch queue if invoked from code that
+        was queued into a DispatchQueue, otherwise it returns the same
+        queue as <see cref="P:MonoMac.CoreFoundation.DispatchQueue.MainQueue" />.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DefaultGlobalQueue">
+      <MemberSignature Language="C#" Value="public static MonoMac.CoreFoundation.DispatchQueue DefaultGlobalQueue { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.CoreFoundation.DispatchQueue DefaultGlobalQueue" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreFoundation.DispatchQueue</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Returns the default global queue, which is one of the built-in queues at the default priority.</summary>
+        <value>
+        </value>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DispatchAsync">
+      <MemberSignature Language="C#" Value="public void DispatchAsync (MonoMac.Foundation.NSAction action);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void DispatchAsync(class MonoMac.Foundation.NSAction action) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="action" Type="MonoMac.Foundation.NSAction" />
+      </Parameters>
+      <Docs>
+        <param name="action">Code block to be executed asynchronously.</param>
+        <summary>Schedule blocks for concurrent execution.</summary>
+        <remarks>
+
+	  Excecutes the given code in the background.  This avoids
+	  creating a new thread, and reuses one of the threads from
+	  the Dispatch framework pool.
+
+	</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DispatchSync">
+      <MemberSignature Language="C#" Value="public void DispatchSync (MonoMac.Foundation.NSAction action);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void DispatchSync(class MonoMac.Foundation.NSAction action) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="action" Type="MonoMac.Foundation.NSAction" />
+      </Parameters>
+      <Docs>
+        <param name="action">Code block to be executed synchronously.</param>
+        <summary>
+        </summary>
+        <remarks>
+
+	  This method is a convenient wrapper around DispatchAsync() method with the addition of a
+	  semaphore to wait for completion of the block, and a wrapper around the block to signal its completion.
+
+	</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetGlobalQueue">
+      <MemberSignature Language="C#" Value="public static MonoMac.CoreFoundation.DispatchQueue GetGlobalQueue (MonoMac.CoreFoundation.DispatchQueuePriority priority);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.CoreFoundation.DispatchQueue GetGlobalQueue(valuetype MonoMac.CoreFoundation.DispatchQueuePriority priority) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreFoundation.DispatchQueue</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="priority" Type="MonoMac.CoreFoundation.DispatchQueuePriority" />
+      </Parameters>
+      <Docs>
+        <param name="priority">Determines the priority of the queue to be returned.</param>
+        <summary>Returns one of the global dispatch queues based on the requested priority.</summary>
+        <returns>The queue priority.</returns>
+        <remarks>
+          <para>
+	    Unlike the main queue or queues allocated with the named
+	    DispatchQueue constructor, the global concurrent queues
+	    schedule blocks as soon as threads become available
+	    (non-FIFO completion order). The global concurrent queues
+	    represent three priority bands: DispatchQueuePriority.High, DispatchQueuePriority.Default and DispatchQueuePriority.Low.
+	  </para>
+          <para>
+	    Tasks submitted to the high priority global queue will be invoked before those submitted to the
+	    default or low priority global queues. Blocks submitted to the low priority global queue will only be
+	    invoked if no blocks are pending on the default or high priority queues.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Label">
+      <MemberSignature Language="C#" Value="public string Label { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Label" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Returns the label for this DispatchQueue.</summary>
+        <value>
+        </value>
+        <remarks>This is the same name that was provided when the queue was constructed</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MainIteration">
+      <MemberSignature Language="C#" Value="public static void MainIteration ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void MainIteration() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MainQueue">
+      <MemberSignature Language="C#" Value="public static MonoMac.CoreFoundation.DispatchQueue MainQueue { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.CoreFoundation.DispatchQueue MainQueue" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreFoundation.DispatchQueue</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Returns the main global queue.</summary>
+        <value>
+        </value>
+        <remarks>
+
+	  The dispatch framework provides a default serial queue for
+	  the application to use.  If you are using this on MonoMac
+	  without using AppKit, you must invoke the MainIteration
+	  method to run the main dispatch queue.
+
+	</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,8 @@
+2010-11-03  Miguel de Icaza  <miguel@novell.com>
+
+	* src/coredata.cs: Fix API signature
+
+2010-07-09  Miguel de Icaza  <miguel@novell.com>
+
+	* SYnc to the latest version.
+

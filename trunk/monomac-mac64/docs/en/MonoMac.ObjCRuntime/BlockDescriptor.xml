@@ -1,0 +1,82 @@
+<Type Name="BlockDescriptor" FullName="MonoMac.ObjCRuntime.BlockDescriptor">
+  <TypeSignature Language="C#" Value="public struct BlockDescriptor" />
+  <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit BlockDescriptor extends System.ValueType" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.ValueType</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Low-level description of an Objective-C block.</summary>
+    <remarks>This class is a low-level representation of an Objective-C block and is used internally by the MonoMac runtime to map C# delegates, anonymous methods and lambdas into blocks that Objective-C can consume.   This structure is used by the BlockLiteral structure.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="copy_helper">
+      <MemberSignature Language="C#" Value="public IntPtr copy_helper;" />
+      <MemberSignature Language="ILAsm" Value=".field public native int copy_helper" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Internal Objective-C ABI pointer, not for public use.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="dispose">
+      <MemberSignature Language="C#" Value="public IntPtr dispose;" />
+      <MemberSignature Language="ILAsm" Value=".field public native int dispose" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Internal Objective-C ABI pointer, not for public use.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="reserved">
+      <MemberSignature Language="C#" Value="public IntPtr reserved;" />
+      <MemberSignature Language="ILAsm" Value=".field public native int reserved" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Internal Objective-C ABI pointer, not for public use.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="size">
+      <MemberSignature Language="C#" Value="public IntPtr size;" />
+      <MemberSignature Language="ILAsm" Value=".field public native int size" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Internal Objective-C ABI pointer, not for public use.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

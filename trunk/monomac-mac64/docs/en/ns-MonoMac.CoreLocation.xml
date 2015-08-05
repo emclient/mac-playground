@@ -1,0 +1,6 @@
+<Namespace Name="MonoMac.CoreLocation">
+  <Docs>
+    <summary>Bindings to the location/GPS API: CoreLocation.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Namespace>

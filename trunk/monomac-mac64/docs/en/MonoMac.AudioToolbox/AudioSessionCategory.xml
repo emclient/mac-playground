@@ -1,0 +1,195 @@
+<Type Name="AudioSessionCategory" FullName="MonoMac.AudioToolbox.AudioSessionCategory">
+  <TypeSignature Language="C#" Value="public enum AudioSessionCategory" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed AudioSessionCategory extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>Categories for your audio session.</summary>
+    <remarks>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="AmbientSound">
+      <MemberSignature Language="C#" Value="AmbientSound" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionCategory AmbientSound = int32(1634558569)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionCategory</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <para>
+	    Use this category if playing audio is not your
+	    application's main use and if your application can be used
+	    with the sound off.  This allows background music to be
+	    mixed with the audio your application produces.
+	  </para>
+          <para>
+	    Audio playback: when your application produces it.
+	  </para>
+          <para>
+	    Audio recording: possible.
+	  </para>
+          <para>
+	    Background music mixing: yes.
+	  </para>
+          <para>
+	    Audio Silenced: when the display is locked, or the silent switch is activated.
+	  </para>
+        </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioProcessing">
+      <MemberSignature Language="C#" Value="AudioProcessing" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionCategory AudioProcessing = int32(1886547811)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionCategory</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <para>
+	    Use this category when you want to use the hardware accelerated audio support to perform audio conversions.   
+	  </para>
+          <para>
+	    Audio playback: disabled.
+	  </para>
+          <para>
+	    Audio recording: disabled.
+	  </para>
+        </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="MediaPlayback">
+      <MemberSignature Language="C#" Value="MediaPlayback" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionCategory MediaPlayback = int32(1835361385)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionCategory</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <para>
+	    Use this if the main use of your application is to play back music.
+	  </para>
+          <para>
+	    Audio playback: when your application produces it.
+	  </para>
+          <para>
+	    Audio recording: disabled.
+	  </para>
+          <para>
+	    Background music mixing: stopped by default, can be enabled if you set the <see cref="P:MonoMac.AudioToolbox.AudioSession.OverrideCategoryMixWithOthers" />.
+	  </para>
+          <para>
+	    Audio Silenced: not affected by mute switch or screen lock.
+	  </para>
+        </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="PlayAndRecord">
+      <MemberSignature Language="C#" Value="PlayAndRecord" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionCategory PlayAndRecord = int32(1886151026)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionCategory</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <para>
+	    Used to perform both playback and recording at the same time, for example for live chat applications.   
+	  </para>
+          <para>
+	    Audio playback: when your application produces it.
+	  </para>
+          <para>
+	    Audio recording: disabled.
+	  </para>
+          <para>
+	    Background music mixing: stopped by default, can be enabled if you set the <see cref="P:MonoMac.AudioToolbox.AudioSession.OverrideCategoryMixWithOthers" />.
+	  </para>
+          <para>
+	    Audio Silenced: not affected by mute switch or screen lock.
+	  </para>
+        </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="RecordAudio">
+      <MemberSignature Language="C#" Value="RecordAudio" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionCategory RecordAudio = int32(1919247201)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionCategory</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <para>
+	    Used to record audio.   This will prevent background audio and messages from playing back.
+	  </para>
+          <para>
+	    Audio playback: disabled.
+	  </para>
+          <para>
+	    Audio recording: enabled, even if the screen lock is activated.
+	  </para>
+          <para>
+	    Background music mixing: background music is disabled.
+	  </para>
+          <para>
+	    Audio Silenced: does not apply.
+	  </para>
+        </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="SoloAmbientSound">
+      <MemberSignature Language="C#" Value="SoloAmbientSound" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.AudioToolbox.AudioSessionCategory SoloAmbientSound = int32(1936682095)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioSessionCategory</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <para>
+	    This is the default audio session category.
+	  </para>
+          <para>
+	    Audio playback: when your application produces sound.
+	  </para>
+          <para>
+	    Audio recording: disabled.
+	  </para>
+          <para>
+	    Background music mixing: disabled.
+	  </para>
+          <para>
+	    Audio Silenced: when the device is locked, or when the mute switch is set.
+	  </para>
+        </summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

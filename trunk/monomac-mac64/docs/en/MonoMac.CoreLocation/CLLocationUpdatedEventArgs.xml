@@ -1,0 +1,71 @@
+<Type Name="CLLocationUpdatedEventArgs" FullName="MonoMac.CoreLocation.CLLocationUpdatedEventArgs">
+  <TypeSignature Language="C#" Value="public class CLLocationUpdatedEventArgs : EventArgs" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit CLLocationUpdatedEventArgs extends System.EventArgs" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.EventArgs</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Provides data for the <see cref="E:MonoMac.CoreLocation.CLLocationUpdatedEventArgs.UpdatedLocation" /> event.</summary>
+    <remarks>
+    </remarks>
+    <related type="sample" href="http://samples.xamarin.com/Samples/ByGuid?guid=747bae48-05f5-4dec-a9fa-4cb979056b2d">Example_CoreLocation</related>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CLLocationUpdatedEventArgs (MonoMac.CoreLocation.CLLocation newLocation, MonoMac.CoreLocation.CLLocation oldLocation);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.CoreLocation.CLLocation newLocation, class MonoMac.CoreLocation.CLLocation oldLocation) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="newLocation" Type="MonoMac.CoreLocation.CLLocation" />
+        <Parameter Name="oldLocation" Type="MonoMac.CoreLocation.CLLocation" />
+      </Parameters>
+      <Docs>
+        <param name="newLocation">To be added.</param>
+        <param name="oldLocation">To be added.</param>
+        <summary>Initializes a new instance of the CLLocationUpdatedEventArgs class.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="NewLocation">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreLocation.CLLocation NewLocation { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.CoreLocation.CLLocation NewLocation" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreLocation.CLLocation</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OldLocation">
+      <MemberSignature Language="C#" Value="public MonoMac.CoreLocation.CLLocation OldLocation { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.CoreLocation.CLLocation OldLocation" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.CoreLocation.CLLocation</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

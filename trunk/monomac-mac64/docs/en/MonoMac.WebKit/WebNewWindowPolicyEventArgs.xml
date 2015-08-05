@@ -1,0 +1,106 @@
+<Type Name="WebNewWindowPolicyEventArgs" FullName="MonoMac.WebKit.WebNewWindowPolicyEventArgs">
+  <TypeSignature Language="C#" Value="public class WebNewWindowPolicyEventArgs : EventArgs" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit WebNewWindowPolicyEventArgs extends System.EventArgs" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.EventArgs</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Provides data for the <see cref="E:MonoMac.WebKit.WebNewWindowPolicyEventArgs.DecidePolicyForNewWindow" /> event.</summary>
+    <remarks>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public WebNewWindowPolicyEventArgs (MonoMac.Foundation.NSDictionary actionInformation, MonoMac.Foundation.NSUrlRequest request, string newFrameName, MonoMac.Foundation.NSObject decisionToken);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSDictionary actionInformation, class MonoMac.Foundation.NSUrlRequest request, string newFrameName, class MonoMac.Foundation.NSObject decisionToken) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="actionInformation" Type="MonoMac.Foundation.NSDictionary" />
+        <Parameter Name="request" Type="MonoMac.Foundation.NSUrlRequest" />
+        <Parameter Name="newFrameName" Type="System.String" />
+        <Parameter Name="decisionToken" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="actionInformation">To be added.</param>
+        <param name="request">To be added.</param>
+        <param name="newFrameName">To be added.</param>
+        <param name="decisionToken">To be added.</param>
+        <summary>Initializes a new instance of the WebNewWindowPolicyEventArgs class.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ActionInformation">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSDictionary ActionInformation { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSDictionary ActionInformation" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDictionary</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DecisionToken">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSObject DecisionToken { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSObject DecisionToken" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="NewFrameName">
+      <MemberSignature Language="C#" Value="public string NewFrameName { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string NewFrameName" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Request">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSUrlRequest Request { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.Foundation.NSUrlRequest Request" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSUrlRequest</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

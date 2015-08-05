@@ -1,0 +1,6 @@
+<Namespace Name="MonoMac.Foundation">
+  <Docs>
+    <summary>The foundation for MonoMac bindings.   Contains NSObject and other Foundation types.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Namespace>

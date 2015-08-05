@@ -1,0 +1,70 @@
+<Type Name="QTCaptureFileSampleEventArgs" FullName="MonoMac.QTKit.QTCaptureFileSampleEventArgs">
+  <TypeSignature Language="C#" Value="public class QTCaptureFileSampleEventArgs : EventArgs" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit QTCaptureFileSampleEventArgs extends System.EventArgs" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.EventArgs</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Provides data for the <see cref="E:MonoMac.QTKit.QTCaptureFileSampleEventArgs.DidOutputSampleBuffer" /> event.</summary>
+    <remarks>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public QTCaptureFileSampleEventArgs (MonoMac.QTKit.QTSampleBuffer sampleBuffer, MonoMac.QTKit.QTCaptureConnection connection);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.QTKit.QTSampleBuffer sampleBuffer, class MonoMac.QTKit.QTCaptureConnection connection) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="sampleBuffer" Type="MonoMac.QTKit.QTSampleBuffer" />
+        <Parameter Name="connection" Type="MonoMac.QTKit.QTCaptureConnection" />
+      </Parameters>
+      <Docs>
+        <param name="sampleBuffer">To be added.</param>
+        <param name="connection">To be added.</param>
+        <summary>Initializes a new instance of the QTCaptureFileSampleEventArgs class.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Connection">
+      <MemberSignature Language="C#" Value="public MonoMac.QTKit.QTCaptureConnection Connection { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.QTKit.QTCaptureConnection Connection" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTCaptureConnection</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SampleBuffer">
+      <MemberSignature Language="C#" Value="public MonoMac.QTKit.QTSampleBuffer SampleBuffer { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.QTKit.QTSampleBuffer SampleBuffer" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTSampleBuffer</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

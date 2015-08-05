@@ -1,0 +1,120 @@
+<Type Name="BlockFlags" FullName="MonoMac.ObjCRuntime.BlockFlags">
+  <TypeSignature Language="C#" Value="public enum BlockFlags" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed BlockFlags extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Flags</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>Flags for the BlockLiteral.</summary>
+    <remarks>MonoMac as of version 3.0 only uses the flags BlockFlags.BLOCK_HAS_DESCRIPTOR | BlockFlags.BLOCK_HAS_COPY_DISPOSE for its blocks.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="BLOCK_HAS_COPY_DISPOSE">
+      <MemberSignature Language="C#" Value="BLOCK_HAS_COPY_DISPOSE" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.ObjCRuntime.BlockFlags BLOCK_HAS_COPY_DISPOSE = int32(33554432)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ObjCRuntime.BlockFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Objective-C Block ABI Flags</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="BLOCK_HAS_CTOR">
+      <MemberSignature Language="C#" Value="BLOCK_HAS_CTOR" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.ObjCRuntime.BlockFlags BLOCK_HAS_CTOR = int32(67108864)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ObjCRuntime.BlockFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Objective-C Block ABI Flags</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="BLOCK_HAS_DESCRIPTOR">
+      <MemberSignature Language="C#" Value="BLOCK_HAS_DESCRIPTOR" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.ObjCRuntime.BlockFlags BLOCK_HAS_DESCRIPTOR = int32(536870912)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ObjCRuntime.BlockFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Whether the block_descriptor is filled in.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="BLOCK_IS_GC">
+      <MemberSignature Language="C#" Value="BLOCK_IS_GC" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.ObjCRuntime.BlockFlags BLOCK_IS_GC = int32(134217728)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ObjCRuntime.BlockFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Objective-C Block ABI Flags.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="BLOCK_IS_GLOBAL">
+      <MemberSignature Language="C#" Value="BLOCK_IS_GLOBAL" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.ObjCRuntime.BlockFlags BLOCK_IS_GLOBAL = int32(268435456)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ObjCRuntime.BlockFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Objective-C Block ABI Flags.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="BLOCK_NEEDS_FREE">
+      <MemberSignature Language="C#" Value="BLOCK_NEEDS_FREE" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.ObjCRuntime.BlockFlags BLOCK_NEEDS_FREE = int32(16777216)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ObjCRuntime.BlockFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Objective-C Block ABI Flags.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="BLOCK_REFCOUNT_MASK">
+      <MemberSignature Language="C#" Value="BLOCK_REFCOUNT_MASK" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.ObjCRuntime.BlockFlags BLOCK_REFCOUNT_MASK = int32(65535)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ObjCRuntime.BlockFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Objective-C Block ABI Flags.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

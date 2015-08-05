@@ -1,0 +1,106 @@
+<Type Name="DomDocumentPosition" FullName="MonoMac.WebKit.DomDocumentPosition">
+  <TypeSignature Language="C#" Value="public enum DomDocumentPosition" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed DomDocumentPosition extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Flags</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="ContainedBy">
+      <MemberSignature Language="C#" Value="ContainedBy" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.WebKit.DomDocumentPosition ContainedBy = int32(16)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.WebKit.DomDocumentPosition</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Contains">
+      <MemberSignature Language="C#" Value="Contains" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.WebKit.DomDocumentPosition Contains = int32(8)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.WebKit.DomDocumentPosition</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Disconnected">
+      <MemberSignature Language="C#" Value="Disconnected" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.WebKit.DomDocumentPosition Disconnected = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.WebKit.DomDocumentPosition</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Following">
+      <MemberSignature Language="C#" Value="Following" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.WebKit.DomDocumentPosition Following = int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.WebKit.DomDocumentPosition</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="ImplementationSpecific">
+      <MemberSignature Language="C#" Value="ImplementationSpecific" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.WebKit.DomDocumentPosition ImplementationSpecific = int32(32)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.WebKit.DomDocumentPosition</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Preceeding">
+      <MemberSignature Language="C#" Value="Preceeding" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.WebKit.DomDocumentPosition Preceeding = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.WebKit.DomDocumentPosition</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

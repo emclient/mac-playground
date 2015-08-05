@@ -1,0 +1,52 @@
+<Type Name="NSTableViewTableEventArgs" FullName="MonoMac.AppKit.NSTableViewTableEventArgs">
+  <TypeSignature Language="C#" Value="public class NSTableViewTableEventArgs : EventArgs" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit NSTableViewTableEventArgs extends System.EventArgs" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.EventArgs</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Provides data for the <see cref="E:MonoMac.AppKit.NSTableViewTableEventArgs.DidClickTableColumn" />, <see cref="E:MonoMac.AppKit.NSTableViewTableEventArgs.DidDragTableColumn" /> and <see cref="E:MonoMac.AppKit.NSTableViewTableEventArgs.MouseDown" /> events.</summary>
+    <remarks>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSTableViewTableEventArgs (MonoMac.AppKit.NSTableColumn tableColumn);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.AppKit.NSTableColumn tableColumn) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="tableColumn" Type="MonoMac.AppKit.NSTableColumn" />
+      </Parameters>
+      <Docs>
+        <param name="tableColumn">To be added.</param>
+        <summary>Initializes a new instance of the NSTableViewTableEventArgs class.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TableColumn">
+      <MemberSignature Language="C#" Value="public MonoMac.AppKit.NSTableColumn TableColumn { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.AppKit.NSTableColumn TableColumn" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSTableColumn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,104 @@
+<Type Name="InputCompletedEventArgs" FullName="MonoMac.AudioToolbox.InputCompletedEventArgs">
+  <TypeSignature Language="C#" Value="public class InputCompletedEventArgs : EventArgs" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit InputCompletedEventArgs extends System.EventArgs" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.EventArgs</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Provides data for the <see cref="E:MonoMac.AudioToolbox.InputCompletedEventArgs.InputCompleted" /> event.</summary>
+    <remarks>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public InputCompletedEventArgs (IntPtr audioQueueBuffer, MonoMac.AudioToolbox.AudioTimeStamp timeStamp, MonoMac.AudioToolbox.AudioStreamPacketDescription[] pdec);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int audioQueueBuffer, valuetype MonoMac.AudioToolbox.AudioTimeStamp timeStamp, valuetype MonoMac.AudioToolbox.AudioStreamPacketDescription[] pdec) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="audioQueueBuffer" Type="System.IntPtr" />
+        <Parameter Name="timeStamp" Type="MonoMac.AudioToolbox.AudioTimeStamp" />
+        <Parameter Name="pdec" Type="MonoMac.AudioToolbox.AudioStreamPacketDescription[]" />
+      </Parameters>
+      <Docs>
+        <param name="audioQueueBuffer">To be added.</param>
+        <param name="timeStamp">To be added.</param>
+        <param name="pdec">To be added.</param>
+        <summary>Initializes a new instance of the InputCompletedEventArgs class.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IntPtrBuffer">
+      <MemberSignature Language="C#" Value="public IntPtr IntPtrBuffer { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int IntPtrBuffer" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PacketDescriptions">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioStreamPacketDescription[] PacketDescriptions { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.AudioToolbox.AudioStreamPacketDescription[] PacketDescriptions" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioStreamPacketDescription[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TimeStamp">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioTimeStamp TimeStamp { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.AudioToolbox.AudioTimeStamp TimeStamp" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioTimeStamp</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UnsafeBuffer">
+      <MemberSignature Language="C#" Value="public MonoMac.AudioToolbox.AudioQueueBuffer* UnsafeBuffer { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.AudioToolbox.AudioQueueBuffer* UnsafeBuffer" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AudioToolbox.AudioQueueBuffer*</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

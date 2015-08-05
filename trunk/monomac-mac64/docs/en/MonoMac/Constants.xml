@@ -1,0 +1,527 @@
+<Type Name="Constants" FullName="MonoMac.Constants">
+  <TypeSignature Language="C#" Value="public static class Constants" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Constants extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Global constants to system libraries.</summary>
+    <remarks>The constants on this namespace contain the full path
+    names to various CocoaToucha framework libraries.  The path names
+    are typically used in DllImport declarations when you need to
+    P/Invoke code yourself.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="AddressBookLibrary">
+      <MemberSignature Language="C#" Value="public const string AddressBookLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string AddressBookLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Path to the AddressBook shared library to use with DllImport attributes.</summary>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="AppKitLibrary">
+      <MemberSignature Language="C#" Value="public const string AppKitLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string AppKitLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioToolboxLibrary">
+      <MemberSignature Language="C#" Value="public const string AudioToolboxLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string AudioToolboxLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Path to the AudioToolbox shared library to use with DllImport attributes.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AudioUnitLibrary">
+      <MemberSignature Language="C#" Value="public const string AudioUnitLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string AudioUnitLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AVFoundationLibrary">
+      <MemberSignature Language="C#" Value="public const string AVFoundationLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string AVFoundationLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CFNetworkLibrary">
+      <MemberSignature Language="C#" Value="public const string CFNetworkLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string CFNetworkLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CoreAnimationLibrary">
+      <MemberSignature Language="C#" Value="public const string CoreAnimationLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string CoreAnimationLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Path to the CoreAnimation shared library to use with DllImport attributes.</summary>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="CoreAudioLibrary">
+      <MemberSignature Language="C#" Value="public const string CoreAudioLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string CoreAudioLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CoreDataLibrary">
+      <MemberSignature Language="C#" Value="public const string CoreDataLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string CoreDataLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CoreFoundationLibrary">
+      <MemberSignature Language="C#" Value="public const string CoreFoundationLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string CoreFoundationLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The full path to the CoreFoundation library.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CoreGraphicsLibrary">
+      <MemberSignature Language="C#" Value="public const string CoreGraphicsLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string CoreGraphicsLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The full path to the CoreGraphics library.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CoreImageLibrary">
+      <MemberSignature Language="C#" Value="public const string CoreImageLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string CoreImageLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CoreLocationLibrary">
+      <MemberSignature Language="C#" Value="public const string CoreLocationLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string CoreLocationLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Path to the CoreLocation shared library to use with DllImport attributes.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CoreMediaLibrary">
+      <MemberSignature Language="C#" Value="public const string CoreMediaLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string CoreMediaLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Path to CoreMedia shared library to use with DllImport attributes.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CoreMidiLibrary">
+      <MemberSignature Language="C#" Value="public const string CoreMidiLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string CoreMidiLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CoreTextLibrary">
+      <MemberSignature Language="C#" Value="public const string CoreTextLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string CoreTextLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Path to the CoreText shared library to use with DllImport attributes.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CoreVideoLibrary">
+      <MemberSignature Language="C#" Value="public const string CoreVideoLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string CoreVideoLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CoreWlanLibrary">
+      <MemberSignature Language="C#" Value="public const string CoreWlanLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string CoreWlanLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FoundationLibrary">
+      <MemberSignature Language="C#" Value="public const string FoundationLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string FoundationLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Path to the Foundation shared library to use with DllImport attributes.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ImageIOLibrary">
+      <MemberSignature Language="C#" Value="public const string ImageIOLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string ImageIOLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ImageKitLibrary">
+      <MemberSignature Language="C#" Value="public const string ImageKitLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string ImageKitLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ObjectiveCLibrary">
+      <MemberSignature Language="C#" Value="public const string ObjectiveCLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string ObjectiveCLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Path to the ObjectiveC shared library to use with DllImport attributes.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OpenALLibrary">
+      <MemberSignature Language="C#" Value="public const string OpenALLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string OpenALLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OpenGLLibrary">
+      <MemberSignature Language="C#" Value="public const string OpenGLLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string OpenGLLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PdfKitLibrary">
+      <MemberSignature Language="C#" Value="public const string PdfKitLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string PdfKitLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="QTKitLibrary">
+      <MemberSignature Language="C#" Value="public const string QTKitLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string QTKitLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="QuartzComposerLibrary">
+      <MemberSignature Language="C#" Value="public const string QuartzComposerLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string QuartzComposerLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="QuartzLibrary">
+      <MemberSignature Language="C#" Value="public const string QuartzLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string QuartzLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The full path to the OpenGLES library.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="QuickLookLibrary">
+      <MemberSignature Language="C#" Value="public const string QuickLookLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string QuickLookLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ScriptingBridgeLibrary">
+      <MemberSignature Language="C#" Value="public const string ScriptingBridgeLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string ScriptingBridgeLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SecurityLibrary">
+      <MemberSignature Language="C#" Value="public const string SecurityLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string SecurityLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Path to the Security shared library to use with DllImport attributes.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SystemLibrary">
+      <MemberSignature Language="C#" Value="public const string SystemLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string SystemLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The full path to the System library.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WebKitLibrary">
+      <MemberSignature Language="C#" Value="public const string WebKitLibrary;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal string WebKitLibrary" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

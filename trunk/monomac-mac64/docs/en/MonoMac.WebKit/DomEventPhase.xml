@@ -1,0 +1,59 @@
+<Type Name="DomEventPhase" FullName="MonoMac.WebKit.DomEventPhase">
+  <TypeSignature Language="C#" Value="public enum DomEventPhase" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed DomEventPhase extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="AtTarget">
+      <MemberSignature Language="C#" Value="AtTarget" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.WebKit.DomEventPhase AtTarget = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.WebKit.DomEventPhase</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Bubbling">
+      <MemberSignature Language="C#" Value="Bubbling" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.WebKit.DomEventPhase Bubbling = int32(3)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.WebKit.DomEventPhase</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Capturing">
+      <MemberSignature Language="C#" Value="Capturing" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.WebKit.DomEventPhase Capturing = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.WebKit.DomEventPhase</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

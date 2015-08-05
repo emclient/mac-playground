@@ -1,0 +1,6 @@
+<Namespace Name="MonoMac.AddressBook">
+  <Docs>
+    <summary>Access to the operating system addressbook.</summary>
+    <remarks></remarks>
+  </Docs>
+</Namespace>

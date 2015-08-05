@@ -1,0 +1,74 @@
+<Type Name="ArgumentSemantic" FullName="MonoMac.ObjCRuntime.ArgumentSemantic">
+  <TypeSignature Language="C#" Value="public enum ArgumentSemantic" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed ArgumentSemantic extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>Represents the assignment semantics for properties.</summary>
+    <remarks>This is used to flag the behavior of properties when objects are assigned, these are used by the MonoMac runtime to properly track used objects and to garbage collect them when they are no longer required.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Assign">
+      <MemberSignature Language="C#" Value="Assign" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.ObjCRuntime.ArgumentSemantic Assign = int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ObjCRuntime.ArgumentSemantic</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Assigning is merely a pointer copy.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Copy">
+      <MemberSignature Language="C#" Value="Copy" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.ObjCRuntime.ArgumentSemantic Copy = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ObjCRuntime.ArgumentSemantic</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>A copy of the object is made.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="None">
+      <MemberSignature Language="C#" Value="None" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.ObjCRuntime.ArgumentSemantic None = int32(-1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ObjCRuntime.ArgumentSemantic</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+        </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Retain">
+      <MemberSignature Language="C#" Value="Retain" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.ObjCRuntime.ArgumentSemantic Retain = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.ObjCRuntime.ArgumentSemantic</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The object increases the reference count of the passed object.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

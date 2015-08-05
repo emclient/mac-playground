@@ -1,0 +1,6 @@
+<Namespace Name="MonoMac.QTKit">
+  <Docs>
+    <summary>Bindings to the QuickTime video, audio, recording, playback and manipulation APIs. </summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Namespace>

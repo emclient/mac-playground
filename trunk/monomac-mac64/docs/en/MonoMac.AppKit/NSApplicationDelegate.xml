@@ -1,0 +1,1088 @@
+<Type Name="NSApplicationDelegate" FullName="MonoMac.AppKit.NSApplicationDelegate">
+  <TypeSignature Language="C#" Value="public class NSApplicationDelegate : MonoMac.Foundation.NSObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit NSApplicationDelegate extends MonoMac.Foundation.NSObject" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoMac.Foundation.NSObject</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.Foundation.Model</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>MonoMac.Foundation.Register("NSApplicationDelegate", true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSApplicationDelegate ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("init")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters />
+      <Docs>
+        <summary>Default constructor, initializes a new instance of this class.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSApplicationDelegate (MonoMac.Foundation.NSCoder coder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSCoder coder) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("initWithCoder:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="coder" Type="MonoMac.Foundation.NSCoder" />
+      </Parameters>
+      <Docs>
+        <param name="coder">The unarchiver object.</param>
+        <summary>A constructor that initializes the object from the data stored in the unarchiver object.</summary>
+        <remarks>This constructor is provided to allow the class to be initialized from an unarchiver (for example, during NIB deserialization).</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSApplicationDelegate (MonoMac.Foundation.NSObjectFlag t);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSObjectFlag t) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="t" Type="MonoMac.Foundation.NSObjectFlag" />
+      </Parameters>
+      <Docs>
+        <param name="t">Unused sentinel value, pass NSObjectFlag.Empty.</param>
+        <summary>Constructor to call on derived classes when the derived class has an [Export] constructor.</summary>
+        <remarks>
+          <para>This constructor should be called by derived classes when they are initialized using an [Export] attribute. The argument value is ignore, typically the chaining would look like this:</para>
+          <example>
+            <code lang="C#">
+public class MyClass : BaseClass {
+    [Export ("initWithFoo:")]
+    public MyClass (string foo) : base (NSObjectFlag.Empty)
+    {
+        ...
+    }
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSApplicationDelegate (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">Pointer (handle) to the unmanaged object.</param>
+        <summary>A constructor used when creating managed representations of unmanaged objects;  Called by the runtime.</summary>
+        <remarks>
+          <para>This constructor is invoked by the runtime infrastructure (<see cref="M:MonoMac.ObjCRuntime.GetNSObject (System.IntPtr)" />) to create a new managed representation for a pointer to an unmanaged Objective-C object.    You should not invoke this method directly, instead you should call the GetNSObject method as it will prevent two instances of a managed object to point to the same native object.</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApplicationDockMenu">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.AppKit.NSMenu ApplicationDockMenu (MonoMac.AppKit.NSApplication sender);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.AppKit.NSMenu ApplicationDockMenu(class MonoMac.AppKit.NSApplication sender) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationDockMenu:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSMenu</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.AppKit.NSApplication" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApplicationOpenUntitledFile">
+      <MemberSignature Language="C#" Value="public virtual bool ApplicationOpenUntitledFile (MonoMac.AppKit.NSApplication sender);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool ApplicationOpenUntitledFile(class MonoMac.AppKit.NSApplication sender) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationOpenUntitledFile:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.AppKit.NSApplication" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApplicationShouldHandleReopen">
+      <MemberSignature Language="C#" Value="public virtual bool ApplicationShouldHandleReopen (MonoMac.AppKit.NSApplication sender, bool hasVisibleWindows);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool ApplicationShouldHandleReopen(class MonoMac.AppKit.NSApplication sender, bool hasVisibleWindows) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationShouldHandleReopen:hasVisibleWindows:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.AppKit.NSApplication" />
+        <Parameter Name="hasVisibleWindows" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <param name="hasVisibleWindows">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApplicationShouldOpenUntitledFile">
+      <MemberSignature Language="C#" Value="public virtual bool ApplicationShouldOpenUntitledFile (MonoMac.AppKit.NSApplication sender);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool ApplicationShouldOpenUntitledFile(class MonoMac.AppKit.NSApplication sender) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationShouldOpenUntitledFile:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.AppKit.NSApplication" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApplicationShouldTerminate">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.AppKit.NSApplicationTerminateReply ApplicationShouldTerminate (MonoMac.AppKit.NSApplication sender);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype MonoMac.AppKit.NSApplicationTerminateReply ApplicationShouldTerminate(class MonoMac.AppKit.NSApplication sender) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationShouldTerminate:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSApplicationTerminateReply</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.AppKit.NSApplication" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApplicationShouldTerminateAfterLastWindowClosed">
+      <MemberSignature Language="C#" Value="public virtual bool ApplicationShouldTerminateAfterLastWindowClosed (MonoMac.AppKit.NSApplication sender);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool ApplicationShouldTerminateAfterLastWindowClosed(class MonoMac.AppKit.NSApplication sender) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationShouldTerminateAfterLastWindowClosed:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.AppKit.NSApplication" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DecodedRestorableState">
+      <MemberSignature Language="C#" Value="public virtual void DecodedRestorableState (MonoMac.AppKit.NSApplication app, MonoMac.Foundation.NSCoder state);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DecodedRestorableState(class MonoMac.AppKit.NSApplication app, class MonoMac.Foundation.NSCoder state) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("application:didDecodeRestorableState:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="app" Type="MonoMac.AppKit.NSApplication" />
+        <Parameter Name="state" Type="MonoMac.Foundation.NSCoder" />
+      </Parameters>
+      <Docs>
+        <param name="app">The unarchiver object.</param>
+        <param name="state">To be added.</param>
+        <summary>A constructor that initializes the object from the data stored in the unarchiver object.</summary>
+        <remarks>This constructor is provided to allow the class to be initialized from an unarchiver (for example, during NIB deserialization).</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DidBecomeActive">
+      <MemberSignature Language="C#" Value="public virtual void DidBecomeActive (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DidBecomeActive(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationDidBecomeActive:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DidFinishLaunching">
+      <MemberSignature Language="C#" Value="public virtual void DidFinishLaunching (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DidFinishLaunching(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationDidFinishLaunching:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DidHide">
+      <MemberSignature Language="C#" Value="public virtual void DidHide (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DidHide(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationDidHide:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DidResignActive">
+      <MemberSignature Language="C#" Value="public virtual void DidResignActive (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DidResignActive(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationDidResignActive:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DidUnhide">
+      <MemberSignature Language="C#" Value="public virtual void DidUnhide (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DidUnhide(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationDidUnhide:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DidUpdate">
+      <MemberSignature Language="C#" Value="public virtual void DidUpdate (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DidUpdate(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationDidUpdate:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FailedToRegisterForRemoteNotifications">
+      <MemberSignature Language="C#" Value="public virtual void FailedToRegisterForRemoteNotifications (MonoMac.AppKit.NSApplication application, MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void FailedToRegisterForRemoteNotifications(class MonoMac.AppKit.NSApplication application, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("application:didFailToRegisterForRemoteNotificationsWithError:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="application" Type="MonoMac.AppKit.NSApplication" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError" />
+      </Parameters>
+      <Docs>
+        <param name="application">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FinishedLaunching">
+      <MemberSignature Language="C#" Value="public virtual void FinishedLaunching (MonoMac.Foundation.NSObject notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void FinishedLaunching(class MonoMac.Foundation.NSObject notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationDidFinishLaunching:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OpenFile">
+      <MemberSignature Language="C#" Value="public virtual bool OpenFile (MonoMac.AppKit.NSApplication sender, string filename);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool OpenFile(class MonoMac.AppKit.NSApplication sender, string filename) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("application:openFile:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.AppKit.NSApplication" />
+        <Parameter Name="filename" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <param name="filename">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OpenFiles">
+      <MemberSignature Language="C#" Value="public virtual void OpenFiles (MonoMac.AppKit.NSApplication sender, string[] filenames);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void OpenFiles(class MonoMac.AppKit.NSApplication sender, string[] filenames) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("application:openFiles:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.AppKit.NSApplication" />
+        <Parameter Name="filenames" Type="System.String[]" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <param name="filenames">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OpenFileWithoutUI">
+      <MemberSignature Language="C#" Value="public virtual bool OpenFileWithoutUI (MonoMac.Foundation.NSObject sender, string filename);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool OpenFileWithoutUI(class MonoMac.Foundation.NSObject sender, string filename) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("application:openFileWithoutUI:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="filename" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <param name="filename">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OpenTempFile">
+      <MemberSignature Language="C#" Value="public virtual bool OpenTempFile (MonoMac.AppKit.NSApplication sender, string filename);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool OpenTempFile(class MonoMac.AppKit.NSApplication sender, string filename) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("application:openTempFile:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.AppKit.NSApplication" />
+        <Parameter Name="filename" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <param name="filename">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OrderFrontStandardAboutPanel">
+      <MemberSignature Language="C#" Value="public virtual void OrderFrontStandardAboutPanel (MonoMac.Foundation.NSObject sender);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void OrderFrontStandardAboutPanel(class MonoMac.Foundation.NSObject sender) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("orderFrontStandardAboutPanel:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OrderFrontStandardAboutPanelWithOptions">
+      <MemberSignature Language="C#" Value="public virtual void OrderFrontStandardAboutPanelWithOptions (MonoMac.Foundation.NSDictionary optionsDictionary);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void OrderFrontStandardAboutPanelWithOptions(class MonoMac.Foundation.NSDictionary optionsDictionary) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("orderFrontStandardAboutPanelWithOptions:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="optionsDictionary" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="optionsDictionary">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PrintFile">
+      <MemberSignature Language="C#" Value="public virtual bool PrintFile (MonoMac.AppKit.NSApplication sender, string filename);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool PrintFile(class MonoMac.AppKit.NSApplication sender, string filename) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("application:printFile:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="MonoMac.AppKit.NSApplication" />
+        <Parameter Name="filename" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="sender">To be added.</param>
+        <param name="filename">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PrintFiles">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.AppKit.NSApplicationPrintReply PrintFiles (MonoMac.AppKit.NSApplication application, string[] fileNames, MonoMac.Foundation.NSDictionary printSettings, bool showPrintPanels);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype MonoMac.AppKit.NSApplicationPrintReply PrintFiles(class MonoMac.AppKit.NSApplication application, string[] fileNames, class MonoMac.Foundation.NSDictionary printSettings, bool showPrintPanels) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("application:printFiles:withSettings:showPrintPanels:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSApplicationPrintReply</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="application" Type="MonoMac.AppKit.NSApplication" />
+        <Parameter Name="fileNames" Type="System.String[]" />
+        <Parameter Name="printSettings" Type="MonoMac.Foundation.NSDictionary" />
+        <Parameter Name="showPrintPanels" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="application">To be added.</param>
+        <param name="fileNames">To be added.</param>
+        <param name="printSettings">To be added.</param>
+        <param name="showPrintPanels">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReadSelectionFromPasteboard">
+      <MemberSignature Language="C#" Value="public virtual bool ReadSelectionFromPasteboard (MonoMac.AppKit.NSPasteboard pboard);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool ReadSelectionFromPasteboard(class MonoMac.AppKit.NSPasteboard pboard) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("readSelectionFromPasteboard:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="pboard" Type="MonoMac.AppKit.NSPasteboard" />
+      </Parameters>
+      <Docs>
+        <param name="pboard">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReceivedRemoteNotification">
+      <MemberSignature Language="C#" Value="public virtual void ReceivedRemoteNotification (MonoMac.AppKit.NSApplication application, MonoMac.Foundation.NSDictionary userInfo);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ReceivedRemoteNotification(class MonoMac.AppKit.NSApplication application, class MonoMac.Foundation.NSDictionary userInfo) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("application:didReceiveRemoteNotification:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="application" Type="MonoMac.AppKit.NSApplication" />
+        <Parameter Name="userInfo" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="application">To be added.</param>
+        <param name="userInfo">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RegisteredForRemoteNotifications">
+      <MemberSignature Language="C#" Value="public virtual void RegisteredForRemoteNotifications (MonoMac.AppKit.NSApplication application, MonoMac.Foundation.NSData deviceToken);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void RegisteredForRemoteNotifications(class MonoMac.AppKit.NSApplication application, class MonoMac.Foundation.NSData deviceToken) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("application:didRegisterForRemoteNotificationsWithDeviceToken:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="application" Type="MonoMac.AppKit.NSApplication" />
+        <Parameter Name="deviceToken" Type="MonoMac.Foundation.NSData" />
+      </Parameters>
+      <Docs>
+        <param name="application">To be added.</param>
+        <param name="deviceToken">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RegisterServicesMenu">
+      <MemberSignature Language="C#" Value="public virtual void RegisterServicesMenu (string[] sendTypes, string[] returnTypes);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void RegisterServicesMenu(string[] sendTypes, string[] returnTypes) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("registerServicesMenuSendTypes:returnTypes:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sendTypes" Type="System.String[]" />
+        <Parameter Name="returnTypes" Type="System.String[]" />
+      </Parameters>
+      <Docs>
+        <param name="sendTypes">To be added.</param>
+        <param name="returnTypes">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ScreenParametersChanged">
+      <MemberSignature Language="C#" Value="public virtual void ScreenParametersChanged (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ScreenParametersChanged(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationDidChangeScreenParameters:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillBecomeActive">
+      <MemberSignature Language="C#" Value="public virtual void WillBecomeActive (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void WillBecomeActive(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationWillBecomeActive:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillEncodeRestorableState">
+      <MemberSignature Language="C#" Value="public virtual void WillEncodeRestorableState (MonoMac.AppKit.NSApplication app, MonoMac.Foundation.NSCoder encoder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void WillEncodeRestorableState(class MonoMac.AppKit.NSApplication app, class MonoMac.Foundation.NSCoder encoder) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("application:willEncodeRestorableState:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="app" Type="MonoMac.AppKit.NSApplication" />
+        <Parameter Name="encoder" Type="MonoMac.Foundation.NSCoder" />
+      </Parameters>
+      <Docs>
+        <param name="app">The unarchiver object.</param>
+        <param name="encoder">To be added.</param>
+        <summary>A constructor that initializes the object from the data stored in the unarchiver object.</summary>
+        <remarks>This constructor is provided to allow the class to be initialized from an unarchiver (for example, during NIB deserialization).</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillFinishLaunching">
+      <MemberSignature Language="C#" Value="public virtual void WillFinishLaunching (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void WillFinishLaunching(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationWillFinishLaunching:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillHide">
+      <MemberSignature Language="C#" Value="public virtual void WillHide (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void WillHide(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationWillHide:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillPresentError">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSError WillPresentError (MonoMac.AppKit.NSApplication application, MonoMac.Foundation.NSError error);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSError WillPresentError(class MonoMac.AppKit.NSApplication application, class MonoMac.Foundation.NSError error) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("application:willPresentError:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSError</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="application" Type="MonoMac.AppKit.NSApplication" />
+        <Parameter Name="error" Type="MonoMac.Foundation.NSError" />
+      </Parameters>
+      <Docs>
+        <param name="application">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillResignActive">
+      <MemberSignature Language="C#" Value="public virtual void WillResignActive (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void WillResignActive(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationWillResignActive:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillTerminate">
+      <MemberSignature Language="C#" Value="public virtual void WillTerminate (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void WillTerminate(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationWillTerminate:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillUnhide">
+      <MemberSignature Language="C#" Value="public virtual void WillUnhide (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void WillUnhide(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationWillUnhide:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillUpdate">
+      <MemberSignature Language="C#" Value="public virtual void WillUpdate (MonoMac.Foundation.NSNotification notification);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void WillUpdate(class MonoMac.Foundation.NSNotification notification) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("applicationWillUpdate:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="notification" Type="MonoMac.Foundation.NSNotification" />
+      </Parameters>
+      <Docs>
+        <param name="notification">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WriteSelectionToPasteboard">
+      <MemberSignature Language="C#" Value="public virtual bool WriteSelectionToPasteboard (MonoMac.AppKit.NSPasteboard board, string[] types);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool WriteSelectionToPasteboard(class MonoMac.AppKit.NSPasteboard board, string[] types) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("writeSelectionToPasteboard:types:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="board" Type="MonoMac.AppKit.NSPasteboard" />
+        <Parameter Name="types" Type="System.String[]" />
+      </Parameters>
+      <Docs>
+        <param name="board">To be added.</param>
+        <param name="types">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

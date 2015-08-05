@@ -1,0 +1,45 @@
+<Type Name="QTCaptureDestination" FullName="MonoMac.QTKit.QTCaptureDestination">
+  <TypeSignature Language="C#" Value="public enum QTCaptureDestination" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed QTCaptureDestination extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="NewFile">
+      <MemberSignature Language="C#" Value="NewFile" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.QTKit.QTCaptureDestination NewFile = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTCaptureDestination</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="OldFile">
+      <MemberSignature Language="C#" Value="OldFile" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype MonoMac.QTKit.QTCaptureDestination OldFile = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.QTKit.QTCaptureDestination</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

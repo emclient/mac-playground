@@ -1,0 +1,1767 @@
+<Type Name="NSObject" FullName="MonoMac.Foundation.NSObject">
+  <TypeSignature Language="C#" Value="public class NSObject : IDisposable, MonoMac.ObjCRuntime.INativeObject" />
+  <TypeSignature Language="ILAsm" Value=".class public sequential ansi beforefieldinit NSObject extends System.Object implements class MonoMac.ObjCRuntime.INativeObject, class System.IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>MonoMac.ObjCRuntime.INativeObject</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoMac.Foundation.Register("NSObject", true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>Base class for all bound objects that map to Objective-C objects.</summary>
+    <remarks>
+
+      This is the base class that is used to bind Objective-C classes
+      to C# classes.  Merely subclassing from NSObject will produce a
+      class that can be passed to Objective-C.
+
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSObject ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("init")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters />
+      <Docs>
+        <summary>Default constructor that initializes a new instance of this class with no parameters.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSObject (MonoMac.Foundation.NSObjectFlag x);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoMac.Foundation.NSObjectFlag x) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="x" Type="MonoMac.Foundation.NSObjectFlag" />
+      </Parameters>
+      <Docs>
+        <param name="x">Unused sentinel value, pass NSObjectFlag.Empty.</param>
+        <summary>Constructor to call on derived classes when the derived class has an [Export] constructor.</summary>
+        <remarks>
+          <para>This constructor should be called by derived classes when they are initialized using an [Export] attribute. The argument value is ignore, typically the chaining would look like this:</para>
+          <example>
+            <code lang="C#">
+public class MyClass : BaseClass {
+    [Export ("initWithFoo:")]
+    public MyClass (string foo) : base (NSObjectFlag.Empty)
+    {
+        ...
+    }
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NSObject (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">Pointer (handle) to the unmanaged object.</param>
+        <summary>A constructor used when creating managed representations of unmanaged objects;  Called by the runtime.</summary>
+        <remarks>
+          <para>This constructor is invoked by the runtime infrastructure (<see cref="M:MonoMac.ObjCRuntime.GetNSObject (System.IntPtr)" />) to create a new managed representation for a pointer to an unmanaged Objective-C object.    You should not invoke this method directly, instead you should call the GetNSObject method as it will prevent two instances of a managed object to point to the same native object.</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddObserver">
+      <MemberSignature Language="C#" Value="public virtual void AddObserver (MonoMac.Foundation.NSObject observer, MonoMac.Foundation.NSString keyPath, MonoMac.Foundation.NSKeyValueObservingOptions options, IntPtr context);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void AddObserver(class MonoMac.Foundation.NSObject observer, class MonoMac.Foundation.NSString keyPath, valuetype MonoMac.Foundation.NSKeyValueObservingOptions options, native int context) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("addObserver:forKeyPath:options:context:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="observer" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="keyPath" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="options" Type="MonoMac.Foundation.NSKeyValueObservingOptions" />
+        <Parameter Name="context" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="observer">To be added.</param>
+        <param name="keyPath">To be added.</param>
+        <param name="options">To be added.</param>
+        <param name="context">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AutomaticallyNotifiesObserversForKey">
+      <MemberSignature Language="C#" Value="public static bool AutomaticallyNotifiesObserversForKey (string key);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool AutomaticallyNotifiesObserversForKey(string key) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("automaticallyNotifiesObserversForKey:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="key">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AwakeFromNib">
+      <MemberSignature Language="C#" Value="public virtual void AwakeFromNib ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void AwakeFromNib() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("awakeFromNib")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BeginInvokeOnMainThread">
+      <MemberSignature Language="C#" Value="public void BeginInvokeOnMainThread (MonoMac.Foundation.NSAction action);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void BeginInvokeOnMainThread(class MonoMac.Foundation.NSAction action) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="action" Type="MonoMac.Foundation.NSAction" />
+      </Parameters>
+      <Docs>
+        <param name="action">The code to invoke on the main thread.</param>
+        <summary>Invokes asynchrously the specified code on the main UI thread.</summary>
+        <remarks>
+          <para>
+
+	    You use this method from a thread to invoke the code
+	    encapsulated by the NSAction delegate in the UI thread.
+	    This is required for most operations that affect UIKit or
+	    AppKit as neither one of those APIs is thread safe.
+
+	  </para>
+          <para>
+
+	    The code is executed when the main thread goes back to its
+	    main loop for processing events.
+
+	  </para>
+          <para>
+
+	    Unlike <see cref="M:MonoMac.Foundation.NSObject.InvokeOnMainThread(MonoMac.Foundation.NSAction)" />
+	    this method merely queues the invocation and returns
+	    immediately to the caller.
+
+	  </para>
+          <example>
+            <code lang="c#">
+// Invoked in response to a button clicked on the UI.
+void StartDownload ()
+{
+	status.Text = "Downloading file...";
+	ThreadPool.QueueUserWorkItem (BackgroundDownload);
+}
+
+// This is the background helper
+BackgroundDownload ()
+{
+	var wc = new WebClient ();
+	wc.DownloadFile (myUrl, "/tmp/largeFile.txt");
+
+	// When the download is complete, notify the UI
+	BeginInvokeOnMainThread (delegate {
+		status.Text = "Download has been completed";
+	});
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BeginInvokeOnMainThread">
+      <MemberSignature Language="C#" Value="public void BeginInvokeOnMainThread (MonoMac.ObjCRuntime.Selector sel, MonoMac.Foundation.NSObject obj);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void BeginInvokeOnMainThread(class MonoMac.ObjCRuntime.Selector sel, class MonoMac.Foundation.NSObject obj) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sel" Type="MonoMac.ObjCRuntime.Selector" />
+        <Parameter Name="obj" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="sel">Selector to invoke</param>
+        <param name="obj">Object in which the selector is invoked</param>
+        <summary>Invokes asynchrously the specified code on the main UI thread.</summary>
+        <remarks>
+          <para>
+
+	    You use this method from a thread to invoke the code in
+	    the specified object that is exposed with the specified
+	    selector in the UI thread.  This is required for most
+	    operations that affect UIKit or AppKit as neither one of
+	    those APIs is thread safe.
+
+	  </para>
+          <para>
+
+	    The code is executed when the main thread goes back to its
+	    main loop for processing events.
+
+	  </para>
+          <para>
+
+	    Unlike <see cref="M:MonoMac.Foundation.NSObject.InvokeOnMainThread(MonoMac.ObjCRuntime.Selector,MonoMac.Foundation.NSObject)" />
+	    this method merely queues the invocation and returns
+	    immediately to the caller.
+
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Bind">
+      <MemberSignature Language="C#" Value="public virtual void Bind (string binding, MonoMac.Foundation.NSObject observable, string keyPath, MonoMac.Foundation.NSDictionary options);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Bind(string binding, class MonoMac.Foundation.NSObject observable, string keyPath, class MonoMac.Foundation.NSDictionary options) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("bind:toObject:withKeyPath:options:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binding" Type="System.String" />
+        <Parameter Name="observable" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="keyPath" Type="System.String" />
+        <Parameter Name="options" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="binding">To be added.</param>
+        <param name="observable">To be added.</param>
+        <param name="keyPath">To be added.</param>
+        <param name="options">
+          <para>Options for the binding.</para>
+          <para tool="nullallowed">This parameter can be <see langword="null" />.</para>
+        </param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BindingInfo">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSDictionary BindingInfo (string binding);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSDictionary BindingInfo(string binding) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("infoForBinding:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDictionary</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binding" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="binding">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BindingOptionDescriptions">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSObject[] BindingOptionDescriptions (string aBinding);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSObject[] BindingOptionDescriptions(string aBinding) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("optionDescriptionsForBinding:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="aBinding" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="aBinding">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BindingValueClass">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.ObjCRuntime.Class BindingValueClass (string binding);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.ObjCRuntime.Class BindingValueClass(string binding) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("valueClassForBinding:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.ObjCRuntime.Class</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binding" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="binding">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ChangeIndexesKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ChangeIndexesKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ChangeIndexesKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSKeyValueChangeIndexesKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ChangeKindKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ChangeKindKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ChangeKindKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSKeyValueChangeKindKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ChangeNewKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ChangeNewKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ChangeNewKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSKeyValueChangeNewKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ChangeNotificationIsPriorKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ChangeNotificationIsPriorKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ChangeNotificationIsPriorKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSKeyValueChangeNotificationIsPriorKey</summary>
+        <value>NSString constant, should be used as a token to NSNotificationCenter.</value>
+        <remarks>
+          <para id="tool-remark">This constant can be used with the <see cref="T:MonoMac.Foundation.NSNotificationCenter" /> to register a listener for this notification.</para>
+          <example>
+            <code lang="c#">
+// Lambda style
+NSNotificationCenter.DefaultCenter.AddObserver (NSObject.ChangeNotificationIsPriorKey, (notification) =&gt; Console.WriteLine ("Received the notification NSObject", notification);
+
+
+// Method style
+void Callback (NSNotification notification)
+{
+    Console.WriteLine ("Received a notification NSObject", notification);
+}
+void Setup ()
+{
+    NSNotificationCenter.DefaultCenter.AddObserver (NSObject.ChangeNotificationIsPriorKey, Callback);
+}
+</code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ChangeOldKey">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSString ChangeOldKey { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoMac.Foundation.NSString ChangeOldKey" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Represents the value associated with the constant NSKeyValueChangeOldKey</summary>
+        <value>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ClassHandle">
+      <MemberSignature Language="C#" Value="public virtual IntPtr ClassHandle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int ClassHandle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The handle for this class.</summary>
+        <value>The pointer to the Objective-C class.</value>
+        <remarks>Each MonoMac class mirrors an unmanaged Objective-C class.   This value contains the pointer to the Objective-C class, it is similar to calling objc_getClass with the object name.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CommitEditing">
+      <MemberSignature Language="C#" Value="public virtual bool CommitEditing ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool CommitEditing() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("commitEditing")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CommitEditing">
+      <MemberSignature Language="C#" Value="public virtual void CommitEditing (MonoMac.Foundation.NSObject objDelegate, MonoMac.ObjCRuntime.Selector didCommitSelector, IntPtr contextInfo);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void CommitEditing(class MonoMac.Foundation.NSObject objDelegate, class MonoMac.ObjCRuntime.Selector didCommitSelector, native int contextInfo) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("commitEditingWithDelegate:didCommitSelector:contextInfo:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="objDelegate" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="didCommitSelector" Type="MonoMac.ObjCRuntime.Selector" />
+        <Parameter Name="contextInfo" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="objDelegate">To be added.</param>
+        <param name="didCommitSelector">To be added.</param>
+        <param name="contextInfo">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ConformsToProtocol">
+      <MemberSignature Language="C#" Value="public virtual bool ConformsToProtocol (IntPtr protocol);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool ConformsToProtocol(native int protocol) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("conformsToProtocol:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="protocol" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="protocol">Pointer to a protocol.</param>
+        <summary>Invoked to determine if this object implements the specified protocol.</summary>
+        <returns>Must return true if the class implements the protocol.</returns>
+        <remarks>
+          <para>
+	    You can override this method if you need your class to
+	    respond to Objective-C's query to the object as to whether
+	    it implements the specified protocol.
+	  </para>
+          <para>
+
+	    You can compare the IntPtr value with the result of
+	    creating an AdoptsAttribute with the specified protocol
+	    and fetching its ProtocolHandle.
+
+	  </para>
+          <example>
+            <code lang="c#">
+static AdoptsAttribute myProtocol = new AdoptsAttribute ("MyProtocol");
+
+public override ConformsToProtocol (IntPtr protocol)
+{
+	if (protocol == myProtocol.ProtocolHandle)
+		return true;
+	return false;
+}
+</code>
+          </example>
+          <para>
+
+	    Although typically you would merely decorare your class
+	    with the <see cref="T:MonoMac.ObjCRuntime.AdoptsAttribute" /> and let
+	    the runtime do this for you, like this:
+
+	  </para>
+          <example>
+            <code lang="c#">
+[Adopts ("UITextInput")]
+[Register ("MyCoreView")]
+public class EditableCoreTextView : UIView {
+	[Export ("inputDelegate")]
+	public UITextInputDelegate InputDelegate {...}
+}
+</code>
+          </example>
+          <para>
+	    For a complete sample of the AdoptsAttribute see the SimpleTextInput sample
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Copy">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSObject Copy ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSObject Copy() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("copy")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DebugDescription">
+      <MemberSignature Language="C#" Value="public virtual string DebugDescription { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string DebugDescription" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("debugDescription")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Description">
+      <MemberSignature Language="C#" Value="public virtual string Description { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Description" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoMac.Foundation.Export("description")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DidChange">
+      <MemberSignature Language="C#" Value="public virtual void DidChange (MonoMac.Foundation.NSKeyValueChange changeKind, MonoMac.Foundation.NSIndexSet indexes, MonoMac.Foundation.NSString forKey);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DidChange(valuetype MonoMac.Foundation.NSKeyValueChange changeKind, class MonoMac.Foundation.NSIndexSet indexes, class MonoMac.Foundation.NSString forKey) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("didChange:valuesAtIndexes:forKey:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="changeKind" Type="MonoMac.Foundation.NSKeyValueChange" />
+        <Parameter Name="indexes" Type="MonoMac.Foundation.NSIndexSet" />
+        <Parameter Name="forKey" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="changeKind">To be added.</param>
+        <param name="indexes">To be added.</param>
+        <param name="forKey">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DidChange">
+      <MemberSignature Language="C#" Value="public virtual void DidChange (MonoMac.Foundation.NSString forKey, MonoMac.Foundation.NSKeyValueSetMutationKind mutationKind, MonoMac.Foundation.NSSet objects);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DidChange(class MonoMac.Foundation.NSString forKey, valuetype MonoMac.Foundation.NSKeyValueSetMutationKind mutationKind, class MonoMac.Foundation.NSSet objects) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("didChangeValueForKey:withSetMutation:usingObjects:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="forKey" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="mutationKind" Type="MonoMac.Foundation.NSKeyValueSetMutationKind" />
+        <Parameter Name="objects" Type="MonoMac.Foundation.NSSet" />
+      </Parameters>
+      <Docs>
+        <param name="forKey">To be added.</param>
+        <param name="mutationKind">To be added.</param>
+        <param name="objects">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DidChangeValue">
+      <MemberSignature Language="C#" Value="public virtual void DidChangeValue (string forKey);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DidChangeValue(string forKey) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("didChangeValueForKey:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="forKey" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="forKey">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Releases the resources used by the NSObject object.</summary>
+        <remarks>
+          <para>The Dispose method releases the resources used by the NSObject class.</para>
+          <para>Calling the Dispose method when you are finished using the NSObject ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.  For more information on releasing resources see ``Cleaning up Unmananaged Resources'' at http://msdn.microsoft.com/en-us/library/498928w2.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <para>If set to <see langword="true" />, the method is invoked directly and will dispose manage and unmanaged resources;   If set to <see langword="false" /> the method is being called by the garbage collector finalizer and should only release unmanaged resources.</para>
+        </param>
+        <summary>Releases the resources used by the NSObject object.</summary>
+        <remarks>
+          <para>This Dispose method releases the resources used by the NSObject class.</para>
+          <para>This method is called by both the Dispose() method and the object finalizer (Finalize).    When invoked by the Dispose method, the parameter disposting <paramref name="disposing" /> is set to <see langword="true" /> and any managed object references that this object holds are also disposed or released;  when invoked by the object finalizer, on the finalizer thread the value is set to <see langword="false" />. </para>
+          <para>Calling the Dispose method when you are finished using the NSObject ensures that all external resources used by this managed object are released as soon as possible.  Once you have invoked the Dispose method, the object is no longer useful and you should no longer make any calls to it.</para>
+          <para>  For more information on how to override this method and on the Dispose/IDisposable pattern, read the ``Implementing a Dispose Method'' document at http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DoesNotRecognizeSelector">
+      <MemberSignature Language="C#" Value="public virtual void DoesNotRecognizeSelector (MonoMac.ObjCRuntime.Selector sel);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DoesNotRecognizeSelector(class MonoMac.ObjCRuntime.Selector sel) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("doesNotRecognizeSelector:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sel" Type="MonoMac.ObjCRuntime.Selector" />
+      </Parameters>
+      <Docs>
+        <param name="sel">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EncodeTo">
+      <MemberSignature Language="C#" Value="public virtual void EncodeTo (MonoMac.Foundation.NSCoder coder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void EncodeTo(class MonoMac.Foundation.NSCoder coder) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("encodeWithCoder:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="coder" Type="MonoMac.Foundation.NSCoder" />
+      </Parameters>
+      <Docs>
+        <param name="coder">The unarchiver object.</param>
+        <summary>A constructor that initializes the object from the data stored in the unarchiver object.</summary>
+        <remarks>This constructor is provided to allow the class to be initialized from an unarchiver (for example, during NIB deserialization).</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ExposedBindings">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSString[] ExposedBindings ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSString[] ExposedBindings() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("exposedBindings")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSString[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~NSObject ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Finalizer for the NSObject object</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromObject">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSObject FromObject (object obj);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.Foundation.NSObject FromObject(object obj) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="obj" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="obj">A ECMA CLI object.</param>
+        <summary>Boxes an object into an NSObject.</summary>
+        <returns>Boxed object or null if the type can not be boxed.</returns>
+        <remarks>
+          <para>
+
+	    This method can box the following types from a core
+	    runtime type to an NSObject type by boxing the values.
+
+	  </para>
+          <para>
+	    bool, char, sbyte, byte, short, ushort, int, int32,
+	    long, long64, float and double are boxed as NSNumbers.
+	  </para>
+          <para>
+	    IntPtr are boxed as NSValue containing a pointer.
+	  </para>
+          <para>
+
+	    System.Drawing.SizeF, System.Drawing.RectangleF,
+	    System.Drawing.PointF,
+	    MonoMac.CoreGraphics.CGAffineTransform,
+	    MonoMac.UIKit.UIEdgeInsets and
+	    MonoMac.CoreAnimation.CATransform3D are boxed as an
+	    NSValue containing the corresponding type.
+
+	  </para>
+          <para>
+	    NSObjects and subclasses are returned as-is.
+	  </para>
+          <para>
+	    The null value is returned as an NSNull.
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetDefaultPlaceholder">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSObject GetDefaultPlaceholder (MonoMac.Foundation.NSObject marker, string binding);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.Foundation.NSObject GetDefaultPlaceholder(class MonoMac.Foundation.NSObject marker, string binding) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("defaultPlaceholderForMarker:withBinding:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="marker" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="binding" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="marker">To be added.</param>
+        <param name="binding">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetDictionaryOfValuesFromKeys">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSDictionary GetDictionaryOfValuesFromKeys (MonoMac.Foundation.NSString[] keys);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSDictionary GetDictionaryOfValuesFromKeys(class MonoMac.Foundation.NSString[] keys) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("dictionaryWithValuesForKeys:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSDictionary</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="keys" Type="MonoMac.Foundation.NSString[]" />
+      </Parameters>
+      <Docs>
+        <param name="keys">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetKeyPathsForValuesAffecting">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSSet GetKeyPathsForValuesAffecting (MonoMac.Foundation.NSString key);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.Foundation.NSSet GetKeyPathsForValuesAffecting(class MonoMac.Foundation.NSString key) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("keyPathsForValuesAffectingValueForKey:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSSet</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="key">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetNativeField">
+      <MemberSignature Language="C#" Value="public MonoMac.Foundation.NSObject GetNativeField (string name);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class MonoMac.Foundation.NSObject GetNativeField(string name) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="name">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Handle">
+      <MemberSignature Language="C#" Value="public IntPtr Handle { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int Handle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Handle (pointer) to the unmanaged object representation.</summary>
+        <value>A pointer</value>
+        <remarks>This IntPtr is a handle to the underlying unmanaged representation for this object.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InvokeOnMainThread">
+      <MemberSignature Language="C#" Value="public void InvokeOnMainThread (MonoMac.Foundation.NSAction action);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void InvokeOnMainThread(class MonoMac.Foundation.NSAction action) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="action" Type="MonoMac.Foundation.NSAction" />
+      </Parameters>
+      <Docs>
+        <param name="action">The code to invoke on the main thread.</param>
+        <summary>Invokes synchronously the specified code on the main UI thread.</summary>
+        <remarks>
+          <para>
+
+	    You use this method from a thread to invoke the code
+	    encapsulated by the NSAction delegate in the UI thread.
+	    This is required for most operations that affect UIKit or
+	    AppKit as neither one of those APIs is thread safe.
+
+	  </para>
+          <para>
+
+	    The code is executed when the main thread goes back to its
+	    main loop for processing events.
+
+	  </para>
+          <para>
+
+	    Unlike <see cref="M:MonoMac.Foundation.NSObject.BeginInvokeOnMainThread(MonoMac.Foundation.NSAction)" />
+	    this method waits for the main thread to execute the
+	    method, and does not return until the code pointed by
+	    action has completed running.
+
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InvokeOnMainThread">
+      <MemberSignature Language="C#" Value="public void InvokeOnMainThread (MonoMac.ObjCRuntime.Selector sel, MonoMac.Foundation.NSObject obj);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void InvokeOnMainThread(class MonoMac.ObjCRuntime.Selector sel, class MonoMac.Foundation.NSObject obj) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sel" Type="MonoMac.ObjCRuntime.Selector" />
+        <Parameter Name="obj" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="sel">Selector to invoke</param>
+        <param name="obj">Object in which the selector is invoked</param>
+        <summary>Invokes synchrously the specified code on the main UI thread.</summary>
+        <remarks>
+          <para>
+
+	    You use this method from a thread to invoke the code in
+	    the specified object that is exposed with the specified
+	    selector in the UI thread.  This is required for most
+	    operations that affect UIKit or AppKit as neither one of
+	    those APIs is thread safe.
+
+	  </para>
+          <para>
+
+	    The code is executed when the main thread goes back to its
+	    main loop for processing events.
+
+	  </para>
+          <para>
+
+	    Unlike <see cref="M:MonoMac.Foundation.NSObject.BeginInvokeOnMainThread(MonoMac.ObjCRuntime.Selector,MonoMac.Foundation.NSObject)" />
+	    this method waits for the main thread to execute the method, and does not return until the code pointed by action has completed.
+
+	  </para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsDirectBinding">
+      <MemberSignature Language="C#" Value="protected bool IsDirectBinding;" />
+      <MemberSignature Language="ILAsm" Value=".field family bool IsDirectBinding" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Determines whether this class is a direct binding to an Objective-C class, or if this is a subclass of a direct binding.</summary>
+        <remarks>
+
+	  This property is central to the way that MonoMac exposes
+	  virtual methods to C# programmers.  This property is used
+	  internally by the binding engine to determine whether a
+	  class is actually a direct binding to an Objective-C class
+	  (for example NSMutableDictionary) or whether the user has
+	  subclassed the object (MyNSMutableDictionary).  The binding
+	  system uses this to dispatch method invocations either to
+	  the base class, or the current class.
+
+	</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MonoMacAssembly">
+      <MemberSignature Language="C#" Value="public static readonly System.Reflection.Assembly MonoMacAssembly;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Reflection.Assembly MonoMacAssembly" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Reflection.Assembly</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Points to the montoouch assembly.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MutableCopy">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSObject MutableCopy ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSObject MutableCopy() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("mutableCopy")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ObjectDidEndEditing">
+      <MemberSignature Language="C#" Value="public virtual void ObjectDidEndEditing (MonoMac.Foundation.NSObject editor);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ObjectDidEndEditing(class MonoMac.Foundation.NSObject editor) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("objectDidEndEditing:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="editor" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="editor">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ObserveValue">
+      <MemberSignature Language="C#" Value="public virtual void ObserveValue (MonoMac.Foundation.NSString keyPath, MonoMac.Foundation.NSObject ofObject, MonoMac.Foundation.NSDictionary change, IntPtr context);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ObserveValue(class MonoMac.Foundation.NSString keyPath, class MonoMac.Foundation.NSObject ofObject, class MonoMac.Foundation.NSDictionary change, native int context) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("observeValueForKeyPath:ofObject:change:context:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="keyPath" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="ofObject" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="change" Type="MonoMac.Foundation.NSDictionary" />
+        <Parameter Name="context" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="keyPath">To be added.</param>
+        <param name="ofObject">To be added.</param>
+        <param name="change">To be added.</param>
+        <param name="context">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PerformSelector">
+      <MemberSignature Language="C#" Value="public virtual void PerformSelector (MonoMac.ObjCRuntime.Selector sel, MonoMac.Foundation.NSObject obj, double delay);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void PerformSelector(class MonoMac.ObjCRuntime.Selector sel, class MonoMac.Foundation.NSObject obj, float64 delay) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("performSelector:withObject:afterDelay:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sel" Type="MonoMac.ObjCRuntime.Selector" />
+        <Parameter Name="obj" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="delay" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="sel">To be added.</param>
+        <param name="obj">To be added.</param>
+        <param name="delay">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveObserver">
+      <MemberSignature Language="C#" Value="public virtual void RemoveObserver (MonoMac.Foundation.NSObject observer, MonoMac.Foundation.NSString keyPath);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void RemoveObserver(class MonoMac.Foundation.NSObject observer, class MonoMac.Foundation.NSString keyPath) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("removeObserver:forKeyPath:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="observer" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="keyPath" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="observer">To be added.</param>
+        <param name="keyPath">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RespondsToSelector">
+      <MemberSignature Language="C#" Value="public virtual bool RespondsToSelector (MonoMac.ObjCRuntime.Selector sel);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool RespondsToSelector(class MonoMac.ObjCRuntime.Selector sel) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("respondsToSelector:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sel" Type="MonoMac.ObjCRuntime.Selector" />
+      </Parameters>
+      <Docs>
+        <param name="sel">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetDefaultPlaceholder">
+      <MemberSignature Language="C#" Value="public static MonoMac.Foundation.NSObject SetDefaultPlaceholder (MonoMac.Foundation.NSObject placeholder, MonoMac.Foundation.NSObject marker, string binding);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class MonoMac.Foundation.NSObject SetDefaultPlaceholder(class MonoMac.Foundation.NSObject placeholder, class MonoMac.Foundation.NSObject marker, string binding) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("setDefaultPlaceholder:forMarker:withBinding:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="placeholder" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="marker" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="binding" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="placeholder">To be added.</param>
+        <param name="marker">To be added.</param>
+        <param name="binding">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetNativeField">
+      <MemberSignature Language="C#" Value="public void SetNativeField (string name, MonoMac.Foundation.NSObject value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetNativeField(string name, class MonoMac.Foundation.NSObject value) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="value" Type="MonoMac.Foundation.NSObject" />
+      </Parameters>
+      <Docs>
+        <param name="name">To be added.</param>
+        <param name="value">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetNilValueForKey">
+      <MemberSignature Language="C#" Value="public virtual void SetNilValueForKey (MonoMac.Foundation.NSString key);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetNilValueForKey(class MonoMac.Foundation.NSString key) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("setNilValueForKey:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="key">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetValueForKey">
+      <MemberSignature Language="C#" Value="public virtual void SetValueForKey (MonoMac.Foundation.NSObject value, MonoMac.Foundation.NSString key);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetValueForKey(class MonoMac.Foundation.NSObject value, class MonoMac.Foundation.NSString key) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("setValue:forKey:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="key" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="value">To be added.</param>
+        <param name="key">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetValueForKeyPath">
+      <MemberSignature Language="C#" Value="public virtual void SetValueForKeyPath (MonoMac.Foundation.NSObject value, MonoMac.Foundation.NSString keyPath);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetValueForKeyPath(class MonoMac.Foundation.NSObject value, class MonoMac.Foundation.NSString keyPath) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("setValue:forKeyPath:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="keyPath" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="value">To be added.</param>
+        <param name="keyPath">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetValueForKeyPath">
+      <MemberSignature Language="C#" Value="public void SetValueForKeyPath (IntPtr handle, MonoMac.Foundation.NSString keyPath);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetValueForKeyPath(native int handle, class MonoMac.Foundation.NSString keyPath) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+        <Parameter Name="keyPath" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="handle">Pointer (handle) to the unmanaged object.</param>
+        <param name="keyPath">To be added.</param>
+        <summary>A constructor used when creating managed representations of unmanaged objects;  Called by the runtime.</summary>
+        <remarks>
+          <para>This constructor is invoked by the runtime infrastructure (<see cref="M:MonoMac.ObjCRuntime.GetNSObject (System.IntPtr)" />) to create a new managed representation for a pointer to an unmanaged Objective-C object.    You should not invoke this method directly, instead you should call the GetNSObject method as it will prevent two instances of a managed object to point to the same native object.</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetValueForUndefinedKey">
+      <MemberSignature Language="C#" Value="public virtual void SetValueForUndefinedKey (MonoMac.Foundation.NSObject value, MonoMac.Foundation.NSString undefinedKey);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetValueForUndefinedKey(class MonoMac.Foundation.NSObject value, class MonoMac.Foundation.NSString undefinedKey) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("setValue:forUndefinedKey:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="MonoMac.Foundation.NSObject" />
+        <Parameter Name="undefinedKey" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="value">To be added.</param>
+        <param name="undefinedKey">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetValuesForKeysWithDictionary">
+      <MemberSignature Language="C#" Value="public virtual void SetValuesForKeysWithDictionary (MonoMac.Foundation.NSDictionary keyedValues);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetValuesForKeysWithDictionary(class MonoMac.Foundation.NSDictionary keyedValues) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("setValuesForKeysWithDictionary:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="keyedValues" Type="MonoMac.Foundation.NSDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="keyedValues">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SuperHandle">
+      <MemberSignature Language="C#" Value="public IntPtr SuperHandle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int SuperHandle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToString">
+      <MemberSignature Language="C#" Value="public override string ToString ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Returns a string representation of the value of the current instance.</summary>
+        <returns>
+        </returns>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Unbind">
+      <MemberSignature Language="C#" Value="public virtual void Unbind (string binding);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Unbind(string binding) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("unbind:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binding" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="binding">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ValueForKey">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSObject ValueForKey (MonoMac.Foundation.NSString key);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSObject ValueForKey(class MonoMac.Foundation.NSString key) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("valueForKey:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="key">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ValueForKeyPath">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSObject ValueForKeyPath (MonoMac.Foundation.NSString keyPath);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSObject ValueForKeyPath(class MonoMac.Foundation.NSString keyPath) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("valueForKeyPath:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="keyPath" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="keyPath">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ValueForUndefinedKey">
+      <MemberSignature Language="C#" Value="public virtual MonoMac.Foundation.NSObject ValueForUndefinedKey (MonoMac.Foundation.NSString key);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class MonoMac.Foundation.NSObject ValueForUndefinedKey(class MonoMac.Foundation.NSString key) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("valueForUndefinedKey:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoMac.Foundation.NSObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="key">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillChange">
+      <MemberSignature Language="C#" Value="public virtual void WillChange (MonoMac.Foundation.NSKeyValueChange changeKind, MonoMac.Foundation.NSIndexSet indexes, MonoMac.Foundation.NSString forKey);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void WillChange(valuetype MonoMac.Foundation.NSKeyValueChange changeKind, class MonoMac.Foundation.NSIndexSet indexes, class MonoMac.Foundation.NSString forKey) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("willChange:valuesAtIndexes:forKey:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="changeKind" Type="MonoMac.Foundation.NSKeyValueChange" />
+        <Parameter Name="indexes" Type="MonoMac.Foundation.NSIndexSet" />
+        <Parameter Name="forKey" Type="MonoMac.Foundation.NSString" />
+      </Parameters>
+      <Docs>
+        <param name="changeKind">To be added.</param>
+        <param name="indexes">To be added.</param>
+        <param name="forKey">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillChange">
+      <MemberSignature Language="C#" Value="public virtual void WillChange (MonoMac.Foundation.NSString forKey, MonoMac.Foundation.NSKeyValueSetMutationKind mutationKind, MonoMac.Foundation.NSSet objects);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void WillChange(class MonoMac.Foundation.NSString forKey, valuetype MonoMac.Foundation.NSKeyValueSetMutationKind mutationKind, class MonoMac.Foundation.NSSet objects) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("willChangeValueForKey:withSetMutation:usingObjects:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="forKey" Type="MonoMac.Foundation.NSString" />
+        <Parameter Name="mutationKind" Type="MonoMac.Foundation.NSKeyValueSetMutationKind" />
+        <Parameter Name="objects" Type="MonoMac.Foundation.NSSet" />
+      </Parameters>
+      <Docs>
+        <param name="forKey">To be added.</param>
+        <param name="mutationKind">To be added.</param>
+        <param name="objects">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WillChangeValue">
+      <MemberSignature Language="C#" Value="public virtual void WillChangeValue (string forKey);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void WillChangeValue(string forKey) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoMac.Foundation.Export("willChangeValueForKey:")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="forKey" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="forKey">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

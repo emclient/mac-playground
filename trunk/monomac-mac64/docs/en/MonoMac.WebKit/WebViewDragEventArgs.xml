@@ -1,0 +1,70 @@
+<Type Name="WebViewDragEventArgs" FullName="MonoMac.WebKit.WebViewDragEventArgs">
+  <TypeSignature Language="C#" Value="public class WebViewDragEventArgs : EventArgs" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit WebViewDragEventArgs extends System.EventArgs" />
+  <AssemblyInfo>
+    <AssemblyName>MonoMac</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.EventArgs</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Provides data for the <see cref="E:MonoMac.WebKit.WebViewDragEventArgs.UIWillPerformDragDestination" /> event.</summary>
+    <remarks>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public WebViewDragEventArgs (MonoMac.WebKit.WebDragDestinationAction action, MonoMac.AppKit.NSDraggingInfo draggingInfo);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype MonoMac.WebKit.WebDragDestinationAction action, class MonoMac.AppKit.NSDraggingInfo draggingInfo) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="action" Type="MonoMac.WebKit.WebDragDestinationAction" />
+        <Parameter Name="draggingInfo" Type="MonoMac.AppKit.NSDraggingInfo" />
+      </Parameters>
+      <Docs>
+        <param name="action">To be added.</param>
+        <param name="draggingInfo">To be added.</param>
+        <summary>Initializes a new instance of the WebViewDragEventArgs class.</summary>
+        <remarks>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Action">
+      <MemberSignature Language="C#" Value="public MonoMac.WebKit.WebDragDestinationAction Action { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype MonoMac.WebKit.WebDragDestinationAction Action" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.WebKit.WebDragDestinationAction</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DraggingInfo">
+      <MemberSignature Language="C#" Value="public MonoMac.AppKit.NSDraggingInfo DraggingInfo { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoMac.AppKit.NSDraggingInfo DraggingInfo" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>MonoMac.AppKit.NSDraggingInfo</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
