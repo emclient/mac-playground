@@ -234,8 +234,6 @@
     <Compile Include="System.Drawing\SystemPens.cs" />
     <Compile Include="System.Drawing\TextureBrush.cs" />
     <Compile Include="System.Drawing\ToolboxBitmapAttribute.cs" />
-    <Compile Include="System.Drawing\cocoaFunctions.cs" />
-    <Compile Include="MObjc\NSObject.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -256,7 +254,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="MObjc\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assembly\Mono.ico">
@@ -280,8 +277,5 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="MonoMac">
-      <HintPath>..\..\..\MonoMac.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>
