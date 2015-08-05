@@ -2842,7 +2842,7 @@ namespace System.Windows.Forms {
 					try {
 						var clipboardAtom = gdk_atom_intern ("CLIPBOARD", true);
 						var clipboard = gtk_clipboard_get (clipboardAtom);
-						if (clipboard != null) {
+						if (clipboard != IntPtr.Zero) {
 							// for now we only store text
 							var text = Clipboard.GetRtfText ();
 							if (string.IsNullOrEmpty (text))
@@ -2906,7 +2906,7 @@ namespace System.Windows.Forms {
 			IntPtr			WholeWindow;
 			IntPtr			ClientWindow;
 			SetWindowValuemask	ValueMask;
-			int[]			atoms;
+			//int[]			atoms;
 
 			hwnd = new Hwnd();
 
