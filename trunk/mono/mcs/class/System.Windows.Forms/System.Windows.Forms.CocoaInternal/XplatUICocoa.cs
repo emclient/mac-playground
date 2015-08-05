@@ -98,7 +98,6 @@ namespace System.Windows.Forms {
 		internal static MouseButtons MouseState;
 		internal static Cocoa.Hover Hover;
 
-		internal static Cocoa.HwndDelegate HwndDelegate = new Cocoa.HwndDelegate (GetClippingRectangles);
 		// Instance members
 		internal Point mouse_position;
 		internal static NSEventModifierMask key_modifiers = 0;
@@ -193,18 +192,6 @@ namespace System.Windows.Forms {
 					}
 				}
 			}
-		}
-
-		internal static Rectangle [] GetClippingRectangles (IntPtr handle) {
-			/*Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-
-			if (hwnd == null)
-				return null;
- 			if (hwnd.Handle != handle)
-				return new Rectangle [] {hwnd.ClientRect};
-
-			return (Rectangle []) hwnd.GetClippingRectangles ().ToArray (typeof (Rectangle));*/
-			return null;
 		}
 
 		internal IntPtr GetMousewParam(int Delta) {
