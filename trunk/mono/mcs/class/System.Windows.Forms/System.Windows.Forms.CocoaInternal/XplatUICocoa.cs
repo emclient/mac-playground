@@ -2442,7 +2442,8 @@ namespace System.Windows.Forms {
 								handle.ToInt32 () + ").");
 
 			return Dnd.StartDrag (hwnd.ClientWindow, data, allowed_effects);*/
-			throw new NotImplementedException ();
+			//throw new NotImplementedException ();
+			return DragDropEffects.None;
 		}
 
 		internal override void SetBorderStyle (IntPtr handle, FormBorderStyle border_style) {
