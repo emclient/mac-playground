@@ -346,7 +346,8 @@ namespace System.Windows.Forms {
 				document.GetLine (i).Alignment = new_alignment;
 			}
 
-			document.RecalculateDocument (CreateGraphicsInternal ());
+			using (var g = CreateGraphicsInternal())
+				document.RecalculateDocument (g);
 
 			Invalidate ();	// Make sure we refresh
 		}

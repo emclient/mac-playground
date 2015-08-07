@@ -524,6 +524,7 @@ trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Eve
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/IEventHandler.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoApplicationDelegate.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoMenuItem.cs -text
+trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoView.Debug.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoView.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoWindow.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Pasteboard.cs -text

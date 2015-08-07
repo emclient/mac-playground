@@ -1354,6 +1354,9 @@
     <Compile Include="System.Windows.Forms.Design\UISelectionService.cs" />
     <Compile Include="System.Windows.Forms.Design\WindowsFormsDesignerOptionService.cs" />
     <Compile Include="System.Windows.Forms.Design\WndProcRouter.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoView.Debug.cs">
+      <DependentUpon>MonoView.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -1566,9 +1569,9 @@
     <None Include="System.Windows.Forms.Design\ChangeLog" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\System.Drawing\System.Drawing.csproj">
+    <ProjectReference Include="..\System.Drawing\System.Drawing-net_4_5.csproj">
       <Project>{CB1CB976-AA54-4553-B0E7-05665B199EC4}</Project>
-      <Name>System.Drawing</Name>
+      <Name>System.Drawing-net_4_5</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
