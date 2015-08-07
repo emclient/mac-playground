@@ -2028,8 +2028,9 @@ namespace System.Windows.Forms
 		internal void CalculateDocument()
 		{
 			CalculateScrollBars ();
-			document.RecalculateDocument (CreateGraphicsInternal ());
 
+			using (var g = CreateGraphicsInternal())
+				document.RecalculateDocument (g);
 
 			if (document.caret.line != null && document.caret.line.Y < document.ViewPortHeight) {
 				// The window has probably been resized, making the entire thing visible, so
@@ -2237,15 +2238,13 @@ namespace System.Windows.Forms
 
 		private void TextBoxBase_FontOrColorChanged (object sender, EventArgs e)
 		{
-			Line	line;
-
 			document.SuspendRecalc ();
 			// Font changes apply to the whole document
 			for (int i = 1; i <= document.Lines; i++) {
-				line = document.GetLine(i);
-				if (LineTag.FormatText(line, 1, line.text.Length, Font, ForeColor,
-						Color.Empty, FormatSpecified.Font | FormatSpecified.Color))
-					document.RecalculateDocument (CreateGraphicsInternal (), line.LineNo, line.LineNo, false);
+				Line line = document.GetLine(i);
+				if (LineTag.FormatText(line, 1, line.text.Length, Font, ForeColor, Color.Empty, FormatSpecified.Font | FormatSpecified.Color))
+					using (var g = CreateGraphicsInternal())
+						document.RecalculateDocument (g, line.LineNo, line.LineNo, false);
 			}
 			document.ResumeRecalc (false);
 

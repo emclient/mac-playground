@@ -391,12 +391,17 @@ namespace System.Windows.Forms {
 		
 		public static Graphics GraphicsContext {
 			get {
-				if (bmp_g == null) {
-					bmp = new Bitmap (1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-					bmp_g = Graphics.FromImage (bmp);
-				}
-			
-				return bmp_g;
+				// TODO: Optimize again?
+				// JV: Caching this bitmap was disabled to resolve issues with disposing the graphics context.
+				return Graphics.FromImage (new Bitmap (1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb));
+
+//				if (bmp_g == null) {
+//				{
+//					bmp = new Bitmap (1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+//					bmp_g = Graphics.FromImage (bmp);
+//				}
+//			
+//				return bmp_g;
 			}
 		}
 		#endregion	// Static Methods

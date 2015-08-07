@@ -32,12 +32,13 @@ using NSRect = System.Drawing.RectangleF;
 using NSPoint = System.Drawing.PointF;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace System.Windows.Forms.CocoaInternal
 {
 
 	//[ExportClass("MonoView", "NSView")]
-	internal class MonoView : NSView
+	internal partial class MonoView : NSView
 	{
 		XplatUICocoa driver;
 		NSTrackingArea trackingArea;
@@ -221,7 +222,7 @@ namespace System.Windows.Forms.CocoaInternal
 			} else {
 				driver.mouse_position = driver.NativeToMonoScreen (globalNSPoint);
 			}
-				
+
 			// FIXME: There has to be a better way. Obscured windows are still receiving MouseMoved events.
 			var windowNumber = NSWindow.WindowNumberAtPoint (
 				globalNSPoint,
@@ -352,7 +353,7 @@ namespace System.Windows.Forms.CocoaInternal
 			case NSEventType.MouseExited:
 				msg.message = Msg.WM_MOUSELEAVE;
 				break;
-			
+
 			case NSEventType.TabletPoint:
 			case NSEventType.TabletProximity:
 			default:
