@@ -65,15 +65,24 @@ using System.Collections;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-using MonoMac.Foundation;
 using Cocoa = System.Windows.Forms.CocoaInternal;
 
 /// Cocoa Version
 using MonoMac.AppKit;
-using NSPoint = System.Drawing.PointF;
-using NSRect = System.Drawing.RectangleF;
+using MonoMac.Foundation;
 using System.Windows.Forms.CocoaInternal;
 
+#if SDCOMPAT
+using NSRect = System.Drawing.RectangleF;
+using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
+#else
+using NSRect = MonoMac.CoreGraphics.CGRect;
+using NSPoint = MonoMac.CoreGraphics.CGPoint;
+using NSSize = MonoMac.CoreGraphics.CGSize;
+#endif
+using nint = System.Int32;
+using nfloat = System.Single;
 
 namespace System.Windows.Forms {
 
@@ -150,7 +159,8 @@ namespace System.Windows.Forms {
 			lock (instancelock) {
 				if (Instance == null) {
 					NSApplication.Init ();
-					NSApplication.InitDrawingBridge ();
+					try { NSApplication.InitDrawingBridge (); }
+					catch (NullReferenceException) { }
 					NSApplication.SharedApplication.FinishLaunching ();
 
 					Instance = new XplatUICocoa ();
@@ -168,16 +178,6 @@ namespace System.Windows.Forms {
 		#endregion
 
 		#region Internal methods
-		internal void AddExpose (Hwnd hwnd, bool client, NSRect nsrect)
-		{
-			float height = client ? hwnd.ClientRect.Height : hwnd.Height;
-			Rectangle mrect = NativeToMonoFramed (nsrect, height);
-			AddExpose (hwnd, client, mrect);
-		}
-
-		internal void AddExpose (Hwnd hwnd, bool client, Rectangle rect) {
-			AddExpose (hwnd, client, (int) rect.X, (int) rect.Y, (int) rect.Width, (int) rect.Height);
-		}
 
 		internal void FlushQueue () {
 			CheckTimers (DateTime.UtcNow);
@@ -540,7 +540,7 @@ namespace System.Windows.Forms {
 
 			NSPoint location = nsrect.Location;
             ClientWindowToScreen (handle, ref location);
-			nsrect.Location = location;
+			nsrect = new NSRect(location, nsrect.Size);
 			nsrect = window.FrameRectFor (nsrect);
 			window.SetFrame (nsrect, false);
 #if DriverDebug
@@ -564,7 +564,7 @@ namespace System.Windows.Forms {
 			return new NSPoint (monoPoint.X, screenHeight - monoPoint.Y);
 		}
 
-		internal NSPoint MonoToNativeFramed (Point monoPoint, float frameHeight)
+		internal NSPoint MonoToNativeFramed (Point monoPoint, nfloat frameHeight)
 		{
 			return new NSPoint (monoPoint.X, monoPoint.Y);
 		}
@@ -574,7 +574,7 @@ namespace System.Windows.Forms {
 			return new Point ((int) nativePoint.X, (int) (screenHeight - nativePoint.Y));
 		}
 
-		internal Point NativeToMonoFramed (NSPoint nativePoint, float frameHeight)
+		internal Point NativeToMonoFramed (NSPoint nativePoint, nfloat frameHeight)
 		{
 			return new Point ((int) nativePoint.X, (int) (nativePoint.Y));
 		}
@@ -584,7 +584,7 @@ namespace System.Windows.Forms {
 			return new NSRect(monoRect.Left, screenHeight - monoRect.Bottom, monoRect.Width, monoRect.Height);
 		}
 
-		internal NSRect MonoToNativeFramed (Rectangle monoRect, float frameHeight)
+		internal NSRect MonoToNativeFramed (Rectangle monoRect, nfloat frameHeight)
 		{
 			return new NSRect(monoRect.Left, monoRect.Top, monoRect.Width, monoRect.Height);
 		}
@@ -595,7 +595,7 @@ namespace System.Windows.Forms {
 				(int) nativeRect.Size.Width, (int) nativeRect.Size.Height);
 		}
 
-		internal Rectangle NativeToMonoFramed (NSRect nativeRect, float frameHeight)
+		internal Rectangle NativeToMonoFramed (NSRect nativeRect, nfloat frameHeight)
 		{
 			return new Rectangle ((int) nativeRect.Left, (int) nativeRect.Top, 
 						(int) nativeRect.Size.Width, (int) nativeRect.Size.Height);
@@ -614,8 +614,10 @@ namespace System.Windows.Forms {
 			bool top = null != WindowMapping [hwnd.Handle];
 			if (top) {
 				NSWindow winWrap = vuWrap.Window;
-				nsrect.Location = winWrap.ConvertBaseToScreen (nsrect.Location);
-				nsrect.Size = TranslateQuartzWindowSizeToWindowSize (Control.FromHandle (hwnd.Handle).GetCreateParams (), (int)nsrect.Width, (int)nsrect.Height);
+				var size = TranslateQuartzWindowSizeToWindowSize (Control.FromHandle (hwnd.Handle).GetCreateParams (), (int)nsrect.Width, (int)nsrect.Height);
+				nsrect = new NSRect(
+					winWrap.ConvertBaseToScreen (nsrect.Location),
+					new NSSize(size.Width, size.Height));
 				mrect = NativeToMonoScreen (nsrect);
 			} else {
 				NSView superVuWrap = vuWrap.Superview;
@@ -1055,6 +1057,7 @@ namespace System.Windows.Forms {
 			if (client) {
 				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
 				NSRect nsrect = MonoToNativeFramed (new Rectangle (x, y, width, height), vuWrap.Frame.Height);
+				//Console.WriteLine (String.Format ("AddExpose({4}, {0}, {1}, {2}, {3})", nsrect.X, nsrect.Y, nsrect.Width, nsrect.Height, hwnd.Handle));
 				vuWrap.SetNeedsDisplayInRect (nsrect);
 			} else {
 				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
@@ -1117,7 +1120,7 @@ namespace System.Windows.Forms {
 				if (superVuWrap != null)
 					nsrect = MonoToNativeFramed (mrect, superVuWrap.Frame.Size.Height);
 				else
-					nsrect = mrect;
+					nsrect = new NSRect(mrect.X, mrect.Y, mrect.Width, mrect.Height);
 
 				if (vuWrap.Frame != nsrect) {
 					vuWrap.Frame = nsrect;
@@ -1208,7 +1211,7 @@ namespace System.Windows.Forms {
 			if (StyleSet(cp.Style, WindowStyles.WS_CHILD)) {
 				WindowRect = Hwnd.GetWindowRectangle (cp, menu, ClientRect);
 			} else {				
-				var nsrect = NSWindow.FrameRectFor (ClientRect, StyleFromCreateParams (cp));
+				var nsrect = NSWindow.FrameRectFor (MonoToNativeFramed(ClientRect, ClientRect.Height), StyleFromCreateParams (cp));
 				WindowRect = new Rectangle((int)nsrect.X, (int)nsrect.Y, (int)nsrect.Width, (int)nsrect.Height);
 			}
 			return true;
@@ -1524,9 +1527,9 @@ namespace System.Windows.Forms {
 				SetWindowState (hwnd.Handle, FormWindowState.Maximized);
 			}
 
-			InvalidateNC (hwnd.Handle);
+			/*InvalidateNC (hwnd.Handle);
 			if (cp.Width > 0 && cp.Height > 0)
-				Invalidate (hwnd.Handle, Rectangle.Empty, true);
+				Invalidate (hwnd.Handle, Rectangle.Empty, true);*/
 
 			hwnd.UserData = new object[] { windowWrapper, viewWrapper, clientWrapper };
 
@@ -1811,7 +1814,7 @@ namespace System.Windows.Forms {
 		internal override IntPtr GetFocus() {
 			if (ActiveWindow != IntPtr.Zero) {
 				NSView activeWindowWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (ActiveWindow);
-				MonoView view = activeWindowWrap.Window.FirstResponder as MonoView;
+				NSView view = activeWindowWrap.Window.FirstResponder as NSView;
 				if (view != null)
 					return view.Handle;
 			}
@@ -2091,7 +2094,8 @@ namespace System.Windows.Forms {
 				PaintEventArgs pe = (PaintEventArgs)hwnd.drawing_stack.Pop();
 				pe.SetGraphics (null);
 				pe.Dispose ();  
-			} catch {}
+			} catch {
+			}
 
 			if (Caret.Visible == 1) {
 				ShowCaret();
@@ -2272,7 +2276,7 @@ namespace System.Windows.Forms {
 				NSDictionary description = screenWrap.DeviceDescription;
 				NSNumber screenNumber = (NSNumber) description["NSScreenNumber"];
 // FIXME: Find a Cocoa way to do this.
-				CGDisplayMoveCursorToPoint (screenNumber.UnsignedIntegerValue, new Cocoa.CGPoint (x, y));
+				CGDisplayMoveCursorToPoint (screenNumber.UInt32Value, new NSPoint (x, y));
 			}
 		}
 
@@ -2307,7 +2311,7 @@ namespace System.Windows.Forms {
 	
 					bitmap = new Bitmap (128, 128);
 					using (Graphics g = Graphics.FromImage (bitmap)) {
-						g.DrawIcon (icon, new Rectangle(0, 0, 128, 128));
+						g.DrawIcon (new Icon(icon, 128, 128), new Rectangle(0, 0, 128, 128));
 					}
 
 					var stream = new System.IO.MemoryStream();
@@ -2356,7 +2360,7 @@ namespace System.Windows.Forms {
 			} else {
 				bool adoption = vuWrap.Superview != null;
 				if (adoption) {
-					vuWrap.Retain ();
+					//vuWrap.Retain ();
 					vuWrap.RemoveFromSuperview ();
 				}
 
@@ -2364,8 +2368,8 @@ namespace System.Windows.Forms {
 				if (newParentWrap != null) {
 					newParentWrap.AddSubview (vuWrap);
 					vuWrap.Frame = MonoToNativeFramed (new Rectangle (hwnd.X, hwnd.Y, hwnd.Width, hwnd.Height), newParentWrap.Frame.Height);
-					if (adoption)
-						vuWrap.Release ();
+					//if (adoption)
+					//	vuWrap.Release ();
 				}
 			}
 
@@ -2505,8 +2509,8 @@ namespace System.Windows.Forms {
 				return;
 			}
 
-			if (hwnd.Parent != null)
-				AddExpose (hwnd.Parent, true, hwnd.x, hwnd.y, hwnd.width, hwnd.height);
+			//if (hwnd.Parent != null)
+			//	AddExpose (hwnd.Parent, true, hwnd.x, hwnd.y, hwnd.width, hwnd.height);
 
 			hwnd.x = x;
 			hwnd.y = y;
@@ -2743,7 +2747,7 @@ namespace System.Windows.Forms {
 			if (!hwnd.visible || vuWrap.IsHiddenOrHasHiddenAncestor || NSRect.Empty == vuWrap.VisibleRect())
 				return;
 
-
+			hwnd.AddInvalidArea (new Rectangle(0, 0, hwnd.Width, hwnd.Height));
 			SendMessage(handle, Msg.WM_PAINT, IntPtr.Zero, IntPtr.Zero);
 		}
 
@@ -2857,10 +2861,10 @@ namespace System.Windows.Forms {
 			string          magic_string = "The quick brown fox jumped over the lazy dog.";
 			double          magic_number = 44.549996948242189;
 
-			g = Graphics.FromImage (new Bitmap (1, 1));
-
-			width = (float) (g.MeasureString (magic_string, font).Width / magic_number);
-			return new SizeF(width, font.Height);
+			using (g = Graphics.FromImage (new Bitmap (1, 1))) {
+				width = (float)(g.MeasureString (magic_string, font).Width / magic_number);
+				return new SizeF (width, font.Height);
+			}
 		}
 
 		internal override Point MousePosition {
@@ -2983,6 +2987,6 @@ namespace System.Windows.Forms {
 		extern static int SetFrontProcess (ref Cocoa.ProcessSerialNumber psn);
 		#endregion
 		[DllImport("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
-		extern static void CGDisplayMoveCursorToPoint (UInt32 display, Cocoa.CGPoint point);
+		extern static void CGDisplayMoveCursorToPoint (UInt32 display, NSPoint point);
 	}
 }

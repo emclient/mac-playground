@@ -28,8 +28,14 @@
 using System;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
+using MonoMac.ObjCRuntime;
+#if SDCOMPAT
 using NSRect = System.Drawing.RectangleF;
 using NSPoint = System.Drawing.PointF;
+#else
+using NSRect = MonoMac.CoreGraphics.CGRect;
+using NSPoint = MonoMac.CoreGraphics.CGPoint;
+#endif
 using System.Drawing;
 using System.Collections.Generic;
 using System.Diagnostics;
