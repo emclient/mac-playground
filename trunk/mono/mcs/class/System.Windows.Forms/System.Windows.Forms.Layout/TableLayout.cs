@@ -27,7 +27,7 @@
 //
 
 
-#undef TABLE_DEBUG
+#define TABLE_DEBUG
 
 using System;
 using System.Drawing;
@@ -311,11 +311,13 @@ namespace System.Windows.Forms.Layout
 									continue;
 
 								// Calculate the maximum control width.
-								if (c.AutoSize)
+								if (panel.AutoSize && cs.SizeType == SizeType.Percent)
+									max_width = Math.Max (max_width, c.MinimumSize.Width + c.Margin.Horizontal);
+								else if (c.AutoSize)
 									max_width = Math.Max (max_width, c.PreferredSize.Width + c.Margin.Horizontal);
 								else
 									max_width = Math.Max (max_width, c.ExplicitBounds.Width + c.Margin.Horizontal);
-								max_width = Math.Max (max_width, c.Width + c.Margin.Left + c.Margin.Right);
+								//max_width = Math.Max (max_width, c.Width + c.Margin.Left + c.Margin.Right);
 							}
 						}
 
