@@ -57,9 +57,12 @@ namespace System.Drawing {
 	[TypeConverter (typeof (ImageConverter))]
 	public abstract class Image : MarshalByRefObject, IDisposable , ICloneable, ISerializable {
 
+		public delegate bool GetThumbnailImageAbort();
+
 		// This is obtained from a Bitmap
 		// Right now that is all we support
 		internal CGImage NativeCGImage;
+		protected ColorPalette palette;
 
 		// This is obtained from a PDF file.  Not supported right now.
 		internal CGPDFDocument nativeMetafile;
@@ -84,6 +87,7 @@ namespace System.Drawing {
 		~Image ()
 		{
 			Dispose (false);
+			GC.SuppressFinalize (this);
 		}
 		
 		[DefaultValue (false)]
@@ -175,21 +179,66 @@ namespace System.Drawing {
 				return b == null ? SizeF.Empty : b.physicalDimension;	 			
 			}
 		}
+			
+		[Browsable (false)]
+		public Guid[] FrameDimensionsList {
+			get {
+				return new Guid[] { FrameDimension.Time.Guid };
+			}
+		}
+
+		public int GetFrameCount (FrameDimension dimension)
+		{
+			return 1;
+		}
+
+		public int SelectActiveFrame(FrameDimension dimension, int frameIndex)
+		{
+			if (frameIndex != 1)
+				throw new NotImplementedException ();
+			return frameIndex;		
+		}
+
+		public PropertyItem GetPropertyItem(int propid)
+		{
+			if (propid == 0x5100) // Frame delay
+				return new PropertyItem();
+			throw new NotImplementedException ();
+		}
+
+		public ColorPalette Palette {
+			get { return palette; }
+			set
+			{
+				if ((PixelFormat & PixelFormat.Indexed) != 0 && palette.Entries.Length == value.Entries.Length) {
+					palette = value;
+
+					// Update CGImage
+					byte[] paletteEntries = new byte[palette.Entries.Length * 3];
+					int index = 0;
+					foreach (var entry in palette.Entries) {
+						paletteEntries [index++] = entry.R;
+						paletteEntries [index++] = entry.G;
+						paletteEntries [index++] = entry.B;
+					}
+					
+					NativeCGImage = NativeCGImage.WithColorSpace (CGColorSpace.CreateIndexed (CGColorSpace.CreateDeviceRGB (), palette.Entries.Length - 1, paletteEntries));
+				}
+			}
+		}
 
 		/// <summary>
 		/// Creates an exact copy of this Image.
 		/// </summary>
 		public object Clone ()
 		{
-			var bitmap = new Bitmap (this);
-			return bitmap;
+			return new Bitmap (this);
 		}
 
 		public void Dispose ()
 		{
 			Dispose (true);
 			GC.SuppressFinalize (this);
-			Console.WriteLine("Image Dispose");
 		}
 
 		protected virtual void Dispose (bool disposing)
@@ -201,24 +250,60 @@ namespace System.Drawing {
 		{
 			if (stream == null)
 				throw new ArgumentNullException ("stream");
-			return new Bitmap(stream, false);
+			return new Bitmap(stream);
+		}
+
+		public static Image FromStream (Stream stream, bool useIcm)
+		{
+			if (stream == null)
+				throw new ArgumentNullException ("stream");
+			return new Bitmap(stream, useIcm);
 		}
 
 		public void Save (Stream stream, ImageFormat format)
 		{
-			throw new NotImplementedException ();
+			// FIXME
+			//throw new NotImplementedException ();
+			if (format == ImageFormat.Png) {
+				NSBitmapImageRep rep = new NSBitmapImageRep (NativeCGImage);
+				NSData data = rep.RepresentationUsingTypeProperties (NSBitmapImageFileType.Png, new NSDictionary ());
+				byte[] buffer = new byte[0x10000];
+				int bytes;
+				using (var s = data.AsStream ()) {
+					while ((bytes = s.Read (buffer, 0, buffer.Length)) > 0) {
+						stream.Write (buffer, 0, bytes);
+					}
+				}
+			}
 		}
 		
 		public void Save (Stream stream)
 		{
-			throw new NotImplementedException ();
+			Save (stream, RawFormat);
 		}
 		
+		public void Save (string filename, ImageFormat format)
+		{
+			var b = this as Bitmap;
+			if (b != null)
+				b.Save(filename, format);
+		}
+
 		public void Save (string filename)
 		{
 			var b = this as Bitmap;
 			if (b != null)
 				b.Save(filename);
+		}
+			
+		public static Bitmap FromHbitmap (IntPtr handle)
+		{
+			throw new NotImplementedException ();
+		}
+
+		public static Bitmap FromHbitmap (IntPtr handle, IntPtr palette)
+		{
+			throw new NotImplementedException ();
 		}
 
 		public static Bitmap FromFile (string filename)
@@ -328,10 +413,23 @@ namespace System.Drawing {
 		/// </summary>
 		/// <returns>The format components.</returns>
 		/// <param name="pixfmt">Pixfmt.</param>
-		internal static int GetPixelFormatComponents(PixelFormat pixfmt)
+		internal static int GetBitsPerPixel(PixelFormat pixfmt)
 		{
-			return (((int)pixfmt >> 8) & 0xff) / 8;
+			return (((int)pixfmt >> 8) & 0xff);
 		}
 
+		public Image GetThumbnailImage (int thumbWidth, int thumbHeight, Image.GetThumbnailImageAbort callback, IntPtr callbackData)
+		{
+			if ((thumbWidth <= 0) || (thumbHeight <= 0))
+				throw new OutOfMemoryException ("Invalid thumbnail size");
+
+			Image ThumbNail = new Bitmap (thumbWidth, thumbHeight);
+
+			using (Graphics g = Graphics.FromImage (ThumbNail)) {
+				g.DrawImage(this, new RectangleF(0, 0, thumbWidth, thumbHeight), new Rectangle(0, 0, this.Width, this.Height), GraphicsUnit.Pixel);
+			}
+
+			return ThumbNail;
+		}
 	}
 }

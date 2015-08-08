@@ -9,7 +9,7 @@ namespace System.Drawing
 	[Serializable]
 	[ComVisible (true)]
 //	[Editor ("System.Drawing.Design.FontEditor, " + Consts.AssemblySystem_Drawing_Design, typeof (System.Drawing.Design.UITypeEditor))]
-//	[TypeConverter (typeof (FontConverter))]
+	[TypeConverter (typeof (FontConverter))]
 	public sealed partial class Font : MarshalByRefObject, ISerializable, ICloneable, IDisposable 
 	{
 	
@@ -26,6 +26,11 @@ namespace System.Drawing
 		bool  gdiVerticalFont;
 
 		static float dpiScale = 96f / 72f;
+
+		public Font (Font prototype, FontStyle newStyle)
+			: this (prototype.FontFamily, prototype.size, newStyle, prototype.unit, prototype.gdiCharSet, prototype.gdiVerticalFont)
+		{
+		}
 
 		public Font (FontFamily family, float emSize,  GraphicsUnit unit)
 			: this (family, emSize, FontStyle.Regular, unit, DefaultCharSet, false)
@@ -99,6 +104,11 @@ namespace System.Drawing
 			CreateNativeFont (familyName, emSize, style, unit, gdiCharSet, gdiVerticalFont);
 		}
 
+		internal Font (string familyName, float emSize, string systemName)
+			: this (familyName, emSize, FontStyle.Regular, GraphicsUnit.Point, DefaultCharSet, false)
+		{
+		}
+
 		#region ISerializable implementation
 		public void GetObjectData (SerializationInfo info, StreamingContext context)
 		{
@@ -133,9 +143,33 @@ namespace System.Drawing
 				}
 			}
 		}
-		
-#endregion
-		
+		#endregion
+
+		public IntPtr ToHfont()
+		{
+			throw new NotImplementedException ();
+		}
+
+		public static Font FromHfont(IntPtr hfont)
+		{
+			throw new NotImplementedException ();
+		}
+
+		public static Font FromLogFont(object logFont)
+		{
+			throw new NotImplementedException ();
+		}
+
+		public void ToLogFont(object logFont)
+		{
+			throw new NotImplementedException ();
+		}
+
+		public void ToLogFont(object logFont, Graphics g)
+		{
+			throw new NotImplementedException ();
+		}
+
 		public float SizeInPoints 
 		{
 			get { return sizeInPoints; }
@@ -176,7 +210,7 @@ namespace System.Drawing
 		}
 
 		public int Height {
-			get { return (int)Math.Round (GetHeight ()); }
+			get { return (int)Math.Round (GetNativeheight ()); }
 		}
 
 		public FontFamily FontFamily
@@ -189,7 +223,13 @@ namespace System.Drawing
 			get { return fontStyle; }
 		}
 
-		public float GetHeight() 
+		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
+		public string Name
+		{
+			get { return fontFamily.Name; }
+		}
+
+		public float GetHeight(Graphics g) 
 		{
 			return GetNativeheight ();
 		}

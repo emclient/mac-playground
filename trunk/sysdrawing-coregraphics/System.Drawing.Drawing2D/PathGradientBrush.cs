@@ -662,7 +662,7 @@ namespace System.Drawing.Drawing2D {
 			}
 		}
 
-		RectangleF pixelRect = new RectangleF (0, 0, 1, 1);
+		CGRect pixelRect = new CGRect (0, 0, 1, 1);
 		void RenderPixels(CGContext context, int x, int y, Edge edge32, Edge edge13, Edge edge21, int w1, int w2, int w3)
 		{
 

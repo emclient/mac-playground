@@ -105,7 +105,7 @@ namespace System.Drawing.Drawing2D
 		// properties
 		public float[] Elements {
 			get {
-				return new float [6] { transform.xx, transform.yx, transform.xy, transform.yy, transform.x0, transform.y0 };
+				return new float [6] { (float)transform.xx, (float)transform.yx, (float)transform.xy, (float)transform.yy, (float)transform.x0, (float)transform.y0 };
 			}
 		}
 		
@@ -131,13 +131,13 @@ namespace System.Drawing.Drawing2D
 		
 		public float OffsetX {
 			get {
-				return transform.x0;
+				return (float)transform.x0;
 			}
 		}
 		
 		public float OffsetY {
 			get {
-				return transform.y0;
+				return (float)transform.y0;
 			}
 		}
 		
@@ -313,8 +313,10 @@ namespace System.Drawing.Drawing2D
 			if (pts == null)
 				throw new ArgumentNullException ("pts");
 			
-			for (int i = 0; i < pts.Length; i++)
-				pts [i] = transform.TransformPoint (pts [i]);
+			for (int i = 0; i < pts.Length; i++) {
+				var point = transform.TransformPoint (new CGPoint (pts [i].X, pts [i].Y));
+				pts [i] = new PointF((float)point.X, (float)point.Y);
+			}
 		}
 		
 		internal void TransformPoints (List<PointF> pts)
@@ -322,8 +324,10 @@ namespace System.Drawing.Drawing2D
 			if (pts == null)
 				throw new ArgumentNullException ("pts");
 			
-			for (int i = 0; i < pts.Count; i++)
-				pts [i] = transform.TransformPoint (pts [i]);
+			for (int i = 0; i < pts.Count; i++) {
+				var point = transform.TransformPoint (new CGPoint (pts [i].X, pts [i].Y));
+				pts [i] = new PointF((float)point.X, (float)point.Y);
+			}
 		}
 		
 		public void TransformVectors (Point[] pts)

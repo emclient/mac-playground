@@ -14,6 +14,8 @@ using MonoMac.CoreGraphics;
 using MonoTouch.CoreGraphics;
 #endif
 
+using nfloat = System.Single;
+
 namespace System.Drawing 
 {
 	/// <summary>
@@ -186,7 +188,7 @@ namespace System.Drawing
 		// test draw pattern
 		private void DrawTexture (CGContext context)
 		{
-			var destRect = new RectangleF(0,0,textureImage.Width,textureImage.Height);
+			var destRect = new CGRect(0,0,textureImage.Width,textureImage.Height);
 			context.DrawImage(destRect, textureImage.NativeCGImage);
 
 			if (wrapMode == WrapMode.TileFlipX) 
@@ -275,7 +277,7 @@ namespace System.Drawing
 			patternSpace.Dispose();
 			
 			// Pattern default work variables
-			var patternRect = new RectangleF(HALF_PIXEL_X,HALF_PIXEL_Y,
+			var patternRect = new CGRect(HALF_PIXEL_X,HALF_PIXEL_Y,
 			                                 textureWidth+HALF_PIXEL_X,
 			                                 textureHeight+HALF_PIXEL_Y);
 			var patternTransform = CGAffineTransform.MakeIdentity();
@@ -310,7 +312,7 @@ namespace System.Drawing
 			                            CGPatternTiling.NoDistortion,
 			                            true, drawPattern);
 			//we dont need to set any color, as the pattern cell itself has chosen its own color
-			graphics.context.SetFillPattern(pattern, new float[] { 1 });
+			graphics.context.SetFillPattern(pattern, new nfloat[] { 1 });
 			
 			changed = false;
 

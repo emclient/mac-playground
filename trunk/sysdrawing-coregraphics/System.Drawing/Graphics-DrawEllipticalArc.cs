@@ -611,7 +611,7 @@ namespace System.Drawing
 			
 			if (Math.Abs(sweepAngle) >= 360)
 			{
-				graphics.AddEllipseInRect(new RectangleF(x,y,width,height));
+				graphics.AddEllipseInRect(new CGRect(x,y,width,height));
 				return;
 			}
 			

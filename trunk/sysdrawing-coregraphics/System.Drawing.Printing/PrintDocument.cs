@@ -53,12 +53,20 @@ namespace System.Drawing.Printing {
 		[Browsable (false)]
 		public PrinterSettings PrinterSettings { get; set; }
 		
-		
+		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
+		[Browsable (false)]
+		public PrintController PrintController { get; set; }
+
+		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
+		[Browsable (false)]
+		public bool OriginAtMargins { get; set; }
+
 		public void Print ()
 		{
 		}
 
 		
+		public event PrintEventHandler BeginPrint;
 		public event PrintPageEventHandler PrintPage;
 	}
 }

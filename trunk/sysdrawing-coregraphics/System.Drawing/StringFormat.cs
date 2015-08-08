@@ -30,6 +30,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
+using System.Drawing.Text;
 
 namespace System.Drawing {
 
@@ -37,6 +38,7 @@ namespace System.Drawing {
 
 
 		StringFormatFlags formatFlags = 0;
+		HotkeyPrefix hotkeyPrefix;
 
 		public StringFormat ()
 		{
@@ -116,11 +118,35 @@ namespace System.Drawing {
 				formatFlags = value;
 			}
 		}
+
+		public HotkeyPrefix HotkeyPrefix {
+			get {
+				return hotkeyPrefix;
+			}
+
+			set {
+				hotkeyPrefix = value;
+			}
+		}
 		
   		public void SetMeasurableCharacterRanges (CharacterRange [] ranges)
 		{					
 			throw new NotImplementedException ();
 		}
 		
+		public void SetTabStops(float firstTabOffset, float[] tabStops)
+		{
+			//throw new NotImplementedException ();
+		}
+
+		/*public void SetDigitSubstitution(int language,  StringDigitSubstitute substitute)
+		{
+			throw new NotImplementedException ();
+		}*/
+
+		public float[] GetTabStops(out float firstTabOffset)
+		{
+			throw new NotImplementedException ();
+		}
 	}
 }

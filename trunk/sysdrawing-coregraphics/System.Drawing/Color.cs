@@ -39,6 +39,7 @@ using System.Runtime.InteropServices;
 namespace System.Drawing 
 {
 	[Serializable]
+	[TypeConverter(typeof(ColorConverter))]
 	public struct Color {
 		int value;
 
@@ -65,13 +66,15 @@ namespace System.Drawing
 
 		public bool IsSystemColor {
 			get{
-				throw new NotImplementedException ();
+				return false;
+				//throw new NotImplementedException ();
 			}
 		}
 
 		public bool IsNamedColor {
 			get{
-				throw new NotImplementedException ();
+				return false;
+				//throw new NotImplementedException ();
 			}
 		}
 #endregion

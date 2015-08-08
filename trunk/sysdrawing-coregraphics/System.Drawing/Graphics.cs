@@ -30,12 +30,14 @@ using MonoTouch.CoreText;
 
 namespace System.Drawing {
 
-	public sealed partial class Graphics : MarshalByRefObject, IDisposable {
+	public sealed partial class Graphics : MarshalByRefObject, IDisposable, IDeviceContext {
 		internal CGContext context;
+		private Image image;
+		internal NSView focusedView;
 		internal Pen LastPen;
 		internal Brush LastBrush;
 		internal SizeF contextUserSpace;
-		internal RectangleF boundingBox;
+		internal CGRect boundingBox;
 		internal GraphicsUnit quartzUnit = GraphicsUnit.Point;
 		internal object nativeObject;
 		internal bool isFlipped;
@@ -48,9 +50,6 @@ namespace System.Drawing {
 		// Text Layout
 		internal Color lastBrushColor;
 
-		// Clipping state variables
-		int clipSet = 0;
-
 		// User Space variables
 		internal Matrix modelMatrix;
 		internal Matrix viewMatrix;
@@ -59,7 +58,6 @@ namespace System.Drawing {
 		private GraphicsUnit graphicsUnit = GraphicsUnit.Display;
 		private float pageScale = 1;
 		private PointF renderingOrigin = PointF.Empty;
-		private RectangleF subviewClipOffset = RectangleF.Empty;
 		private Region clipRegion;
 		private float screenScale;
 
@@ -111,9 +109,6 @@ namespace System.Drawing {
 		{
 			var gc = context;
 
-			if (gc.IsFlipped)
-				gc = NSGraphicsContext.FromGraphicsPort (gc.GraphicsPort, false);
-
 			// testing for now
 			//			var attribs = gc.Attributes;
 			//			attribs = NSScreen.MainScreen.DeviceDescription;
@@ -133,6 +128,24 @@ namespace System.Drawing {
 		{
 			return new Graphics (context);
 		}
+
+		public static Graphics FromHwnd (IntPtr hwnd)
+		{
+			if (hwnd == IntPtr.Zero)
+				return Graphics.FromImage (new Bitmap (1, 1));
+
+			Graphics g;
+			NSView view = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd);
+			if (NSView.FocusView () != view && view.LockFocusIfCanDraw ()) {
+				g = new Graphics (view.Window.GraphicsContext) { focusedView = view };
+			} else if (view.Window != null && view.Window.GraphicsContext != null) {
+				g = new Graphics (view.Window.GraphicsContext);
+			} else {
+				g = Graphics.FromImage (new Bitmap (1, 1));
+			}
+
+			return g;
+		}
 #endif
 
 		public static Graphics FromCurrentContext()
@@ -144,27 +157,23 @@ namespace System.Drawing {
 		{
 			this.context = context;
 
+			context.SaveState ();
+
 			modelMatrix = new Matrix();
 			viewMatrix = new Matrix();
-
-			ResetTransform();
+			modelViewMatrix = new Matrix();
 
 			boundingBox = context.GetClipBoundingBox();
 
-			// We are going to try this here and it may cause problems down the road.
-			// This seems to only happen with Mac and not iOS
-			// What is happening is that sub views are offset by their relative location
-			// within the window.  That means our drawing locations are also offset by this 
-			// value as well.  So what we need to do is translate our view by this offset as well.
-			subviewClipOffset = context.GetClipBoundingBox();
-
-			PageUnit = GraphicsUnit.Pixel;
-			PageScale = 1;
+			graphicsUnit = GraphicsUnit.Pixel;
+			pageScale = 1;
 
 			// Set anti-aliasing
 			SmoothingMode = SmoothingMode.Default;
 
 			clipRegion = new Region ();
+
+			setupView ();
 		}
 
 		private void initializeMatrix(ref Matrix matrix, bool isFlipped) 
@@ -175,7 +184,7 @@ namespace System.Drawing {
 				//				matrix.Translate(0, boundingBox.Height, MatrixOrder.Append);
 				//				matrix.Scale(1,-1, MatrixOrder.Append);
 				matrix = new Matrix(
-					1, 0, 0, -1, 0, boundingBox.Height);
+					1, 0, 0, -1, 0, (float)boundingBox.Height);
 				
 			}
 			else {
@@ -188,8 +197,8 @@ namespace System.Drawing {
 			// I will leave the previous commented out code there just in case.  When first implementing 
 			// DrawString the flipped coordinates were causing problems.  Now after implementing with 
 			// CoreText it seems to all be working.  Fingers Crossed.
-//			matrix = new Matrix(
-//				1, 0, 0, -1, 0, boundingBox.Height);
+			//matrix = new Matrix(
+			//	1, 0, 0, -1, 0, boundingBox.Height);
 		}
 
 		internal float GraphicsUnitConvertX (float x)
@@ -210,38 +219,71 @@ namespace System.Drawing {
 		public void Dispose ()
 		{
 			Dispose (true);
+			GC.SuppressFinalize (this);
 		}
 
 		internal void Dispose (bool disposing)
 		{
 			if (disposing){
-				if (context != null){
-					context.Dispose ();
-					context = null;
+				if (focusedView != null) {
+					focusedView.UnlockFocus ();
+					focusedView = null;
+				}
 
+				if (context != null){
+					context.RestoreState ();
+					// Do not dispose contexts for images, they are cached
+					if (image == null)
+						context.Dispose ();
+					context = null;
 				}
 			}
+		}
+
+		public IntPtr GetHdc()
+		{
+			throw new NotSupportedException ();
+		}
+
+		public void ReleaseHdc()
+		{
+			throw new NotSupportedException ();
+		}
+
+		public void ReleaseHdc(IntPtr hdc)
+		{
+			throw new NotSupportedException ();
+		}
+
+		public static Graphics FromHdc(IntPtr hdc)
+		{
+			throw new NotSupportedException ();		
+		}
+
+		public static Graphics FromHdcInternal(IntPtr hdc)
+		{
+			throw new NotSupportedException ();		
 		}
 
 		// from: gdip_cairo_move_to, inlined to assume converts_unit=true, antialias=true
 		void MoveTo (float x, float y)
 		{
-			context.MoveTo (x, y);
+			context.MoveTo (x + .5f, y + .5f);
 		}
 		
 		void MoveTo (PointF point)
 		{
-			context.MoveTo (point.X, point.Y);
+			context.MoveTo (point.X + .5f, point.Y + .5f);
 		}
 
 		void LineTo (PointF point)
 		{
-			context.AddLineToPoint (point.X, point.Y);
+			context.AddLineToPoint (point.X + .5f, point.Y + .5f);
 		}
 
 		void LineTo (float x, float y)
 		{
-			context.AddLineToPoint (x, y);
+			context.AddLineToPoint (x + .5f, y + .5f);
 		}
 		
 		void CurveTo (float x1, float y1, float x2, float y2, float x3, float y3)
@@ -478,9 +520,9 @@ namespace System.Drawing {
 			context.ClosePath ();
 		}
 			
-		void RectanglePath (RectangleF rectangle) 
+		void RectanglePath (CGRect rectangle) 
 		{
-			MoveTo (rectangle.Location);
+			MoveTo ((float)rectangle.Location.X, (float)rectangle.Location.Y);
 			context.AddRect(rectangle);
 			context.ClosePath();
 		}
@@ -490,7 +532,7 @@ namespace System.Drawing {
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 
-			RectanglePath (new RectangleF(x1, y1, x2, y2));
+			RectanglePath (new CGRect(x1 + .5f, y1 + .5f, x2, y2));
 			StrokePen (pen);
 		}
 		
@@ -498,7 +540,7 @@ namespace System.Drawing {
 		{
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
-			RectanglePath (new RectangleF(x1, y1, x2, y2));
+			RectanglePath (new CGRect(x1 + .5f, y1 + .5f, x2, y2));
 			StrokePen (pen);
 		}
 		
@@ -507,7 +549,7 @@ namespace System.Drawing {
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 
-			RectanglePath (new RectangleF(rect.X, rect.Y, rect.Width, rect.Height));
+			RectanglePath (new CGRect(rect.X + .5f, rect.Y + .5f, rect.Width, rect.Height));
 			StrokePen (pen);
 
 		}
@@ -516,7 +558,7 @@ namespace System.Drawing {
 		{
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
-			RectanglePath (new RectangleF(x1, y1, x2, y2));
+			RectanglePath (new CGRect(x1, y1, x2, y2));
 			FillBrush (brush);
 
 		}
@@ -525,7 +567,7 @@ namespace System.Drawing {
 		{
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
-			RectanglePath (new RectangleF(rect.X, rect.Y, rect.Width, rect.Height));
+			RectanglePath (new CGRect(rect.X, rect.Y, rect.Width, rect.Height));
 			FillBrush (brush);
 
 		}
@@ -534,7 +576,7 @@ namespace System.Drawing {
 		{
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
-			RectanglePath (new RectangleF(rect.X, rect.Y, rect.Width, rect.Height));
+			RectanglePath (new CGRect(rect.X, rect.Y, rect.Width, rect.Height));
 			FillBrush (brush);
 
 		}
@@ -544,7 +586,7 @@ namespace System.Drawing {
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
 
-			RectanglePath (new RectangleF(x1, y1, x2, y2));
+			RectanglePath (new CGRect(x1, y1, x2, y2));
 			FillBrush (brush);
 
 		}
@@ -575,7 +617,7 @@ namespace System.Drawing {
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 
-			context.AddEllipseInRect(rect);
+			context.AddEllipseInRect(new CGRect(rect.X, rect.Y, rect.Width, rect.Height));
 			StrokePen(pen);
 		}
 
@@ -606,7 +648,7 @@ namespace System.Drawing {
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
 
-			context.AddEllipseInRect(rect);
+			context.AddEllipseInRect(new CGRect(rect.X, rect.Y, rect.Width, rect.Height));
 			FillBrush(brush);
 		}
 
@@ -625,17 +667,18 @@ namespace System.Drawing {
 			// Since there is no context.SetCTM, only ConcatCTM
 			// get the current transform, invert it, and concat this to
 			// obtain the identity.   Then we concatenate the value passed
-			context.ConcatCTM (context.GetCTM().Invert());
+			context.ConcatCTM (modelViewMatrix.transform.Invert());
 
-			var modelView = CGAffineTransform.Multiply(modelMatrix.transform, viewMatrix.transform);
+			modelViewMatrix = modelMatrix.Clone();
+			modelViewMatrix.Multiply (viewMatrix);
 
 //			Console.WriteLine("------------ apply Model View ------");
 //			Console.WriteLine("Model: " + modelMatrix.transform);
 //			Console.WriteLine("View: " + viewMatrix.transform);
-//			Console.WriteLine("ModelView: " + modelView);
+//			Console.WriteLine("ModelView: " + modelViewMatrix.transform);
 //			Console.WriteLine("------------ end apply Model View ------\n\n");
 			// we apply the Model View matrix passed to the context
-			context.ConcatCTM (modelView);
+			context.ConcatCTM (modelViewMatrix.transform);
 
 		} 
 
@@ -888,9 +931,6 @@ namespace System.Drawing {
 		void setupView() 
 		{
 			initializeMatrix(ref viewMatrix, isFlipped);
-			// * NOTE * Here we offset our drawing by the subview Clipping region of the Window
-			// this is so that we start at offset 0,0 for all of our graphic operations
-			viewMatrix.Translate(subviewClipOffset.Location.X, subviewClipOffset.Y, MatrixOrder.Append);
 
 			// Take into account retina diplays
 			viewMatrix.Scale(screenScale, screenScale);
@@ -899,7 +939,7 @@ namespace System.Drawing {
 			userspaceScaleY = GraphicsUnitConvertY(1) * pageScale;
 			viewMatrix.Scale(userspaceScaleX, userspaceScaleY);
 			viewMatrix.Translate(renderingOrigin.X * userspaceScaleX, 
-			                     -renderingOrigin.Y * userspaceScaleY,MatrixOrder.Append);
+			                     -renderingOrigin.Y * userspaceScaleY, MatrixOrder.Append);
 			applyModelView();
 			
 		}
@@ -941,7 +981,7 @@ namespace System.Drawing {
 
 			var bitmapContext = b.GetRenderableContext ();
 
-			return new Graphics (bitmapContext, false);
+			return new Graphics (bitmapContext, false) { image = b };
 		}
 		
 		public void SetClip (RectangleF rect)
@@ -988,7 +1028,7 @@ namespace System.Drawing {
 		{
 			// We need to reset the clip that is active now so that the graphic
 			// states are correct when we set them.
-			ResetClip ();
+			ResetClip();
 
 			switch (combineMode) 
 			{
@@ -1024,17 +1064,13 @@ namespace System.Drawing {
 			//Therefore, to re-enlarge the paintable area by restoring the clipping path to a 
 			//prior state, you must save the graphics state before you clip and restore the graphics 
 			//state after you’ve completed any clipped drawing.
-			context.SaveState ();
-			if (clipRegion.IsEmpty) {
-				context.ClipToRect (RectangleF.Empty);
+			if (clipRegion.IsEmpty(this)) {
+				context.ClipToRect (CGRect.Empty);
 			} else {
-				//context.ClipToRect ((RectangleF)clipRegion.regionObject);
 				context.AddPath (clipRegion.regionPath);
 				context.ClosePath ();
 				context.Clip ();
 			}
-			clipSet++;
-
 		}
 		
 		public GraphicsContainer BeginContainer ()
@@ -1088,16 +1124,17 @@ namespace System.Drawing {
 		
 		public bool IsClipEmpty {
 			get {
-				return clipRegion.IsEmpty;
+				return clipRegion.IsEmpty(this);
 			}
 		}
 
 		public PixelOffsetMode PixelOffsetMode {
 			get {
-				throw new NotImplementedException ();
+				//throw new NotImplementedException ();
+				return PixelOffsetMode.None;					
 			}
 			set {
-				throw new NotImplementedException ();
+				//throw new NotImplementedException ();
 			}
 		}
 		
@@ -1122,7 +1159,8 @@ namespace System.Drawing {
 		
 		public RectangleF VisibleClipBounds {
 			get {
-				throw new NotImplementedException ();
+				return clipRegion.GetBounds ();
+				//throw new NotImplementedException ();
 			}
 			set {
 				throw new NotImplementedException ();
@@ -1235,21 +1273,14 @@ namespace System.Drawing {
 
 		public void ResetClip ()
 		{
-			if (clipSet > 0) 
-			{
-
-				//Unlike the current path, the current clipping path is part of the graphics state. 
-				//Therefore, to re-enlarge the paintable area by restoring the clipping path to a 
-				//prior state, you must save the graphics state before you clip and restore the graphics 
-				//state after you’ve completed any clipped drawing.
-				context.EOClip ();
-				context.RestoreState ();
-
-				// We are clobbering our transform when we do the restore.
-				// there are probably other one as well.
-				applyModelView ();
-				clipSet--;
-			}
+			//Unlike the current path, the current clipping path is part of the graphics state. 
+			//Therefore, to re-enlarge the paintable area by restoring the clipping path to a 
+			//prior state, you must save the graphics state before you clip and restore the graphics 
+			//state after you’ve completed any clipped drawing.
+			context.RestoreState ();
+			context.SaveState ();
+			modelViewMatrix.Reset ();
+			applyModelView ();
 		}
 		
 		public void ExcludeClip (Rectangle rect)
@@ -1433,14 +1464,13 @@ namespace System.Drawing {
 				FillBrush(brush);
 			}
 		}
-#if MONOTOUCH	
+
 		public void DrawIcon (Icon icon, Rectangle targetRect)
 		{
 			if (icon == null)
 				throw new ArgumentNullException ("icon");
 
-			//DrawImage (icon.GetInternalBitmap (), targetRect);
-			throw new NotImplementedException ();
+			DrawImage (icon.ToBitmap (), targetRect);
 		}
 
 		public void DrawIcon (Icon icon, int x, int y)
@@ -1448,8 +1478,7 @@ namespace System.Drawing {
 			if (icon == null)
 				throw new ArgumentNullException ("icon");
 
-			//DrawImage (icon.GetInternalBitmap (), x, y);
-			throw new NotImplementedException ();
+			DrawImage (icon.ToBitmap (), x, y);
 		}
 		
 		public void DrawIconUnstretched (Icon icon, Rectangle targetRect)
@@ -1457,10 +1486,9 @@ namespace System.Drawing {
 			if (icon == null)
 				throw new ArgumentNullException ("icon");
 
-			//DrawImageUnscaled (icon.GetInternalBitmap (), targetRect);
-			throw new NotImplementedException ();
+			DrawImageUnscaled (icon.ToBitmap (), targetRect);
 		}
-#endif		
+
 		public void DrawPie (Pen pen, Rectangle rect, float startAngle, float sweepAngle)
 		{
 			if (pen == null)
@@ -1614,7 +1642,7 @@ namespace System.Drawing {
 			if (context == null)
 				return;
 
-			throw new NotImplementedException ();
+			context.Synchronize ();
 		}
 		
 		public bool IsVisible (Point point)
