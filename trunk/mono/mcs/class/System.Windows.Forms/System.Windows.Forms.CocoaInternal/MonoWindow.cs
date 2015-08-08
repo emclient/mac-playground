@@ -3,6 +3,13 @@ using MonoMac.AppKit;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+#if SDCOMPAT
+using NSRect = System.Drawing.RectangleF;
+using NSPoint = System.Drawing.PointF;
+#else
+using NSRect = MonoMac.CoreGraphics.CGRect;
+using NSPoint = MonoMac.CoreGraphics.CGPoint;
+#endif
 
 namespace System.Windows.Forms.CocoaInternal
 {
@@ -15,7 +22,7 @@ namespace System.Windows.Forms.CocoaInternal
 		}
 			
 		//[Export ("initWithContentRect:styleMask:backing:defer:"), CompilerGenerated]
-		internal MonoWindow (RectangleF contentRect, NSWindowStyle aStyle, NSBackingStore bufferingType, bool deferCreation, XplatUICocoa driver) 
+		internal MonoWindow (NSRect contentRect, NSWindowStyle aStyle, NSBackingStore bufferingType, bool deferCreation, XplatUICocoa driver) 
 			: base(contentRect, aStyle, bufferingType, deferCreation)
 		{
 			this.driver = driver;

@@ -60,7 +60,7 @@ using System.Drawing;
 using MonoMac.Foundation;
 
 namespace System.Windows.Forms.CocoaInternal {
-	internal struct CGPoint {
+	/*internal struct CGPoint {
 		public float x;
 		public float y;
 
@@ -68,7 +68,7 @@ namespace System.Windows.Forms.CocoaInternal {
 			this.x = (float)x;
 			this.y = (float)y;
 		}
-	}
+	}*/
 
 	internal struct Caret {
 		internal Timer Timer;
