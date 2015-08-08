@@ -264,7 +264,13 @@ namespace System.Drawing
 				InitFromStreamWithSize (dataStream, width, height);
 			}
 		}
-		
+
+		internal Icon (Bitmap bitmap)
+		{
+			this.bitmap = bitmap;
+			this.undisposable = true;
+		}
+
 		internal Icon (string resourceName, bool undisposable)
 		{
 			using (Stream s = typeof (Icon).Assembly.GetManifestResourceStream (resourceName)) {
@@ -525,22 +531,26 @@ namespace System.Drawing
 			// save every icons available
 			Save (outputStream, -1, -1);
 		}
-#if !MONOTOUCH && !MONOMAC
-		internal Bitmap BuildBitmapOnWin32 ()
-		{
-			Bitmap bmp;
 			
+		// note: all bitmaps are 32bits ARGB - no matter what the icon format (bitcount) was
+		public Bitmap ToBitmap ()
+		{
+			if (disposed)
+				throw new ObjectDisposedException (Locale.GetText ("Icon instance was disposed."));
+			
+			Bitmap bmp;
+
 			if (imageData == null)
 				return new Bitmap (32, 32);
-			
+
 			IconImage ii = (IconImage) imageData [id];
 			BitmapInfoHeader bih = ii.iconHeader;
 			int biHeight = bih.biHeight / 2;
-			
+
 			int ncolors = (int)bih.biClrUsed;
 			if ((ncolors == 0) && (bih.biBitCount < 24))
 				ncolors = (int)(1 << bih.biBitCount);
-			
+
 			switch (bih.biBitCount) {
 			case 1:
 				bmp = new Bitmap (bih.biWidth, biHeight, PixelFormat.Format1bppIndexed);
@@ -561,28 +571,28 @@ namespace System.Drawing
 				string msg = Locale.GetText ("Unexpected number of bits: {0}", bih.biBitCount);
 				throw new Exception (msg);
 			}
-			
+
 			if (bih.biBitCount < 24) {
 				ColorPalette pal = bmp.Palette; // Managed palette
-				
+
 				for (int i = 0; i < ii.iconColors.Length; i++) {
 					pal.Entries[i] = Color.FromArgb ((int)ii.iconColors[i] | unchecked((int)0xff000000));
 				}
 				bmp.Palette = pal;
 			}
-			
+
 			int bytesPerLine = (int)((((bih.biWidth * bih.biBitCount) + 31) & ~31) >> 3);
 			BitmapData bits = bmp.LockBits (new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, bmp.PixelFormat);
-			
+
 			for (int y = 0; y < biHeight; y++) {
 				Marshal.Copy (ii.iconXOR, bytesPerLine * y, 
-				              (IntPtr)(bits.Scan0.ToInt64() + bits.Stride * (biHeight - 1 - y)), bytesPerLine);
+					(IntPtr)(bits.Scan0.ToInt64() + bits.Stride * (biHeight - 1 - y)), bytesPerLine);
 			}
-			
+
 			bmp.UnlockBits (bits);
-			
+
 			bmp = new Bitmap (bmp); // This makes a 32bpp image out of an indexed one
-			
+
 			// Apply the mask to make properly transparent
 			bytesPerLine = (int)((((bih.biWidth) + 31) & ~31) >> 3);
 			for (int y = 0; y < biHeight; y++) {
@@ -594,45 +604,10 @@ namespace System.Drawing
 					}
 				}
 			}
-			
+
 			return bmp;
 		}
-		
-		internal Bitmap GetInternalBitmap ()
-		{
-			if (bitmap == null) {
-				if (GDIPlus.RunningOnUnix ()) {
-					// Mono's libgdiplus doesn't require to keep the stream alive when loading images
-					using (MemoryStream ms = new MemoryStream ()) {
-						// save the current icon
-						Save (ms, Width, Height);
-						ms.Position = 0;
-						
-						// libgdiplus can now decode icons
-						bitmap = (Bitmap) Image.LoadFromStream (ms, false);
-					}
-				} else {
-					// MS GDI+ ICO codec is more limited than the MS Icon class
-					// so we can't, reliably, get bitmap using it. We need to do this the "slow" way
-					bitmap = BuildBitmapOnWin32 ();
-				}
-			}
-			return bitmap;
-		}
-		
-		// note: all bitmaps are 32bits ARGB - no matter what the icon format (bitcount) was
-		public Bitmap ToBitmap ()
-		{
-			if (disposed)
-				throw new ObjectDisposedException (Locale.GetText ("Icon instance was disposed."));
-			
-			// note: we can't return the original image because
-			// (a) we have no control over the bitmap instance we return (i.e. it could be disposed)
-			// (b) the palette, flags won't match MS results. See MonoTests.System.Drawing.Imaging.IconCodecTest.
-			//     Image16 for the differences
-			return new Bitmap (GetInternalBitmap ());
-		}
-#endif
+
 		public override string ToString ()
 		{
 			//is this correct, this is what returned by .Net
@@ -874,6 +849,11 @@ namespace System.Drawing
 			}			
 			
 			reader.Close();
+		}
+
+		public static Icon ExtractAssociatedIcon(string filePath)
+		{
+			throw new NotImplementedException ();
 		}
 	}
 }

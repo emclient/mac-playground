@@ -42,6 +42,8 @@ using MonoTouch.Foundation;
 using MonoTouch.CoreText;
 #endif
 
+using nfloat = System.Single;
+
 namespace System.Drawing.Drawing2D 
 {
 
@@ -107,7 +109,7 @@ namespace System.Drawing.Drawing2D
 
 			// Calculate the lines
 			int start = 0;
-			int length = attributedString.Length;
+			int length = (int)attributedString.Length;
 
 			var typesetter = new CTTypesetter(attributedString);
 
@@ -121,9 +123,9 @@ namespace System.Drawing.Drawing2D
 					var line = typesetter.GetLine (new NSRange(start, count));
 
 					// Create and initialize some values from the bounds.
-					float ascent;
-					float descent;
-					float leading;
+					nfloat ascent;
+					nfloat descent;
+					nfloat leading;
 					line.GetTypographicBounds (out ascent, out descent, out leading);
 					baselineOffset += (float)Math.Ceiling (ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior  
 					line.Dispose ();
@@ -143,15 +145,15 @@ namespace System.Drawing.Drawing2D
 				var line = typesetter.GetLine(new NSRange(start, count));
 
 				// Create and initialize some values from the bounds.
-				float ascent;
-				float descent;
-				float leading;
+				nfloat ascent;
+				nfloat descent;
+				nfloat leading;
 				double lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
 
 				if (!layoutAvailable)
 				{
 					insetBounds.Width = (float)lineWidth;
-					insetBounds.Height = ascent + descent + leading;
+					insetBounds.Height = (float)(ascent + descent + leading);
 				}
 
 				// Calculate the string format if need be
@@ -206,11 +208,14 @@ namespace System.Drawing.Drawing2D
 							glyphPath.Apply (
 								delegate (CGPathElement pathElement) {
 
-										elementPoints[0] = textMatrix.TransformPoint(pathElement.Point1);
-										elementPoints[1] = textMatrix.TransformPoint(pathElement.Point2);
-								        elementPoints[2] = textMatrix.TransformPoint(pathElement.Point3);
-								//Console.WriteLine ("Applying {0} - {1}, {2}, {3}", pathElement.Type, elementPoints[0], elementPoints[1], elementPoints[2]);
+										var ep0 = textMatrix.TransformPoint(pathElement.Point1);
+										elementPoints[0] = new PointF((float)ep0.X, (float)ep0.Y);
+										var ep1 = textMatrix.TransformPoint(pathElement.Point2);
+										elementPoints[1] = new PointF((float)ep1.X, (float)ep1.Y);
+										var ep2 = textMatrix.TransformPoint(pathElement.Point3);
+										elementPoints[2] = new PointF((float)ep2.X, (float)ep2.Y);
 										
+								//Console.WriteLine ("Applying {0} - {1}, {2}, {3}", pathElement.Type, elementPoints[0], elementPoints[1], elementPoints[2]);										
 										
 										// now add position offsets
 										switch(pathElement.Type)

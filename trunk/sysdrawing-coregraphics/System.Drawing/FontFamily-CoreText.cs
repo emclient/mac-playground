@@ -40,6 +40,9 @@ using MonoTouch.CoreGraphics;
 using MonoTouch.CoreText;
 #endif
 
+using nfloat = System.Single;
+using NMath = System.Math;
+
 namespace System.Drawing
 {
 	public sealed partial class FontFamily
@@ -184,11 +187,11 @@ namespace System.Drawing
 			case Metric.CellDescent:
 				return (int)Math.Round(font.DescentMetric / font.Size * font.UnitsPerEmMetric);
 			case  Metric.LineSpacing:
-				float lineHeight = 0;
+				nfloat lineHeight = 0;
 				lineHeight += font.AscentMetric;
 				lineHeight += font.DescentMetric;
 				lineHeight += font.LeadingMetric;
-				return (int)Math.Round(lineHeight / font.Size * font.UnitsPerEmMetric);
+				return (int)NMath.Round(lineHeight / font.Size * font.UnitsPerEmMetric);
 			}
 
 			return 0;

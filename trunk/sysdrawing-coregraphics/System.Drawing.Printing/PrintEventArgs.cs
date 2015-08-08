@@ -1,14 +1,14 @@
 //
-// System.Drawing.PageSettings.cs
+// System.Drawing.PrintEventArgs.cs
 //
-// Authors:
+// Author:
 //   Dennis Hayes (dennish@Raytek.com)
-//   Herve Poussineau (hpoussineau@fr.st)
-//   Andreas Nahr (ClassDevelopment@A-SoftTech.com)
-//   Sebastien Pouliot  <sebastien@xamarin.com>
+//
+// (C) 2002 Ximian, Inc
+//
+
 //
 // Copyright (C) 2004 Novell, Inc (http://www.novell.com)
-// Copyright 2011-2013 Xamarin Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -29,30 +29,23 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-
-namespace System.Drawing.Printing {
-	
-	public class PageSettings : ICloneable {
-
-		public PageSettings ()
+using System;
+//NOTE: Complete! Aparently just a redifiniton of CancleEventArgs specific to Printing.
+namespace System.Drawing.Printing
+{
+	/// <summary>
+	/// Summary description for PrintEventArgs.
+	/// </summary>
+	public class PrintEventArgs : System.ComponentModel.CancelEventArgs
+	{
+		internal PrintAction action;
+		
+		public PrintEventArgs()
 		{
 		}
 
-		
-		public bool Landscape { get; set; }
-
-		public PaperSize PaperSize { get; set; }
-
-		public Margins Margins { get; set; }
-
-		public PrinterSettings PrinterSettings { get; set; }		
-
-		public PaperSource PaperSource { get; set; }
-
-		public object Clone ()
-		{
-			// FIXME
-			return new PageSettings ();
+		public PrintAction PrintAction {
+			get { return action; }
 		}
 	}
 }

@@ -18,7 +18,7 @@ namespace System.Drawing {
 
 	public partial class SolidBrush : Brush {
 		Color color;
-		bool isModifiable;
+		internal bool isModifiable;
 		bool isModified;
 
 		public SolidBrush (Color color)

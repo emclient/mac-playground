@@ -70,6 +70,16 @@ namespace System.Drawing.Imaging
 			isColorMatrixSet = true;
 		}
 
+		public void SetColorKey (Color colorLow, Color colorHigh)
+		{
+			SetColorKey (colorLow, colorHigh, ColorAdjustType.Default);
+		}
+
+		public void SetColorKey (Color colorLow, Color colorHigh, ColorAdjustType type)
+		{
+			// FIXME
+		}
+
 		/// <summary>
 		/// Sets the gamma.
 		/// </summary>
@@ -96,7 +106,6 @@ namespace System.Drawing.Imaging
 		#region IDisposable implementation
 		public void Dispose ()
 		{
-			throw new NotImplementedException ();
 		}
 		#endregion
 	}

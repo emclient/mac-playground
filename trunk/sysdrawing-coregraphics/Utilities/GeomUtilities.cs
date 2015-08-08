@@ -8,6 +8,8 @@ using MonoMac.CoreGraphics;
 using MonoTouch.CoreGraphics;
 #endif
 
+using nfloat = System.Single;
+
 namespace System.Drawing
 {
 	internal static class GeomUtilities
@@ -378,7 +380,7 @@ namespace System.Drawing
 		/// <returns>The affine transform.</returns>
 		/// <param name="rect">Rectangle.</param>
 		/// <param name="points">Points.</param>
-		internal static CGAffineTransform CreateGeometricTransform(RectangleF rect, PointF[] points)
+		internal static CGAffineTransform CreateGeometricTransform(CGRect rect, PointF[] points)
 		{
 			var p0 = points [0];
 			var p1 = points [1];
@@ -387,10 +389,10 @@ namespace System.Drawing
 			var width = rect.Width;
 			var height = rect.Height;
 
-			float m11 = (p1.X - p0.X) / width;
-			float m12 = (p1.Y - p0.Y) / width;
-			float m21 = (p2.X - p0.X) / height;
-			float m22 = (p2.Y - p0.Y) / height;
+			nfloat m11 = (p1.X - p0.X) / width;
+			nfloat m12 = (p1.Y - p0.Y) / width;
+			nfloat m21 = (p2.X - p0.X) / height;
+			nfloat m22 = (p2.Y - p0.Y) / height;
 
 			return new CGAffineTransform (m11, m12, m21, m22, p0.X, p0.Y);
 
@@ -467,14 +469,14 @@ namespace System.Drawing
 			var x = rectangle.X;
 			var y = rectangle.Y;
 
-			rectangle.X = transform.xx * x + transform.xy * y + transform.x0;
-			rectangle.Y = transform.yx * x + transform.yy * y + transform.y0;
+			rectangle.X = (float)(transform.xx * x + transform.xy * y + transform.x0);
+			rectangle.Y = (float)(transform.yx * x + transform.yy * y + transform.y0);
 
 			x = rectangle.Width;
 			y = rectangle.Height;
 
-			rectangle.Width = transform.xx * x + transform.xy * y + transform.x0;
-			rectangle.Height = transform.yx * x + transform.yy * y + transform.y0;
+			rectangle.Width = (float)(transform.xx * x + transform.xy * y + transform.x0);
+			rectangle.Height = (float)(transform.yx * x + transform.yy * y + transform.y0);
 
 		}
 
@@ -489,14 +491,14 @@ namespace System.Drawing
 			var x = rectangle.X;
 			var y = rectangle.Y;
 
-			rectangle.X = transform.xx * x + transform.xy * y + transform.x0;
-			rectangle.Y = transform.yx * x + transform.yy * y + transform.y0;
+			rectangle.X = (float)(transform.xx * x + transform.xy * y + transform.x0);
+			rectangle.Y = (float)(transform.yx * x + transform.yy * y + transform.y0);
 
 			x = rectangle.Width;
 			y = rectangle.Height;
 
-			rectangle.Width = transform.xx * x + transform.xy * y + transform.x0;
-			rectangle.Height = transform.yx * x + transform.yy * y + transform.y0;
+			rectangle.Width = (float)(transform.xx * x + transform.xy * y + transform.x0);
+			rectangle.Height = (float)(transform.yx * x + transform.yy * y + transform.y0);
 
 			return new RectangleF (rectangle.Location, rectangle.Size);;
 		}

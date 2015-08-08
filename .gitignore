@@ -7,3 +7,9 @@ trunk/mono/mcs/class/System.Drawing/obj
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms-net_4_5.userprefs
 trunk/mono/mcs/class/System.Windows.Forms/obj
 trunk/mono/mcs/class/lib
+trunk/sysdrawing-coregraphics/lib
+trunk/sysdrawing-coregraphics/obj
+trunk/sysdrawing-coregraphics/sysdrawing-coregraphics-Mac/bin
+trunk/sysdrawing-coregraphics/sysdrawing-coregraphics-Mac/obj
+trunk/sysdrawing-coregraphics/sysdrawing-coregraphics-Mac/sysdrawing-coregraphics-Mac.userprefs
+trunk/sysdrawing-coregraphics/sysdrawing-coregraphics.userprefs

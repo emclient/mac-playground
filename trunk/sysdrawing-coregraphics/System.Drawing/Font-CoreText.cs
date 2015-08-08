@@ -35,6 +35,8 @@ using MonoTouch.CoreGraphics;
 using MonoTouch.CoreText;
 #endif
 
+using nfloat = System.Single;
+
 namespace System.Drawing
 {
 	public partial class Font
@@ -106,14 +108,14 @@ namespace System.Drawing
 		{
 			// Documentation for Accessing Font Metrics
 			// http://developer.apple.com/library/ios/#documentation/StringsTextFonts/Conceptual/CoreText_Programming/Operations/Operations.html
-			float lineHeight = 0;
+			nfloat lineHeight = 0;
 			lineHeight += nativeFont.AscentMetric;
 			lineHeight += nativeFont.DescentMetric;
 			lineHeight += nativeFont.LeadingMetric;
 
 
 			// Still have not figured this out yet!!!!
-			return lineHeight;
+			return (float)lineHeight;
 
 		}
 	}

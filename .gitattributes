@@ -5752,9 +5752,11 @@ trunk/sysdrawing-coregraphics/System.Drawing.Drawing2D/HatchBrush.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing.Drawing2D/LinearGradientBrush.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing.Drawing2D/Matrix.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing.Drawing2D/PathGradientBrush.cs -text
+trunk/sysdrawing-coregraphics/System.Drawing.Imaging/ColorPalette.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing.Imaging/ImageAttributes.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing.Printing/PageSettings.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing.Printing/PrintDocument.cs -text
+trunk/sysdrawing-coregraphics/System.Drawing.Printing/PrintEventArgs.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing.Printing/PrintPageEventArgs.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing.Printing/PrinterSettings.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing.Text/FontCollection-CoreText.cs -text
@@ -5781,6 +5783,8 @@ trunk/sysdrawing-coregraphics/System.Drawing/Pen.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing/Region.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing/SolidBrush.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing/StringFormat.cs -text
+trunk/sysdrawing-coregraphics/System.Drawing/SystemFonts.cs -text
+trunk/sysdrawing-coregraphics/System.Drawing/SystemIcons.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing/TextureBrush.cs -text
 trunk/sysdrawing-coregraphics/Utilities/ClipperLib/clipper.cs -text
 trunk/sysdrawing-coregraphics/Utilities/ConversionHelpers.cs -text

@@ -30,12 +30,20 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
+using System.Collections;
+using System.ComponentModel;
 
 namespace System.Drawing.Printing {
 	
 	[Serializable]
 	public class PrinterSettings : ICloneable {
-		
+		private int from_page;
+		private int to_page;
+		private int minimum_page;
+		private int maximum_page;
+		private short copies;
+		private PrintRange print_range;
+
 		public PrinterSettings ()
 		{
 		}
@@ -44,6 +52,287 @@ namespace System.Drawing.Printing {
 		{
 			// FIXME
 			return new PrinterSettings ();
+		}
+
+		public bool IsValid {
+			get { return false; }
+		}
+
+		public string PrinterName {
+			get;
+			set;
+		}
+
+		public int FromPage
+		{
+			get { return from_page; }
+			set {
+				if (value < 0)
+					throw new ArgumentException ("The value of the FromPage property is less than zero");
+
+				from_page = value;
+			}
+		}
+
+		public int ToPage
+		{
+			get { return to_page; }
+			set {
+				if (value < 0)
+					throw new ArgumentException ("The value of the FromPage property is less than zero");
+
+				to_page = value;
+			}
+		}
+
+		public int MaximumPage
+		{
+			get { return maximum_page; }
+			set {
+				// This not documented but behaves like MinimumPage
+				if (value < 0)
+					throw new ArgumentException ("The value of the MaximumPage property is less than zero");
+
+				maximum_page = value;
+			}
+		}
+
+		public int MinimumPage
+		{
+			get { return minimum_page; }
+			set {
+				if (value < 0)
+					throw new ArgumentException ("The value of the MaximumPage property is less than zero");
+
+				minimum_page = value;
+			}
+		}
+
+		public bool Collate {
+			get;
+			set;
+		}
+
+		public short Copies
+		{
+			get { return copies; }
+			set { 
+				if (value < 0)
+					throw new ArgumentException ("The value of the Copies property is less than zero.");
+
+				copies = value;
+			}
+		}
+
+		public PrinterSettings.PaperSizeCollection PaperSizes
+		{
+			get {
+				throw new InvalidPrinterException(this);
+			}
+		}
+
+		public PrinterSettings.PaperSourceCollection PaperSources
+		{
+			get {
+				throw new InvalidPrinterException(this);
+			}
+		}
+
+		public PrintRange PrintRange
+		{
+			get { return print_range; }
+			set { 
+				if (value != PrintRange.AllPages && value != PrintRange.Selection &&
+					value != PrintRange.SomePages)
+					throw new InvalidEnumArgumentException ("The value of the PrintRange property is not one of the PrintRange values");
+
+				print_range = value;
+			}
+		}
+
+		public bool PrintToFile {
+			get;
+			set;
+		}
+
+		public string PrintFileName {
+			get;
+			set;
+		}
+
+		public PageSettings DefaultPageSettings
+		{
+			get {
+				return new PageSettings ();
+			}
+		}
+
+		public static PrinterSettings.StringCollection InstalledPrinters
+		{
+			get { return new StringCollection(new string[0]); }
+		}
+
+		public class PaperSourceCollection : ICollection, IEnumerable
+		{
+			ArrayList _PaperSources = new ArrayList();
+
+			public PaperSourceCollection(PaperSource[] array) {
+				foreach (PaperSource ps in array)
+					_PaperSources.Add(ps);
+			}
+
+			public int Count { get { return _PaperSources.Count; } }
+			int ICollection.Count { get { return _PaperSources.Count; } }
+			bool ICollection.IsSynchronized { get { return false; } }
+			object ICollection.SyncRoot { get { return this; } }			
+			[EditorBrowsable(EditorBrowsableState.Never)]
+			public int Add (PaperSource paperSource) {return _PaperSources.Add (paperSource); }
+			public void CopyTo (PaperSource[] paperSources, int index)  {throw new NotImplementedException (); }
+
+			public virtual PaperSource this[int index] {
+				get { return _PaperSources[index] as PaperSource; }
+			}
+
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return _PaperSources.GetEnumerator();
+			}
+
+			public IEnumerator GetEnumerator()
+			{
+				return _PaperSources.GetEnumerator();
+			}
+
+			void ICollection.CopyTo(Array array, int index)
+			{
+				_PaperSources.CopyTo(array, index);
+			}
+
+			internal void Clear ()
+			{ 
+				_PaperSources.Clear (); 
+			}
+
+		}
+
+		public class PaperSizeCollection : ICollection, IEnumerable
+		{
+			ArrayList _PaperSizes = new ArrayList();
+
+			public PaperSizeCollection(PaperSize[] array) {
+				foreach (PaperSize ps in array)
+					_PaperSizes.Add(ps);
+			}
+
+			public int Count { get { return _PaperSizes.Count; } }
+			int ICollection.Count { get { return _PaperSizes.Count; } }
+			bool ICollection.IsSynchronized { get { return false; } }
+			object ICollection.SyncRoot { get { return this; } }			
+			[EditorBrowsable(EditorBrowsableState.Never)]
+			public int Add (PaperSize paperSize) {return _PaperSizes.Add (paperSize); }	
+			public void CopyTo (PaperSize[] paperSizes, int index) {throw new NotImplementedException (); }			
+
+			public virtual PaperSize this[int index] {
+				get { return _PaperSizes[index] as PaperSize; }
+			}
+
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return _PaperSizes.GetEnumerator();
+			}
+
+			public IEnumerator GetEnumerator()
+			{
+				return _PaperSizes.GetEnumerator();
+			}
+
+			void ICollection.CopyTo(Array array, int index)
+			{
+				_PaperSizes.CopyTo(array, index);
+			}
+
+			internal void Clear ()
+			{ 
+				_PaperSizes.Clear (); 
+			}
+		}
+
+		public class PrinterResolutionCollection : ICollection, IEnumerable
+		{
+			ArrayList _PrinterResolutions = new ArrayList();
+
+			public PrinterResolutionCollection(PrinterResolution[] array) {
+				foreach (PrinterResolution pr in array)
+					_PrinterResolutions.Add(pr);
+			}
+
+			public int Count { get { return _PrinterResolutions.Count; } }
+			int ICollection.Count { get { return _PrinterResolutions.Count; } }
+			bool ICollection.IsSynchronized { get { return false; } }
+			object ICollection.SyncRoot { get { return this; } }			
+			[EditorBrowsable(EditorBrowsableState.Never)]
+			public int Add (PrinterResolution printerResolution) { return _PrinterResolutions.Add (printerResolution); }
+			public void CopyTo (PrinterResolution[] printerResolutions, int index) {throw new NotImplementedException (); }
+
+			public virtual PrinterResolution this[int index] {
+				get { return _PrinterResolutions[index] as PrinterResolution; }
+			}
+
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return _PrinterResolutions.GetEnumerator();
+			}
+
+			public IEnumerator GetEnumerator()
+			{
+				return _PrinterResolutions.GetEnumerator();
+			}
+
+			void ICollection.CopyTo(Array array, int index)
+			{
+				_PrinterResolutions.CopyTo(array, index);
+			}
+
+			internal void Clear ()
+			{ 
+				_PrinterResolutions.Clear (); 
+			}
+		}
+		public class StringCollection : ICollection, IEnumerable
+		{
+			ArrayList _Strings = new ArrayList();
+
+			public StringCollection(string[] array) {
+				foreach (string s in array)
+					_Strings.Add(s);
+			}
+
+			public int Count { get { return _Strings.Count; } }
+			int ICollection.Count { get { return _Strings.Count; } }
+			bool ICollection.IsSynchronized { get { return false; } }
+			object ICollection.SyncRoot { get { return this; } }
+
+			public virtual string this[int index] {
+				get { return _Strings[index] as string; }
+			}
+			[EditorBrowsable(EditorBrowsableState.Never)]
+			public int Add (string value) { return _Strings.Add (value); }
+			public void CopyTo (string[] strings, int index) {throw new NotImplementedException (); }      			
+
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return _Strings.GetEnumerator();
+			}
+
+			public IEnumerator GetEnumerator()
+			{
+				return _Strings.GetEnumerator();
+			}
+
+			void ICollection.CopyTo(Array array, int index)
+			{
+				_Strings.CopyTo(array, index);
+			}			
 		}
 	}
 }
