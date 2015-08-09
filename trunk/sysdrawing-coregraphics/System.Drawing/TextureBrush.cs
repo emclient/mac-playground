@@ -268,9 +268,6 @@ namespace System.Drawing
 				textureHeight *= 2;
 			}
 
-			// this is here for testing only
-			var textureOffset = new PointF(0,-0);
-
 			//choose the pattern to be filled based on the currentPattern selected
 			var patternSpace = CGColorSpace.CreatePattern(null);
 			graphics.context.SetFillColorSpace(patternSpace);
@@ -280,21 +277,11 @@ namespace System.Drawing
 			var patternRect = new CGRect(HALF_PIXEL_X,HALF_PIXEL_Y,
 			                                 textureWidth+HALF_PIXEL_X,
 			                                 textureHeight+HALF_PIXEL_Y);
-			var patternTransform = CGAffineTransform.MakeIdentity();
-			
-			// We need to take into account the orientation of the graphics object
-#if MONOMAC
-			if (!graphics.isFlipped)
-				patternTransform = new CGAffineTransform(1, 0, 0, -1, 
-				                                         textureOffset.X, 
-				                                         textureHeight + textureOffset.Y);
-#endif
-#if MONOTOUCH
+
+			var patternTransform = graphics.context.GetCTM();
+
 			if (graphics.isFlipped)
-				patternTransform = new CGAffineTransform(1, 0, 0, -1, 
-				                                         textureOffset.X, 
-				                                         textureHeight + textureOffset.Y);
-#endif
+				patternTransform.Multiply(new CGAffineTransform(1, 0, 0, -1, 0, 0));
 
 			patternTransform = CGAffineTransform.Multiply(patternTransform, textureTransform.transform);
 
