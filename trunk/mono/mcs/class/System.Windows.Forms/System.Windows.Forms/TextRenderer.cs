@@ -129,7 +129,7 @@ namespace System.Windows.Forms
 			if (dc == null)
 				throw new ArgumentNullException ("dc");
 
-			if (text == null || text.Length == 0)
+			if ((text == null || text.Length == 0) && (backColor == Color.Transparent || backColor == Color.Empty))
 				return;
 
 			// We use MS GDI API's unless told not to, or we aren't on Windows
@@ -179,7 +179,10 @@ namespace System.Windows.Forms
 
 				IntPtr prevobj;
 
-				if (font != null) {
+				if (text == null || text.Length == 0) {
+					Win32DrawText (hdc, String.Empty, 0, ref r, (int)flags);
+				}
+				else if (font != null) {
 					prevobj = SelectObject (hdc, font.ToHfont ());
 					Win32DrawText (hdc, text, text.Length, ref r, (int)flags);
 					prevobj = SelectObject (hdc, prevobj);
@@ -206,11 +209,15 @@ namespace System.Windows.Forms
 					g = Graphics.FromHdc (hdc);
 				}
 
-				StringFormat sf = FlagsToStringFormat (flags);
+				if (backColor != Color.Transparent && backColor != Color.Empty)
+					using (SolidBrush b = new SolidBrush(backColor))
+						g.FillRectangle(b, bounds);
 
-				Rectangle new_bounds = PadDrawStringRectangle (bounds, flags);
-
-				g.DrawString (text, font, ThemeEngine.Current.ResPool.GetSolidBrush (foreColor), new_bounds, sf);
+				if (text != null && text.Length > 0) {
+					StringFormat sf = FlagsToStringFormat(flags);
+					Rectangle new_bounds = PadDrawStringRectangle(bounds, flags);
+					g.DrawString(text, font, ThemeEngine.Current.ResPool.GetSolidBrush(foreColor), new_bounds, sf);
+				}
 
 				if (!(dc is Graphics)) {
 					g.Dispose ();
