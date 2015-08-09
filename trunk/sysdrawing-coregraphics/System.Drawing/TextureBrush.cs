@@ -189,57 +189,39 @@ namespace System.Drawing
 		private void DrawTexture (CGContext context)
 		{
 			var destRect = new CGRect(0,0,textureImage.Width,textureImage.Height);
+			context.ConcatCTM (textureImage.imageTransform);
 			context.DrawImage(destRect, textureImage.NativeCGImage);
+			context.ConcatCTM (textureImage.imageTransform.Invert());
 
-			if (wrapMode == WrapMode.TileFlipX) 
+			if (wrapMode == WrapMode.TileFlipX || wrapMode == WrapMode.TileFlipXY) 
 			{
 				context.ConcatCTM(CGAffineTransform.MakeScale(-1,1));
+				context.ConcatCTM (textureImage.imageTransform);
 				context.DrawImage(destRect, textureImage.NativeCGImage);
+				context.ConcatCTM (textureImage.imageTransform.Invert());
 			}
 
-			if (wrapMode == WrapMode.TileFlipY) 
+			if (wrapMode == WrapMode.TileFlipY || wrapMode == WrapMode.TileFlipXY) 
 			{
 				var transformY = new CGAffineTransform(1, 0, 0, -1, 
 				                                       textureImage.Width, 
 				                                       textureImage.Height);
 				context.ConcatCTM(transformY);
+				context.ConcatCTM (textureImage.imageTransform);
 				context.DrawImage(destRect, textureImage.NativeCGImage);
+				context.ConcatCTM (textureImage.imageTransform.Invert());
 			}
 
 
 			if (wrapMode == WrapMode.TileFlipXY) 
 			{
-				// draw the original
-				var transform = new CGAffineTransform(1, 0, 0, 1, 
-				                                       0, textureImage.Height);
-				context.ConcatCTM(transform);
-				context.DrawImage(destRect, textureImage.NativeCGImage);
-
-				// reset the transform
-				context.ConcatCTM (context.GetCTM().Invert());
-
-				// draw next to original one that is flipped by x axis
-				transform = new CGAffineTransform(-1, 0, 0, 1, 
-				                                  textureImage.Width * 2, textureImage.Height);
-				context.ConcatCTM(transform);
-				context.DrawImage(destRect, textureImage.NativeCGImage);
-
-
-				// reset the transform
-				context.ConcatCTM (context.GetCTM().Invert());
-
-				// draw one that is flipped by Y axis under the oricinal
-				transform = new CGAffineTransform(1, 0, 0, -1, 
-				                                  0, textureImage.Height);
-				context.ConcatCTM(transform);
-				context.DrawImage(destRect, textureImage.NativeCGImage);
-
 				// draw the last one of the quadrant which is flipped by both the y and x axis
-				context.ConcatCTM (context.GetCTM().Invert());
-				transform = new CGAffineTransform(-1, 0, 0, -1, 
+				var transform = new CGAffineTransform(-1, 0, 0, -1, 
 				                                  textureImage.Width * 2, textureImage.Height);
 				context.ConcatCTM(transform);
+				context.ConcatCTM (textureImage.imageTransform);
 				context.DrawImage(destRect, textureImage.NativeCGImage);
+				context.ConcatCTM (textureImage.imageTransform.Invert());
 			}
 		}
 
@@ -279,9 +261,6 @@ namespace System.Drawing
 			                                 textureHeight+HALF_PIXEL_Y);
 
 			var patternTransform = graphics.context.GetCTM();
-
-			if (graphics.isFlipped)
-				patternTransform.Multiply(new CGAffineTransform(1, 0, 0, -1, 0, 0));
 
 			patternTransform = CGAffineTransform.Multiply(patternTransform, textureTransform.transform);
 
