@@ -607,7 +607,7 @@ namespace System.Drawing.Drawing2D
 			                             ref sp, ref ep);
 
 			var colorSpace = CGColorSpace.CreateDeviceRGB();
-			CGPoint cgsp = new CGPoint(sp.X, sp.Y), cgep = new CGPoint(sp.X, sp.Y);
+			CGPoint cgsp = new CGPoint(sp.X, sp.Y), cgep = new CGPoint(ep.X, ep.Y);
 			var shading = CGShading.CreateAxial(colorSpace, cgsp, cgep, cgf, false, false);
 			
 			colorSpace.Dispose();
