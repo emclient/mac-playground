@@ -2627,7 +2627,6 @@ namespace System.Windows.Forms
 				font = value;
 				Invalidate();
 				OnFontChanged (EventArgs.Empty);
-				PerformLayout ();
 			}
 		}
 
@@ -5837,6 +5836,7 @@ namespace System.Windows.Forms
 			if (eh != null)
 				eh (this, e);
 			for (int i=0; i<child_controls.Count; i++) child_controls[i].OnParentFontChanged(e);
+			PerformLayout ();
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
