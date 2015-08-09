@@ -1479,18 +1479,8 @@ namespace System.Windows.Forms {
 		{
 			if (text == String.Empty)
 				return 0;
-			StringFormat format = new StringFormat();
-			RectangleF rect = new RectangleF(0, 0, 1000, 1000);
-			CharacterRange[] ranges = { new CharacterRange(0, text.Length) };
-			Region[] regions = new Region[1];
-
-			format.SetMeasurableCharacterRanges(ranges);
-			format.FormatFlags = StringFormatFlags.NoClip;
-			format.FormatFlags |= StringFormatFlags.NoWrap;
-			regions = graphics.MeasureCharacterRanges(text + "I", font, rect, format);
-			rect = regions[0].GetBounds(graphics);
-
-			return (int)(rect.Width);
+			StringFormat format = new StringFormat(StringFormatFlags.NoClip | StringFormatFlags.NoWrap);
+			return (int)Math.Ceiling(graphics.MeasureString(text, font, 1000, format).Width);
 		}
 
 		void SetToolTip (string text)
