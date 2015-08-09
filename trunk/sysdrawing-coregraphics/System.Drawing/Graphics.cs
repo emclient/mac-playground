@@ -669,8 +669,8 @@ namespace System.Drawing {
 			// obtain the identity.   Then we concatenate the value passed
 			context.ConcatCTM (modelViewMatrix.transform.Invert());
 
-			modelViewMatrix = modelMatrix.Clone();
-			modelViewMatrix.Multiply (viewMatrix);
+			modelViewMatrix = viewMatrix.Clone();
+			modelViewMatrix.Multiply (modelMatrix);
 
 //			Console.WriteLine("------------ apply Model View ------");
 //			Console.WriteLine("Model: " + modelMatrix.transform);
