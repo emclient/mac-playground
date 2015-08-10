@@ -108,7 +108,7 @@ namespace System.Drawing {
 			Rect view_bounds = new Rect ();
 
 			port = GetWindowPort (window);
-			
+
 			context = GetContext (port);
 
 			GetWindowBounds (window, 32, ref window_bounds);
@@ -116,7 +116,7 @@ namespace System.Drawing {
 			HIViewGetBounds (handle, ref view_bounds);
 
 			HIViewConvertRect (ref view_bounds, handle, IntPtr.Zero);
-			
+	
 			if (view_bounds.size.height < 0) view_bounds.size.height = 0;
 			if (view_bounds.size.width < 0) view_bounds.size.width = 0;
 
@@ -130,7 +130,7 @@ namespace System.Drawing {
 			Rectangle [] clip_rectangles = (Rectangle []) hwnd_delegate.DynamicInvoke (new object [] {handle});
 			if (clip_rectangles != null && clip_rectangles.Length > 0) {
 				int length = clip_rectangles.Length;
-				
+	
 				CGContextBeginPath (context);
 				CGContextAddRect (context, rc_clip);
 
@@ -141,13 +141,13 @@ namespace System.Drawing {
 				CGContextEOClip (context);
 #if DEBUG_CLIPPING
 				if (clip_rectangles.Length >= debug_threshold) {
-					CGContextSetRGBFillColor (context, red, green, blue, 0.5f);
-					CGContextFillRect (context, rc_clip);
-					CGContextFlush (context);
-					System.Threading.Thread.Sleep (5000);
-					if (red == 1.0f) { red = 0.0f; blue = 1.0f; } 
-					else if (blue == 1.0f) { blue = 0.0f; green = 1.0f; } 
-					else if (green == 1.0f) { green = 0.0f; red = 1.0f; } 
+				CGContextSetRGBFillColor (context, red, green, blue, 0.5f);
+				CGContextFillRect (context, rc_clip);
+				CGContextFlush (context);
+				System.Threading.Thread.Sleep (5000);
+				if (red == 1.0f) { red = 0.0f; blue = 1.0f; } 
+				else if (blue == 1.0f) { blue = 0.0f; green = 1.0f; } 
+				else if (green == 1.0f) { green = 0.0f; red = 1.0f; } 
 				}
 #endif
 			} else {
@@ -166,10 +166,10 @@ namespace System.Drawing {
 			lock (lockobj) { 
 #if FALSE
 				if (contextReference [port] != null) {
-					CreateCGContextForPort (port, ref context);
+				CreateCGContextForPort (port, ref context);
 				} else {
-					QDBeginCGContext (port, ref context);
-					contextReference [port] = context;
+				QDBeginCGContext (port, ref context);
+				contextReference [port] = context;
 				}
 #else
 				CreateCGContextForPort (port, ref context);
@@ -185,10 +185,10 @@ namespace System.Drawing {
 			lock (lockobj) { 
 #if FALSE
 				if (contextReference [port] != null && context == (IntPtr) contextReference [port]) { 
-					QDEndCGContext (port, ref context);
-					contextReference [port] = null;
+				QDEndCGContext (port, ref context);
+				contextReference [port] = null;
 				} else {
-					CFRelease (context);
+				CFRelease (context);
 				}
 #else
 				CFRelease (context);
@@ -211,9 +211,9 @@ namespace System.Drawing {
 		public static extern IntPtr sel_registerName(string selectorName);         
 		#endregion
 
-		[DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern IntPtr CGMainDisplayID ();
-		[DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern Rect CGDisplayBounds (IntPtr display);
 
 		[DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
@@ -232,55 +232,56 @@ namespace System.Drawing {
 		internal static extern IntPtr GetQDGlobalsThePort ();
 		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
 		internal static extern void CreateCGContextForPort (IntPtr port, ref IntPtr context);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		//[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreFoundation.framework/Versions/Current/CoreFoundation")]
 		internal static extern void CFRelease (IntPtr context);
 		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
 		internal static extern void QDBeginCGContext (IntPtr port, ref IntPtr context);
 		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
 		internal static extern void QDEndCGContext (IntPtr port, ref IntPtr context);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern int CGContextClipToRect (IntPtr context, Rect clip);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern int CGContextClipToRects (IntPtr context, Rect [] clip_rects, int count);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextTranslateCTM (IntPtr context, float tx, float ty);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextScaleCTM (IntPtr context, float x, float y);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextFlush (IntPtr context);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextSynchronize (IntPtr context);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern IntPtr CGPathCreateMutable ();
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGPathAddRects (IntPtr path, IntPtr _void, Rect [] rects, int count);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGPathAddRect (IntPtr path, IntPtr _void, Rect rect);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextAddRects (IntPtr context, Rect [] rects, int count);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextAddRect (IntPtr context, Rect rect);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextBeginPath (IntPtr context);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextClosePath (IntPtr context);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextAddPath (IntPtr context, IntPtr path);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextClip (IntPtr context);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextEOClip (IntPtr context);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextEOFillPath (IntPtr context);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextSaveGState (IntPtr context);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextRestoreGState (IntPtr context);
 
 #if DEBUG_CLIPPING
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextSetRGBFillColor (IntPtr context, float red, float green, float blue, float alpha);
-		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		[DllImport ("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		internal static extern void CGContextFillRect (IntPtr context, Rect rect);
 #endif
 	}
@@ -365,7 +366,7 @@ namespace System.Drawing {
 		{
 			if (IntPtr.Zero != focusHandle)
 				MacSupport.CGContextFlush (ctx);
-			
+
 			MacSupport.CGContextRestoreGState(ctx);
 
 			if (IntPtr.Zero != focusHandle)
