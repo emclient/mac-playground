@@ -29,6 +29,14 @@ namespace System.Windows.Forms.CocoaInternal
 			this.AcceptsMouseMovedEvents = true;
 		}
 
+		public override bool CanBecomeMainWindow
+		{
+			get
+			{
+				return base.CanBecomeKeyWindow;
+			}
+		}
+
 		[Export("windowShouldClose:")]
 		internal virtual bool shouldClose (NSObject sender)
 		{
