@@ -119,8 +119,8 @@ namespace System.Windows.Forms.CocoaInternal
 		internal virtual void windowDidBecomeKey(NSNotification notification)
 		{
 			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
-			driver.SendMessage (hwnd.Handle, Msg.WM_ACTIVATE, (IntPtr) WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
 			XplatUICocoa.ActiveWindow = hwnd.Handle;
+			driver.SendMessage (hwnd.Handle, Msg.WM_ACTIVATE, (IntPtr) WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
 
 			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows) {
 				if (utility_window != this && ! utility_window.IsVisible)
