@@ -284,7 +284,7 @@ namespace System.Drawing
 			switch (startCap) 
 			{
 			case LineCap.Flat:
-				context.SetLineCap(CGLineCap.Butt);
+				context.SetLineCap(width > 1f || dashStyle != DashStyle.Solid ? CGLineCap.Butt : CGLineCap.Square);
 				break;
 			case LineCap.Square:
 				context.SetLineCap(CGLineCap.Square);
