@@ -73,7 +73,22 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override bool AcceptsFirstResponder ()
 		{
-			return true;
+			Hwnd hwnd = Hwnd.ObjectFromWindow (Handle);
+			return hwnd.Enabled;
+		}
+
+		public override bool BecomeFirstResponder ()
+		{
+			Hwnd hwnd = Hwnd.ObjectFromWindow (Handle);
+			driver.SendMessage (hwnd.Handle, Msg.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
+			return base.BecomeFirstResponder ();
+		}
+
+		public override bool ResignFirstResponder ()
+		{
+			Hwnd hwnd = Hwnd.ObjectFromWindow (Handle);
+			driver.SendMessage (hwnd.Handle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
+			return base.ResignFirstResponder ();
 		}
 
 		public override void DrawRect (NSRect dirtyRect)

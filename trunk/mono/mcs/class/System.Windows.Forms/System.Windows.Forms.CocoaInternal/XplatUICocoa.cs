@@ -2202,20 +2202,11 @@ namespace System.Windows.Forms {
 
 		internal override void SetFocus (IntPtr handle) {
 			IntPtr focusWindow = GetFocus();
-			if (focusWindow != IntPtr.Zero) {
-				PostMessage (focusWindow, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
-				Hwnd hwnd = Hwnd.ObjectFromHandle (focusWindow);
-				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
-				if (vuWrap != null && vuWrap.Window != null)
-					vuWrap.Window.MakeFirstResponder (null);
-			}
-			if (handle != IntPtr.Zero) {
+			if (focusWindow != handle && handle != IntPtr.Zero) {
 				Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
 				if (vuWrap != null && vuWrap.Window != null)
 					vuWrap.Window.MakeFirstResponder (vuWrap);
-				if (focusWindow != IntPtr.Zero)
-					PostMessage (handle, Msg.WM_SETFOCUS, focusWindow, IntPtr.Zero);
 			}
 		}
 
