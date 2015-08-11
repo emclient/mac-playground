@@ -27,7 +27,7 @@
 //
 
 
-#define TABLE_DEBUG
+//#define TABLE_DEBUG
 
 using System;
 using System.Drawing;

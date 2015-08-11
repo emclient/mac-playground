@@ -466,8 +466,12 @@ namespace System.Windows.Forms
 
 		public static void AddMessageFilter (IMessageFilter value)
 		{
-			lock (message_filters) {
-				message_filters.Add (value);
+			if (value != null) {
+				lock (message_filters) {
+					message_filters.Add (value);
+				}
+			} else {
+				Console.WriteLine ("AddMessageFilter(null)");
 			}
 		}
 
@@ -494,7 +498,7 @@ namespace System.Windows.Forms
 			lock (message_filters) {
 				for (int i = 0; i < message_filters.Count; i++) {
 					IMessageFilter filter = (IMessageFilter) message_filters[i];
-					if (filter.PreFilterMessage (ref message))
+					if (null != filter && filter.PreFilterMessage (ref message))
 						return true;
 				}
 			}

@@ -48,6 +48,7 @@ namespace System.Windows.Forms.CocoaInternal
 	{
 		XplatUICocoa driver;
 		NSTrackingArea trackingArea;
+		static Dictionary<Keys, Keys> nonchars;
 
 		public MonoView (IntPtr instance) : base (instance)
 		{
@@ -421,21 +422,31 @@ namespace System.Windows.Forms.CocoaInternal
 			Hwnd hwnd = Hwnd.ObjectFromWindow (Handle);
 			ushort charCode = 0x0;
 			byte keyCode = 0x0;
+			char c = '\0';
 
 			string chars = eventref.CharactersIgnoringModifiers;
-			if (chars.Length > 0)
-				charCode = chars[0];
+			if (chars.Length > 0) {
+				c = chars [0];
+				charCode = chars [0];
+			}
 
 			keyCode = (byte) eventref.KeyCode;
 
-			Keys key;
 			IntPtr lParam = (IntPtr) (byte)charCode;
 			IntPtr wParam;
-			if (keyNames.TryGetValue ((NSKey)charCode, out key))
-				wParam = (IntPtr) key;
-			else
-				wParam = charCode == 0x10 ? (IntPtr) key_translation_table [keyCode] : (IntPtr) char_translation_table [(byte)charCode];
+
+			Keys key = GetKeys (eventref);
+			wParam = (IntPtr) key;
+
 			driver.PostMessage (hwnd.Handle, msg, wParam, lParam);
+
+			if (msg == Msg.WM_KEYDOWN &&  !string.IsNullOrEmpty (eventref.Characters)) {
+
+				if (IsChar(c, key)) {
+					XplatUICocoa.PushChars (chars);
+					driver.PostMessage (hwnd.Handle, Msg.WM_IME_COMPOSITION, IntPtr.Zero, IntPtr.Zero);
+				}
+			}
 		}
 
 		public void ProcessModifiers (NSEvent eventref)
@@ -457,66 +468,32 @@ namespace System.Windows.Forms.CocoaInternal
 
 		#region Keyboard translation tables
 
-		private static byte [] key_translation_table = new byte [256] {
-			0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
-			16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 
-			32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 
-			48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 
-			64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 
-			80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 
-			0x74, 0x75, 0x76, 0x72, 0x77, 0x78, 0x79, 103, 104, 105, 106, 107, 108, 109, 0x7a, 0x7b, 
-			112, 113, 114, 115, 116, 117, 0x73, 119, 0x71, 121, 0x70, 123, 124, 125, 126, 127, 
-			128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 
-			144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 
-			160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 
-			176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 
-			192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 
-			208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 
-			224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 
-			240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255 
-		};
-
-		private static byte [] char_translation_table = new byte [256] {
-			0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
-			16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 0x25, 0x27, 0x26, 0x28, 
-			32, 49, 34, 51, 52, 53, 55, 222, 57, 48, 56, 187, 188, 189, 190, 191, 
-			48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 186, 60, 61, 62, 63, 
-			50, 65, 66, 67, 68, 187, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 
-			80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 219, 220, 221, 54, 189, 
-			192, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 
-			80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 123, 124, 125, 126, 0x2e, 
-			128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 
-			144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 
-			160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 
-			176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 
-			192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 
-			208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 
-			224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 
-			240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255
-		};
-
 		private static Dictionary<NSKey, Keys> keyNames;
+		private static Dictionary<string, Keys> modifiers;
+
 
 		static MonoView () {
 			keyNames = new Dictionary<NSKey, Keys> ();
+			modifiers = new Dictionary<string, Keys> ();
+
 			keyNames.Add (NSKey.Backslash, Keys.OemBackslash);
-			keyNames.Add (NSKey.CapsLock, Keys.Capital);
+			keyNames.Add (NSKey.CapsLock, Keys.CapsLock);
 			keyNames.Add (NSKey.Comma, Keys.Oemcomma);
 			keyNames.Add (NSKey.Command, Keys.LWin);
 			keyNames.Add (NSKey.Delete, Keys.Back);
 			keyNames.Add (NSKey.DownArrow, Keys.Down);
 			keyNames.Add (NSKey.Equal, Keys.Oemplus);
 			keyNames.Add (NSKey.ForwardDelete, Keys.Delete);
-			keyNames.Add (NSKey.Keypad0, Keys.D0);
-			keyNames.Add (NSKey.Keypad1, Keys.D1);
-			keyNames.Add (NSKey.Keypad2, Keys.D2);
-			keyNames.Add (NSKey.Keypad3, Keys.D3);
-			keyNames.Add (NSKey.Keypad4, Keys.D4);
-			keyNames.Add (NSKey.Keypad5, Keys.D5);
-			keyNames.Add (NSKey.Keypad6, Keys.D6);
-			keyNames.Add (NSKey.Keypad7, Keys.D7);
-			keyNames.Add (NSKey.Keypad8, Keys.D8);
-			keyNames.Add (NSKey.Keypad9, Keys.D9);
+			keyNames.Add (NSKey.Keypad0, Keys.NumPad0);
+			keyNames.Add (NSKey.Keypad1, Keys.NumPad1);
+			keyNames.Add (NSKey.Keypad2, Keys.NumPad2);
+			keyNames.Add (NSKey.Keypad3, Keys.NumPad3);
+			keyNames.Add (NSKey.Keypad4, Keys.NumPad4);
+			keyNames.Add (NSKey.Keypad5, Keys.NumPad5);
+			keyNames.Add (NSKey.Keypad6, Keys.NumPad6);
+			keyNames.Add (NSKey.Keypad7, Keys.NumPad7);
+			keyNames.Add (NSKey.Keypad8, Keys.NumPad8);
+			keyNames.Add (NSKey.Keypad9, Keys.NumPad9);
 			keyNames.Add (NSKey.KeypadDecimal, Keys.Decimal);
 			keyNames.Add (NSKey.KeypadDivide, Keys.Divide);
 			keyNames.Add (NSKey.KeypadEnter, Keys.Enter);
@@ -542,9 +519,254 @@ namespace System.Windows.Forms.CocoaInternal
 			keyNames.Add (NSKey.Semicolon, Keys.OemSemicolon);
 			keyNames.Add (NSKey.Slash, Keys.OemQuestion);
 			keyNames.Add (NSKey.UpArrow, Keys.Up);
+			keyNames.Add (NSKey.Period, Keys.OemPeriod);
+			keyNames.Add (NSKey.Return, Keys.Enter);
+			keyNames.Add (NSKey.Grave, Keys.Oemtilde);
+
+			// Modifiers
+			modifiers.Add ("524576", Keys.Alt); //LeftAlt);
+			modifiers.Add ("65792", Keys.CapsLock);			
+			modifiers.Add ("524608", Keys.LWin);// .LeftWindows);
+			modifiers.Add ("262401", Keys.LControlKey); //LeftControl);
+			modifiers.Add ("131332", Keys.RShiftKey);// RightShift);
+			modifiers.Add ("131330", Keys.LShiftKey);// LeftShift);
+			modifiers.Add ("655650", Keys.RShiftKey);
 		}
 
-		#endregion
-		#endregion
+		internal static bool IsChar(char c, Keys k)
+		{
+			return !char.IsControl (c) && !NonChars.ContainsKey (k);
+		}
+
+		public static Keys GetKeys (NSEvent theEvent)
+		{
+			var nskey = (NSKey)Enum.ToObject (typeof(NSKey), theEvent.KeyCode);
+			if ((theEvent.ModifierFlags & NSEventModifierMask.FunctionKeyMask) > 0) {
+				var chars = theEvent.Characters.ToCharArray ();
+				var thekey = chars [0];
+				if (theEvent.KeyCode != (char)NSKey.ForwardDelete)
+					nskey = (NSKey)Enum.ToObject (typeof(NSKey), thekey);
+			}
+
+			Keys key;
+			if (keyNames.TryGetValue(nskey,out key))
+				return key;
+
+			if (Enum.TryParse<Keys>(nskey.ToString(), out key))
+				return key;
+
+			return Keys.None;	
+		}
+
+		static Dictionary<Keys, Keys> NonChars {
+			get {
+				if (nonchars == null) {
+					nonchars = new Dictionary<Keys, Keys> ();
+					foreach (var key in noncharsArray)
+						nonchars [key] = key;
+				}
+				return nonchars;
+			}
+		}
+
+		static Keys[] noncharsArray = {
+			Keys.None,
+			Keys.LButton,		
+			Keys.RButton,		
+			Keys.Cancel,		
+			Keys.MButton,		
+			Keys.XButton1,	
+			Keys.XButton2,	
+			Keys.Back,		
+//			Keys.Tab,
+			//Keys.LineFeed,
+			Keys.Clear,
+			Keys.Return,		
+			Keys.Enter,
+			Keys.ShiftKey,
+			Keys.ControlKey,
+			Keys.Menu,
+			Keys.Pause,
+			Keys.CapsLock,
+			Keys.Capital,	
+			Keys.KanaMode,	
+//			Keys.HanguelMoe,
+//			Keys.HangulMod,
+			Keys.JunjaMode,
+			Keys.FinalMode,
+			Keys.KanjiMode,
+			Keys.HanjaMode,
+			Keys.Escape,
+			Keys.IMEConvert,
+			Keys.IMENonconvert,
+			Keys.IMEAceept,
+			Keys.IMEModeChange,
+//			Keys.Space,
+			Keys.PageUp,
+			Keys.Prior,
+			Keys.PageDown,
+			Keys.Next,
+			Keys.End,
+			Keys.Home,
+			Keys.Left,
+			Keys.Up,
+			Keys.Right,
+			Keys.Down,
+			Keys.Select,
+			Keys.Print,
+			Keys.Execute,
+			Keys.PrintScreen,
+			Keys.Snapshot,
+			Keys.Insert,
+			Keys.Delete,
+			Keys.Help,
+//			Keys.D0,
+//			Keys.D1,
+//			Keys.D2,
+//			Keys.D3,
+//			Keys.D4,
+//			Keys.D5,
+//			Keys.D6,
+//			Keys.D7,
+//			Keys.D8,
+//			Keys.D9,
+//			Keys.A,
+//			Keys.B,
+//			Keys.C,
+//			Keys.D,
+//			Keys.E,
+//			Keys.F,
+//			Keys.G,
+//			Keys.H,
+//			Keys.I,
+//			Keys.J,
+//			Keys.K,
+//			Keys.L,
+//			Keys.M,
+//			Keys.N,
+//			Keys.O,
+//			Keys.P,
+//			Keys.Q,
+//			Keys.R,
+//			Keys.S,
+//			Keys.T,
+//			Keys.U,
+//			Keys.V,
+//			Keys.W,
+//			Keys.X,
+//			Keys.Y,
+//			Keys.Z,
+//			Keys.LWin,
+//			Keys.RWin,
+//			Keys.Apps,
+//			Keys.NumPad0,
+//			Keys.NumPad1,
+//			Keys.NumPad2,
+//			Keys.NumPad3,
+//			Keys.NumPad4,
+//			Keys.NumPad5,
+//			Keys.NumPad6,
+//			Keys.NumPad7,
+//			Keys.NumPad8,
+//			Keys.NumPad9,
+//			Keys.Multiply,
+//			Keys.Add,
+//			Keys.Separator,
+//			Keys.Subtract,
+//			Keys.Decimal,
+//			Keys.Divide,
+			Keys.F1,
+			Keys.F2,
+			Keys.F3,
+			Keys.F4,
+			Keys.F5,
+			Keys.F6,
+			Keys.F7,
+			Keys.F8,
+			Keys.F9,
+			Keys.F10,
+			Keys.F11,
+			Keys.F12,
+			Keys.F13,
+			Keys.F14,
+			Keys.F15,
+			Keys.F16,
+			Keys.F17,
+			Keys.F18,
+			Keys.F19,
+			Keys.F20,
+			Keys.F21,
+			Keys.F22,
+			Keys.F23,
+			Keys.F24,
+			Keys.NumLock,
+			Keys.Scroll,
+			Keys.LShiftKey,
+			Keys.RShiftKey,
+			Keys.LControlKey,
+			Keys.RControlKey,
+			Keys.LMenu,
+			Keys.RMenu,
+			Keys.BrowserBack,
+			Keys.BrowserForward,
+			Keys.BrowserRefresh,
+			Keys.BrowserStop,
+			Keys.BrowserSearch,
+			Keys.BrowserFavorites,
+			Keys.BrowserHome,
+			Keys.VolumeMute,
+			Keys.VolumeDown,
+			Keys.VolumeUp,
+			Keys.MediaNextTrack,
+			Keys.MediaPreviousTrack,
+			Keys.MediaStop,
+			Keys.MediaPlayPause,
+			Keys.LaunchMail,
+			Keys.SelectMedia,
+			Keys.LaunchApplication1,
+			Keys.LaunchApplication2,
+//			Keys.OemSemicolon,
+//			Keys.Oemplus,
+//			Keys.Oemcomma,
+//			Keys.OemMinus,
+//			Keys.OemPeriod,
+//			Keys.OemQuestion,
+//			Keys.Oemtilde,
+//			Keys.OemOpenBrackets,
+//			Keys.OemPipe,
+//			Keys.OemCloseBrackets,
+//			Keys.OemQuotes,
+//			Keys.Oem8,
+//			Keys.OemBackslash,
+			Keys.ProcessKey,
+			Keys.Attn,
+			Keys.Crsel,
+			Keys.Exsel,
+			Keys.EraseEof,
+			Keys.Play,
+			Keys.Zoom,
+			Keys.NoName,
+			Keys.Pa1,
+			Keys.OemClear,
+			Keys.KeyCode,
+			Keys.Shift,
+			Keys.Control,
+			Keys.Alt,
+			Keys.Modifiers,
+			Keys.IMEAccept,
+//			Keys.Oem1,
+//			Keys.Oem102,
+//			Keys.Oem2,
+//			Keys.Oem3,
+//			Keys.Oem4,
+//			Keys.Oem5,
+//			Keys.Oem6,
+//			Keys.Oem7,
+			Keys.Packet,
+			Keys.Sleep
+		};		
+		
+		#endregion // Keyboard translation tables
+		#endregion // Keyboard
 	}
 }

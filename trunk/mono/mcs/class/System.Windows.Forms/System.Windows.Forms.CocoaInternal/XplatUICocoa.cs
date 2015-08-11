@@ -136,6 +136,9 @@ namespace System.Windows.Forms {
 		
 		static readonly object instancelock = new object ();
 		static readonly object queuelock = new object ();
+
+		static Queue<String> charsQueue = new Queue<string>();
+
 		#endregion Local Variables
 		
 		#region Constructors
@@ -1570,6 +1573,17 @@ namespace System.Windows.Forms {
 		internal override IntPtr DefWndProc (ref Message msg) {
 			Hwnd hwnd = Hwnd.ObjectFromHandle (msg.HWnd);
 			switch ((Msg) msg.Msg) {
+				case Msg.WM_IME_COMPOSITION:
+				string s = PopChars();
+					foreach (char c in s)
+						SendMessage (msg.HWnd, Msg.WM_IME_CHAR, (IntPtr) c, msg.LParam);
+					break;
+				case Msg.WM_IME_CHAR:
+					// On Windows API it sends two WM_CHAR messages for each byte, but
+					// I wonder if it is worthy to emulate it (also no idea how to 
+					// reconstruct those bytes into chars).
+					SendMessage (msg.HWnd, Msg.WM_CHAR, msg.WParam, msg.LParam);
+					return IntPtr.Zero;
 				case Msg.WM_QUIT: {
 					if (WindowMapping [hwnd.Handle] != null)
 
@@ -2286,13 +2300,16 @@ namespace System.Windows.Forms {
 				PostMessage (focusWindow, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
 				Hwnd hwnd = Hwnd.ObjectFromHandle (focusWindow);
 				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
-				vuWrap.Window.MakeFirstResponder (null);
+				if (vuWrap != null && vuWrap.Window != null)
+					vuWrap.Window.MakeFirstResponder (null);
 			}
 			if (handle != IntPtr.Zero) {
 				Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
-				vuWrap.Window.MakeFirstResponder (vuWrap);
-				PostMessage (handle, Msg.WM_SETFOCUS, focusWindow, IntPtr.Zero);
+				if (vuWrap != null && vuWrap.Window != null)
+					vuWrap.Window.MakeFirstResponder (vuWrap);
+				if (focusWindow != IntPtr.Zero)
+					PostMessage (handle, Msg.WM_SETFOCUS, focusWindow, IntPtr.Zero);
 			}
 		}
 
@@ -2752,34 +2769,47 @@ namespace System.Windows.Forms {
 		}
 
 		internal override bool TranslateMessage (ref MSG msg) {
+			bool result = false;
+
+			if (!result)
+				result = TranslateKeyMessage (ref msg);
+			if (!result)
+				result = TranslateMouseMessage (ref msg);
+
+			return result;
+		}
+
+		internal virtual bool TranslateKeyMessage (ref MSG msg) {
 			bool res = false;
+			if (msg.message >= Msg.WM_KEYFIRST && msg.message <= Msg.WM_KEYLAST)
+				res = true;
 
-			if (msg.message >= Msg.WM_KEYFIRST && msg.message <= Msg.WM_KEYLAST) {
-				if (msg.message != Msg.WM_KEYDOWN && msg.message != Msg.WM_SYSKEYDOWN && msg.message != Msg.WM_KEYUP && msg.message != Msg.WM_SYSKEYUP)
-					return false;
+			if (msg.message != Msg.WM_KEYDOWN && msg.message != Msg.WM_SYSKEYDOWN && msg.message != Msg.WM_KEYUP && msg.message != Msg.WM_SYSKEYUP && msg.message != Msg.WM_CHAR && msg.message != Msg.WM_SYSCHAR)
+				return res;
 
-				if (0 != (NSEventModifierMask.CommandKeyMask & key_modifiers) && 0 == (NSEventModifierMask.ControlKeyMask & key_modifiers)) {
-					if (msg.message == Msg.WM_KEYDOWN) {
-						msg.message = Msg.WM_SYSKEYDOWN;
-					} else if (msg.message == Msg.WM_CHAR) {
-						msg.message = Msg.WM_SYSCHAR;
-						translate_modifier = true;
-					} else if (msg.message == Msg.WM_KEYUP) {
-						msg.message = Msg.WM_SYSKEYUP;
-					} else {
-						return res;
-					}
-
-					msg.lParam = new IntPtr (0x20000000);
-				} else if (msg.message == Msg.WM_SYSKEYUP && translate_modifier && msg.wParam == (IntPtr)18) {
-					msg.message = Msg.WM_KEYUP;
-					msg.lParam = IntPtr.Zero;
-					translate_modifier = false;
+			if (0 != (NSEventModifierMask.CommandKeyMask & key_modifiers) && 0 == (NSEventModifierMask.ControlKeyMask & key_modifiers)) {
+				if (msg.message == Msg.WM_KEYDOWN) {
+					msg.message = Msg.WM_SYSKEYDOWN;
+				} else if (msg.message == Msg.WM_CHAR) {
+					msg.message = Msg.WM_SYSCHAR;
+					translate_modifier = true;
+				} else if (msg.message == Msg.WM_KEYUP) {
+					msg.message = Msg.WM_SYSKEYUP;
+				} else {
+					return res;
 				}
 
-				return true;
+				msg.lParam = new IntPtr (0x20000000);
+			} else if (msg.message == Msg.WM_SYSKEYUP && translate_modifier && msg.wParam == (IntPtr)18) {
+				msg.message = Msg.WM_KEYUP;
+				msg.lParam = IntPtr.Zero;
+				translate_modifier = false;
 			}
-				
+
+			return res;
+		}
+			
+		internal virtual bool TranslateMouseMessage (ref MSG msg) {
 			if (msg.message == Msg.WM_MOUSEMOVE || msg.message == Msg.WM_NCMOUSEMOVE) {
 				Hwnd hwnd = Hwnd.ObjectFromHandle (msg.hwnd);
 				if (hwnd != null) {
@@ -2972,7 +3002,20 @@ namespace System.Windows.Forms {
 				return XplatUICocoa.themes_enabled;
 			}
 		}
- 
+
+		internal static void PushChars(string chars)
+		{
+			lock (charsQueue) {
+				charsQueue.Enqueue (chars);
+			}
+		}
+
+		internal static string PopChars()
+		{
+			lock (charsQueue) {
+				return charsQueue.Count > 0 ? charsQueue.Dequeue() : String.Empty;
+			}
+		}
 
 		// Event Handlers
 		internal override event EventHandler Idle;
