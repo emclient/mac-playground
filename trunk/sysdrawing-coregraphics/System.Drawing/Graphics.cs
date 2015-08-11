@@ -1323,8 +1323,8 @@ namespace System.Drawing {
 		
 		public void Restore (GraphicsState gstate)
 		{
-			LastPen = gstate.lastPen;
-			LastBrush = gstate.lastBrush;
+			//LastPen = gstate.lastPen;
+			//LastBrush = gstate.lastBrush;
 			modelMatrix = gstate.model;
 			viewMatrix = gstate.view;
 			renderingOrigin = gstate.renderingOrigin;
@@ -1332,17 +1332,14 @@ namespace System.Drawing {
 			pageScale = gstate.pageScale;
 			SmoothingMode = gstate.smoothingMode;
 			clipRegion = gstate.clipRegion;
-			//applyModelView();
-			// I do not know if we should use the contexts save/restore state or our own
-			// we will do that save state for now
-			context.RestoreState();
+			applyModelView();
 		}
 		
 		public GraphicsState Save ()
 		{
 			var currentState = new GraphicsState();
-			currentState.lastPen = LastPen;
-			currentState.lastBrush = LastBrush;
+			//currentState.lastPen = LastPen;
+			//currentState.lastBrush = LastBrush;
 			// Make sure we clone the Matrices or we will still modify
 			// them after the save as they are the same objects.  Woops!!
 			currentState.model = modelMatrix.Clone();
@@ -1352,9 +1349,6 @@ namespace System.Drawing {
 			currentState.pageScale = pageScale;
 			currentState.smoothingMode = smoothingMode;
 			currentState.clipRegion = clipRegion;
-			// I do not know if we should use the contexts save/restore state or our own
-			// we will do that save state for now
-			context.SaveState();
 			return currentState;
 		}
 		
