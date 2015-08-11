@@ -57,7 +57,6 @@ namespace System.Windows.Forms
 		internal ContentAlignment image_align;
 		internal StringFormat string_format;
 		internal ContentAlignment text_align;
-		static SizeF req_witdthsize = new SizeF (0,0);
 
 		#region Events
 		static object AutoSizeChangedEvent = new object ();
@@ -391,7 +390,7 @@ namespace System.Windows.Forms
 			if (Text == string.Empty) {
 				size = new Size (0, Font.Height);
 			} else {
-				size = Size.Ceiling (TextRenderer.MeasureString (Text, Font, req_witdthsize, string_format));
+				size = Size.Ceiling (TextRenderer.MeasureString (Text, Font, proposed.Width == 0 ? int.MaxValue : proposed.Width, string_format));
 				size.Width += 3;
 			}
 
