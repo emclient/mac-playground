@@ -369,17 +369,21 @@ namespace System.Windows.Forms
 			
 			public void Start (PaintEventArgs pe) {
 				// We need to get the graphics for every paint.
+				pe.Graphics.FillRectangle (new SolidBrush (Color.FromArgb (0x20, 0, 0, 0xff)), pe.ClipRectangle);
 				real_graphics.Push(pe.SetGraphics (XplatUI.GetOffscreenGraphics (back_buffer)));
+				//real_graphics.Push(XplatUI.GetOffscreenGraphics (back_buffer));
 			}
 
 			public void End (PaintEventArgs pe) {
 				Graphics buffered_graphics;
 				buffered_graphics = pe.SetGraphics ((Graphics) real_graphics.Pop ());
+				//buffered_graphics = (Graphics) real_graphics.Pop ();
 
 				if (pending_disposal) 
 					Dispose ();
 				else {
 					XplatUI.BlitFromOffscreen (parent.Handle, pe.Graphics, back_buffer, buffered_graphics, pe.ClipRectangle);
+					//pe.Graphics.FillRectangle (new SolidBrush (Color.FromArgb (0x20, 0xff, 0, 0)), pe.ClipRectangle);
 					InvalidRegion.Exclude (pe.ClipRectangle);
 				}
 				buffered_graphics.Dispose ();
@@ -1827,7 +1831,7 @@ namespace System.Windows.Forms
 		
 		private bool UseDoubleBuffering {
 			get {
-				if (!ThemeEngine.Current.DoubleBufferingSupported)
+				//if (!ThemeEngine.Current.DoubleBufferingSupported)
 					return false;
 
 				// Since many of .Net's controls are unmanaged, they are doublebuffered
@@ -2498,6 +2502,8 @@ namespace System.Windows.Forms
 				if (dock_style == DockStyle.None) {
 					bounds = explicit_bounds;
 					layout_type = LayoutType.Anchor;
+				} else {
+					bounds = explicit_bounds;
 				}
 
 				if (parent != null)
