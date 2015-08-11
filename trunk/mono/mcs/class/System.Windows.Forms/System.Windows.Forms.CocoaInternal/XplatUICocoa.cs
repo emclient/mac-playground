@@ -354,13 +354,14 @@ namespace System.Windows.Forms {
 			rect = new Rectangle(ncp.rgrc1.left, ncp.rgrc1.top, ncp.rgrc1.right - ncp.rgrc1.left, ncp.rgrc1.bottom - ncp.rgrc1.top);
 			hwnd.ClientRect = rect;
 
-			rect = TranslateClientRectangleToQuartzClientRectangle (hwnd);
+			// For top-level windows the client area position is calculated with the window title, but the actual view is already
+			// adjusted for that.
+			if (hwnd.Parent == null)
+				rect = new Rectangle (new Point (0, 0), rect.Size);
 
-			//if (hwnd.visible) {
-				NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
-				NSRect cr = MonoToNativeFramed (rect, vuWrap.Superview.Frame.Height);
-				vuWrap.Frame = cr;
-			//}
+			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
+			NSRect cr = MonoToNativeFramed (rect, vuWrap.Superview.Frame.Height);
+			vuWrap.Frame = cr;
 
 			AddExpose (hwnd, false, 0, 0, hwnd.Width, hwnd.Height);
 		}
@@ -413,94 +414,6 @@ namespace System.Windows.Forms {
 
 			point = viewWrapper.ConvertPointToView (point, null);
 			point = windowWrapper.ConvertBaseToScreen (point);
-		}
-
-		internal static Rectangle TranslateClientRectangleToQuartzClientRectangle (Hwnd hwnd) {
-			return TranslateClientRectangleToQuartzClientRectangle (hwnd, Control.FromHandle (hwnd.Handle));
-		}
-
-		internal static Rectangle TranslateClientRectangleToQuartzClientRectangle (Hwnd hwnd, Control ctrl) {
-			/* From XplatUIX11
-			 * If this is a form with no window manager, X is handling all the border and caption painting
-			 * so remove that from the area (since the area we set of the window here is the part of the window 
-			 * we're painting in only)
-			 */
-			Rectangle rect = hwnd.ClientRect;
-			Form form = ctrl as Form;
-			CreateParams cp = null;
-
-			if (form != null)
-				cp = form.GetCreateParams ();
-
-			if (form != null && (form.window_manager == null || cp.IsSet (WindowExStyles.WS_EX_TOOLWINDOW))) {
-				Hwnd.Borders borders = Hwnd.GetBorders (cp, null);
-				Rectangle qrect = rect;
-				
-				qrect.Y -= borders.top;
-				qrect.X -= borders.left;
-				qrect.Width += borders.left + borders.right;
-				qrect.Height += borders.top + borders.bottom;
-				
-				rect = qrect;
-			}
-			
-			if (rect.Width < 1 || rect.Height < 1) {
-				rect.Width = 1;
-				rect.Height = 1;
-				rect.X = -5;
-				rect.Y = -5;
-			}
-			
-			return rect;
-		}
-
-		internal static Size TranslateWindowSizeToQuartzWindowSize (CreateParams cp) {
-			return TranslateWindowSizeToQuartzWindowSize (cp, new Size (cp.Width, cp.Height));
-		}
-
-		internal static Size TranslateWindowSizeToQuartzWindowSize (CreateParams cp, Size size) {
-			/* From XplatUIX11
-			 * If this is a form with no window manager, X is handling all the border and caption painting
-			 * so remove that from the area (since the area we set of the window here is the part of the window 
-			 * we're painting in only)
-			 */
-			Form form = cp.control as Form;
-			if (form != null && (form.window_manager == null || cp.IsSet (WindowExStyles.WS_EX_TOOLWINDOW))) {
-				Hwnd.Borders borders = Hwnd.GetBorders (cp, null);
-				Size qsize = size;
-
-				qsize.Width -= borders.left + borders.right;
-				qsize.Height -= borders.top + borders.bottom; 
-				
-				size = qsize;
-			}
-
-			if (size.Height == 0)
-				size.Height = 1;
-			if (size.Width == 0)
-				size.Width = 1;
-			return size;
-		}
-			
-		internal static Size TranslateQuartzWindowSizeToWindowSize (CreateParams cp, int width, int height) {
-			/* From XplatUIX11
-			 * If this is a form with no window manager, X is handling all the border and caption painting
-			 * so remove that from the area (since the area we set of the window here is the part of the window 
-			 * we're painting in only)
-			 */
-			Size size = new Size (width, height);
-			Form form = cp.control as Form;
-			if (form != null && (form.window_manager == null || cp.IsSet (WindowExStyles.WS_EX_TOOLWINDOW))) {
-				Hwnd.Borders borders = Hwnd.GetBorders (cp, null);
-				Size qsize = size;
-
-				qsize.Width += borders.left + borders.right;
-				qsize.Height += borders.top + borders.bottom;
-				
-				size = qsize;
-			}
-
-			return size;
 		}
 
 		internal void EnqueueMessage (MSG msg) {
@@ -617,24 +530,15 @@ namespace System.Windows.Forms {
 			bool top = null != WindowMapping [hwnd.Handle];
 			if (top) {
 				NSWindow winWrap = vuWrap.Window;
-				var size = TranslateQuartzWindowSizeToWindowSize (Control.FromHandle (hwnd.Handle).GetCreateParams (), (int)nsrect.Width, (int)nsrect.Height);
+				var size = winWrap.Frame.Size;
 				nsrect = new NSRect(
 					winWrap.ConvertBaseToScreen (nsrect.Location),
 					new NSSize(size.Width, size.Height));
 				mrect = NativeToMonoScreen (nsrect);
 			} else {
 				NSView superVuWrap = vuWrap.Superview;
-//				Hwnd parent = hwnd.Parent;
-
 				mrect = NativeToMonoFramed (nsrect, superVuWrap.Frame.Size.Height);
-
-//				if (null != parent) {
-//					Point clientOffset = parent.ClientRect.Location;
-//					mrect.X -= clientOffset.X;
-//					mrect.Y -= clientOffset.Y;
-//				}
 			}
-
 
 			bool moved = hwnd.X != mrect.X || hwnd.Y != mrect.Y;
 			if (moved || hwnd.Width != mrect.Width || hwnd.Height != mrect.Height) {
@@ -1377,12 +1281,9 @@ namespace System.Windows.Forms {
 
 			clientHandle = IntPtr.Zero;
 
-			Size QWindowSize = TranslateWindowSizeToQuartzWindowSize (cp);
-			Rectangle mWholeRect = new Rectangle (new Point (X, Y), QWindowSize);
+			Rectangle mWholeRect = new Rectangle (new Point (X, Y), new Size(Width, Height));
 			NSRect WholeRect;
-			if (StyleSet (cp.Style, WindowStyles.WS_CHILD) && null != parent_hwnd)
-			{
-//				mWholeRect.Location += (Size) parent_hwnd.ClientRect.Location;
+			if (StyleSet (cp.Style, WindowStyles.WS_CHILD) && null != parent_hwnd) {
 				WholeRect = MonoToNativeFramed (mWholeRect, ParentWrapper.Frame.Size.Height);
 			} else {
 				WholeRect = MonoToNativeScreen (mWholeRect);
@@ -1423,6 +1324,7 @@ namespace System.Windows.Forms {
 //				HIGrowBoxViewSetTransparent (GrowBox, true);
 //				SetAutomaticControlDragTrackingEnabledForWindow (, true);
 //				ParentHandle = WindowView;
+				WholeRect = NSWindow.ContentRectFor(WholeRect, attributes);
 				windowWrapper = new MonoWindow(WholeRect, attributes, NSBackingStore.Buffered, true, this);
 				WindowHandle = (IntPtr) windowWrapper.Handle;
 //				wholeHandle = WindowHandle;
@@ -1453,22 +1355,13 @@ namespace System.Windows.Forms {
 				ParentWrapper.AddSubview (viewWrapper);
 			}
 
-//			Cocoa.EventHandler.InstallControlHandler (wholeHandle);
-//			Cocoa.EventHandler.InstallControlHandler (clientHandle);
-
-			// Enable embedding on controls
-//			HIViewChangeFeatures (wholeHandle, 1<<1, 0);
-//			HIViewChangeFeatures (clientHandle, 1<<1, 0);
-
-//			HIViewNewTrackingArea (wholeHandle, IntPtr.Zero, (UInt64)wholeHandle, ref WholeWindowTracking);
-			Rectangle QClientRect = TranslateClientRectangleToQuartzClientRectangle (hwnd, cp.control);
-			NSRect ClientRect = MonoToNativeFramed (QClientRect, WholeRect.Size.Height);
+			var ClientSize = cp.control.ClientSizeFromSize(new Size(Width, Height));
+			NSRect ClientRect = new NSRect(0, 0, ClientSize.Width, ClientSize.Height);//MonoToNativeFramed (QClientRect, WholeRect.Size.Height);
 			NSView clientWrapper = new Cocoa.MonoView (this, ClientRect);
 			clientHandle = (IntPtr) clientWrapper.Handle;
 
 			hwnd.WholeWindow = wholeHandle;
 			hwnd.ClientWindow = clientHandle;
-//			hwnd.UserData = viewWrapper;
 
 			viewWrapper.AddSubview (clientWrapper);
 //			Cocoa.HIRect WholeRect;
@@ -1600,19 +1493,32 @@ namespace System.Windows.Forms {
 				}  
 				case Msg.WM_NCCALCSIZE: {
 					if (msg.WParam == (IntPtr)1) {
-						XplatUIWin32.NCCALCSIZE_PARAMS ncp;
-						ncp = (XplatUIWin32.NCCALCSIZE_PARAMS)
-							Marshal.PtrToStructure (msg.LParam, typeof (XplatUIWin32.NCCALCSIZE_PARAMS));
-
 						// Add all the stuff X is supposed to draw.
 						Control ctrl = Control.FromHandle (hwnd.Handle);
 						if (ctrl != null) {
-							Hwnd.Borders rect = Hwnd.GetBorders (ctrl.GetCreateParams (), null);
+							XplatUIWin32.NCCALCSIZE_PARAMS ncp;
+							ncp = (XplatUIWin32.NCCALCSIZE_PARAMS)
+								Marshal.PtrToStructure (msg.LParam, typeof (XplatUIWin32.NCCALCSIZE_PARAMS));
 
-							ncp.rgrc1.top += rect.top;
-							ncp.rgrc1.bottom -= rect.bottom;
-							ncp.rgrc1.left += rect.left;
-							ncp.rgrc1.right -= rect.right;
+							if (ctrl is Form) {
+								var cp = ctrl.GetCreateParams ();
+								var frameRect = MonoToNativeScreen (new Rectangle (
+									                ncp.rgrc1.left,
+									                ncp.rgrc1.top, 
+									                ncp.rgrc1.right - ncp.rgrc1.left,
+									                ncp.rgrc1.bottom - ncp.rgrc1.top));
+								var contentRect = NativeToMonoScreen (NSWindow.ContentRectFor (frameRect, StyleFromCreateParams (cp)));
+								ncp.rgrc1.left = contentRect.Left;
+								ncp.rgrc1.top = contentRect.Top;
+								ncp.rgrc1.right = contentRect.Right;
+								ncp.rgrc1.bottom = contentRect.Bottom;
+							} else {
+								Hwnd.Borders rect = Hwnd.GetBorders (ctrl.GetCreateParams (), null);
+								ncp.rgrc1.top += rect.top;
+								ncp.rgrc1.bottom -= rect.bottom;
+								ncp.rgrc1.left += rect.left;
+								ncp.rgrc1.right -= rect.right;
+							}
 
 							Marshal.StructureToPtr (ncp, msg.LParam, true);
 						}
@@ -2315,10 +2221,12 @@ namespace System.Windows.Forms {
 
 		internal override void SetIcon (IntPtr handle, Icon icon)
 		{
-			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
+			if (Application.MWFThread.Current.Context != null &&
+				Application.MWFThread.Current.Context.MainForm != null &&
+				Application.MWFThread.Current.Context.MainForm.Handle == handle) {
 
-			// FIXME: we need to map the icon for active window switches
-			if (WindowMapping [hwnd.Handle] != null) {
+				Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
+
 				if (icon == null) { 
 					NSApplication.SharedApplication.ApplicationIconImage = null;
 				} else {
@@ -2420,9 +2328,13 @@ namespace System.Windows.Forms {
 			NSWindow winWrap = vuWrap.Window;
 			object window = WindowMapping [hwnd.Handle];
 			if (window != null && winWrap != null) {
-				if (visible)
-					winWrap.MakeKeyAndOrderFront (winWrap);
-				else
+				if (visible) {
+					if (Application.MWFThread.Current.Context != null &&
+					    Application.MWFThread.Current.Context.MainForm != null &&
+					    Application.MWFThread.Current.Context.MainForm.Handle == handle)
+						winWrap.MakeMainWindow();
+					winWrap.MakeKeyAndOrderFront(winWrap);
+				} else
 					winWrap.OrderOut (winWrap);
 			} else {
 				vuWrap.Hidden = !visible;
@@ -2536,13 +2448,13 @@ namespace System.Windows.Forms {
 
 			if (! hwnd.zero_sized) {
 				HwndPositionToNative (hwnd);
-				SendMessage (hwnd.Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 
 #if DriverDebug
 				Console.WriteLine ("SetWindowPos ({0}, {1}, {2}, {3}, {4})", hwnd, x, y, width, height);
 #endif
 
 				PerformNCCalc (hwnd);
+				SendMessage (hwnd.Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 			}
 		}
 		
