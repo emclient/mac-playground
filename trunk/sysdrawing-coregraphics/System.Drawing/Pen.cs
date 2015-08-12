@@ -16,7 +16,11 @@ using MonoMac.CoreGraphics;
 using MonoTouch.CoreGraphics;
 #endif
 
+#if MAC64
+using nfloat = System.Double;
+#else
 using nfloat = System.Single;
+#endif
 
 namespace System.Drawing
 {

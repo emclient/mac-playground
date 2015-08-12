@@ -21,7 +21,11 @@ using MonoTouch.Foundation;
 using MonoTouch.CoreGraphics;
 #endif
 
+#if MAC64
+using nfloat = System.Double;
+#else
 using nfloat = System.Single;
+#endif
 using NMath = System.Math;
 
 namespace System.Drawing.Drawing2D 

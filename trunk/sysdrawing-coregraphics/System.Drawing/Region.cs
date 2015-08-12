@@ -43,7 +43,11 @@ using MonoTouch.CoreGraphics;
 // Polygon Clipping Library
 using ClipperLib;
 
+#if MAC64
+using nfloat = System.Double;
+#else
 using nfloat = System.Single;
+#endif
 
 namespace System.Drawing 
 {

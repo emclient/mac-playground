@@ -7,8 +7,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>sysdrawingcoregraphicsMac</RootNamespace>
     <AssemblyName>System.Drawing</AssemblyName>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -35,7 +33,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
     <Reference Include="MonoMac">
-      <HintPath>..\..\..\..\Downloads\monomac-mac64\src\MonoMac.dll</HintPath>
+      <HintPath>..\..\MonoMac.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

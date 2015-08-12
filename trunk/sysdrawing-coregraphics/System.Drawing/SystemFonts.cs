@@ -62,7 +62,7 @@ namespace System.Drawing {
 		}
 
 		public static Font CaptionFont { 
-			get { return new Font (systemFontFamily, NSFont.SmallSystemFontSize, "CaptionFont"); }
+			get { return new Font (systemFontFamily, (float)NSFont.SmallSystemFontSize, "CaptionFont"); }
 		}
 
 		public static Font DefaultFont  { 
@@ -70,15 +70,15 @@ namespace System.Drawing {
 		}
 
 		public static Font DialogFont  { 
-			get { return new Font (labelFontFamily, NSFont.LabelFontSize, "DialogFont"); }
+			get { return new Font (labelFontFamily, (float)NSFont.LabelFontSize, "DialogFont"); }
 		}
 
 		public static Font IconTitleFont  { 
-			get { return new Font (systemFontFamily, NSFont.SmallSystemFontSize, "IconTitleFont"); }
+			get { return new Font (systemFontFamily, (float)NSFont.SmallSystemFontSize, "IconTitleFont"); }
 		}
 
 		public static Font MenuFont  { 
-			get { return new Font (menuFontFamily, NSFont.SmallSystemFontSize, "MenuFont"); }
+			get { return new Font (menuFontFamily, (float)NSFont.SmallSystemFontSize, "MenuFont"); }
 		}
 
 		public static Font MessageBoxFont  { 
@@ -86,11 +86,11 @@ namespace System.Drawing {
 		}
 
 		public static Font SmallCaptionFont  { 
-			get { return new Font (systemFontFamily, NSFont.SmallSystemFontSize, "SmallCaptionFont"); }
+			get { return new Font (systemFontFamily, (float)NSFont.SmallSystemFontSize, "SmallCaptionFont"); }
 		}
 
 		public static Font StatusFont  { 
-			get { return new Font (systemFontFamily, NSFont.SmallSystemFontSize, "StatusFont"); }
+			get { return new Font (systemFontFamily, (float)NSFont.SmallSystemFontSize, "StatusFont"); }
 		}	      
 	}
 }
