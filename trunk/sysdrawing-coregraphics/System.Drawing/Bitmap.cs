@@ -950,7 +950,7 @@ namespace System.Drawing {
 			Save (path, format);
 		}
 
-		public BitmapData LockBits (RectangleF rect, ImageLockMode flags, PixelFormat pixelFormat)
+		public BitmapData LockBits (Rectangle rect, ImageLockMode flags, PixelFormat pixelFormat)
 		{
 			// We don't support conversion
 			if (PixelFormat != pixelFormat)

@@ -81,8 +81,14 @@ using NSRect = MonoMac.CoreGraphics.CGRect;
 using NSPoint = MonoMac.CoreGraphics.CGPoint;
 using NSSize = MonoMac.CoreGraphics.CGSize;
 #endif
+
+#if MAC64
+using nint = System.Int64;
+using nfloat = System.Double;
+#else
 using nint = System.Int32;
 using nfloat = System.Single;
+#endif
 
 namespace System.Windows.Forms {
 

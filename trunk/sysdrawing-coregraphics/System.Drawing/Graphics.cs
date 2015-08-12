@@ -1559,9 +1559,19 @@ namespace System.Drawing {
 			StrokePen (pen);
 		}	
 
-		public void FillPolygon (Brush brush, Point [] points, FillMode fillMode = FillMode.Alternate)
+		public void FillPolygon (Brush brush, Point [] points)
+		{
+			FillPolygon (brush, ConvertPoints (points), FillMode.Alternate);
+		}
+
+		public void FillPolygon (Brush brush, Point [] points, FillMode fillMode)
 		{
 			FillPolygon (brush, ConvertPoints (points), fillMode);
+		}
+
+		public void FillPolygon (Brush brush, PointF [] points)
+		{
+			FillPolygon (brush, points, FillMode.Alternate);
 		}
 
 		public void FillPolygon (Brush brush, PointF [] points, FillMode fillMode = FillMode.Alternate)

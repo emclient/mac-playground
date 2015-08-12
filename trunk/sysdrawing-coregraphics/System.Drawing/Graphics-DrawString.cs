@@ -13,7 +13,11 @@ using MonoTouch.Foundation;
 using MonoTouch.CoreText;
 #endif
 
+#if MAC64
+using nfloat = System.Double;
+#else
 using nfloat = System.Single;
+#endif
 using NMath = System.Math;
 
 namespace System.Drawing
