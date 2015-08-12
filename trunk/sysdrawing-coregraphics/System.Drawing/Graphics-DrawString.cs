@@ -235,6 +235,7 @@ namespace System.Drawing
 			int start = 0;
 			int length = (int)attributedString.Length;
 			float baselineOffset = 0;
+			bool noWrap = (format.FormatFlags & StringFormatFlags.NoWrap) != 0;
 
 			var typesetter = new CTTypesetter(attributedString);
 
@@ -244,7 +245,7 @@ namespace System.Drawing
 				//var verticalOffset = 0.0f;
 				baselineOffset = 0;
 				while (start < length) {
-					int count = typesetter.SuggestLineBreak (start, insetBounds.Height);
+					int count = noWrap ? length : typesetter.SuggestLineBreak (start, insetBounds.Height);
 					var line = typesetter.GetLine (new NSRange (start, count));
 
 					// Create and initialize some values from the bounds.
@@ -271,7 +272,7 @@ namespace System.Drawing
 				// are using anything but Top
 				if (layoutAvailable && format.LineAlignment != StringAlignment.Near) {
 					while (start < length) {
-						int count = typesetter.SuggestLineBreak (start, insetBounds.Width);
+						int count = noWrap ? length : typesetter.SuggestLineBreak (start, insetBounds.Width);
 						var line = typesetter.GetLine (new NSRange(start, count));
 
 						// Create and initialize some values from the bounds.
@@ -298,7 +299,7 @@ namespace System.Drawing
 				// Now we ask the typesetter to break off a line for us.
 				// This also will take into account line feeds embedded in the text.
 				//  Example: "This is text \n with a line feed embedded inside it"
-				int count = typesetter.SuggestLineBreak(start, boundsWidth);
+				int count = noWrap ? length : typesetter.SuggestLineBreak(start, boundsWidth);
 				var line = typesetter.GetLine(new NSRange(start, count));
 
 				// Create and initialize some values from the bounds.
