@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE;NET_4_0;NET_4_5;MONO;DISABLE_CAS_USE;SDCOMPAT</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NET_4_0;NET_4_5;MONO;DISABLE_CAS_USE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <OutputPath>..\lib\net_4_5</OutputPath>
@@ -1569,9 +1569,9 @@
     <None Include="System.Windows.Forms.Design\ChangeLog" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\System.Drawing\System.Drawing-net_4_5.csproj">
-      <Project>{CB1CB976-AA54-4553-B0E7-05665B199EC4}</Project>
-      <Name>System.Drawing-net_4_5</Name>
+    <ProjectReference Include="..\..\..\..\sysdrawing-coregraphics\sysdrawing-coregraphics-Mac\sysdrawing-coregraphics-Mac.csproj">
+      <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
+      <Name>sysdrawing-coregraphics-Mac</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
