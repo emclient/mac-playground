@@ -426,11 +426,13 @@ namespace System.Windows.Forms.Layout
 									continue;
 
 								// Calculate the maximum control height.
-								if (c.AutoSize)
+								if (panel.AutoSize && rs.SizeType == SizeType.Percent)
+									max_height = Math.Max (max_height, c.MinimumSize.Height + c.Margin.Vertical);
+								else if (c.AutoSize)
 									max_height = Math.Max (max_height, c.PreferredSize.Height + c.Margin.Vertical);
 								else
 									max_height = Math.Max (max_height, c.ExplicitBounds.Height + c.Margin.Vertical);
-								max_height = Math.Max (max_height, c.Height + c.Margin.Top + c.Margin.Bottom);
+								//max_height = Math.Max (max_height, c.Height + c.Margin.Top + c.Margin.Bottom);
 							}
 						}
 
