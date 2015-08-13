@@ -125,7 +125,7 @@ namespace System.Windows.Forms {
 		internal static GrabStruct Grab;
 		internal static Cocoa.Caret Caret;
 		private static Hashtable WindowMapping;
-		//private static int MenuBarHeight;
+		private static int MenuBarHeight;
 		internal static ArrayList UtilityWindows;
 		internal static readonly Stack<IntPtr> ModalSessions = new Stack<IntPtr>();
 		internal float screenHeight;
@@ -310,11 +310,11 @@ namespace System.Windows.Forms {
 			#if DriverDebug
 				Console.WriteLine ("{0}", mainMenu);
 			#endif
-//			bool tempMenu = true;
+			bool tempMenu = true;
 			if (null == mainMenu) {
 //				Console.WriteLine ("mainMenu is null.");
 			} else {
-//				tempMenu = false;
+				tempMenu = false;
 			}
 
 			/*if (tempMenu) {
@@ -529,7 +529,7 @@ namespace System.Windows.Forms {
 				return;
 
 			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
-//			NSView clientVuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
+			NSView clientVuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
 			NSRect nsrect = vuWrap.Frame;
 			Rectangle mrect;
 
@@ -1077,10 +1077,10 @@ namespace System.Windows.Forms {
 				winWrap.MakeKeyAndOrderFront (vuWrap);
 				ActiveWindow = handle;
 
-//				Menu menu = hwnd.Menu;
-//				NSMenu hostMenu = null;
-//				if (null != menu)
-//					hostMenu = (NSMenu)MonoMac.ObjCRuntime.Runtime.GetNSObject(menu.Handle);
+				Menu menu = hwnd.Menu;
+				NSMenu hostMenu = null;
+				if (null != menu)
+					hostMenu = (NSMenu)MonoMac.ObjCRuntime.Runtime.GetNSObject(menu.Handle);
 #if DriverDebug
 				//Console.WriteLine ("Activate ({0}) {1}", hwnd, hostMenu.Description);
 #endif
@@ -2228,8 +2228,8 @@ namespace System.Windows.Forms {
 					NSApplication.SharedApplication.ApplicationIconImage = null;
 				} else {
 					Bitmap		bitmap;
-//					int		size;
-//					int		index;
+					int		size;
+					int		index;
 	
 					bitmap = new Bitmap (128, 128);
 					using (Graphics g = Graphics.FromImage (bitmap)) {
