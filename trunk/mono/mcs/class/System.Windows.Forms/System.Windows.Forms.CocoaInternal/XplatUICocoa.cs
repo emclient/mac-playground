@@ -1295,7 +1295,7 @@ namespace System.Windows.Forms {
 				WholeRect = MonoToNativeScreen (mWholeRect);
 			}
 				
-			NSView viewWrapper = new Cocoa.MonoView (this, WholeRect);
+			NSView viewWrapper = new Cocoa.MonoView (this, WholeRect, hwnd);
 			wholeHandle = (IntPtr) viewWrapper.Handle;
 
 			SetHwndStyles(hwnd, cp);
@@ -1363,7 +1363,7 @@ namespace System.Windows.Forms {
 
 			var ClientSize = cp.control.ClientSizeFromSize(new Size(Width, Height));
 			NSRect ClientRect = new NSRect(0, 0, ClientSize.Width, ClientSize.Height);//MonoToNativeFramed (QClientRect, WholeRect.Size.Height);
-			NSView clientWrapper = new Cocoa.MonoView (this, ClientRect);
+			NSView clientWrapper = new Cocoa.MonoView (this, ClientRect, hwnd);
 			clientHandle = (IntPtr) clientWrapper.Handle;
 
 			hwnd.WholeWindow = wholeHandle;
@@ -1919,6 +1919,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override void OverrideCursor (IntPtr cursor) {
+			Cocoa.Cursor.SetCursor (cursor);
 		}
 
 		internal override PaintEventArgs PaintEventStart (ref Message msg, IntPtr handle, bool client)
