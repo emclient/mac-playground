@@ -48,15 +48,17 @@ namespace System.Windows.Forms.CocoaInternal
 	{
 		XplatUICocoa driver;
 		NSTrackingArea trackingArea;
+		Hwnd hwnd;
 		static Dictionary<Keys, Keys> nonchars;
 
 		public MonoView (IntPtr instance) : base (instance)
 		{
 		}
 
-		public MonoView (XplatUICocoa driver, NSRect frameRect) : base(frameRect)
+		public MonoView (XplatUICocoa driver, NSRect frameRect, Hwnd hwnd) : base(frameRect)
 		{
 			this.driver = driver;
+			this.hwnd = hwnd;
 		}
 
 		public override bool IsFlipped {
@@ -73,57 +75,38 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override bool AcceptsFirstResponder ()
 		{
-			Hwnd hwnd = Hwnd.ObjectFromWindow (Handle);
 			return hwnd.Enabled;
 		}
 
 		public override bool BecomeFirstResponder ()
 		{
-			Hwnd hwnd = Hwnd.ObjectFromWindow (Handle);
 			driver.SendMessage (hwnd.Handle, Msg.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
 			return base.BecomeFirstResponder ();
 		}
 
 		public override bool ResignFirstResponder ()
 		{
-			Hwnd hwnd = Hwnd.ObjectFromWindow (Handle);
 			driver.SendMessage (hwnd.Handle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
 			return base.ResignFirstResponder ();
 		}
 
 		public override void DrawRect (NSRect dirtyRect)
 		{
-			Hwnd hwnd = Hwnd.ObjectFromWindow (Handle);
-			NSRect nsbounds = dirtyRect;
-			bool client = hwnd.ClientWindow == Handle;
-			Rectangle bounds = driver.NativeToMonoFramed (nsbounds, Frame.Size.Height);
-			Rectangle clientBounds = bounds;
-			bool nonclient = ! client;
-
-			if (!hwnd.visible) {
-				if (client)
-					hwnd.expose_pending = false;
-				if (nonclient)
-					hwnd.nc_expose_pending = false;
-				return;
-			}
-
-			if (nonclient) {
-				DrawBorders (hwnd);
-			}
-
-			if (nonclient) {
+			Rectangle bounds = driver.NativeToMonoFramed (dirtyRect, Frame.Size.Height);
+			if (hwnd.ClientWindow != Handle) {
+				DrawBorders ();
 				hwnd.AddNcInvalidArea (bounds);
 				driver.SendMessage (hwnd.Handle, Msg.WM_NCPAINT, IntPtr.Zero, IntPtr.Zero);
 			}
-			if (client) {
+			else {
 				// FIXME: Use getRectsBeingDrawn		
-				hwnd.AddInvalidArea (clientBounds);
+				hwnd.AddInvalidArea (bounds);
 				driver.SendMessage (hwnd.Handle, Msg.WM_PAINT, IntPtr.Zero, IntPtr.Zero);
 			}
 		}
 
-		private void DrawBorders (Hwnd hwnd) {
+		private void DrawBorders ()
+		{
 			Graphics g;
 
 			switch (hwnd.BorderStyle) {

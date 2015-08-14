@@ -200,7 +200,7 @@ namespace System.Windows.Forms.CocoaInternal {
 					NSCursor.ArrowCursor.Set();
 					break;
 				case StdCursor.HSplit:
-					NSCursor.ResizeLeftRightCursor.Set();
+					NSCursor.ResizeUpDownCursor.Set();
 					break;
 				case StdCursor.IBeam:
 					NSCursor.IBeamCursor.Set();
@@ -260,7 +260,7 @@ namespace System.Windows.Forms.CocoaInternal {
 					NSCursor.ArrowCursor.Set();
 					break;
 				case StdCursor.VSplit:
-					NSCursor.ArrowCursor.Set();
+					NSCursor.ResizeLeftRightCursor.Set();
 					break;
 				case StdCursor.WaitCursor:
 //					NSCursor.SpinningCursor().set();

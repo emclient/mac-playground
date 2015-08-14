@@ -128,7 +128,8 @@ namespace System.Windows.Forms {
 		public static Cursor HSplit {
 			get {
 				if (hsplit == null) {
-					hsplit = new Cursor(typeof(Splitter), "SplitterNS.cur");
+					//hsplit = new Cursor(typeof(Splitter), "SplitterNS.cur");
+					hsplit = new Cursor(StdCursor.HSplit);
 					hsplit.name = "HSplit";
 				}
 				return hsplit;
@@ -342,7 +343,8 @@ namespace System.Windows.Forms {
 		public static Cursor VSplit {
 			get {
 				if (vsplit == null) {
-					vsplit = new Cursor(typeof(Cursor), "SplitterWE.cur");
+					//vsplit = new Cursor(typeof(Cursor), "SplitterWE.cur");
+					vsplit = new Cursor(StdCursor.VSplit);
 					vsplit.name = "VSplit";
 				}
 				return vsplit;
