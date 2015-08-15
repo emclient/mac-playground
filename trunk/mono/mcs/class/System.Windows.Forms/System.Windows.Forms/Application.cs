@@ -470,8 +470,6 @@ namespace System.Windows.Forms
 				lock (message_filters) {
 					message_filters.Add (value);
 				}
-			} else {
-				Console.WriteLine ("AddMessageFilter(null)");
 			}
 		}
 
