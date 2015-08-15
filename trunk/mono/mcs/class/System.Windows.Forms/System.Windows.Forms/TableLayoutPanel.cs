@@ -550,7 +550,7 @@ namespace System.Windows.Forms
 				for (int j = 0; j < actual_rows; j++) {
 					Control c = actual_positions[i, j];
 
-					if (c != null) {
+					if (c != null && c.VisibleInternal) {
 						int colspan = GetColumnSpan (c);
 						if (colspan == 0)
 							continue;
@@ -614,7 +614,7 @@ namespace System.Windows.Forms
 				for (int i = 0; i < actual_cols; i++) {
 					Control c = actual_positions[i, j];
 
-					if (c != null) {
+					if (c != null && c.VisibleInternal) {
 						int rowspan = GetRowSpan (c);
 						if (rowspan == 0)
 							continue;
