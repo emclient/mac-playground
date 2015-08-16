@@ -741,31 +741,6 @@ namespace System.Windows.Forms {
 			return true;
 		}
 
-		private void WaitForHwndMessage (Hwnd hwnd, Msg message) {
-			MSG msg = new MSG ();
-
-			bool done = false;
-			do {
-				if (! PeekMessage (null, ref msg, IntPtr.Zero, 0, 0, (uint) PeekMessageFlags.PM_REMOVE))
-					break;
-
-				if ((Msg) msg.message == Msg.WM_QUIT) {
-					PostQuitMessage (0);
-					break;
-				}
-
-				if (msg.hwnd == hwnd.Handle) {
-					if ((Msg)msg.message == message)
-						break;
-					else if ((Msg)msg.message == Msg.WM_DESTROY)
-						done = true;
-				}
-
-				TranslateMessage (ref msg);
-				DispatchMessage (ref msg);
-			} while (!done);
-		}
-
 		private void SendParentNotify(IntPtr child, Msg cause, int x, int y) {
 			Hwnd hwnd;
 			
@@ -1226,12 +1201,9 @@ namespace System.Windows.Forms {
 			int Y;
 			int Width;
 			int Height;
-//			IntPtr ParentHandle;
 			IntPtr WindowHandle;
 			IntPtr wholeHandle;
 			IntPtr clientHandle;
-//			IntPtr WholeWindowTracking;
-//			IntPtr ClientWindowTracking;
 
 			hwnd = new Hwnd ();
 
@@ -1239,12 +1211,9 @@ namespace System.Windows.Forms {
 			Y = cp.Y;
 			Width = cp.Width;
 			Height = cp.Height;
-//			ParentHandle = IntPtr.Zero;
 			WindowHandle = IntPtr.Zero;
 			wholeHandle = IntPtr.Zero;
 			clientHandle = IntPtr.Zero;
-//			WholeWindowTracking = IntPtr.Zero;
-//			ClientWindowTracking = IntPtr.Zero;
 			NSView ParentWrapper = null;  // If any
 			NSWindow windowWrapper = null;
 
@@ -1253,23 +1222,18 @@ namespace System.Windows.Forms {
 
 			if (cp.Parent != IntPtr.Zero) {
 				parent_hwnd = Hwnd.ObjectFromHandle (cp.Parent);
-//				ParentHandle = parent_hwnd.client_window;
 				ParentWrapper = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(parent_hwnd.ClientWindow);
 				if (StyleSet (cp.Style, WindowStyles.WS_CHILD))
 					windowWrapper = ParentWrapper.Window;
-//				wholeHandle = parent_hwnd.WholeWindow;
 			}
-//			else {
-//				if (StyleSet (cp.Style, WindowStyles.WS_CHILD)) {
-//					HIViewFindByID (HIViewGetRoot (FosterParent), new Cocoa.HIViewID (Cocoa.EventHandler.kEventClassWindow, 1), ref ParentHandle);
-//				}
-//			}
 
 			Point next;
-			if (cp.control is Form) {
+			if (X == int.MinValue || Y == int.MinValue) {
 				next = Hwnd.GetNextStackedFormLocation (cp, parent_hwnd);
-				X = next.X;
-				Y = next.Y;
+				if (X == int.MinValue)
+					X = next.X;
+				if (Y == int.MinValue)
+					Y = next.Y;
 			}
 
 			hwnd.x = X;
@@ -1301,63 +1265,20 @@ namespace System.Windows.Forms {
 			SetHwndStyles(hwnd, cp);
 /* FIXME */
 			if (!StyleSet (cp.Style, WindowStyles.WS_CHILD)) {
-//				IntPtr WindowView = IntPtr.Zero;
-//				IntPtr GrowBox = IntPtr.Zero;
-//				Cocoa.WindowClass windowklass = Cocoa.WindowClass.kOverlayWindowClass;
 				NSWindowStyle attributes = StyleFromCreateParams(cp);
-//				if (hwnd.border_style == FormBorderStyle.FixedToolWindow) {
-//					windowklass = Cocoa.WindowClass.kUtilityWindowClass;
-//				} else if (hwnd.border_style == FormBorderStyle.SizableToolWindow) {
-//					attributes |= Cocoa.WindowAttributes.kWindowResizableAttribute;
-//					windowklass = Cocoa.WindowClass.kUtilityWindowClass;
-//				}
-//				if (windowklass == Cocoa.WindowClass.kOverlayWindowClass) {
-//					attributes = Cocoa.WindowAttributes.kWindowCompositingAttribute | Cocoa.WindowAttributes.kWindowStandardHandlerAttribute;
-//				}
-//				attributes |= Cocoa.WindowAttributes.kWindowLiveResizeAttribute;
-
-//				Cocoa.Rect rect = new Cocoa.Rect ();
-//				if (StyleSet (cp.Style, WindowStyles.WS_POPUP)) {
-//					SetRect (ref rect, (short)X, (short)(Y), (short)(X + QWindowSize.Width), (short)(Y + QWindowSize.Height));
-//				} else {
-//					SetRect (ref rect, (short)X, (short)(Y + MenuBarHeight), (short)(X + QWindowSize.Width), (short)(Y + MenuBarHeight + QWindowSize.Height));
-//				}
-
-//				CreateNewWindow (windowklass, attributes, ref rect, ref WindowHandle);
-//
-//				HIViewFindByID (HIViewGetRoot (WindowHandle), new Cocoa.HIViewID (Cocoa.EventHandler.kEventClassWindow, 1), ref WindowView);
-//				HIViewFindByID (HIViewGetRoot (WindowHandle), new Cocoa.HIViewID (Cocoa.EventHandler.kEventClassWindow, 7), ref GrowBox);
-//				HIGrowBoxViewSetTransparent (GrowBox, true);
 //				SetAutomaticControlDragTrackingEnabledForWindow (, true);
 //				ParentHandle = WindowView;
 				WholeRect = NSWindow.ContentRectFor(WholeRect, attributes);
 				windowWrapper = new MonoWindow(WholeRect, attributes, NSBackingStore.Buffered, true, this);
 				WindowHandle = (IntPtr) windowWrapper.Handle;
-//				wholeHandle = WindowHandle;
 				windowWrapper.ContentView = viewWrapper;
-				//WholeRect = windowWrapper.FrameRectFor (windowWrapper.Frame);
-				/*Rectangle realFrame = NativeToMonoScreen (WholeRect);
-				hwnd.x = X = realFrame.X;
-				hwnd.y = Y = realFrame.Y;
-				hwnd.width = Width = realFrame.Width;
-				hwnd.height = Height = realFrame.Height;*/
-
-				//				Cocoa.EventHandler.InstallWindowHandler (WindowHandle);
 				windowWrapper.WeakDelegate = windowWrapper;
-				//				ClientWrapper.addTrackingRect_owner_userData_assumeInside (rect, ClientWrapper, 0, false);
 
 				if (StyleSet (cp.Style, WindowStyles.WS_POPUP))
 					windowWrapper.Level = NSWindowLevel.PopUpMenu;
 				if (ParentWrapper != null)
 					ParentWrapper.Window.AddChildWindow (windowWrapper, NSWindowOrderingMode.Above);
-
-//				NSButton cb = windowWrapper.standardWindowButton (Enums.NSWindowCloseButton);
-//				if (! NSObject.IsNullOrNil (cb)) {
-//					// cb.setAction ("performClose:");
-//					// cb.setTarget (viewWrapper);
-//					Console.Error.WriteLine ("New window {0}.{1} ()", cb.target (), cb.action ());
-//				}
-			}else if (ParentWrapper != null) {
+			} else if (ParentWrapper != null) {
 				ParentWrapper.AddSubview (viewWrapper);
 			}
 
@@ -1370,14 +1291,6 @@ namespace System.Windows.Forms {
 			hwnd.ClientWindow = clientHandle;
 
 			viewWrapper.AddSubview (clientWrapper);
-//			Cocoa.HIRect WholeRect;
-//			if (WindowHandle != IntPtr.Zero) {
-//				WholeRect = new Cocoa.HIRect (0, 0, QWindowSize.Width, QWindowSize.Height);
-//			} else {
-//				WholeRect = new Cocoa.HIRect (X, Y, QWindowSize.Width, QWindowSize.Height);
-//			}
-//			HIViewSetFrame (wholeHandle, ref WholeRect);
-//			HIViewSetFrame (clientHandle, ref ClientRect);
 
 			if (WindowHandle != IntPtr.Zero) {
 				WindowMapping [hwnd.Handle] = WindowHandle;
@@ -1412,7 +1325,6 @@ namespace System.Windows.Forms {
 						}
 					}
 					windowWrapper.MakeKeyAndOrderFront (viewWrapper);
-					//WaitForHwndMessage (hwnd, Msg.WM_SHOWWINDOW);
 				}
 
 				viewWrapper.Hidden = false;
@@ -1428,10 +1340,6 @@ namespace System.Windows.Forms {
 			} else if (StyleSet (cp.Style, WindowStyles.WS_MAXIMIZE)) {
 				SetWindowState (hwnd.Handle, FormWindowState.Maximized);
 			}
-
-			/*InvalidateNC (hwnd.Handle);
-			if (cp.Width > 0 && cp.Height > 0)
-				Invalidate (hwnd.Handle, Rectangle.Empty, true);*/
 
 			hwnd.UserData = new object[] { windowWrapper, viewWrapper, clientWrapper };
 
@@ -1965,16 +1873,8 @@ namespace System.Windows.Forms {
 					clip_region.Intersect (hwnd.UserClip);
 				}
 
-//				// Translate & clip drawing to the client area.
-//				Rectangle clientRect = hwnd.ClientRect;
-//				dc.TranslateTransform (clientRect.X, clientRect.Y);
-//				clientRect.Location = Point.Empty;
-//				clip_region.Intersect (clientRect);
-
-				// FIXME: Clip region is hosed
 				dc.Clip = clip_region;
 				paint_event = new PaintEventArgs (dc, hwnd.Invalid);
-				//hwnd.expose_pending = false;
 				hwnd.ClearInvalidArea ();
 
 				hwnd.drawing_stack.Push (paint_event);
