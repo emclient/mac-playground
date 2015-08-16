@@ -132,6 +132,7 @@ namespace System.Windows.Forms
 			set {
 				if (value.isSerialized) {
 					// Serialized version doesn't calculate these.
+					value.panel = null;
 					value.ColumnCount = value.ColumnStyles.Count;
 					value.RowCount = value.RowStyles.Count;
 					value.panel = this;
