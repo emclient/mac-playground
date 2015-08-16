@@ -439,8 +439,6 @@ trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CarbonInternal/Wi
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/ChangeLog -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Cursor.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Enums.cs -text
-trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/EventHandlerBase.cs -text
-trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/IEventHandler.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoApplicationDelegate.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoMenuItem.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoView.Debug.cs -text
