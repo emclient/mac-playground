@@ -35,7 +35,7 @@ namespace System.Windows.Forms.Layout
 {
 	internal class TableLayout : LayoutEngine
 	{
-		private static Control dummy_control = new Control ("Dummy");	// Used as a placeholder for row/col spans
+		internal static Control dummy_control = new Control ("Dummy");	// Used as a placeholder for row/col spans
 
 		public TableLayout () : base ()
 		{

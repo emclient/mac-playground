@@ -551,16 +551,16 @@ namespace System.Windows.Forms
 				for (int j = 0; j < actual_rows; j++) {
 					Control c = actual_positions[i, j];
 
-					if (c != null && c.VisibleInternal) {
+					if (c != null && c != TableLayout.dummy_control && c.VisibleInternal) {
 						int colspan = GetColumnSpan (c);
 						if (colspan == 0)
 							continue;
 						if (colspan == 1 && absolute_width > -1)
 							biggest[0] = absolute_width;	// use the absolute width if the column has absolute width assigned!
 						else if (!c.AutoSize)
-							biggest[colspan-1] = Math.Max (biggest[colspan-1], c.ExplicitBounds.Width + c.Margin.Horizontal + Padding.Horizontal);
+							biggest[colspan-1] = Math.Max (biggest[colspan-1], c.ExplicitBounds.Width + c.Margin.Horizontal);
 						else
-							biggest[colspan-1] = Math.Max (biggest[colspan-1], c.PreferredSize.Width + c.Margin.Horizontal + Padding.Horizontal);
+							biggest[colspan-1] = Math.Max (biggest[colspan-1], c.PreferredSize.Width + c.Margin.Horizontal);
 					}
 					else if (absolute_width > -1) {
 						biggest[0] = absolute_width;
@@ -593,7 +593,7 @@ namespace System.Windows.Forms
 			}
 
 			int border_width = GetCellBorderWidth (CellBorderStyle);
-			int needed_width = non_percent_total_width + percent_total_width + (border_width * (actual_cols + 1));
+			int needed_width = non_percent_total_width + percent_total_width + (border_width * (actual_cols + 1)) + Padding.Horizontal;
 
 			// Figure out how tall the owner needs to be
 			int[] row_heights = new int[actual_rows];
@@ -615,16 +615,16 @@ namespace System.Windows.Forms
 				for (int i = 0; i < actual_cols; i++) {
 					Control c = actual_positions[i, j];
 
-					if (c != null && c.VisibleInternal) {
+					if (c != null && c != TableLayout.dummy_control && c.VisibleInternal) {
 						int rowspan = GetRowSpan (c);
 						if (rowspan == 0)
 							continue;
 						if (rowspan == 1 && absolute_height > -1)
 							biggest[0] = absolute_height;    // use the absolute height if the row has absolute height assigned!
 						else if (!c.AutoSize)
-							biggest[rowspan-1] = Math.Max (biggest[rowspan-1], c.ExplicitBounds.Height + c.Margin.Vertical + Padding.Vertical);
+							biggest[rowspan-1] = Math.Max (biggest[rowspan-1], c.ExplicitBounds.Height + c.Margin.Vertical);
 						else
-							biggest[rowspan-1] = Math.Max (biggest[rowspan-1], c.PreferredSize.Height + c.Margin.Vertical + Padding.Vertical);
+							biggest[rowspan-1] = Math.Max (biggest[rowspan-1], c.PreferredSize.Height + c.Margin.Vertical);
 					}
 					else if (absolute_height > -1) {
 						biggest[0] = absolute_height;
@@ -656,7 +656,7 @@ namespace System.Windows.Forms
 					non_percent_total_height += row_heights[j];
 			}
 
-			int needed_height = non_percent_total_height + percent_total_height + (border_width * (actual_rows + 1));
+			int needed_height = non_percent_total_height + percent_total_height + (border_width * (actual_rows + 1)) + Padding.Vertical;
 
 			return new Size (needed_width, needed_height);
 		}
