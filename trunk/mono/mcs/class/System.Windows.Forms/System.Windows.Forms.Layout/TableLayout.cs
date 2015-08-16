@@ -26,7 +26,6 @@
 //	Jonathan Pobst (monkey@jpobst.com)
 //
 
-
 //#define TABLE_DEBUG
 
 using System;
@@ -356,8 +355,7 @@ namespace System.Windows.Forms.Layout
 				{
 					if (cs.SizeType == SizeType.Percent) 
 					{
-						int width_change = (int)(((cs.Width / total_percent) * percent_width)
-							- panel.column_widths[index]);
+						int width_change = (int)((cs.Width / total_percent) * percent_width);
 						if (width_change > 0)
 						{
 							panel.column_widths[index] += width_change;
@@ -467,8 +465,7 @@ namespace System.Windows.Forms.Layout
 				// Divvy up the space..
 				foreach (RowStyle rs in row_styles) {
 					if (rs.SizeType == SizeType.Percent) {
-						int height_change = (int)(((rs.Height / total_percent) * percent_height)
-							- panel.row_heights[index]);
+						int height_change = (int)((rs.Height / total_percent) * percent_height);
 						if (height_change > 0)
 						{
 							panel.row_heights[index] += height_change;
