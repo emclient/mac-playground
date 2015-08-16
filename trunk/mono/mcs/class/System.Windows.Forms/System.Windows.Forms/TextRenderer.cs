@@ -489,9 +489,9 @@ namespace System.Windows.Forms
 			if ((flags & TextFormatFlags.NoPadding) == 0 && (flags & TextFormatFlags.Right) == TextFormatFlags.Right) {
 				r.Width -= 4;
 			}
-			if ((flags & TextFormatFlags.NoPadding) == TextFormatFlags.NoPadding) {
-				r.X -= 2;
-			}
+			//if ((flags & TextFormatFlags.NoPadding) == TextFormatFlags.NoPadding) {
+			//	r.X -= 2;
+			//}
 			if ((flags & TextFormatFlags.NoPadding) == 0 && (flags & TextFormatFlags.Bottom) == TextFormatFlags.Bottom) {
 				r.Y += 1;
 			}
