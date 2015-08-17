@@ -2798,12 +2798,19 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		[MonoTODO]
 		internal override Screen[] AllScreens
 		{
 			get
 			{
-				return null;
+				List<Screen> screens = new List<Screen>();
+				int index = 0;
+				foreach (var nsScreen in NSScreen.Screens) {
+					Rectangle frame = NativeToMonoScreen (nsScreen.Frame);
+					Rectangle visibleFrame = NativeToMonoScreen (nsScreen.VisibleFrame);
+					screens.Add(new Screen(index == 0, (index + 1).ToString(), frame, visibleFrame));
+					index++;
+				}
+				return screens.ToArray();
 			}
 		}
 

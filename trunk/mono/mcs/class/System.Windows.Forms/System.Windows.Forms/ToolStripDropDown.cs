@@ -402,37 +402,50 @@ namespace System.Windows.Forms
 		public void Show (Point position, ToolStripDropDownDirection direction)
 		{
 			this.PerformLayout ();
-			
+
+			Screen primaryScreen = null;
+			Screen bestScreen = null;
+			foreach (var screen in XplatUI.AllScreens) {
+				if (screen.Primary) {
+					primaryScreen = screen;
+				}
+				else {
+					if (screen.Bounds.Contains(position))
+						bestScreen = screen;
+				}
+			}
+			if (bestScreen == null)
+				bestScreen = primaryScreen;
+
 			Point show_point = position;
-			Point max_screen = new Point (SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height);
-			
+
 			if (this is ContextMenuStrip) {
 				// If we are going to go offscreen, adjust our direction so we don't...
 				// X direction
 				switch (direction) {
 					case ToolStripDropDownDirection.AboveLeft:
-						if (show_point.X - this.Width < 0)
+						if (show_point.X - this.Width < bestScreen.WorkingArea.Left)
 							direction = ToolStripDropDownDirection.AboveRight;
 						break;
 					case ToolStripDropDownDirection.BelowLeft:
-						if (show_point.X - this.Width < 0)
+						if (show_point.X - this.Width < bestScreen.WorkingArea.Left)
 							direction = ToolStripDropDownDirection.BelowRight;
 						break;
 					case ToolStripDropDownDirection.Left:
-						if (show_point.X - this.Width < 0)
+						if (show_point.X - this.Width < bestScreen.WorkingArea.Left)
 							direction = ToolStripDropDownDirection.Right;
 						break;
 					case ToolStripDropDownDirection.AboveRight:
-						if (show_point.X + this.Width > max_screen.X)
+						if (show_point.X + this.Width > bestScreen.WorkingArea.Right)
 							direction = ToolStripDropDownDirection.AboveLeft;
 						break;
 					case ToolStripDropDownDirection.BelowRight:
 					case ToolStripDropDownDirection.Default:
-						if (show_point.X + this.Width > max_screen.X)
+						if (show_point.X + this.Width > bestScreen.WorkingArea.Right)
 							direction = ToolStripDropDownDirection.BelowLeft;
 						break;
 					case ToolStripDropDownDirection.Right:
-						if (show_point.X + this.Width > max_screen.X)
+						if (show_point.X + this.Width > bestScreen.WorkingArea.Right)
 							direction = ToolStripDropDownDirection.Left;
 						break;
 				}
@@ -440,28 +453,28 @@ namespace System.Windows.Forms
 				// Y direction
 				switch (direction) {
 					case ToolStripDropDownDirection.AboveLeft:
-						if (show_point.Y - this.Height < 0)
+						if (show_point.Y - this.Height < bestScreen.WorkingArea.Top)
 							direction = ToolStripDropDownDirection.BelowLeft;
 						break;
 					case ToolStripDropDownDirection.AboveRight:
-						if (show_point.Y - this.Height < 0)
+						if (show_point.Y - this.Height < bestScreen.WorkingArea.Top)
 							direction = ToolStripDropDownDirection.BelowRight;
 						break;
 					case ToolStripDropDownDirection.BelowLeft:
-						if (show_point.Y + this.Height > max_screen.Y && show_point.Y - this.Height > 0)
+						if (show_point.Y + this.Height > bestScreen.WorkingArea.Bottom && show_point.Y - this.Height > 0)
 							direction = ToolStripDropDownDirection.AboveLeft;
 						break;
 					case ToolStripDropDownDirection.BelowRight:
 					case ToolStripDropDownDirection.Default:
-						if (show_point.Y + this.Height > max_screen.Y && show_point.Y - this.Height > 0)
+						if (show_point.Y + this.Height > bestScreen.WorkingArea.Bottom && show_point.Y - this.Height > 0)
 							direction = ToolStripDropDownDirection.AboveRight;
 						break;
 					case ToolStripDropDownDirection.Left:
-						if (show_point.Y + this.Height > max_screen.Y && show_point.Y - this.Height > 0)
+						if (show_point.Y + this.Height > bestScreen.WorkingArea.Bottom && show_point.Y - this.Height > 0)
 							direction = ToolStripDropDownDirection.AboveLeft;
 						break;
 					case ToolStripDropDownDirection.Right:
-						if (show_point.Y + this.Height > max_screen.Y && show_point.Y - this.Height > 0)
+						if (show_point.Y + this.Height > bestScreen.WorkingArea.Bottom && show_point.Y - this.Height > 0)
 							direction = ToolStripDropDownDirection.AboveRight;
 						break;
 				}
@@ -486,16 +499,16 @@ namespace System.Windows.Forms
 			}
 
 			// Fix offscreen horizontal positions
-			if ((show_point.X + this.Width) > max_screen.X)
-				show_point.X = max_screen.X - this.Width;
-			if (show_point.X < 0)
-				show_point.X = 0;
+			if ((show_point.X + this.Width) > bestScreen.WorkingArea.Right)
+				show_point.X = bestScreen.WorkingArea.Right - this.Width;
+			if (show_point.X < bestScreen.WorkingArea.Left)
+				show_point.X = bestScreen.WorkingArea.Left;
 
 			// Fix offscreen vertical positions
-			if ((show_point.Y + this.Height) > max_screen.Y)
-				show_point.Y = max_screen.Y - this.Height;
-			if (show_point.Y < 0)
-				show_point.Y = 0;
+			if ((show_point.Y + this.Height) > bestScreen.WorkingArea.Bottom)
+				show_point.Y = bestScreen.WorkingArea.Bottom - this.Height;
+			if (show_point.Y < bestScreen.WorkingArea.Top)
+				show_point.Y = bestScreen.WorkingArea.Top ;
 
 			if (this.Location != show_point)
 				this.Location = show_point;
