@@ -137,7 +137,6 @@ namespace System.Windows.Forms {
 		private static bool ReverseWindowMapped;
 
 		// Timers
-		private ArrayList TimerList;
 		private static bool in_doevents;
 		
 		static readonly object instancelock = new object ();
@@ -151,7 +150,6 @@ namespace System.Windows.Forms {
 		private XplatUICocoa() {
 
 			RefCount = 0;
-			TimerList = new ArrayList ();
 			in_doevents = false;
 			MessageQueue = new Queue ();
 			
@@ -189,7 +187,6 @@ namespace System.Windows.Forms {
 		#region Internal methods
 
 		internal void FlushQueue () {
-			CheckTimers (DateTime.UtcNow);
 			lock (queuelock) {
 				while (MessageQueue.Count > 0) {
 					object queueobj = MessageQueue.Dequeue ();
@@ -416,10 +413,12 @@ namespace System.Windows.Forms {
 //				Point clientOrigin = hwnd.client_rectangle.Location;
 //				point.X += clientOrigin.X;
 //				point.Y += clientOrigin.Y;
-//			}
+			//}
 
-			point = viewWrapper.ConvertPointToView (point, null);
-			point = windowWrapper.ConvertBaseToScreen (point);
+			if (viewWrapper != null && windowWrapper != null) {
+				point = viewWrapper.ConvertPointToView (point, null);
+				point = windowWrapper.ConvertBaseToScreen (point);
+			}
 		}
 
 		internal void EnqueueMessage (MSG msg) {
@@ -609,6 +608,8 @@ namespace System.Windows.Forms {
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
+			if (vuWrap == null)
+				return Point.Empty;
 
 //			/*TODO? if (winWrap.contentView() != vuWrap) */ {
 //				point += (Size) hwnd.client_rectangle.Location;
@@ -678,65 +679,13 @@ namespace System.Windows.Forms {
 			return converted_point;
 		}
 
-		private double NextTimeout () {
-			DateTime now = DateTime.UtcNow;
-			int timeout = 0x7FFFFFF;
-			lock (TimerList) {
-				foreach (Timer timer in TimerList) {
-					int next = (int) (timer.Expires - now).TotalMilliseconds;
-					if (next < 0)
-						return 0;
-					if (next < timeout)
-						timeout = next;
-				}
-			}
-			if (timeout < Timer.Minimum)
-				timeout = Timer.Minimum;
-
-			return (double)((double)timeout/1000);
-		}
-		
-		private void CheckTimers (DateTime now) {
-			lock (TimerList) {
-				int count = TimerList.Count;
-				if (count == 0)
-					return;
-				for (int i = 0; i < TimerList.Count; i++) {
-					Timer timer = (Timer) TimerList [i];
-					if (timer.Enabled && timer.Expires <= now) {
-						// Timer ticks:
-						//  - Before MainForm.OnLoad if DoEvents () is called.
-						//  - After MainForm.OnLoad if not.
-						//
-						if (in_doevents ||
-						    (Application.MWFThread.Current.Context != null && 
-						     Application.MWFThread.Current.Context.MainForm != null && 
-						     Application.MWFThread.Current.Context.MainForm.IsLoaded)) {
-							timer.FireTick ();
-							timer.Update (now);
-						}
-					}
-				}
-			}
-		}
-
 		private bool PumpNativeEvent (bool wait)
 		{
-			NSDate timeout = NSDate.DistantPast;
-				;
+			NSDate timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
 			NSApplication NSApp = NSApplication.SharedApplication;
-			CheckTimers (DateTime.UtcNow);
-
-			if (wait) 
-				if (TimerList.Count == 0)
-					timeout = NSDate.DistantFuture;
-				else
-					timeout = NSDate.FromTimeIntervalSinceNow (NextTimeout ());
-
 			NSEvent evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, true);
 			if (evtRef == null)
 				return false;
-
 			NSApp.SendEvent (evtRef);
 			return true;
 		}
@@ -1677,13 +1626,10 @@ namespace System.Windows.Forms {
 
 		internal override bool GetMessage (object queue_id, ref MSG msg, IntPtr hWnd, int wFilterMin, int wFilterMax)
 		{
-			CheckTimers (DateTime.UtcNow);
 			bool pumpedNativeEvent = PumpNativeEvent (false);
 			int count = 0;
 
 			do {
-				CheckTimers (DateTime.UtcNow);
-
 				lock (queuelock) {
 					count = MessageQueue.Count;
 					if (0 < count) {
@@ -1822,8 +1768,11 @@ namespace System.Windows.Forms {
 		}
 		
 		internal override void KillTimer(Timer timer) {
-			lock (TimerList) {
-				TimerList.Remove (timer);
+			if (timer.window != IntPtr.Zero) {
+				NSTimer nstimer = (NSTimer)MonoMac.ObjCRuntime.Runtime.GetNSObject(timer.window);
+				nstimer.Invalidate();
+				nstimer.Release();
+				timer.window = IntPtr.Zero;
 			}
 		}
 
@@ -1939,7 +1888,6 @@ namespace System.Windows.Forms {
 			bool peeking = 0 == ((uint) PeekMessageFlags.PM_REMOVE & flags);
 
 			do {
-				CheckTimers (DateTime.UtcNow);
 				pumpedNativeEvent = PumpNativeEvent (false);
 
 				lock (queuelock) {
@@ -2216,9 +2164,11 @@ namespace System.Windows.Forms {
 		}
 
 		internal override void SetTimer (Timer timer) {
-			lock (TimerList) {
-				TimerList.Add (timer);
-			}
+			if (timer.window != IntPtr.Zero)
+				KillTimer(timer);
+			var nstimer = NSTimer.CreateRepeatingScheduledTimer(TimeSpan.FromMilliseconds(timer.Interval), timer.FireTick);
+			nstimer.Retain();
+			timer.window = nstimer.Handle;
 		}
 
 		internal override bool SetTopmost (IntPtr hWnd, bool Enabled)
@@ -2541,23 +2491,27 @@ namespace System.Windows.Forms {
 
 		[MonoTODO]
 		internal override bool SystrayAdd(IntPtr hwnd, string tip, Icon icon, out ToolTip tt) {
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
+			tt = null;
+			return false;
 		}
 
 		[MonoTODO]
 		internal override bool SystrayChange(IntPtr hwnd, string tip, Icon icon, ref ToolTip tt) {
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
+			tt = null;
+			return false;
 		}
 
 		[MonoTODO]
 		internal override void SystrayRemove(IntPtr hwnd, ref ToolTip tt) {
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
 		[MonoTODO]
 		internal override void SystrayBalloon(IntPtr hwnd, int timeout, string title, string text, ToolTipIcon icon)
 		{
-			throw new NotImplementedException ();
+			//throw new NotImplementedException ();
 		}
 
 		internal override bool Text (IntPtr handle, string text)
