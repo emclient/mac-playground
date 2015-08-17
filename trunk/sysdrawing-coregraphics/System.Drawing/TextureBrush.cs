@@ -152,7 +152,7 @@ namespace System.Drawing
 		{
 			get
 			{
-				return null;
+				return textureImage;
 			}
 		}
 
