@@ -1,9 +1,13 @@
 * text=auto !eol
 trunk/FormsTest/App.ico -text
+trunk/FormsTest/Extensions.cs -text
 trunk/FormsTest/FormsTest.csproj -text
 trunk/FormsTest/MainForm.Designer.cs -text
 trunk/FormsTest/MainForm.cs -text
 trunk/FormsTest/MainForm.resx -text
+trunk/FormsTest/Msg.cs -text
+trunk/FormsTest/MyListBox.cs -text
+trunk/FormsTest/MyTextBox.cs -text
 trunk/FormsTest/MyView.cs -text
 trunk/FormsTest/Program.cs -text
 trunk/FormsTest/Properties/AssemblyInfo.cs -text

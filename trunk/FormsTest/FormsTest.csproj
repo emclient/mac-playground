@@ -48,13 +48,20 @@
     <Compile Include="MainForm.cs" />
     <Compile Include="Properties\Resources.Designer.cs" />
     <Compile Include="Properties\Settings.Designer.cs" />
-    <Compile Include="MainForm.Designer.cs" />
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions.cs" />
+    <Compile Include="MyListBox.cs" />
+    <Compile Include="MyTextBox.cs" />
+    <Compile Include="Msg.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MainForm.Designer.cs</LastGenOutput>
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -69,13 +76,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mono\mcs\class\System.Drawing\System.Drawing.csproj">
-      <Project>{CB1CB976-AA54-4553-B0E7-05665B199EC4}</Project>
-      <Name>System.Drawing</Name>
-    </ProjectReference>
     <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj">
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mono\mcs\class\System.Drawing\System.Drawing-net_4_5.csproj">
+      <Project>{CB1CB976-AA54-4553-B0E7-05665B199EC4}</Project>
+      <Name>System.Drawing-net_4_5</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

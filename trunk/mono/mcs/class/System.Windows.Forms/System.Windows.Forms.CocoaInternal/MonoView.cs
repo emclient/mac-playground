@@ -29,6 +29,8 @@ using System;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MonoMac.ObjCRuntime;
+using System.Runtime.InteropServices;
+
 #if SDCOMPAT
 using NSRect = System.Drawing.RectangleF;
 using NSPoint = System.Drawing.PointF;
@@ -39,6 +41,7 @@ using NSPoint = MonoMac.CoreGraphics.CGPoint;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Diagnostics;
+
 
 namespace System.Windows.Forms.CocoaInternal
 {
@@ -415,32 +418,35 @@ namespace System.Windows.Forms.CocoaInternal
 			ProcessModifiers (theEvent);
 		}
 
-		public void ProcessKeyPress (NSEvent eventref, Msg msg)
+		public void ProcessKeyPress (NSEvent e, Msg msg)
 		{
-			Hwnd hwnd = Hwnd.ObjectFromWindow (Handle);
 			ushort charCode = 0x0;
-			byte keyCode = 0x0;
 			char c = '\0';
 
-			string chars = eventref.CharactersIgnoringModifiers;
+			var chars = msg == Msg.WM_KEYDOWN ? GetCharactersForKeyPress (e) : "";
+			Debug.WriteLine ("keyCode={0}, characters=\"{1}\"", e.KeyCode, chars);
+
+			chars = chars ?? e.Characters;
 			if (chars.Length > 0) {
 				c = chars [0];
 				charCode = chars [0];
 			}
 
-			keyCode = (byte) eventref.KeyCode;
+			byte keyCode = (byte) e.KeyCode;
 
+			Keys key = GetKeys (e);
+			IntPtr wParam = (IntPtr) key;
 			IntPtr lParam = (IntPtr) (byte)charCode;
-			IntPtr wParam;
+			// Test
+			if (key == Keys.ShiftKey)
+				lParam = (IntPtr)0x2a0001;
 
-			Keys key = GetKeys (eventref);
-			wParam = (IntPtr) key;
-
+			Hwnd hwnd = Hwnd.ObjectFromWindow (Handle);
 			driver.PostMessage (hwnd.Handle, msg, wParam, lParam);
 
-			if (msg == Msg.WM_KEYDOWN &&  !string.IsNullOrEmpty (eventref.Characters)) {
+			if (msg == Msg.WM_KEYDOWN && !string.IsNullOrEmpty (chars)) {
 
-				if (IsChar(c, key)) {
+				if (IsChar (c, key)) {
 					XplatUICocoa.PushChars (chars);
 					driver.PostMessage (hwnd.Handle, Msg.WM_IME_COMPOSITION, IntPtr.Zero, IntPtr.Zero);
 				}
@@ -480,7 +486,7 @@ namespace System.Windows.Forms.CocoaInternal
 			keyNames.Add (NSKey.Command, Keys.LWin);
 			keyNames.Add (NSKey.Delete, Keys.Back);
 			keyNames.Add (NSKey.DownArrow, Keys.Down);
-			keyNames.Add (NSKey.Equal, Keys.Oemplus);
+			keyNames.Add (NSKey.Equal, Keys.Oemplus); // Should be "="
 			keyNames.Add (NSKey.ForwardDelete, Keys.Delete);
 			keyNames.Add (NSKey.Keypad0, Keys.NumPad0);
 			keyNames.Add (NSKey.Keypad1, Keys.NumPad1);
@@ -533,7 +539,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		internal static bool IsChar(char c, Keys k)
 		{
-			return !char.IsControl (c) && !NonChars.ContainsKey (k);
+			return c == '\b' || !char.IsControl (c) && !NonChars.ContainsKey (k);
 		}
 
 		public static Keys GetKeys (NSEvent theEvent)
@@ -575,7 +581,7 @@ namespace System.Windows.Forms.CocoaInternal
 			Keys.MButton,		
 			Keys.XButton1,	
 			Keys.XButton2,	
-			Keys.Back,		
+			//Keys.Back,		
 //			Keys.Tab,
 			//Keys.LineFeed,
 			Keys.Clear,
@@ -765,6 +771,98 @@ namespace System.Windows.Forms.CocoaInternal
 		};		
 		
 		#endregion // Keyboard translation tables
+
+		[DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		extern static IntPtr TISCopyCurrentKeyboardInputSource ();
+
+		[DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		extern static IntPtr TISGetInputSourceProperty(IntPtr inputSource, IntPtr propertyKey);
+
+		[DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		extern static Int32 UCKeyTranslate(
+			IntPtr keyLayoutPtr,
+			UInt16 virtualKeyCode,
+			UInt16 keyAction,
+			UInt32 modifierKeyState,
+			UInt32 keyboardType,
+			UInt32 keyTranslateOptions,
+			ref UInt32 deadKeyState,
+			UInt32 maxStringLength,
+			ref UInt32 actualStringLength,
+			IntPtr unicodeString);
+
+		const UInt16 kUCKeyActionDown = 0;
+		const UInt16 kUCKeyActionUp = 1;
+		const UInt16 kUCKeyActionAutoKey = 2;
+		const UInt16 kUCKeyActionDisplay = 3;
+
+		[DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		static extern byte LMGetKbdType();
+		//static extern static Int32 KBGetLayoutType(Int16 iKeyboardType);
+
+		[DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		internal extern static IntPtr __CFStringMakeConstantString (string cString);
+
+		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		static extern IntPtr CFDataCreate (IntPtr allocator, ref IntPtr buf, Int32 length);
+
+		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		static extern IntPtr CFDataGetBytePtr (IntPtr data);
+
+		[DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		static extern IntPtr CFStringCreateWithCharacters(IntPtr alloc, IntPtr chars, long numChars);
+
+		[DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+		internal extern static int CFRelease (IntPtr ptr);
+
+		const UInt16 kUCKeyTranslateNoDeadKeysBit = 0;
+		static UInt32 deadKeyState = 0;
+
+		// http://stackoverflow.com/questions/12547007/convert-key-code-into-key-equivalent-string
+		string GetCharactersForKeyPress(NSEvent e)
+		{
+			var currentKeyboard = TISCopyCurrentKeyboardInputSource();
+			var layoutData = TISGetInputSourceProperty(currentKeyboard, __CFStringMakeConstantString("TISPropertyUnicodeKeyLayoutData"));
+			var keyboardLayout = CFDataGetBytePtr (layoutData);
+
+			var flags = (uint)e.ModifierFlags;
+			var modifierKeyState = (flags >> 16) & 0xFF;
+			var chars = new char[4];
+			UInt32 realLength = 0;
+
+			int size = sizeof(UInt16) * chars.Length;
+			IntPtr buffer = IntPtr.Zero;
+
+			try
+			{
+				buffer = Marshal.AllocCoTaskMem (size);
+				UCKeyTranslate(
+					keyboardLayout,
+					e.KeyCode,
+					kUCKeyActionDown,
+					modifierKeyState,
+					LMGetKbdType(),
+					0,
+					ref deadKeyState,
+					(uint)chars.Length,
+					ref realLength,
+					buffer);
+
+				if (realLength != 0)
+					Marshal.Copy(buffer, chars, 0, chars.Length);
+
+				Debug.WriteLine("DeadKeyState = {0:X8}", deadKeyState);
+				return new string(chars, 0, (int)realLength);
+			}
+			finally
+			{
+				if (buffer != IntPtr.Zero)
+					Marshal.FreeCoTaskMem (buffer);
+
+				CFRelease(currentKeyboard);
+			}
+		}
+
 		#endregion // Keyboard
 	}
 }
