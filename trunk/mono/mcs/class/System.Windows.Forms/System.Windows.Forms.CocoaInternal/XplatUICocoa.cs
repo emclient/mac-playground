@@ -1580,7 +1580,11 @@ namespace System.Windows.Forms {
 			return ActiveWindow;
 		}
 
-		internal override Region GetClipRegion (IntPtr hwnd) {
+		internal override Region GetClipRegion (IntPtr handle) {
+			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
+			if (hwnd != null) {
+				return hwnd.UserClip;
+			}
 			return null;
 		}
 
@@ -2081,8 +2085,23 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		internal override void SetClipRegion (IntPtr hwnd, Region region) {
-			throw new NotImplementedException();
+		internal override void SetClipRegion (IntPtr handle, Region region) {
+			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
+			if (hwnd != null) {
+				hwnd.UserClip = region;
+				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
+				if (vuWrap != null && vuWrap.Window != null && vuWrap.Window.ContentView == vuWrap) {
+					if (region != null) {
+						vuWrap.Window.BackgroundColor = NSColor.Clear;
+						vuWrap.Window.IsOpaque = false;
+					}
+					else {
+						vuWrap.Window.BackgroundColor = NSColor.WindowBackground;
+						vuWrap.Window.IsOpaque = true;
+					}
+					vuWrap.NeedsDisplay = true;
+				}
+			}
 		}
 		
 		internal override void SetCursor (IntPtr window, IntPtr cursor) {
