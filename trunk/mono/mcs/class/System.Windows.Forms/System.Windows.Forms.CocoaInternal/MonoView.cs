@@ -72,7 +72,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override bool IsOpaque {
 			get {
-				return true;
+				return Window != null && Window.ContentView.Handle == hwnd.WholeWindow ? Window.IsOpaque : true;
 			}
 		}
 
