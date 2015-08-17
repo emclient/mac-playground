@@ -1178,17 +1178,14 @@ namespace System.Windows.Forms {
 		private NSWindowStyle StyleFromCreateParams(CreateParams cp)
 		{
 			NSWindowStyle attributes = NSWindowStyle.Borderless;
-			if (StyleSet (cp.Style, WindowStyles.WS_MINIMIZEBOX)) {
-				attributes |= NSWindowStyle.Miniaturizable | NSWindowStyle.Titled;
-			}
-			if (StyleSet (cp.Style, WindowStyles.WS_MAXIMIZEBOX)) {
-				attributes |= NSWindowStyle.Resizable | NSWindowStyle.Titled;
-			}
-			if (StyleSet (cp.Style, WindowStyles.WS_SYSMENU)) {
-				attributes |= NSWindowStyle.Closable | NSWindowStyle.Titled;
-			}
 			if (StyleSet (cp.Style, WindowStyles.WS_CAPTION)) {
-				attributes |= NSWindowStyle.Titled;
+				attributes = NSWindowStyle.Titled;
+				if (StyleSet (cp.Style, WindowStyles.WS_MINIMIZEBOX))
+					attributes |= NSWindowStyle.Miniaturizable;
+				if (StyleSet (cp.Style, WindowStyles.WS_MAXIMIZEBOX))
+					attributes |= NSWindowStyle.Resizable;
+				if (StyleSet (cp.Style, WindowStyles.WS_SYSMENU))
+					attributes |= NSWindowStyle.Closable;
 			}
 			return attributes;
 		}
