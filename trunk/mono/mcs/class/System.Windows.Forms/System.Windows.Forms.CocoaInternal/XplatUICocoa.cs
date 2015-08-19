@@ -2025,7 +2025,7 @@ namespace System.Windows.Forms {
 				CGDisplayMoveCursorToPoint (screenNumber.UInt32Value, new NSPoint (x, y));
 			}
 		}
-		make
+
 		internal override void SetFocus (IntPtr handle) {
 			if (ActiveWindow != IntPtr.Zero) {
 				NSView activeWindowWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (ActiveWindow);
