@@ -282,11 +282,10 @@ namespace System.Windows.Forms.CocoaInternal
 
 				case NSEventType.ScrollWheel:
 					int delta = (int)(eventref.DeltaY * 40.0);
-					MonoView focusedView = Window.FirstResponder as MonoView;
-					if (0 == delta || focusedView == null)
+					if (0 == delta || FocusHandle == IntPtr.Zero)
 						return;
 
-					msg.hwnd = focusedView.Handle;
+					msg.hwnd = FocusHandle;
 					msg.message = Msg.WM_MOUSEWHEEL;
 					msg.wParam = (IntPtr)((int)msg.wParam | (delta << 16));
 					break;
