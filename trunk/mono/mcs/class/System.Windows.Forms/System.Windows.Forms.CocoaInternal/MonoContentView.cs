@@ -91,6 +91,7 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			base.ViewDidMoveToWindow ();
 			UpdateTrackingAreas ();
+			Window.MakeFirstResponder (this);
 		}
 
 		public override void UpdateTrackingAreas ()
