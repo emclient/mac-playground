@@ -2031,18 +2031,17 @@ namespace System.Windows.Forms {
 				NSView activeWindowWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (ActiveWindow);
 				MonoContentView contentView = activeWindowWrap.Window.FirstResponder as MonoContentView;
 				IntPtr oldFocusHandle = IntPtr.Zero;
+				if (contentView != null && contentView.FocusHandle != IntPtr.Zero)
+					oldFocusHandle = contentView.FocusHandle;
 				if (oldFocusHandle == handle)
 					return;
-				if (contentView != null && contentView.FocusHandle != IntPtr.Zero) {
-					oldFocusHandle = contentView.FocusHandle;
-					PostMessage(contentView.FocusHandle, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
-				}
+				if (oldFocusHandle != IntPtr.Zero)
+					PostMessage(oldFocusHandle, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
 				contentView = (MonoContentView)activeWindowWrap.Window.ContentView;
 				contentView.FocusHandle = handle;
 				activeWindowWrap.Window.MakeFirstResponder(contentView);
-				if (handle != IntPtr.Zero) {
+				if (handle != IntPtr.Zero)
 					PostMessage(handle, Msg.WM_SETFOCUS, oldFocusHandle, IntPtr.Zero);
-				}
 			}
 		}
 
