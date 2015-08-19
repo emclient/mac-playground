@@ -1,4 +1,4 @@
-﻿#if DEBUG
+﻿#if DEBUGFOCUS
 
 // This extension helps with tracking issues with unpaired lockFocus/unlockFocus calls
 

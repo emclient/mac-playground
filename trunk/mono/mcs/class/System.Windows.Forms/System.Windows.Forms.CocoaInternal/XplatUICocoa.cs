@@ -110,11 +110,9 @@ namespace System.Windows.Forms {
 
 		internal static Hwnd MouseHwnd;
 
-		internal static MouseButtons MouseState;
 		internal static Cocoa.Hover Hover;
 
 		// Instance members
-		internal Point mouse_position;
 		internal static NSEventModifierMask key_modifiers = 0;
 		internal bool translate_modifier = false;
 
@@ -136,9 +134,6 @@ namespace System.Windows.Forms {
 
 		private static bool ReverseWindowMapped;
 
-		// Timers
-		private static bool in_doevents;
-		
 		static readonly object instancelock = new object ();
 		static readonly object queuelock = new object ();
 
@@ -150,7 +145,6 @@ namespace System.Windows.Forms {
 		private XplatUICocoa() {
 
 			RefCount = 0;
-			in_doevents = false;
 			MessageQueue = new Queue ();
 			
 			Initialize ();
@@ -200,43 +194,6 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		internal IntPtr GetMousewParam(int Delta) {
-			int	 result = 0;
-
-			if ((MouseState & MouseButtons.Left) != 0) {
-				result |= (int)MsgButtons.MK_LBUTTON;
-			}
-
-			if ((MouseState & MouseButtons.Middle) != 0) {
-				result |= (int)MsgButtons.MK_MBUTTON;
-			}
-
-			if ((MouseState & MouseButtons.Right) != 0) {
-				result |= (int)MsgButtons.MK_RBUTTON;
-			}
-
-			if ((MouseState & MouseButtons.XButton1) != 0) {
-				result |= (int)MsgButtons.MK_XBUTTON1;
-			}
-
-			if ((MouseState & MouseButtons.XButton2) != 0) {
-				result |= (int)MsgButtons.MK_XBUTTON2;
-			}
-
-			Keys mods = ModifierKeys;
-			if ((mods & Keys.Control) != 0) {
-				result |= (int)MsgButtons.MK_CONTROL;
-			}
-
-			if ((mods & Keys.Shift) != 0) {
-				result |= (int)MsgButtons.MK_SHIFT;
-			}
-
-			result |= Delta << 16;
-
-			return (IntPtr)result;
-		}
-
 		internal IntPtr HandleToWindow (IntPtr handle) {
 			if (WindowMapping [handle] != null)
 				return (IntPtr) WindowMapping [handle];
@@ -264,8 +221,6 @@ namespace System.Windows.Forms {
 			Hover.Timer.Tick += new EventHandler (HoverCallback);
 			Hover.X = -1;
 			Hover.Y = -1;
-			MouseState = MouseButtons.None;
-			mouse_position = Point.Empty;
 
 			// Initialize the Caret
 			Caret.Timer = new Timer ();
@@ -575,14 +530,14 @@ namespace System.Windows.Forms {
 		}
 		
 		private void HoverCallback (object sender, EventArgs e) {
-			if ((Hover.X == mouse_position.X) && (Hover.Y == mouse_position.Y)) {
+			/*if ((Hover.X == mouse_position.X) && (Hover.Y == mouse_position.Y)) {
 				MSG msg = new MSG ();
 				msg.hwnd = Hover.Hwnd;
 				msg.message = Msg.WM_MOUSEHOVER;
 				msg.wParam = GetMousewParam (0);
 				msg.lParam = (IntPtr)((ushort)Hover.X << 16 | (ushort)Hover.X);
 				EnqueueMessage (msg);
-			}
+			}*/
 		}
 		#endregion
 		
@@ -1162,6 +1117,7 @@ namespace System.Windows.Forms {
 			clientHandle = IntPtr.Zero;
 			NSView ParentWrapper = null;  // If any
 			NSWindow windowWrapper = null;
+			NSView viewWrapper =  null;
 
 			if (Width < 1) Width = 1;
 			if (Height < 1) Height = 1;
@@ -1205,9 +1161,6 @@ namespace System.Windows.Forms {
 				WholeRect = MonoToNativeScreen (mWholeRect);
 			}
 				
-			NSView viewWrapper = new Cocoa.MonoView (this, WholeRect, hwnd);
-			wholeHandle = (IntPtr) viewWrapper.Handle;
-
 			SetHwndStyles(hwnd, cp);
 /* FIXME */
 			if (!StyleSet (cp.Style, WindowStyles.WS_CHILD)) {
@@ -1217,15 +1170,21 @@ namespace System.Windows.Forms {
 				WholeRect = NSWindow.ContentRectFor(WholeRect, attributes);
 				windowWrapper = new MonoWindow(WholeRect, attributes, NSBackingStore.Buffered, true, this);
 				WindowHandle = (IntPtr) windowWrapper.Handle;
-				windowWrapper.ContentView = viewWrapper;
 				windowWrapper.WeakDelegate = windowWrapper;
+
+				viewWrapper = new Cocoa.MonoContentView (this, WholeRect, hwnd);
+				wholeHandle = (IntPtr) viewWrapper.Handle;
+				windowWrapper.ContentView = viewWrapper;
 
 				if (StyleSet (cp.Style, WindowStyles.WS_POPUP))
 					windowWrapper.Level = NSWindowLevel.PopUpMenu;
 				if (ParentWrapper != null)
 					ParentWrapper.Window.AddChildWindow (windowWrapper, NSWindowOrderingMode.Above);
-			} else if (ParentWrapper != null) {
-				ParentWrapper.AddSubview (viewWrapper);
+			} else {
+				viewWrapper = new Cocoa.MonoView (this, WholeRect, hwnd);
+				wholeHandle = (IntPtr) viewWrapper.Handle;
+				if (ParentWrapper != null)
+					ParentWrapper.AddSubview (viewWrapper);
 			}
 
 			var ClientSize = cp.control.ClientSizeFromSize(new Size(Width, Height));
@@ -1502,15 +1461,12 @@ namespace System.Windows.Forms {
 		}
 		
 		internal override void DoEvents() {
-                        MSG     msg = new MSG ();
+            MSG msg = new MSG ();
 
-			in_doevents = true;
 			while (PeekMessage (null, ref msg, IntPtr.Zero, 0, 0, (uint)PeekMessageFlags.PM_REMOVE)) {
-                                TranslateMessage (ref msg);
-                                DispatchMessage (ref msg);
-                        }
-			in_doevents = false;
-
+                TranslateMessage (ref msg);
+                DispatchMessage (ref msg);
+            }
 		}
 
 		internal override void EnableWindow (IntPtr handle, bool Enable) {
@@ -1598,9 +1554,9 @@ namespace System.Windows.Forms {
 		internal override IntPtr GetFocus() {
 			if (ActiveWindow != IntPtr.Zero) {
 				NSView activeWindowWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (ActiveWindow);
-				NSView view = activeWindowWrap.Window.FirstResponder as NSView;
-				if (view != null)
-					return view.Handle;
+				MonoContentView contentView = activeWindowWrap.Window.FirstResponder as MonoContentView;
+				if (contentView != null)
+					return contentView.FocusHandle;
 			}
 			return IntPtr.Zero;
 		}
@@ -2061,7 +2017,6 @@ namespace System.Windows.Forms {
 		internal override void SetCursorPos (IntPtr handle, int x, int y)
 		{
 			var screens = NSScreen.Screens;
-
 			if (screens != null && 0 < screens.Length) {
 				NSScreen screenWrap = (NSScreen)screens[0];
 				NSDictionary description = screenWrap.DeviceDescription;
@@ -2070,14 +2025,22 @@ namespace System.Windows.Forms {
 				CGDisplayMoveCursorToPoint (screenNumber.UInt32Value, new NSPoint (x, y));
 			}
 		}
-
+		make
 		internal override void SetFocus (IntPtr handle) {
-			IntPtr focusWindow = GetFocus();
-			if (focusWindow != handle && handle != IntPtr.Zero) {
-				Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
-				if (vuWrap != null && vuWrap.Window != null)
-					vuWrap.Window.MakeFirstResponder (vuWrap);
+			if (ActiveWindow != IntPtr.Zero) {
+				NSView activeWindowWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (ActiveWindow);
+				MonoContentView contentView = activeWindowWrap.Window.FirstResponder as MonoContentView;
+				IntPtr oldFocusHandle = IntPtr.Zero;
+				if (contentView != null && contentView.FocusHandle != IntPtr.Zero) {
+					oldFocusHandle = contentView.FocusHandle;
+					PostMessage(contentView.FocusHandle, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
+				}
+				contentView = (MonoContentView)activeWindowWrap.Window.ContentView;
+				contentView.FocusHandle = handle;
+				activeWindowWrap.Window.MakeFirstResponder(contentView);
+				if (handle != IntPtr.Zero) {
+					PostMessage(handle, Msg.WM_SETFOCUS, oldFocusHandle, IntPtr.Zero);
+				}
 			}
 		}
 
@@ -2193,10 +2156,11 @@ namespace System.Windows.Forms {
 			object window = WindowMapping [hwnd.Handle];
 			if (window != null && winWrap != null) {
 				if (visible) {
-					if (Application.MWFThread.Current.Context != null &&
+					/*if (Application.MWFThread.Current.Context != null &&
 					    Application.MWFThread.Current.Context.MainForm != null &&
-					    Application.MWFThread.Current.Context.MainForm.Handle == handle)
-						winWrap.MakeMainWindow();
+					    Application.MWFThread.Current.Context.MainForm.Handle == handle &&
+						winWrap.CanBecomeMainWindow)
+						winWrap.MakeMainWindow();*/
 					winWrap.MakeKeyAndOrderFront(winWrap);
 				} else
 					winWrap.OrderOut (winWrap);
@@ -2594,11 +2558,11 @@ namespace System.Windows.Forms {
 				Hwnd hwnd = Hwnd.ObjectFromHandle (msg.hwnd);
 				if (hwnd != null) {
 					if (MouseHwnd == null) { 
-						PostMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
+						SendMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
 						Cocoa.Cursor.SetCursor (hwnd.Cursor);
 					} else if (MouseHwnd.Handle != hwnd.Handle) {
-						PostMessage (MouseHwnd.Handle, Msg.WM_MOUSELEAVE, IntPtr.Zero, IntPtr.Zero);
-						PostMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
+						SendMessage (MouseHwnd.Handle, Msg.WM_MOUSELEAVE, IntPtr.Zero, IntPtr.Zero);
+						SendMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
 						Cocoa.Cursor.SetCursor (hwnd.Cursor);
 					}
 					MouseHwnd = hwnd;
@@ -2679,8 +2643,7 @@ namespace System.Windows.Forms {
 
 		internal override Point MousePosition {
 			get {
-				mouse_position = NativeToMonoScreen (NSEvent.CurrentMouseLocation);
-				return mouse_position;
+				return NativeToMonoScreen (NSEvent.CurrentMouseLocation);
 			}
 		}
 		#endregion Override Methods XplatUIDriver
@@ -2741,7 +2704,19 @@ namespace System.Windows.Forms {
 
 		internal override MouseButtons MouseButtons {
 			get {
-				return MouseState;
+				MouseButtons result = MouseButtons.None;
+				var mouseButtons = NSEvent.CurrentPressedMouseButtons;
+				if ((mouseButtons & 1) != 0)
+					result |= MouseButtons.Left;
+				if ((mouseButtons & 2) != 0)
+					result |= MouseButtons.Right;
+				if ((mouseButtons & 4) != 0)
+					result |= MouseButtons.Middle;
+				if ((mouseButtons & 8) != 0)
+					result |= MouseButtons.XButton1;
+				if ((mouseButtons & 16) != 0)
+					result |= MouseButtons.XButton2;
+				return result;
 			}
 		}
 

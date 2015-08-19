@@ -26,15 +26,6 @@ namespace System.Windows.Forms.CocoaInternal
 			: base(contentRect, aStyle, bufferingType, deferCreation)
 		{
 			this.driver = driver;
-			this.AcceptsMouseMovedEvents = true;
-		}
-
-		public override bool CanBecomeMainWindow
-		{
-			get
-			{
-				return base.CanBecomeKeyWindow;
-			}
 		}
 
 		[Export("windowShouldClose:")]
