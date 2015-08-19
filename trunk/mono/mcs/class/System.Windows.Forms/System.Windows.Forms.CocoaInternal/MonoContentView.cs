@@ -91,23 +91,22 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			base.ViewDidMoveToWindow ();
 			UpdateTrackingAreas ();
-			Window.MakeFirstResponder (this);
+			if (Window != null)
+				Window.MakeFirstResponder (this);
 		}
 
 		public override void UpdateTrackingAreas ()
 		{
-			if (Window != null && Window.ContentView == this) {
-				if (trackingArea != null)
-					RemoveTrackingArea(trackingArea);
-				trackingArea = new NSTrackingArea(
-					Frame,
-					NSTrackingAreaOptions.ActiveAlways |
-					NSTrackingAreaOptions.MouseMoved |
-					NSTrackingAreaOptions.InVisibleRect,
-					this,
-					new NSDictionary());
-				AddTrackingArea(trackingArea);
-			}
+			if (trackingArea != null)
+				RemoveTrackingArea(trackingArea);
+			trackingArea = new NSTrackingArea(
+				Frame,
+				NSTrackingAreaOptions.ActiveAlways |
+				NSTrackingAreaOptions.MouseMoved |
+				NSTrackingAreaOptions.InVisibleRect,
+				this,
+				new NSDictionary());
+			AddTrackingArea(trackingArea);
 		}
 
 		public override void MouseDown (NSEvent theEvent)
