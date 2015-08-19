@@ -1208,6 +1208,10 @@
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoView.Debug.cs">
       <DependentUpon>MonoView.cs</DependentUpon>
     </Compile>
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoView.Debug %28copy%29.cs">
+      <DependentUpon>MonoContentView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoContentView.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
