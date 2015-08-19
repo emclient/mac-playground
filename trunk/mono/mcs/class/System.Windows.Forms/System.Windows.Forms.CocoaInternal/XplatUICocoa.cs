@@ -2031,6 +2031,8 @@ namespace System.Windows.Forms {
 				NSView activeWindowWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (ActiveWindow);
 				MonoContentView contentView = activeWindowWrap.Window.FirstResponder as MonoContentView;
 				IntPtr oldFocusHandle = IntPtr.Zero;
+				if (oldFocusHandle == handle)
+					return;
 				if (contentView != null && contentView.FocusHandle != IntPtr.Zero) {
 					oldFocusHandle = contentView.FocusHandle;
 					PostMessage(contentView.FocusHandle, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
