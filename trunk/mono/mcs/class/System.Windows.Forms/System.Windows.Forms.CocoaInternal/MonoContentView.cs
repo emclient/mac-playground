@@ -109,6 +109,11 @@ namespace System.Windows.Forms.CocoaInternal
 			AddTrackingArea(trackingArea);
 		}
 
+		public override bool AcceptsFirstMouse(NSEvent theEvent)
+		{
+			return true;
+		}
+
 		public override void MouseDown (NSEvent theEvent)
 		{
 			ProcessMouseEvent (theEvent);
