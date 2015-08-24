@@ -265,6 +265,14 @@
     <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">
     </PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Mono - Debug</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE;NET_4_5;MONO;DISABLE_CAS_USE</DefineConstants>
+    <NoStdLib>false</NoStdLib>
+  </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>

@@ -2,34 +2,13 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{DBFDDBD7-E236-444C-98E5-736A4F22C8A5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>FormsTest</RootNamespace>
-    <AssemblyName>XamTest2</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <StartupObject>FormsTest.Program</StartupObject>
     <ApplicationIcon>application.ico</ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Externalconsole>true</Externalconsole>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Externalconsole>true</Externalconsole>
-    <PlatformTarget>x86</PlatformTarget>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,6 +16,24 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
+    <AssemblyName>XamTest2</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Mono - Debug</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>FormsTest</AssemblyName>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG; NET_4_5; NET_4_0</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>FormsTest</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MonoMac" Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
@@ -80,8 +77,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\sysdrawing-coregraphics\sysdrawing-coregraphics-Mac\sysdrawing-coregraphics-Mac.csproj" Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
+      <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
+      <Name>sysdrawing-coregraphics-Mac</Name>
+    </ProjectReference>
     <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj" Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
-      <Project>{b102f27c-1a07-487f-ba5b-d5155d201112}</Project>
+      <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
     </ProjectReference>
   </ItemGroup>
