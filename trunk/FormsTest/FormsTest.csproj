@@ -70,6 +70,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Msg.cs" />
+    <Compile Include="WrappingCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
