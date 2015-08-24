@@ -1,7 +1,11 @@
 * text=auto !eol
+trunk/FormsTest/App.config -text
 trunk/FormsTest/App.ico -text
 trunk/FormsTest/Extensions.cs -text
 trunk/FormsTest/FormsTest.csproj -text
+trunk/FormsTest/LayoutForm.Designer.cs -text
+trunk/FormsTest/LayoutForm.cs -text
+trunk/FormsTest/LayoutForm.resx -text
 trunk/FormsTest/MainForm.Designer.cs -text
 trunk/FormsTest/MainForm.cs -text
 trunk/FormsTest/MainForm.resx -text

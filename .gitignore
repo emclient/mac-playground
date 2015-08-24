@@ -3,8 +3,10 @@ trunk/FormsTest/bin
 trunk/FormsTest/obj
 trunk/OSXPlayground.userprefs
 trunk/mono/mcs/class/Mono.WebBrowser/obj
+trunk/mono/mcs/class/System.Drawing/bin
 trunk/mono/mcs/class/System.Drawing/obj
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms-net_4_5.userprefs
+trunk/mono/mcs/class/System.Windows.Forms/bin
 trunk/mono/mcs/class/System.Windows.Forms/obj
 trunk/mono/mcs/class/lib
 trunk/sysdrawing-coregraphics/lib
