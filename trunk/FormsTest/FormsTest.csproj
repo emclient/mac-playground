@@ -46,6 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonUIUtils.cs" />
+    <Compile Include="DisplaySettingsManager.cs" />
+    <Compile Include="FontCache.cs" />
+    <Compile Include="FontStyleEx.cs" />
     <Compile Include="LayoutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +74,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Msg.cs" />
+    <Compile Include="SeparatorBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TextRendererEx.cs" />
+    <Compile Include="WeakDictionary.cs" />
     <Compile Include="WrappingCheckBox.cs">
       <SubType>Component</SubType>
     </Compile>
