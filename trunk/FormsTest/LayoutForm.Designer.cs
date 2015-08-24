@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new WrappingCheckBox();
+            this.checkBox1 = new WrappingCheckBox();
+            this.checkBox6 = new WrappingCheckBox();
+            this.checkBox4 = new WrappingCheckBox();
+            this.checkBox5 = new WrappingCheckBox();
+            this.checkBox3 = new WrappingCheckBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label_General_AfterStart = new System.Windows.Forms.Label();
             this.button_General_AfterStartFolderBrowse = new System.Windows.Forms.Button();
@@ -183,12 +183,12 @@
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.CheckBox checkBox6;
+        private WrappingCheckBox checkBox1;
+        private WrappingCheckBox checkBox2;
+        private WrappingCheckBox checkBox3;
+        private WrappingCheckBox checkBox4;
+        private WrappingCheckBox checkBox5;
+        private WrappingCheckBox checkBox6;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label label_General_AfterStart;
         private System.Windows.Forms.Button button_General_AfterStartFolderBrowse;
