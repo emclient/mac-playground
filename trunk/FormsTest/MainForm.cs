@@ -3,6 +3,7 @@ using System.Drawing.Text;
 using System.Windows.Forms;
 using System;
 using System.Linq;
+using MailClient.Common.UI;
 
 namespace FormsTest
 {
@@ -12,6 +13,8 @@ namespace FormsTest
 
 		public MainForm()
 		{
+            DisplaySettingsManager.Initialize();
+
 			InitializeComponent();
 
 			UpdateList();

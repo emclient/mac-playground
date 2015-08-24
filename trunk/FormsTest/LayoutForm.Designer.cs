@@ -28,19 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.separatorBox1 = new FormsTest.SeparatorBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.checkBox2 = new WrappingCheckBox();
-            this.checkBox1 = new WrappingCheckBox();
-            this.checkBox6 = new WrappingCheckBox();
-            this.checkBox4 = new WrappingCheckBox();
-            this.checkBox5 = new WrappingCheckBox();
-            this.checkBox3 = new WrappingCheckBox();
+            this.checkBox1 = new FormsTest.WrappingCheckBox();
+            this.checkBox2 = new FormsTest.WrappingCheckBox();
+            this.checkBox3 = new FormsTest.WrappingCheckBox();
+            this.checkBox4 = new FormsTest.WrappingCheckBox();
+            this.checkBox5 = new FormsTest.WrappingCheckBox();
+            this.checkBox6 = new FormsTest.WrappingCheckBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label_General_AfterStart = new System.Windows.Forms.Label();
             this.button_General_AfterStartFolderBrowse = new System.Windows.Forms.Button();
+            this.separatorBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // separatorBox1
+            // 
+            this.separatorBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.separatorBox1.BoxStyle = FormsTest.SeparatorBox.Style.Header;
+            this.separatorBox1.Controls.Add(this.flowLayoutPanel1);
+            this.separatorBox1.Location = new System.Drawing.Point(12, 12);
+            this.separatorBox1.Name = "separatorBox1";
+            this.separatorBox1.Size = new System.Drawing.Size(460, 337);
+            this.separatorBox1.TabIndex = 1;
+            this.separatorBox1.TabStop = false;
+            this.separatorBox1.Text = "General";
             // 
             // flowLayoutPanel1
             // 
@@ -55,24 +71,13 @@
             this.flowLayoutPanel1.Controls.Add(this.checkBox6);
             this.flowLayoutPanel1.Controls.Add(this.tableLayoutPanel3);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 12);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(13, 22);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(460, 337);
-            this.flowLayoutPanel1.TabIndex = 0;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(3, 26);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(138, 17);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "&Close application to tray";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(434, 302);
+            this.flowLayoutPanel1.TabIndex = 1;
             // 
             // checkBox1
             // 
-            this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(3, 3);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(152, 17);
@@ -80,19 +85,26 @@
             this.checkBox1.Text = "&Minimize application to tray";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // checkBox6
+            // checkBox2
             // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(3, 118);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(116, 17);
-            this.checkBox6.TabIndex = 5;
-            this.checkBox6.Text = "&Show Local folders";
-            this.checkBox6.UseVisualStyleBackColor = true;
+            this.checkBox2.Location = new System.Drawing.Point(3, 26);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(138, 17);
+            this.checkBox2.TabIndex = 1;
+            this.checkBox2.Text = "&Close application to tray";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.Location = new System.Drawing.Point(3, 49);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(143, 17);
+            this.checkBox3.TabIndex = 2;
+            this.checkBox3.Text = "&Run on Windows startup";
+            this.checkBox3.UseVisualStyleBackColor = true;
             // 
             // checkBox4
             // 
-            this.checkBox4.AutoSize = true;
             this.checkBox4.Location = new System.Drawing.Point(3, 72);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(115, 17);
@@ -102,7 +114,6 @@
             // 
             // checkBox5
             // 
-            this.checkBox5.AutoSize = true;
             this.checkBox5.Location = new System.Drawing.Point(3, 95);
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.Size = new System.Drawing.Size(117, 17);
@@ -110,15 +121,14 @@
             this.checkBox5.Text = "&Show Smart folders";
             this.checkBox5.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // checkBox6
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(3, 49);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(143, 17);
-            this.checkBox3.TabIndex = 2;
-            this.checkBox3.Text = "&Run on Windows startup";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox6.Location = new System.Drawing.Point(3, 118);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(116, 17);
+            this.checkBox6.TabIndex = 5;
+            this.checkBox6.Text = "&Show Local folders";
+            this.checkBox6.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel3
             // 
@@ -169,9 +179,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 361);
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this.separatorBox1);
             this.Name = "LayoutForm";
             this.Text = "LayoutForm";
+            this.separatorBox1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
@@ -182,6 +193,7 @@
 
         #endregion
 
+        private SeparatorBox separatorBox1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private WrappingCheckBox checkBox1;
         private WrappingCheckBox checkBox2;
@@ -192,5 +204,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label label_General_AfterStart;
         private System.Windows.Forms.Button button_General_AfterStartFolderBrowse;
+
     }
 }

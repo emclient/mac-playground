@@ -1,7 +1,11 @@
 * text=auto !eol
 trunk/FormsTest/App.config -text
 trunk/FormsTest/App.ico -text
+trunk/FormsTest/CommonUIUtils.cs -text
+trunk/FormsTest/DisplaySettingsManager.cs -text
 trunk/FormsTest/Extensions.cs -text
+trunk/FormsTest/FontCache.cs -text
+trunk/FormsTest/FontStyleEx.cs -text
 trunk/FormsTest/FormsTest.csproj -text
 trunk/FormsTest/LayoutForm.Designer.cs -text
 trunk/FormsTest/LayoutForm.cs -text
@@ -19,6 +23,9 @@ trunk/FormsTest/Properties/Resources.Designer.cs -text
 trunk/FormsTest/Properties/Resources.resx -text
 trunk/FormsTest/Properties/Settings.Designer.cs -text
 trunk/FormsTest/Properties/Settings.settings -text
+trunk/FormsTest/SeparatorBox.cs -text
+trunk/FormsTest/TextRendererEx.cs -text
+trunk/FormsTest/WeakDictionary.cs -text
 trunk/FormsTest/WrappingCheckBox.cs -text
 trunk/FormsTest/application.ico -text
 trunk/FormsTest/car.png -text
