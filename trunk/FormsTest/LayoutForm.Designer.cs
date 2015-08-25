@@ -48,6 +48,7 @@ namespace FormsTest
             this.check_General_ShowGlobalFolders = new MailClient.UI.Controls.WrappingCheckBox();
             this.check_General_ShowLocalFolders = new MailClient.UI.Controls.WrappingCheckBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.combo_General_AfterStart = new MailClient.UI.Controls.ComboBoxEx();
             this.label_General_AfterStart = new System.Windows.Forms.Label();
             this.button_General_AfterStartFolderBrowse = new System.Windows.Forms.Button();
             this.group_General_ActivityWindow = new MailClient.UI.Controls.SeparatorBox();
@@ -312,6 +313,7 @@ namespace FormsTest
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 161F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.Controls.Add(this.combo_General_AfterStart, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.label_General_AfterStart, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.button_General_AfterStartFolderBrowse, 3, 0);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 126);
@@ -321,6 +323,18 @@ namespace FormsTest
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(280, 25);
             this.tableLayoutPanel3.TabIndex = 6;
+            // 
+            // combo_General_AfterStart
+            // 
+            this.combo_General_AfterStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.combo_General_AfterStart.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combo_General_AfterStart.FormattingEnabled = true;
+            this.combo_General_AfterStart.Location = new System.Drawing.Point(87, 0);
+            this.combo_General_AfterStart.Margin = new System.Windows.Forms.Padding(0);
+            this.combo_General_AfterStart.Name = "combo_General_AfterStart";
+            this.combo_General_AfterStart.Size = new System.Drawing.Size(161, 21);
+            this.combo_General_AfterStart.TabIndex = 1;
             // 
             // label_General_AfterStart
             // 
@@ -443,12 +457,15 @@ namespace FormsTest
         private WrappingCheckBox check_General_ShowGlobalFolders;
         private WrappingCheckBox check_General_ShowLocalFolders;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private ComboBoxEx combo_General_AfterStart;
         private System.Windows.Forms.Label label_General_AfterStart;
         private System.Windows.Forms.Button button_General_AfterStartFolderBrowse;
         private SeparatorBox group_General_ActivityWindow;
         private WrappingCheckBox check_General_ShowWindowWhenErrorOccurs;
         private WrappingCheckBox check_General_HideWindowAfterSendAndReceive;
         private WrappingCheckBox check_General_ShowWindowOnSendAndReceive;
+
+
 
 
 

@@ -61,6 +61,10 @@
     <Compile Include="..\..\emclient\MailClient.Common.UI\TextRendererEx.cs">
       <Link>MailClient\Common\UI\TextRendererEx.cs</Link>
     </Compile>
+    <Compile Include="..\..\emclient\UI\Controls\ComboBoxEx.cs">
+      <Link>MailClient\UI\Controls\ComboBoxEx.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="..\..\emclient\UI\Controls\SeparatorBox.cs">
       <Link>MailClient\UI\Controls\SeparatorBox.cs</Link>
       <SubType>Component</SubType>
