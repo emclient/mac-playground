@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Threading;
+using FormsTest;
 //using MonoMac.AppKit;
 
 namespace FormsTest
 {
-	static class Program
+	public static class Program
 	{
-		/// <summary>
+        //public static Settings Settings { get; private set; }
+        
+        /// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]

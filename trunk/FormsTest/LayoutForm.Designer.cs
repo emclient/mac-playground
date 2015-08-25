@@ -1,4 +1,5 @@
-﻿namespace FormsTest
+﻿using MailClient.UI.Controls;
+namespace FormsTest
 {
     partial class LayoutForm
     {
@@ -28,14 +29,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.separatorBox1 = new FormsTest.SeparatorBox();
+            this.separatorBox1 = new MailClient.UI.Controls.SeparatorBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.checkBox1 = new FormsTest.WrappingCheckBox();
-            this.checkBox2 = new FormsTest.WrappingCheckBox();
-            this.checkBox3 = new FormsTest.WrappingCheckBox();
-            this.checkBox4 = new FormsTest.WrappingCheckBox();
-            this.checkBox5 = new FormsTest.WrappingCheckBox();
-            this.checkBox6 = new FormsTest.WrappingCheckBox();
+            this.checkBox1 = new MailClient.UI.Controls.WrappingCheckBox();
+            this.checkBox2 = new MailClient.UI.Controls.WrappingCheckBox();
+            this.checkBox3 = new MailClient.UI.Controls.WrappingCheckBox();
+            this.checkBox4 = new MailClient.UI.Controls.WrappingCheckBox();
+            this.checkBox5 = new MailClient.UI.Controls.WrappingCheckBox();
+            this.checkBox6 = new MailClient.UI.Controls.WrappingCheckBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label_General_AfterStart = new System.Windows.Forms.Label();
             this.button_General_AfterStartFolderBrowse = new System.Windows.Forms.Button();
@@ -49,7 +50,7 @@
             this.separatorBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.separatorBox1.BoxStyle = FormsTest.SeparatorBox.Style.Header;
+            this.separatorBox1.BoxStyle = SeparatorBox.Style.Header;
             this.separatorBox1.Controls.Add(this.flowLayoutPanel1);
             this.separatorBox1.Location = new System.Drawing.Point(12, 12);
             this.separatorBox1.Name = "separatorBox1";
@@ -193,14 +194,14 @@
 
         #endregion
 
-        private SeparatorBox separatorBox1;
+        private MailClient.UI.Controls.SeparatorBox separatorBox1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private WrappingCheckBox checkBox1;
-        private WrappingCheckBox checkBox2;
-        private WrappingCheckBox checkBox3;
-        private WrappingCheckBox checkBox4;
-        private WrappingCheckBox checkBox5;
-        private WrappingCheckBox checkBox6;
+        private MailClient.UI.Controls.WrappingCheckBox checkBox1;
+        private MailClient.UI.Controls.WrappingCheckBox checkBox2;
+        private MailClient.UI.Controls.WrappingCheckBox checkBox3;
+        private MailClient.UI.Controls.WrappingCheckBox checkBox4;
+        private MailClient.UI.Controls.WrappingCheckBox checkBox5;
+        private MailClient.UI.Controls.WrappingCheckBox checkBox6;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label label_General_AfterStart;
         private System.Windows.Forms.Button button_General_AfterStartFolderBrowse;

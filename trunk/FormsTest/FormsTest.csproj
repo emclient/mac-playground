@@ -46,10 +46,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonUIUtils.cs" />
-    <Compile Include="DisplaySettingsManager.cs" />
-    <Compile Include="FontCache.cs" />
-    <Compile Include="FontStyleEx.cs" />
+    <Compile Include="..\..\emclient\MailClient.Common.UI\CommonUIUtils.cs">
+      <Link>MailClient\Common\UI\CommonUIUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\emclient\MailClient.Common.UI\DisplaySettingsManager.cs">
+      <Link>MailClient\Common\UI\DisplaySettingsManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\emclient\MailClient.Common.UI\FontCache.cs">
+      <Link>MailClient\Common\UI\FontCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\emclient\MailClient.Common.UI\FontStyleEx.cs">
+      <Link>MailClient\Common\UI\FontStyleEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\emclient\MailClient.Common.UI\TextRendererEx.cs">
+      <Link>MailClient\Common\UI\TextRendererEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\emclient\UI\Controls\SeparatorBox.cs">
+      <Link>MailClient\UI\Controls\SeparatorBox.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\..\emclient\UI\Controls\WrappingCheckBox.cs">
+      <Link>MailClient\UI\Controls\WrappingCheckBox.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\..\emclient\UI\Controls\WrappingRadioButton.cs">
+      <Link>MailClient\UI\Controls\WrappingRadioButton.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="LayoutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,14 +97,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Msg.cs" />
-    <Compile Include="SeparatorBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TextRendererEx.cs" />
-    <Compile Include="WeakDictionary.cs" />
-    <Compile Include="WrappingCheckBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -106,6 +121,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\emclient\MailClient.Collections\MailClient.Collections.csproj">
+      <Project>{c69a5715-2180-4c49-8ad0-150697a81790}</Project>
+      <Name>MailClient.Collections</Name>
+    </ProjectReference>
     <ProjectReference Include="..\sysdrawing-coregraphics\sysdrawing-coregraphics-Mac\sysdrawing-coregraphics-Mac.csproj" Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
       <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
       <Name>sysdrawing-coregraphics-Mac</Name>
@@ -114,5 +133,8 @@
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MailClient\Common\UI\Themes\" />
   </ItemGroup>
 </Project>
