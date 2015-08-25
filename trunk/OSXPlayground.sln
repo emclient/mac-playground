@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sysdrawing-coregraphics-Mac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailClient.Collections", "..\emclient\MailClient.Collections\MailClient.Collections.csproj", "{C69A5715-2180-4C49-8AD0-150697A81790}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExCSS", "..\emclient\Dependencies\ExCSS\ExCSS\ExCSS.csproj", "{3AD07B41-04BF-487B-BB9F-A77999515188}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,21 +107,6 @@ Global
 		{C69A5715-2180-4C49-8AD0-150697A81790}.Release|iPhone.ActiveCfg = Release|Any CPU
 		{C69A5715-2180-4C49-8AD0-150697A81790}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{C69A5715-2180-4C49-8AD0-150697A81790}.Release|x86.ActiveCfg = Release|Any CPU
-		{3AD07B41-04BF-487B-BB9F-A77999515188}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3AD07B41-04BF-487B-BB9F-A77999515188}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3AD07B41-04BF-487B-BB9F-A77999515188}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{3AD07B41-04BF-487B-BB9F-A77999515188}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{3AD07B41-04BF-487B-BB9F-A77999515188}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3AD07B41-04BF-487B-BB9F-A77999515188}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
-		{3AD07B41-04BF-487B-BB9F-A77999515188}.Mono - Debug|Any CPU.Build.0 = Mono - Debug|Any CPU
-		{3AD07B41-04BF-487B-BB9F-A77999515188}.Mono - Debug|iPhone.ActiveCfg = Mono - Debug|Any CPU
-		{3AD07B41-04BF-487B-BB9F-A77999515188}.Mono - Debug|iPhoneSimulator.ActiveCfg = Mono - Debug|Any CPU
-		{3AD07B41-04BF-487B-BB9F-A77999515188}.Mono - Debug|x86.ActiveCfg = Mono - Debug|Any CPU
-		{3AD07B41-04BF-487B-BB9F-A77999515188}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3AD07B41-04BF-487B-BB9F-A77999515188}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3AD07B41-04BF-487B-BB9F-A77999515188}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{3AD07B41-04BF-487B-BB9F-A77999515188}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{3AD07B41-04BF-487B-BB9F-A77999515188}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
