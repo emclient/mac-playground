@@ -268,22 +268,22 @@ namespace System.Drawing {
 		// from: gdip_cairo_move_to, inlined to assume converts_unit=true, antialias=true
 		void MoveTo (float x, float y)
 		{
-			context.MoveTo (x + .5f, y + .5f);
+			context.MoveTo (x, y);
 		}
 		
 		void MoveTo (PointF point)
 		{
-			context.MoveTo (point.X + .5f, point.Y + .5f);
+			context.MoveTo (point.X, point.Y);
 		}
 
 		void LineTo (PointF point)
 		{
-			context.AddLineToPoint (point.X + .5f, point.Y + .5f);
+			context.AddLineToPoint (point.X, point.Y);
 		}
 
 		void LineTo (float x, float y)
 		{
-			context.AddLineToPoint (x + .5f, y + .5f);
+			context.AddLineToPoint (x, y);
 		}
 		
 		void CurveTo (float x1, float y1, float x2, float y2, float x3, float y3)
@@ -296,12 +296,16 @@ namespace System.Drawing {
 			// First we call the Pen with a fill of false so the brush can setup the stroke 
 			// For LinearGradientBrush this will setup a TransparentLayer so the gradient can
 			// be filled at the end.  See comments.
+			if (pen.Width == 1f)
+				context.TranslateCTM (.5f, .5f);
 			pen.Setup (this, false);
 			context.DrawPath(CGPathDrawingMode.Stroke);
 			// Next we call the Pen with a fill of true so the brush can draw the Gradient. 
 			// For LinearGradientBrush this will draw the Gradient and end the TransparentLayer.
 			// See comments.
 			pen.Setup (this, true);
+			if (pen.Width == 1f)
+				context.TranslateCTM (-.5f, -.5f);
 		}
 
 		void StrokePen (Pen pen)
@@ -532,7 +536,7 @@ namespace System.Drawing {
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 
-			RectanglePath (new CGRect(x1 + .5f, y1 + .5f, x2, y2));
+			RectanglePath (new CGRect(x1, y1, x2, y2));
 			StrokePen (pen);
 		}
 		
@@ -540,7 +544,8 @@ namespace System.Drawing {
 		{
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
-			RectanglePath (new CGRect(x1 + .5f, y1 + .5f, x2, y2));
+			
+			RectanglePath (new CGRect(x1, y1, x2, y2));
 			StrokePen (pen);
 		}
 		
@@ -549,9 +554,8 @@ namespace System.Drawing {
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 
-			RectanglePath (new CGRect(rect.X + .5f, rect.Y + .5f, rect.Width, rect.Height));
+			RectanglePath (new CGRect(rect.X, rect.Y, rect.Width, rect.Height));
 			StrokePen (pen);
-
 		}
 
 		public void FillRectangle (Brush brush, float x1, float y1, float x2, float y2)
