@@ -192,7 +192,7 @@ namespace System.Drawing
 		// test draw pattern
 		private void DrawTexture (CGContext context)
 		{
-			var destRect = new CGRect(0,0,textureImage.Width,textureImage.Height);
+			var destRect = context.ConvertRectToUserSpace(new CGRect(0,0,textureImage.Width,textureImage.Height));
 			context.ConcatCTM (textureImage.imageTransform);
 			context.DrawImage(destRect, textureImage.NativeCGImage);
 			context.ConcatCTM (textureImage.imageTransform.Invert());
@@ -208,8 +208,8 @@ namespace System.Drawing
 			if (wrapMode == WrapMode.TileFlipY || wrapMode == WrapMode.TileFlipXY) 
 			{
 				var transformY = new CGAffineTransform(1, 0, 0, -1, 
-				                                       textureImage.Width, 
-				                                       textureImage.Height);
+					destRect.Width, 
+					destRect.Height);
 				context.ConcatCTM(transformY);
 				context.ConcatCTM (textureImage.imageTransform);
 				context.DrawImage(destRect, textureImage.NativeCGImage);
@@ -221,7 +221,7 @@ namespace System.Drawing
 			{
 				// draw the last one of the quadrant which is flipped by both the y and x axis
 				var transform = new CGAffineTransform(-1, 0, 0, -1, 
-				                                  textureImage.Width * 2, textureImage.Height);
+					destRect.Width * 2, destRect.Height);
 				context.ConcatCTM(transform);
 				context.ConcatCTM (textureImage.imageTransform);
 				context.DrawImage(destRect, textureImage.NativeCGImage);
