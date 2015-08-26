@@ -1175,6 +1175,9 @@ namespace System.Windows.Forms {
 				WindowHandle = (IntPtr) windowWrapper.Handle;
 				windowWrapper.WeakDelegate = windowWrapper;
 
+				if ((cp.ClassStyle & 0x20000) != 0) // CS_DROPSHADOW
+					windowWrapper.HasShadow = true;
+
 				viewWrapper = new Cocoa.MonoContentView (this, WholeRect, hwnd);
 				wholeHandle = (IntPtr) viewWrapper.Handle;
 				windowWrapper.ContentView = viewWrapper;
@@ -2006,7 +2009,9 @@ namespace System.Windows.Forms {
 						vuWrap.Window.BackgroundColor = NSColor.WindowBackground;
 						vuWrap.Window.IsOpaque = true;
 					}
-					vuWrap.NeedsDisplay = true;
+					vuWrap.Display();
+					if (vuWrap.Window.HasShadow)
+						vuWrap.Window.InvalidateShadow();
 				}
 			}
 		}
