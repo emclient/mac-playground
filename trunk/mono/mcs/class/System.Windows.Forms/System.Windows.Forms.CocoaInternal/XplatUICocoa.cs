@@ -850,7 +850,10 @@ namespace System.Windows.Forms {
 				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
 				NSRect nsrect = MonoToNativeFramed (new Rectangle (x, y, width, height), vuWrap.Frame.Height);
 				//Console.WriteLine (String.Format ("AddExpose({4}, {0}, {1}, {2}, {3})", nsrect.X, nsrect.Y, nsrect.Width, nsrect.Height, hwnd.Handle));
+				//Console.WriteLine("-NeedsDisplay " + vuWrap.NeedsDisplay + " Superview.NeedsDisplay " + vuWrap.Superview.NeedsDisplay + " " + (vuWrap.OpaqueAncestor == vuWrap) + " " + vuWrap.IsOpaque);
 				vuWrap.SetNeedsDisplayInRect (nsrect);
+				//vuWrap.Display();
+				//Console.WriteLine("+NeedsDisplay " + vuWrap.NeedsDisplay + " Superview.NeedsDisplay " + vuWrap.Superview.NeedsDisplay + " " + (vuWrap.OpaqueAncestor == vuWrap) + " " + vuWrap.IsOpaque);
 			} else {
 				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 				vuWrap.NeedsDisplay = true;
@@ -2508,9 +2511,8 @@ namespace System.Windows.Forms {
 
 			if (!hwnd.visible || vuWrap.IsHiddenOrHasHiddenAncestor || NSRect.Empty == vuWrap.VisibleRect())
 				return;
-
-			hwnd.AddInvalidArea (new Rectangle(0, 0, hwnd.Width, hwnd.Height));
-			SendMessage(handle, Msg.WM_PAINT, IntPtr.Zero, IntPtr.Zero);
+			
+			vuWrap.DisplayIfNeeded();
 		}
 
 		internal override bool TranslateMessage (ref MSG msg) {
