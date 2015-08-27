@@ -315,8 +315,9 @@ namespace System.Windows.Forms
 					retsize.Width = child.Bounds.Right + child.Margin.Right;
 
 				if (child.Dock == DockStyle.Fill) {
-					if (child.Bounds.Bottom > retsize.Height)
-						retsize.Height = child.Bounds.Bottom;
+					var ps = child.GetPreferredSize (Size.Empty);
+					if (child.Location.Y + ps.Height + child.Margin.Vertical > retsize.Height)
+						retsize.Height = child.Location.Y + ps.Height + child.Margin.Vertical;
 				} else if (child.Dock != DockStyle.Left && child.Dock != DockStyle.Right && (child.Bounds.Bottom + child.Margin.Bottom) > retsize.Height)
 					retsize.Height = child.Bounds.Bottom + child.Margin.Bottom;
 			}
