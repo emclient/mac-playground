@@ -93,7 +93,8 @@ namespace System.Windows.Forms.Layout
 
 				// Resize any AutoSize controls to their preferred size
 				if (c.AutoSize == true) {
-					Size new_size = c.GetPreferredSize (c.Size);
+					Size cSize = new Size (parent.ClientSize.Width, Int32.MaxValue);
+					Size new_size = c.GetPreferredSize (cSize);
 					c.SetBoundsInternal (c.Left, c.Top, new_size.Width, new_size.Height, BoundsSpecified.None);
 				}
 
