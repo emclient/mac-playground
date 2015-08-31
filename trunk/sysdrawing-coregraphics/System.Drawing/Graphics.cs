@@ -291,13 +291,17 @@ namespace System.Drawing {
 			context.AddCurveToPoint (x1, y1, x2, y2, x3, y3);
 		}
 
+		void PreparePen (Pen pen)
+		{
+			if (pen.Width == 1f)
+				context.TranslateCTM (.5f, .5f);
+		}
+
 		void Stroke (Pen pen)
 		{
 			// First we call the Pen with a fill of false so the brush can setup the stroke 
 			// For LinearGradientBrush this will setup a TransparentLayer so the gradient can
 			// be filled at the end.  See comments.
-			if (pen.Width == 1f)
-				context.TranslateCTM (.5f, .5f);
 			pen.Setup (this, false);
 			context.DrawPath(CGPathDrawingMode.Stroke);
 			// Next we call the Pen with a fill of true so the brush can draw the Gradient. 
@@ -339,6 +343,7 @@ namespace System.Drawing {
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 
+			PreparePen (pen);
 			DrawEllipticalArc(x, y, width, height, startAngle, sweepAngle, false);
 			StrokePen (pen);
 		}
@@ -350,6 +355,8 @@ namespace System.Drawing {
 		{
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
+			
+			PreparePen (pen);
 			DrawEllipticalArc(x, y, width, height, startAngle, sweepAngle, false);
 			StrokePen (pen);
 		}
@@ -366,6 +373,7 @@ namespace System.Drawing {
 			if (!float.IsNaN(pt1.X) && !float.IsNaN(pt1.Y) &&
 			    !float.IsNaN(pt2.X) && !float.IsNaN(pt2.Y)) 
 			{
+				PreparePen (pen);
 				MoveTo (pt1.X, pt1.Y);
 				LineTo (pt2.X, pt2.Y);
 				StrokePen (pen);
@@ -376,6 +384,7 @@ namespace System.Drawing {
 		{
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
+			PreparePen (pen);
 			MoveTo (pt1.X, pt1.Y);
 			CurveTo (pt2.X, pt2.Y, pt3.X, pt3.Y, pt4.X, pt4.Y);
 			StrokePen (pen);
@@ -385,6 +394,7 @@ namespace System.Drawing {
 		{
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
+			PreparePen (pen);
 			MoveTo (pt1.X, pt1.Y);
 			CurveTo (pt2.X, pt2.Y, pt3.X, pt3.Y, pt4.X, pt4.Y);
 			StrokePen (pen);
@@ -394,6 +404,7 @@ namespace System.Drawing {
 		{
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
+			PreparePen (pen);
 			MoveTo (x1, y1);
 			CurveTo (x2, y2, x3, y3, x4, y4);
 			StrokePen (pen);
@@ -452,6 +463,7 @@ namespace System.Drawing {
 			if (!float.IsNaN(pt1.X) && !float.IsNaN(pt1.Y) &&
 			    !float.IsNaN(pt2.X) && !float.IsNaN(pt2.Y)) 
 			{
+				PreparePen (pen);
 				MoveTo (pt1.X, pt1.Y);
 				LineTo (pt2.X, pt2.Y);
 				StrokePen (pen);
@@ -463,6 +475,7 @@ namespace System.Drawing {
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 
+			PreparePen (pen);
 			MoveTo (x1, y1);
 			LineTo (x2, y2);
 			StrokePen (pen);
@@ -474,10 +487,10 @@ namespace System.Drawing {
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 
+			PreparePen (pen);
 			MoveTo (x1, y1);
 			LineTo (x2, y2);
 			StrokePen (pen);
-
 		}
 		
 		public void DrawLines (Pen pen, Point [] points)
@@ -491,6 +504,7 @@ namespace System.Drawing {
 			if (count < 2)
 				return;
 
+			PreparePen (pen);
 			MoveTo (points [0]);
 			for (int i = 1; i < count; i++)
 				LineTo (points [i]);
@@ -508,6 +522,7 @@ namespace System.Drawing {
 			if (count < 2)
 				return;
 
+			PreparePen (pen);
 			MoveTo (points [0]);
 			for (int i = 1; i < count; i++)
 				LineTo (points [i]);
@@ -536,6 +551,7 @@ namespace System.Drawing {
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 
+			PreparePen (pen);
 			RectanglePath (new CGRect(x1, y1, x2, y2));
 			StrokePen (pen);
 		}
@@ -545,6 +561,7 @@ namespace System.Drawing {
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 			
+			PreparePen (pen);
 			RectanglePath (new CGRect(x1, y1, x2, y2));
 			StrokePen (pen);
 		}
@@ -554,6 +571,7 @@ namespace System.Drawing {
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 
+			PreparePen (pen);
 			RectanglePath (new CGRect(rect.X, rect.Y, rect.Width, rect.Height));
 			StrokePen (pen);
 		}
@@ -564,7 +582,6 @@ namespace System.Drawing {
 				throw new ArgumentNullException ("brush");
 			RectanglePath (new CGRect(x1, y1, x2, y2));
 			FillBrush (brush);
-
 		}
 
 		public void FillRectangle (Brush brush, Rectangle rect)
@@ -573,7 +590,6 @@ namespace System.Drawing {
 				throw new ArgumentNullException ("brush");
 			RectanglePath (new CGRect(rect.X, rect.Y, rect.Width, rect.Height));
 			FillBrush (brush);
-
 		}
 		
 		public void FillRectangle (Brush brush, RectangleF rect)
@@ -582,7 +598,6 @@ namespace System.Drawing {
 				throw new ArgumentNullException ("brush");
 			RectanglePath (new CGRect(rect.X, rect.Y, rect.Width, rect.Height));
 			FillBrush (brush);
-
 		}
 
 		public void FillRectangle (Brush brush, int x1, int y1, int x2, int y2)
@@ -592,7 +607,6 @@ namespace System.Drawing {
 
 			RectanglePath (new CGRect(x1, y1, x2, y2));
 			FillBrush (brush);
-
 		}
 
 		
@@ -621,8 +635,9 @@ namespace System.Drawing {
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 
+			PreparePen (pen);
 			context.AddEllipseInRect(new CGRect(rect.X, rect.Y, rect.Width, rect.Height));
-			StrokePen(pen);
+			StrokePen (pen);
 		}
 
 		public void DrawEllipse (Pen pen, int x1, int y1, int x2, int y2)
@@ -803,6 +818,7 @@ namespace System.Drawing {
 				throw new ArgumentException ("offset");
 
 			var tangents = GeomUtilities.GetCurveTangents (GraphicsPath.CURVE_MIN_TERMS, points, count, tension, CurveType.Open);
+			PreparePen (pen);
 			MakeCurve (points, tangents, offset, numberOfSegments, CurveType.Open);
 			StrokePen (pen);
 		}
@@ -887,6 +903,7 @@ namespace System.Drawing {
 			if (path == null)
 				throw new ArgumentNullException ("path");
 
+			PreparePen (pen);
 			PlotPath (path);
 			StrokePen (pen);
 		}
@@ -1404,6 +1421,7 @@ namespace System.Drawing {
 				int segments = (count > 3) ? (count-1) : (count-2);
 
 				var tangents = GeomUtilities.GetCurveTangents (GraphicsPath.CURVE_MIN_TERMS, points, count, tension, CurveType.Close);
+				PreparePen (pen);
 				MakeCurve (points, tangents, 0, segments, CurveType.Close);
 				StrokePen (pen);
 			}
@@ -1510,8 +1528,9 @@ namespace System.Drawing {
 		{
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
+			PreparePen (pen);
 			DrawEllipticalArc(x,y,width,height, startAngle, sweepAngle, true);
-			StrokePen(pen);
+			StrokePen (pen);
 
 		}
 		public void FillPie (Brush brush, Rectangle rect, float startAngle, float sweepAngle)
@@ -1558,6 +1577,7 @@ namespace System.Drawing {
 		{
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
+			PreparePen (pen);
 			PolygonSetup (points);
 			context.ClosePath ();
 			StrokePen (pen);
@@ -1596,6 +1616,7 @@ namespace System.Drawing {
 			if (rects == null)
 				throw new ArgumentNullException ("rects");
 
+			PreparePen (pen);
 			foreach (var rect in rects)
 				RectanglePath (rect.X, rect.Y, rect.Right, rect.Bottom);
 			StrokePen (pen);
@@ -1608,6 +1629,7 @@ namespace System.Drawing {
 			if (rects == null)
 				throw new ArgumentNullException ("rects");
 
+			PreparePen (pen);
 			foreach (var rect in rects)
 				RectanglePath (rect.X, rect.Y, rect.Right, rect.Bottom);
 			StrokePen (pen);
