@@ -123,7 +123,6 @@ namespace System.Windows.Forms {
 		internal static GrabStruct Grab;
 		internal static Cocoa.Caret Caret;
 		private static Hashtable WindowMapping;
-		private static int MenuBarHeight;
 		internal static ArrayList UtilityWindows;
 		internal static readonly Stack<IntPtr> ModalSessions = new Stack<IntPtr>();
 		internal float screenHeight;
@@ -203,11 +202,9 @@ namespace System.Windows.Forms {
 		internal void Initialize ()
 		{
 			// Cache main screen height for flipping screen coordinates.
-			{
-				Size size;
-				GetDisplaySize (out size);
-				screenHeight = size.Height;
-			}
+			Size size;
+			GetDisplaySize (out size);
+			screenHeight = size.Height;
 
 			// Initialize the event handlers
 			applicationDelegate = new MonoApplicationDelegate (this);
@@ -231,55 +228,29 @@ namespace System.Windows.Forms {
 			WindowMapping = new Hashtable ();
 			UtilityWindows = new ArrayList ();
 
-//			// Initialize the FosterParent
-			NSRect rect = NSRect.Empty;
-			Cocoa.ProcessSerialNumber psn = new Cocoa.ProcessSerialNumber();
-
-			GetCurrentProcess( ref psn );
-			TransformProcessType (ref psn, 1);
-			SetFrontProcess (ref psn);
-			NSProcessInfo.ProcessInfo.ProcessName = Application.ProductName;
-//
-//			HIObjectRegisterSubclass (__CFStringMakeConstantString ("com.novell.mwfview"), __CFStringMakeConstantString ("com.apple.hiview"), 0, Cocoa.EventHandler.EventHandlerDelegate, (uint)Cocoa.EventHandler.HIObjectEvents.Length, Cocoa.EventHandler.HIObjectEvents, IntPtr.Zero, ref Subclass);
-//
-//			CreateNewWindow (Cocoa.WindowClass.kDocumentWindowClass, Cocoa.WindowAttributes.kWindowStandardHandlerAttribute | Cocoa.WindowAttributes.kWindowCloseBoxAttribute | Cocoa.WindowAttributes.kWindowFullZoomAttribute | Cocoa.WindowAttributes.kWindowCollapseBoxAttribute | Cocoa.WindowAttributes.kWindowResizableAttribute | Cocoa.WindowAttributes.kWindowCompositingAttribute, ref rect, ref FosterParent);
-//			
-//			CreateNewWindow (Cocoa.WindowClass.kOverlayWindowClass, Cocoa.WindowAttributes.kWindowNoUpdatesAttribute | Cocoa.WindowAttributes.kWindowNoActivatesAttribute, ref rect, ref ReverseWindow);
-			ReverseWindow = new NSWindow(rect, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
-//			CreateNewWindow (Cocoa.WindowClass.kOverlayWindowClass, Cocoa.WindowAttributes.kWindowNoUpdatesAttribute | Cocoa.WindowAttributes.kWindowNoActivatesAttribute, ref rect, ref CaretWindow);
-			CaretWindow = new NSWindow(rect, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
-			CaretWindow.ContentView = new NSView (NSRect.Empty);
-//
-//			// Get some values about bar heights
-//			Cocoa.Rect structRect = new Cocoa.Rect ();
-//			Cocoa.Rect contentRect = new Cocoa.Rect ();
-//			GetWindowBounds (FosterParent, 32, ref structRect);
-//			GetWindowBounds (FosterParent, 33, ref contentRect);
-
-			NSApplication NSApp = NSApplication.SharedApplication;
-//			Console.WriteLine ("{0}", NSApp);
-			NSMenu mainMenu = NSApp.MainMenu;
-			#if DriverDebug
-				Console.WriteLine ("{0}", mainMenu);
-			#endif
-			bool tempMenu = true;
-			if (null == mainMenu) {
-//				Console.WriteLine ("mainMenu is null.");
-			} else {
-				tempMenu = false;
+			// Transform to foreground process
+			if (NSApplication.SharedApplication.ActivationPolicy != NSApplicationActivationPolicy.Regular)
+			{
+				NSApplication.SharedApplication.ActivationPolicy = NSApplicationActivationPolicy.Regular;
+				NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
+				NSProcessInfo.ProcessInfo.ProcessName = Application.ProductName;
 			}
 
-			/*if (tempMenu) {
-				mainMenu = new NSMenu();
-				NSApp.MainMenu = mainMenu;
+			if (NSApplication.SharedApplication.MainMenu == null)
+			{
+				NSMenu mainMenu = new NSMenu();
+				NSMenu appMenu = new NSMenu(Application.ProductName);
+				NSMenuItem quitItem = appMenu.AddItem("Quit", new MonoMac.ObjCRuntime.Selector("terminate:"), "q"); 
+				quitItem.KeyEquivalentModifierMask = NSEventModifierMask.CommandKeyMask | NSEventModifierMask.AlternateKeyMask;
+				NSMenuItem appItem = new NSMenuItem(Application.ProductName);
+				appItem.Submenu = appMenu;
+				mainMenu.AddItem(appItem);
+				NSApplication.SharedApplication.MainMenu = mainMenu;
 			}
-			MenuBarHeight = (int) mainMenu.MenuBarHeight;*/
-//			Console.WriteLine ("MenuBarHeight = {0}", MenuBarHeight);
-//			Console.WriteLine ("{0}", mainMenu.Description);
-
-			// JV
-//			if (tempMenu)
-//				NSApp.MainMenu = null;
+		
+			ReverseWindow = new NSWindow(NSRect.Empty, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
+			CaretWindow = new NSWindow(NSRect.Empty, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
+			CaretWindow.ContentView = new NSView(NSRect.Empty);
 
 			// Message loop
 			GetMessageResult = true;
@@ -858,27 +829,6 @@ namespace System.Windows.Forms {
 				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 				vuWrap.NeedsDisplay = true;
 			}
-		}
-
-		private  NSMenu BuildNativeSurrogate (Menu guestMenu)
-		{
-			NSMenu hostMenu = null != guestMenu.Name ? new NSMenu (guestMenu.Name) : new NSMenu ();
-
-			// In Mono, a sub-Menu is also a MenuItem object. In Cocoa, they are separate objects.
-			// Let a sub-Menu keep the NSMenuItem* as its Handle.
-			//if (IntPtr.Zero == guestMenu.Handle || ! (guestMenu is MenuItem))
-			//	guestMenu.menu_handle = (IntPtr) hostMenu;
-
-			foreach (MenuItem guestItem in guestMenu.MenuItems) {
-				string text = guestItem.Text;
-				NSMenuItem hostItem = 
-					"-" != text ? new Cocoa.MonoMenuItem (guestItem) : NSMenuItem.SeparatorItem;
-				hostMenu.AddItem (hostItem);
-
-				if (guestItem.IsParent)
-					hostItem.Submenu = BuildNativeSurrogate ((Menu) guestItem);
-			}
-			return hostMenu;
 		}
 
 		private  void HwndPositionToNative (Hwnd hwnd)
@@ -2214,28 +2164,12 @@ namespace System.Windows.Forms {
 		}
 
 		internal override void SetMenu (IntPtr handle, Menu menu) {
-			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
+			Hwnd	hwnd;
+
+			hwnd = Hwnd.ObjectFromHandle(handle);
 			hwnd.menu = menu;
 
-			NSMenu hostMenu = null;
-			if (null != menu) {
-//				menu.Wnd.Name = "StackTraceMe";
-				if( IntPtr.Zero == menu.Handle)
-					hostMenu = BuildNativeSurrogate (menu);
-			}
-
-			if (GetActive () == handle) {
-				if (null == hostMenu && null != menu && IntPtr.Zero != menu.Handle)
-					hostMenu = (NSMenu) MonoMac.ObjCRuntime.Runtime.GetNSObject (menu.Handle);
-				#if DriverDebug
-					Console.WriteLine ("SetMenu ({0}, {1}) : {2}", hwnd, menu, 
-							null != hostMenu ? hostMenu.Description : null);
-				#endif
-
-				NSApplication.SharedApplication.MainMenu = hostMenu;
-			}
-
-			RequestNCRecalc (handle);
+			RequestNCRecalc(handle);
 		}
 		
 		internal override void SetWindowMinMax (IntPtr handle, Rectangle maximized, Size min, Size max) {
@@ -2791,14 +2725,6 @@ namespace System.Windows.Forms {
 		internal override event EventHandler Idle;
 		#endregion Override properties XplatUIDriver
 
-		#region Process imports
-		[DllImport("/System/Library/Frameworks/ApplicationServices.framework/Versions/Current/ApplicationServices")]
-		extern static int GetCurrentProcess (ref Cocoa.ProcessSerialNumber psn);
-		[DllImport("/System/Library/Frameworks/ApplicationServices.framework/Versions/Current/ApplicationServices")]
-		extern static int TransformProcessType (ref Cocoa.ProcessSerialNumber psn, uint type);
-		[DllImport("/System/Library/Frameworks/ApplicationServices.framework/Versions/Current/ApplicationServices")]
-		extern static int SetFrontProcess (ref Cocoa.ProcessSerialNumber psn);
-		#endregion
 		[DllImport("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		extern static void CGDisplayMoveCursorToPoint (UInt32 display, NSPoint point);
 	}
