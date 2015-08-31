@@ -449,7 +449,6 @@ trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Cur
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Enums.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoApplicationDelegate.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoContentView.cs -text
-trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoMenuItem.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoView.Debug.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoView.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoWindow.cs -text
