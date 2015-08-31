@@ -22,6 +22,7 @@ trunk/FormsTest/Properties/Settings.settings -text
 trunk/FormsTest/application.ico -text
 trunk/FormsTest/car.png -text
 trunk/MonoMac.dll -text
+trunk/OSXPlayground.mdw -text
 trunk/OSXPlayground.sln -text
 trunk/mono/mcs/build/common/ChangeLog -text
 trunk/mono/mcs/build/common/Consts.cs -text
