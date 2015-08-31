@@ -36,6 +36,7 @@ namespace System.Windows.Forms
 		private Control control;
 		private ContentAlignment control_align;
 		private bool double_click_enabled;
+		private int suspend_size_sync;
 
 		#region Public Constructors
 		public ToolStripControlHost (Control c) : base ()
@@ -298,8 +299,14 @@ namespace System.Windows.Forms
 		
 		protected override void OnBoundsChanged ()
 		{
-			if (control != null)
-				control.Bounds = AlignInRectangle (this.Bounds, control.Size, this.control_align);
+			suspend_size_sync++;
+			if (control != null) {
+				var newControlSize = new Size(this.Width - this.Padding.Horizontal, this.Height - this.Padding.Vertical);
+				control.Bounds = AlignInRectangle(this.Bounds, newControlSize, this.control_align);
+				if (newControlSize != control.Size)
+					control.Bounds = AlignInRectangle(this.Bounds, control.Size, this.control_align);
+			}
+			suspend_size_sync--;
 
 			base.OnBoundsChanged ();
 		}
@@ -320,14 +327,13 @@ namespace System.Windows.Forms
 
 		void ControlResizeHandler (object obj, EventArgs args)
 		{
-			OnHostedControlResize (args);
+			if (suspend_size_sync == 0)
+				OnHostedControlResize (args);
 		}
 		
 		protected virtual void OnHostedControlResize (EventArgs e)
 		{
-			// Since the control size has been just adjusted, only update the location
-			if (control != null)
-				control.Location = AlignInRectangle (this.Bounds, control.Size, this.control_align).Location;
+			this.Size = new Size(control.Width + Padding.Horizontal, control.Height + Padding.Vertical);
 		}
 		
 		protected virtual void OnKeyDown (KeyEventArgs e)
@@ -354,9 +360,11 @@ namespace System.Windows.Forms
 		protected override void OnLayout (LayoutEventArgs e)
 		{
 			base.OnLayout (e);
-			
+
+			suspend_size_sync++;
 			if (control != null)
 				control.Bounds = AlignInRectangle (this.Bounds, control.Size, this.control_align);
+			suspend_size_sync--;
 		}
 		
 		protected virtual void OnLeave (EventArgs e)
