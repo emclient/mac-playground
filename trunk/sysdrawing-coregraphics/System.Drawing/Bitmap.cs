@@ -347,19 +347,7 @@ namespace System.Drawing {
 		{
 			throw new NotImplementedException ();
 		}
-
-		public static Bitmap FromNSImageViaPNG(NSImage source) 
-		{
-			CGRect neco = new CGRect(0,0,0,0);
-			CGImage cgRef = source.AsCGImage (ref neco, null, null);
-			NSBitmapImageRep newRep = new NSBitmapImageRep (cgRef);
-			newRep.Size = source.Size;
-			MonoMac.Foundation.NSData png = newRep.RepresentationUsingTypeProperties (NSBitmapImageFileType.Png, new NSDictionary ());
-
-			Bitmap result =  new Bitmap(png.AsStream() );
-			return result;
-		}
-
+			
 		private void InitializeImageFrame(int frame)
 		{
 			imageTransform = CGAffineTransform.MakeIdentity();
