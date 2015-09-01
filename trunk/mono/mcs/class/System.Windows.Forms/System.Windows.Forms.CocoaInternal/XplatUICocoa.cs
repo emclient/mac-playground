@@ -235,7 +235,7 @@ namespace System.Windows.Forms {
 				NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
 				NSProcessInfo.ProcessInfo.ProcessName = Application.ProductName;
 			}
-
+		
 			if (NSApplication.SharedApplication.MainMenu == null)
 			{
 				NSMenu mainMenu = new NSMenu();
@@ -245,9 +245,20 @@ namespace System.Windows.Forms {
 				NSMenuItem appItem = new NSMenuItem(Application.ProductName);
 				appItem.Submenu = appMenu;
 				mainMenu.AddItem(appItem);
+
+				NSMenu windowMenu = new NSMenu();
+				windowMenu.AddItem("Minimize", new MonoMac.ObjCRuntime.Selector("performMiniaturize:"), "");
+				windowMenu.AddItem("Zoom", new MonoMac.ObjCRuntime.Selector("performZoom:"), "");
+				windowMenu.AddItem(NSMenuItem.SeparatorItem);
+				windowMenu.AddItem("Bring All to Front", new MonoMac.ObjCRuntime.Selector("arrangeInFront:"), "");
+				NSMenuItem windowItem = new NSMenuItem("Window");
+				windowItem.Submenu = windowMenu;
+				mainMenu.AddItem(windowItem);
+
 				NSApplication.SharedApplication.MainMenu = mainMenu;
+				NSApplication.SharedApplication.WindowsMenu = windowMenu;
 			}
-		
+
 			ReverseWindow = new NSWindow(NSRect.Empty, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
 			CaretWindow = new NSWindow(NSRect.Empty, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
 			CaretWindow.ContentView = new NSView(NSRect.Empty);
@@ -291,8 +302,6 @@ namespace System.Windows.Forms {
 			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
 			NSRect cr = MonoToNativeFramed (rect, vuWrap.Superview.Frame.Height);
 			vuWrap.Frame = cr;
-
-			AddExpose (hwnd, false, 0, 0, hwnd.Width, hwnd.Height);
 		}
 
 		internal void ScreenToClientWindow (IntPtr handle, ref NSPoint point)
@@ -396,16 +405,6 @@ namespace System.Windows.Forms {
 		}
 		#endregion Reversible regions
 
-		/*internal static NSString __CFStringMakeConstantString (string cString)
-		{
-            return NSString.Create (cString);
-		}*/
-
-//		internal static void CFRelease (NSObject wHnd)
-//		{
-//			wHnd.release ();
-//		}
-
 		internal NSPoint MonoToNativeScreen (Point monoPoint)
 		{
 			return new NSPoint (monoPoint.X, screenHeight - monoPoint.Y);
@@ -454,7 +453,6 @@ namespace System.Windows.Forms {
 				return;
 
 			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
-			NSView clientVuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
 			NSRect nsrect = vuWrap.Frame;
 			Rectangle mrect;
 
@@ -802,35 +800,6 @@ namespace System.Windows.Forms {
 			DestroyCaret (hwnd.Handle);
 		}
 
-		private void AddExpose (Hwnd hwnd, bool client, int x, int y, int width, int height) {
-			// Don't waste time
-			if ((hwnd == null) || (x > hwnd.Width) || (y > hwnd.Height) || ((x + width) < 0) || ((y + height) < 0)) {
-				return;
-			}
-
-			// Keep the invalid area as small as needed
-			if ((x + width) > hwnd.width) {
-				width = hwnd.width - x;
-			}
-
-			if ((y + height) > hwnd.height) {
-				height = hwnd.height - y;
-			}
-
-			if (client) {
-				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
-				NSRect nsrect = MonoToNativeFramed (new Rectangle (x, y, width, height), vuWrap.Frame.Height);
-				//Console.WriteLine (String.Format ("AddExpose({4}, {0}, {1}, {2}, {3})", nsrect.X, nsrect.Y, nsrect.Width, nsrect.Height, hwnd.Handle));
-				//Console.WriteLine("-NeedsDisplay " + vuWrap.NeedsDisplay + " Superview.NeedsDisplay " + vuWrap.Superview.NeedsDisplay + " " + (vuWrap.OpaqueAncestor == vuWrap) + " " + vuWrap.IsOpaque);
-				vuWrap.SetNeedsDisplayInRect (nsrect);
-				//vuWrap.Display();
-				//Console.WriteLine("+NeedsDisplay " + vuWrap.NeedsDisplay + " Superview.NeedsDisplay " + vuWrap.Superview.NeedsDisplay + " " + (vuWrap.OpaqueAncestor == vuWrap) + " " + vuWrap.IsOpaque);
-			} else {
-				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
-				vuWrap.NeedsDisplay = true;
-			}
-		}
-
 		private  void HwndPositionToNative (Hwnd hwnd)
 		{
 			if (hwnd.zero_sized)
@@ -908,16 +877,6 @@ namespace System.Windows.Forms {
 				NSWindow winWrap = vuWrap.Window;
 				winWrap.MakeKeyAndOrderFront (vuWrap);
 				ActiveWindow = handle;
-
-				Menu menu = hwnd.Menu;
-				NSMenu hostMenu = null;
-				if (null != menu)
-					hostMenu = (NSMenu)MonoMac.ObjCRuntime.Runtime.GetNSObject(menu.Handle);
-#if DriverDebug
-				//Console.WriteLine ("Activate ({0}) {1}", hwnd, hostMenu.Description);
-#endif
-				// JV
-				//NSApplication.SharedApplication.MainMenu = hostMenu;
 			}
 		}
 
@@ -1131,6 +1090,7 @@ namespace System.Windows.Forms {
 				viewWrapper = new Cocoa.MonoContentView (this, WholeRect, hwnd);
 				wholeHandle = (IntPtr) viewWrapper.Handle;
 				windowWrapper.ContentView = viewWrapper;
+				windowWrapper.InitialFirstResponder = viewWrapper;
 
 				if (StyleSet (cp.Style, WindowStyles.WS_POPUP))
 					windowWrapper.Level = NSWindowLevel.PopUpMenu;
@@ -1184,8 +1144,11 @@ namespace System.Windows.Forms {
 						if (f.WindowState == FormWindowState.Normal) {
 							SendMessage(hwnd.Handle, Msg.WM_SHOWWINDOW, (IntPtr)1, IntPtr.Zero);
 						}
+						if (f.ActivateOnShow)
+							windowWrapper.MakeKeyAndOrderFront (viewWrapper);
+						else
+							windowWrapper.OrderFront (viewWrapper);
 					}
-					windowWrapper.MakeKeyAndOrderFront (viewWrapper);
 				}
 
 				viewWrapper.Hidden = false;
@@ -1650,25 +1613,17 @@ namespace System.Windows.Forms {
 			Console.WriteLine("{0}{1}", e.Message, st.ToString());
 		}
 		
-		internal override void Invalidate (IntPtr handle, Rectangle rc, bool clear) {
-			Hwnd hwnd;
-
-			hwnd = Hwnd.ObjectFromHandle(handle);
-
-			if (clear) {
-				AddExpose (hwnd, true, 0, 0, hwnd.Width, hwnd.Height);
-			} else {
-				AddExpose (hwnd, true, rc.X, rc.Y, rc.Width, rc.Height);
-			} 
+		internal override void Invalidate(IntPtr handle, Rectangle rc, bool clear) {
+			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
+			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
+			vuWrap.SetNeedsDisplayInRect(MonoToNativeFramed(rc, vuWrap.Frame.Height));
 		}
 
-		internal override void InvalidateNC (IntPtr handle)
+		internal override void InvalidateNC(IntPtr handle)
 		{
-			Hwnd hwnd;
-
-			hwnd = Hwnd.ObjectFromHandle(handle);
-
-			AddExpose (hwnd, false, 0, 0, hwnd.Width, hwnd.Height); 
+			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
+			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			vuWrap.NeedsDisplay = true;
 		}
 		
 		internal override bool IsEnabled(IntPtr handle) {
@@ -1747,18 +1702,8 @@ namespace System.Windows.Forms {
 				if (null == dc)
 					return null;
 
-				if (!hwnd.NCInvalid.IsEmpty) {
-					// FIXME: Clip region is hosed
-					dc.SetClip (hwnd.NCInvalid);
-					paint_event = new PaintEventArgs (dc, hwnd.NCInvalid);
-				} else {
-					paint_event = new PaintEventArgs (dc, new Rectangle (0, 0, hwnd.width, hwnd.height));
-				}
+				paint_event = new PaintEventArgs (dc, new Rectangle (0, 0, hwnd.width, hwnd.height));
 
-//				// Clip drawing to exclude the client area.
-//				dc.ExcludeClip (hwnd.ClientRect);
-
-				//hwnd.nc_expose_pending = false;
 				hwnd.ClearNcInvalidArea ();
 
 				hwnd.drawing_stack.Push (paint_event);
@@ -1945,7 +1890,8 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		internal override void SetClipRegion (IntPtr handle, Region region) {
+		internal override void SetClipRegion (IntPtr handle, Region region)
+		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
 			if (hwnd != null) {
 				hwnd.UserClip = region;
@@ -1968,7 +1914,6 @@ namespace System.Windows.Forms {
 		
 		internal override void SetCursor (IntPtr window, IntPtr cursor) {
 			Hwnd hwnd = Hwnd.ObjectFromHandle (window);
-
 			hwnd.Cursor = cursor;
 		}
 
@@ -1979,7 +1924,7 @@ namespace System.Windows.Forms {
 				NSScreen screenWrap = (NSScreen)screens[0];
 				NSDictionary description = screenWrap.DeviceDescription;
 				NSNumber screenNumber = (NSNumber) description["NSScreenNumber"];
-// FIXME: Find a Cocoa way to do this.
+				// FIXME: Find a Cocoa way to do this.
 				CGDisplayMoveCursorToPoint (screenNumber.UInt32Value, new NSPoint (x, y));
 			}
 		}
@@ -2008,15 +1953,10 @@ namespace System.Windows.Forms {
 			if (Application.MWFThread.Current.Context != null &&
 				Application.MWFThread.Current.Context.MainForm != null &&
 				Application.MWFThread.Current.Context.MainForm.Handle == handle) {
-
-				Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-
 				if (icon == null) { 
 					NSApplication.SharedApplication.ApplicationIconImage = null;
 				} else {
 					Bitmap		bitmap;
-					int		size;
-					int		index;
 	
 					bitmap = new Bitmap (128, 128);
 					using (Graphics g = Graphics.FromImage (bitmap)) {
@@ -2032,7 +1972,6 @@ namespace System.Windows.Forms {
 				}
 			}
 		}
-
 		
 		internal override void SetModal (IntPtr handle, bool Modal)
 		{
@@ -2120,7 +2059,10 @@ namespace System.Windows.Forms {
 					    Application.MWFThread.Current.Context.MainForm.Handle == handle &&
 						winWrap.CanBecomeMainWindow)
 						winWrap.MakeMainWindow();*/
-					winWrap.MakeKeyAndOrderFront(winWrap);
+					if (Control.FromHandle(handle).ActivateOnShow)
+						winWrap.MakeKeyAndOrderFront(winWrap);
+					else
+						winWrap.OrderFront(winWrap);
 				} else
 					winWrap.OrderOut (winWrap);
 			} else {
@@ -2209,9 +2151,6 @@ namespace System.Windows.Forms {
 				return;
 			}
 
-			//if (hwnd.Parent != null)
-			//	AddExpose (hwnd.Parent, true, hwnd.x, hwnd.y, hwnd.width, hwnd.height);
-
 			hwnd.x = x;
 			hwnd.y = y;
 			hwnd.width = width;
@@ -2267,32 +2206,15 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		[MonoTODO ("How to set these attributes on a NSWindow after init?")]
 		internal override void SetWindowStyle (IntPtr handle, CreateParams cp)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			SetHwndStyles(hwnd, cp);
 			
 			if (WindowMapping [hwnd.Handle] != null) {
-				/*Cocoa.WindowAttributes attributes = Cocoa.WindowAttributes.kWindowCompositingAttribute | Cocoa.WindowAttributes.kWindowStandardHandlerAttribute;
-				if ((cp.Style & ((int)WindowStyles.WS_MINIMIZEBOX)) != 0) { 
-					attributes |= Cocoa.WindowAttributes.kWindowCollapseBoxAttribute;
-				}
-				if ((cp.Style & ((int)WindowStyles.WS_MAXIMIZEBOX)) != 0) {
-					attributes |= Cocoa.WindowAttributes.kWindowResizableAttribute | Cocoa.WindowAttributes.kWindowHorizontalZoomAttribute | Cocoa.WindowAttributes.kWindowVerticalZoomAttribute;
-				}
-				if ((cp.Style & ((int)WindowStyles.WS_SYSMENU)) != 0) {
-					attributes |= Cocoa.WindowAttributes.kWindowCloseBoxAttribute;
-				}
-				if ((cp.ExStyle & ((int)WindowExStyles.WS_EX_TOOLWINDOW)) != 0) {
-					attributes = Cocoa.WindowAttributes.kWindowStandardHandlerAttribute | Cocoa.WindowAttributes.kWindowCompositingAttribute;
-				}
-				attributes |= Cocoa.WindowAttributes.kWindowLiveResizeAttribute;*/
-
-//				Cocoa.WindowAttributes outAttributes = Cocoa.WindowAttributes.kWindowNoAttributes;
-// FIXME: How to set these on a NSWindow after init?
-//				GetWindowAttributes ((IntPtr)WindowMapping [hwnd.Handle], ref outAttributes);
-//				ChangeWindowAttributes ((IntPtr)WindowMapping [hwnd.Handle], attributes, outAttributes);
+				NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
+				NSWindow winWrap = vuWrap.Window;
+				winWrap.StyleMask = StyleFromCreateParams(cp);
 			}
 		}
 
@@ -2316,8 +2238,9 @@ namespace System.Windows.Forms {
 			NSView afterVuWrap = null;
 			NSView itSuperVuWrap = itVuWrap.Superview;
 			bool results = true;
+
 #if DriverDebug
-				Console.WriteLine ("SetZOrder ({0}, {1}, {2}, {3})", hwnd, afterHwnd, Top, Bottom);
+			Console.WriteLine ("SetZOrder ({0}, {1}, {2}, {3})", hwnd, afterHwnd, Top, Bottom);
 #endif
 
 			if (IntPtr.Zero != after_handle) {
@@ -2436,8 +2359,6 @@ namespace System.Windows.Forms {
 				vuWrap.NeedsDisplay = true;
 			}
 
-//			SetControlTitleWithCFString (hwnd.whole_window, __CFStringMakeConstantString (text));
-//			SetControlTitleWithCFString (hwnd.client_window, __CFStringMakeConstantString (text));
 			return true;
 		}
 

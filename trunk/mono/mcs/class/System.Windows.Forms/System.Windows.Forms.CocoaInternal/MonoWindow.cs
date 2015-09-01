@@ -28,6 +28,11 @@ namespace System.Windows.Forms.CocoaInternal
 			this.driver = driver;
 		}
 
+		public override bool CanBecomeMainWindow
+		{
+			get { return CanBecomeKeyWindow; }
+		}
+
 		[Export("windowShouldClose:")]
 		internal virtual bool shouldClose (NSObject sender)
 		{
