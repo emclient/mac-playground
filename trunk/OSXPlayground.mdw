@@ -1,5 +1,6 @@
 <WorkspaceItem ctype="Workspace">
   <Items>
     <Item>../emclient/MailClient2010.sln</Item>
+    <Item>OSXPlayground.sln</Item>
   </Items>
 </WorkspaceItem>

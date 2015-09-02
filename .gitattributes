@@ -9,6 +9,7 @@ trunk/FormsTest/LayoutForm.resx -text
 trunk/FormsTest/MainForm.Designer.cs -text
 trunk/FormsTest/MainForm.cs -text
 trunk/FormsTest/MainForm.resx -text
+trunk/FormsTest/MessageBox.cs -text
 trunk/FormsTest/Msg.cs -text
 trunk/FormsTest/MyListBox.cs -text
 trunk/FormsTest/MyTextBox.cs -text
