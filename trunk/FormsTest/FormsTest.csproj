@@ -19,7 +19,6 @@
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
     <AssemblyName>XamTest2</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
     <Optimize>false</Optimize>
@@ -27,7 +26,7 @@
     <WarningLevel>4</WarningLevel>
     <AssemblyName>FormsTest</AssemblyName>
     <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>DEBUG; NET_4_5; NET_4_0</DefineConstants>
+    <DefineConstants>DEBUG; NET_4_5; NET_4_0; MAC</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>false</Optimize>
@@ -101,6 +100,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Msg.cs" />
+    <Compile Include="MessageBox.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -126,7 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\emclient\MailClient.Collections\MailClient.Collections.csproj">
-      <Project>{c69a5715-2180-4c49-8ad0-150697a81790}</Project>
+      <Project>{C69A5715-2180-4C49-8AD0-150697A81790}</Project>
       <Name>MailClient.Collections</Name>
     </ProjectReference>
     <ProjectReference Include="..\sysdrawing-coregraphics\sysdrawing-coregraphics-Mac\sysdrawing-coregraphics-Mac.csproj" Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
