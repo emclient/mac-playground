@@ -28,6 +28,7 @@ trunk/MacBridge.Test/data/SetupLogo.jpg -text
 trunk/MacBridge.Test/packages.config -text
 trunk/MacBridge/CGImageExtensions.cs -text
 trunk/MacBridge/MacBridge.csproj -text
+trunk/MacBridge/MacBridge.snk -text
 trunk/MacBridge/Properties/AssemblyInfo.cs -text
 trunk/MonoMac.dll -text
 trunk/OSXPlayground.mdw -text
