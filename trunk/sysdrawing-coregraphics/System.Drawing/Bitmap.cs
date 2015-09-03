@@ -585,7 +585,8 @@ namespace System.Drawing {
 			bitmap.ClearRect (new CGRect (0, 0, width, height));
 			bitmap.DrawImage (new CGRect (0, 0, image.Width, image.Height), image);
 
-			this.dataProvider.Dispose ();
+			if (this.dataProvider != null)
+				this.dataProvider.Dispose ();
 
 			this.bitmapBlock = bitmapBlock;
 			this.dataProvider = new CGDataProvider (bitmapBlock, size);
