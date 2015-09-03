@@ -325,7 +325,9 @@ namespace System.Drawing {
 
 		internal Bitmap (CGImage image)
 		{
-			InitWithCGImage (image);
+			imageTransform = new CGAffineTransform(1, 0, 0, -1, 0, image.Height);
+			InitWithCGImage(image);
+			GuessPixelFormat();
 		}
 
 		public IntPtr GetHbitmap()
