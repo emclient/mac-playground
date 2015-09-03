@@ -22,6 +22,13 @@ trunk/FormsTest/Properties/Settings.Designer.cs -text
 trunk/FormsTest/Properties/Settings.settings -text
 trunk/FormsTest/application.ico -text
 trunk/FormsTest/car.png -text
+trunk/MacBridge.Test/CGImageExtensionsTest.cs -text
+trunk/MacBridge.Test/MacBridge.Test.csproj -text
+trunk/MacBridge.Test/data/SetupLogo.jpg -text
+trunk/MacBridge.Test/packages.config -text
+trunk/MacBridge/CGImageExtensions.cs -text
+trunk/MacBridge/MacBridge.csproj -text
+trunk/MacBridge/Properties/AssemblyInfo.cs -text
 trunk/MonoMac.dll -text
 trunk/OSXPlayground.mdw -text
 trunk/OSXPlayground.sln -text
