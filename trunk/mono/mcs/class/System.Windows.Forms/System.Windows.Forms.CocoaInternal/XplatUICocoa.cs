@@ -71,6 +71,7 @@ using Cocoa = System.Windows.Forms.CocoaInternal;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using System.Windows.Forms.CocoaInternal;
+using MonoMac.CoreGraphics;
 
 #if SDCOMPAT
 using NSRect = System.Drawing.RectangleF;
@@ -128,7 +129,6 @@ namespace System.Windows.Forms {
 		internal float screenHeight;
 
 		// Message loop
-		private static Queue MessageQueue;
 		private static bool GetMessageResult;
 
 		private static bool ReverseWindowMapped;
@@ -137,6 +137,7 @@ namespace System.Windows.Forms {
 		static readonly object queuelock = new object ();
 
 		static Queue<String> charsQueue = new Queue<string>();
+		internal const int NSEventTypeWindowsMessage = 12345;
 
 		#endregion Local Variables
 		
@@ -144,8 +145,7 @@ namespace System.Windows.Forms {
 		private XplatUICocoa() {
 
 			RefCount = 0;
-			MessageQueue = new Queue ();
-			
+
 			Initialize ();
 		}
 
@@ -178,20 +178,6 @@ namespace System.Windows.Forms {
 		#endregion
 
 		#region Internal methods
-
-		internal void FlushQueue () {
-			lock (queuelock) {
-				while (MessageQueue.Count > 0) {
-					object queueobj = MessageQueue.Dequeue ();
-					if (queueobj is GCHandle) {
-						XplatUIDriverSupport.ExecuteClientMessage((GCHandle)queueobj);
-					} else {
-						MSG msg = (MSG)queueobj;
-						NativeWindow.WndProc (msg.hwnd, msg.message, msg.wParam, msg.lParam);
-					}
-				}
-			}
-		}
 
 		internal IntPtr HandleToWindow (IntPtr handle) {
 			if (WindowMapping [handle] != null)
@@ -357,9 +343,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal void EnqueueMessage (MSG msg) {
-			lock (queuelock) {
-				MessageQueue.Enqueue (msg);
-			}
+			NSApplication.SharedApplication.PostEvent (msg.ToNSEvent(), false);
 		}
 
 		#region Reversible regions
@@ -603,13 +587,22 @@ namespace System.Windows.Forms {
 			return converted_point;
 		}
 
-		private bool PumpNativeEvent (bool wait)
+		private bool PumpNativeEvent (bool wait, ref MSG msg)
 		{
+			msg.message = Msg.WM_NULL;
+
 			NSDate timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
 			NSApplication NSApp = NSApplication.SharedApplication;
 			NSEvent evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, true);
 			if (evtRef == null)
 				return false;
+
+			// Is it Windows message?
+			if (evtRef.Type == NSEventType.ApplicationDefined && evtRef.Subtype == NSEventTypeWindowsMessage) {
+				msg = evtRef.ToMSG ();
+				return true;
+			}
+
 			NSApp.SendEvent (evtRef);
 			return true;
 		}
@@ -1499,36 +1492,52 @@ namespace System.Windows.Forms {
 			return Point.Empty;
 		}
 
+		int idleCounter = 0;
 		internal override bool GetMessage (object queue_id, ref MSG msg, IntPtr hWnd, int wFilterMin, int wFilterMax)
 		{
-			bool pumpedNativeEvent = PumpNativeEvent (false);
-			int count = 0;
+			bool gotEvent = PumpNativeEvent (false, ref msg);
+			if (gotEvent) {
+				idleCounter = 0;
+				return msg.message != Msg.WM_NULL ? true : GetMessageResult;
+			}
 
-			do {
-				lock (queuelock) {
-					count = MessageQueue.Count;
-					if (0 < count) {
-						object queueobj;
-						queueobj = MessageQueue.Dequeue ();
-
-						if (! (queueobj is GCHandle)) {
-							msg = (MSG) queueobj;
-							break;
-						}
-
-						XplatUIDriverSupport.ExecuteClientMessage ((GCHandle) queueobj);
-					}
-				}
-
-				bool atIdle = ! pumpedNativeEvent && 0 >= count;
-				if (atIdle) 
-					RaiseIdle (EventArgs.Empty);
-
-				pumpedNativeEvent = PumpNativeEvent (atIdle);
-			} while (GetMessageResult);
-
+			if (idleCounter == 0) {
+				++idleCounter;
+				RaiseIdle (EventArgs.Empty);
+				Debug.WriteLine ("Idle");
+			}
+			
 			return GetMessageResult;
 		}
+
+
+//			int count = 0;
+//
+//			do {
+//				lock (queuelock) {
+//					count = MessageQueue.Count;
+//					if (0 < count) {
+//						object queueobj;
+//						queueobj = MessageQueue.Dequeue ();
+//
+//						if (! (queueobj is GCHandle)) {
+//							msg = (MSG) queueobj;
+//							break;
+//						}
+//
+//						XplatUIDriverSupport.ExecuteClientMessage ((GCHandle) queueobj);
+//					}
+//				}
+//
+//				bool atIdle = ! pumpedNativeEvent && 0 >= count;
+//				if (atIdle) 
+//					RaiseIdle (EventArgs.Empty);
+//
+//				pumpedNativeEvent = PumpNativeEvent (atIdle);
+//			} while (GetMessageResult);
+//
+//			return GetMessageResult;
+//		}
 
 		[MonoTODO]
 		internal override bool GetText (IntPtr handle, out string text) {
@@ -1740,36 +1749,13 @@ namespace System.Windows.Forms {
 		internal override bool PeekMessage(Object queue_id, ref MSG msg, IntPtr hWnd, 
 							int wFilterMin, int wFilterMax, uint flags)
 		{
-			bool pumpedNativeEvent = true;
-			int count = 0;
 			bool peeking = 0 == ((uint) PeekMessageFlags.PM_REMOVE & flags);
-
-			do {
-				pumpedNativeEvent = PumpNativeEvent (false);
-
-				lock (queuelock) {
-					count = MessageQueue.Count;
-					if (0 >= count)
-						continue;
-
-					object queueobj;
-					if (peeking)
-						queueobj = MessageQueue.Peek ();
-					else
-						queueobj = MessageQueue.Dequeue ();
-
-					if (queueobj is GCHandle) {
-						if (peeking)
-							queueobj = MessageQueue.Dequeue ();
-
-						XplatUIDriverSupport.ExecuteClientMessage((GCHandle)queueobj);
-						continue;
-					}
-
-					msg = (MSG)queueobj;
-					return true;
-				}
-			} while (pumpedNativeEvent || 0 < count);
+			PumpNativeEvent (false, ref msg);
+			if (msg.message != Msg.WM_NULL) {
+				if (!peeking)
+					PumpNativeEvent(false, ref msg); // Pop
+				return true;
+			}
 
 			return false;
 		}
@@ -1855,17 +1841,19 @@ namespace System.Windows.Forms {
 			Invalidate (handle, new Rectangle (0, 0, hwnd.Width, hwnd.Height), false);
 		}
 		
-		[MonoTODO]
 		internal override void SendAsyncMethod (AsyncMethodData method) {
-			// Fake async
-			lock (queuelock) {
-				MessageQueue.Enqueue (GCHandle.Alloc (method));
-			}
+			var handle = GCHandle.Alloc (method);
+			NSApplication.SharedApplication.BeginInvokeOnMainThread (delegate {
+				XplatUIDriverSupport.ExecuteClientMessage(handle);
+				handle.Free();
+			});
 		}
 
-		[MonoTODO]
 		internal override IntPtr SendMessage (IntPtr hwnd, Msg message, IntPtr wParam, IntPtr lParam) {
-			return NativeWindow.WndProc (hwnd, message, wParam, lParam);
+			NSApplication.SharedApplication.InvokeOnMainThread (delegate {
+				 NativeWindow.WndProc (hwnd, message, wParam, lParam);
+			});
+			return IntPtr.Zero;
 		}
 		
 		internal override int SendInput (IntPtr hwnd, Queue keys) {
@@ -2641,12 +2629,34 @@ namespace System.Windows.Forms {
 				return charsQueue.Count > 0 ? charsQueue.Dequeue() : String.Empty;
 			}
 		}
-
+			
 		// Event Handlers
 		internal override event EventHandler Idle;
 		#endregion Override properties XplatUIDriver
 
 		[DllImport("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		extern static void CGDisplayMoveCursorToPoint (UInt32 display, NSPoint point);
+
+	}
+	// Windows / Native messaging support
+
+	internal static class NSEventExtension {
+		internal static MSG ToMSG(this NSEvent e) {
+			var adr = new IntPtr(e.Data1 | (e.Data2 << 32));
+			var handle = GCHandle.FromIntPtr (adr);
+			var msg = (MSG)handle.Target;
+			handle.Free ();
+			return msg;
+		}
+	}
+
+	internal static class MSGExtension {
+		public static NSEvent ToNSEvent(this MSG msg) {
+			var handle = GCHandle.Alloc(msg);
+			var adr = GCHandle.ToIntPtr (handle).ToInt64();
+			int lo = (int)(adr & 0xffffffff);
+			int hi = (int)((adr >> 32) & 0xffffffff);
+			return NSEvent.OtherEvent (NSEventType.ApplicationDefined, CGPoint.Empty, 0, NSDate.Now.SecondsSinceReferenceDate, 0, null, XplatUICocoa.NSEventTypeWindowsMessage, lo, hi);
+		}
 	}
 }
