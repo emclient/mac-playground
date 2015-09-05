@@ -134,7 +134,6 @@ namespace System.Windows.Forms {
 		private static bool ReverseWindowMapped;
 
 		static readonly object instancelock = new object ();
-		static readonly object queuelock = new object ();
 
 		static Queue<String> charsQueue = new Queue<string>();
 		internal const int NSEventTypeWindowsMessage = 12345;
@@ -1845,7 +1844,6 @@ namespace System.Windows.Forms {
 			var handle = GCHandle.Alloc (method);
 			NSApplication.SharedApplication.BeginInvokeOnMainThread (delegate {
 				XplatUIDriverSupport.ExecuteClientMessage(handle);
-				handle.Free();
 			});
 		}
 
