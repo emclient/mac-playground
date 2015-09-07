@@ -586,13 +586,13 @@ namespace System.Windows.Forms {
 			return converted_point;
 		}
 
-		private bool PumpNativeEvent (bool wait, ref MSG msg)
+		private bool PumpNativeEvent (bool wait, ref MSG msg, bool dequeue = true)
 		{
 			msg.message = Msg.WM_NULL;
 
 			NSDate timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
 			NSApplication NSApp = NSApplication.SharedApplication;
-			NSEvent evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, true);
+			NSEvent evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, dequeue);
 			if (evtRef == null)
 				return false;
 
@@ -602,7 +602,9 @@ namespace System.Windows.Forms {
 				return true;
 			}
 
-			NSApp.SendEvent (evtRef);
+			if (dequeue)
+				NSApp.SendEvent (evtRef);
+
 			return true;
 		}
 
@@ -1745,17 +1747,16 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		internal override bool PeekMessage(Object queue_id, ref MSG msg, IntPtr hWnd, 
-							int wFilterMin, int wFilterMax, uint flags)
+		internal override bool PeekMessage(Object queue_id, ref MSG msg, IntPtr hWnd, int wFilterMin, int wFilterMax, uint flags)
 		{
 			bool peeking = 0 == ((uint) PeekMessageFlags.PM_REMOVE & flags);
-			PumpNativeEvent (false, ref msg);
-			if (msg.message != Msg.WM_NULL) {
-				if (!peeking)
-					PumpNativeEvent(false, ref msg); // Pop
+			PumpNativeEvent (false, ref msg, false);
+			if (msg.message != Msg.WM_NULL && wFilterMin <= (int)msg.message && (int)msg.message <= wFilterMax && (hWnd == IntPtr.Zero || hWnd == msg.hwnd)) {
+				if (!peeking) {
+					PumpNativeEvent (false, ref msg, true); // Pop
+				}
 				return true;
 			}
-
 			return false;
 		}
 
@@ -2640,8 +2641,8 @@ namespace System.Windows.Forms {
 
 	internal static class NSEventExtension {
 		internal static MSG ToMSG(this NSEvent e) {
-			var adr = new IntPtr(e.Data1 | (e.Data2 << 32));
-			var handle = GCHandle.FromIntPtr (adr);
+			var addr = new IntPtr(e.Data1);
+			var handle = GCHandle.FromIntPtr (addr);
 			var msg = (MSG)handle.Target;
 			handle.Free ();
 			return msg;
@@ -2651,10 +2652,8 @@ namespace System.Windows.Forms {
 	internal static class MSGExtension {
 		public static NSEvent ToNSEvent(this MSG msg) {
 			var handle = GCHandle.Alloc(msg);
-			var adr = GCHandle.ToIntPtr (handle).ToInt64();
-			int lo = (int)(adr & 0xffffffff);
-			int hi = (int)((adr >> 32) & 0xffffffff);
-			return NSEvent.OtherEvent (NSEventType.ApplicationDefined, CGPoint.Empty, 0, NSDate.Now.SecondsSinceReferenceDate, 0, null, XplatUICocoa.NSEventTypeWindowsMessage, lo, hi);
+			var ptr = (int)GCHandle.ToIntPtr (handle).ToInt64();
+			return NSEvent.OtherEvent (NSEventType.ApplicationDefined, CGPoint.Empty, 0, NSDate.Now.SecondsSinceReferenceDate, 0, null, XplatUICocoa.NSEventTypeWindowsMessage, ptr, 0);
 		}
 	}
 }
