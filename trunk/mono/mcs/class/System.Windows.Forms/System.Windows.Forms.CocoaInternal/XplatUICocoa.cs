@@ -1491,22 +1491,22 @@ namespace System.Windows.Forms {
 			return Point.Empty;
 		}
 
-		int idleCounter = 0;
 		internal override bool GetMessage (object queue_id, ref MSG msg, IntPtr hWnd, int wFilterMin, int wFilterMax)
 		{
-			bool gotEvent = PumpNativeEvent (false, ref msg);
-			if (gotEvent) {
-				idleCounter = 0;
-				return msg.message != Msg.WM_NULL ? true : GetMessageResult;
+			bool wait = false;
+
+			while (GetMessageResult) {
+				while (PumpNativeEvent(wait, ref msg)) {
+					if (msg.message != Msg.WM_NULL)
+						return true;
+					wait = false;
+				}
+			
+				RaiseIdle(EventArgs.Empty);
+				wait = true;
 			}
 
-			if (idleCounter == 0) {
-				++idleCounter;
-				RaiseIdle (EventArgs.Empty);
-				Debug.WriteLine ("Idle");
-			}
-			
-			return GetMessageResult;
+			return false;
 		}
 
 
