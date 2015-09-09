@@ -7,6 +7,9 @@ using MailClient.Common.UI;
 
 namespace FormsTest
 {
+	using CocoaMessageBox = MessageBox;
+	using FormsMessageBox = System.Windows.Forms.MessageBox;
+
 	public partial class MainForm : Form
 	{
 		private string filter = String.Empty;
@@ -93,7 +96,26 @@ namespace FormsTest
 
 		private void button3_Click(object sender, System.EventArgs e)
 		{
-			MessageBox.Show(loremIpsum);
+//			CocoaMessageBox.Show(loremIpsum);
+//			FormsMessageBox.Show(loremIpsum);
+
+//			CocoaMessageBox.Show(loremIpsum, "Bacha");
+//			FormsMessageBox.Show(loremIpsum, "Bacha");
+
+			CocoaMessageBox.Show(loremIpsum, "Bacha", MessageBoxButtons.OK, MessageBoxIcon.Error );
+			FormsMessageBox.Show(loremIpsum, "Bacha", MessageBoxButtons.OK, MessageBoxIcon.Error );
+
+//			CocoaMessageBox.Show(loremIpsum, "Bacha", MessageBoxButtons.OKCancel );
+//			FormsMessageBox.Show(loremIpsum, "Bacha", MessageBoxButtons.OKCancel );
+
+//			CocoaMessageBox.Show(loremIpsum, "Bacha", MessageBoxButtons.AbortRetryIgnore );
+//			FormsMessageBox.Show(loremIpsum, "Bacha", MessageBoxButtons.AbortRetryIgnore );
+
+			CocoaMessageBox.Show(loremIpsum, "Bacha", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation );
+			FormsMessageBox.Show(loremIpsum, "Bacha", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation );
+
+			CocoaMessageBox.Show(loremIpsum, "Bacha", MessageBoxButtons.YesNoCancel );
+			FormsMessageBox.Show(loremIpsum, "Bacha", MessageBoxButtons.YesNoCancel );
 		}
 
 		static readonly string loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";

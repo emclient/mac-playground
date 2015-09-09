@@ -3,10 +3,18 @@
 using System;
 using System.Windows.Forms;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
+using MonoMac.CoreGraphics;
 
 namespace FormsTest
 {
 	public class MessageBox {
+
+		static string SystemIconsFolderPath = "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/";
+		static string AlertStopIconFilename = "AlertStopIcon";
+		static string AliasBadgeIconFilename = "AliasBadgeIcon";
+		static string AlertNoteIconFilename = "AlertNoteIcon";
+		static string ToolbarInfoIconFilename = "ToolbarInfo";
 
 		private class Context : IDisposable
 		{
@@ -209,7 +217,11 @@ namespace FormsTest
 //			case MessageBoxIcon.Error:
 //			case MessageBoxIcon.Hand:
 			case MessageBoxIcon.Stop:
-				alert.AlertStyle = NSAlertStyle.Critical;
+				var ico = SystemIconWithApplicationIconBadge (AlertStopIconFilename);
+				if (ico != null)
+					alert.Icon = ico;
+				else
+					alert.AlertStyle = NSAlertStyle.Critical;
 				break;
 			case MessageBoxIcon.Question:
 				break;
@@ -229,6 +241,47 @@ namespace FormsTest
 		{
 			// TODO: Localize
 			return key;
+		}
+
+		internal static NSImage SystemIconWithApplicationIconBadge(string systemIconFileName)
+		{
+			return MessageBox.SystemIconWithBadge (systemIconFileName, NSApplication.SharedApplication.ApplicationIconImage);
+		}
+
+		internal static NSImage SystemIconWithBadge(string systemIconFileName, NSImage badge)
+		{
+			return IconWithBadge(SystemIcon(systemIconFileName), badge);
+		}
+
+		internal static NSImage IconWithBadge(NSImage icon, NSImage badge)
+		{
+			if (icon == null)
+				return null;
+
+			if (badge == null)
+				return icon;
+
+			var result = (NSImage)icon.Copy();
+			result.LockFocus();
+			NSGraphicsContext.CurrentContext.ImageInterpolation = NSImageInterpolation.High;
+			var dstRect = new CGRect(icon.Size.Width / 2, 0, icon.Size.Width / 2, icon.Size.Height / 2);
+			var srcRect = new CGRect (0, 0, badge.Size.Width, badge.Size.Height);
+			badge.DrawInRect(dstRect, srcRect, NSCompositingOperation.SourceOver, 1.0f);
+			result.UnlockFocus();
+			return result;
+		}
+
+		internal static NSImage SystemIcon(string filename)
+		{
+			if (filename.IndexOf (".") == -1)
+				filename += ".icns";
+			
+			var path = System.IO.Path.Combine (SystemIconsFolderPath, filename);
+			if (!NSFileManager.DefaultManager.FileExists (path))
+				return null;
+
+			var url = NSUrl.FromFilename (path);
+			return new NSImage (url);
 		}
 	}
 }

@@ -137,6 +137,10 @@
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MacBridge\MacBridge.csproj">
+      <Project>{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}</Project>
+      <Name>MacBridge</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MailClient\Common\UI\Themes\" />
