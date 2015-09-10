@@ -272,9 +272,8 @@ namespace FormsTest
 
 		internal static void AddIconOrSetStyle(NSAlert alert, NSImage icon, NSAlertStyle style)
 		{
-			var ico = SystemIconWithAppBadge (AlertStopIconFilename);
-			if (ico != null)
-				alert.Icon = ico;
+			if (icon != null)
+				alert.Icon = icon;
 			else
 				alert.AlertStyle = NSAlertStyle.Critical;
 		}
