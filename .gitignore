@@ -1,6 +1,8 @@
 trunk/*.suo
 trunk/FormsTest/bin
 trunk/FormsTest/obj
+trunk/MacBridge.Test/bin
+trunk/MacBridge.Test/obj
 trunk/MacBridge/bin
 trunk/MacBridge/obj
 trunk/OSXPlayground.userprefs
