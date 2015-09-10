@@ -10,11 +10,14 @@ namespace FormsTest
 {
 	public class MessageBox {
 
+		public static bool UseFormsLikeIcons = true;
+
 		static string SystemIconsFolderPath = "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/";
 		static string AlertStopIconFilename = "AlertStopIcon";
-		static string AliasBadgeIconFilename = "AliasBadgeIcon";
-		static string AlertNoteIconFilename = "AlertNoteIcon";
 		static string ToolbarInfoIconFilename = "ToolbarInfo";
+		static string GenericQuestionMarkIcon = "GenericQuestionMarkIcon";
+//		static string AliasBadgeIconFilename = "AliasBadgeIcon";
+//		static string AlertNoteIconFilename = "AlertNoteIcon";
 
 		private class Context : IDisposable
 		{
@@ -207,34 +210,73 @@ namespace FormsTest
 
 		internal static void AddIcon (NSAlert alert, MessageBoxIcon? icon)
 		{
+			if (UseFormsLikeIcons)
+				AddIcon_Forms (alert, icon);
+			else
+				AddIcon_Cocoa (alert, icon);
+		}
+
+		// On Mac, alerts contain yellow triangle with app icon badge, or app icon only. There is nothing
+		internal static void AddIcon_Cocoa(NSAlert alert, MessageBoxIcon? icon)
+		{
 			if (!icon.HasValue)
 				return;
 
 			switch (icon.Value) {
-			case MessageBoxIcon.None:
-//				alert.AlertStyle = NSAlertStyle.Informational;
-				break;
-//			case MessageBoxIcon.Error:
-//			case MessageBoxIcon.Hand:
-			case MessageBoxIcon.Stop:
-				var ico = SystemIconWithApplicationIconBadge (AlertStopIconFilename);
-				if (ico != null)
-					alert.Icon = ico;
-				else
-					alert.AlertStyle = NSAlertStyle.Critical;
-				break;
-			case MessageBoxIcon.Question:
-				break;
-//			case MessageBoxIcon.Exclamation:
+			//case MessageBoxIcon.Exclamation:
 			case MessageBoxIcon.Warning:
-				alert.AlertStyle = NSAlertStyle.Critical;
-//				alert.AlertStyle = NSAlertStyle.Warning; // Warning style is just application icon
+			case MessageBoxIcon.Question:
+			case MessageBoxIcon.None:
+				//alert.AlertStyle = NSAlertStyle.Informational;
 				break;
-//			case MessageBoxIcon.Asterisk:
+			//case MessageBoxIcon.Error:
+			//case MessageBoxIcon.Hand:
+			case MessageBoxIcon.Stop:
+				alert.AlertStyle = NSAlertStyle.Critical;
+				break;
+			//case MessageBoxIcon.Asterisk:
 			case MessageBoxIcon.Information:
 				alert.AlertStyle = NSAlertStyle.Informational;
 				break;
 			}
+		}
+
+		internal static void AddIcon_Forms (NSAlert alert, MessageBoxIcon? iconType)
+		{
+			if (!iconType.HasValue)
+				return;
+
+			switch (iconType.Value) {
+				case MessageBoxIcon.None:
+					break;
+				//case MessageBoxIcon.Error:
+				//case MessageBoxIcon.Hand:
+				case MessageBoxIcon.Stop: {
+					AddIconOrSetStyle(alert, SystemIconWithAppBadge(AlertStopIconFilename), NSAlertStyle.Critical);
+					break;
+				}
+				case MessageBoxIcon.Question:
+					AddIconOrSetStyle(alert, SystemIconWithAppBadge (GenericQuestionMarkIcon), NSAlertStyle.Informational);
+					break;
+				//case MessageBoxIcon.Exclamation:
+				case MessageBoxIcon.Warning:
+					alert.AlertStyle = NSAlertStyle.Critical; // Yellow triangle
+					break;
+				//case MessageBoxIcon.Asterisk:
+				case MessageBoxIcon.Information: {
+					AddIconOrSetStyle(alert, SystemIconWithAppBadge(ToolbarInfoIconFilename), NSAlertStyle.Critical);
+					break;
+				}
+			}
+		}
+
+		internal static void AddIconOrSetStyle(NSAlert alert, NSImage icon, NSAlertStyle style)
+		{
+			var ico = SystemIconWithAppBadge (AlertStopIconFilename);
+			if (ico != null)
+				alert.Icon = ico;
+			else
+				alert.AlertStyle = NSAlertStyle.Critical;
 		}
 
 		internal static string Loc(string key)
@@ -243,7 +285,7 @@ namespace FormsTest
 			return key;
 		}
 
-		internal static NSImage SystemIconWithApplicationIconBadge(string systemIconFileName)
+		internal static NSImage SystemIconWithAppBadge(string systemIconFileName)
 		{
 			return MessageBox.SystemIconWithBadge (systemIconFileName, NSApplication.SharedApplication.ApplicationIconImage);
 		}
@@ -253,6 +295,12 @@ namespace FormsTest
 			return IconWithBadge(SystemIcon(systemIconFileName), badge);
 		}
 
+		/// <summary>
+		/// Combines two images into a new one, so that the "badge" image overlays the bottom-right quarter of the other image.
+		/// </summary>
+		/// <returns>The with badge.</returns>
+		/// <param name="icon">Background of the new image</param>
+		/// <param name="badge">Overlay image</param>
 		internal static NSImage IconWithBadge(NSImage icon, NSImage badge)
 		{
 			if (icon == null)
@@ -271,6 +319,11 @@ namespace FormsTest
 			return result;
 		}
 
+		/// <summary>
+		/// Loads a given icon from icns file in the system bundle.
+		/// </summary>
+		/// <returns>The icon or nil if it does not exist.</returns>
+		/// <param name="filename">Filename. With or without extension (.icns will be added if necessary).</param>
 		internal static NSImage SystemIcon(string filename)
 		{
 			if (filename.IndexOf (".") == -1)
