@@ -1,6 +1,8 @@
 trunk/*.suo
 trunk/FormsTest/bin
 trunk/FormsTest/obj
+trunk/MacBridge/bin
+trunk/MacBridge/obj
 trunk/OSXPlayground.userprefs
 trunk/mono/mcs/class/Mono.WebBrowser/obj
 trunk/mono/mcs/class/System.Drawing/bin
