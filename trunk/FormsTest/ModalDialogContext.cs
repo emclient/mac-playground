@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if MAC
+using System;
 using MonoMac.AppKit;
 using System.Windows.Forms;
 
@@ -32,3 +33,4 @@ namespace FormsTest
 	}
 }
 
+#endif //MAC
