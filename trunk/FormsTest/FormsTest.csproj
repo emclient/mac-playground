@@ -101,6 +101,9 @@
     </Compile>
     <Compile Include="Msg.cs" />
     <Compile Include="MessageBox.cs" />
+    <Compile Include="OpenFileDialog.cs" />
+    <Compile Include="ModalDialogContext.cs" />
+    <Compile Include="SaveFileDialog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
