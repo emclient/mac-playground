@@ -19,27 +19,6 @@ namespace FormsTest
 //		static string AliasBadgeIconFilename = "AliasBadgeIcon";
 //		static string AlertNoteIconFilename = "AlertNoteIcon";
 
-		private class Context : IDisposable
-		{
-			NSWindow keyWindow;
-			NSResponder firstResponder;
-
-			public Context() {
-				keyWindow = NSApplication.SharedApplication.KeyWindow;
-				if (keyWindow != null)
-					firstResponder = keyWindow.FirstResponder;
-			}
-
-			public void Dispose ()
-			{
-				if (keyWindow != null) {
-					keyWindow.BecomeKeyWindow();
-					if (firstResponder != null)
-						firstResponder.BecomeFirstResponder();
-				}
-			}
-		}
-
 		const MessageBoxButtons Ok = MessageBoxButtons.OK;
 		const MessageBoxIcon NoIcon = MessageBoxIcon.None;
 
@@ -156,7 +135,7 @@ namespace FormsTest
 
 		internal static DialogResult Show (IWin32Window owner, string text, string caption, MessageBoxButtons? buttons, MessageBoxIcon? icon, MessageBoxDefaultButton? defaultButton, MessageBoxOptions? options, string helpFilePath, HelpNavigator? navigator, object param)
 		{
-			using (var c = new Context ()) {
+			using (var c = new ModalDialogContext ()) {
 				var alert = new NSAlert ();
 
 				if (text != null)
