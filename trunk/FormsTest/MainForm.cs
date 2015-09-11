@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System;
 using System.Linq;
 using MailClient.Common.UI;
+using System.Diagnostics;
 
 namespace FormsTest
 {
@@ -19,7 +20,13 @@ namespace FormsTest
             new Pair { Name = "Color Dialog", Action = delegate { new ColorDialog().ShowDialog(); } },
             new Pair { Name = "Open File", Action = delegate { new OpenFileDialog().ShowDialog(); } },
             new Pair { Name = "Save File", Action = delegate { new SaveFileDialog().ShowDialog(); } },
-            new Pair { Name = "Choose Folder", Action = delegate { new FolderBrowserDialog().ShowDialog(); } },
+            new Pair { Name = "Choose Folder", Action = delegate { 
+					var dlg = new FolderBrowserDialog();
+					dlg.Description = "Vyber nějakou složku vosle";
+					dlg.SelectedPath = "/Library";
+					var result = dlg.ShowDialog();
+					Debug.WriteLine(result == DialogResult.OK ? "Vybrals " + dlg.SelectedPath : "Nic nevybrals" );
+			} },
             new Pair { Name = "Font Dialog", Action = delegate { new FontDialog().ShowDialog(); } },
             new Pair { Name = "Page Setup", Action = delegate { new PageSetupDialog().ShowDialog(); } },
             new Pair { Name = "MB Info OK", Action = delegate { MessageBox.Show(loremIpsum, title, MessageBoxButtons.OK, MessageBoxIcon.Information); } },

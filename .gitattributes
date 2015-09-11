@@ -2,6 +2,7 @@
 trunk/FormsTest/App.config -text
 trunk/FormsTest/App.ico -text
 trunk/FormsTest/Extensions.cs -text
+trunk/FormsTest/FolderBrowserDialog.cs -text
 trunk/FormsTest/FormsTest.csproj -text
 trunk/FormsTest/LayoutForm.Designer.cs -text
 trunk/FormsTest/LayoutForm.cs -text
