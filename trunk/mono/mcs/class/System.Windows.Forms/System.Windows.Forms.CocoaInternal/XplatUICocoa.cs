@@ -342,7 +342,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal void EnqueueMessage (MSG msg) {
-			NSApplication.SharedApplication.PostEvent (msg.ToNSEvent(), false);
+			NSApplication.SharedApplication.PostEvent(msg.ToNSEvent(), false);
 		}
 
 		#region Reversible regions
@@ -598,7 +598,7 @@ namespace System.Windows.Forms {
 
 			// Is it Windows message?
 			if (evtRef.Type == NSEventType.ApplicationDefined && evtRef.Subtype == NSEventTypeWindowsMessage) {
-				msg = evtRef.ToMSG ();
+				msg = evtRef.ToMSG();
 				return true;
 			}
 
@@ -2653,6 +2653,7 @@ namespace System.Windows.Forms {
 		public static NSEvent ToNSEvent(this MSG msg) {
 			var handle = GCHandle.Alloc(msg);
 			var ptr = (int)GCHandle.ToIntPtr (handle).ToInt64();
+
 			return NSEvent.OtherEvent (NSEventType.ApplicationDefined, CGPoint.Empty, 0, NSDate.Now.SecondsSinceReferenceDate, 0, null, XplatUICocoa.NSEventTypeWindowsMessage, ptr, 0);
 		}
 	}

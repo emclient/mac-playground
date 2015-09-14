@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
+using System.Windows.Forms.CocoaInternal;
 
 namespace FormsTest
 {

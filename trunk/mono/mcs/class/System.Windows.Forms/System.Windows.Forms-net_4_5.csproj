@@ -33,7 +33,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG; MONOMAC; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5</DefineConstants>
+    <DefineConstants>DEBUG; MONOMAC; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5</DefineConstants>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
@@ -1218,6 +1218,9 @@
       <DependentUpon>MonoView.cs</DependentUpon>
     </Compile>
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoContentView.cs" />
+    <Compile Include="System.Windows.Forms\MessageBoxForm.cs" />
+    <Compile Include="System.Windows.Forms\MessageBoxForm.Mac.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\ModalDialogContext.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
