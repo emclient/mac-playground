@@ -2642,10 +2642,17 @@ namespace System.Windows.Forms {
 	internal static class NSEventExtension {
 		internal static MSG ToMSG(this NSEvent e) {
 			var addr = new IntPtr(e.Data1);
-			var handle = GCHandle.FromIntPtr (addr);
-			var msg = (MSG)handle.Target;
-			handle.Free ();
-			return msg;
+			try {
+				var handle = GCHandle.FromIntPtr (addr);
+				var msg = (MSG)handle.Target;
+				handle.Free ();
+				return msg;
+			} 
+			catch (Exception x) 
+			{
+				Debug.WriteLine ("Failed decoding MSG from NSEvent: " + x.ToString());
+				return new MSG ();
+			}
 		}
 	}
 
