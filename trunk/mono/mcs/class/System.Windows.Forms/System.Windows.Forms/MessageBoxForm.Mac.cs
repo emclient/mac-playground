@@ -69,7 +69,7 @@ namespace System.Windows.Forms
 			}
 
 			using (var c = new ModalDialogContext ()) {
-				int index = alert.RunModal() - (int)NSPanelButtonType.Cancel;
+				int index = alert.RunModal() - (int)NSAlertButtonReturn.First;
 				if (index >= buttons.Count)
 					return DialogResult.Cancel;
 				return buttons[index].Result;
