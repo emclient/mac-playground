@@ -1069,6 +1069,8 @@ trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/Message.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MessageBox.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MessageBoxButtons.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MessageBoxDefaultButton.cs -text
+trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MessageBoxFormResourcesMac.Designer.cs -text
+trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MessageBoxFormResourcesMac.resx -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MessageBoxIcon.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MessageBoxOptions.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MethodInvoker.cs -text
