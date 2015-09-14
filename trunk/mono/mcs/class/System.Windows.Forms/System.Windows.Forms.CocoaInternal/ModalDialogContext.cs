@@ -1,9 +1,9 @@
-﻿#if MAC
+﻿#if MONOMAC
+
 using System;
 using MonoMac.AppKit;
-using System.Windows.Forms;
 
-namespace FormsTest
+namespace System.Windows.Forms.CocoaInternal
 {
 	public class ModalDialogContext : IDisposable
 	{
@@ -25,7 +25,7 @@ namespace FormsTest
 					} catch {
 					}
 				}
-				
+
 				if (firstResponder != null)
 					firstResponder.BecomeFirstResponder();
 			}
@@ -33,4 +33,4 @@ namespace FormsTest
 	}
 }
 
-#endif //MAC
+#endif // MONOMAC

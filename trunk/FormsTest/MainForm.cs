@@ -35,6 +35,7 @@ namespace FormsTest
             new Pair { Name = "MB Error Y/N/C", Action = delegate { MessageBox.Show(loremIpsum, title, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error); } },
             new Pair { Name = "MB Quest A/R/I", Action = delegate { MessageBox.Show(loremIpsum, title, MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Question); } },
             new Pair { Name = "MB Error R/C", Action = delegate { MessageBox.Show(loremIpsum, title, MessageBoxButtons.RetryCancel, MessageBoxIcon.Error); } },
+			new Pair { Name = "MB Error C/R", Action = delegate { MessageBox.Show(loremIpsum, title, MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2); } },
         };
 
         public delegate void Action();
@@ -140,8 +141,9 @@ namespace FormsTest
             {
                 (dialogTypeCombo.SelectedValue as Action)();
             }
-            catch
+			catch (Exception x)
             {
+				Debug.WriteLine(x.ToString());
             }
         }
 

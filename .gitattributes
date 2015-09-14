@@ -10,10 +10,6 @@ trunk/FormsTest/LayoutForm.resx -text
 trunk/FormsTest/MainForm.Designer.cs -text
 trunk/FormsTest/MainForm.cs -text
 trunk/FormsTest/MainForm.resx -text
-trunk/FormsTest/MessageBox.cs -text
-trunk/FormsTest/MessageBoxResources.Designer.cs -text
-trunk/FormsTest/MessageBoxResources.resx -text
-trunk/FormsTest/ModalDialogContext.cs -text
 trunk/FormsTest/Msg.cs -text
 trunk/FormsTest/MyListBox.cs -text
 trunk/FormsTest/MyTextBox.cs -text
@@ -463,6 +459,7 @@ trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CarbonInternal/Wi
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/ChangeLog -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Cursor.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Enums.cs -text
+trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/ModalDialogContext.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoApplicationDelegate.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoContentView.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoView.Debug.cs -text
@@ -1069,6 +1066,8 @@ trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/Message.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MessageBox.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MessageBoxButtons.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MessageBoxDefaultButton.cs -text
+trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MessageBoxForm.Mac.cs -text
+trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MessageBoxForm.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MessageBoxFormResourcesMac.Designer.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MessageBoxFormResourcesMac.resx -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/MessageBoxIcon.cs -text
