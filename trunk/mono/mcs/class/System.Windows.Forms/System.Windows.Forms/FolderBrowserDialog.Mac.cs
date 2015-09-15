@@ -9,7 +9,7 @@ using System.Windows.Forms.CocoaInternal;
 
 namespace System.Windows.Forms
 {
-	public class FolderBrowserDialog : CommonDialog
+	public class FolderBrowserDialog : FileDialog
 	{
 		#region implemented abstract members of CommonDialog
 
