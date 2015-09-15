@@ -29,6 +29,7 @@
 using System.Drawing;
 using System.Threading;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace System.Windows.Forms {
 	internal abstract class XplatUIDriver {
@@ -494,7 +495,11 @@ namespace System.Windows.Forms {
 
 		internal static void ExecuteClientMessage (GCHandle gchandle)
 		{
-			AsyncMethodData data = (AsyncMethodData) gchandle.Target;
+			var data = gchandle.Target as AsyncMethodData;
+			if (data == null) {
+				Debug.WriteLine ("AsyncMethodData expected, got {0}", gchandle.Target.GetType().ToString());
+				return;
+			}
 			try {
 				if (data.Context == null) {
 					ExecutionCallback (data);

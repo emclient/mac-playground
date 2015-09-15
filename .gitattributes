@@ -887,6 +887,7 @@ trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ErrorBlinkStyle.c
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ErrorIconAlignment.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ErrorProvider.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/FeatureSupport.cs -text
+trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/FileDialog.Mac.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/FileDialog.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/FileDialogCustomPlace.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/FileDialogCustomPlacesCollection.cs -text
@@ -897,6 +898,7 @@ trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/FlatStyle.cs -tex
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/FlowDirection.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/FlowLayoutPanel.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/FlowLayoutSettings.cs -text
+trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/FolderBrowserDialog.Mac.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/FolderBrowserDialog.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/FontDialog.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/Form.cs -text
@@ -1091,6 +1093,7 @@ trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/NumericUpDownAcce
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/NumericUpDownAccelerationCollection.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/OSFeature.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/OpacityConverter.cs -text
+trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/OpenFileDialog.Mac.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/OpenFileDialog.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/OpenTreeNodeEnumerator.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/Orientation.cs -text
