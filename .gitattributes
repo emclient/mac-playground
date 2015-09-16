@@ -32,6 +32,7 @@ trunk/MacBridge/CGImageExtensions.cs -text
 trunk/MacBridge/MacBridge.csproj -text
 trunk/MacBridge/MacBridge.snk -text
 trunk/MacBridge/Properties/AssemblyInfo.cs -text
+trunk/MacBridge/ShlWapi.cs -text
 trunk/MonoMac.dll -text
 trunk/OSXPlayground.mdw -text
 trunk/OSXPlayground.sln -text
