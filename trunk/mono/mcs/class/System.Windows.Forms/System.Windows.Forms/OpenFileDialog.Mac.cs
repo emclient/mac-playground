@@ -6,6 +6,7 @@ using System.Windows.Forms.CocoaInternal;
 using MonoMac.AppKit;
 using System.ComponentModel;
 using MonoMac.Foundation;
+using System.IO;
 
 namespace System.Windows.Forms
 {
@@ -17,36 +18,47 @@ namespace System.Windows.Forms
 		public string SelectedPath { get; set; }
 
 		[DefaultValue(false)]
-		public bool Multiselect {get; set; }
+		public bool Multiselect { get; set; }
 
 		#endregion //properies
 
 		public override void Reset()
 		{
-			FileNames = new string[] {};
+			base.Reset();
+
+			FileNames = new string[] { };
 			FileName = String.Empty;
 		}
 
-		protected override bool RunDialog (IntPtr hwndOwner)
+		protected override bool RunDialog(IntPtr hwndOwner)
 		{
-			using (var context = new ModalDialogContext())
+			var currentDirectory = Environment.CurrentDirectory;
+			try
 			{
-				var panel = new NSOpenPanel();
-				panel.AllowsMultipleSelection = Multiselect;
-				panel.ResolvesAliases = true;
+				using (var context = new ModalDialogContext())
+				{
+					var panel = new NSOpenPanel();
+					panel.AllowsMultipleSelection = Multiselect;
+					panel.ResolvesAliases = true;
 
-				if (!String.IsNullOrWhiteSpace(InitialDirectory) && System.IO.Directory.Exists (InitialDirectory))
-					panel.DirectoryUrl = NSUrl.FromFilename (InitialDirectory);
+					if (!String.IsNullOrWhiteSpace(InitialDirectory) && System.IO.Directory.Exists(InitialDirectory))
+						panel.DirectoryUrl = NSUrl.FromFilename(InitialDirectory);
 
-				if (!String.IsNullOrWhiteSpace(FileName))
-					panel.NameFieldStringValue = FileName;
+					if (!String.IsNullOrWhiteSpace(FileName))
+						panel.NameFieldStringValue = FileName;
 
-				if (NSPanelButtonType.Ok != (NSPanelButtonType)panel.RunModal ())
-					return false;
+					if (NSPanelButtonType.Ok != (NSPanelButtonType)panel.RunModal())
+						return false;
 
-				FileNames = GetFileNames(panel);
-				FileName = SelectedPath = FileNames.Length > 0 ? FileNames[0] : String.Empty;
-				return true;
+					FileNames = GetFileNames(panel);
+					FileName = SelectedPath = FileNames.Length > 0 ? FileNames[0] : String.Empty;
+					return true;
+				}
+			}
+			finally
+			{
+				if (RestoreDirectory && currentDirectory != null && Directory.Exists(currentDirectory))
+					Environment.CurrentDirectory = currentDirectory;
 			}
 		}
 
@@ -54,7 +66,7 @@ namespace System.Windows.Forms
 		{
 			string[] filenames = new string[panel.Urls.Length];
 			for (int i = 0; i < filenames.Length; ++i)
-				filenames[i] = panel.Urls [i].Path;
+				filenames[i] = panel.Urls[i].Path;
 			return filenames;
 		}
 	}

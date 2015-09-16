@@ -20,20 +20,20 @@ namespace System.Windows.Forms
 			RootFolder = Environment.SpecialFolder.Desktop;
 		}
 
-		protected override bool RunDialog (IntPtr hwndOwner)
+		protected override bool RunDialog(IntPtr hwndOwner)
 		{
-			using (var context = new ModalDialogContext()) {
-
+			using (var context = new ModalDialogContext())
+			{
 				var panel = new MonoMac.AppKit.NSOpenPanel();
 				panel.CanChooseFiles = false;
 				panel.CanChooseDirectories = true;
 				panel.AllowsMultipleSelection = false;
 				panel.ResolvesAliases = true;
 				panel.Title = Description ?? String.Empty;
-				if (!String.IsNullOrWhiteSpace (SelectedPath) && System.IO.Directory.Exists (SelectedPath) && IsSubfolderOf (SelectedPath, RootFolder))
-					panel.DirectoryUrl = NSUrl.FromFilename (SelectedPath);
+				if (!String.IsNullOrWhiteSpace(SelectedPath) && System.IO.Directory.Exists(SelectedPath) && IsSubfolderOf(SelectedPath, RootFolder))
+					panel.DirectoryUrl = NSUrl.FromFilename(SelectedPath);
 
-				if (NSPanelButtonType.Ok != (NSPanelButtonType)panel.RunModal ())
+				if (NSPanelButtonType.Ok != (NSPanelButtonType)panel.RunModal())
 					return false;
 
 				SelectedPath = panel.Url.Path;
@@ -54,7 +54,7 @@ namespace System.Windows.Forms
 		// Gets or sets a value indicating whether the New Folder button appears in the folder browser dialog box.
 		public bool ShowNewFolderButton	{ get; set; }
 
-		protected virtual bool IsSubfolderOf (string subpath, Environment.SpecialFolder root)
+		protected virtual bool IsSubfolderOf(string subpath, Environment.SpecialFolder root)
 		{
 			// TODO:
 			return true;
