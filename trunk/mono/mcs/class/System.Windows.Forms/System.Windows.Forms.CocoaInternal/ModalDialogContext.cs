@@ -26,8 +26,12 @@ namespace System.Windows.Forms.CocoaInternal
 					}
 				}
 
-				if (firstResponder != null)
-					firstResponder.BecomeFirstResponder();
+				if (firstResponder != null && firstResponder.AcceptsFirstResponder()) {
+					try {
+						firstResponder.BecomeFirstResponder ();
+					} catch {
+					}
+				}
 			}
 		}
 	}

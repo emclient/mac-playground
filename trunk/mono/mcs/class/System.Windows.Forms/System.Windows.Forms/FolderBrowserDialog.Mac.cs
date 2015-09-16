@@ -9,7 +9,7 @@ using System.Windows.Forms.CocoaInternal;
 
 namespace System.Windows.Forms
 {
-	public class FolderBrowserDialog : FileDialog
+	public class FolderBrowserDialog : CommonDialog
 	{
 		#region implemented abstract members of CommonDialog
 
@@ -22,13 +22,6 @@ namespace System.Windows.Forms
 
 		protected override bool RunDialog (IntPtr hwndOwner)
 		{
-			return DialogResult.OK == ShowDialog();
-		}
-
-		#endregion
-
-		public new DialogResult ShowDialog()
-		{
 			using (var context = new ModalDialogContext()) {
 
 				var panel = new MonoMac.AppKit.NSOpenPanel();
@@ -40,14 +33,15 @@ namespace System.Windows.Forms
 				if (!String.IsNullOrWhiteSpace (SelectedPath) && System.IO.Directory.Exists (SelectedPath) && IsSubfolderOf (SelectedPath, RootFolder))
 					panel.DirectoryUrl = NSUrl.FromFilename (SelectedPath);
 
-				if (NSPanelButtonType.Ok == (NSPanelButtonType)panel.RunModal ()) {
-					SelectedPath = panel.Url.Path;
-					return DialogResult.OK;
-				}
+				if (NSPanelButtonType.Ok != (NSPanelButtonType)panel.RunModal ())
+					return false;
 
-				return DialogResult.Cancel;
+				SelectedPath = panel.Url.Path;
+				return true;
 			}
 		}
+
+		#endregion
 
 		public string Description { get; set; }
 
