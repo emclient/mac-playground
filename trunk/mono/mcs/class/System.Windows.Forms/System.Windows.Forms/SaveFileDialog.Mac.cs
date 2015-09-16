@@ -4,6 +4,7 @@ using System;
 using System.Windows.Forms;
 using System.Windows.Forms.CocoaInternal;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 
 namespace System.Windows.Forms
 {
@@ -29,19 +30,20 @@ namespace System.Windows.Forms
 
 		protected override bool RunDialog (IntPtr hwndOwner)
 		{
-			return DialogResult.OK == ShowDialog();
-		}
-
-		public new DialogResult ShowDialog ()
-		{
 			using (var context = new ModalDialogContext ()) {
 				var panel = new MonoMac.AppKit.NSSavePanel ();
-				if (NSPanelButtonType.Ok == (NSPanelButtonType)panel.RunModal ()) {
-					SelectedPath = panel.Url.Path;
-					return DialogResult.OK;
-				}
 
-				return DialogResult.Cancel;
+				if (!String.IsNullOrWhiteSpace(InitialDirectory) && System.IO.Directory.Exists (InitialDirectory))
+					panel.DirectoryUrl = NSUrl.FromFilename (InitialDirectory);
+
+				if (!String.IsNullOrWhiteSpace(FileName))
+					panel.NameFieldStringValue = FileName;
+
+				if (NSPanelButtonType.Ok != (NSPanelButtonType)panel.RunModal ())
+					return false;
+
+				FileName = SelectedPath = panel.Url.Path;
+				return true;
 			}
 		}
 	}

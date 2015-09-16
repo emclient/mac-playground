@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.CocoaInternal;
 using MonoMac.AppKit;
 using System.ComponentModel;
+using MonoMac.Foundation;
 
 namespace System.Windows.Forms
 {
@@ -28,24 +29,24 @@ namespace System.Windows.Forms
 
 		protected override bool RunDialog (IntPtr hwndOwner)
 		{
-			return DialogResult.OK == ShowDialog();
-		}
-
-		public new DialogResult ShowDialog()
-		{
 			using (var context = new ModalDialogContext())
 			{
 				var panel = new NSOpenPanel();
 				panel.AllowsMultipleSelection = Multiselect;
 				panel.ResolvesAliases = true;
 
-				if (NSPanelButtonType.Ok == (NSPanelButtonType)panel.RunModal ()) {
-					FileNames = GetFileNames(panel);
-					FileName = FileNames.Length > 0 ? FileNames[0] : String.Empty;
-					return DialogResult.OK;
-				}
+				if (!String.IsNullOrWhiteSpace(InitialDirectory) && System.IO.Directory.Exists (InitialDirectory))
+					panel.DirectoryUrl = NSUrl.FromFilename (InitialDirectory);
 
-				return DialogResult.Cancel;
+				if (!String.IsNullOrWhiteSpace(FileName))
+					panel.NameFieldStringValue = FileName;
+
+				if (NSPanelButtonType.Ok != (NSPanelButtonType)panel.RunModal ())
+					return false;
+
+				FileNames = GetFileNames(panel);
+				FileName = SelectedPath = FileNames.Length > 0 ? FileNames[0] : String.Empty;
+				return true;
 			}
 		}
 
