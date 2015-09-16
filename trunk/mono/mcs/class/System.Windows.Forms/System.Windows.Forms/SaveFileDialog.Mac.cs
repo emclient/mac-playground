@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.CocoaInternal;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
+using System.IO;
 
 namespace System.Windows.Forms
 {
@@ -23,27 +24,43 @@ namespace System.Windows.Forms
 
 		public override void Reset()
 		{
+			base.Reset();
+
 			SelectedPath = String.Empty;
 			Description = String.Empty;
 			RootFolder = Environment.SpecialFolder.Desktop;
 		}
 
-		protected override bool RunDialog (IntPtr hwndOwner)
+		protected override bool RunDialog(IntPtr hwndOwner)
 		{
-			using (var context = new ModalDialogContext ()) {
-				var panel = new MonoMac.AppKit.NSSavePanel ();
+			var currentDirectory = Environment.CurrentDirectory;
+			try
+			{
+				using (var context = new ModalDialogContext())
+				{
+					var panel = new MonoMac.AppKit.NSSavePanel();
 
-				if (!String.IsNullOrWhiteSpace(InitialDirectory) && System.IO.Directory.Exists (InitialDirectory))
-					panel.DirectoryUrl = NSUrl.FromFilename (InitialDirectory);
+					if (!String.IsNullOrWhiteSpace(InitialDirectory) && Directory.Exists(InitialDirectory))
+					{
+						panel.DirectoryUrl = NSUrl.FromFilename(InitialDirectory);
+						currentDirectory = InitialDirectory;
+					}
 
-				if (!String.IsNullOrWhiteSpace(FileName))
-					panel.NameFieldStringValue = FileName;
+					if (!String.IsNullOrWhiteSpace(FileName))
+						panel.NameFieldStringValue = FileName;
 
-				if (NSPanelButtonType.Ok != (NSPanelButtonType)panel.RunModal ())
-					return false;
+					if (NSPanelButtonType.Ok != (NSPanelButtonType)panel.RunModal())
+						return false;
 
-				FileName = SelectedPath = panel.Url.Path;
-				return true;
+					FileName = SelectedPath = panel.Url.Path;
+
+					return true;
+				}
+			}
+			finally
+			{
+				if (RestoreDirectory && currentDirectory != null && Directory.Exists(currentDirectory))
+					Environment.CurrentDirectory = currentDirectory;
 			}
 		}
 	}

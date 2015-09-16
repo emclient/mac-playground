@@ -10,28 +10,38 @@ namespace System.Windows.Forms.CocoaInternal
 		NSWindow keyWindow;
 		NSResponder firstResponder;
 
-		public ModalDialogContext() {
+		public ModalDialogContext()
+		{
 			keyWindow = NSApplication.SharedApplication.KeyWindow;
 			if (keyWindow != null)
 				firstResponder = keyWindow.FirstResponder;
 		}
 
-		public void Dispose ()
+		public void Dispose()
 		{
-			if (keyWindow != null) {
-				if (keyWindow.CanBecomeKeyWindow) {
-					try {
-						keyWindow.BecomeKeyWindow ();
-					} catch {
+			if (keyWindow != null)
+			{
+				if (keyWindow.CanBecomeKeyWindow)
+				{
+					try
+					{
+						keyWindow.BecomeKeyWindow();
+					}
+					catch
+					{
 					}
 				}
 
-				if (firstResponder != null && firstResponder.AcceptsFirstResponder()) {
-					try {
-						firstResponder.BecomeFirstResponder ();
-					} catch {
-					}
-				}
+//				if (firstResponder != null && firstResponder.AcceptsFirstResponder())
+//				{
+//					try
+//					{
+//						firstResponder.BecomeFirstResponder();
+//					}
+//					catch
+//					{
+//					}
+//				}
 			}
 		}
 	}
