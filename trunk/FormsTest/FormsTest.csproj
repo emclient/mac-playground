@@ -100,9 +100,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Msg.cs" />
-    <Compile Include="OpenFileDialog.cs" />
-    <Compile Include="SaveFileDialog.cs" />
-    <Compile Include="FolderBrowserDialog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
