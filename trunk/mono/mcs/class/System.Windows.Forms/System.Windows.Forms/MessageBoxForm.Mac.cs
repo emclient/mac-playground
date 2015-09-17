@@ -112,6 +112,7 @@ namespace System.Windows.Forms
 				break;
 			}
 
+			// On Mac, the default button is always the first one => Move the default button to front.
 			if (defaultButton.HasValue) {
 				switch (defaultButton.Value) {
 				case MessageBoxDefaultButton.Button1:
