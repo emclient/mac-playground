@@ -2,7 +2,7 @@
 using MonoMac.Foundation;
 using System.Runtime.InteropServices;
 
-namespace MacBridge
+namespace WinApi
 {
     public static class ShlWapi
     {

@@ -7,7 +7,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>sysdrawingcoregraphicsMac</RootNamespace>
     <AssemblyName>System.Drawing</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
