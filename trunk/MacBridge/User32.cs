@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows.Forms;
 
 namespace WinApi
 {
@@ -33,8 +34,41 @@ namespace WinApi
 
         public static void SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags)
         {
-            // TODO:
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            if (0 == (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOZORDER))
+                XplatUI.SetZOrder(hWnd, hWndInsertAfter, false, false);
+
+            int x_, y_, w_, h_, clw_, clh_;
+            XplatUI.GetWindowPos(hWnd, false, out x_, out y_, out w_, out h_, out clw_, out clh_);
+           
+            bool move = 0 != (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOMOVE);
+            if (move)
+            {
+                x = x_;
+                y = y_;
+            }
+
+            bool size = 0 != (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOSIZE);
+            if (size)
+            {
+                cx = w_;
+                cy = h_;
+            }
+
+            if (move || size) 
+                XplatUI.SetWindowPos(hWnd, x, y, cx, cy);
+
+            bool show = 0 != (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_SHOWWINDOW);
+            bool hide = 0 != (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_HIDEWINDOW);
+            bool activate = 0 != (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOACTIVATE);
+
+            if (show || hide || activate)
+                XplatUI.SetVisible(hWnd, show || !hide, activate);
+
+            bool redraw = 0 != (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOREDRAW);
+            if (redraw)
+                XplatUI.UpdateWindow(hWnd);
+
+            // TODO: Handle remaining flags
         }
 
         public static int DestroyIcon(IntPtr hIcon)
@@ -46,30 +80,26 @@ namespace WinApi
 
         public static bool PostMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam)
         {
-            // TODO:
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            XplatUI.PostMessage(hWnd, (Msg)msg, wParam, lParam);
             return true;
         }
 
         public static bool SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam)
         {
-            // TODO:
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            XplatUI.SendMessage(hWnd, (Msg)msg, wParam, lParam);
             return true;
         }
 
         public static IntPtr SetFocus(IntPtr hWnd)
         {
-            // TODO:
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
-            return IntPtr.Zero;
+            var prev = XplatUI.GetFocus();
+            XplatUI.SetFocus(hWnd);
+            return prev;
         }
 
         public static IntPtr GetFocus()
         {
-            // TODO:
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
-            return IntPtr.Zero;
+            return XplatUI.GetFocus();
         }
 
         public delegate bool EnumWindowProc(IntPtr hWnd, IntPtr parameter);
@@ -148,44 +178,47 @@ namespace WinApi
 
         public static bool IsWindowVisible(IntPtr hwnd)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
-            return false;
+            return XplatUI.IsVisible(hwnd);
         }
 
         public static int GetClientRect(IntPtr hwnd, ref RECT lpRect)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
-            return 0;
+            var window = Hwnd.ObjectFromHandle(hwnd);
+            lpRect = new RECT(window.ClientRect);
+            return 1;
         }
 
         public static int GetClientRect(IntPtr hwnd, [In, Out] ref Rectangle rect)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
-            return 0;
+            var window = Hwnd.ObjectFromHandle(hwnd);
+            rect = window.ClientRect;
+            return 1;
         }
 
         public static bool MoveWindow(IntPtr hwnd, int X, int Y, int nWidth, int nHeight, bool bRepaint)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
-            return false;
+            XplatUI.SetWindowPos(hwnd, X, Y, nWidth, nHeight);
+            if (bRepaint)
+                XplatUI.UpdateWindow(hwnd);
+            return true;
         }
 
         public static bool UpdateWindow(IntPtr hwnd)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
-            return false;
+            XplatUI.UpdateWindow(hwnd);
+            return true;
         }
 
         public static bool InvalidateRect(IntPtr hwnd, ref Rectangle rect, bool bErase)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
-            return false;
+            XplatUI.Invalidate(hwnd, rect, bErase);
+            return true;
         }
 
         public static bool ValidateRect(IntPtr hwnd, ref Rectangle rect)
         {
             Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
-            return false;
+            return true;
         }
 
         public static bool GetWindowRect(IntPtr hWnd, [In, Out] ref Rectangle rect)
