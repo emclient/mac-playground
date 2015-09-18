@@ -32,6 +32,9 @@
     <Compile Include="..\..\..\WinApi\GdiPlus.Structs.cs">
       <Link>GdiPlus.Structs.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\WinApi\Kernel32.Structs.cs">
+      <Link>Kernel32.Structs.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\WinApi\Shell32.Structs.cs">
       <Link>Shell32.Structs.cs</Link>
     </Compile>
@@ -39,6 +42,7 @@
       <Link>User32.Structs.cs</Link>
     </Compile>
     <Compile Include="GdiPlus.cs" />
+    <Compile Include="Kernel32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CGImageExtensions.cs" />
     <Compile Include="ShlWapi.cs" />

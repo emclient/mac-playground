@@ -76,5 +76,11 @@ namespace WinApi
             Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
             return IntPtr.Zero;
         }
+
+        public static bool DeleteDC(IntPtr hdc)
+        {
+            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            return true;
+        }
     }
 }

@@ -268,5 +268,49 @@ namespace WinApi
             Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
             return 0;
         }
+
+        public static IntPtr SetCursor(IntPtr hcur)
+        {
+            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            return IntPtr.Zero;
+        }
+
+        public static IntPtr LoadCursor(IntPtr hInstcance, SystemCursor hcur)
+        {
+            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            return IntPtr.Zero;
+        }
+
+        public static bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDst, ref Point pptDst, ref Size psize, IntPtr hdcSrc, ref Point pprSrc, Int32 crKey, ref BLENDFUNCTION pblend, BlendFlags dwFlags)
+        {
+            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            return false;
+        }
+
+        public static bool EnableWindow(IntPtr hWnd, bool bEnable)
+        {
+            XplatUI.EnableWindow(hWnd, bEnable);
+            return true;
+        }
+
+        public static IntPtr SetActiveWindow(IntPtr handle)
+        {
+            var prev = XplatUI.GetActive();
+            XplatUI.Activate(handle);
+            return prev;
+        }
+
+        public static bool SetWindowPlacement(IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl)
+        {
+            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            return false;
+        }
+
+        public static bool GetWindowPlacement(IntPtr hWnd, out WINDOWPLACEMENT lpwndpl)
+        {
+            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            return false;
+        }
+
     }
 }
