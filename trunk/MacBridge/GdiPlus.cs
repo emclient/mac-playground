@@ -15,13 +15,13 @@ namespace WinApi
             return false;
         }
 
-        public static extern int SetBkColor(IntPtr hdc, int clr)
+        public static int SetBkColor(IntPtr hdc, int clr)
         {
             Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
             return 0;
         }
 
-        public static extern int SetBkMode(IntPtr hdc, int iBkMode)
+        public static int SetBkMode(IntPtr hdc, int iBkMode)
         {
             Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
             return 0;
