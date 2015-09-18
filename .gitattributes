@@ -27,6 +27,7 @@ trunk/MacBridge.Test/data/SetupLogo.jpg -text
 trunk/MacBridge.Test/packages.config -text
 trunk/MacBridge/CGImageExtensions.cs -text
 trunk/MacBridge/ComDlg32.cs -text
+trunk/MacBridge/GdiPlus.cs -text
 trunk/MacBridge/MacBridge.csproj -text
 trunk/MacBridge/MacBridge.snk -text
 trunk/MacBridge/Ole32.cs -text
