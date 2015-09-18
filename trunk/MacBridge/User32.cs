@@ -51,6 +51,13 @@ namespace WinApi
             return true;
         }
 
+        public static bool SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam)
+        {
+            // TODO:
+            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            return true;
+        }
+
         public static IntPtr SetFocus(IntPtr hWnd)
         {
             // TODO:
@@ -106,7 +113,10 @@ namespace WinApi
             return 0;
         }
 
-        static bool FlashWindow(IntPtr hwnd, bool bInvert)
+        // Apple says:
+        // Don't flash the taskbar button if the only thing the user has to do is activate the program,
+        // read a message, or see a change in status.
+        public static bool FlashWindow(IntPtr hwnd, bool bInvert)
         {
             Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
             return true;
