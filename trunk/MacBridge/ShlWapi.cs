@@ -4,9 +4,8 @@ using System.Runtime.InteropServices;
 
 namespace WinApi
 {
-    public static class ShlWapi
+    public static partial class Win32
     {
-
         const string NSURLVolumeIsLocalKey = "NSURLVolumeIsLocalKey";
         const string NSURLFileSizeKey = "NSURLFileSizeKey";
 

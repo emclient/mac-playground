@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -29,6 +29,16 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\WinApi\GdiPlus.Structs.cs">
+      <Link>GdiPlus.Structs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\WinApi\Shell32.Structs.cs">
+      <Link>Shell32.Structs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\WinApi\User32.Structs.cs">
+      <Link>User32.Structs.cs</Link>
+    </Compile>
+    <Compile Include="GdiPlus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CGImageExtensions.cs" />
     <Compile Include="ShlWapi.cs" />
