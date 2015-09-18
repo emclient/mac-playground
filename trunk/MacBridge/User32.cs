@@ -309,6 +309,7 @@ namespace WinApi
         public static bool GetWindowPlacement(IntPtr hWnd, out WINDOWPLACEMENT lpwndpl)
         {
             Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            lpwndpl = new WINDOWPLACEMENT();
             return false;
         }
 
