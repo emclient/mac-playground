@@ -1377,6 +1377,9 @@ namespace System.Windows.Forms {
             MSG msg = new MSG ();
 
 			while (PeekMessage (null, ref msg, IntPtr.Zero, 0, 0, (uint)PeekMessageFlags.PM_REMOVE)) {
+                var message = Message.Create(msg.hwnd, (int)msg.message, msg.wParam, msg.lParam);
+                if (Application.FilterMessage (ref message))
+                    continue;
                 TranslateMessage (ref msg);
                 DispatchMessage (ref msg);
             }

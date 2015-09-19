@@ -286,7 +286,11 @@ namespace System.Windows.Forms.CocoaInternal
 					msg.hwnd = FocusHandle;
 					msg.message = Msg.WM_MOUSEWHEEL;
 					msg.wParam = (IntPtr)((int)msg.wParam | (delta << 16));
-					break;
+
+                    var pt = driver.NativeToMonoScreen(NSEvent.CurrentMouseLocation);
+                    msg.lParam = (IntPtr) ((ushort) pt.Y << 16 | (ushort) pt.X);
+					
+                    break;
 
 				case NSEventType.MouseEntered:
 					msg.message = Msg.WM_MOUSE_ENTER;
