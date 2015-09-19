@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using MonoMac.AppKit;
+using MacBridge.CoreGraphics;
 
 namespace WinApi
 {
@@ -14,8 +16,28 @@ namespace WinApi
 
         public static IntPtr WindowFromPoint(POINT p)
         {
-            //TODO:
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            Size displaySize;
+            XplatUI.GetDisplaySize(out displaySize);
+            p.Y = displaySize.Height - p.Y;
+
+            var screnLocation = p.ToCGPoint();
+
+            int wnum = NSWindow.WindowNumberAtPoint(screnLocation, 0);
+            var window = NSApplication.SharedApplication.WindowWithWindowNumber(wnum);
+            if (window != null)
+            {
+                var windowLocation = window.ConvertScreenToBase(screnLocation);
+                //var contentViewLocation = window.ContentView.ConvertPointFromView(windowLocation, null);
+                var view = window.ContentView.HitTest(windowLocation);
+
+                if (view != null)
+                {
+                    var hwnd = Hwnd.GetHandleFromWindow(view.Handle);
+                    if (hwnd != IntPtr.Zero)
+                        return hwnd;
+                }
+            }
+
             return IntPtr.Zero;
         }
 
