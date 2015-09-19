@@ -20,13 +20,13 @@ namespace WinApi
             XplatUI.GetDisplaySize(out displaySize);
             p.Y = displaySize.Height - p.Y;
 
-            var screnLocation = p.ToCGPoint();
+            var screenLocation = p.ToCGPoint();
 
-            int wnum = NSWindow.WindowNumberAtPoint(screnLocation, 0);
+            int wnum = NSWindow.WindowNumberAtPoint(screenLocation, 0);
             var window = NSApplication.SharedApplication.WindowWithWindowNumber(wnum);
             if (window != null)
             {
-                var windowLocation = window.ConvertScreenToBase(screnLocation);
+                var windowLocation = window.ConvertScreenToBase(screenLocation);
                 //var contentViewLocation = window.ContentView.ConvertPointFromView(windowLocation, null);
                 var view = window.ContentView.HitTest(windowLocation);
 
