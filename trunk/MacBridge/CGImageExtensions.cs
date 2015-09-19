@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using MonoMac.CoreGraphics;
+using WinApi;
 
 namespace MacBridge.CoreGraphics
 {
@@ -11,5 +12,13 @@ namespace MacBridge.CoreGraphics
 			return new Bitmap (cgImage);
 		}
 	}
+
+    public static class WinApiExtensions 
+    {
+        public static CGPoint ToCGPoint(this POINT p)
+        {
+            return new CGPoint(p.X, p.Y);
+        }
+    }
 }
 
