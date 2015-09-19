@@ -262,19 +262,21 @@ namespace System.Drawing {
 
 		public void Save (Stream stream, ImageFormat format)
 		{
-			// FIXME
-			//throw new NotImplementedException ();
-			if (format == ImageFormat.Png) {
-				NSBitmapImageRep rep = new NSBitmapImageRep (NativeCGImage);
-				NSData data = rep.RepresentationUsingTypeProperties (NSBitmapImageFileType.Png, new NSDictionary ());
-				byte[] buffer = new byte[0x10000];
-				int bytes;
-				using (var s = data.AsStream ()) {
-					while ((bytes = s.Read (buffer, 0, buffer.Length)) > 0) {
-						stream.Write (buffer, 0, bytes);
+			// FIXME - can we do it on background thread?
+
+			MonoMac.AppKit.NSApplication.SharedApplication.InvokeOnMainThread(() => {						
+				if (format == ImageFormat.Png) {
+					var rep = new NSBitmapImageRep (NativeCGImage);
+					var data = rep.RepresentationUsingTypeProperties (NSBitmapImageFileType.Png, new NSDictionary ());
+					var buffer = new byte[0x10000];
+					using (var s = data.AsStream ()) {
+						int bytes;
+						while ((bytes = s.Read (buffer, 0, buffer.Length)) > 0) {
+							stream.Write (buffer, 0, bytes);
+						}
 					}
 				}
-			}
+			});
 		}
 		
 		public void Save (Stream stream)
