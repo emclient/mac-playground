@@ -335,5 +335,24 @@ namespace WinApi
             return false;
         }
 
+        public static int ScrollWindowEx(IntPtr hWnd, int dx, int dy, IntPtr prcScroll, IntPtr prcClip, IntPtr hrgnUpdate, IntPtr prcUpdate, uint flags)
+        {
+            var control = Control.FromHandle(hWnd);
+            var rect = ((RECT)Marshal.PtrToStructure(prcScroll, typeof(RECT))).ToRectangle();
+
+            // Change Bounds origin of every NSView whose Control's frame intersects with a given rect.
+            foreach (Control child in control.Controls) {
+                if (child.Bounds.IntersectsWith(rect))
+                {
+                    var window = Hwnd.ObjectFromHandle(child.Handle);
+                    var view = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(window.ClientWindow);
+                    var origin = view.Bounds.Origin;
+                    origin.Y -= dy;
+                    origin.X += dx;
+                    view.SetBoundsOrigin(origin);
+                }
+            }
+            return 1;
+        }
     }
 }
