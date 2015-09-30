@@ -1038,5 +1038,22 @@ namespace System.Windows.Forms
 		Warning		= 4,
 		Information	= 5
 	}
+
+    [StructLayout(LayoutKind.Sequential)]
+#if PUBLIC_TYPES
+    public
+#else
+    internal
+#endif
+    struct WINDOWPOS
+    {
+        public IntPtr hwnd;
+        public IntPtr hwndAfter;
+        public int x;
+        public int y;
+        public int cx;
+        public int cy;
+        public uint flags;
+    }
 }
 

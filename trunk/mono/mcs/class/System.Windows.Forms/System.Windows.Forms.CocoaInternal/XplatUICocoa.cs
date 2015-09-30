@@ -2154,7 +2154,23 @@ namespace System.Windows.Forms {
 #endif
 
 				PerformNCCalc (hwnd);
-				SendMessage (hwnd.Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
+
+                var wp = new WINDOWPOS
+                {
+                    hwnd = handle,
+                    hwndAfter = IntPtr.Zero,
+                    x = x,
+                    y = y,
+                    cx = width,
+                    cy = height,
+                    flags = (uint)(XplatUIWin32.SetWindowPosFlags.SWP_NOZORDER | XplatUIWin32.SetWindowPosFlags.SWP_NOACTIVATE | XplatUIWin32.SetWindowPosFlags.SWP_NOOWNERZORDER),
+                };
+                var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(wp));
+                Marshal.StructureToPtr(wp, ptr, true);
+
+                SendMessage(hwnd.Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, ptr);
+
+                Marshal.FreeHGlobal(ptr);
 			}
 		}
 		
