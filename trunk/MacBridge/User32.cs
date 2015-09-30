@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using MonoMac.AppKit;
 using MacBridge.CoreGraphics;
+using System.Windows.Forms.CocoaInternal;
 
 namespace WinApi
 {
@@ -56,41 +57,41 @@ namespace WinApi
 
         public static void SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags)
         {
-            if (0 == (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOZORDER))
-                XplatUI.SetZOrder(hWnd, hWndInsertAfter, false, false);
+            // TODO: Handle all remaining flags
+
+            //if (0 == (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOZORDER))
+            //XplatUI.SetZOrder(hWnd, hWndInsertAfter, false, false);
 
             int x_, y_, w_, h_, clw_, clh_;
             XplatUI.GetWindowPos(hWnd, false, out x_, out y_, out w_, out h_, out clw_, out clh_);
            
-            bool move = 0 != (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOMOVE);
-            if (move)
+            bool move = 0 == (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOMOVE);
+            if (!move)
             {
                 x = x_;
                 y = y_;
             }
 
-            bool size = 0 != (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOSIZE);
-            if (size)
+            bool size = 0 == (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOSIZE);
+            if (!size)
             {
                 cx = w_;
                 cy = h_;
             }
 
-            if (move || size) 
+            if (move || size)
                 XplatUI.SetWindowPos(hWnd, x, y, cx, cy);
 
             bool show = 0 != (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_SHOWWINDOW);
             bool hide = 0 != (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_HIDEWINDOW);
-            bool activate = 0 != (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOACTIVATE);
+            bool activate = 0 == (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOACTIVATE);
 
             if (show || hide || activate)
                 XplatUI.SetVisible(hWnd, show || !hide, activate);
 
-            bool redraw = 0 != (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOREDRAW);
+            bool redraw = 0 == (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOREDRAW);
             if (redraw)
                 XplatUI.UpdateWindow(hWnd);
-
-            // TODO: Handle remaining flags
         }
 
         public static int DestroyIcon(IntPtr hIcon)
@@ -124,7 +125,7 @@ namespace WinApi
             return XplatUI.GetFocus();
         }
 
-        public delegate bool EnumWindowProc(IntPtr hWnd, IntPtr parameter);
+        public delegate bool EnumWindowProc(IntPtr hWnd,IntPtr parameter);
 
         public static bool EnumChildWindows(IntPtr window, EnumWindowProc callback, IntPtr i)
         {
@@ -322,17 +323,19 @@ namespace WinApi
             return prev;
         }
 
-        public static bool SetWindowPlacement(IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl)
+        public static bool SetWindowPlacement(IntPtr hWnd, [In] ref WINDOWPLACEMENT wp)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
-            return false;
-        }
+            // TODO: Add support for min & max states
 
-        public static bool GetWindowPlacement(IntPtr hWnd, out WINDOWPLACEMENT lpwndpl)
-        {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
-            lpwndpl = new WINDOWPLACEMENT();
-            return false;
+            SetWindowPos(hWnd, IntPtr.Zero,
+                wp.rcNormalPosition.left,
+                wp.rcNormalPosition.top,
+                wp.rcNormalPosition.right - wp.rcNormalPosition.left,
+                wp.rcNormalPosition.bottom - wp.rcNormalPosition.top,
+                (uint)wp.flags
+            );
+
+            return true;
         }
 
         public static int ScrollWindowEx(IntPtr hWnd, int dx, int dy, IntPtr prcScroll, IntPtr prcClip, IntPtr hrgnUpdate, IntPtr prcUpdate, uint flags)
@@ -340,8 +343,9 @@ namespace WinApi
             var control = Control.FromHandle(hWnd);
             var rect = ((RECT)Marshal.PtrToStructure(prcScroll, typeof(RECT))).ToRectangle();
 
-            // Change Bounds origin of every NSView whose Control's frame intersects with a given rect.
-            foreach (Control child in control.Controls) {
+            // Let's change origin of every NSView whose control's frame intersects with a given rect.
+            foreach (Control child in control.Controls)
+            {
                 if (child.Bounds.IntersectsWith(rect))
                 {
                     var window = Hwnd.ObjectFromHandle(child.Handle);
@@ -353,6 +357,41 @@ namespace WinApi
                 }
             }
             return 1;
+        }
+
+        public static bool GetWindowPlacement(IntPtr hWnd, out WINDOWPLACEMENT lpwndpl)
+        {
+            // TODO: Add support for min & max states
+
+            lpwndpl = new WINDOWPLACEMENT();
+
+            var nsobject = MonoMac.ObjCRuntime.Runtime.GetNSObject(hWnd);
+            if (nsobject == null)
+                return false;
+
+            var monoView = nsobject as MonoView;
+            if (monoView == null)
+                return false;
+
+            var hwnd = Hwnd.ObjectFromHandle(hWnd);
+            var window = monoView.Window;
+            var isTopLevelView = window.ContentView.Handle == hwnd.WholeWindow;
+
+            var rScreen = isTopLevelView
+                ? window.Frame // if it's top level view, then we have to use window's frame, because of the caption
+                : monoView.Window.ConvertRectToScreen(monoView.ConvertRectToBase(monoView.Frame));
+
+            Size displaySize;
+            XplatUI.GetDisplaySize(out displaySize);
+
+            lpwndpl.rcNormalPosition = new RECT(
+                (int)rScreen.Left,
+                (int)(displaySize.Height - (rScreen.Top + rScreen.Height)),
+                (int)rScreen.Right,
+                (int)(displaySize.Height - rScreen.Top)
+            );
+
+            return true;
         }
     }
 }
