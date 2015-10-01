@@ -431,5 +431,29 @@ namespace WinApi
         }
 
         #endregion
+
+        #region Keyboard
+
+        public static uint MapVirtualKey(uint uCode, uint uMapType)
+        {
+            // TODO
+            return 0;
+        }
+
+        public static int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpKeyState, 
+            [Out, MarshalAs(UnmanagedType.LPWStr, SizeParamIndex = 4)] StringBuilder pwszBuff,
+            int cchBuff, uint wFlags)
+        {
+            // TODO
+            return 0;
+        }
+
+        public static bool GetKeyboardState(byte[] lpKeyState)
+        {
+            // TODO
+            return false;
+        }
+
+        #endregion // Keyboard
     }
 }
