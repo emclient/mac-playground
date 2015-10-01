@@ -393,5 +393,43 @@ namespace WinApi
 
             return true;
         }
+
+        #region Gestures
+
+        public static bool SetGestureConfig(IntPtr hWnd, int dwReserved, int cIDs, GESTURECONFIG[] pGestureConfig, int cbSize)
+        {
+            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            return false;
+        }
+
+        public static bool GetGestureInfo(IntPtr hGestureInfo, ref GESTUREINFO pGestureInfo)
+        {
+            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            return false;
+        }
+
+        public static bool RegisterTouchWindow(System.IntPtr hWnd, ulong ulFlags)
+        {
+            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            return false;
+        }
+
+        public static bool GetTouchInputInfo(System.IntPtr hTouchInput, int cInputs, [In, Out] TOUCHINPUT[] pInputs, int cbSize)
+        {
+            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            return false;
+        }
+
+        public static void CloseTouchInputHandle(System.IntPtr lParam)
+        {
+            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+        }
+
+        public static void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, int dwExtraInfo)
+        {
+            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+        }
+
+        #endregion
     }
 }
