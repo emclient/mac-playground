@@ -30,29 +30,29 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\..\WinApi\GdiPlus.Structs.cs">
-      <Link>GdiPlus.Structs.cs</Link>
+      <Link>WinApi\GdiPlus.Structs.cs</Link>
     </Compile>
     <Compile Include="..\..\..\WinApi\Kernel32.Structs.cs">
-      <Link>Kernel32.Structs.cs</Link>
+      <Link>WinApi\Kernel32.Structs.cs</Link>
     </Compile>
     <Compile Include="..\..\..\WinApi\Shell32.Structs.cs">
-      <Link>Shell32.Structs.cs</Link>
+      <Link>WinApi\Shell32.Structs.cs</Link>
     </Compile>
     <Compile Include="..\..\..\WinApi\User32.Structs.cs">
-      <Link>User32.Structs.cs</Link>
+      <Link>WinApi\User32.Structs.cs</Link>
     </Compile>
-    <Compile Include="GdiPlus.cs" />
-    <Compile Include="Kernel32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CGImageExtensions.cs" />
-    <Compile Include="ShlWapi.cs" />
-    <Compile Include="User32.cs" />
-    <Compile Include="Ole32.cs" />
-    <Compile Include="Shell32.cs" />
-    <Compile Include="ComDlg32.cs" />
     <Compile Include="..\..\..\WinApi\ComCtl32.Structs.cs">
-      <Link>ComCtl32.Structs.cs</Link>
+      <Link>WinApi\ComCtl32.Structs.cs</Link>
     </Compile>
+    <Compile Include="WinApi\ComDlg32.cs" />
+    <Compile Include="WinApi\GdiPlus.cs" />
+    <Compile Include="WinApi\Kernel32.cs" />
+    <Compile Include="WinApi\Ole32.cs" />
+    <Compile Include="WinApi\Shell32.cs" />
+    <Compile Include="WinApi\ShlWapi.cs" />
+    <Compile Include="WinApi\User32.cs" />
+    <Compile Include="MacApi\CGImageExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -70,5 +70,9 @@
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="WinApi\" />
+    <Folder Include="MacApi\" />
   </ItemGroup>
 </Project>
