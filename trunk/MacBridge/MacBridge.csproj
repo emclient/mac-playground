@@ -53,6 +53,8 @@
     <Compile Include="WinApi\ShlWapi.cs" />
     <Compile Include="WinApi\User32.cs" />
     <Compile Include="MacApi\CGImageExtensions.cs" />
+    <Compile Include="MacApi\LaunchServices.cs" />
+    <Compile Include="MacApi\QuickLook.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

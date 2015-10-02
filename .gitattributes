@@ -26,6 +26,8 @@ trunk/MacBridge.Test/MacBridge.Test.csproj -text
 trunk/MacBridge.Test/data/SetupLogo.jpg -text
 trunk/MacBridge.Test/packages.config -text
 trunk/MacBridge/MacApi/CGImageExtensions.cs -text
+trunk/MacBridge/MacApi/LaunchServices.cs -text
+trunk/MacBridge/MacApi/QuickLook.cs -text
 trunk/MacBridge/MacBridge.csproj -text
 trunk/MacBridge/MacBridge.snk -text
 trunk/MacBridge/Properties/AssemblyInfo.cs -text
