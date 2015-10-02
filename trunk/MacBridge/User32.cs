@@ -250,25 +250,25 @@ namespace WinApi
             return false;
         }
 
-        public static IntPtr GetWindowLongPtr64(IntPtr hWnd, int nIndex)
+        public static IntPtr GetWindowLongPtr64(IntPtr hWnd, GWL nIndex)
         {
             Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
             return IntPtr.Zero;
         }
 
-        public static int GetWindowLongPtr32(IntPtr hWnd, int nIndex)
+        public static int GetWindowLongPtr32(IntPtr hWnd, GWL nIndex)
         {
             Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
             return 0;
         }
 
-        public static IntPtr SetWindowLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
+        public static IntPtr SetWindowLongPtr64(IntPtr hWnd, GWL nIndex, IntPtr dwNewLong)
         {
             Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
             return IntPtr.Zero;
         }
 
-        public static int SetWindowLongPtr32(IntPtr hWnd, int nIndex, int dwNewLong)
+        public static int SetWindowLongPtr32(IntPtr hWnd, GWL nIndex, int dwNewLong)
         {
             Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
             return 0;
@@ -357,6 +357,18 @@ namespace WinApi
                 }
             }
             return 1;
+        }
+
+        public static int GetScrollPos(IntPtr hWnd, SB nBar)
+        {
+            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            return 0;
+        }
+
+        public static int SetScrollPos(IntPtr hWnd, SB nBar, int nPos, bool bRedraw)
+        {
+            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            return 0;
         }
 
         public static bool GetWindowPlacement(IntPtr hWnd, out WINDOWPLACEMENT lpwndpl)

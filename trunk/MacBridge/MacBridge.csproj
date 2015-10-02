@@ -50,6 +50,9 @@
     <Compile Include="Ole32.cs" />
     <Compile Include="Shell32.cs" />
     <Compile Include="ComDlg32.cs" />
+    <Compile Include="..\..\..\WinApi\ComCtl32.Structs.cs">
+      <Link>ComCtl32.Structs.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
