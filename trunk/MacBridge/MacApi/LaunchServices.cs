@@ -30,6 +30,9 @@ namespace MacBridge.LaunchServices
         [DllImport(LaunchServicesDll)]
         internal extern static IntPtr LSCopyDefaultApplicationURLForURL(IntPtr cfUrl, int lsRolesMask, ref IntPtr cfError);
 
+        [DllImport(LaunchServicesDll)]
+        internal extern static int LSRegisterURL(IntPtr CFUrl, bool update);
+
         //func LSCopyDefaultApplicationURLForContentType(_ inContentType: CFString, _ inRoleMask: LSRolesMask, _ outError: UnsafeMutablePointer<Unmanaged<CFError>?>) -> Unmanaged<CFURL>?
         //func LSCopyApplicationURLsForURL(_ inURL: CFURL, _ inRoleMask: LSRolesMask) -> Unmanaged<CFArray>?
         //func LSOpenCFURLRef(_ inURL: CFURL, _ outLaunchedURL: UnsafeMutablePointer<Unmanaged<CFURL>?>) -> OSStatus
