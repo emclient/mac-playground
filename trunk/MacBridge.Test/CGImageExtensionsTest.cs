@@ -7,7 +7,7 @@ using System.Diagnostics;
 namespace MacBridge.Test
 {
 	[TestFixture ()]
-	public class Test
+	public class CGImageExtensionsTest
 	{
 		[SetUp]
 		public void Setup()
