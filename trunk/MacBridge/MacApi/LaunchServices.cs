@@ -7,7 +7,7 @@ namespace MacBridge.LaunchServices
 {
     public partial class LS {
 
-        public static NSUrl DefaultApplicationUrlForUrl(NSUrl url, int lsRolesMask) {
+        public static NSUrl CopyDefaultApplicationUrlForUrl(NSUrl url, int lsRolesMask) {
             var cfErrorHandle = IntPtr.Zero;
             var hAppUrl = LSCopyDefaultApplicationURLForURL(url.Handle, lsRolesMask, ref cfErrorHandle);
             if (cfErrorHandle != IntPtr.Zero)
@@ -15,14 +15,28 @@ namespace MacBridge.LaunchServices
             return new NSUrl(hAppUrl);
         }
 
+        public static string CopyDefaultHandlerForURLScheme(string urlScheme)
+        {
+            var cfHandler = LSCopyDefaultHandlerForURLScheme(new NSString(urlScheme).Handle);
+            return NSString.FromHandle(cfHandler);
+        }
+
         public static int SetDefaultHandlerForURLScheme(string urlScheme, string handlerBundleID)
         {
             return LSSetDefaultHandlerForURLScheme(new NSString(urlScheme).Handle, new NSString(handlerBundleID).Handle);
         }
 
+        public static int RegisterURL(NSUrl url, bool update)
+        {
+            return LSRegisterURL(url.Handle, update);
+        }
+
         #region Native API
 
         internal const string LaunchServicesDll = "/system/Library/frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices";
+
+        [DllImport(LaunchServicesDll)]
+        internal extern static IntPtr LSCopyDefaultHandlerForURLScheme(IntPtr cfStringUrlScheme);
 
         [DllImport(LaunchServicesDll)]
         internal extern static int LSSetDefaultHandlerForURLScheme(IntPtr urlScheme, IntPtr handlerBundleID);
@@ -32,16 +46,6 @@ namespace MacBridge.LaunchServices
 
         [DllImport(LaunchServicesDll)]
         internal extern static int LSRegisterURL(IntPtr CFUrl, bool update);
-
-        //func LSCopyDefaultApplicationURLForContentType(_ inContentType: CFString, _ inRoleMask: LSRolesMask, _ outError: UnsafeMutablePointer<Unmanaged<CFError>?>) -> Unmanaged<CFURL>?
-        //func LSCopyApplicationURLsForURL(_ inURL: CFURL, _ inRoleMask: LSRolesMask) -> Unmanaged<CFArray>?
-        //func LSOpenCFURLRef(_ inURL: CFURL, _ outLaunchedURL: UnsafeMutablePointer<Unmanaged<CFURL>?>) -> OSStatus
-        //func LSRegisterURL(_ inURL: CFURL, _ inUpdate: Bool) -> OSStatus
-        //func LSSetDefaultHandlerForURLScheme(_ inURLScheme: CFString, _ inHandlerBundleID: CFString) -> OSStatus
-        //func LSCopyDefaultApplicationURLForContentType(_ inContentType: CFString, _ inRoleMask: LSRolesMask, _ outError: UnsafeMutablePointer<Unmanaged<CFError>?>) -> Unmanaged<CFURL>?
-
-        //LSOpenFromURLSpec
-        //LSOpenFromRefSpec // Swiss Army Knife
 
         #endregion //Native API
     }
@@ -65,6 +69,4 @@ namespace MacBridge.LaunchServices
 
         #endregion // Native API
     }
-
 }
-

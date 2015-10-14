@@ -20,7 +20,7 @@ namespace MacBridge.Test
         public void TestDefaultApplicationUrlForUrl()
         {
             var mailToUrl = new NSUrl("mailto:");
-            var appUrl = LS.DefaultApplicationUrlForUrl(mailToUrl, 0);
+            var appUrl = LS.CopyDefaultApplicationUrlForUrl(mailToUrl, 0);
             Debug.WriteLine("url: {0}, appUrl:{1}", new object[] { mailToUrl, appUrl });
         }
 
