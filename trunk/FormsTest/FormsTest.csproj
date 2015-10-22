@@ -122,10 +122,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\emclient\MailClient.Collections\MailClient.Collections.csproj">
-      <Project>{C69A5715-2180-4C49-8AD0-150697A81790}</Project>
-      <Name>MailClient.Collections</Name>
-    </ProjectReference>
     <ProjectReference Include="..\sysdrawing-coregraphics\sysdrawing-coregraphics-Mac\sysdrawing-coregraphics-Mac.csproj" Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
       <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
       <Name>sysdrawing-coregraphics-Mac</Name>
@@ -137,6 +133,10 @@
     <ProjectReference Include="..\MacBridge\MacBridge.csproj">
       <Project>{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}</Project>
       <Name>MacBridge</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\MailClient.Collections\MailClient.Collections.csproj">
+      <Project>{C69A5715-2180-4C49-8AD0-150697A81790}</Project>
+      <Name>MailClient.Collections</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
