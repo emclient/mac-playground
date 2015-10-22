@@ -269,7 +269,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = /Users/jirkav/Projects/FakeMailApp/Test32/finalize_package.sh;
+			shellScript = $PROJECT_DIR/$TARGET_NAME/finalize_package.sh;
 		};
 /* End PBXShellScriptBuildPhase section */
 
