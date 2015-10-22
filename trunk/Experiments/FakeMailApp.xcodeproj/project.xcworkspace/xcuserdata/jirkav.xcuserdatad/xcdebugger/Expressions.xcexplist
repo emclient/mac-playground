@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "ViewController.setDefaultApplicationURLForURL(NSURL, appURL : NSURL) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "url.scheme">
+            </PersistentString>
+            <PersistentString
+               value = "bundle.bundleIdentifier!">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.checkIsDefault(AnyObject?) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.defaultAppUrl">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "launchFormsTest:main.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "argv[0]">
+            </PersistentString>
+            <PersistentString
+               value = "argv[1]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[AppDelegate applicationDidFinishLaunching:]:AppDelegate.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "g_argv[1]">
+            </PersistentString>
+            <PersistentString
+               value = "g_argv[2]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

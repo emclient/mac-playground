@@ -27,7 +27,7 @@ namespace MacBridge.Test
         [Test]
         public void TestSetDefaultHandlerForURLScheme()
         {
-            var status = LS.SetDefaultHandlerForURLScheme("mailto:", "com.apple.mail");
+            var status = LS.SetDefaultHandlerForURLScheme("mailto", "com.apple.mail");
             Assert.AreEqual(0, status, "Failed setting default handler for mailto:");
         }
     }

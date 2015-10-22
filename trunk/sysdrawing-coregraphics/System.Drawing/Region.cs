@@ -202,11 +202,13 @@ namespace System.Drawing
 
 		public IntPtr GetHrgn(Graphics g)
 		{
+			return IntPtr.Zero;
 			throw new NotSupportedException ();
 		}
 
 		public static Region FromHrgn(IntPtr hrgn)
 		{
+			return null;
 			throw new NotSupportedException ();
 		}
 
