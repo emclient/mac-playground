@@ -1,0 +1,505 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		63307F571BC418D9000EBC94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63307F561BC418D9000EBC94 /* AppDelegate.swift */; };
+		63307F591BC418D9000EBC94 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63307F581BC418D9000EBC94 /* ViewController.swift */; };
+		63307F5B1BC418D9000EBC94 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63307F5A1BC418D9000EBC94 /* Images.xcassets */; };
+		63307F5E1BC418D9000EBC94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63307F5C1BC418D9000EBC94 /* Main.storyboard */; };
+		6354B4881BD14E3200402F3C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6354B4871BD14E3200402F3C /* main.m */; };
+		6354B48A1BD14E3200402F3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6354B4891BD14E3200402F3C /* Assets.xcassets */; };
+		6354B48D1BD14E3200402F3C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6354B48B1BD14E3200402F3C /* MainMenu.xib */; };
+		6385F59A1BD9217B001E2182 /* Mono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6385F5991BD9217B001E2182 /* Mono.framework */; };
+		6385F59D1BD922B6001E2182 /* etc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6385F59B1BD922B6001E2182 /* etc */; };
+		6385F59E1BD922B6001E2182 /* lib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6385F59C1BD922B6001E2182 /* lib */; };
+		63B5EE3C1BD93122006806C0 /* Mono - Debug in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63B5EE3B1BD93122006806C0 /* Mono - Debug */; };
+		63B5EE3E1BD932EC006806C0 /* Mono - Debug in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63B5EE3D1BD932EC006806C0 /* Mono - Debug */; };
+		63BB6F9C1BD7CFDC00D56A38 /* config in Resources */ = {isa = PBXBuildFile; fileRef = 63BB6F9B1BD7CFDC00D56A38 /* config */; settings = {ASSET_TAGS = (); }; };
+		63BB6FC01BD83F6600D56A38 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BB6FBF1BD83F6600D56A38 /* AppDelegate.m */; settings = {ASSET_TAGS = (); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		63BA38341BD8E23D00357151 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = ../lib/emclient;
+			dstSubfolderSpec = 7;
+			files = (
+				63B5EE3E1BD932EC006806C0 /* Mono - Debug in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63BB6F1B1BD7970300D56A38 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = ..;
+			dstSubfolderSpec = 7;
+			files = (
+				6385F59D1BD922B6001E2182 /* etc in CopyFiles */,
+				6385F59E1BD922B6001E2182 /* lib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63C26D041BD517BE00080CFF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = ../lib/formstest;
+			dstSubfolderSpec = 7;
+			files = (
+				63B5EE3C1BD93122006806C0 /* Mono - Debug in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		63307F511BC418D9000EBC94 /* FakeMailApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FakeMailApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		63307F551BC418D9000EBC94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63307F561BC418D9000EBC94 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		63307F581BC418D9000EBC94 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		63307F5A1BC418D9000EBC94 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		63307F5D1BC418D9000EBC94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6354B4811BD14E3200402F3C /* Test32.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test32.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6354B4871BD14E3200402F3C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6354B4891BD14E3200402F3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6354B48C1BD14E3200402F3C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		6354B48E1BD14E3200402F3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6385F5991BD9217B001E2182 /* Mono.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mono.framework; path = /Library/Frameworks/Mono.framework; sourceTree = "<absolute>"; };
+		6385F59B1BD922B6001E2182 /* etc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = etc; path = Resources/mono/etc; sourceTree = "<group>"; };
+		6385F59C1BD922B6001E2182 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = Resources/mono/lib; sourceTree = "<group>"; };
+		63B5EE3B1BD93122006806C0 /* Mono - Debug */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Mono - Debug"; path = "../FormsTest/bin/Mono - Debug"; sourceTree = "<group>"; };
+		63B5EE3D1BD932EC006806C0 /* Mono - Debug */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Mono - Debug"; path = "../../../bin/x86/Mono - Debug"; sourceTree = "<group>"; };
+		63BB6F9B1BD7CFDC00D56A38 /* config */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config; sourceTree = "<group>"; };
+		63BB6FA41BD811EA00D56A38 /* finalize_package.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = finalize_package.sh; sourceTree = "<group>"; };
+		63BB6FBE1BD83F6600D56A38 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		63BB6FBF1BD83F6600D56A38 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		63307F4E1BC418D9000EBC94 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6354B47E1BD14E3200402F3C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6385F59A1BD9217B001E2182 /* Mono.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		63307F481BC418D9000EBC94 = {
+			isa = PBXGroup;
+			children = (
+				63307F531BC418D9000EBC94 /* FakeMailApp */,
+				6354B4821BD14E3200402F3C /* Test32 */,
+				63BA38371BD9108100357151 /* Externals */,
+				63307F521BC418D9000EBC94 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		63307F521BC418D9000EBC94 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				63307F511BC418D9000EBC94 /* FakeMailApp.app */,
+				6354B4811BD14E3200402F3C /* Test32.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		63307F531BC418D9000EBC94 /* FakeMailApp */ = {
+			isa = PBXGroup;
+			children = (
+				63307F561BC418D9000EBC94 /* AppDelegate.swift */,
+				63307F581BC418D9000EBC94 /* ViewController.swift */,
+				63307F5A1BC418D9000EBC94 /* Images.xcassets */,
+				63307F5C1BC418D9000EBC94 /* Main.storyboard */,
+				63307F551BC418D9000EBC94 /* Info.plist */,
+			);
+			path = FakeMailApp;
+			sourceTree = "<group>";
+		};
+		6354B4821BD14E3200402F3C /* Test32 */ = {
+			isa = PBXGroup;
+			children = (
+				6354B4871BD14E3200402F3C /* main.m */,
+				63BB6FBE1BD83F6600D56A38 /* AppDelegate.h */,
+				63BB6FBF1BD83F6600D56A38 /* AppDelegate.m */,
+				6354B4891BD14E3200402F3C /* Assets.xcassets */,
+				6354B48B1BD14E3200402F3C /* MainMenu.xib */,
+				6354B48E1BD14E3200402F3C /* Info.plist */,
+				63BB6F9B1BD7CFDC00D56A38 /* config */,
+				63BB6FA41BD811EA00D56A38 /* finalize_package.sh */,
+			);
+			path = Test32;
+			sourceTree = "<group>";
+		};
+		63BA38371BD9108100357151 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				6385F5991BD9217B001E2182 /* Mono.framework */,
+				63B5EE3B1BD93122006806C0 /* Mono - Debug */,
+				63B5EE3D1BD932EC006806C0 /* Mono - Debug */,
+				6385F59B1BD922B6001E2182 /* etc */,
+				6385F59C1BD922B6001E2182 /* lib */,
+			);
+			name = Externals;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		63307F501BC418D9000EBC94 /* FakeMailApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 63307F6D1BC418D9000EBC94 /* Build configuration list for PBXNativeTarget "FakeMailApp" */;
+			buildPhases = (
+				63307F4D1BC418D9000EBC94 /* Sources */,
+				63307F4E1BC418D9000EBC94 /* Frameworks */,
+				63307F4F1BC418D9000EBC94 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FakeMailApp;
+			productName = FakeMailApp;
+			productReference = 63307F511BC418D9000EBC94 /* FakeMailApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6354B4801BD14E3200402F3C /* Test32 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6354B48F1BD14E3200402F3C /* Build configuration list for PBXNativeTarget "Test32" */;
+			buildPhases = (
+				6354B47D1BD14E3200402F3C /* Sources */,
+				6354B47E1BD14E3200402F3C /* Frameworks */,
+				6354B47F1BD14E3200402F3C /* Resources */,
+				63BB6F1B1BD7970300D56A38 /* CopyFiles */,
+				63C26D041BD517BE00080CFF /* CopyFiles */,
+				63BA38341BD8E23D00357151 /* CopyFiles */,
+				63BB6FA61BD8120C00D56A38 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Test32;
+			productName = Test32;
+			productReference = 6354B4811BD14E3200402F3C /* Test32.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		63307F491BC418D9000EBC94 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "eM Client";
+				TargetAttributes = {
+					63307F501BC418D9000EBC94 = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					6354B4801BD14E3200402F3C = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
+				};
+			};
+			buildConfigurationList = 63307F4C1BC418D9000EBC94 /* Build configuration list for PBXProject "FakeMailApp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 63307F481BC418D9000EBC94;
+			productRefGroup = 63307F521BC418D9000EBC94 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				63307F501BC418D9000EBC94 /* FakeMailApp */,
+				6354B4801BD14E3200402F3C /* Test32 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		63307F4F1BC418D9000EBC94 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63307F5B1BC418D9000EBC94 /* Images.xcassets in Resources */,
+				63307F5E1BC418D9000EBC94 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6354B47F1BD14E3200402F3C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6354B48A1BD14E3200402F3C /* Assets.xcassets in Resources */,
+				63BB6F9C1BD7CFDC00D56A38 /* config in Resources */,
+				6354B48D1BD14E3200402F3C /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		63BB6FA61BD8120C00D56A38 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = /Users/jirkav/Projects/FakeMailApp/Test32/finalize_package.sh;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		63307F4D1BC418D9000EBC94 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63307F591BC418D9000EBC94 /* ViewController.swift in Sources */,
+				63307F571BC418D9000EBC94 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6354B47D1BD14E3200402F3C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6354B4881BD14E3200402F3C /* main.m in Sources */,
+				63BB6FC01BD83F6600D56A38 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		63307F5C1BC418D9000EBC94 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				63307F5D1BC418D9000EBC94 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		6354B48B1BD14E3200402F3C /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6354B48C1BD14E3200402F3C /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		63307F6B1BC418D9000EBC94 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		63307F6C1BC418D9000EBC94 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		63307F6E1BC418D9000EBC94 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = FakeMailApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.emclient.fake-mail-app";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		63307F6F1BC418D9000EBC94 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = FakeMailApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.emclient.fake-mail-app";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		6354B4901BD14E3200402F3C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"/Library/Frameworks/Mono.framework/Headers/**",
+					"/Library/Frameworks/Mono.framework/Versions/Current/lib/glib-2.0/include/**",
+				);
+				INFOPLIST_FILE = Test32/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.emclient.test32;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = i386;
+			};
+			name = Debug;
+		};
+		6354B4911BD14E3200402F3C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"/Library/Frameworks/Mono.framework/Headers/**",
+					"/Library/Frameworks/Mono.framework/Versions/Current/lib/glib-2.0/include/**",
+				);
+				INFOPLIST_FILE = Test32/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.emclient.test32;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = i386;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		63307F4C1BC418D9000EBC94 /* Build configuration list for PBXProject "FakeMailApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63307F6B1BC418D9000EBC94 /* Debug */,
+				63307F6C1BC418D9000EBC94 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		63307F6D1BC418D9000EBC94 /* Build configuration list for PBXNativeTarget "FakeMailApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63307F6E1BC418D9000EBC94 /* Debug */,
+				63307F6F1BC418D9000EBC94 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6354B48F1BD14E3200402F3C /* Build configuration list for PBXNativeTarget "Test32" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6354B4901BD14E3200402F3C /* Debug */,
+				6354B4911BD14E3200402F3C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 63307F491BC418D9000EBC94 /* Project object */;
+}
