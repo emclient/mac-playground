@@ -16,7 +16,9 @@ namespace FormsTest
 		[STAThread]
 		static void Main(string[] args)
 		{
-			Application.EnableVisualStyles();
+            //MonoMac.AppKit.NSApplication.Init();
+
+            Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new MainForm());
 		}

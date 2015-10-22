@@ -34,6 +34,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Collections.Generic;
+using MonoMac.Foundation;
 
 namespace System.Windows.Forms {
 	[DesignerCategory("Form")]
@@ -386,7 +387,12 @@ namespace System.Windows.Forms {
 		#region Public Constructor & Destructor
 		public Form ()
 		{
-			SizeF current_scale = GetAutoScaleSize (Font);
+            MonoMac.AppKit.NSApplication.EnsureUIThread();
+
+//            if (!NSThread.IsMain)
+//                Console.Error.WriteLine("Not in main thread");
+
+            SizeF current_scale = GetAutoScaleSize (Font);
 
 			autoscale = true;
 			autoscale_base_size = new Size ((int)Math.Round (current_scale.Width), (int)Math.Round(current_scale.Height));
