@@ -45,37 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\emclient\MailClient.Common.UI\CommonUIUtils.cs">
-      <Link>MailClient\Common\UI\CommonUIUtils.cs</Link>
-    </Compile>
-    <Compile Include="..\..\emclient\MailClient.Common.UI\DisplaySettingsManager.cs">
-      <Link>MailClient\Common\UI\DisplaySettingsManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\emclient\MailClient.Common.UI\FontCache.cs">
-      <Link>MailClient\Common\UI\FontCache.cs</Link>
-    </Compile>
-    <Compile Include="..\..\emclient\MailClient.Common.UI\FontStyleEx.cs">
-      <Link>MailClient\Common\UI\FontStyleEx.cs</Link>
-    </Compile>
-    <Compile Include="..\..\emclient\MailClient.Common.UI\TextRendererEx.cs">
-      <Link>MailClient\Common\UI\TextRendererEx.cs</Link>
-    </Compile>
-    <Compile Include="..\..\emclient\UI\Controls\ComboBoxEx.cs">
-      <Link>MailClient\UI\Controls\ComboBoxEx.cs</Link>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="..\..\emclient\UI\Controls\SeparatorBox.cs">
-      <Link>MailClient\UI\Controls\SeparatorBox.cs</Link>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="..\..\emclient\UI\Controls\WrappingCheckBox.cs">
-      <Link>MailClient\UI\Controls\WrappingCheckBox.cs</Link>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="..\..\emclient\UI\Controls\WrappingRadioButton.cs">
-      <Link>MailClient\UI\Controls\WrappingRadioButton.cs</Link>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="LayoutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +69,33 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Msg.cs" />
+    <Compile Include="..\..\..\UI\Controls\ComboBoxEx.cs">
+      <Link>MailClient\Common\UI\ComboBoxEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\UI\Controls\SeparatorBox.cs">
+      <Link>MailClient\Common\UI\SeparatorBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\UI\Controls\WrappingCheckBox.cs">
+      <Link>MailClient\Common\UI\WrappingCheckBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\UI\Controls\WrappingRadioButton.cs">
+      <Link>MailClient\Common\UI\WrappingRadioButton.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MailClient.Common.UI\CommonUIUtils.cs">
+      <Link>MailClient\UI\CommonUIUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MailClient.Common.UI\DisplaySettingsManager.cs">
+      <Link>MailClient\UI\DisplaySettingsManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MailClient.Common.UI\FontCache.cs">
+      <Link>MailClient\UI\FontCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MailClient.Common.UI\FontStyleEx.cs">
+      <Link>MailClient\UI\FontStyleEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MailClient.Common.UI\TextRendererEx.cs">
+      <Link>MailClient\UI\TextRendererEx.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -141,5 +137,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MailClient\Common\UI\Themes\" />
+    <Folder Include="MailClient\UI\Controls\" />
   </ItemGroup>
 </Project>
