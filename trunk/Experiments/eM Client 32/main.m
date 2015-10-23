@@ -40,7 +40,7 @@ int launchFormsTest(int argc, const char * argv[])
     NSString* base = contents;
     NSString* lib = [base stringByAppendingString:@"/lib"];
     NSString* etc = [base stringByAppendingString:@"/etc"];
-    NSString* config = [resources stringByAppendingString:@"/config"]; // contains dll remapping
+    NSString* config = [etc stringByAppendingString:@"/config"]; // contains dll remapping
     
     NSString* exeFolderParent = [lib stringByAppendingString:@"/formstest"];
     NSString* exeFolder = [exeFolderParent stringByAppendingString:@"/Mono - Debug"];
