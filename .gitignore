@@ -1,4 +1,6 @@
 trunk/*.suo
+trunk/Experiments/Experiments.xcworkspace/xcuserdata
+trunk/Experiments/FakeMailApp.xcodeproj/xcuserdata
 trunk/FormsTest/bin
 trunk/FormsTest/obj
 trunk/MacBridge.Test/bin
