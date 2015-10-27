@@ -1,17 +1,11 @@
 * text=auto !eol
 trunk/Experiments/Experiments.xcworkspace/contents.xcworkspacedata -text
 trunk/Experiments/Experiments.xcworkspace/xcshareddata/Experiments.xcscmblueprint -text
-trunk/Experiments/Experiments.xcworkspace/xcuserdata/jirkav.xcuserdatad/UserInterfaceState.xcuserstate -text
 trunk/Experiments/FakeMailApp.xcodeproj/project.pbxproj -text
 trunk/Experiments/FakeMailApp.xcodeproj/project.xcworkspace/contents.xcworkspacedata -text
 trunk/Experiments/FakeMailApp.xcodeproj/project.xcworkspace/xcshareddata/FakeMailApp.xccheckout -text
 trunk/Experiments/FakeMailApp.xcodeproj/project.xcworkspace/xcshareddata/FakeMailApp.xcscmblueprint -text
-trunk/Experiments/FakeMailApp.xcodeproj/project.xcworkspace/xcuserdata/jirkav.xcuserdatad/UserInterfaceState.xcuserstate -text
 trunk/Experiments/FakeMailApp.xcodeproj/project.xcworkspace/xcuserdata/jirkav.xcuserdatad/xcdebugger/Expressions.xcexplist -text
-trunk/Experiments/FakeMailApp.xcodeproj/xcuserdata/jirkav.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist -text
-trunk/Experiments/FakeMailApp.xcodeproj/xcuserdata/jirkav.xcuserdatad/xcschemes/FakeMailApp.xcscheme -text
-trunk/Experiments/FakeMailApp.xcodeproj/xcuserdata/jirkav.xcuserdatad/xcschemes/Test32.xcscheme -text
-trunk/Experiments/FakeMailApp.xcodeproj/xcuserdata/jirkav.xcuserdatad/xcschemes/xcschememanagement.plist -text
 trunk/Experiments/FakeMailApp/AppDelegate.swift -text
 trunk/Experiments/FakeMailApp/Base.lproj/Main.storyboard -text
 trunk/Experiments/FakeMailApp/Images.xcassets/AppIcon.appiconset/Contents.json -text
