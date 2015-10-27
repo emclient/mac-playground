@@ -7,80 +7,92 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		631E767C1BDA8D5C001DA2A5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 631E767B1BDA8D5C001DA2A5 /* AppDelegate.m */; };
+		631E767E1BDA8D5C001DA2A5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 631E767D1BDA8D5C001DA2A5 /* main.m */; };
+		631E76801BDA8D5C001DA2A5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 631E767F1BDA8D5C001DA2A5 /* Images.xcassets */; };
+		631E76831BDA8D5C001DA2A5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 631E76811BDA8D5C001DA2A5 /* MainMenu.xib */; };
 		63307F571BC418D9000EBC94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63307F561BC418D9000EBC94 /* AppDelegate.swift */; };
 		63307F591BC418D9000EBC94 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63307F581BC418D9000EBC94 /* ViewController.swift */; };
 		63307F5B1BC418D9000EBC94 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63307F5A1BC418D9000EBC94 /* Images.xcassets */; };
 		63307F5E1BC418D9000EBC94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63307F5C1BC418D9000EBC94 /* Main.storyboard */; };
-		6354B4881BD14E3200402F3C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6354B4871BD14E3200402F3C /* main.m */; };
-		6354B48A1BD14E3200402F3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6354B4891BD14E3200402F3C /* Assets.xcassets */; };
-		6354B48D1BD14E3200402F3C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6354B48B1BD14E3200402F3C /* MainMenu.xib */; };
-		6385F59A1BD9217B001E2182 /* Mono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6385F5991BD9217B001E2182 /* Mono.framework */; };
-		6385F59D1BD922B6001E2182 /* etc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6385F59B1BD922B6001E2182 /* etc */; };
-		6385F59E1BD922B6001E2182 /* lib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6385F59C1BD922B6001E2182 /* lib */; };
-		63B5EE3C1BD93122006806C0 /* Mono - Debug in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63B5EE3B1BD93122006806C0 /* Mono - Debug */; };
-		63B5EE3E1BD932EC006806C0 /* Mono - Debug in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63B5EE3D1BD932EC006806C0 /* Mono - Debug */; };
-		63BB6F9C1BD7CFDC00D56A38 /* config in Resources */ = {isa = PBXBuildFile; fileRef = 63BB6F9B1BD7CFDC00D56A38 /* config */; settings = {ASSET_TAGS = (); }; };
-		63BB6FC01BD83F6600D56A38 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BB6FBF1BD83F6600D56A38 /* AppDelegate.m */; settings = {ASSET_TAGS = (); }; };
+		633EC3BF1BDA909700B35867 /* lib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 633EC3BE1BDA909700B35867 /* lib */; };
+		633EC3C11BDA909D00B35867 /* etc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 633EC3C01BDA909D00B35867 /* etc */; };
+		633EC3C41BDA90DB00B35867 /* Mono - Debug in CopyFiles */ = {isa = PBXBuildFile; fileRef = 633EC3C31BDA90DB00B35867 /* Mono - Debug */; };
+		633EC3C71BDA910B00B35867 /* Mono - Debug in CopyFiles */ = {isa = PBXBuildFile; fileRef = 633EC3C61BDA910B00B35867 /* Mono - Debug */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		63BA38341BD8E23D00357151 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = ../lib/emclient;
-			dstSubfolderSpec = 7;
-			files = (
-				63B5EE3E1BD932EC006806C0 /* Mono - Debug in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		63BB6F1B1BD7970300D56A38 /* CopyFiles */ = {
+		633EC3BB1BDA907300B35867 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = ..;
 			dstSubfolderSpec = 7;
 			files = (
-				6385F59D1BD922B6001E2182 /* etc in CopyFiles */,
-				6385F59E1BD922B6001E2182 /* lib in CopyFiles */,
+				633EC3BF1BDA909700B35867 /* lib in CopyFiles */,
+				633EC3C11BDA909D00B35867 /* etc in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		63C26D041BD517BE00080CFF /* CopyFiles */ = {
+		633EC3C21BDA90C100B35867 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = ../lib/formstest;
 			dstSubfolderSpec = 7;
 			files = (
-				63B5EE3C1BD93122006806C0 /* Mono - Debug in CopyFiles */,
+				633EC3C41BDA90DB00B35867 /* Mono - Debug in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		633EC3C51BDA90E300B35867 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = ../lib/emclient;
+			dstSubfolderSpec = 7;
+			files = (
+				633EC3C71BDA910B00B35867 /* Mono - Debug in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		636566E91BDE6DAE0006D199 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = ../lib/formstest2;
+			dstSubfolderSpec = 7;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		631E76761BDA8D5C001DA2A5 /* eM Client 32.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eM Client 32.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		631E76791BDA8D5C001DA2A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		631E767A1BDA8D5C001DA2A5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		631E767B1BDA8D5C001DA2A5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		631E767D1BDA8D5C001DA2A5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		631E767F1BDA8D5C001DA2A5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		631E76821BDA8D5C001DA2A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		63307F511BC418D9000EBC94 /* FakeMailApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FakeMailApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63307F551BC418D9000EBC94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63307F561BC418D9000EBC94 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63307F581BC418D9000EBC94 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		63307F5A1BC418D9000EBC94 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		63307F5D1BC418D9000EBC94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		6354B4811BD14E3200402F3C /* Test32.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test32.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6354B4871BD14E3200402F3C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6354B4891BD14E3200402F3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		6354B48C1BD14E3200402F3C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		6354B48E1BD14E3200402F3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6385F5991BD9217B001E2182 /* Mono.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mono.framework; path = /Library/Frameworks/Mono.framework; sourceTree = "<absolute>"; };
-		6385F59B1BD922B6001E2182 /* etc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = etc; path = Resources/mono/etc; sourceTree = "<group>"; };
-		6385F59C1BD922B6001E2182 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = Resources/mono/lib; sourceTree = "<group>"; };
-		63B5EE3B1BD93122006806C0 /* Mono - Debug */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Mono - Debug"; path = "../FormsTest/bin/Mono - Debug"; sourceTree = "<group>"; };
-		63B5EE3D1BD932EC006806C0 /* Mono - Debug */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Mono - Debug"; path = "../../../bin/x86/Mono - Debug"; sourceTree = "<group>"; };
-		63BB6F9B1BD7CFDC00D56A38 /* config */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config; sourceTree = "<group>"; };
-		63BB6FA41BD811EA00D56A38 /* finalize_package.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = finalize_package.sh; sourceTree = "<group>"; };
-		63BB6FBE1BD83F6600D56A38 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		63BB6FBF1BD83F6600D56A38 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		633EC3BA1BDA8FF600B35867 /* finalize_package.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = finalize_package.sh; sourceTree = "<group>"; };
+		633EC3BE1BDA909700B35867 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = Resources/mono/lib; sourceTree = "<group>"; };
+		633EC3C01BDA909D00B35867 /* etc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = etc; path = Resources/mono/etc; sourceTree = "<group>"; };
+		633EC3C31BDA90DB00B35867 /* Mono - Debug */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Mono - Debug"; path = "../FormsTest/bin/Mono - Debug"; sourceTree = "<group>"; };
+		633EC3C61BDA910B00B35867 /* Mono - Debug */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Mono - Debug"; path = "../../../bin/x86/Mono - Debug"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		631E76731BDA8D5C001DA2A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		63307F4E1BC418D9000EBC94 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -88,22 +100,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6354B47E1BD14E3200402F3C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6385F59A1BD9217B001E2182 /* Mono.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		631E76771BDA8D5C001DA2A5 /* eM Client 32 */ = {
+			isa = PBXGroup;
+			children = (
+				631E767D1BDA8D5C001DA2A5 /* main.m */,
+				631E767A1BDA8D5C001DA2A5 /* AppDelegate.h */,
+				631E767B1BDA8D5C001DA2A5 /* AppDelegate.m */,
+				631E767F1BDA8D5C001DA2A5 /* Images.xcassets */,
+				631E76811BDA8D5C001DA2A5 /* MainMenu.xib */,
+				633EC3BA1BDA8FF600B35867 /* finalize_package.sh */,
+				631E76781BDA8D5C001DA2A5 /* Supporting Files */,
+			);
+			path = "eM Client 32";
+			sourceTree = "<group>";
+		};
+		631E76781BDA8D5C001DA2A5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				631E76791BDA8D5C001DA2A5 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		63307F481BC418D9000EBC94 = {
 			isa = PBXGroup;
 			children = (
 				63307F531BC418D9000EBC94 /* FakeMailApp */,
-				6354B4821BD14E3200402F3C /* Test32 */,
+				631E76771BDA8D5C001DA2A5 /* eM Client 32 */,
 				63BA38371BD9108100357151 /* Externals */,
 				63307F521BC418D9000EBC94 /* Products */,
 			);
@@ -113,7 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				63307F511BC418D9000EBC94 /* FakeMailApp.app */,
-				6354B4811BD14E3200402F3C /* Test32.app */,
+				631E76761BDA8D5C001DA2A5 /* eM Client 32.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -130,29 +156,13 @@
 			path = FakeMailApp;
 			sourceTree = "<group>";
 		};
-		6354B4821BD14E3200402F3C /* Test32 */ = {
-			isa = PBXGroup;
-			children = (
-				6354B4871BD14E3200402F3C /* main.m */,
-				63BB6FBE1BD83F6600D56A38 /* AppDelegate.h */,
-				63BB6FBF1BD83F6600D56A38 /* AppDelegate.m */,
-				6354B4891BD14E3200402F3C /* Assets.xcassets */,
-				6354B48B1BD14E3200402F3C /* MainMenu.xib */,
-				6354B48E1BD14E3200402F3C /* Info.plist */,
-				63BB6F9B1BD7CFDC00D56A38 /* config */,
-				63BB6FA41BD811EA00D56A38 /* finalize_package.sh */,
-			);
-			path = Test32;
-			sourceTree = "<group>";
-		};
 		63BA38371BD9108100357151 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
-				6385F5991BD9217B001E2182 /* Mono.framework */,
-				63B5EE3B1BD93122006806C0 /* Mono - Debug */,
-				63B5EE3D1BD932EC006806C0 /* Mono - Debug */,
-				6385F59B1BD922B6001E2182 /* etc */,
-				6385F59C1BD922B6001E2182 /* lib */,
+				633EC3C61BDA910B00B35867 /* Mono - Debug */,
+				633EC3C31BDA90DB00B35867 /* Mono - Debug */,
+				633EC3C01BDA909D00B35867 /* etc */,
+				633EC3BE1BDA909700B35867 /* lib */,
 			);
 			name = Externals;
 			sourceTree = "<group>";
@@ -160,6 +170,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		631E76751BDA8D5C001DA2A5 /* eM Client 32 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 631E76901BDA8D5D001DA2A5 /* Build configuration list for PBXNativeTarget "eM Client 32" */;
+			buildPhases = (
+				631E76721BDA8D5C001DA2A5 /* Sources */,
+				631E76731BDA8D5C001DA2A5 /* Frameworks */,
+				631E76741BDA8D5C001DA2A5 /* Resources */,
+				633EC3BB1BDA907300B35867 /* CopyFiles */,
+				633EC3C21BDA90C100B35867 /* CopyFiles */,
+				633EC3C51BDA90E300B35867 /* CopyFiles */,
+				636566E91BDE6DAE0006D199 /* CopyFiles */,
+				633EC3C81BDA911500B35867 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "eM Client 32";
+			productName = "eM Client 32";
+			productReference = 631E76761BDA8D5C001DA2A5 /* eM Client 32.app */;
+			productType = "com.apple.product-type.application";
+		};
 		63307F501BC418D9000EBC94 /* FakeMailApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 63307F6D1BC418D9000EBC94 /* Build configuration list for PBXNativeTarget "FakeMailApp" */;
@@ -177,27 +209,6 @@
 			productReference = 63307F511BC418D9000EBC94 /* FakeMailApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6354B4801BD14E3200402F3C /* Test32 */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 6354B48F1BD14E3200402F3C /* Build configuration list for PBXNativeTarget "Test32" */;
-			buildPhases = (
-				6354B47D1BD14E3200402F3C /* Sources */,
-				6354B47E1BD14E3200402F3C /* Frameworks */,
-				6354B47F1BD14E3200402F3C /* Resources */,
-				63BB6F1B1BD7970300D56A38 /* CopyFiles */,
-				63C26D041BD517BE00080CFF /* CopyFiles */,
-				63BA38341BD8E23D00357151 /* CopyFiles */,
-				63BB6FA61BD8120C00D56A38 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Test32;
-			productName = Test32;
-			productReference = 6354B4811BD14E3200402F3C /* Test32.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -208,11 +219,11 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "eM Client";
 				TargetAttributes = {
-					63307F501BC418D9000EBC94 = {
+					631E76751BDA8D5C001DA2A5 = {
 						CreatedOnToolsVersion = 6.4;
 					};
-					6354B4801BD14E3200402F3C = {
-						CreatedOnToolsVersion = 7.0.1;
+					63307F501BC418D9000EBC94 = {
+						CreatedOnToolsVersion = 6.4;
 					};
 				};
 			};
@@ -230,12 +241,21 @@
 			projectRoot = "";
 			targets = (
 				63307F501BC418D9000EBC94 /* FakeMailApp */,
-				6354B4801BD14E3200402F3C /* Test32 */,
+				631E76751BDA8D5C001DA2A5 /* eM Client 32 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		631E76741BDA8D5C001DA2A5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				631E76801BDA8D5C001DA2A5 /* Images.xcassets in Resources */,
+				631E76831BDA8D5C001DA2A5 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		63307F4F1BC418D9000EBC94 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -245,20 +265,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6354B47F1BD14E3200402F3C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6354B48A1BD14E3200402F3C /* Assets.xcassets in Resources */,
-				63BB6F9C1BD7CFDC00D56A38 /* config in Resources */,
-				6354B48D1BD14E3200402F3C /* MainMenu.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		63BB6FA61BD8120C00D56A38 /* ShellScript */ = {
+		633EC3C81BDA911500B35867 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -269,11 +279,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = $PROJECT_DIR/$TARGET_NAME/finalize_package.sh;
+			shellScript = "\"$PROJECT_DIR/$TARGET_NAME/finalize_package.sh\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		631E76721BDA8D5C001DA2A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				631E767E1BDA8D5C001DA2A5 /* main.m in Sources */,
+				631E767C1BDA8D5C001DA2A5 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		63307F4D1BC418D9000EBC94 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -283,18 +302,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6354B47D1BD14E3200402F3C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6354B4881BD14E3200402F3C /* main.m in Sources */,
-				63BB6FC01BD83F6600D56A38 /* AppDelegate.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		631E76811BDA8D5C001DA2A5 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				631E76821BDA8D5C001DA2A5 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
 		63307F5C1BC418D9000EBC94 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -303,17 +321,53 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		6354B48B1BD14E3200402F3C /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6354B48C1BD14E3200402F3C /* Base */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		631E76911BDA8D5D001DA2A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"/Library/Frameworks/Mono.framework/Headers/**",
+					"/Library/Frameworks/Mono.framework/Versions/Current/lib/glib-2.0/include/**",
+				);
+				INFOPLIST_FILE = "eM Client 32/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Versions/4.0.4/lib;
+				OTHER_LDFLAGS = "-lmonosgen-2.0";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = i386;
+			};
+			name = Debug;
+		};
+		631E76921BDA8D5D001DA2A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = (
+					"/Library/Frameworks/Mono.framework/Headers/**",
+					"/Library/Frameworks/Mono.framework/Versions/Current/lib/glib-2.0/include/**",
+				);
+				INFOPLIST_FILE = "eM Client 32/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Versions/4.0.4/lib;
+				OTHER_LDFLAGS = "-lmonosgen-2.0";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = i386;
+			};
+			name = Release;
+		};
 		63307F6B1BC418D9000EBC94 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -419,59 +473,18 @@
 			};
 			name = Release;
 		};
-		6354B4901BD14E3200402F3C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_OBJC_ARC = NO;
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(PROJECT_DIR)/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = (
-					"/Library/Frameworks/Mono.framework/Headers/**",
-					"/Library/Frameworks/Mono.framework/Versions/Current/lib/glib-2.0/include/**",
-				);
-				INFOPLIST_FILE = Test32/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.emclient.test32;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				VALID_ARCHS = i386;
-			};
-			name = Debug;
-		};
-		6354B4911BD14E3200402F3C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_OBJC_ARC = NO;
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(PROJECT_DIR)/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = (
-					"/Library/Frameworks/Mono.framework/Headers/**",
-					"/Library/Frameworks/Mono.framework/Versions/Current/lib/glib-2.0/include/**",
-				);
-				INFOPLIST_FILE = Test32/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.emclient.test32;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				VALID_ARCHS = i386;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		631E76901BDA8D5D001DA2A5 /* Build configuration list for PBXNativeTarget "eM Client 32" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				631E76911BDA8D5D001DA2A5 /* Debug */,
+				631E76921BDA8D5D001DA2A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		63307F4C1BC418D9000EBC94 /* Build configuration list for PBXProject "FakeMailApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -486,15 +499,6 @@
 			buildConfigurations = (
 				63307F6E1BC418D9000EBC94 /* Debug */,
 				63307F6F1BC418D9000EBC94 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		6354B48F1BD14E3200402F3C /* Build configuration list for PBXNativeTarget "Test32" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6354B4901BD14E3200402F3C /* Debug */,
-				6354B4911BD14E3200402F3C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
