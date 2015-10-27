@@ -1,5 +1,6 @@
 * text=auto !eol
 trunk/Experiments/Experiments.xcworkspace/contents.xcworkspacedata -text
+trunk/Experiments/Experiments.xcworkspace/xcshareddata/Experiments.xccheckout -text
 trunk/Experiments/Experiments.xcworkspace/xcshareddata/Experiments.xcscmblueprint -text
 trunk/Experiments/FakeMailApp.xcodeproj/project.pbxproj -text
 trunk/Experiments/FakeMailApp.xcodeproj/project.xcworkspace/contents.xcworkspacedata -text
