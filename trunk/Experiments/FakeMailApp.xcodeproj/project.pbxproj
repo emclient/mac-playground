@@ -53,15 +53,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		636566E91BDE6DAE0006D199 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = ../lib/formstest2;
-			dstSubfolderSpec = 7;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -180,7 +171,6 @@
 				633EC3BB1BDA907300B35867 /* CopyFiles */,
 				633EC3C21BDA90C100B35867 /* CopyFiles */,
 				633EC3C51BDA90E300B35867 /* CopyFiles */,
-				636566E91BDE6DAE0006D199 /* CopyFiles */,
 				633EC3C81BDA911500B35867 /* ShellScript */,
 			);
 			buildRules = (
@@ -216,7 +206,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "eM Client";
 				TargetAttributes = {
 					631E76751BDA8D5C001DA2A5 = {
@@ -337,12 +327,13 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"/Library/Frameworks/Mono.framework/Headers/**",
-					"/Library/Frameworks/Mono.framework/Versions/Current/lib/glib-2.0/include/**",
+					"/Library/Frameworks/Mono.framework/Versions/Current/lib/glib-2.0/include",
 				);
 				INFOPLIST_FILE = "eM Client 32/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Versions/4.0.4/lib;
+				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Versions/Current/lib;
 				OTHER_LDFLAGS = "-lmonosgen-2.0";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.emclient.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = i386;
 			};
@@ -357,12 +348,13 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				HEADER_SEARCH_PATHS = (
 					"/Library/Frameworks/Mono.framework/Headers/**",
-					"/Library/Frameworks/Mono.framework/Versions/Current/lib/glib-2.0/include/**",
+					"/Library/Frameworks/Mono.framework/Versions/Current/lib/glib-2.0/include",
 				);
 				INFOPLIST_FILE = "eM Client 32/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Versions/4.0.4/lib;
+				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Versions/Current/lib;
 				OTHER_LDFLAGS = "-lmonosgen-2.0";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.emclient.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = i386;
 			};
