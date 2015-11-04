@@ -6258,6 +6258,7 @@ trunk/sysdrawing-coregraphics/System.Drawing/Font-CoreText.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing/Font.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing/FontFamily-CoreText.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing/FontFamily.cs -text
+trunk/sysdrawing-coregraphics/System.Drawing/GDIPlus.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing/Graphics-DrawEllipticalArc.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing/Graphics-DrawImage.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing/Graphics-DrawString.cs -text
@@ -6279,7 +6280,6 @@ trunk/sysdrawing-coregraphics/Utilities/GeomTransformUtils.cs -text
 trunk/sysdrawing-coregraphics/Utilities/GeomUtilities.cs -text
 trunk/sysdrawing-coregraphics/Utilities/Locale.cs -text
 trunk/sysdrawing-coregraphics/sysdrawing-coregraphics-Mac/AssemblyInfo.cs -text
-trunk/sysdrawing-coregraphics/sysdrawing-coregraphics-Mac/System.Drawing/GDIPlus.cs -text
 trunk/sysdrawing-coregraphics/sysdrawing-coregraphics-Mac/sysdrawing-coregraphics-Mac.csproj -text
 trunk/sysdrawing-coregraphics/sysdrawing-coregraphics.csproj -text
 trunk/sysdrawing-coregraphics/sysdrawing-coregraphics.sln -text
