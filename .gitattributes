@@ -6278,6 +6278,7 @@ trunk/sysdrawing-coregraphics/Utilities/GeomTransformUtils.cs -text
 trunk/sysdrawing-coregraphics/Utilities/GeomUtilities.cs -text
 trunk/sysdrawing-coregraphics/Utilities/Locale.cs -text
 trunk/sysdrawing-coregraphics/sysdrawing-coregraphics-Mac/AssemblyInfo.cs -text
+trunk/sysdrawing-coregraphics/sysdrawing-coregraphics-Mac/System.Drawing/GDIPlus.cs -text
 trunk/sysdrawing-coregraphics/sysdrawing-coregraphics-Mac/sysdrawing-coregraphics-Mac.csproj -text
 trunk/sysdrawing-coregraphics/sysdrawing-coregraphics.csproj -text
 trunk/sysdrawing-coregraphics/sysdrawing-coregraphics.sln -text
