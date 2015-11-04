@@ -344,6 +344,7 @@ trunk/Experiments/Resources/mono/lib/mono/gac/System.Drawing.Design/4.0.0.0__b03
 trunk/Experiments/Resources/mono/lib/mono/gac/System.Drawing.Design/4.0.0.0__b03f5f7f11d50a3a/System.Drawing.Design.dll.mdb -text
 trunk/Experiments/Resources/mono/lib/mono/gac/System.Drawing/4.0.0.0__b03f5f7f11d50a3a/System.Drawing.dll -text
 trunk/Experiments/Resources/mono/lib/mono/gac/System.Drawing/4.0.0.0__b03f5f7f11d50a3a/System.Drawing.dll.mdb -text
+trunk/Experiments/Resources/mono/lib/mono/gac/System.Drawing/4.0.0.0__b03f5f7f11d50a3a/libgdiplus.dylib -text
 trunk/Experiments/Resources/mono/lib/mono/gac/System.Dynamic/4.0.0.0__b77a5c561934e089/System.Dynamic.dll -text
 trunk/Experiments/Resources/mono/lib/mono/gac/System.Dynamic/4.0.0.0__b77a5c561934e089/System.Dynamic.dll.mdb -text
 trunk/Experiments/Resources/mono/lib/mono/gac/System.EnterpriseServices/4.0.0.0__b03f5f7f11d50a3a/System.EnterpriseServices.dll -text
