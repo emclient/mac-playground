@@ -513,7 +513,9 @@
     <Compile Include="AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing\GDIPlus.cs" />
+    <Compile Include="..\System.Drawing\GDIPlus.cs">
+      <Link>System.Drawing\GDIPlus.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\..\mono\mcs\class\System.Drawing\Assembly\Mono.ico">
