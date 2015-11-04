@@ -40,11 +40,13 @@ int launchFormsTest(int argc, const char * argv[])
     NSString* base = contents;
     NSString* lib = [base stringByAppendingString:@"/lib"];
     NSString* etc = [base stringByAppendingString:@"/etc"];
-    NSString* config = [etc stringByAppendingString:@"/config"]; // contains dll remapping
+    NSString* config = [etc stringByAppendingString:@"/mono/config"]; // contains dll remapping
     
     NSString* exeFolderParent = [lib stringByAppendingString:@"/formstest"];
+//    NSString* exeFolderParent = [lib stringByAppendingString:@"/emclient"];
     NSString* exeFolder = [exeFolderParent stringByAppendingString:@"/Mono - Debug"];
     NSString* exe = [exeFolder stringByAppendingString:@"/FormsTest.exe"];
+    //NSString* exe = [exeFolder stringByAppendingString:@"/MailClient.exe"];
     NSString* exeConfig = [exe stringByAppendingString:@".config"];
     
     setenv("MONO_ENABLE_SHM", "1", true); // Enable System Mutexes
