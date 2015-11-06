@@ -6230,6 +6230,7 @@ trunk/monomac-mac64/src/pdfkit.cs -text
 trunk/monomac-mac64/src/qtkit.cs -text
 trunk/monomac-mac64/src/scriptingbridge.cs -text
 trunk/monomac-mac64/src/webkit.cs -text
+trunk/readme.rtf -text
 trunk/sysdrawing-coregraphics/System.Drawing.Drawing2D/GraphicsContainer.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing.Drawing2D/GraphicsPath-AddString.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing.Drawing2D/GraphicsPath.cs -text
