@@ -600,6 +600,16 @@ trunk/Experiments/eM[!!-~]Client[!!-~]32/AppDelegate.h -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/AppDelegate.m -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/Base.lproj/MainMenu.xib -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/Images.xcassets/AppIcon.appiconset/Contents.json -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/Images.xcassets/AppIcon.appiconset/Icon_128x128-2x.png -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/Images.xcassets/AppIcon.appiconset/Icon_128x128.png -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/Images.xcassets/AppIcon.appiconset/Icon_16x16-2x.png -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/Images.xcassets/AppIcon.appiconset/Icon_16x16.png -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/Images.xcassets/AppIcon.appiconset/Icon_256x256-2x.png -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/Images.xcassets/AppIcon.appiconset/Icon_256x256.png -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/Images.xcassets/AppIcon.appiconset/Icon_32x32-2x.png -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/Images.xcassets/AppIcon.appiconset/Icon_32x32.png -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/Images.xcassets/AppIcon.appiconset/Icon_512x512-2x.png -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/Images.xcassets/AppIcon.appiconset/Icon_512x512.png -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/Info.plist -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/finalize_package.sh -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/main.m -text
