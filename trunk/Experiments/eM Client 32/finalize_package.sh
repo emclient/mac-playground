@@ -14,8 +14,8 @@ export GAC="$LIB/mono/gac"
 
 # --- formstest ----------------------------------------------------------------------------------------------------------
 
-#export APP="$LIB/emclient/Mono - Debug"
-export APP="$LIB/formstest/Mono - Debug"
+export APP="$LIB/emclient/Mono - Debug"
+#export APP="$LIB/formstest/Mono - Debug"
 
 cp "$APP/System.Windows.Forms.dll" "$GAC/System.Windows.Forms/4.0.0.0__b77a5c561934e089/System.Windows.Forms.dll"
 cp "$APP/System.Windows.Forms.dll.mdb" "$GAC/System.Windows.Forms/4.0.0.0__b77a5c561934e089/System.Windows.Forms.dll.mdb"
