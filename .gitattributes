@@ -598,7 +598,11 @@ trunk/Experiments/Resources/mono/lib/pango/1.8.0/modules/pango-basic-coretext.so
 trunk/Experiments/Resources/mono/lib/pango/1.8.0/modules/pango-indic-lang.so.dSYM/Contents/Info.plist -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/AppDelegate.h -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/AppDelegate.m -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/AutofreePool.h -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/AutofreePool.m -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/Base.lproj/MainMenu.xib -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/CStringArray.h -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/CStringArray.m -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/Images.xcassets/AppIcon.appiconset/Contents.json -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/Images.xcassets/AppIcon.appiconset/Icon_128x128-2x.png -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/Images.xcassets/AppIcon.appiconset/Icon_128x128.png -text
