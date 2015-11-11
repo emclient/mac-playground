@@ -9,10 +9,6 @@
 // If you uncomment the following line, you always have to start remote debugging session in Xamarin Studio
 // before launching this app, and you have to launch this app without debugging in Xcode!
 
-//#define REMOTE_DEBUGGING 1
-
-
-
 #import <Cocoa/Cocoa.h>
 
 #include <glib-2.0/glib.h>
@@ -22,16 +18,18 @@
 #include <mono/metadata/mono-config.h>
 //#include <mono/metadata/debug-helpers.h>
 //#include <mono/metadata/environment.h>
-
-#ifdef REMOTE_DEBUGGING
 #include <mono/metadata/mono-debug.h>
-#endif
 
+#import "AutofreePool.h"
+#import "CStringArray.h"
 
 int launchFormsTest(int argc, const char * argv[]);
 
+// -------
 
 int main(int argc, const char * argv[]) {
+
+    AutofreePool* fpool = [[AutofreePool alloc] init];
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     
     launchFormsTest(argc, argv);
@@ -40,6 +38,7 @@ int main(int argc, const char * argv[]) {
     //NSApplicationMain(argc, argv);
     
     [pool release];
+    [fpool release];
     return 0;
 }
 
@@ -69,15 +68,21 @@ int launchFormsTest(int argc, const char * argv[])
     // Pokus vyresit problem s nenalezenim gdiplus.dll
     //setenv("DYLD_LIBRARY_PATH", [exeFolder UTF8String], true);
 
-    const char* options[] = {
-      //"--trace=N:MailClient,E:all",
-      //"--trace=N:FormsTest,E:all",
-      #ifdef REMOTE_DEBUGGING
-        "--soft-breakpoints",
-        "--debugger-agent=transport=dt_socket,address=127.0.0.1:10000" // Uncomment this to enable remote debugging using Xamarin Studio
-      #endif //REMOTE_DEBUGGING
-    };
-    mono_jit_parse_options(sizeof(options)/sizeof(char*), (char**)options);
+    NSMutableArray* monoOptions = [[NSMutableArray new] autorelease];
+
+    // Setup remote debugging if Ctrl-Alt-Shift buttons are pressed on startup
+    NSUInteger flags = [NSEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask;
+    int remoteDebuggingMask = NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask; // | NSCommandKeyMask;
+    bool remoteDebugging = flags == remoteDebuggingMask;
+    if (remoteDebugging) {
+        [monoOptions addObject:@"--soft-breakpoints"];
+        [monoOptions addObject:@"--debugger-agent=transport=dt_socket,address=127.0.0.1:10000"];
+    }
+    //[monoOptions addObject:@"--trace=N:MailClient,E:all"];
+    //[monoOptions addObject:@"--trace=N:FormsTest,E:all"];
+    
+    //mono_jit_parse_options(sizeof(options)/sizeof(char*), (char**)options);
+    mono_jit_parse_options(monoOptions.count, [monoOptions UTF8StringArray]);
     
     //http://mono.1490590.n4.nabble.com/teste-exe-mscorlib-dll-not-found-td1503296.html
     mono_set_dirs([lib UTF8String], [etc UTF8String]);
@@ -88,16 +93,20 @@ int launchFormsTest(int argc, const char * argv[])
     MonoDomain* domain = mono_jit_init("Domain");
 
     // Remote debugging using Xamarin Studio:
-#ifdef REMOTE_DEBUGGING
-    mono_debug_init(MONO_DEBUG_FORMAT_MONO);
-    mono_debug_domain_create(domain);
-#endif //REMOTE_DEBUGGING
+    if (remoteDebugging) {
+        mono_debug_init(MONO_DEBUG_FORMAT_MONO);
+        mono_debug_domain_create(domain);
+    }
     
     //mono_jit_init_version("FormsTest", "v4.5");
     // Bez tohoto dojde k padu v mono_runtime_class_init, ale zda se ze nezalezi na druhem a tretim parametru
     mono_domain_set_config(domain, [base UTF8String], [config UTF8String]);
     //mono_domain_set_config(domain, [lib UTF8String], [exeConfig UTF8String]);
     
+    NSMutableArray* appArgs = [[NSMutableArray new] autorelease];
+    [appArgs addObject:@"--args"];
+    [appArgs addUTF8Strings:argv from:0 count:argc];
+    
     MonoAssembly* assembly = mono_domain_assembly_open(domain, [exe UTF8String]);
-    return mono_jit_exec (domain, assembly, argc, (char**)argv);
+    return mono_jit_exec (domain, assembly, appArgs.count, [appArgs UTF8StringArray]);
 }
