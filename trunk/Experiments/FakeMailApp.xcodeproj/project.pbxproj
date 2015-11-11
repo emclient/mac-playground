@@ -19,6 +19,8 @@
 		633EC3C11BDA909D00B35867 /* etc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 633EC3C01BDA909D00B35867 /* etc */; };
 		633EC3C41BDA90DB00B35867 /* Mono - Debug in CopyFiles */ = {isa = PBXBuildFile; fileRef = 633EC3C31BDA90DB00B35867 /* Mono - Debug */; };
 		633EC3C71BDA910B00B35867 /* Mono - Debug in CopyFiles */ = {isa = PBXBuildFile; fileRef = 633EC3C61BDA910B00B35867 /* Mono - Debug */; };
+		6353FDBF1BF2272C0074130D /* CStringArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 6353FDBE1BF2272C0074130D /* CStringArray.m */; };
+		6353FDC21BF22AB60074130D /* AutofreePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6353FDC11BF22AB60074130D /* AutofreePool.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -74,6 +76,10 @@
 		633EC3C01BDA909D00B35867 /* etc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = etc; path = Resources/mono/etc; sourceTree = "<group>"; };
 		633EC3C31BDA90DB00B35867 /* Mono - Debug */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Mono - Debug"; path = "../FormsTest/bin/Mono - Debug"; sourceTree = "<group>"; };
 		633EC3C61BDA910B00B35867 /* Mono - Debug */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Mono - Debug"; path = "../../../bin/x86/Mono - Debug"; sourceTree = "<group>"; };
+		6353FDBD1BF2272C0074130D /* CStringArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CStringArray.h; sourceTree = "<group>"; };
+		6353FDBE1BF2272C0074130D /* CStringArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CStringArray.m; sourceTree = "<group>"; };
+		6353FDC01BF22AB60074130D /* AutofreePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutofreePool.h; sourceTree = "<group>"; };
+		6353FDC11BF22AB60074130D /* AutofreePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutofreePool.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +106,10 @@
 				631E767D1BDA8D5C001DA2A5 /* main.m */,
 				631E767A1BDA8D5C001DA2A5 /* AppDelegate.h */,
 				631E767B1BDA8D5C001DA2A5 /* AppDelegate.m */,
+				6353FDBD1BF2272C0074130D /* CStringArray.h */,
+				6353FDBE1BF2272C0074130D /* CStringArray.m */,
+				6353FDC01BF22AB60074130D /* AutofreePool.h */,
+				6353FDC11BF22AB60074130D /* AutofreePool.m */,
 				631E767F1BDA8D5C001DA2A5 /* Images.xcassets */,
 				631E76811BDA8D5C001DA2A5 /* MainMenu.xib */,
 				633EC3BA1BDA8FF600B35867 /* finalize_package.sh */,
@@ -279,6 +289,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				631E767E1BDA8D5C001DA2A5 /* main.m in Sources */,
+				6353FDBF1BF2272C0074130D /* CStringArray.m in Sources */,
+				6353FDC21BF22AB60074130D /* AutofreePool.m in Sources */,
 				631E767C1BDA8D5C001DA2A5 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
