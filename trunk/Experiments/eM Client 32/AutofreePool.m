@@ -48,6 +48,15 @@ static void _PFDrain(const void *key, const void *value, void *context)
     return (char*) aString;
 }
 
++ (char * _Nullable)addUTF8StringCopy:(const void* _Nonnull)aString {
+    int n = 1 + strlen(aString);
+    char* copy = malloc(n * sizeof(char));
+    strcpy(copy, aString);
+    copy[n - 1] = '\0';
+    return [AutofreePool addUTF8String:copy];
+}
+
+
 -(id)init
 {
     if (self = [super init]) {

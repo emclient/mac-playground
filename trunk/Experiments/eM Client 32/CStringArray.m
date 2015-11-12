@@ -8,11 +8,20 @@
     const char** a = malloc(size);
     for(int i = 0; i < self.count; ++i) {
         NSString* s = [self objectAtIndex:i];
-        const char* cs = [s UTF8String];
-        //[AutofreePool addUTF8String:cs];
-        a[i] = cs;
+        a[i] = [s UTF8String];
     }
 
+    [AutofreePool addObject:a];
+    return (char**)a;
+}
+
+-(char**)UTF8StringCopyArray {
+    int size = self.count * sizeof(char*);
+    const char** a = malloc(size);
+    for(int i = 0; i < self.count; ++i) {
+        NSString* s = [self objectAtIndex:i];
+        a[i] = [AutofreePool addUTF8StringCopy:[s UTF8String]];
+    }
     [AutofreePool addObject:a];
     return (char**)a;
 }
@@ -36,3 +45,13 @@
 
 
 @end
+
+// --------------------------------------------------------------------------------------
+
+void NSLogUTF8Array(NSString* prefix, int n, const char** array) {
+    if (prefix != nil)
+        NSLog(@"%@", prefix);
+    for (int i = 0; i < n; ++i) {
+        NSLog(@"%s", array[i]);
+    }
+}

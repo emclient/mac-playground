@@ -11,17 +11,18 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-
-
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
-        // Insert code here to initialize your application
+    func applicationWillFinishLaunching(aNotification: NSNotification) {
+        registerUrlHandler()
     }
-
-    func applicationWillTerminate(aNotification: NSNotification) {
-        // Insert code here to tear down your application
+    
+    func registerUrlHandler() {
+        let appleEventManager = NSAppleEventManager.sharedAppleEventManager()
+        appleEventManager.setEventHandler(self, andSelector: Selector("handleGetURLEvent:replyEvent:"), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
     }
-
-
+    
+    @objc func handleGetURLEvent(event: NSAppleEventDescriptor?, replyEvent: NSAppleEventDescriptor?) {
+        NSLog("%@", (event?.descriptorForKeyword(AEKeyword(keyDirectObject))?.stringValue)!)
+    }
     
 }
 
