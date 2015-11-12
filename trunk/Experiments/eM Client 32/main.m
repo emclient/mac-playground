@@ -32,13 +32,16 @@ int main(int argc, const char * argv[]) {
     AutofreePool* fpool = [[AutofreePool alloc] init];
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     
+    NSLogUTF8Array(@"------- Launched with args:", argc, argv);
+    
     launchFormsTest(argc, argv);
     //launchMailClient(argc, argv);
     //invokeMethod(argc, argv);
-    //NSApplicationMain(argc, argv);
     
     [pool release];
     [fpool release];
+
+    NSLog(@"Finished");
     return 0;
 }
 
@@ -104,9 +107,12 @@ int launchFormsTest(int argc, const char * argv[])
     //mono_domain_set_config(domain, [lib UTF8String], [exeConfig UTF8String]);
     
     NSMutableArray* appArgs = [[NSMutableArray new] autorelease];
-    [appArgs addObject:@"--args"];
-    [appArgs addUTF8Strings:argv from:0 count:argc];
+    if (argc > 0) {
+//        [appArgs addObject:@"--args"];
+        [appArgs addUTF8Strings:argv from:0 count:argc];
+    }
     
     MonoAssembly* assembly = mono_domain_assembly_open(domain, [exe UTF8String]);
-    return mono_jit_exec (domain, assembly, appArgs.count, [appArgs UTF8StringArray]);
+//    return mono_jit_exec (domain, assembly, argc, argv);
+    return mono_jit_exec (domain, assembly, appArgs.count, [appArgs UTF8StringCopyArray]);
 }

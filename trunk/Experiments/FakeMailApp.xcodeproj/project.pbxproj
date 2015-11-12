@@ -279,7 +279,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$PROJECT_DIR/$TARGET_NAME/finalize_package.sh\"";
+			shellScript = "\"$PROJECT_DIR/eM Client 32/finalize_package.sh\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 

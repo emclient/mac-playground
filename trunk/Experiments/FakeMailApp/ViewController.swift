@@ -64,7 +64,13 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
 
     @IBAction func setDefault(sender:AnyObject?) {
-        setDefaultApplicationURLForURL(NSURL(string: self.urlTextField.stringValue)!, appURL: NSURL(string: newDefaultAppTextField.stringValue)!)
+        
+        let urlString = self.urlTextField.stringValue
+        let url = NSURL(string: urlString)
+        let newAppUrlString = newDefaultAppTextField.stringValue
+        let appUrl = NSURL(string:newAppUrlString)
+        
+        setDefaultApplicationURLForURL(url!, appURL: appUrl!)
     }
     
     @IBAction func register(sender:AnyObject?) {

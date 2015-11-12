@@ -25,6 +25,7 @@ NS_AUTOMATED_REFCOUNT_UNAVAILABLE
 - (void)drain;
 
 + (char * _Nullable)addUTF8String:(const void* _Nonnull)aString;
++ (char * _Nullable)addUTF8StringCopy:(const void* _Nonnull)aString;
 
 @end
 
