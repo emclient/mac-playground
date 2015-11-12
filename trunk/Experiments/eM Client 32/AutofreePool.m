@@ -30,17 +30,17 @@ static void _PFDrain(const void *key, const void *value, void *context)
     }
 }
 
-+ (void)addObject:(const void*)anObject
++ (const void*)addObject:(const void*)anObject
 {
-    if( anObject == nil ) return;
-    
-    AutofreePool *pool = pthread_getspecific(poolKey);
-    
-    if( pool != nil )
-        [pool addObject: anObject];
-    else
-        if (NSDebugEnabled)
-            NSLog(@"No AutofreePool");
+    if( anObject != nil ) {
+        AutofreePool *pool = pthread_getspecific(poolKey);
+        if( pool != nil )
+            [pool addObject: anObject];
+        else
+            if (NSDebugEnabled)
+                NSLog(@"No AutofreePool");
+    }
+    return anObject;
 }
 
 + (char * _Nullable)addUTF8String:(const void* _Nonnull)aString {
@@ -68,14 +68,14 @@ static void _PFDrain(const void *key, const void *value, void *context)
     return self;
 }
 
-- (void)addObject:(const void*)anObject
+- (const void*)addObject:(const void*)anObject
 {
-    if (anObject == nil)
-        return;
-    
-    NSUInteger count = (NSUInteger)CFDictionaryGetCount(_reserved3);
-    count = (NSUInteger)CFDictionaryGetValue( _reserved3, anObject );
-    CFDictionarySetValue( (CFMutableDictionaryRef)_reserved3, anObject, (const void *)(++count) );
+    if (anObject != nil) {
+        NSUInteger count = (NSUInteger)CFDictionaryGetCount(_reserved3);
+        count = (NSUInteger)CFDictionaryGetValue( _reserved3, anObject );
+        CFDictionarySetValue( (CFMutableDictionaryRef)_reserved3, anObject, (const void *)(++count) );
+    }
+    return anObject;
 }
 
 - (void)drain

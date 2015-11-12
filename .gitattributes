@@ -596,8 +596,8 @@ trunk/Experiments/Resources/mono/lib/mono/gac/xsp4/3.0.0.0__0738eb9f132ed756/xsp
 trunk/Experiments/Resources/mono/lib/pango/1.8.0/modules/pango-arabic-lang.so.dSYM/Contents/Info.plist -text
 trunk/Experiments/Resources/mono/lib/pango/1.8.0/modules/pango-basic-coretext.so.dSYM/Contents/Info.plist -text
 trunk/Experiments/Resources/mono/lib/pango/1.8.0/modules/pango-indic-lang.so.dSYM/Contents/Info.plist -text
-trunk/Experiments/eM[!!-~]Client[!!-~]32/AppDelegate.h -text
-trunk/Experiments/eM[!!-~]Client[!!-~]32/AppDelegate.m -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/App.h -text
+trunk/Experiments/eM[!!-~]Client[!!-~]32/App.m -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/AutofreePool.h -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/AutofreePool.m -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/Base.lproj/MainMenu.xib -text
