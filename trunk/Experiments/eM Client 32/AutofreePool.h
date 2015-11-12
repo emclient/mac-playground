@@ -20,8 +20,8 @@ NS_AUTOMATED_REFCOUNT_UNAVAILABLE
     void	*_reserved;
 }
 
-+ (void)addObject:(const void*)anObject;
-- (void)addObject:(const void*)anObject;
++ (const void*)addObject:(const void*)anObject;
+- (const void*)addObject:(const void*)anObject;
 - (void)drain;
 
 + (char * _Nullable)addUTF8String:(const void* _Nonnull)aString;
