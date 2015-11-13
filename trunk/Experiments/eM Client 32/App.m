@@ -21,8 +21,7 @@
 #import "AutofreePool.h"
 #import "App.h"
 
-@implementation App {
-}
+@implementation App
 
 - (int) launchWithArgc:(int)argc argv:(const char**)argv {
 
@@ -104,15 +103,22 @@
     NSLog(@"GURL:%@", url);
 
     MonoImage* image = mono_assembly_get_image(self->assembly);
-    MonoClass* classHandle = mono_class_from_name(image, "MailClient", "Program");
-    const char* descAsString = "MailClient.Program:GetUrl(string)";
-    MonoMethodDesc* description = mono_method_desc_new(descAsString, true);
-    MonoMethod* method = mono_method_desc_search_in_class(description, classHandle);
+    MonoClass* klass = mono_class_from_name(image, "MailClient", "Program");
+    MonoMethod* method = mono_class_get_method_from_name(klass, "GetUrl", 1);
 
     MonoString* arg0 = mono_string_new(mono_domain_get(), [url UTF8String]);
     void* args[1];
     args[0] = arg0;
-    mono_runtime_invoke(method, nil, args, nil);
+    MonoObject* exception = nil;
+    mono_runtime_invoke(method, nil, args, &exception);
+    
+    if (exception != nil)
+        NSLog(@"%s", mono_string_to_utf8(mono_object_to_string(exception, nil)));
 }
 
 @end
+
+// Alternative way of getting method handle:
+//const char* descAsString = "MailClient.Program:GetUrl(string)";
+//MonoMethodDesc* description = mono_method_desc_new(descAsString, true);
+//MonoMethod* method = mono_method_desc_search_in_class(description, classHandle);

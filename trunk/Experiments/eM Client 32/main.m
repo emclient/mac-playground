@@ -11,11 +11,6 @@
 #import "AutofreePool.h"
 #import "App.h"
 
-int launchMailClient(int argc, const char * argv[]);
-void registerGetURLHandler();
-
-// -------
-
 int main(int argc, const char * argv[]) {
 
     AutofreePool* fpool = [[AutofreePool alloc] init];

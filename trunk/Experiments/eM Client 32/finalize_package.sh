@@ -1,18 +1,9 @@
-#
-#pwd
-#set
-
-#CONTENTS_FOLDER_PATH=Test32.app/Contents
-#TARGET_BUILD_DIR=/Users/jirkav/Library/Developer/Xcode/DerivedData/FakeMailApp-ddewicpaqkqskqblkgmblqmtkdpa/Build/Products/Debug
 
 export LIB="$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH/lib"
 export DLL="$LIB/mono/4.5"
 export GAC="$LIB/mono/gac"
 
-# --- common  ------------------------------------------------------------------------------------------------------------
-
-
-# --- formstest ----------------------------------------------------------------------------------------------------------
+# --- emclient ----------------------------------------------------------------------------------------------------------
 
 export APP="$LIB/emclient/Mono - Debug"
 #export APP="$LIB/formstest/Mono - Debug"
@@ -46,19 +37,6 @@ cp "$APP/MailClient.Collections.dll" "$LIB/MailClient.Collections.dll"
 #cp "$APP/System.Windows.Forms.dll.mdb" "$LIB/System.Windows.Forms.dll.mdb"
 
 #cp -R "${APP}"/* "${LIB}/"
-
-# --- emclient -----------------------------------------------------------------------------------------------------------
-
-export APP="$LIB/emclient/Mono - Debug"
-
-#cp "$APP/System.Windows.Forms.dll" "$GAC/System.Windows.Forms/4.0.0.0__b77a5c561934e089/System.Windows.Forms.dll"
-#cp "$APP/System.Windows.Forms.dll.mdb" "$GAC/System.Windows.Forms/4.0.0.0__b77a5c561934e089/System.Windows.Forms.dll.mdb"
-
-#cp "$APP/System.Drawing.dll" "$GAC/System.Drawing/4.0.0.0__b03f5f7f11d50a3a/System.Drawing.dll"
-#cp "$APP/System.Drawing.dll.mdb" "$GAC/System.Drawing/4.0.0.0__b03f5f7f11d50a3a/System.Drawing.dll.mdb"
-
-#cp -R "${APP}"/* "${LIB}/"
-
 
 # --- scrapbook  ---------------------------------------------------------------------------------------------------------
 
