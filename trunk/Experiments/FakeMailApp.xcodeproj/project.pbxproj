@@ -14,24 +14,10 @@
 		63307F591BC418D9000EBC94 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63307F581BC418D9000EBC94 /* ViewController.swift */; };
 		63307F5B1BC418D9000EBC94 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63307F5A1BC418D9000EBC94 /* Images.xcassets */; };
 		63307F5E1BC418D9000EBC94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63307F5C1BC418D9000EBC94 /* Main.storyboard */; };
-		633EC3C71BDA910B00B35867 /* Mono - Debug in CopyFiles */ = {isa = PBXBuildFile; fileRef = 633EC3C61BDA910B00B35867 /* Mono - Debug */; };
 		6353FDBF1BF2272C0074130D /* CStringArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 6353FDBE1BF2272C0074130D /* CStringArray.m */; };
 		6353FDC21BF22AB60074130D /* AutofreePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6353FDC11BF22AB60074130D /* AutofreePool.m */; };
 		63DCAB301BF5411600A776B8 /* App.m in Sources */ = {isa = PBXBuildFile; fileRef = 63DCAB2F1BF5411600A776B8 /* App.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		633EC3C51BDA90E300B35867 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = ../lib/emclient;
-			dstSubfolderSpec = 7;
-			files = (
-				633EC3C71BDA910B00B35867 /* Mono - Debug in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6319D5A21BFA281100996A41 /* copy_mono.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = copy_mono.sh; sourceTree = "<group>"; };
@@ -97,8 +83,8 @@
 			isa = PBXGroup;
 			children = (
 				6356C7981BF636A500E61547 /* config */,
-				6319D5A31BFA305600996A41 /* copy_app.sh */,
 				6319D5A21BFA281100996A41 /* copy_mono.sh */,
+				6319D5A31BFA305600996A41 /* copy_app.sh */,
 				633EC3BA1BDA8FF600B35867 /* copy_forms_and_drawing.sh */,
 				631E76791BDA8D5C001DA2A5 /* Info.plist */,
 			);
@@ -154,7 +140,6 @@
 				631E76721BDA8D5C001DA2A5 /* Sources */,
 				631E76731BDA8D5C001DA2A5 /* Frameworks */,
 				631E76741BDA8D5C001DA2A5 /* Resources */,
-				633EC3C51BDA90E300B35867 /* CopyFiles */,
 				633EC3C81BDA911500B35867 /* ShellScript */,
 			);
 			buildRules = (
