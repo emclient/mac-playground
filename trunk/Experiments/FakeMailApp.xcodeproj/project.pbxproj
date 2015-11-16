@@ -14,9 +14,6 @@
 		63307F591BC418D9000EBC94 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63307F581BC418D9000EBC94 /* ViewController.swift */; };
 		63307F5B1BC418D9000EBC94 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63307F5A1BC418D9000EBC94 /* Images.xcassets */; };
 		63307F5E1BC418D9000EBC94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63307F5C1BC418D9000EBC94 /* Main.storyboard */; };
-		633EC3BF1BDA909700B35867 /* lib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 633EC3BE1BDA909700B35867 /* lib */; };
-		633EC3C11BDA909D00B35867 /* etc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 633EC3C01BDA909D00B35867 /* etc */; };
-		633EC3C41BDA90DB00B35867 /* Mono - Debug in CopyFiles */ = {isa = PBXBuildFile; fileRef = 633EC3C31BDA90DB00B35867 /* Mono - Debug */; };
 		633EC3C71BDA910B00B35867 /* Mono - Debug in CopyFiles */ = {isa = PBXBuildFile; fileRef = 633EC3C61BDA910B00B35867 /* Mono - Debug */; };
 		6353FDBF1BF2272C0074130D /* CStringArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 6353FDBE1BF2272C0074130D /* CStringArray.m */; };
 		6353FDC21BF22AB60074130D /* AutofreePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6353FDC11BF22AB60074130D /* AutofreePool.m */; };
@@ -24,27 +21,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		633EC3BB1BDA907300B35867 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = ..;
-			dstSubfolderSpec = 7;
-			files = (
-				633EC3BF1BDA909700B35867 /* lib in CopyFiles */,
-				633EC3C11BDA909D00B35867 /* etc in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		633EC3C21BDA90C100B35867 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = ../lib/formstest;
-			dstSubfolderSpec = 7;
-			files = (
-				633EC3C41BDA90DB00B35867 /* Mono - Debug in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		633EC3C51BDA90E300B35867 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -58,6 +34,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6319D5A21BFA281100996A41 /* copy_mono.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = copy_mono.sh; sourceTree = "<group>"; };
+		6319D5A31BFA305600996A41 /* copy_app.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = copy_app.sh; sourceTree = "<group>"; };
 		631E76761BDA8D5C001DA2A5 /* eM Client 32.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eM Client 32.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		631E76791BDA8D5C001DA2A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		631E767D1BDA8D5C001DA2A5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -69,15 +47,13 @@
 		63307F581BC418D9000EBC94 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		63307F5A1BC418D9000EBC94 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		63307F5D1BC418D9000EBC94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		633EC3BA1BDA8FF600B35867 /* finalize_package.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = finalize_package.sh; sourceTree = "<group>"; };
-		633EC3BE1BDA909700B35867 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = Resources/mono/lib; sourceTree = "<group>"; };
-		633EC3C01BDA909D00B35867 /* etc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = etc; path = Resources/mono/etc; sourceTree = "<group>"; };
-		633EC3C31BDA90DB00B35867 /* Mono - Debug */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Mono - Debug"; path = "../FormsTest/bin/Mono - Debug"; sourceTree = "<group>"; };
+		633EC3BA1BDA8FF600B35867 /* copy_forms_and_drawing.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = copy_forms_and_drawing.sh; sourceTree = "<group>"; };
 		633EC3C61BDA910B00B35867 /* Mono - Debug */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Mono - Debug"; path = "../../../bin/x86/Mono - Debug"; sourceTree = "<group>"; };
 		6353FDBD1BF2272C0074130D /* CStringArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CStringArray.h; sourceTree = "<group>"; };
 		6353FDBE1BF2272C0074130D /* CStringArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CStringArray.m; sourceTree = "<group>"; };
 		6353FDC01BF22AB60074130D /* AutofreePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutofreePool.h; sourceTree = "<group>"; };
 		6353FDC11BF22AB60074130D /* AutofreePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutofreePool.m; sourceTree = "<group>"; };
+		6356C7981BF636A500E61547 /* config */ = {isa = PBXFileReference; lastKnownFileType = text; path = config; sourceTree = "<group>"; };
 		63DCAB2E1BF5411600A776B8 /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
 		63DCAB2F1BF5411600A776B8 /* App.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = App.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,7 +88,6 @@
 				6353FDC11BF22AB60074130D /* AutofreePool.m */,
 				631E767F1BDA8D5C001DA2A5 /* Images.xcassets */,
 				631E76811BDA8D5C001DA2A5 /* MainMenu.xib */,
-				633EC3BA1BDA8FF600B35867 /* finalize_package.sh */,
 				631E76781BDA8D5C001DA2A5 /* Supporting Files */,
 			);
 			path = "eM Client 32";
@@ -121,6 +96,10 @@
 		631E76781BDA8D5C001DA2A5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6356C7981BF636A500E61547 /* config */,
+				6319D5A31BFA305600996A41 /* copy_app.sh */,
+				6319D5A21BFA281100996A41 /* copy_mono.sh */,
+				633EC3BA1BDA8FF600B35867 /* copy_forms_and_drawing.sh */,
 				631E76791BDA8D5C001DA2A5 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -161,9 +140,6 @@
 			isa = PBXGroup;
 			children = (
 				633EC3C61BDA910B00B35867 /* Mono - Debug */,
-				633EC3C31BDA90DB00B35867 /* Mono - Debug */,
-				633EC3C01BDA909D00B35867 /* etc */,
-				633EC3BE1BDA909700B35867 /* lib */,
 			);
 			name = Externals;
 			sourceTree = "<group>";
@@ -178,8 +154,6 @@
 				631E76721BDA8D5C001DA2A5 /* Sources */,
 				631E76731BDA8D5C001DA2A5 /* Frameworks */,
 				631E76741BDA8D5C001DA2A5 /* Resources */,
-				633EC3BB1BDA907300B35867 /* CopyFiles */,
-				633EC3C21BDA90C100B35867 /* CopyFiles */,
 				633EC3C51BDA90E300B35867 /* CopyFiles */,
 				633EC3C81BDA911500B35867 /* ShellScript */,
 			);
@@ -279,7 +253,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$PROJECT_DIR/eM Client 32/finalize_package.sh\"";
+			shellScript = "export SRC=\"$PROJECT_DIR/eM Client 32\"\n\"$SRC/copy_mono.sh\"\n\"$SRC/copy_app.sh\"\n\"$SRC/copy_forms_and_drawing.sh\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -338,10 +312,10 @@
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
-					/Library/Frameworks/Mono.framework/Headers,
-					"/Library/Frameworks/Mono.framework/Headers/glib-2.0",
-					"/Library/Frameworks/Mono.framework/Headers/mono-2.0",
-					"/Library/Frameworks/Mono.framework/Libraries/glib-2.0/include",
+					/Library/Frameworks/Mono.framework/Versions/Current/include,
+					"/Library/Frameworks/Mono.framework/Versions/Current/include/glib-2.0",
+					"/Library/Frameworks/Mono.framework/Versions/Current/include/mono-2.0",
+					"/Library/Frameworks/Mono.framework/Versions/Current/lib/glib-2.0/include",
 				);
 				INFOPLIST_FILE = "eM Client 32/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -361,10 +335,10 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				HEADER_SEARCH_PATHS = (
-					/Library/Frameworks/Mono.framework/Headers,
-					"/Library/Frameworks/Mono.framework/Headers/glib-2.0",
-					"/Library/Frameworks/Mono.framework/Headers/mono-2.0",
-					"/Library/Frameworks/Mono.framework/Libraries/glib-2.0/include",
+					/Library/Frameworks/Mono.framework/Versions/Current/include,
+					"/Library/Frameworks/Mono.framework/Versions/Current/include/glib-2.0",
+					"/Library/Frameworks/Mono.framework/Versions/Current/include/mono-2.0",
+					"/Library/Frameworks/Mono.framework/Versions/Current/lib/glib-2.0/include",
 				);
 				INFOPLIST_FILE = "eM Client 32/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
