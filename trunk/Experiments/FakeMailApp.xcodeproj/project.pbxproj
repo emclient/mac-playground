@@ -34,7 +34,6 @@
 		63307F5A1BC418D9000EBC94 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		63307F5D1BC418D9000EBC94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		633EC3BA1BDA8FF600B35867 /* copy_forms_and_drawing.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = copy_forms_and_drawing.sh; sourceTree = "<group>"; };
-		633EC3C61BDA910B00B35867 /* Mono - Debug */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Mono - Debug"; path = "../../../bin/x86/Mono - Debug"; sourceTree = "<group>"; };
 		6353FDBD1BF2272C0074130D /* CStringArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CStringArray.h; sourceTree = "<group>"; };
 		6353FDBE1BF2272C0074130D /* CStringArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CStringArray.m; sourceTree = "<group>"; };
 		6353FDC01BF22AB60074130D /* AutofreePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutofreePool.h; sourceTree = "<group>"; };
@@ -96,7 +95,6 @@
 			children = (
 				63307F531BC418D9000EBC94 /* FakeMailApp */,
 				631E76771BDA8D5C001DA2A5 /* eM Client 32 */,
-				63BA38371BD9108100357151 /* Externals */,
 				63307F521BC418D9000EBC94 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -120,14 +118,6 @@
 				63307F551BC418D9000EBC94 /* Info.plist */,
 			);
 			path = FakeMailApp;
-			sourceTree = "<group>";
-		};
-		63BA38371BD9108100357151 /* Externals */ = {
-			isa = PBXGroup;
-			children = (
-				633EC3C61BDA910B00B35867 /* Mono - Debug */,
-			);
-			name = Externals;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
