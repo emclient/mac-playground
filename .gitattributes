@@ -1,4 +1,6 @@
 * text=auto !eol
+trunk/ConsoleTest/ConsoleTest.csproj -text
+trunk/ConsoleTest/Program.cs -text
 trunk/Experiments/Experiments.xcworkspace/contents.xcworkspacedata -text
 trunk/Experiments/Experiments.xcworkspace/xcshareddata/Experiments.xccheckout -text
 trunk/Experiments/Experiments.xcworkspace/xcshareddata/Experiments.xcscmblueprint -text
