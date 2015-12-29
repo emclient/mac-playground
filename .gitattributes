@@ -63,6 +63,7 @@ trunk/FormsTest/car.png -text
 trunk/MacBridge.Test/CGImageExtensionsTest.cs -text
 trunk/MacBridge.Test/LaunchServicesTest.cs -text
 trunk/MacBridge.Test/MacBridge.Test.csproj -text
+trunk/MacBridge.Test/TLSTest.cs -text
 trunk/MacBridge.Test/data/SetupLogo.jpg -text
 trunk/MacBridge.Test/packages.config -text
 trunk/MacBridge/MacApi/CGImageExtensions.cs -text
