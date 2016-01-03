@@ -1,6 +1,4 @@
-﻿#if MONOMAC
-
-using System;
+﻿using System;
 using MonoMac.AppKit;
 
 namespace System.Windows.Forms.CocoaInternal
@@ -22,29 +20,11 @@ namespace System.Windows.Forms.CocoaInternal
 			if (keyWindow != null)
 			{
 				if (keyWindow.CanBecomeKeyWindow)
-				{
-					try
-					{
-						keyWindow.BecomeKeyWindow();
-					}
-					catch
-					{
-					}
-				}
+					keyWindow.MakeKeyAndOrderFront(null);
 
-//				if (firstResponder != null && firstResponder.AcceptsFirstResponder())
-//				{
-//					try
-//					{
-//						firstResponder.BecomeFirstResponder();
-//					}
-//					catch
-//					{
-//					}
-//				}
+				if (firstResponder != null && firstResponder.AcceptsFirstResponder())
+					keyWindow.MakeFirstResponder(firstResponder);
 			}
 		}
 	}
 }
-
-#endif // MONOMAC
