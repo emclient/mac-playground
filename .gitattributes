@@ -1,6 +1,7 @@
 * text=auto !eol
 trunk/ConsoleTest/ConsoleTest.csproj -text
 trunk/ConsoleTest/Program.cs -text
+trunk/ConsoleTest/Properties/AssemblyInfo.cs -text
 trunk/Experiments/Experiments.xcworkspace/contents.xcworkspacedata -text
 trunk/Experiments/Experiments.xcworkspace/xcshareddata/Experiments.xccheckout -text
 trunk/Experiments/Experiments.xcworkspace/xcshareddata/Experiments.xcscmblueprint -text
@@ -58,6 +59,7 @@ trunk/FormsTest/Properties/Resources.Designer.cs -text
 trunk/FormsTest/Properties/Resources.resx -text
 trunk/FormsTest/Properties/Settings.Designer.cs -text
 trunk/FormsTest/Properties/Settings.settings -text
+trunk/FormsTest/WebForm.cs -text
 trunk/FormsTest/application.ico -text
 trunk/FormsTest/car.png -text
 trunk/MacBridge.Test/CGImageExtensionsTest.cs -text
