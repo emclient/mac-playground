@@ -95,12 +95,15 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void UpdateTrackingAreas ()
 		{
+			base.UpdateTrackingAreas();
+
 			if (trackingArea != null)
 				RemoveTrackingArea(trackingArea);
 			trackingArea = new NSTrackingArea(
 				Frame,
 				NSTrackingAreaOptions.ActiveAlways |
 				NSTrackingAreaOptions.MouseMoved |
+				NSTrackingAreaOptions.MouseEnteredAndExited |
 				NSTrackingAreaOptions.InVisibleRect,
 				this,
 				new NSDictionary());
@@ -109,56 +112,67 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void MouseDown (NSEvent theEvent)
 		{
+			base.MouseDown(theEvent);
 			ProcessMouseEvent (theEvent);
 		}
 
 		public override void RightMouseDown (NSEvent theEvent)
 		{
+			base.RightMouseDown(theEvent);
 			ProcessMouseEvent (theEvent);
 		}
 
 		public override void OtherMouseDown (NSEvent theEvent)
 		{
+			base.OtherMouseDown(theEvent);
 			ProcessMouseEvent (theEvent);
 		}
 
 		public override void MouseUp (NSEvent theEvent)
 		{
+			base.MouseUp(theEvent);
 			ProcessMouseEvent (theEvent);
 		}
 
 		public override void RightMouseUp (NSEvent theEvent)
 		{
+			base.RightMouseUp(theEvent);
 			ProcessMouseEvent (theEvent);
 		}
 
 		public override void OtherMouseUp (NSEvent theEvent)
 		{
+			base.OtherMouseUp(theEvent);
 			ProcessMouseEvent (theEvent);
 		}
 
 		public override void MouseMoved (NSEvent theEvent)
 		{
+			base.MouseMoved(theEvent);
 			ProcessMouseEvent (theEvent);
 		}
 
 		public override void MouseDragged (NSEvent theEvent)
 		{
+			base.MouseDragged(theEvent);
 			ProcessMouseEvent (theEvent);
 		}
 
 		public override void RightMouseDragged (NSEvent theEvent)
 		{
+			base.RightMouseDragged(theEvent);
 			ProcessMouseEvent (theEvent);
 		}
 
 		public override void OtherMouseDragged (NSEvent theEvent)
 		{
+			base.OtherMouseDragged(theEvent);
 			ProcessMouseEvent (theEvent);
 		}
 
 		public override void ScrollWheel (NSEvent theEvent)
 		{
+			base.ScrollWheel(theEvent);
 			ProcessMouseEvent (theEvent);
 		}
 
