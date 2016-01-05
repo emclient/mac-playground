@@ -131,7 +131,8 @@ namespace FormsTest
 
         private void button2_Click(object sender, System.EventArgs e)
         {
-            var form = new LayoutForm();
+            //var form = new LayoutForm();
+			var form = new WebForm();
             form.Show();
         }
 
