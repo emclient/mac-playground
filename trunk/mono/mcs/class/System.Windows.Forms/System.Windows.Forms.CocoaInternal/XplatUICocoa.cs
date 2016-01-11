@@ -1148,6 +1148,7 @@ namespace System.Windows.Forms {
 				viewWrapper.Hidden = false;
 				clientWrapper.Hidden = false;
 				hwnd.visible = true;
+				hwnd.mapped = true;
 				if (! (Control.FromHandle (hwnd.Handle) is Form)) {
 					SendMessage (hwnd.Handle, Msg.WM_SHOWWINDOW, (IntPtr)1, IntPtr.Zero);
 				}
