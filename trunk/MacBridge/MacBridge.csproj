@@ -55,6 +55,12 @@
     <Compile Include="MacApi\CGImageExtensions.cs" />
     <Compile Include="MacApi\LaunchServices.cs" />
     <Compile Include="MacApi\QuickLook.cs" />
+    <Compile Include="WinApi\Secur32.cs" />
+    <Compile Include="..\..\..\WinApi\Secur32.Struct.cs">
+      <Link>WinApi\Secur32.Struct.cs</Link>
+    </Compile>
+    <Compile Include="MacApi\Foundation\PathUtilities.cs" />
+    <Compile Include="MacApi\Foundation\Foundation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -76,5 +82,6 @@
   <ItemGroup>
     <Folder Include="WinApi\" />
     <Folder Include="MacApi\" />
+    <Folder Include="MacApi\Foundation\" />
   </ItemGroup>
 </Project>

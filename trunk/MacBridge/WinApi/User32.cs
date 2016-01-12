@@ -13,7 +13,10 @@ namespace WinApi
 {
     public static partial class Win32
     {
-        const string NotImplemented = "Win32 method not implemented on Mac: ";
+		internal static void NotImplemented(MethodBase method)
+		{
+			Debug.WriteLine("Not Implemented: " + method.ReflectedType.Name + "." + method.Name);
+		}
 
         public static IntPtr WindowFromPoint(POINT p)
         {
@@ -45,14 +48,14 @@ namespace WinApi
         public static IntPtr GetWindow(IntPtr hWnd, uint uCmd)
         {
             //TODO:
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
 
         public static void ShowWindow(IntPtr hWnd, int nCmdShow)
         {
             // TODO:
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
         }
 
         public static void SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags)
@@ -97,7 +100,7 @@ namespace WinApi
         public static int DestroyIcon(IntPtr hIcon)
         {
             // TODO:
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return 0;
         }
 
@@ -130,38 +133,44 @@ namespace WinApi
         public static bool EnumChildWindows(IntPtr window, EnumWindowProc callback, IntPtr i)
         {
             // TODO;
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return false;
         }
 
         public static int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount)
         {
             // TODO;
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return 0;
         }
 
-        public static IntPtr GetForegroundWindow()
+		public static bool AllowSetForegroundWindow(int dwProcessId)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return false;
+		}
+
+		public static IntPtr GetForegroundWindow()
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
 
         public static IntPtr GetDesktopWindow()
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
 
         public static IntPtr GetShellWindow()
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
 
         public static int GetWindowRect(IntPtr hwnd, out RECT rc)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             rc = new RECT();
             return 0;
         }
@@ -171,31 +180,31 @@ namespace WinApi
         // read a message, or see a change in status.
         public static bool FlashWindow(IntPtr hwnd, bool bInvert)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return true;
         }
 
         public static IntPtr GetWindowDC(IntPtr handle)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
 
         public static IntPtr ReleaseDC(IntPtr handle, IntPtr hDC)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
 
         public static int GetClassName(IntPtr hwnd, char[] className, int maxCount)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return 0;
         }
 
         public static IntPtr GetWindow(IntPtr hwnd, int uCmd)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
 
@@ -240,73 +249,73 @@ namespace WinApi
 
         public static bool ValidateRect(IntPtr hwnd, ref Rectangle rect)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return true;
         }
 
         public static bool GetWindowRect(IntPtr hWnd, [In, Out] ref Rectangle rect)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return false;
         }
 
         public static IntPtr GetWindowLongPtr64(IntPtr hWnd, GWL nIndex)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
 
         public static int GetWindowLongPtr32(IntPtr hWnd, GWL nIndex)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return 0;
         }
 
         public static IntPtr SetWindowLongPtr64(IntPtr hWnd, GWL nIndex, IntPtr dwNewLong)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
 
         public static int SetWindowLongPtr32(IntPtr hWnd, GWL nIndex, int dwNewLong)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return 0;
         }
 
         public static IntPtr GetSystemMenu(IntPtr hWnd, [MarshalAs(UnmanagedType.Bool)] bool bRevert)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
 
         public static uint TrackPopupMenuEx(IntPtr hmenu, uint fuFlags, int x, int y, IntPtr hwnd, IntPtr lptpm)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return 0;
         }
 
         public static int EnableMenuItem(IntPtr hMenu, SC uIDEnableItem, MF uEnable)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return 0;
         }
 
         public static IntPtr SetCursor(IntPtr hcur)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
 
         public static IntPtr LoadCursor(IntPtr hInstcance, SystemCursor hcur)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
 
         public static bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDst, ref Point pptDst, ref Size psize, IntPtr hdcSrc, ref Point pprSrc, Int32 crKey, ref BLENDFUNCTION pblend, BlendFlags dwFlags)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return false;
         }
 
@@ -361,13 +370,13 @@ namespace WinApi
 
         public static int GetScrollPos(IntPtr hWnd, SB nBar)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return 0;
         }
 
         public static int SetScrollPos(IntPtr hWnd, SB nBar, int nPos, bool bRedraw)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return 0;
         }
 
@@ -410,36 +419,36 @@ namespace WinApi
 
         public static bool SetGestureConfig(IntPtr hWnd, int dwReserved, int cIDs, GESTURECONFIG[] pGestureConfig, int cbSize)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return false;
         }
 
         public static bool GetGestureInfo(IntPtr hGestureInfo, ref GESTUREINFO pGestureInfo)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return false;
         }
 
         public static bool RegisterTouchWindow(System.IntPtr hWnd, ulong ulFlags)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return false;
         }
 
         public static bool GetTouchInputInfo(System.IntPtr hTouchInput, int cInputs, [In, Out] TOUCHINPUT[] pInputs, int cbSize)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
             return false;
         }
 
         public static void CloseTouchInputHandle(System.IntPtr lParam)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
         }
 
         public static void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, int dwExtraInfo)
         {
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+			NotImplemented(MethodBase.GetCurrentMethod());
         }
 
         #endregion

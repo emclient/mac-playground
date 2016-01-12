@@ -9,7 +9,7 @@ namespace WinApi
         public static bool ChooseFont(IntPtr lpcf)
         {
             // TODO:
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            NotImplemented(MethodBase.GetCurrentMethod());
             return false;
         }
     }
