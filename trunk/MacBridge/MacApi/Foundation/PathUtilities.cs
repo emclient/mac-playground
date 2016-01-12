@@ -1,0 +1,99 @@
+﻿using System;
+using System.Runtime.InteropServices;
+using MonoMac.Foundation;
+
+namespace MacBridge
+{
+	public static partial class Foundation
+	{
+		public static string UserName
+		{
+			get { return NSString.FromHandle(NSUserName()); }
+		}
+
+		public static string FullUserName
+		{
+			get { return NSString.FromHandle(NSFullUserName()); }
+		}
+
+		public static string HomeDirectory
+		{
+			get { return NSString.FromHandle(NSHomeDirectory()); }
+		}
+
+		public static string HomeDirectoryForUser(string userName)
+		{
+			return NSString.FromHandle(NSHomeDirectoryForUser(new NSString(userName).Handle));
+		}
+
+		public static string TemporaryDirectory
+		{
+			get { return NSString.FromHandle(NSTemporaryDirectory()); }
+		}
+
+		public static string OpenStepRootDirectory
+		{
+			get { return NSString.FromHandle(NSOpenStepRootDirectory()); }
+		}
+
+		public static string SearchPathForDirectoriesInDomains(NSSearchPathDirectory directory, NSSearchPathDomainMask domainMask, bool expandTilde)
+		{
+			return NSString.FromHandle(NSSearchPathForDirectoriesInDomains(directory, domainMask, expandTilde));
+		}
+
+
+		[Serializable]
+		public enum NSSearchPathDirectory : uint
+		{
+			NSApplicationDirectory = 1,				// supported applications (Applications)
+			NSDemoApplicationDirectory = 2,			// unsupported applications, demonstration versions (Demos)
+			NSDeveloperApplicationDirectory = 3,	// developer applications (Developer/Applications)
+			NSAdminApplicationDirectory = 4,		// system and network administration applications (Administration)
+			NSLibraryDirectory = 5, 				// various user-visible documentation, support, and configuration files, resources (Library)
+			NSDeveloperDirectory = 6,				// developer resources (Developer)
+			NSUserDirectory = 7,					// user home directories (Users)
+			NSDocumentationDirectory = 8,			// documentation (Documentation)
+			NSDocumentDirectory = 9,				// documents (Documents)
+			NSCoreServiceDirectory = 10,			// locate of core services (System/Library/CoreServices)
+			NSDesktopDirectory = 12,            	// location of user's desktop
+			NSCachesDirectory = 13,             	// location of discardable cache files (Library/Caches)
+			NSApplicationSupportDirectory = 14, 	// location of application support files (plug-ins, etc) (Library/Application Support)
+			NSDownloadsDirectory = 15,          	// location of the user's "Downloads" directory
+			NSAllApplicationsDirectory = 100,		// all directories where applications can occur
+			NSAllLibrariesDirectory = 101,			// all directories where resources can occur
+		}
+
+		[Flags]
+		[Serializable]
+		public enum NSSearchPathDomainMask : uint
+		{
+			NSUserDomainMask = 1,					// user's home directory --- place to install user's personal items (~)
+			NSLocalDomainMask = 2,					// local to the current machine --- place to install items available to everyone on this machine (/Library)
+			NSNetworkDomainMask = 4, 				// publicly available location in the local area network --- place to install items available on the network (/Network)
+			NSSystemDomainMask = 8,					// provided by Apple, unmodifiable (/System)
+			NSAllDomainsMask = 0x0ffff,				// all domains: all of the above and future items
+		}
+
+		[DllImport(Dll)]
+		internal extern static IntPtr NSUserName();
+
+		[DllImport(Dll)]
+		internal extern static IntPtr NSFullUserName();
+
+		[DllImport(Dll)]
+		internal extern static IntPtr NSHomeDirectory();
+
+		[DllImport(Dll)]
+		internal extern static IntPtr NSHomeDirectoryForUser(IntPtr userName);
+
+		[DllImport(Dll)]
+		internal extern static IntPtr NSTemporaryDirectory();
+
+		[DllImport(Dll)]
+		internal extern static IntPtr NSOpenStepRootDirectory();
+
+		[DllImport(Dll)]
+		internal extern static IntPtr NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory directory, NSSearchPathDomainMask domainMask, [MarshalAs(UnmanagedType.U1)] bool expandTilde);
+	}
+}
+

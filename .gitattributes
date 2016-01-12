@@ -69,6 +69,8 @@ trunk/MacBridge.Test/TLSTest.cs -text
 trunk/MacBridge.Test/data/SetupLogo.jpg -text
 trunk/MacBridge.Test/packages.config -text
 trunk/MacBridge/MacApi/CGImageExtensions.cs -text
+trunk/MacBridge/MacApi/Foundation/Foundation.cs -text
+trunk/MacBridge/MacApi/Foundation/PathUtilities.cs -text
 trunk/MacBridge/MacApi/LaunchServices.cs -text
 trunk/MacBridge/MacApi/QuickLook.cs -text
 trunk/MacBridge/MacBridge.csproj -text
@@ -78,6 +80,7 @@ trunk/MacBridge/WinApi/ComDlg32.cs -text
 trunk/MacBridge/WinApi/GdiPlus.cs -text
 trunk/MacBridge/WinApi/Kernel32.cs -text
 trunk/MacBridge/WinApi/Ole32.cs -text
+trunk/MacBridge/WinApi/Secur32.cs -text
 trunk/MacBridge/WinApi/Shell32.cs -text
 trunk/MacBridge/WinApi/ShlWapi.cs -text
 trunk/MacBridge/WinApi/User32.cs -text

@@ -10,14 +10,14 @@ namespace WinApi
         public static IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbFileInfo, uint uFlags)
         {
             // TODO
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
 
         public static int SHQueryUserNotificationState(out int qns)
         {
             // TODO
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            NotImplemented(MethodBase.GetCurrentMethod());
             qns = 0;
             return 0;
         }
@@ -25,7 +25,7 @@ namespace WinApi
         public static int SHGetKnownFolderPath(ref Guid id, int flags, IntPtr token, out IntPtr path)
         {
             // TODO
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            NotImplemented(MethodBase.GetCurrentMethod());
             path = IntPtr.Zero;
             return 0;
         }
@@ -33,7 +33,7 @@ namespace WinApi
         public static IntPtr SHAppBarMessage(uint dwMessage, [In] ref APPBARDATA pData)
         {
             // TODO
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
     }

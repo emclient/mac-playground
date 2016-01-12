@@ -9,7 +9,7 @@ namespace WinApi
         public static void GetStartupInfo([In, Out] STARTUPINFO lpStartupInfo)
         {
             // TODO
-            Debug.WriteLine(NotImplemented + MethodBase.GetCurrentMethod().Name);
+            NotImplemented(MethodBase.GetCurrentMethod());
         }
     }
 }
