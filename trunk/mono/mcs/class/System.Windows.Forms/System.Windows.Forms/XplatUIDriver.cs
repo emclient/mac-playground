@@ -504,11 +504,25 @@ namespace System.Windows.Forms {
 				if (data.Context == null) {
 					ExecutionCallback (data);
 				} else {
-					ExecutionContext.Run (data.Context, new ContextCallback (ExecutionCallback), data);
+					data.SyncContext = SynchronizationContext.Current;
+					ExecutionContext.Run (data.Context, new ContextCallback (ExecuteClientMessageContextCallback), data);
 				}
 			}
 			finally {
 				gchandle.Free ();
+			}
+		}
+
+		private static void ExecuteClientMessageContextCallback (object state)
+		{
+			SynchronizationContext savedContext = SynchronizationContext.Current;
+			try {
+				var data = state as AsyncMethodData;
+				SynchronizationContext.SetSynchronizationContext(data.SyncContext);
+				ExecutionCallback(state);
+			}
+			finally {
+				SynchronizationContext.SetSynchronizationContext(savedContext);
 			}
 		}
 		
