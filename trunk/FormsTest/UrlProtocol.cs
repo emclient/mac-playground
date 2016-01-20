@@ -31,6 +31,12 @@ namespace FormsTest
 			return request;
 		}
 
+//		[Export ("initWithRequest:cachedResponse:client:")]
+//		public UrlProtocol (NSUrlRequest request, NSCachedUrlResponse cachedResponse, NSUrlProtocolClient client) 
+//			: base (request, cachedResponse, client)
+//		{
+//		}
+
 		public UrlProtocol(IntPtr handle)
 			: base(handle)
 		{
