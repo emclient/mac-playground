@@ -97,6 +97,7 @@
       <Link>MailClient\UI\TextRendererEx.cs</Link>
     </Compile>
     <Compile Include="WebForm.cs" />
+    <Compile Include="UrlProtocol.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
