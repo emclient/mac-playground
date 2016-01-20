@@ -22,6 +22,7 @@ namespace FormsTest
 		#if MAC 
 		NSView container;
 		WebView webView;
+
 		#endif
 
 		public WebForm()
@@ -42,11 +43,20 @@ namespace FormsTest
 
 			this.container = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(this.Handle);
 			this.webView = new WebView();
-
 			webView.Frame = container.Bounds;
 			container.AddSubview(webView);
 
-			var url = new NSUrl("http://www.seznam.cz");
+			webView.OnSendRequest = this.OnSendRequest;
+			webView.DecidePolicyForNavigation += new EventHandler<WebNavigationPolicyEventArgs>(DecidePolicyForNavigation);
+			webView.StartedProvisionalLoad += new EventHandler<WebFrameEventArgs>(WebViewStartedProvisionalLoad);
+			webView.CommitedLoad += new EventHandler<WebFrameEventArgs>(WebViewCommitedLoad);
+			webView.FinishedLoad += new EventHandler<WebFrameEventArgs>(WebViewFinishedLoad);
+			webView.FailedLoadWithError += new EventHandler<WebFrameErrorEventArgs>(WebViewFailedLoadWithError);
+			webView.WillCloseFrame += new EventHandler<WebFrameEventArgs>(WebViewWillCloseFrame);
+			webView.ClearedWindowObject += new EventHandler<WebFrameScriptFrameEventArgs>(WebViewClearedWindowObject);
+			webView.ReceivedTitle += new EventHandler<WebFrameTitleEventArgs>(WebViewReceivedTitle);
+
+			var url = new NSUrl("http://jetencurakjesteprezidentem.cz");
 			var request = new NSUrlRequest(url);
 			webView.MainFrame.LoadRequest(request);
 
@@ -75,5 +85,63 @@ namespace FormsTest
 			base.Dispose(disposing);
 		}
 
+		// ===============
+
+		private NSUrlRequest OnSendRequest(WebView sender, NSObject identifier, NSUrlRequest request, NSUrlResponse redirectResponse, WebDataSource dataSource)
+		{
+			return request;
+		}
+
+		private void DecidePolicyForNavigation(object sender, WebNavigationPolicyEventArgs e)
+		{
+			WebView.DecideUse(e.DecisionToken);
+		}
+
+		private void WebViewClearedWindowObject(object sender, WebFrameScriptFrameEventArgs e)
+		{
+//			var jsStubName = "__cefFrameStub";
+//			var stub = new JSStub(this.mainFrame, jsStubName);
+//			e.WindowObject.SetValueForKey(stub, new NSString(jsStubName));
+		}
+
+		private void WebViewStartedProvisionalLoad(object sender, WebFrameEventArgs e)
+		{
+		}
+
+		private void WebViewCommitedLoad(object sender, WebFrameEventArgs e)
+		{
+		}
+
+		private void WebViewFinishedLoad(object sender, WebFrameEventArgs e)
+		{
+		}
+
+		private void WebViewFailedLoadWithError(object sender, WebFrameErrorEventArgs e)
+		{
+		}
+
+		private void WebViewWillCloseFrame(object sender, WebFrameEventArgs e)
+		{
+		}
+
+		private void WebViewReceivedTitle(object sender, WebFrameTitleEventArgs e)
+		{
+		}
+
+		// ==============
+
+		internal class JSStub : NSObject {
+
+			const string WrapperSelector = "execute:obj:args:";
+
+			WebFrame frame;
+			string name;
+
+			internal JSStub(WebFrame frame, string name)
+			{
+				this.frame = frame;
+				this.name = name;
+			}
+		}
 	}
 }
