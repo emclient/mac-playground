@@ -2,9 +2,9 @@
 using System.Windows.Forms;
 using System.Threading;
 using FormsTest;
-//using MonoMac.AppKit;
 using MonoMac.ObjCRuntime;
 using MonoMac.Foundation;
+using System.Diagnostics;
 
 namespace FormsTest
 {
@@ -20,8 +20,6 @@ namespace FormsTest
 		[STAThread]
 		static void Main(string[] args)
 		{
-            //MonoMac.AppKit.NSApplication.Init();
-
             Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.ApplicationExit += (object sender, EventArgs e) =>
@@ -34,6 +32,11 @@ namespace FormsTest
 			NSUrlProtocol.RegisterClass(urlProtocolClass);
 
 			Application.Run(new MainForm());
+
+			var threads = Process.GetCurrentProcess().Threads;
+
+			// Workaround for not exiting the app because of pending threads related to UrlProtocol subclass.
+			//MonoMac.AppKit.NSApplication.SharedApplication.Terminate(MonoMac.AppKit.NSApplication.SharedApplication);
 		}
 	}
 }
