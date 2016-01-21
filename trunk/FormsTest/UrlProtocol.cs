@@ -32,16 +32,20 @@ namespace FormsTest
 		}
 
 //		[Export ("initWithRequest:cachedResponse:client:")]
-//		public UrlProtocol (NSUrlRequest request, NSCachedUrlResponse cachedResponse, NSUrlProtocolClient client) 
-//			: base (request, cachedResponse, client)
+//		public UrlProtocol (NSUrlRequest request, NSCachedUrlResponse cachedResponse, NSUrlProtocolClient client)
+//			: base(request, cachedResponse, client)
 //		{
 //		}
 
-		public UrlProtocol(IntPtr handle)
-			: base(handle)
+		[Export ("initWithRequest:cachedResponse:client:")]
+		public UrlProtocol (NSUrlRequest request, NSCachedUrlResponse cachedResponse, NSObject client) 
+			: base(NSObjectFlag.Empty)
 		{
-//			var initSelector = new Selector("init");
-//			this.Handle = MonoMac.ObjCRuntime.Messaging.IntPtr_objc_msgSend(this.Handle, initSelector.Handle);
+			var h = Selector.GetHandle ("initWithRequest:cachedResponse:client:");
+			if (base.IsDirectBinding)
+				Handle = Messaging.IntPtr_objc_msgSend_IntPtr_IntPtr_IntPtr (base.Handle, h, request.Handle, cachedResponse?.Handle ?? IntPtr.Zero, client.Handle);
+			else
+				Handle = Messaging.IntPtr_objc_msgSendSuper_IntPtr_IntPtr_IntPtr (base.SuperHandle, h, request.Handle, cachedResponse?.Handle ?? IntPtr.Zero, client.Handle);
 		}
 
 		public override void StartLoading()
