@@ -55,7 +55,7 @@
             this.button1.Text = "Chcípni";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
+			// 
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -66,6 +66,10 @@
             this.button2.Text = "Poroď";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
+
+			this.toolTip = new System.Windows.Forms.ToolTip();
+			this.toolTip.SetToolTip(this.button2, "Otevře okno s prohlížečem .... jhgsd lsakhfg lfhgwlf khgwdfljk whgfljwhgf ljhwdfg ljshdfg jlwdhfg");
+
             // 
             // button3
             // 
@@ -228,6 +232,7 @@
 		private System.Windows.Forms.Label label7;
 		private MyTextBox filterTextBox;
         private System.Windows.Forms.ComboBox dialogTypeCombo;
+		private System.Windows.Forms.ToolTip toolTip;
 	}
 }
 
