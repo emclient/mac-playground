@@ -101,6 +101,11 @@ namespace System.Windows.Forms {
 			protected override void OnCreateControl() {
 				base.OnCreateControl ();
 				XplatUI.SetTopmost(this.window.Handle, true);
+
+				#if MONOMAC
+				// Workaround for missing support of WM_MOUSEACTIVATE that causes ToolTip to eat mouse clicks for controls beneath.
+				((MonoMac.AppKit.NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(this.Handle)).Window.IgnoresMouseEvents = true;
+				#endif
 			}
 
 			protected override CreateParams CreateParams {
