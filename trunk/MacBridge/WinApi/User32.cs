@@ -13,9 +13,9 @@ namespace WinApi
 {
     public static partial class Win32
     {
-		internal static void NotImplemented(MethodBase method)
+		internal static void NotImplemented(MethodBase method, object details = null)
 		{
-			Debug.WriteLine("Not Implemented: " + method.ReflectedType.Name + "." + method.Name);
+			Debug.WriteLine("Not Implemented: " + method.ReflectedType.Name + "." + method.Name + (details == null ? String.Empty : " (" + details.ToString() + ")"));
 		}
 
         public static IntPtr WindowFromPoint(POINT p)
@@ -259,19 +259,35 @@ namespace WinApi
             return false;
         }
 
+		public static int GetWindowLongPtr32(IntPtr hWnd, GWL nIndex)
+		{
+			switch (nIndex)
+			{
+				case GWL.ID: return GetWindowIdentifier(hWnd);
+				case GWL.STYLE: return GetWindowStyle(hWnd);
+				case GWL.EXSTYLE: return GetWindowExStyle(hWnd);
+				case GWL.WNDPROC:
+				case GWL.HINSTANCE:
+				case GWL.HWNDPARENT:
+				case GWL.USERDATA:
+				case GWL.DLGPROC:
+				case GWL.USER:
+				case GWL.MSGRESULT:
+				default:
+					break;
+			}
+
+			// TODO: Implement remaining options
+			NotImplemented(MethodBase.GetCurrentMethod(), nIndex);
+			return 0;
+		}
+
         public static IntPtr GetWindowLongPtr64(IntPtr hWnd, GWL nIndex)
         {
-			NotImplemented(MethodBase.GetCurrentMethod());
-            return IntPtr.Zero;
+			return new IntPtr(GetWindowLongPtr32(hWnd, nIndex));
         }
 
-        public static int GetWindowLongPtr32(IntPtr hWnd, GWL nIndex)
-        {
-			NotImplemented(MethodBase.GetCurrentMethod());
-            return 0;
-        }
-
-        public static IntPtr SetWindowLongPtr64(IntPtr hWnd, GWL nIndex, IntPtr dwNewLong)
+		public static IntPtr SetWindowLongPtr64(IntPtr hWnd, GWL nIndex, IntPtr dwNewLong)
         {
 			NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
@@ -476,5 +492,60 @@ namespace WinApi
         }
 
         #endregion // Keyboard
+
+		// Internal
+
+		public static int GetWindowIdentifier(IntPtr hWnd)
+		{
+			NSView view = ((NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hWnd));
+			if (view is MonoContentView)
+				return view.Window.WindowNumber;
+			return 0;
+		}
+
+		public static int GetWindowStyle(IntPtr hWnd)
+		{
+			WS style = 0;
+
+			Hwnd hwnd = Hwnd.ObjectFromHandle(hWnd);
+			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSWindow winWrap = vuWrap.Window;
+
+			if ((hwnd.initial_style & WindowStyles.WS_POPUP) != 0)
+				style |= WS.POPUP;
+			if ((hwnd.initial_style & WindowStyles.WS_OVERLAPPED) != 0)
+				style |= WS.OVERLAPPED;
+			if (vuWrap.Superview != null)
+				style |= WS.CHILD;
+			if (vuWrap is MonoContentView && winWrap.ParentWindow != null)
+				style |= WS.CHILD;
+			if (winWrap.IsMiniaturized)
+				style |= WS.MINIMIZE;
+			if (winWrap.IsZoomed)
+				style |= WS.MAXIMIZE;
+			if (!vuWrap.Hidden)
+				style |= WS.VISIBLE;
+			if (!hwnd.Enabled)
+				style |= WS.DISABLED;
+			if ((hwnd.initial_style & WindowStyles.WS_BORDER) != 0)
+				style |= WS.BORDER;
+			if ((hwnd.initial_style & WindowStyles.WS_DLGFRAME) != 0)
+				style |= WS.DLGFRAME;
+			if ((hwnd.initial_style & WindowStyles.WS_CAPTION) != 0)
+				style |= WS.CAPTION;
+			if ((hwnd.initial_style & WindowStyles.WS_HSCROLL) != 0)
+				style |= WS.HSCROLL;
+			if ((hwnd.initial_style & WindowStyles.WS_VSCROLL) != 0)
+				style |= WS.VSCROLL;
+
+			return (int)style;
+		}
+
+		public static int GetWindowExStyle(IntPtr hWnd)
+		{
+			WS style = 0;
+			// TODO: Implement
+			return (int)style;
+		}
     }
 }
