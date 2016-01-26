@@ -62,8 +62,8 @@ namespace WinApi
         {
             // TODO: Handle all remaining flags
 
-            //if (0 == (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOZORDER))
-            //XplatUI.SetZOrder(hWnd, hWndInsertAfter, false, false);
+            if (0 == (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOZORDER))
+            	XplatUI.SetZOrder(hWnd, hWndInsertAfter, true, false);
 
             int x_, y_, w_, h_, clw_, clh_;
             XplatUI.GetWindowPos(hWnd, false, out x_, out y_, out w_, out h_, out clw_, out clh_);
