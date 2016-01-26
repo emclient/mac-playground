@@ -2033,7 +2033,13 @@ namespace System.Windows.Forms {
 		}
 
 		internal override bool SetOwner (IntPtr hWnd, IntPtr hWndOwner) {
-			// TODO: Set window owner. 
+			// TODO: Handle other cases, where objects are not top level windows but views.
+
+			NSWindow winWrap = ((NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hWnd))?.Window;
+			NSWindow winOwnerWrap = ((NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hWndOwner))?.Window;
+			if (winWrap != null && winOwnerWrap != null && winWrap != winOwnerWrap)
+				winOwnerWrap.AddChildWindow(winWrap, NSWindowOrderingMode.Above);
+
 			return true;
 		}
 
