@@ -513,8 +513,8 @@ namespace WinApi
 
 			if ((hwnd.initial_style & WindowStyles.WS_POPUP) != 0)
 				style |= WS.POPUP;
-			if ((hwnd.initial_style & WindowStyles.WS_OVERLAPPED) != 0)
-				style |= WS.OVERLAPPED;
+//			if ((hwnd.initial_style & WindowStyles.WS_OVERLAPPED) != 0)
+//				style |= WS.OVERLAPPED;
 			if (vuWrap.Superview != null)
 				style |= WS.CHILD;
 			if (vuWrap is MonoContentView && winWrap.ParentWindow != null)
