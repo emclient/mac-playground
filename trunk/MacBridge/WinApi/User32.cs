@@ -34,7 +34,11 @@ namespace WinApi
                 //var contentViewLocation = window.ContentView.ConvertPointFromView(windowLocation, null);
                 var view = window.ContentView.HitTest(windowLocation);
 
-                if (view != null)
+				// Embedded native control? => Find MonoView parent
+				while (view != null && !(view is MonoView))
+					view = view.Superview;
+
+				if (view != null)
                 {
                     var hwnd = Hwnd.GetHandleFromWindow(view.Handle);
                     if (hwnd != IntPtr.Zero)

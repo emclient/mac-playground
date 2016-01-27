@@ -184,7 +184,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void MouseExited(NSEvent theEvent)
 		{
-			Window.AcceptsMouseMovedEvents = false;
+			//Window.AcceptsMouseMovedEvents = false;
 			base.MouseExited(theEvent);
 		}
 
@@ -211,6 +211,11 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 			else {
 				NSView vuWrap = Window.ContentView.HitTest(nspoint);
+
+				// Embedded native control? => Find MonoView parent
+				while (vuWrap != null && !(vuWrap is MonoView))
+					vuWrap = vuWrap.Superview;
+
 				if (!(vuWrap is MonoView))
 					return;
 				currentHwnd = Hwnd.ObjectFromHandle(vuWrap.Handle);
