@@ -2038,7 +2038,12 @@ namespace System.Windows.Forms {
 			NSWindow winWrap = ((NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hWnd))?.Window;
 			NSWindow winOwnerWrap = ((NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hWndOwner))?.Window;
 			if (winWrap != null && winOwnerWrap != null && winWrap != winOwnerWrap)
+			{
+				if (winWrap.ParentWindow != null)
+					winOwnerWrap.RemoveChildWindow(winWrap);
+
 				winOwnerWrap.AddChildWindow(winWrap, NSWindowOrderingMode.Above);
+			}
 
 			return true;
 		}
