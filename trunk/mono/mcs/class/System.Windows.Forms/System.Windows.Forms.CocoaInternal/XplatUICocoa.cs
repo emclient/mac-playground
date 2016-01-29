@@ -1515,35 +1515,6 @@ namespace System.Windows.Forms {
 			return false;
 		}
 
-
-//			int count = 0;
-//
-//			do {
-//				lock (queuelock) {
-//					count = MessageQueue.Count;
-//					if (0 < count) {
-//						object queueobj;
-//						queueobj = MessageQueue.Dequeue ();
-//
-//						if (! (queueobj is GCHandle)) {
-//							msg = (MSG) queueobj;
-//							break;
-//						}
-//
-//						XplatUIDriverSupport.ExecuteClientMessage ((GCHandle) queueobj);
-//					}
-//				}
-//
-//				bool atIdle = ! pumpedNativeEvent && 0 >= count;
-//				if (atIdle) 
-//					RaiseIdle (EventArgs.Empty);
-//
-//				pumpedNativeEvent = PumpNativeEvent (atIdle);
-//			} while (GetMessageResult);
-//
-//			return GetMessageResult;
-//		}
-
 		[MonoTODO]
 		internal override bool GetText (IntPtr handle, out string text) {
 			throw new NotImplementedException ();
@@ -2439,11 +2410,11 @@ namespace System.Windows.Forms {
 				Hwnd hwnd = Hwnd.ObjectFromHandle (msg.hwnd);
 				if (hwnd != null) {
 					if (MouseHwnd == null) { 
-						SendMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
+//						SendMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
 						Cocoa.Cursor.SetCursor (hwnd.Cursor);
 					} else if (MouseHwnd.Handle != hwnd.Handle) {
-						SendMessage (MouseHwnd.Handle, Msg.WM_MOUSELEAVE, IntPtr.Zero, IntPtr.Zero);
-						SendMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
+//						SendMessage (MouseHwnd.Handle, Msg.WM_MOUSELEAVE, IntPtr.Zero, IntPtr.Zero);
+//						SendMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
 						Cocoa.Cursor.SetCursor (hwnd.Cursor);
 					}
 					MouseHwnd = hwnd;
