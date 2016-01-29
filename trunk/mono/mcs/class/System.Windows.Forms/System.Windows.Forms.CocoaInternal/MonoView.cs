@@ -51,6 +51,7 @@ namespace System.Windows.Forms.CocoaInternal
 	{
 		protected XplatUICocoa driver;
 		protected Hwnd hwnd;
+		protected NSTrackingArea clientArea;
 
 		public MonoView (IntPtr instance) : base (instance)
 		{
@@ -77,6 +78,60 @@ namespace System.Windows.Forms.CocoaInternal
 		public override bool AcceptsFirstResponder ()
 		{
 			return false;
+		}
+
+		public override bool AcceptsFirstMouse(NSEvent theEvent)
+		{
+			return true;
+		}
+
+		public override void ViewDidMoveToWindow ()
+		{
+			base.ViewDidMoveToWindow ();
+			UpdateTrackingAreas ();
+		}
+
+		public override void UpdateTrackingAreas()
+		{
+			if (Handle == hwnd.ClientWindow)
+			{
+				if (clientArea != null)
+					RemoveTrackingArea(clientArea);
+
+				clientArea = new NSTrackingArea(
+					Bounds,
+					NSTrackingAreaOptions.ActiveInActiveApp |
+					NSTrackingAreaOptions.ActiveWhenFirstResponder |
+					NSTrackingAreaOptions.MouseEnteredAndExited |
+					NSTrackingAreaOptions.InVisibleRect,
+					this,
+					new NSDictionary());
+				AddTrackingArea(clientArea);
+			}
+
+			base.UpdateTrackingAreas();
+		}
+
+		public override void MouseEntered(NSEvent e)
+		{
+			if (e.TrackingArea == clientArea && clientArea != null)
+			{
+				var wm = ToMSG(e, Msg.WM_MOUSE_ENTER);
+				driver.EnqueueMessage(wm);
+			}
+
+			base.MouseEntered(e);
+		}
+
+		public override void MouseExited(NSEvent e)
+		{
+			if (e.TrackingArea == clientArea && clientArea != null)
+			{
+				var wm = ToMSG(e, Msg.WM_MOUSELEAVE);
+				driver.EnqueueMessage(wm);
+			}
+
+			base.MouseExited(e);
 		}
 
 		public override void DrawRect (NSRect dirtyRect)
@@ -113,6 +168,49 @@ namespace System.Windows.Forms.CocoaInternal
 					ControlPaint.DrawBorder (g, new Rectangle (0, 0, hwnd.Width, hwnd.Height), Color.Black, ButtonBorderStyle.Solid);
 				break;
 			}
+		}
+
+		internal MSG ToMSG(NSEvent e, Msg type)
+		{
+			var nspoint = ConvertPointFromView(e.LocationInWindow, null);
+			var localMonoPoint = driver.NativeToMonoFramed(nspoint, Frame.Height);
+			var mousePosition = driver.NativeToMonoScreen(NSEvent.CurrentMouseLocation);
+
+			int wParam = 0;
+			var mouseButtons = NSEvent.CurrentPressedMouseButtons;
+			if ((mouseButtons & 1) != 0)
+				wParam |= (int)MsgButtons.MK_LBUTTON;
+			if ((mouseButtons & 2) != 0)
+				wParam |= (int)MsgButtons.MK_RBUTTON;
+			if ((mouseButtons & 4) != 0)
+				wParam |= (int)MsgButtons.MK_MBUTTON;
+			if ((mouseButtons & 8) != 0)
+				wParam |= (int)MsgButtons.MK_XBUTTON1;
+			if ((mouseButtons & 16) != 0)
+				wParam |= (int)MsgButtons.MK_XBUTTON2;
+			var modifierFlags = NSEvent.CurrentModifierFlags;
+			if ((modifierFlags & NSEventModifierMask.ControlKeyMask) != 0)
+				wParam |= (int)MsgButtons.MK_CONTROL;
+			if ((modifierFlags & NSEventModifierMask.ShiftKeyMask) != 0)
+				wParam |= (int)MsgButtons.MK_SHIFT;
+
+			var hWnd = Hwnd.ObjectFromHandle(Handle);
+			return new MSG
+			{
+				hwnd = hWnd?.Handle ?? IntPtr.Zero,
+				message = type,
+				wParam = (IntPtr)wParam,
+				lParam = (IntPtr)((ushort)localMonoPoint.Y << 16 | (ushort)localMonoPoint.X),
+				refobject = hwnd,
+				pt = { x = mousePosition.X, y = mousePosition.Y }
+			};
+		}
+
+		public bool PointInRect(NSPoint p, NSRect r)
+		{
+			return IsFlipped
+				? !(p.X < r.X || p.Y < r.Top || p.X > r.Right || p.Y > r.Bottom)
+					: !(p.X < r.X || p.Y < r.Bottom || p.X > r.Right || p.Y > r.Top);
 		}
 	}
 }
