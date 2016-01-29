@@ -51,7 +51,9 @@ namespace System.Windows.Forms.CocoaInternal
 	{
 		protected XplatUICocoa driver;
 		protected Hwnd hwnd;
+
 		protected NSTrackingArea clientArea;
+		protected bool mouseInside = false;
 
 		public MonoView (IntPtr instance) : base (instance)
 		{
@@ -91,44 +93,53 @@ namespace System.Windows.Forms.CocoaInternal
 			UpdateTrackingAreas ();
 		}
 
+		internal void MouseInside(NSEvent e)
+		{
+			// Setup tracking area to receive MouseExited event (if not already set up)
+			if (!mouseInside && Handle == hwnd.ClientWindow)
+			{
+				mouseInside = true;
+				UpdateTrackingAreas();
+
+				driver.EnqueueMessage(ToMSG(e, Msg.WM_MOUSE_ENTER));
+			}
+		}
+
 		public override void UpdateTrackingAreas()
 		{
 			if (Handle == hwnd.ClientWindow)
 			{
 				if (clientArea != null)
+				{
 					RemoveTrackingArea(clientArea);
+					clientArea = null;
+				}
 
-				clientArea = new NSTrackingArea(
-					Bounds,
-					NSTrackingAreaOptions.ActiveInActiveApp |
-					NSTrackingAreaOptions.ActiveWhenFirstResponder |
-					NSTrackingAreaOptions.MouseEnteredAndExited |
-					NSTrackingAreaOptions.InVisibleRect,
-					this,
-					new NSDictionary());
-				AddTrackingArea(clientArea);
+				if (mouseInside)
+				{
+					clientArea = new NSTrackingArea(
+						Bounds,
+						NSTrackingAreaOptions.ActiveInActiveApp |
+						NSTrackingAreaOptions.ActiveWhenFirstResponder |
+						NSTrackingAreaOptions.MouseEnteredAndExited |
+						NSTrackingAreaOptions.InVisibleRect,
+						this,
+						new NSDictionary());
+					AddTrackingArea(clientArea);
+				}
 			}
 
 			base.UpdateTrackingAreas();
-		}
-
-		public override void MouseEntered(NSEvent e)
-		{
-			if (e.TrackingArea == clientArea && clientArea != null)
-			{
-				var wm = ToMSG(e, Msg.WM_MOUSE_ENTER);
-				driver.EnqueueMessage(wm);
-			}
-
-			base.MouseEntered(e);
 		}
 
 		public override void MouseExited(NSEvent e)
 		{
 			if (e.TrackingArea == clientArea && clientArea != null)
 			{
-				var wm = ToMSG(e, Msg.WM_MOUSELEAVE);
-				driver.EnqueueMessage(wm);
+				mouseInside = false; // Causes removing tracking area
+				UpdateTrackingAreas();
+
+				driver.EnqueueMessage(ToMSG(e, Msg.WM_MOUSELEAVE));
 			}
 
 			base.MouseExited(e);

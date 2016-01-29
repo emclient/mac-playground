@@ -173,13 +173,17 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void MouseEntered(NSEvent e)
 		{
-			Window.AcceptsMouseMovedEvents = true;
+			if (e.TrackingArea == trackingArea && trackingArea != null)
+				Window.AcceptsMouseMovedEvents = true;
+
 			base.MouseEntered(e);
 		}
 
 		public override void MouseExited(NSEvent e)
 		{
-			Window.AcceptsMouseMovedEvents = false;
+			if (e.TrackingArea == trackingArea && trackingArea != null)
+				Window.AcceptsMouseMovedEvents = false;
+	
 			base.MouseExited(e);
 		}
 
@@ -193,11 +197,12 @@ namespace System.Windows.Forms.CocoaInternal
 			if (hwnd.zombie)
 				return;
 
+			NSView vuWrap;
 			if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero) {
 				currentHwnd = Hwnd.ObjectFromHandle (XplatUICocoa.Grab.Hwnd); 
 				if (null == currentHwnd || currentHwnd.zombie)
 					return;
-				NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject(currentHwnd.ClientWindow);
+				vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject(currentHwnd.ClientWindow);
 				if (vuWrap.Window != Window)
 					nspoint = vuWrap.Window.ConvertScreenToBase(Window.ConvertBaseToScreen(nspoint));
 				nspoint = vuWrap.ConvertPointFromView(nspoint, null);
@@ -205,7 +210,7 @@ namespace System.Windows.Forms.CocoaInternal
 				client = true;
 			}
 			else {
-				NSView vuWrap = Window.ContentView.HitTest(nspoint);
+				vuWrap = Window.ContentView.HitTest(nspoint);
 
 				// Embedded native control? => Find MonoView parent
 				while (vuWrap != null && !(vuWrap is MonoView))
@@ -317,6 +322,8 @@ namespace System.Windows.Forms.CocoaInternal
 				default:
 					return;
 			}
+
+			((MonoView)vuWrap).MouseInside(eventref);
 
 			driver.EnqueueMessage(msg);
 		}
