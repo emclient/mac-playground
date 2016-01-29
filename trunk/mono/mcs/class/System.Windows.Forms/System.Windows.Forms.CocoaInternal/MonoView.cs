@@ -122,6 +122,7 @@ namespace System.Windows.Forms.CocoaInternal
 						NSTrackingAreaOptions.ActiveInActiveApp |
 						NSTrackingAreaOptions.ActiveWhenFirstResponder |
 						NSTrackingAreaOptions.MouseEnteredAndExited |
+						NSTrackingAreaOptions.AssumeInside |
 						NSTrackingAreaOptions.InVisibleRect,
 						this,
 						new NSDictionary());
