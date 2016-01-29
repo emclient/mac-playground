@@ -87,27 +87,22 @@ namespace System.Windows.Forms.CocoaInternal
 
 		#region Mouse
 
-		public override void ViewDidMoveToWindow ()
-		{
-			base.ViewDidMoveToWindow ();
-			UpdateTrackingAreas ();
-		}
-
 		public override void UpdateTrackingAreas ()
 		{
-			base.UpdateTrackingAreas();
-
 			if (trackingArea != null)
 				RemoveTrackingArea(trackingArea);
+			
 			trackingArea = new NSTrackingArea(
-				Frame,
-				NSTrackingAreaOptions.ActiveAlways |
+				Bounds,
+				NSTrackingAreaOptions.ActiveInActiveApp |
 				NSTrackingAreaOptions.MouseMoved |
 				NSTrackingAreaOptions.MouseEnteredAndExited |
 				NSTrackingAreaOptions.InVisibleRect,
 				this,
 				new NSDictionary());
 			AddTrackingArea(trackingArea);
+
+			base.UpdateTrackingAreas();
 		}
 
 		public override void MouseDown (NSEvent theEvent)
@@ -176,16 +171,16 @@ namespace System.Windows.Forms.CocoaInternal
 			ProcessMouseEvent (theEvent);
 		}
 
-		public override void MouseEntered(NSEvent theEvent)
+		public override void MouseEntered(NSEvent e)
 		{
 			Window.AcceptsMouseMovedEvents = true;
-			base.MouseEntered(theEvent);
+			base.MouseEntered(e);
 		}
 
-		public override void MouseExited(NSEvent theEvent)
+		public override void MouseExited(NSEvent e)
 		{
-			//Window.AcceptsMouseMovedEvents = false;
-			base.MouseExited(theEvent);
+			Window.AcceptsMouseMovedEvents = false;
+			base.MouseExited(e);
 		}
 
 		public void ProcessMouseEvent (NSEvent eventref)
@@ -222,6 +217,10 @@ namespace System.Windows.Forms.CocoaInternal
 				nspoint = vuWrap.ConvertPointFromView(nspoint, null);
 				localMonoPoint = driver.NativeToMonoFramed(nspoint, Frame.Height);
 				client = currentHwnd.ClientWindow == currentHwnd.Handle;
+
+				// Debugging
+//				var ctrl = Control.FromHandle(vuWrap.Handle);
+//				Console.WriteLine(eventref.Type.ToString() + "[" + eventref.WindowNumber + "]: " + ctrl != null ? ctrl.GetType().Name : "?");
 			}
 
 			int button = (int) eventref.ButtonNumber;
@@ -312,13 +311,7 @@ namespace System.Windows.Forms.CocoaInternal
                     break;
 
 				case NSEventType.MouseEntered:
-					msg.message = Msg.WM_MOUSE_ENTER;
-					break;
-
 				case NSEventType.MouseExited:
-					msg.message = Msg.WM_MOUSELEAVE;
-					break;
-
 				case NSEventType.TabletPoint:
 				case NSEventType.TabletProximity:
 				default:
