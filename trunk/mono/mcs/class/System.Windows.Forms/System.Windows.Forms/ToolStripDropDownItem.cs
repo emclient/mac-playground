@@ -109,18 +109,10 @@ namespace System.Windows.Forms
 		#region Protected Properties
 		protected internal virtual Point DropDownLocation {
 			get {
-				Point p;
-
-				if (this.IsOnDropDown) {
-					p = Parent.PointToScreen (new Point (this.Bounds.Left, this.Bounds.Top - 1));
-					p.X += this.Bounds.Width;
-					p.Y += this.Bounds.Left;
-					return p;
-				}
+				if (this.IsOnDropDown)
+					return new Point(Bounds.Right, this.Bounds.Top - 1);
 				else
-					p = new Point (this.Bounds.Left, this.Bounds.Bottom - 1);
-
-				return Parent.PointToScreen (p);
+					return new Point(Bounds.Left, this.Bounds.Bottom - 1);
 			}
 		}
 		#endregion
@@ -153,7 +145,7 @@ namespace System.Windows.Forms
 				return;
 			
 			this.Invalidate ();
-			this.DropDown.Show (this.DropDownLocation);
+			this.DropDown.Show (this.Owner, DropDownLocation);
 		}
 		#endregion
 
