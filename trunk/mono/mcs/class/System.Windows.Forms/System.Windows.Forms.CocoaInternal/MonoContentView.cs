@@ -90,12 +90,14 @@ namespace System.Windows.Forms.CocoaInternal
 		public override void UpdateTrackingAreas ()
 		{
 			if (trackingArea != null)
+			{
 				RemoveTrackingArea(trackingArea);
+				trackingArea = null;
+			}
 			
 			trackingArea = new NSTrackingArea(
 				Bounds,
 				NSTrackingAreaOptions.ActiveInActiveApp |
-				NSTrackingAreaOptions.MouseMoved |
 				NSTrackingAreaOptions.MouseEnteredAndExited |
 				NSTrackingAreaOptions.InVisibleRect,
 				this,
@@ -103,6 +105,15 @@ namespace System.Windows.Forms.CocoaInternal
 			AddTrackingArea(trackingArea);
 
 			base.UpdateTrackingAreas();
+		}
+
+		protected bool IsKeyInParentChain(NSEvent e)
+		{
+			for (var w = e.Window; w != null; w = w.ParentWindow)
+				if (w.IsKeyWindow)
+					return true;
+
+			return false;
 		}
 
 		public override void MouseDown (NSEvent theEvent)
@@ -144,7 +155,9 @@ namespace System.Windows.Forms.CocoaInternal
 		public override void MouseMoved (NSEvent theEvent)
 		{
 			base.MouseMoved(theEvent);
-			ProcessMouseEvent (theEvent);
+
+			if (IsKeyInParentChain(theEvent))
+				ProcessMouseEvent (theEvent);
 		}
 
 		public override void MouseDragged (NSEvent theEvent)
@@ -315,15 +328,11 @@ namespace System.Windows.Forms.CocoaInternal
 					
                     break;
 
-				case NSEventType.MouseEntered:
-				case NSEventType.MouseExited:
 				case NSEventType.TabletPoint:
 				case NSEventType.TabletProximity:
 				default:
 					return;
 			}
-
-			((MonoView)vuWrap).MouseInside(eventref);
 
 			driver.EnqueueMessage(msg);
 		}
