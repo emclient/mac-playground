@@ -316,16 +316,12 @@ namespace System.Windows.Forms.CocoaInternal
 
 				case NSEventType.ScrollWheel:
 					int delta = (int)(eventref.DeltaY * 40.0);
-					if (0 == delta || FocusHandle == IntPtr.Zero)
+					if (0 == delta)
 						return;
 
-					msg.hwnd = FocusHandle;
+					msg.hwnd = currentHwnd.Handle;
 					msg.message = Msg.WM_MOUSEWHEEL;
 					msg.wParam = (IntPtr)((int)msg.wParam | (delta << 16));
-
-                    var pt = driver.NativeToMonoScreen(NSEvent.CurrentMouseLocation);
-                    msg.lParam = (IntPtr) ((ushort) pt.Y << 16 | (ushort) pt.X);
-					
                     break;
 
 				case NSEventType.TabletPoint:
