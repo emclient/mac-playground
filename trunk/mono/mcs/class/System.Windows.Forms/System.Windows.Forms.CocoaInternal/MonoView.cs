@@ -94,7 +94,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void UpdateTrackingAreas()
 		{
-			if (Handle == hwnd.WholeWindow)
+			if (Handle == hwnd.ClientWindow)
 			{
 				if (clientArea != null)
 				{
@@ -124,10 +124,7 @@ namespace System.Windows.Forms.CocoaInternal
 		public override void MouseExited(NSEvent e)
 		{
 			if (e.TrackingArea == clientArea && clientArea != null)
-			{
-				UpdateTrackingAreas();
 				driver.EnqueueMessage(ToMSG(e, Msg.WM_MOUSELEAVE));
-			}
 
 			base.MouseExited(e);
 		}
