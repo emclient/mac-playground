@@ -61,6 +61,10 @@
     </Compile>
     <Compile Include="MacApi\Foundation\PathUtilities.cs" />
     <Compile Include="MacApi\Foundation\Foundation.cs" />
+    <Compile Include="WinApi\Imm32.cs" />
+    <Compile Include="..\..\..\WinApi\Imm32.Structs.cs">
+      <Link>WinApi\Imm32.Structs.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
