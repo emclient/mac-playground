@@ -79,6 +79,7 @@ trunk/MacBridge/MacBridge.snk -text
 trunk/MacBridge/Properties/AssemblyInfo.cs -text
 trunk/MacBridge/WinApi/ComDlg32.cs -text
 trunk/MacBridge/WinApi/GdiPlus.cs -text
+trunk/MacBridge/WinApi/Imm32.cs -text
 trunk/MacBridge/WinApi/Kernel32.cs -text
 trunk/MacBridge/WinApi/Ole32.cs -text
 trunk/MacBridge/WinApi/Secur32.cs -text
