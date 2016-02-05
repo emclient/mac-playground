@@ -1736,11 +1736,13 @@ namespace System.Windows.Forms
 		{
 			// Get the actual size of our internal image -or-
 			// Get the ImageList.ImageSize if we are using ImageLists
-			if (this.image_scaling == ToolStripItemImageScaling.None) {
-				if (this.image != null)
+
+			Image image = this.Image;
+			if (image_scaling == ToolStripItemImageScaling.None) {
+				if (image != null)
 					return image.Size;
 					
-				if (this.image_index >= 0 || !string.IsNullOrEmpty (this.image_key))
+				if (image_index >= 0 || !string.IsNullOrEmpty (this.image_key))
 					if (this.owner != null && this.owner.ImageList != null)
 						return this.owner.ImageList.ImageSize;
 			} else {
@@ -1748,7 +1750,7 @@ namespace System.Windows.Forms
 				if (this.Parent == null)
 					return Size.Empty;
 					
-				if (this.image != null)
+				if (image != null)
 					return this.Parent.ImageScalingSize;
 
 				if (this.image_index >= 0 || !string.IsNullOrEmpty (this.image_key))
