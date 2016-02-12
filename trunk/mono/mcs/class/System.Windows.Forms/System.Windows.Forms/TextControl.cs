@@ -2684,6 +2684,11 @@ namespace System.Windows.Forms {
 
 		// Invalidate a section of the document to trigger redraw
 		internal void Invalidate(Line start, int start_pos, Line end, int end_pos) {
+
+			// FIXME: Temporary workaround for issues with selection and typing 'longer than very short' texts.
+			owner.Invalidate();
+			return;
+
 			Line	l1;
 			Line	l2;
 			int	p1;
