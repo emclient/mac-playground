@@ -513,6 +513,10 @@ namespace System.Windows.Forms
 			if (this.Location != show_point)
 				this.Location = show_point;
 
+			// Prevents recursion
+			if (Visible)
+				return;
+
 			CancelEventArgs e = new CancelEventArgs ();
 			this.OnOpening (e);
 

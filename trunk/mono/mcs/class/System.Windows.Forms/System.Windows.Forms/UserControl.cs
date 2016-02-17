@@ -208,10 +208,28 @@ namespace System.Windows.Forms {
 				if (!child.is_visible)
 					continue;
 					
+				var sz = child.GetPreferredSize(new Size(0, 0));
+				//Console.WriteLine(" type=" + child.GetType().Name + ", text=" + (child.Text ?? "") + ", w=" + sz.Width + ", h=" + sz.Height + ", dock=" + child.Dock);
+
 				if (child.Dock == DockStyle.Left || child.Dock == DockStyle.Right)
-					retsize.Width += child.PreferredSize.Width;
+				{
+					retsize.Width += sz.Width + child.Margin.Horizontal;
+					retsize.Height = Math.Max(retsize.Height, sz.Height + child.Margin.Vertical);
+				}
 				else if (child.Dock == DockStyle.Top || child.Dock == DockStyle.Bottom)
-					retsize.Height += child.PreferredSize.Height;	
+				{
+					retsize.Height += sz.Height + child.Margin.Vertical;
+					retsize.Width = Math.Max(retsize.Width, sz.Width + child.Margin.Horizontal);
+				}
+				else if (child.Dock == DockStyle.None)
+				{
+				}
+				else if (child.Dock == DockStyle.Fill)
+				{
+					// Strange, but it works
+					retsize.Width = Math.Max(retsize.Width, sz.Width + child.Margin.Horizontal);
+					retsize.Height = Math.Max(retsize.Height, sz.Height + child.Margin.Vertical);
+				}
 			}
 			
 			// See if any non-Docked control is positioned lower or more right than our size
