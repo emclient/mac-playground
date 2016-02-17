@@ -228,6 +228,9 @@ namespace System.Windows.Forms
 
 		internal static Size MeasureTextInternal (IDeviceContext dc, string text, Font font, Size proposedSize, TextFormatFlags flags, bool useMeasureString)
 		{
+			proposedSize.Width = Math.Max(0, proposedSize.Width);
+			proposedSize.Height = Math.Max(0, proposedSize.Height);
+
 			if (!useMeasureString && !XplatUI.RunningOnUnix) {
 				// Tell DrawText to calculate size instead of draw
 				flags |= (TextFormatFlags)1024;		// DT_CALCRECT
