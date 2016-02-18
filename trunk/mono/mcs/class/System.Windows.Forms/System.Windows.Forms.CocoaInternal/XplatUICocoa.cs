@@ -1824,9 +1824,15 @@ namespace System.Windows.Forms {
 		}
 
 		internal override IntPtr SendMessage (IntPtr hwnd, Msg message, IntPtr wParam, IntPtr lParam) {
-			NSApplication.SharedApplication.InvokeOnMainThread (delegate {
-				 NativeWindow.WndProc (hwnd, message, wParam, lParam);
-			});
+			if (NSThread.IsMain)
+				NativeWindow.WndProc(hwnd, message, wParam, lParam);
+			else
+			{
+				NSApplication.SharedApplication.InvokeOnMainThread(delegate
+				{
+					NativeWindow.WndProc(hwnd, message, wParam, lParam);
+				});
+			}
 			return IntPtr.Zero;
 		}
 		
