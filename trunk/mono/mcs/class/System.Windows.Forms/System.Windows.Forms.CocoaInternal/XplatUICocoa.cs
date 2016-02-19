@@ -1311,6 +1311,12 @@ namespace System.Windows.Forms {
 					}
 					return (IntPtr) 1;
 				}
+				case Msg.WM_MOUSEWHEEL:
+				{
+					if ((null != hwnd.Parent) && (IntPtr.Zero != msg.Result))
+						msg.Result = NativeWindow.WndProc(hwnd.Parent.Handle, (Msg)msg.Msg, msg.WParam, msg.LParam);
+					return (IntPtr)1;
+				}
 			}
 			return IntPtr.Zero;
 		}
