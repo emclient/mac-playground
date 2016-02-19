@@ -5450,12 +5450,16 @@ namespace System.Windows.Forms
 		}
 
 		private void WmMouseWheel (ref Message m) {
-			DefWndProc(ref m);
-			OnMouseWheel (new MouseEventArgs (FromParamToMouseButtons ((long) m.WParam), 
-				mouse_clicks, LowOrder ((int) m.LParam.ToInt32 ()), HighOrder ((int) m.LParam.ToInt32 ()), 
-				HighOrder((long)m.WParam)));
-		}
 
+			int lParam = m.LParam.ToInt32();
+			Point p = PointToClient(new Point(lParam & 0xffff, (lParam >> 16) & 0xffff));
+			var e = new HandledMouseEventArgs(FromParamToMouseButtons((long)m.WParam), mouse_clicks, p.X, p.Y, HighOrder((long)m.WParam));
+
+			OnMouseWheel(e);
+			m.Result = (IntPtr)(e.Handled ? 0 : 1);
+			if (!e.Handled)
+				DefWndProc(ref m); // Forward the message to the parent window
+		}
 
 		private void WmMouseMove (ref Message m) {
 			if (XplatUI.IsEnabled (Handle) && active_tracker != null) {

@@ -271,9 +271,7 @@ namespace System.Windows.Forms.CocoaInternal
 			MSG msg = new MSG ();
 			msg.hwnd = currentHwnd.Handle;
 			msg.lParam = (IntPtr) ((ushort) localMonoPoint.Y << 16 | (ushort) localMonoPoint.X);
-			var mousePosition = driver.NativeToMonoScreen(Window.ConvertBaseToScreen(eventref.LocationInWindow));
-			msg.pt.x = mousePosition.X;
-			msg.pt.y = mousePosition.Y;
+			msg.pt = driver.NativeToMonoScreen(Window.ConvertBaseToScreen(eventref.LocationInWindow)).ToPOINT();
 			msg.refobject = hwnd;
 			msg.wParam = (IntPtr)wParam;
 
@@ -319,10 +317,9 @@ namespace System.Windows.Forms.CocoaInternal
 					if (0 == delta)
 						return;
 
-					msg.hwnd = currentHwnd.Handle;
 					msg.message = Msg.WM_MOUSEWHEEL;
 					msg.wParam = (IntPtr)((int)msg.wParam | (delta << 16));
-					driver.NativeToMonoScreen(NSEvent.CurrentMouseLocation);
+					msg.lParam = (IntPtr)((int)msg.pt.x | ((int)msg.pt.y << 16));
 					break;
 
 				case NSEventType.TabletPoint:
