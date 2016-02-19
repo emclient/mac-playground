@@ -444,7 +444,23 @@ namespace System.Windows.Forms
 			return "Point {" + x.ToString () + ", " + y.ToString () + "}";
 		}
 	}
-	
+
+#if PUBLIC_TYPES
+	public
+#else
+	internal
+#endif
+	static class PointEx
+	{
+		public static POINT ToPOINT(this Point p)
+		{
+			POINT P;
+			P.x = p.X; 
+			P.y = p.Y;
+			return P;
+		}
+	};
+
 	[StructLayout(LayoutKind.Sequential)] 
 #if PUBLIC_TYPES
         public
