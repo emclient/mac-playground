@@ -567,7 +567,29 @@ namespace System.Windows.Forms {
 						vscrollbar.Value = maximum_scrollbar_value;
 					}
 				}
+
+				if (e is HandledMouseEventArgs)
+					((HandledMouseEventArgs)e).Handled = true;
+			} else if (HScroll) {
+				if (e.Delta > 0) {
+					if (hscrollbar.Minimum < (hscrollbar.Value - hscrollbar.LargeChange)) {
+						hscrollbar.Value -= hscrollbar.LargeChange;
+					} else {
+						hscrollbar.Value = hscrollbar.Minimum;
+					}
+				} else {
+					int maximum_scrollbar_value = hscrollbar.Maximum - hscrollbar.LargeChange + 1;
+					if (maximum_scrollbar_value > (hscrollbar.Value + hscrollbar.LargeChange)) {
+						hscrollbar.Value += hscrollbar.LargeChange;
+					} else {
+						hscrollbar.Value = maximum_scrollbar_value;
+					}
+				}
+
+				if (e is HandledMouseEventArgs)
+					((HandledMouseEventArgs)e).Handled = true;
 			}
+				
 			base.OnMouseWheel(e);
 		}
 

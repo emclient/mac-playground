@@ -585,9 +585,20 @@ namespace System.Windows.Forms
 		protected override void OnMouseWheel (MouseEventArgs e)
 		{
 			base.OnMouseWheel (e);
-			
+
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null && hme.Handled)
+				return;
+
 			if (!Enabled) return;
-    			
+
+			if ((ModifierKeys & (Keys.Shift | Keys.Alt)) != 0 || MouseButtons != MouseButtons.None)
+				return; // Do not scroll when Shift or Alt key is down, or when a mouse button is down.
+
+			if (hme != null)
+				hme.Handled = true;
+
+
 			if (e.Delta > 0)
 				SmallDecrement ();
 			else

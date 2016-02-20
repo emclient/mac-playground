@@ -1536,6 +1536,9 @@ namespace System.Windows.Forms
 		#endregion //Private Methods
 		protected override void OnMouseWheel (MouseEventArgs e)
 		{
+			if (e is HandledMouseEventArgs)
+				((HandledMouseEventArgs) e).Handled = true;
+
 			base.OnMouseWheel (e);
 		}
 

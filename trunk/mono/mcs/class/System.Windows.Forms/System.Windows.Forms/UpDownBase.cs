@@ -249,6 +249,13 @@ namespace System.Windows.Forms
 
 			protected override void OnMouseWheel(MouseEventArgs e)
 			{
+				HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+				if (hme != null) {
+					if (hme.Handled)
+						return;
+					hme.Handled = true;
+				}
+
 				if (e.Delta > 0)
 					owner.UpButton();
 				else if (e.Delta < 0)
@@ -740,6 +747,13 @@ namespace System.Windows.Forms
 
 		protected override void OnMouseWheel (MouseEventArgs e)
 		{
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null) {
+				if (hme.Handled)
+					return;
+				hme.Handled = true;
+			}
+
 			if (e.Delta > 0)
 				UpButton();
 			else if (e.Delta < 0)

@@ -4722,6 +4722,21 @@ namespace System.Windows.Forms {
 		{
 			base.OnMouseWheel(e);
 
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null && hme.Handled)
+				return; // The application event handler handled the scrolling - don't do anything more.
+
+			if ((ModifierKeys & (Keys.Shift | Keys.Alt)) != 0 || MouseButtons != MouseButtons.None)
+				return; // Do not scroll when Shift or Alt key is down, or when a mouse button is down.
+
+			bool verticalScroll = ((ModifierKeys & Keys.Control) == 0);
+			ScrollBar sb = (verticalScroll ? (ScrollBar) this.VerticalScrollBar : (ScrollBar) this.HorizontalScrollBar);
+			if (!sb.Visible || !sb.Enabled)
+				return; // Do not scroll when the corresponding scrollbar is invisible or disabled
+
+			if (hme != null)
+				hme.Handled = true;
+
 			int delta = SystemInformation.MouseWheelScrollLines * verticalScrollBar.SmallChange;
 			if (e.Delta < 0)
 				verticalScrollBar.SafeValueSet (verticalScrollBar.Value + delta);
