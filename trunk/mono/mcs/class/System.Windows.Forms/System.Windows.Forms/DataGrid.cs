@@ -1773,6 +1773,10 @@ namespace System.Windows.Forms
 		{
 			base.OnMouseWheel (e);
 
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null && hme.Handled)
+				return;
+
 			bool ctrl_pressed = ((Control.ModifierKeys & Keys.Control) != 0);
 			int pixels;
 
@@ -1809,6 +1813,9 @@ namespace System.Windows.Forms
 				GridVScrolled (this, new ScrollEventArgs (ScrollEventType.ThumbPosition, pixels));
 				vert_scrollbar.Value = pixels;
 			}
+
+			if (hme != null)
+				hme.Handled = true;
 		}
 
 		protected void OnNavigate (NavigateEventArgs e)

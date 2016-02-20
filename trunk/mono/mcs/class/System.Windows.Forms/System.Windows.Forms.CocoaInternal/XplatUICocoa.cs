@@ -1315,7 +1315,7 @@ namespace System.Windows.Forms {
 				{
 					if ((null != hwnd.Parent) && (IntPtr.Zero != msg.Result))
 						msg.Result = NativeWindow.WndProc(hwnd.Parent.Handle, (Msg)msg.Msg, msg.WParam, msg.LParam);
-					return (IntPtr)1;
+					return (IntPtr)msg.Result;
 				}
 			}
 			return IntPtr.Zero;
