@@ -191,13 +191,20 @@ namespace System.Windows.Forms.PropertyGridInternal {
 		{
 			if (vbar == null || !vbar.Visible)
 				return;
-			if (e.Delta < 0)
-				vbar.Value = Math.Min (vbar.Maximum - GetVisibleRowsCount () + 1, vbar.Value + SystemInformation.MouseWheelScrollLines);
-			else
-				vbar.Value = Math.Max (0, vbar.Value - SystemInformation.MouseWheelScrollLines);
+
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme == null || !hme.Handled)
+			{
+				if (e.Delta < 0)
+					vbar.Value = Math.Min(vbar.Maximum - GetVisibleRowsCount() + 1, vbar.Value + SystemInformation.MouseWheelScrollLines);
+				else
+					vbar.Value = Math.Max(0, vbar.Value - SystemInformation.MouseWheelScrollLines);
+
+				if (hme != null)
+					hme.Handled = true;
+			}
 			base.OnMouseWheel (e);
 		}
-
 
 		protected override void OnMouseMove (MouseEventArgs e) {
 			if (this.RootGridItem == null)
