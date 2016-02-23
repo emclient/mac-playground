@@ -1224,6 +1224,7 @@
     <Compile Include="System.Windows.Forms\OpenFileDialog.Mac.cs" />
     <Compile Include="System.Windows.Forms\FolderBrowserDialog.Mac.cs" />
     <Compile Include="System.Windows.Forms\SaveFileDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\DebugUtility.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
