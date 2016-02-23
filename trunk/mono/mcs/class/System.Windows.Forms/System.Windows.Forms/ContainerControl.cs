@@ -679,7 +679,7 @@ namespace System.Windows.Forms {
 			switch ((Msg) m.Msg) {
 
 				case Msg.WM_SETFOCUS:
-					if (active_control != null)
+					if (active_control != null && active_control.Visible)
 						Select (active_control);
 					else
 						base.WndProc (ref m);
