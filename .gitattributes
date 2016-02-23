@@ -914,6 +914,7 @@ trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DateRangeEventHan
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DateTimePicker.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DateTimePickerFormat.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/Day.cs -text
+trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DebugUtility.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DialogResult.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DockStyle.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DockingAttribute.cs -text
