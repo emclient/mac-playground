@@ -153,11 +153,7 @@ namespace System.Windows.Forms.CocoaInternal
 		// Tells win form to update it's content
 		internal virtual void resizeWinForm(Hwnd contentViewHandle)
 		{
-			//var f = /*this.ConvertRectToScreen(*/this.Frame/*)*/;
-			//var r = driver.NativeToMonoScreen(f);
-			//XplatUI.SetWindowPos (contentViewHandle.Handle,  (int)r.Left, (int)r.Top, (int)r.Width, (int)r.Height);
-			//driver.HwndPositionFromNative(contentViewHandle);
-			//driver.PerformNCCalc (contentViewHandle);
+			driver.HwndPositionFromNative(contentViewHandle);
 			driver.SendMessage (contentViewHandle.Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
 	}
