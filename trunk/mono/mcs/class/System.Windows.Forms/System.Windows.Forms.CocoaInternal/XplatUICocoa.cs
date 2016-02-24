@@ -107,7 +107,7 @@ namespace System.Windows.Forms {
 		// Internal members available to the event handler sub-system
 		internal static IntPtr ActiveWindow;
 		internal static NSWindow ReverseWindow;
-		internal static NSWindow CaretWindow;
+		internal static NSView CaretView;
 
 		internal static Hwnd MouseHwnd;
 
@@ -245,8 +245,9 @@ namespace System.Windows.Forms {
 			}
 
 			ReverseWindow = new NSWindow(NSRect.Empty, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
-			CaretWindow = new NSWindow(NSRect.Empty, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
-			CaretWindow.ContentView = new NSView(NSRect.Empty);
+			CaretView = new NSView(NSRect.Empty);
+			CaretView.WantsLayer = true;
+			CaretView.Layer.BackgroundColor = NSColor.Black.CGColor;
 
 			// Message loop
 			GetMessageResult = true;
@@ -430,42 +431,42 @@ namespace System.Windows.Forms {
 						(int) nativeRect.Size.Width, (int) nativeRect.Size.Height);
 		}
 
-		internal void HwndPositionFromNative (Hwnd hwnd)
-		{
-			if (hwnd.zero_sized)
-				return;
-
-			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
-			NSRect nsrect = vuWrap.Frame;
-			Rectangle mrect;
-
-			bool top = null != WindowMapping [hwnd.Handle];
-			if (top) {
-				NSWindow winWrap = vuWrap.Window;
-				var size = winWrap.Frame.Size;
-				nsrect = new NSRect(
-					winWrap.ConvertBaseToScreen (nsrect.Location),
-					new NSSize(size.Width, size.Height));
-				mrect = NativeToMonoScreen (nsrect);
-			} else {
-				NSView superVuWrap = vuWrap.Superview;
-				mrect = NativeToMonoFramed (nsrect, superVuWrap.Frame.Size.Height);
-			}
-
-			bool moved = hwnd.X != mrect.X || hwnd.Y != mrect.Y;
-			if (moved || hwnd.Width != mrect.Width || hwnd.Height != mrect.Height) {
-				hwnd.X = mrect.X;
-				hwnd.Y = mrect.Y;
-				hwnd.Width = mrect.Width;
-				hwnd.Height = mrect.Height;
-
-				if (top && moved)
-					SetCaretPos (hwnd.Handle, Caret.X, Caret.Y);
-			}
-#if DriverDebug
-			Console.WriteLine ("HwndPositionFromNative ({0}) : {1}", hwnd, mrect);
-#endif
-		}
+//		internal void HwndPositionFromNative (Hwnd hwnd)
+//		{
+//			if (hwnd.zero_sized)
+//				return;
+//
+//			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
+//			NSRect nsrect = vuWrap.Frame;
+//			Rectangle mrect;
+//
+//			bool top = null != WindowMapping [hwnd.Handle];
+//			if (top) {
+//				NSWindow winWrap = vuWrap.Window;
+//				var size = winWrap.Frame.Size;
+//				nsrect = new NSRect(
+//					winWrap.ConvertBaseToScreen (nsrect.Location),
+//					new NSSize(size.Width, size.Height));
+//				mrect = NativeToMonoScreen (nsrect);
+//			} else {
+//				NSView superVuWrap = vuWrap.Superview;
+//				mrect = NativeToMonoFramed (nsrect, superVuWrap.Frame.Size.Height);
+//			}
+//
+//			bool moved = hwnd.X != mrect.X || hwnd.Y != mrect.Y;
+//			if (moved || hwnd.Width != mrect.Width || hwnd.Height != mrect.Height) {
+//				hwnd.X = mrect.X;
+//				hwnd.Y = mrect.Y;
+//				hwnd.Width = mrect.Width;
+//				hwnd.Height = mrect.Height;
+//
+//				if (top && moved)
+//					SetCaretPos (hwnd.Handle, Caret.X, Caret.Y);
+//			}
+//#if DriverDebug
+//			Console.WriteLine ("HwndPositionFromNative ({0}) : {1}", hwnd, mrect);
+//#endif
+//		}
 		#endregion Internal methods
 		
 		#region Callbacks
@@ -740,22 +741,21 @@ namespace System.Windows.Forms {
 		}
 		
 		private void ShowCaret () {
-			if (Caret.On)
+			if (Caret.On || Caret.Hwnd == IntPtr.Zero)
 				return;
+
 			Caret.On = true;
-			CaretWindow.OrderFront (CaretWindow);
-			Graphics g = Graphics.FromHwnd ((IntPtr) CaretWindow.ContentView.Handle);
-
-			g.FillRectangle (new SolidBrush (Color.Black), new Rectangle (0, 0, Caret.Width, Caret.Height));
-
-			g.Dispose ();
+			CaretView.Hidden = false;
 		}
 
 		private void HideCaret () {
 			if (!Caret.On)
 				return;
 			Caret.On = false;
-			CaretWindow.OrderOut (CaretWindow);
+			CaretView.Hidden = true;
+
+			// FIXME: Remove this when TextBox (LineTag) rendering is fixed
+			CaretView.Superview.NeedsDisplay = true;
 		}
 		
 		private void AccumulateDestroyedHandles (Control c, ArrayList list) {
@@ -983,6 +983,16 @@ namespace System.Windows.Forms {
 			Caret.Height = height;
 			Caret.Visible = 0;
 			Caret.On = false;
+
+			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(Hwnd.ObjectFromHandle(hwnd).ClientWindow);
+			if (CaretView.Superview != vuWrap)
+			{
+				if (CaretView.Superview != null)
+					CaretView.RemoveFromSuperview();
+
+				if (vuWrap != null)
+					vuWrap.AddSubview(CaretView);
+			}
 		}
 
 		private NSWindowStyle StyleFromCreateParams(CreateParams cp)
@@ -1322,6 +1332,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override void DestroyCaret (IntPtr hwnd) {
+			Console.WriteLine("DestroyCaret(" + DebugUtility.ControlInfo(hwnd) + ", destroying:" + (Caret.Hwnd == hwnd) + ")");
 			if (Caret.Hwnd == hwnd) {
 				if (Caret.Visible == 1) {
 					Caret.Timer.Stop ();
@@ -1658,11 +1669,6 @@ namespace System.Windows.Forms {
 				Console.WriteLine (" {0}", new StackTrace (1, true));
 			}
 
-			if (Caret.Visible == 1) {
-				Caret.Paused = true;
-				HideCaret();
-			}
-
 			Graphics dc;
 
 			if (client) {
@@ -1707,7 +1713,6 @@ namespace System.Windows.Forms {
 		internal override void PaintEventEnd (ref Message msg, IntPtr handle, bool client)
 		{
 			Hwnd	hwnd;
-
 			hwnd = Hwnd.ObjectFromHandle(handle);
 
 			// FIXME: Pop is causing invalid stack ops sometimes; race condition?
@@ -1720,11 +1725,6 @@ namespace System.Windows.Forms {
 				pe.SetGraphics (null);
 				pe.Dispose ();  
 			} catch {
-			}
-
-			if (Caret.Visible == 1) {
-				ShowCaret();
-				Caret.Paused = false;
 			}
 		}
 
@@ -1742,6 +1742,12 @@ namespace System.Windows.Forms {
 		}
 
 		internal override bool PostMessage (IntPtr hwnd, Msg message, IntPtr wParam, IntPtr lParam) {
+			if ((message == Msg.WM_SETFOCUS || message == Msg.WM_KILLFOCUS) && DebugUtility.ControlInfo(hwnd).StartsWith("TextBoxEx"))
+			{
+				Console.WriteLine(message.ToString() + ": " + DebugUtility.ControlInfo(hwnd));
+				Console.WriteLine(new StackTrace(true));
+			}
+
 			MSG msg = new MSG ();
 			msg.hwnd = hwnd;
 			msg.message = message;
@@ -1851,10 +1857,9 @@ namespace System.Windows.Forms {
 			if (IntPtr.Zero != handle && handle == Caret.Hwnd) {
 				Caret.X = x;
 				Caret.Y = y;
-//				ClientToScreen (handle, ref x, ref y);
-//				CaretWindow.setFrame_display (new NSRect (x, y, Caret.Width, Caret.Height), 0 < Caret.Visible);
 
-				PositionWindowInClient (Caret.rect, CaretWindow, handle);
+				CaretView.Frame = new NSRect(Caret.rect.X, Caret.rect.Top, Caret.rect.Width, Caret.rect.Height);
+
 				Caret.Timer.Stop ();
 				HideCaret ();
 				if (0 < Caret.Visible) {
@@ -2001,7 +2006,13 @@ namespace System.Windows.Forms {
 		internal override void SetTimer (Timer timer) {
 			if (timer.window != IntPtr.Zero)
 				KillTimer(timer);
-			var nstimer = NSTimer.CreateRepeatingScheduledTimer(TimeSpan.FromMilliseconds(timer.Interval), timer.FireTick);
+
+			var nstimer = NSTimer.CreateRepeatingScheduledTimer(TimeSpan.FromMilliseconds(timer.Interval), () => {
+				if (NSThread.IsMain)
+					timer.FireTick();
+				else 
+					NSApplication.SharedApplication.InvokeOnMainThread(timer.FireTick);
+			});
 			nstimer.Retain();
 			timer.window = nstimer.Handle;
 		}
@@ -2017,6 +2028,9 @@ namespace System.Windows.Forms {
 
 		internal override bool SetOwner (IntPtr hWnd, IntPtr hWndOwner) {
 			// TODO: Handle other cases, where objects are not top level windows but views.
+
+			if (hWnd == IntPtr.Zero || hWndOwner == IntPtr.Zero)
+				return false;
 
 			NSWindow winWrap = ((NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hWnd))?.Window;
 			NSWindow winOwnerWrap = ((NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hWndOwner))?.Window;
@@ -2052,11 +2066,26 @@ namespace System.Windows.Forms {
 				} else
 					winWrap.OrderOut (winWrap);
 			} else {
+				if (!visible && winWrap != null)
+				{
+					NSView activeWindowWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(ActiveWindow);
+					if (activeWindowWrap != null && activeWindowWrap.Window == winWrap)
+					{
+						MonoContentView contentView = winWrap.FirstResponder as MonoContentView;
+						if (contentView != null)
+						{
+							IntPtr focusHandle = contentView.FocusHandle;
+							if (focusHandle != IntPtr.Zero)
+								SendMessage(focusHandle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
+						}
+					}
+				}
+
 				vuWrap.Hidden = !visible;
 			}
 
 			if (visible)
-				SendMessage (handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
+				SendMessage(handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 
 			hwnd.visible = visible;
 			hwnd.Mapped = true;

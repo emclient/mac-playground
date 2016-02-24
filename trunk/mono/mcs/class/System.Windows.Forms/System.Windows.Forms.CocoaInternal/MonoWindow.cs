@@ -156,7 +156,7 @@ namespace System.Windows.Forms.CocoaInternal
 			//var f = /*this.ConvertRectToScreen(*/this.Frame/*)*/;
 			//var r = driver.NativeToMonoScreen(f);
 			//XplatUI.SetWindowPos (contentViewHandle.Handle,  (int)r.Left, (int)r.Top, (int)r.Width, (int)r.Height);
-			driver.HwndPositionFromNative(contentViewHandle);
+			//driver.HwndPositionFromNative(contentViewHandle);
 			//driver.PerformNCCalc (contentViewHandle);
 			driver.SendMessage (contentViewHandle.Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
