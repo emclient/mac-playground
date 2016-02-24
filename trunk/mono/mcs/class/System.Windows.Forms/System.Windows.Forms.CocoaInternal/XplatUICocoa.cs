@@ -431,42 +431,42 @@ namespace System.Windows.Forms {
 						(int) nativeRect.Size.Width, (int) nativeRect.Size.Height);
 		}
 
-//		internal void HwndPositionFromNative (Hwnd hwnd)
-//		{
-//			if (hwnd.zero_sized)
-//				return;
-//
-//			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
-//			NSRect nsrect = vuWrap.Frame;
-//			Rectangle mrect;
-//
-//			bool top = null != WindowMapping [hwnd.Handle];
-//			if (top) {
-//				NSWindow winWrap = vuWrap.Window;
-//				var size = winWrap.Frame.Size;
-//				nsrect = new NSRect(
-//					winWrap.ConvertBaseToScreen (nsrect.Location),
-//					new NSSize(size.Width, size.Height));
-//				mrect = NativeToMonoScreen (nsrect);
-//			} else {
-//				NSView superVuWrap = vuWrap.Superview;
-//				mrect = NativeToMonoFramed (nsrect, superVuWrap.Frame.Size.Height);
-//			}
-//
-//			bool moved = hwnd.X != mrect.X || hwnd.Y != mrect.Y;
-//			if (moved || hwnd.Width != mrect.Width || hwnd.Height != mrect.Height) {
-//				hwnd.X = mrect.X;
-//				hwnd.Y = mrect.Y;
-//				hwnd.Width = mrect.Width;
-//				hwnd.Height = mrect.Height;
-//
-//				if (top && moved)
-//					SetCaretPos (hwnd.Handle, Caret.X, Caret.Y);
-//			}
-//#if DriverDebug
-//			Console.WriteLine ("HwndPositionFromNative ({0}) : {1}", hwnd, mrect);
-//#endif
-//		}
+		internal void HwndPositionFromNative (Hwnd hwnd)
+		{
+			if (hwnd.zero_sized)
+				return;
+
+			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
+			NSRect nsrect = vuWrap.Frame;
+			Rectangle mrect;
+
+			bool top = null != WindowMapping [hwnd.Handle];
+			if (top) {
+				NSWindow winWrap = vuWrap.Window;
+				var size = winWrap.Frame.Size;
+				nsrect = new NSRect(
+					winWrap.ConvertBaseToScreen (nsrect.Location),
+					new NSSize(size.Width, size.Height));
+				mrect = NativeToMonoScreen (nsrect);
+			} else {
+				NSView superVuWrap = vuWrap.Superview;
+				mrect = NativeToMonoFramed (nsrect, superVuWrap.Frame.Size.Height);
+			}
+
+			bool moved = hwnd.X != mrect.X || hwnd.Y != mrect.Y;
+			if (moved || hwnd.Width != mrect.Width || hwnd.Height != mrect.Height) {
+				hwnd.X = mrect.X;
+				hwnd.Y = mrect.Y;
+				hwnd.Width = mrect.Width;
+				hwnd.Height = mrect.Height;
+
+				if (top && moved)
+					SetCaretPos (hwnd.Handle, Caret.X, Caret.Y);
+			}
+#if DriverDebug
+			Console.WriteLine ("HwndPositionFromNative ({0}) : {1}", hwnd, mrect);
+#endif
+		}
 		#endregion Internal methods
 		
 		#region Callbacks
