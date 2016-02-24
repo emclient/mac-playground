@@ -135,8 +135,25 @@ namespace System.Windows.Forms {
 
 		internal override Size GetPreferredSizeCore (Size proposedSize)
 		{
+			bool autoSize = AutoSize;
+
+			//if (proposedSize.IsEmpty)
+				//AutoSize = true;
+
 			if (this.AutoSize)
-				return ThemeEngine.Current.CalculateCheckBoxAutoSize (this);
+			{
+//				Rectangle rGlyph, rText, rImage;
+//				ThemeEngine.Current.CalculateCheckBoxTextAndImageLayout (this, Point.Empty, out rGlyph, out rText, out rImage);
+//
+//				int w = Math.Max(Math.Max(rGlyph.Right, rText.Right), rImage.Right) - Math.Min(Math.Min(rGlyph.Left, rText.Left), rImage.Left);
+//				int h = Math.Max(Math.Max(rGlyph.Bottom, rText.Bottom), rImage.Bottom) - Math.Min(Math.Min(rGlyph.Top, rText.Top), rImage.Top);
+//
+//				return new Size(w, h);
+//				return ThemeEngine.Current.CalculateCheckBoxAutoSize(this);
+				var size = ThemeEngine.Current.CalculateCheckBoxAutoSize(this);
+				AutoSize = autoSize;
+				return size;
+			}
 
 			return base.GetPreferredSizeCore (proposedSize);
 		}
