@@ -649,7 +649,6 @@ namespace System.Windows.Forms
 			LineTag tag;
 			int pos;
 			int len;
-			float w;
 			bool ret;
 
 			pos = 0;
@@ -660,8 +659,6 @@ namespace System.Windows.Forms
 
 			this.recalc = false;
 			widths[0] = document.left_margin + indent;
-
-			w = TextBoxTextRenderer.MeasureText (g, doc.password_char, tags.Font).Width;
 
 			if (this.height != (int)tag.Font.Height)
 				ret = true;
@@ -675,7 +672,8 @@ namespace System.Windows.Forms
 
 			while (pos < len) {
 				pos++;
-				widths[pos] = widths[pos - 1] + w;
+				string s = new string(doc.password_char[0], len);
+				widths[pos] = widths[0] + TextBoxTextRenderer.MeasureText(g, s.Substring(0, pos), tags.Font).Width;
 			}
 
 			return ret;
