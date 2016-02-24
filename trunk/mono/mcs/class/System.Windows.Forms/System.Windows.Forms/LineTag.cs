@@ -341,15 +341,20 @@ namespace System.Windows.Forms
 
 			while (drawStart < drawEnd) {
 				int tab_index = text.IndexOf ("\t", drawStart);
-				
+
 				if (tab_index == -1)
 					tab_index = drawEnd;
 
-				TextBoxTextRenderer.DrawText (dc, text.Substring (drawStart, tab_index - drawStart).Replace ("\r", string.Empty), FontToDisplay, color, xoff + line.widths [drawStart], y, false);
+
+				float x = xoff + line.widths[drawStart];
+				string s = text.Substring(drawStart, tab_index - drawStart).Replace("\r", string.Empty);
+				Console.WriteLine("DrawText:" + s + " ,x:" + x.ToString() + ",clr:" + color.ToString());
+
+				TextBoxTextRenderer.DrawText (dc, s, FontToDisplay, color, x, y, false);
 
 				// non multilines get the unknown char 
-				if (!line.document.multiline && tab_index != drawEnd)
-					TextBoxTextRenderer.DrawText (dc, "\u0013", FontToDisplay, color, xoff + line.widths [tab_index], y, true);
+//				if (!line.document.multiline && tab_index != drawEnd)
+//					TextBoxTextRenderer.DrawText (dc, "\u0013", FontToDisplay, color, xoff + line.widths [tab_index], y, true);
 
 				drawStart = tab_index + 1;
 			}
