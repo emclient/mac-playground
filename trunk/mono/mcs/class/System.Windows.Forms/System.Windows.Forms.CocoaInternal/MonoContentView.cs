@@ -237,8 +237,7 @@ namespace System.Windows.Forms.CocoaInternal
 				client = currentHwnd.ClientWindow == currentHwnd.Handle;
 
 				// Debugging
-//				var ctrl = Control.FromHandle(vuWrap.Handle);
-//				Console.WriteLine(eventref.Type.ToString() + "[" + eventref.WindowNumber + "]: " + ctrl != null ? ctrl.GetType().Name : "?");
+				//Console.WriteLine(eventref.Type.ToString() + "[" + eventref.WindowNumber + "]: " + DebugUtility.ControlInfo(vuWrap.Handle));
 			}
 
 			int button = (int) eventref.ButtonNumber;
@@ -270,7 +269,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 			MSG msg = new MSG ();
 			msg.hwnd = currentHwnd.Handle;
-			msg.lParam = (IntPtr) ((ushort) localMonoPoint.Y << 16 | (ushort) localMonoPoint.X);
+			msg.lParam = (IntPtr)(localMonoPoint.Y << 16 | (localMonoPoint.X & 0xFFFF));
 			msg.pt = driver.NativeToMonoScreen(Window.ConvertBaseToScreen(eventref.LocationInWindow)).ToPOINT();
 			msg.refobject = hwnd;
 			msg.wParam = (IntPtr)wParam;
@@ -318,8 +317,8 @@ namespace System.Windows.Forms.CocoaInternal
 						return;
 
 					msg.message = Msg.WM_MOUSEWHEEL;
-					msg.wParam = (IntPtr)((int)msg.wParam | (delta << 16));
-					msg.lParam = (IntPtr)((int)msg.pt.x | ((int)msg.pt.y << 16));
+					msg.wParam = (IntPtr)(((int)msg.wParam & 0xFFFF) | (delta << 16));
+					msg.lParam = (IntPtr)((msg.pt.x & 0xFFFF)| (msg.pt.y << 16));
 					break;
 
 				case NSEventType.TabletPoint:
@@ -359,7 +358,6 @@ namespace System.Windows.Forms.CocoaInternal
 			char c = '\0';
 
 			var chars = msg == Msg.WM_KEYDOWN ? GetCharactersForKeyPress (e) : "";
-			Debug.WriteLine ("keyCode={0}, characters=\"{1}\"", e.KeyCode, chars);
 
 			chars = chars ?? e.Characters;
 			if (chars.Length > 0) {
@@ -376,6 +374,7 @@ namespace System.Windows.Forms.CocoaInternal
 			if (key == Keys.ShiftKey)
 				lParam = (IntPtr)0x2a0001;
 
+			//Debug.WriteLine ("keyCode={0}, characters=\"{1}\", key='{2}', chars='{3}'", e.KeyCode, chars, key, chars);
 			driver.PostMessage (FocusHandle, msg, wParam, lParam);
 
 			if (msg == Msg.WM_KEYDOWN && !string.IsNullOrEmpty (chars)) {
