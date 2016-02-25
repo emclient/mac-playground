@@ -5452,7 +5452,7 @@ namespace System.Windows.Forms
 		private void WmMouseWheel (ref Message m) {
 
 			int lParam = m.LParam.ToInt32();
-			Point p = PointToClient(new Point(lParam & 0xffff, (lParam >> 16) & 0xffff));
+			Point p = PointToClient(new Point((short)(lParam & 0xffff), (short)((lParam >> 16) & 0xffff))); // (short) is necessarry because of negative values
 			var e = new HandledMouseEventArgs(FromParamToMouseButtons((long)m.WParam), mouse_clicks, p.X, p.Y, HighOrder((long)m.WParam));
 
 			OnMouseWheel(e);
