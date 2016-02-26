@@ -65,6 +65,10 @@
     <Compile Include="..\..\..\WinApi\Imm32.Structs.cs">
       <Link>WinApi\Imm32.Structs.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\WinApi\Uxtheme.Structs.cs">
+      <Link>WinApi\Uxtheme.Structs.cs</Link>
+    </Compile>
+    <Compile Include="WinApi\Uxtheme.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
