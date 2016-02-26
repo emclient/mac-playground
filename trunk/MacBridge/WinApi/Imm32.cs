@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using MonoMac.Foundation;
 
 namespace WinApi
 {
@@ -20,12 +21,16 @@ namespace WinApi
 
 		public static int ImmGetCompositionStringW(IntPtr hIMC, int dwIndex, byte[] lpBuf, int dwBufLen)
 		{
+			// if lpBuf is null or dwBufLen is 0, only size is returned, but no data gets copied.
+
 			NotImplemented(MethodBase.GetCurrentMethod());
 			return 0;
 		}
 
 		public static int ImmGetCompositionStringW(IntPtr hIMC, int dwIndex, uint[] lpBuf, int dwBufLen)
 		{
+			// if lpBuf is null or dwBufLen is 0, only size is returned, but no data gets copied.
+
 			NotImplemented(MethodBase.GetCurrentMethod());
 			return 0;
 		}
@@ -36,5 +41,9 @@ namespace WinApi
 			return 0;
 		}
 
+		internal class ImmContex : NSObject
+		{
+			internal IntPtr hwnd;
+		}
 	}
 }
