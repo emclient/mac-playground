@@ -543,7 +543,6 @@ namespace System.Drawing {
 		{
 			MoveTo ((float)rectangle.Location.X, (float)rectangle.Location.Y);
 			context.AddRect(rectangle);
-			context.ClosePath();
 		}
 
 		public void DrawRectangle (Pen pen, float x1, float y1, float x2, float y2)
@@ -600,12 +599,12 @@ namespace System.Drawing {
 			FillBrush (brush);
 		}
 
-		public void FillRectangle (Brush brush, int x1, int y1, int x2, int y2)
+		public void FillRectangle (Brush brush, int x, int y, int w, int h)
 		{
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
 
-			RectanglePath (new CGRect(x1, y1, x2, y2));
+			RectanglePath (new CGRect(x, y, w, h));
 			FillBrush (brush);
 		}
 
