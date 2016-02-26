@@ -86,6 +86,7 @@ trunk/MacBridge/WinApi/Secur32.cs -text
 trunk/MacBridge/WinApi/Shell32.cs -text
 trunk/MacBridge/WinApi/ShlWapi.cs -text
 trunk/MacBridge/WinApi/User32.cs -text
+trunk/MacBridge/WinApi/Uxtheme.cs -text
 trunk/MonoMac.dll -text
 trunk/OSXPlayground.mdw -text
 trunk/OSXPlayground.sln -text
