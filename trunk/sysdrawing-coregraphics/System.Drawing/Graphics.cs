@@ -541,8 +541,8 @@ namespace System.Drawing {
 			
 		void RectanglePath (CGRect rectangle) 
 		{
-			MoveTo ((float)rectangle.Location.X, (float)rectangle.Location.Y);
-			context.AddRect(rectangle);
+			//context.AddRect(rectangle);
+			RectanglePath(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom);
 		}
 
 		public void DrawRectangle (Pen pen, float x1, float y1, float x2, float y2)
