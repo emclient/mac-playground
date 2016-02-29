@@ -865,12 +865,18 @@ namespace System.Windows.Forms {
 
 		internal override void Activate (IntPtr handle)
 		{
-			if (ActiveWindow != handle) {
+			if (ActiveWindow != handle && handle != IntPtr.Zero)
+			{
 				Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
-				NSWindow winWrap = vuWrap.Window;
-				winWrap.MakeKeyAndOrderFront (vuWrap);
-				ActiveWindow = handle;
+				if (hwnd != null) {
+					NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+					NSWindow winWrap = vuWrap.Window;
+					if (winWrap != null)
+					{
+						winWrap.MakeKeyAndOrderFront (vuWrap);
+						ActiveWindow = handle;
+					}
+				}
 			}
 		}
 
@@ -2400,7 +2406,7 @@ namespace System.Windows.Forms {
 			hwnd = Hwnd.ObjectFromHandle (handle);
 			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
 
-			if (!hwnd.visible || vuWrap.IsHiddenOrHasHiddenAncestor || NSRect.Empty == vuWrap.VisibleRect())
+			//if (!hwnd.visible || vuWrap.IsHiddenOrHasHiddenAncestor || NSRect.Empty == vuWrap.VisibleRect())
 				return;
 			
 			vuWrap.DisplayIfNeeded();
