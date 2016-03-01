@@ -911,10 +911,8 @@ namespace System.Windows.Forms
 			LineTag tag;
 
 			document.CharIndexToLineTag (index, out line, out tag, out pos);
-
-			return new Point ((int) (line.widths [pos] +
-							  line.X + document.viewport_x),
-					line.Y + document.viewport_y + tag.Shift);
+			float x = (pos >= 0 && pos < line.widths.Length) ? line.widths[pos] : 0;
+			return new Point((int)(x + line.X + document.viewport_x), line.Y + document.viewport_y + tag.Shift);
 		}
 
 		public int GetFirstCharIndexFromLine (int lineNumber)
@@ -1550,11 +1548,13 @@ namespace System.Windows.Forms
 			case Msg.WM_SETFOCUS:
 				base.WndProc(ref m);
 				document.CaretHasFocus ();
+				// TODO: Enable drawing selection
 				break;
 
 			case Msg.WM_KILLFOCUS:
 				base.WndProc(ref m);
 				document.CaretLostFocus ();
+				// TODO: Disable drawing selection
 				break;
 
 			case Msg.WM_NCPAINT:
