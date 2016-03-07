@@ -1682,18 +1682,10 @@ namespace System.Windows.Forms {
 				if (null == dc)
 					return null;
 
-				Region clip_region = new Region ();
-				clip_region.MakeEmpty ();
-
-				foreach (Rectangle r in hwnd.ClipRectangles) {
-					clip_region.Union (r);
-				}
-
 				if (hwnd.UserClip != null) {
-					clip_region.Intersect (hwnd.UserClip);
+					dc.Clip = hwnd.UserClip;
 				}
 
-				dc.Clip = clip_region;
 				paint_event = new PaintEventArgs (dc, hwnd.Invalid);
 				hwnd.ClearInvalidArea ();
 
