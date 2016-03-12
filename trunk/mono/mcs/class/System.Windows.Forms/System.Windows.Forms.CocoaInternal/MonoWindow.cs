@@ -16,6 +16,7 @@ namespace System.Windows.Forms.CocoaInternal
 	internal class MonoWindow : NSWindow
 	{
 		internal XplatUICocoa driver;
+		internal NSWindow owner;
 
 		public MonoWindow (IntPtr handle) : base(handle)
 		{
