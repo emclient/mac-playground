@@ -2028,14 +2028,20 @@ namespace System.Windows.Forms {
 			if (hWnd == IntPtr.Zero || hWndOwner == IntPtr.Zero)
 				return false;
 
-			NSWindow winWrap = ((NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hWnd))?.Window;
+			MonoWindow winWrap = ((NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hWnd))?.Window as MonoWindow;
 			NSWindow winOwnerWrap = ((NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hWndOwner))?.Window;
+
 			if (winWrap != null && winWrap != winOwnerWrap)
 			{
+				winWrap.owner = winOwnerWrap;
+
 				if (winWrap.ParentWindow != null)
 					winWrap.ParentWindow.RemoveChildWindow(winWrap);
 
-				if (winOwnerWrap != null)
+				// If not visible, do not call AddChildWindow now, because it would immediately show the child window.
+				var hwnd = Hwnd.ObjectFromHandle(hWnd);
+				var visible = hwnd != null && hwnd.Visible;
+				if (winOwnerWrap != null && visible)
 					winOwnerWrap.AddChildWindow(winWrap, NSWindowOrderingMode.Above);
 			}
 
@@ -2059,6 +2065,11 @@ namespace System.Windows.Forms {
 						winWrap.MakeKeyAndOrderFront(winWrap);
 					else
 						winWrap.OrderFront(winWrap);
+
+					// See SetOwner
+					var monoWin = winWrap as MonoWindow;
+					if (monoWin != null && monoWin.owner != null && monoWin.owner != monoWin.ParentWindow)
+						monoWin.owner.AddChildWindow(monoWin, NSWindowOrderingMode.Above);
 				} else
 					winWrap.OrderOut (winWrap);
 			} else {
