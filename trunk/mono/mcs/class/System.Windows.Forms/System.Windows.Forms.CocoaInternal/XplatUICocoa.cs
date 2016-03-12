@@ -109,8 +109,6 @@ namespace System.Windows.Forms {
 		internal static NSWindow ReverseWindow;
 		internal static NSView CaretView;
 
-		internal static Hwnd MouseHwnd;
-
 		internal static Cocoa.Hover Hover;
 
 		// Instance members
@@ -1338,7 +1336,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override void DestroyCaret (IntPtr hwnd) {
-			Console.WriteLine("DestroyCaret(" + DebugUtility.ControlInfo(hwnd) + ", destroying:" + (Caret.Hwnd == hwnd) + ")");
+			//Console.WriteLine("DestroyCaret(" + DebugUtility.ControlInfo(hwnd) + ", destroying:" + (Caret.Hwnd == hwnd) + ")");
 			if (Caret.Hwnd == hwnd) {
 				if (Caret.Visible == 1) {
 					Caret.Timer.Stop ();
@@ -2446,21 +2444,6 @@ namespace System.Windows.Forms {
 		}
 			
 		internal virtual bool TranslateMouseMessage (ref MSG msg) {
-			if (msg.message == Msg.WM_MOUSEMOVE || msg.message == Msg.WM_NCMOUSEMOVE) {
-				Hwnd hwnd = Hwnd.ObjectFromHandle (msg.hwnd);
-				if (hwnd != null) {
-					if (MouseHwnd == null) { 
-//						SendMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
-						Cocoa.Cursor.SetCursor (hwnd.Cursor);
-					} else if (MouseHwnd.Handle != hwnd.Handle) {
-//						SendMessage (MouseHwnd.Handle, Msg.WM_MOUSELEAVE, IntPtr.Zero, IntPtr.Zero);
-//						SendMessage (hwnd.Handle, Msg.WM_MOUSE_ENTER, IntPtr.Zero, IntPtr.Zero);
-						Cocoa.Cursor.SetCursor (hwnd.Cursor);
-					}
-					MouseHwnd = hwnd;
-				}
-			}
-
 			return false;
 		}
 
