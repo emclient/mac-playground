@@ -60,7 +60,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override bool IsOpaque {
 			get {
-				return Window.IsOpaque;
+				return Window == null || Window.IsOpaque;
 			}
 		}
 
@@ -187,7 +187,10 @@ namespace System.Windows.Forms.CocoaInternal
 		public override void MouseEntered(NSEvent e)
 		{
 			if (e.TrackingArea == trackingArea && trackingArea != null)
+			{
 				Window.AcceptsMouseMovedEvents = true;
+				driver.OverrideCursor(hwnd.Cursor);
+			}
 
 			base.MouseEntered(e);
 		}
@@ -195,9 +198,25 @@ namespace System.Windows.Forms.CocoaInternal
 		public override void MouseExited(NSEvent e)
 		{
 			if (e.TrackingArea == trackingArea && trackingArea != null)
+			{
 				Window.AcceptsMouseMovedEvents = false;
+				driver.OverrideCursor(IntPtr.Zero);
+			}
 	
 			base.MouseExited(e);
+		}
+
+		public override NSView HitTest(NSPoint aPoint)
+		{
+			var grabbed = XplatUICocoa.Grab.Hwnd;
+			if (grabbed != IntPtr.Zero)
+			{
+				var vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(grabbed);
+				if (vuWrap != null)
+					return vuWrap;
+			}
+
+			return base.HitTest(aPoint);
 		}
 
 		public void ProcessMouseEvent (NSEvent eventref)
