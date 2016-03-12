@@ -72,7 +72,9 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override bool IsOpaque {
 			get {
-				return !(Superview is MonoContentView);
+				if (Superview is MonoContentView)
+					return Superview.IsOpaque;
+				return true;
 			}
 		}
 
@@ -135,8 +137,7 @@ namespace System.Windows.Forms.CocoaInternal
 			if (hwnd.ClientWindow != Handle) {
 				DrawBorders ();
 				hwnd.AddNcInvalidArea (bounds);
-				//driver.SendMessage (hwnd.Handle, Msg.WM_NCPAINT, IntPtr.Zero, IntPtr.Zero);
-				var msg = new MSG { hwnd = hwnd.Handle, message = Msg.WM_NCPAINT };
+				//driver.SendMessage (hwnd.Handle, Msg.WM_NCPAINT, IntPtr.Zero, IntPtr.Zero);				var msg = new MSG { hwnd = hwnd.Handle, message = Msg.WM_NCPAINT };
 				driver.DispatchMessage(ref msg);
 				hwnd.ClearNcInvalidArea();
 			}

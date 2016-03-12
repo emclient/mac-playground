@@ -209,8 +209,10 @@ namespace System.Windows.Forms {
 			}
 
 			set {
-				if (current == value)
-					return;
+				// Caching commented out, as it collided with setting the cursor directly using XplatUICocoa, called from MonoContentView,
+				// and also because it was not necessary.
+				//if (current == value)
+				//	return;
 				
 				current = value;
 				if (current == null){
