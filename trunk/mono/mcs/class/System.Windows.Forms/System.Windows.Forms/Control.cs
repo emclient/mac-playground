@@ -5305,11 +5305,23 @@ namespace System.Windows.Forms
 			}
 		
 			ValidationFailed = false;
-			if (CanSelect) {
-				Select (true, true);
+
+			if (!GetStyle(ControlStyles.UserMouse))
+			{
+				DefWndProc(ref m);
+				// we might had re-entered the message loop and processed a WM_CLOSE message
+				if (IsDisposed)
+					return;
 			}
-			if (!ValidationFailed) {
-				InternalCapture = true;
+			else
+			{
+				if (CanSelect)
+					Select(true, true);
+			}
+
+			InternalCapture = true;
+
+			if (Enabled && !ValidationFailed) {
 				OnMouseDown (new MouseEventArgs (FromParamToMouseButtons ((int) m.WParam.ToInt32()), 
 					mouse_clicks, LowOrder ((int) m.LParam.ToInt32 ()), HighOrder ((int) m.LParam.ToInt32 ()), 
 					0));
