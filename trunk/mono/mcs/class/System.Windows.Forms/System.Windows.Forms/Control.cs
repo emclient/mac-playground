@@ -5487,8 +5487,11 @@ namespace System.Windows.Forms
 				active_tracker.OnMotion (args);
 				return;
 			}
-			
-			OnMouseMove  (new MouseEventArgs (FromParamToMouseButtons ((int) m.WParam.ToInt32()), 
+
+			if (!GetStyle(ControlStyles.UserMouse))
+				DefWndProc(ref m);
+
+			OnMouseMove(new MouseEventArgs (FromParamToMouseButtons ((int) m.WParam.ToInt32()), 
 				mouse_clicks, 
 				LowOrder ((int) m.LParam.ToInt32 ()), HighOrder ((int) m.LParam.ToInt32 ()), 
 				0));
