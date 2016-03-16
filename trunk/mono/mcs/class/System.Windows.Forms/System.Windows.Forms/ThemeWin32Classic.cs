@@ -934,10 +934,10 @@ namespace System.Windows.Forms
 				ThemeElements.CurrentTheme.CheckBoxPainter.PaintCheckBox (g, glyphArea, cb.BackColor, cb.ForeColor, ElementState.Pressed, cb.FlatStyle, cb.CheckState);
 			else if (cb.InternalSelected)
 				ThemeElements.CurrentTheme.CheckBoxPainter.PaintCheckBox (g, glyphArea, cb.BackColor, cb.ForeColor, ElementState.Normal, cb.FlatStyle, cb.CheckState);
+			else if (!cb.Enabled)
+				ThemeElements.CurrentTheme.CheckBoxPainter.PaintCheckBox(g, glyphArea, cb.BackColor, cb.ForeColor, ElementState.Disabled, cb.FlatStyle, cb.CheckState);
 			else if (cb.Entered)
 				ThemeElements.CurrentTheme.CheckBoxPainter.PaintCheckBox (g, glyphArea, cb.BackColor, cb.ForeColor, ElementState.Hot, cb.FlatStyle, cb.CheckState);
-			else if (!cb.Enabled)
-				ThemeElements.CurrentTheme.CheckBoxPainter.PaintCheckBox (g, glyphArea, cb.BackColor, cb.ForeColor, ElementState.Disabled, cb.FlatStyle, cb.CheckState);
 			else
 				ThemeElements.CurrentTheme.CheckBoxPainter.PaintCheckBox (g, glyphArea, cb.BackColor, cb.ForeColor, ElementState.Normal, cb.FlatStyle, cb.CheckState);
 		}
