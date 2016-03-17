@@ -563,15 +563,14 @@ namespace System.Windows.Forms {
 				if (is_pressed) {
 					is_pressed = false;
 					Invalidate ();
+					if (ClientRectangle.Contains(mevent.Location) && !ValidationFailed)
+					{
+						OnClick(EventArgs.Empty);
+						OnMouseClick(mevent);
+					}
 				} else if ((this.flat_style == FlatStyle.Flat) || (this.flat_style == FlatStyle.Popup)) {
 					Invalidate ();
 				}
-
-				if (ClientRectangle.Contains (mevent.Location))
-					if (!ValidationFailed) {
-						OnClick (EventArgs.Empty);
-						OnMouseClick (mevent);
-					}
 			}
 			
 			base.OnMouseUp (mevent);
