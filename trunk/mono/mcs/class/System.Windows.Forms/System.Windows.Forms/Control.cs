@@ -5277,15 +5277,13 @@ namespace System.Windows.Forms
 				return;
 			}
 
-			MouseEventArgs me;
+			if (!GetStyle(ControlStyles.UserMouse))
+				DefWndProc(ref m);
 
-			me = new MouseEventArgs (FromParamToMouseButtons ((int) m.WParam.ToInt32()) | MouseButtons.Left, 
-				mouse_clicks, 
-				LowOrder ((int) m.LParam.ToInt32 ()), HighOrder ((int) m.LParam.ToInt32 ()), 
-				0);
-
+			MouseEventArgs me = new MouseEventArgs(FromParamToMouseButtons((int)m.WParam.ToInt32()) | MouseButtons.Left,
+				mouse_clicks, LowOrder((int)m.LParam.ToInt32()), HighOrder((int)m.LParam.ToInt32()), 0);
 			HandleClick(mouse_clicks, me);
-			OnMouseUp (me);
+			OnMouseUp(me);
 
 			if (InternalCapture) {
 				InternalCapture = false;
@@ -5331,9 +5329,12 @@ namespace System.Windows.Forms
 		private void WmLButtonDblClick (ref Message m) {
 			InternalCapture = true;
 			mouse_clicks++;
-			OnMouseDown (new MouseEventArgs (FromParamToMouseButtons ((int) m.WParam.ToInt32()), 
-				mouse_clicks, LowOrder ((int) m.LParam.ToInt32 ()), HighOrder ((int) m.LParam.ToInt32 ()), 
+			if (Enabled && !ValidationFailed)
+			{
+				OnMouseDown(new MouseEventArgs(FromParamToMouseButtons((int)m.WParam.ToInt32()),
+				mouse_clicks, LowOrder((int)m.LParam.ToInt32()), HighOrder((int)m.LParam.ToInt32()),
 				0));
+			}
 		}
 
 		private void WmMButtonUp (ref Message m) {
@@ -5356,17 +5357,23 @@ namespace System.Windows.Forms
 
 		private void WmMButtonDown (ref Message m) {
 			InternalCapture = true;
-			OnMouseDown (new MouseEventArgs (FromParamToMouseButtons ((int) m.WParam.ToInt32()), 
-				mouse_clicks, LowOrder ((int) m.LParam.ToInt32 ()), HighOrder ((int) m.LParam.ToInt32 ()), 
+			if (Enabled)
+			{
+				OnMouseDown(new MouseEventArgs(FromParamToMouseButtons((int)m.WParam.ToInt32()),
+				mouse_clicks, LowOrder((int)m.LParam.ToInt32()), HighOrder((int)m.LParam.ToInt32()),
 				0));
+			}
 		}
 
 		private void WmMButtonDblClick (ref Message m) {
 			InternalCapture = true;
 			mouse_clicks++;
-			OnMouseDown (new MouseEventArgs (FromParamToMouseButtons ((int) m.WParam.ToInt32()), 
-				mouse_clicks, LowOrder ((int) m.LParam.ToInt32 ()), HighOrder ((int) m.LParam.ToInt32 ()), 
+			if (Enabled)
+			{
+				OnMouseDown(new MouseEventArgs(FromParamToMouseButtons((int)m.WParam.ToInt32()),
+				mouse_clicks, LowOrder((int)m.LParam.ToInt32()), HighOrder((int)m.LParam.ToInt32()),
 				0));
+			}
 		}
 
 		private void WmRButtonUp (ref Message m)
@@ -5411,17 +5418,22 @@ namespace System.Windows.Forms
 			}
 
 			InternalCapture = true;
-			OnMouseDown (new MouseEventArgs (FromParamToMouseButtons ((int) m.WParam.ToInt32()), 
-				mouse_clicks, LowOrder ((int) m.LParam.ToInt32 ()), HighOrder ((int) m.LParam.ToInt32 ()), 
+			if (Enabled)
+			{
+				OnMouseDown(new MouseEventArgs(FromParamToMouseButtons((int)m.WParam.ToInt32()),
+				mouse_clicks, LowOrder((int)m.LParam.ToInt32()), HighOrder((int)m.LParam.ToInt32()),
 				0));
+			}
 		}
 
 		private void WmRButtonDblClick (ref Message m) {
 			InternalCapture = true;
 			mouse_clicks++;
-			OnMouseDown (new MouseEventArgs (FromParamToMouseButtons ((int) m.WParam.ToInt32()), 
-				mouse_clicks, LowOrder ((int) m.LParam.ToInt32 ()), HighOrder ((int) m.LParam.ToInt32 ()), 
-				0));
+			if (Enabled)
+			{
+				OnMouseDown(new MouseEventArgs(FromParamToMouseButtons((int)m.WParam.ToInt32()),
+					mouse_clicks, LowOrder((int)m.LParam.ToInt32()), HighOrder((int)m.LParam.ToInt32()), 0));
+			}
 		}
 
 		private void WmContextMenu (ref Message m) {
@@ -5488,13 +5500,13 @@ namespace System.Windows.Forms
 				return;
 			}
 
-			if (!GetStyle(ControlStyles.UserMouse))
-				DefWndProc(ref m);
-
-			OnMouseMove(new MouseEventArgs (FromParamToMouseButtons ((int) m.WParam.ToInt32()), 
-				mouse_clicks, 
-				LowOrder ((int) m.LParam.ToInt32 ()), HighOrder ((int) m.LParam.ToInt32 ()), 
-				0));
+			if (Enabled)
+			{
+				OnMouseMove(new MouseEventArgs(FromParamToMouseButtons((int)m.WParam.ToInt32()),
+					mouse_clicks,
+					LowOrder((int)m.LParam.ToInt32()), HighOrder((int)m.LParam.ToInt32()),
+					0));
+			}
 		}
 
 		private void WmMouseEnter (ref Message m) {
