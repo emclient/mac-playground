@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using MonoMac.AppKit;
 using MacBridge.CoreGraphics;
 using System.Windows.Forms.CocoaInternal;
+using MonoMac.CoreGraphics;
 
 namespace WinApi
 {
@@ -31,8 +32,7 @@ namespace WinApi
             if (window != null)
             {
                 var windowLocation = window.ConvertScreenToBase(screenLocation);
-                //var contentViewLocation = window.ContentView.ConvertPointFromView(windowLocation, null);
-                var view = window.ContentView.HitTest(windowLocation);
+				var view = HitTestIgnoringGrab(window, windowLocation);
 
 				// Embedded native control? => Find MonoView parent
 				while (view != null && !(view is MonoView))
@@ -49,7 +49,16 @@ namespace WinApi
             return IntPtr.Zero;
         }
 
-        public static IntPtr GetWindow(IntPtr hWnd, uint uCmd)
+		internal static NSView HitTestIgnoringGrab(NSWindow window, CGPoint point)
+		{
+			var orig = XplatUICocoa.Grab.Hwnd;
+			XplatUICocoa.Grab.Hwnd = IntPtr.Zero;
+			var view = window.ContentView.HitTest(point);
+			XplatUICocoa.Grab.Hwnd = orig;
+			return view;
+		}
+
+		public static IntPtr GetWindow(IntPtr hWnd, uint uCmd)
         {
             //TODO:
             NotImplemented(MethodBase.GetCurrentMethod());
@@ -561,5 +570,5 @@ namespace WinApi
 			// TODO: Implement
 			return (int)style;
 		}
-    }
+	}
 }

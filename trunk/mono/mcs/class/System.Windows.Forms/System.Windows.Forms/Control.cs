@@ -5280,9 +5280,15 @@ namespace System.Windows.Forms
 			if (!GetStyle(ControlStyles.UserMouse))
 				DefWndProc(ref m);
 
-			MouseEventArgs me = new MouseEventArgs(FromParamToMouseButtons((int)m.WParam.ToInt32()) | MouseButtons.Left,
-				mouse_clicks, LowOrder((int)m.LParam.ToInt32()), HighOrder((int)m.LParam.ToInt32()), 0);
-			HandleClick(mouse_clicks, me);
+
+			int lparam = (int)m.LParam.ToInt32();
+			int x = LowOrder(lparam);
+			int y = HighOrder(lparam);
+			MouseEventArgs me = new MouseEventArgs(FromParamToMouseButtons((int)m.WParam.ToInt32()) | MouseButtons.Left, mouse_clicks, x, y, 0);
+
+			if (ClientRectangle.Contains(x, y))
+				HandleClick(mouse_clicks, me);
+
 			OnMouseUp(me);
 
 			if (InternalCapture) {
