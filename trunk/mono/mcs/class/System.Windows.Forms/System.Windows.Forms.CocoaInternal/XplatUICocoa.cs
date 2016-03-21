@@ -2050,6 +2050,9 @@ namespace System.Windows.Forms {
 
 		internal override bool SetVisible (IntPtr handle, bool visible, bool activate)
 		{
+			if (!visible && Grab.Hwnd == handle)
+				UngrabWindow(handle);
+
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 			NSWindow winWrap = vuWrap.Window;
