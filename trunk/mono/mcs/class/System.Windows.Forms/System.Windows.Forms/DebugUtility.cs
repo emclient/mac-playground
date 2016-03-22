@@ -9,7 +9,7 @@ namespace System.Windows.Forms
 		internal static String ControlInfo(IntPtr handle)
 		{
 			var ctrl = Control.FromHandle(handle);
-			return ctrl == null ? "null" : ctrl.GetType().Name + ", hwnd=" + handle + "visible=" + ctrl.Visible;
+			return ctrl == null ? "null" : ctrl.GetType().Name + ", hwnd=" + handle + ", visible=" + ctrl.Visible;
 		}
 
 		internal static String ControlInfo(MonoMac.AppKit.NSView view)
@@ -21,7 +21,7 @@ namespace System.Windows.Forms
 			{
 				var ctrl = Control.FromHandle(view.Handle);
 				if (ctrl != null)
-					return ctrl.GetType().Name + ", hwnd=" + view.Handle + "visible=" + ctrl.Visible + " frame=" +view.Frame ;
+					return ctrl.GetType().Name + ", hwnd=" + view.Handle + ", visible=" + ctrl.Visible + ", frame=" +view.Frame ;
 			}
 
 			return view.GetType().Name;
