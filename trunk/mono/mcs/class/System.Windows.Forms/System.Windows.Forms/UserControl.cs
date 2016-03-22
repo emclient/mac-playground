@@ -127,7 +127,39 @@ namespace System.Windows.Forms {
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected override void OnMouseDown(MouseEventArgs e) {
+			if (CanSelect && !FocusInside())
+				Select(true, true);
+
 			base.OnMouseDown(e);
+		}
+
+		private bool FocusInside()
+		{
+			if (!IsHandleCreated) return false;
+
+			IntPtr hwndFocus = XplatUI.GetFocus();
+			if (hwndFocus == IntPtr.Zero) return false;
+
+			IntPtr hwnd = Handle;
+			if (hwnd == hwndFocus || IsChild(hwnd, hwndFocus))
+				return true;
+
+			return false;
+		}
+
+		internal bool IsChild(IntPtr parent, IntPtr child)
+		{
+			if (parent == IntPtr.Zero)
+				return false;
+
+			for (IntPtr control = child; control != IntPtr.Zero; )
+			{
+				control = XplatUI.GetParent(control);
+				if (control == parent)
+					return true;
+			}
+
+			return false;
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -136,12 +168,9 @@ namespace System.Windows.Forms {
 				case Msg.WM_SETFOCUS:
 					if (ActiveControl == null)
 						SelectNextControl (null, true, true, true, false);
-					base.WndProc (ref m);
-					break;
-				default:
-					base.WndProc (ref m);
 					break;
 			}
+			base.WndProc(ref m);
 		}
 		#endregion	// Protected Instance Methods
 

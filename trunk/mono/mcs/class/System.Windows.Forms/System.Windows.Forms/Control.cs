@@ -3657,27 +3657,40 @@ namespace System.Windows.Forms
 		}
 
 		public IContainerControl GetContainerControl() {
-			Control	current = this;
+			return InternalGetContainerControl();
+		}
 
-			while (current!=null) {
-				if ((current is IContainerControl) && ((current.control_style & ControlStyles.ContainerControl)!=0)) {
-					return (IContainerControl)current;
-				}
-				current = current.parent;
+		private static bool IsFocusManagingContainerControl(Control ctl)
+		{
+			return ((ctl.control_style & ControlStyles.ContainerControl) == ControlStyles.ContainerControl && ctl is IContainerControl);
+		}
+
+		// VsWhidbey 434959 : If the control on which GetContainerControl( ) is called is a ContainerControl, then we dont return the parent 
+		// but return the same control. This is Everett behavior so we cannot change this since this would be a breaking change.
+		// Hence we have a new internal property IsContainerControl which returns false for all Everett control, but 
+		// this property is overidden in SplitContainer to return true so that we skip the SplitContainer 
+		// and the correct Parent ContainerControl is returned by GetContainerControl().
+		internal virtual bool IsContainerControl
+		{
+			get
+			{
+				return false;
 			}
-			return null;
 		}
 
 		internal ContainerControl InternalGetContainerControl() {
-			Control	current = this;
+			Control c = this;
 
-			while (current!=null) {
-				if ((current is ContainerControl) && ((current.control_style & ControlStyles.ContainerControl)!=0)) {
-					return current as ContainerControl;
-				}
-				current = current.parent;
+			// VsWhidbey 434959 : Refer to IsContainerControl property for more details.            
+			if (c != null && IsContainerControl)
+			{
+				c = c.Parent;
 			}
-			return null;
+			while (c != null && (!IsFocusManagingContainerControl(c)))
+			{
+				c = c.Parent;
+			}
+			return (ContainerControl)c;
 		}
 
 		public Control GetNextControl(Control ctl, bool forward) {

@@ -818,6 +818,14 @@ namespace System.Windows.Forms
 			panel2.ResumeLayout ();
 		}
 
+		internal override bool IsContainerControl
+		{
+			get
+			{
+				return false;
+			}
+		}
+
 		#endregion
 
 		#region Internal Classes
