@@ -69,6 +69,9 @@
       <Link>WinApi\Uxtheme.Structs.cs</Link>
     </Compile>
     <Compile Include="WinApi\Uxtheme.cs" />
+    <Compile Include="..\..\..\WinApi\WinGdi.Structs.cs">
+      <Link>WinApi\WinGdi.Structs.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
