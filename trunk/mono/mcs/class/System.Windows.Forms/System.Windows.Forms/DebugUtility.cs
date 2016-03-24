@@ -6,25 +6,47 @@ namespace System.Windows.Forms
 {
 	internal static class DebugUtility
 	{
+		internal static String ControlInfo(Control ctrl)
+		{
+			return ctrl == null ? "null" : ctrl.GetType().Name + ", hwnd=" + ctrl.Handle + ", visible=" + ctrl.Visible;
+		}
+
 		internal static String ControlInfo(IntPtr handle)
 		{
-			var ctrl = Control.FromHandle(handle);
-			return ctrl == null ? "null" : ctrl.GetType().Name + ", hwnd=" + handle + ", visible=" + ctrl.Visible;
+			return ControlInfo(Control.FromHandle(handle));
 		}
 
 		internal static String ControlInfo(MonoMac.AppKit.NSView view)
 		{
-			if (view == null)
-				return "null";
+			var ctrl = ControlFromView(view);
+			if (ctrl != null)
+				return ControlInfo(ctrl);
+			if (view != null)
+				return view.GetType().Name;
+			return "null";
+		}
 
-			if (view is CocoaInternal.MonoView)
-			{
-				var ctrl = Control.FromHandle(view.Handle);
-				if (ctrl != null)
-					return ctrl.GetType().Name + ", hwnd=" + view.Handle + ", visible=" + ctrl.Visible + ", frame=" +view.Frame ;
-			}
+		static String lastInfo;
+		internal static void WriteInfoIfChanged(MonoMac.AppKit.NSView view)
+		{
+			string info = ControlInfo(view);
+			if (info != lastInfo)
+				Console.WriteLine(lastInfo = info);
+		}
 
-			return view.GetType().Name;
+		internal static void WriteInfoIfChanged(IntPtr handle)
+		{
+			var c = Control.FromHandle(handle);
+			string info = ControlInfo(handle);
+			if (info != lastInfo)
+				Console.WriteLine(lastInfo = info);
+		}
+
+		internal static Control ControlFromView(MonoMac.AppKit.NSView view)
+		{
+			if (view != null && view is CocoaInternal.MonoView)
+				return Control.FromHandle(view.Handle);
+			return null;
 		}
 	}
 }

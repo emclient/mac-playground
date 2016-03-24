@@ -72,6 +72,9 @@
     <Compile Include="..\..\..\WinApi\WinGdi.Structs.cs">
       <Link>WinApi\WinGdi.Structs.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\WinApi\ComDlg32.Structs.cs">
+      <Link>WinApi\ComDlg32.Structs.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
