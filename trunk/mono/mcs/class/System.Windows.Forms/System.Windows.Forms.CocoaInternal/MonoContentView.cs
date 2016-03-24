@@ -231,6 +231,10 @@ namespace System.Windows.Forms.CocoaInternal
 
 			NSView vuWrap;
 			if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero) {
+
+				// Debugging
+				DebugUtility.WriteInfoIfChanged(XplatUICocoa.Grab.Hwnd);
+
 				currentHwnd = Hwnd.ObjectFromHandle (XplatUICocoa.Grab.Hwnd); 
 				if (null == currentHwnd || currentHwnd.zombie)
 					return;
@@ -244,6 +248,9 @@ namespace System.Windows.Forms.CocoaInternal
 			else {
 				vuWrap = Window.ContentView.HitTest(nspoint);
 
+				// Debugging
+				DebugUtility.WriteInfoIfChanged(vuWrap);
+
 				// Embedded native control? => Find MonoView parent
 				while (vuWrap != null && !(vuWrap is MonoView))
 					vuWrap = vuWrap.Superview;
@@ -254,9 +261,6 @@ namespace System.Windows.Forms.CocoaInternal
 				nspoint = vuWrap.ConvertPointFromView(nspoint, null);
 				localMonoPoint = driver.NativeToMonoFramed(nspoint, Frame.Height);
 				client = currentHwnd.ClientWindow == currentHwnd.Handle;
-
-				// Debugging
-				//Console.WriteLine(eventref.Type.ToString() + "[" + eventref.WindowNumber + "]: " + DebugUtility.ControlInfo(vuWrap.Handle));
 			}
 
 			int button = (int) eventref.ButtonNumber;
