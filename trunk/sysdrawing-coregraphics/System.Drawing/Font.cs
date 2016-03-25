@@ -233,6 +233,23 @@ namespace System.Drawing
 		{
 			return GetNativeheight ();
 		}
+
+		/// <devdoc>
+		///     Returns the GDI char set for this instance of a font. This will only
+		///     be valid if this font was created from a classic GDI font definition,
+		///     like a LOGFONT or HFONT, or it was passed into the constructor.
+		///
+		///     This is here for compatability with native Win32 intrinsic controls
+		///     on non-Unicode platforms.
+		/// </devdoc>
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public byte GdiCharSet
+		{
+			get
+			{
+				return gdiCharSet;
+			}
+		}
 	}
 }
 
