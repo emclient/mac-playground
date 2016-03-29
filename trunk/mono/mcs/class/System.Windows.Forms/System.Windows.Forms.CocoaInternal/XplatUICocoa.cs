@@ -872,7 +872,6 @@ namespace System.Windows.Forms {
 					if (winWrap != null)
 					{
 						winWrap.MakeKeyAndOrderFront (vuWrap);
-						ActiveWindow = handle;
 					}
 				}
 			}

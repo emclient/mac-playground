@@ -51,7 +51,6 @@ namespace System.Windows.Forms {
 		internal bool			closing;
 		private bool			closed;
 		FormBorderStyle			form_border_style;
-		private bool			is_active;
 		private bool		        autoscale;
 		private Size			clientsize_set;
 		private Size		        autoscale_base_size;
@@ -116,15 +115,14 @@ namespace System.Windows.Forms {
 
 		internal bool IsActive {
 			get {
-				return is_active;
+				return XplatUI.GetActive() == this.Handle;
 			}
 			set {
-				if (is_active == value || IsRecreating) {
+				if (IsRecreating) {
 					return;
 				}
 				
-				is_active = value;
-				if (is_active) {
+				if (value) {
 					Application.AddForm (this);
 					OnActivated (EventArgs.Empty);
 				} else {
