@@ -3,6 +3,7 @@ using MonoMac.AppKit;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 #if SDCOMPAT
 using NSRect = System.Drawing.RectangleF;
 using NSPoint = System.Drawing.PointF;
@@ -45,7 +46,15 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("windowWillClose:")]
 		internal virtual bool willClose (NSObject sender)
 		{
-			// TODO: Send WillClose .NET event?
+			var windows = GetOrderedWindowList();
+			foreach(var window in windows)
+			{
+				if (window is MonoWindow && window != this && window.IsVisible && !window.IsMiniaturized && !window.IsSheet)
+				{
+					window.MakeKeyAndOrderFront(this);
+					break;
+				}
+			}
 			return true;
 		}
 
@@ -156,6 +165,30 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			driver.HwndPositionFromNative(contentViewHandle);
 			driver.SendMessage (contentViewHandle.Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
+		}
+
+		static internal List<NSWindow> GetOrderedWindowList()
+		{
+			var numbers = NSWindow.WindowNumbersWithOptions(NSWindowNumberListOptions.AllApplication | NSWindowNumberListOptions.AllSpaces);
+			var windows = NSApplication.SharedApplication.Windows;
+			var winByNum = new Dictionary<int, NSWindow>(windows.Length);
+
+			foreach (var window in windows)
+				winByNum[window.WindowNumber] = window;
+
+			var sorted = new List<NSWindow>(windows.Length);
+
+			for (uint i = 0; i < numbers.Count; ++i)
+			{
+				var handle = numbers.ValueAt((uint)i);
+				var number = new NSNumber(handle);
+
+				NSWindow window;
+				if (number != null && winByNum.TryGetValue(number.IntValue, out window))
+					sorted.Add(window);
+			}
+
+			return sorted;
 		}
 	}
 }
