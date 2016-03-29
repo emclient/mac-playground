@@ -46,16 +46,21 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("windowWillClose:")]
 		internal virtual bool willClose (NSObject sender)
 		{
-			var windows = GetOrderedWindowList();
-			foreach(var window in windows)
-			{
-				if (window is MonoWindow && window != this && window.IsVisible && !window.IsMiniaturized && !window.IsSheet)
-				{
-					window.MakeKeyAndOrderFront(this);
-					break;
-				}
-			}
+			ActivateNextWindow();
 			return true;
+		}
+
+		public override void OrderOut(NSObject sender)
+		{
+			base.OrderOut(sender);
+			ActivateNextWindow();
+		}
+
+		public override void OrderWindow(NSWindowOrderingMode place, int relativeTo)
+		{
+			base.OrderWindow(place, relativeTo);
+			if (place == NSWindowOrderingMode.Out)
+				ActivateNextWindow();
 		}
 
 		[Export ("windowWillResize:toSize:")]
@@ -165,6 +170,20 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			driver.HwndPositionFromNative(contentViewHandle);
 			driver.SendMessage (contentViewHandle.Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
+		}
+
+
+		internal virtual void ActivateNextWindow()
+		{
+			var windows = GetOrderedWindowList();
+			foreach (var window in windows)
+			{
+				if (window is MonoWindow && window != this && window.IsVisible && !window.IsMiniaturized && !window.IsSheet)
+				{
+					window.MakeKeyAndOrderFront(this);
+					break;
+				}
+			}
 		}
 
 		static internal List<NSWindow> GetOrderedWindowList()
