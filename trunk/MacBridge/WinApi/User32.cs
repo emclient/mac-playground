@@ -12,19 +12,28 @@ using MonoMac.CoreGraphics;
 
 namespace WinApi
 {
-    public static partial class Win32
-    {
+	public static partial class Win32
+	{
+		// This value is cached, because the XplatUICocoa driver also caches it.
+		// If we did it different way the XplatUICocoa did, calculations here and there
+		// would differ after changing resolution or switching monitors.
+		internal static Size screenSize = GetScreenSize();
+
 		internal static void NotImplemented(MethodBase method, object details = null)
 		{
 			Debug.WriteLine("Not Implemented: " + method.ReflectedType.Name + "." + method.Name + (details == null ? String.Empty : " (" + details.ToString() + ")"));
 		}
 
+		internal static Size GetScreenSize()
+		{
+			Size size;
+			XplatUI.GetDisplaySize(out size);
+			return size;
+		}
+
         public static IntPtr WindowFromPoint(POINT p)
         {
-            Size displaySize;
-            XplatUI.GetDisplaySize(out displaySize);
-            p.Y = displaySize.Height - p.Y;
-
+            p.Y = screenSize.Height - p.Y;
             var screenLocation = p.ToCGPoint();
 
             int wnum = NSWindow.WindowNumberAtPoint(screenLocation, 0);
