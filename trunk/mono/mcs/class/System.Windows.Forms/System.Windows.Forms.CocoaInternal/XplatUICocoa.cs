@@ -1591,14 +1591,19 @@ namespace System.Windows.Forms {
 			GrabConfined = Grab.Confined;
 			GrabArea = Grab.Area;
 		}
-		
 		internal override void GrabWindow (IntPtr handle, IntPtr confine_to_handle) {
+			if (Grab.Hwnd != IntPtr.Zero || handle == IntPtr.Zero)
+				return;
+
 			Grab.Hwnd = handle;
 			Grab.Confined = confine_to_handle != IntPtr.Zero;
 			/* FIXME: Set the Grab.Area */
 		}
 		
 		internal override void UngrabWindow (IntPtr hwnd) {
+			if (Grab.Hwnd != hwnd)
+				return;
+
 			bool was_grabbed = Grab.Hwnd != IntPtr.Zero;
 
 			Grab.Hwnd = IntPtr.Zero;
