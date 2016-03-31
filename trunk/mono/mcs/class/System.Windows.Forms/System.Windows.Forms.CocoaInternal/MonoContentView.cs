@@ -335,10 +335,7 @@ namespace System.Windows.Forms.CocoaInternal
 					break;
 
 				case NSEventType.ScrollWheel:
-					int delta = (int)(eventref.DeltaY * 40.0);
-					if (0 == delta)
-						return;
-
+					int delta = ScaleAndQuantizeDelta(eventref.DeltaY);
 					msg.message = Msg.WM_MOUSEWHEEL;
 					msg.wParam = (IntPtr)(((int)msg.wParam & 0xFFFF) | (delta << 16));
 					msg.lParam = (IntPtr)((msg.pt.x & 0xFFFF)| (msg.pt.y << 16));
@@ -351,6 +348,13 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 
 			driver.EnqueueMessage(msg);
+		}
+
+		int ScaleAndQuantizeDelta(float delta)
+		{
+			const int scale = 40;
+			int step = delta >= 0 ? 60 : -60;
+			return ((int)((delta * scale + step) / step)) * step;
 		}
 
 		#endregion
