@@ -1958,7 +1958,11 @@ namespace System.Windows.Forms {
 			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 			NSWindow winWrap = vuWrap.Window;
 			if (Modal)
-				ModalSessions.Push (NSApplication.SharedApplication.BeginModalSession (winWrap));
+			{
+				IntPtr session = NSApplication.SharedApplication.BeginModalSession(winWrap);
+				ModalSessions.Push(session);
+				NSApplication.SharedApplication.RunModalSession(session);
+			}
 			else
 				NSApplication.SharedApplication.EndModalSession (ModalSessions.Pop ());
 			return;
