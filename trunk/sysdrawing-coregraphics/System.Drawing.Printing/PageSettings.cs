@@ -38,7 +38,21 @@ namespace System.Drawing.Printing {
 		{
 		}
 
-		
+		public Rectangle Bounds
+		{
+			get
+			{
+				// FIXME
+				return Rectangle.Empty;
+			}
+		}
+
+		public float HardMarginX { get; }
+
+		public float HardMarginY { get; }
+
+		public bool Color { get; set; }
+
 		public bool Landscape { get; set; }
 
 		public PaperSize PaperSize { get; set; }
@@ -49,10 +63,32 @@ namespace System.Drawing.Printing {
 
 		public PaperSource PaperSource { get; set; }
 
-		public object Clone ()
+		public RectangleF PrintableArea
+		{ 
+			get
+			{
+				// FIXME
+				return RectangleF.Empty;
+			}
+		}
+
+		public PrinterResolution PrinterResolution { get; set; }
+
+		public void CopyToHdevmode(IntPtr hdevmode)
 		{
 			// FIXME
-			return new PageSettings ();
 		}
+
+		public void SetHdevmode(IntPtr hdevmode)
+		{
+			// FIXME
+		}
+
+		public object Clone()
+		{
+			// FIXME
+			return new PageSettings();
+		}
+
 	}
 }
