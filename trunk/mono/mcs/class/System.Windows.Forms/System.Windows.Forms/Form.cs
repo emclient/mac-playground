@@ -36,6 +36,8 @@ using System.Threading;
 using System.Collections.Generic;
 using MonoMac.Foundation;
 
+using System.Diagnostics;
+
 namespace System.Windows.Forms {
 	[DesignerCategory("Form")]
 	[DesignTimeVisible(false)]
@@ -694,6 +696,8 @@ namespace System.Windows.Forms {
 				return form_border_style;
 			}
 			set {
+				Size current_client_size = ClientSize;
+
 				form_border_style = value;
 
 				if (window_manager == null) {
@@ -704,14 +708,16 @@ namespace System.Windows.Forms {
 					window_manager.UpdateBorderStyle (value);
 				}
 
-				Size current_client_size = ClientSize;
 				UpdateStyles();
 				
 				if (this.IsHandleCreated) {
 					this.Size = InternalSizeFromClientSize (current_client_size);
 					XplatUI.InvalidateNC (this.Handle);
 				} else if (is_clientsize_set) {
-					this.Size = InternalSizeFromClientSize (current_client_size);
+					// The window has not been created yet so we're calculating the initial size
+					// ShowDialog will then add the title bar height
+					this.Size = current_client_size;
+					//this.Size = InternalSizeFromClientSize (current_client_size);
 				}
 			}
 		}
@@ -1751,6 +1757,8 @@ namespace System.Windows.Forms {
 				CreateControl();
 			}
 #endif
+
+			Debug.WriteLine("ShowDialog");
 
 			Application.RunLoop(true, new ApplicationContext(this));
 
