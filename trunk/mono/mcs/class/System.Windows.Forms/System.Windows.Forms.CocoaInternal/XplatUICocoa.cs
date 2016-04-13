@@ -913,6 +913,17 @@ namespace System.Windows.Forms {
 				WindowRect = Hwnd.GetWindowRectangle (cp, menu, ClientRect);
 			} else {				
 				var nsrect = NSWindow.FrameRectFor (MonoToNativeFramed(ClientRect, ClientRect.Height), StyleFromCreateParams (cp));
+				// RGS TEST
+				if (StyleSet (cp.Style, WindowStyles.WS_CAPTION) && 0 != ClientRect.Width && 0 != ClientRect.Height ) { // The 0x0 sizes are calculations to update only the content area
+					Debug.WriteLine ("{0} WxH: {1}x{2} -> {3}x{4}", new object[] {
+						cp.Caption,
+						ClientRect.Width,
+						ClientRect.Height,
+						nsrect.Width,
+						nsrect.Height
+					});
+				}
+				// RGS TEST
 				WindowRect = new Rectangle((int)nsrect.X, (int)nsrect.Y, (int)nsrect.Width, (int)nsrect.Height);
 			}
 			return true;
@@ -2193,7 +2204,10 @@ namespace System.Windows.Forms {
 				HwndPositionToNative (hwnd);
 
 #if DriverDebug
-				Console.WriteLine ("SetWindowPos ({0}, {1}, {2}, {3}, {4})", hwnd, x, y, width, height);
+				NSView		vuWrap	= (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+				NSWindow	winWrap	= vuWrap.Window;
+				if ( null != winWrap )
+					Console.WriteLine ("{0} SetWindowPos( {1}, {2}, WxH: {3} x {4} )", winWrap.Title, x, y, width, height);
 #endif
 
 				PerformNCCalc (hwnd);
