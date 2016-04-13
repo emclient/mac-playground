@@ -11,6 +11,7 @@ using NSPoint = System.Drawing.PointF;
 using NSRect = MonoMac.CoreGraphics.CGRect;
 using NSPoint = MonoMac.CoreGraphics.CGPoint;
 #endif
+using System.Diagnostics;
 
 namespace System.Windows.Forms.CocoaInternal
 {
