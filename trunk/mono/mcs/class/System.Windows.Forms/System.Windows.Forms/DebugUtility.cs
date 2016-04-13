@@ -8,7 +8,7 @@ namespace System.Windows.Forms
 	{
 		internal static String ControlInfo(Control ctrl)
 		{
-			return ctrl == null ? "null" : ctrl.GetType().Name + ", hwnd=" + ctrl.Handle + ", visible=" + ctrl.Visible;
+			return ctrl == null ? "null" : ctrl.GetType().Name + ", visible=" + ctrl.Visible + ", WxH=" + ctrl.Size.Width + "x" + ctrl.Size.Height;
 		}
 
 		internal static String ControlInfo(IntPtr handle)
