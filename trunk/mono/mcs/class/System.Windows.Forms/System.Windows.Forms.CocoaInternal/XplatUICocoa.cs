@@ -1929,12 +1929,12 @@ namespace System.Windows.Forms {
 				if (oldFocusHandle == handle)
 					return;
 				if (oldFocusHandle != IntPtr.Zero)
-					PostMessage(oldFocusHandle, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
+					SendMessage(oldFocusHandle, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
 				contentView = (MonoContentView)activeWindowWrap.Window.ContentView;
 				contentView.FocusHandle = handle;
 				activeWindowWrap.Window.MakeFirstResponder(contentView);
 				if (handle != IntPtr.Zero)
-					PostMessage(handle, Msg.WM_SETFOCUS, oldFocusHandle, IntPtr.Zero);
+					SendMessage(handle, Msg.WM_SETFOCUS, oldFocusHandle, IntPtr.Zero);
 			}
 		}
 
