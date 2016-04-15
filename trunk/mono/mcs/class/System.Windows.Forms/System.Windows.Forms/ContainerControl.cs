@@ -464,7 +464,8 @@ namespace System.Windows.Forms {
 				if (cc != null)
 					factor = cc.AutoScaleFactor;
 			}
-			if (factor != new SizeF (1F, 1F)) {
+			//if (factor != new SizeF (1F, 1F)) // This "if" looks like an optimisation, but it prevents calling Scale(), which is necessary.
+			{
 				is_auto_scaling = true;
 				SuspendLayout ();
 				Scale (factor);
