@@ -1,9 +1,11 @@
-﻿using System;
+﻿#if MAC
+
+using System;
+using System.IO;
+using System.Collections.Generic;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
-using System.IO;
 using MonoMac.AppKit;
-using System.Collections.Generic;
 
 namespace FormsTest
 {
@@ -13,8 +15,21 @@ namespace FormsTest
 		NSUrlConnection connection;
 		static NSObject BeingHandledValue = new NSString("YES");
 		static string BeingHandledKey = "BeingHandledByUrlProtocol";
+        static Class urlProtocolClass;
 
-		[Export("canInitWithRequest:")]
+        public static void Register()
+        {
+            urlProtocolClass = new Class(typeof(UrlProtocol));
+            NSUrlProtocol.RegisterClass(urlProtocolClass);
+        }
+
+        public static void Unregister()
+        {
+            if (urlProtocolClass != null)
+                NSUrlProtocol.UnregisterClass(urlProtocolClass);
+        }
+
+        [Export("canInitWithRequest:")]
 		public static bool canInitWithRequest(NSUrlRequest request)
 		{
 			Console.WriteLine("canInitWithRequest: " +  request.Url);
@@ -102,3 +117,21 @@ namespace FormsTest
 		}
 	}
 }
+
+#else //MAC
+
+namespace FormsTest
+{
+    public class UrlProtocol
+    {
+        public static void Register()
+        {
+        }
+
+        public static void Unregister()
+        {
+        }
+    }
+}
+
+#endif //MAC

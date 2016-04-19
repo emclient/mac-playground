@@ -87,6 +87,8 @@ namespace FormsTest
 
 		// ===============
 
+        #if MAC
+
 		private NSUrlRequest OnSendRequest(WebView sender, NSObject identifier, NSUrlRequest request, NSUrlResponse redirectResponse, WebDataSource dataSource)
 		{
 			return request;
@@ -143,5 +145,7 @@ namespace FormsTest
 				this.name = name;
 			}
 		}
+
+        #endif // MAC
 	}
 }
