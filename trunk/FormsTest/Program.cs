@@ -31,7 +31,7 @@ namespace FormsTest
 
 #if MAC
 			// Workaround for not exiting the app because of pending threads related to UrlProtocol subclass.
-            MonoMac.AppKit.NSApplication.SharedApplication.Terminate(MonoMac.AppKit.NSApplication.SharedApplication);\
+            MonoMac.AppKit.NSApplication.SharedApplication.Terminate(MonoMac.AppKit.NSApplication.SharedApplication);
 #endif
         }
 	}
