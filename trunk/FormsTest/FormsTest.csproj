@@ -71,15 +71,19 @@
     <Compile Include="Msg.cs" />
     <Compile Include="..\..\..\UI\Controls\ComboBoxEx.cs">
       <Link>MailClient\Common\UI\ComboBoxEx.cs</Link>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="..\..\..\UI\Controls\SeparatorBox.cs">
       <Link>MailClient\Common\UI\SeparatorBox.cs</Link>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="..\..\..\UI\Controls\WrappingCheckBox.cs">
       <Link>MailClient\Common\UI\WrappingCheckBox.cs</Link>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="..\..\..\UI\Controls\WrappingRadioButton.cs">
       <Link>MailClient\Common\UI\WrappingRadioButton.cs</Link>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="..\..\..\MailClient.Common.UI\CommonUIUtils.cs">
       <Link>MailClient\UI\CommonUIUtils.cs</Link>
@@ -96,7 +100,9 @@
     <Compile Include="..\..\..\MailClient.Common.UI\TextRendererEx.cs">
       <Link>MailClient\UI\TextRendererEx.cs</Link>
     </Compile>
-    <Compile Include="WebForm.cs" />
+    <Compile Include="WebForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UrlProtocol.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -128,7 +134,7 @@
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MacBridge\MacBridge.csproj">
+    <ProjectReference Include="..\MacBridge\MacBridge.csproj" Condition="'$(Configuration)' == 'Mono - Debug'">
       <Project>{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}</Project>
       <Name>MacBridge</Name>
     </ProjectReference>
