@@ -104,6 +104,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UrlProtocol.cs" />
+    <Compile Include="..\..\..\MailClient.Common.UI\Controls\ControlDebugUtils.cs">
+      <Link>MailClient\UI\Controls\ControlDebugUtils.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
