@@ -55,6 +55,8 @@ namespace FormsTest
 
             UpdateList();
             InitDialogCombo();
+
+			this.DebugAllControls();
         }
 
         protected override CreateParams CreateParams
