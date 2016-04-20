@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MailClient.Common.UI;
 
 namespace FormsTest
 {
@@ -15,6 +16,8 @@ namespace FormsTest
         public DebugLayoutForm()
         {
             InitializeComponent();
+
+			this.DebugAllControls();
         }
     }
 }
