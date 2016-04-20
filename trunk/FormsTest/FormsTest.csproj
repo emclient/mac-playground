@@ -45,6 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DebugLayoutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DebugLayoutForm.Designer.cs">
+      <DependentUpon>DebugLayoutForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="LayoutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +116,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <EmbeddedResource Include="DebugLayoutForm.resx">
+      <DependentUpon>DebugLayoutForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LayoutForm.resx">
       <DependentUpon>LayoutForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -148,6 +157,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MailClient\Common\UI\Themes\" />
-    <Folder Include="MailClient\UI\Controls\" />
   </ItemGroup>
 </Project>
