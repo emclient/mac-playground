@@ -56,11 +56,9 @@ namespace FormsTest
             UpdateList();
             InitDialogCombo();
 
-//			this.DebugAllControls();
-//			this.DebugAllPanels();
-			string[] names = {"MainForm", "panel1", "listBox1"};
-			this.DebugNamedControls( names );
-//			this.DebugNamedControl( "MainForm" );
+            // RGS TEST   
+            this.Shown += delegate { var form = new DebugLayoutForm(); form.Show(); };         
+            // RGS TEST
         }
 
         protected override CreateParams CreateParams
