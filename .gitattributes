@@ -41,6 +41,9 @@ trunk/Experiments/eM[!!-~]Client[!!-~]32/copy_mono.sh -text
 trunk/Experiments/eM[!!-~]Client[!!-~]32/main.m -text
 trunk/FormsTest/App.config -text
 trunk/FormsTest/App.ico -text
+trunk/FormsTest/DebugLayoutForm.Designer.cs -text
+trunk/FormsTest/DebugLayoutForm.cs -text
+trunk/FormsTest/DebugLayoutForm.resx -text
 trunk/FormsTest/Extensions.cs -text
 trunk/FormsTest/FormsTest.csproj -text
 trunk/FormsTest/LayoutForm.Designer.cs -text
