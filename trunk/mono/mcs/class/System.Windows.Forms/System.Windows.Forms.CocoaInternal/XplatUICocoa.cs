@@ -914,16 +914,21 @@ namespace System.Windows.Forms {
 			} else {				
 				var nsrect = NSWindow.FrameRectFor (MonoToNativeFramed(ClientRect, ClientRect.Height), StyleFromCreateParams (cp));
 				// RGS TEST
-				if (StyleSet (cp.Style, WindowStyles.WS_CAPTION) && 0 != ClientRect.Width && 0 != ClientRect.Height ) { // The 0x0 sizes are calculations to update only the content area
-					Debug.WriteLine ("{0} WxH: {1}x{2} -> {3}x{4}", new object[] {
-						cp.Caption,
-						ClientRect.Width,
-						ClientRect.Height,
-						nsrect.Width,
-						nsrect.Height
-					});
+				if (0 != ClientRect.Width && 0 != ClientRect.Height) { // The 0x0 sizes are calculations to update only the content area
+					if (StyleSet (cp.Style, WindowStyles.WS_CAPTION)) {
+						Debug.WriteLine ("{0} WxH: {1}x{2} -> {3}x{4}", new object[] {
+							cp.Caption,
+							ClientRect.Width,
+							ClientRect.Height,
+							nsrect.Width,
+							nsrect.Height
+						});
+					} else {
+						Debug.WriteLine ("CalculateWindowRect untitled window");
+					}
 				}
 				// RGS TEST
+
 				WindowRect = new Rectangle((int)nsrect.X, (int)nsrect.Y, (int)nsrect.Width, (int)nsrect.Height);
 			}
 			return true;

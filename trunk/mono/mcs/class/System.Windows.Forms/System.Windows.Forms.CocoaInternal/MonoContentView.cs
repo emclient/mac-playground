@@ -233,7 +233,7 @@ namespace System.Windows.Forms.CocoaInternal
 			if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero) {
 
 				// Debugging
-				DebugUtility.WriteInfoIfChanged(XplatUICocoa.Grab.Hwnd);
+				//DebugUtility.WriteInfoIfChanged(XplatUICocoa.Grab.Hwnd);
 
 				currentHwnd = Hwnd.ObjectFromHandle (XplatUICocoa.Grab.Hwnd); 
 				if (null == currentHwnd || currentHwnd.zombie)
@@ -249,7 +249,8 @@ namespace System.Windows.Forms.CocoaInternal
 				vuWrap = Window.ContentView.HitTest(nspoint);
 
 				// Debugging
-				DebugUtility.WriteInfoIfChanged(vuWrap);
+				// RGS I'm now using ControlDebugUtils
+				//DebugUtility.WriteInfoIfChanged(vuWrap);
 
 				// Embedded native control? => Find MonoView parent
 				while (vuWrap != null && !(vuWrap is MonoView))
