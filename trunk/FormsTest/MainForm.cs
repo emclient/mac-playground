@@ -56,7 +56,11 @@ namespace FormsTest
             UpdateList();
             InitDialogCombo();
 
-			this.DebugAllControls();
+//			this.DebugAllControls();
+//			this.DebugAllPanels();
+			string[] names = {"MainForm", "panel1", "listBox1"};
+			this.DebugNamedControls( names );
+//			this.DebugNamedControl( "MainForm" );
         }
 
         protected override CreateParams CreateParams
