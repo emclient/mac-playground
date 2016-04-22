@@ -2,17 +2,22 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Reflection;
+using MonoMac.AppKit;
 
 namespace System.Windows.Forms
 {
 	public static class DebugUtility
 	{
+		public static bool SwitchingConversations = false;
+
 		public static String ControlInfo(Control ctrl)
 		{
-			return ctrl == null 
-				? "null"
-				: ctrl.GetType().Name + ", visible=" + ctrl.Visible + ", WxH=" + ctrl.Size.Width + "x" + ctrl.Size.Height
-				      + ", XY=" + ctrl.Location.X + "," + ctrl.Location.Y + ", text=\"" + ctrl.Text
+			if (ctrl == null)
+				return "null";
+
+			NSView view = ClientViewFromControl(ctrl);
+			return ctrl.GetType().Name + ", visible=" + ctrl.Visible + ", WxH=" + ctrl.Size.Width + "x" + ctrl.Size.Height
+				       + ", XY=" + ctrl.Location.X + ";" + ctrl.Location.Y + ", text=\"" + ctrl.Text + ", view.IsHidden=" + view.Hidden + ", view.IsHiddenOrHasHiddenAncestor=" + view.IsHiddenOrHasHiddenAncestor
 				      + "\"" + GetFieldInfo(ctrl);
 		}
 
@@ -41,7 +46,7 @@ namespace System.Windows.Forms
 
 		public static void WriteInfoIfChanged(IntPtr handle)
 		{
-			var c = Control.FromHandle(handle);
+			//var c = Control.FromHandle(handle);
 			string info = ControlInfo(handle);
 			if (info != lastInfo)
 				Console.WriteLine(lastInfo = info);
@@ -54,7 +59,17 @@ namespace System.Windows.Forms
 			return null;
 		}
 
-		public static bool SwitchingConversations = false;
+		public static NSView ClientViewFromControl(Control control)
+		{
+			Hwnd hwnd = Hwnd.ObjectFromHandle(control.Handle);
+			return (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
+		}
+
+		public static NSView WholeViewFromControl(Control control)
+		{
+			Hwnd hwnd = Hwnd.ObjectFromHandle(control.Handle);
+			return (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+		}
 
 		public static string GetFieldInfo(Control control, string indent = "  ", string newLine = null)
 		{
