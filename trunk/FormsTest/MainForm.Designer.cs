@@ -41,10 +41,10 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.dialogTypeCombo = new System.Windows.Forms.ComboBox();
-            this.filterTextBox = new FormsTest.MyTextBox();
-            this.listBox1 = new FormsTest.MyListBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.layoutDebugButton = new System.Windows.Forms.Button();
+            this.filterTextBox = new FormsTest.MyTextBox();
+            this.listBox1 = new FormsTest.MyListBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -173,6 +173,16 @@
             this.dialogTypeCombo.Size = new System.Drawing.Size(121, 21);
             this.dialogTypeCombo.TabIndex = 51;
             // 
+            // layoutDebugButton
+            // 
+            this.layoutDebugButton.Location = new System.Drawing.Point(17, 410);
+            this.layoutDebugButton.Name = "layoutDebugButton";
+            this.layoutDebugButton.Size = new System.Drawing.Size(94, 23);
+            this.layoutDebugButton.TabIndex = 52;
+            this.layoutDebugButton.Text = "Layout Debug";
+            this.layoutDebugButton.UseVisualStyleBackColor = true;
+            this.layoutDebugButton.Click += new System.EventHandler(this.layoutDebugButton_Click);
+            // 
             // filterTextBox
             // 
             this.filterTextBox.Location = new System.Drawing.Point(133, 10);
@@ -191,20 +201,9 @@
             this.listBox1.TabIndex = 20;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
-            // layoutDebugButton
-            // 
-            this.layoutDebugButton.Location = new System.Drawing.Point(17, 410);
-            this.layoutDebugButton.Name = "layoutDebugButton";
-            this.layoutDebugButton.Size = new System.Drawing.Size(94, 23);
-            this.layoutDebugButton.TabIndex = 52;
-            this.layoutDebugButton.Text = "Layout Debug";
-            this.layoutDebugButton.UseVisualStyleBackColor = true;
-            this.layoutDebugButton.Click += new System.EventHandler(this.layoutDebugButton_Click);
-            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(652, 446);
             this.Controls.Add(this.layoutDebugButton);
             this.Controls.Add(this.dialogTypeCombo);
