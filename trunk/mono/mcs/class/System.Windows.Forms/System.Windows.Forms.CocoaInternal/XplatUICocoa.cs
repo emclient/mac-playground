@@ -1758,12 +1758,6 @@ namespace System.Windows.Forms {
 		}
 
 		internal override bool PostMessage (IntPtr hwnd, Msg message, IntPtr wParam, IntPtr lParam) {
-			if ((message == Msg.WM_SETFOCUS || message == Msg.WM_KILLFOCUS) && DebugUtility.ControlInfo(hwnd).StartsWith("TextBoxEx"))
-			{
-				Console.WriteLine(message.ToString() + ": " + DebugUtility.ControlInfo(hwnd));
-				Console.WriteLine(new StackTrace(true));
-			}
-
 			MSG msg = new MSG ();
 			msg.hwnd = hwnd;
 			msg.message = message;
@@ -1851,19 +1845,27 @@ namespace System.Windows.Forms {
 			});
 		}
 
-		internal override IntPtr SendMessage (IntPtr hwnd, Msg message, IntPtr wParam, IntPtr lParam) {
+		internal override IntPtr SendMessage(IntPtr hwnd, Msg message, IntPtr wParam, IntPtr lParam)
+		{
+			var msg = Message.Create(hwnd, (int)message, wParam, lParam);
+			if (Application.FilterMessage(ref msg))
+				return IntPtr.Zero;
+
+			MSG m = new MSG { hwnd = hwnd, message = message, wParam = wParam, lParam = lParam };
+			TranslateMessage(ref m);
+
 			if (NSThread.IsMain)
-				NativeWindow.WndProc(hwnd, message, wParam, lParam);
+				DispatchMessage(ref m);
 			else
 			{
 				NSApplication.SharedApplication.InvokeOnMainThread(delegate
 				{
-					NativeWindow.WndProc(hwnd, message, wParam, lParam);
+					DispatchMessage(ref m);
 				});
 			}
 			return IntPtr.Zero;
 		}
-		
+
 		internal override int SendInput (IntPtr hwnd, Queue keys) {
 			return 0;
 		}
