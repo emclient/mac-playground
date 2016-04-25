@@ -55,10 +55,6 @@ namespace FormsTest
 
             UpdateList();
             InitDialogCombo();
-
-            // RGS TEST   
-            this.Shown += delegate { var form = new DebugLayoutForm(); form.Show(); };         
-            // RGS TEST
         }
 
         protected override CreateParams CreateParams
@@ -150,6 +146,12 @@ namespace FormsTest
             {
 				Debug.WriteLine(x.ToString());
             }
+        }
+
+        private void layoutDebugButton_Click(object sender, System.EventArgs e)
+        {
+            var form = new DebugLayoutForm();
+            form.Show();
         }
 
         private void filterTextBox_TextChanged(object sender, EventArgs e)

@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+            this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -42,6 +43,8 @@
             this.dialogTypeCombo = new System.Windows.Forms.ComboBox();
             this.filterTextBox = new FormsTest.MyTextBox();
             this.listBox1 = new FormsTest.MyListBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.layoutDebugButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,7 +58,7 @@
             this.button1.Text = "Chcípni";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-			// 
+            // 
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -64,12 +67,10 @@
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 40;
             this.button2.Text = "Poroď";
+            this.toolTip.SetToolTip(this.button2, "Otevře okno s prohlížečem .... jhgsd lsakhfg lfhgwlf khgwdfljk whgfljwhgf ljhwdfg" +
+        " ljshdfg jlwdhfg");
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
-
-			this.toolTip = new System.Windows.Forms.ToolTip();
-			this.toolTip.SetToolTip(this.button2, "Otevře okno s prohlížečem .... jhgsd lsakhfg lfhgwlf khgwdfljk whgfljwhgf ljhwdfg ljshdfg jlwdhfg");
-
             // 
             // button3
             // 
@@ -190,11 +191,22 @@
             this.listBox1.TabIndex = 20;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
+            // layoutDebugButton
+            // 
+            this.layoutDebugButton.Location = new System.Drawing.Point(17, 410);
+            this.layoutDebugButton.Name = "layoutDebugButton";
+            this.layoutDebugButton.Size = new System.Drawing.Size(94, 23);
+            this.layoutDebugButton.TabIndex = 52;
+            this.layoutDebugButton.Text = "Layout Debug";
+            this.layoutDebugButton.UseVisualStyleBackColor = true;
+            this.layoutDebugButton.Click += new System.EventHandler(this.layoutDebugButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(652, 446);
+            this.Controls.Add(this.layoutDebugButton);
             this.Controls.Add(this.dialogTypeCombo);
             this.Controls.Add(this.filterTextBox);
             this.Controls.Add(this.label6);
@@ -233,6 +245,7 @@
 		private MyTextBox filterTextBox;
         private System.Windows.Forms.ComboBox dialogTypeCombo;
 		private System.Windows.Forms.ToolTip toolTip;
-	}
+        private System.Windows.Forms.Button layoutDebugButton;
+    }
 }
 
