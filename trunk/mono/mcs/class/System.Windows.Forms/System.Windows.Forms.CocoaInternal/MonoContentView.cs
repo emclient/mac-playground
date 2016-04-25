@@ -427,7 +427,7 @@ namespace System.Windows.Forms.CocoaInternal
 				driver.PostMessage (FocusHandle, (NSEventModifierMask.ShiftKeyMask & modifiers) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_SHIFT, IntPtr.Zero);
 			} else if ((NSEventModifierMask.ControlKeyMask & diff) != 0) {
 				driver.PostMessage (FocusHandle, (NSEventModifierMask.ControlKeyMask & modifiers) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_CONTROL, IntPtr.Zero);
-			} else if ((NSEventModifierMask.CommandKeyMask & diff) != 0) {
+			} else if ((NSEventModifierMask.AlternateKeyMask & diff) != 0) {
 				driver.PostMessage (FocusHandle, (NSEventModifierMask.AlternateKeyMask & modifiers) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_MENU, IntPtr.Zero);
 			}
 			XplatUICocoa.key_modifiers = modifiers;
