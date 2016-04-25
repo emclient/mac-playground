@@ -17,6 +17,7 @@ namespace FormsTest
         {
             InitializeComponent();
 
+            // Mac layout debugging
 			this.DebugAllControls();
         }
     }
