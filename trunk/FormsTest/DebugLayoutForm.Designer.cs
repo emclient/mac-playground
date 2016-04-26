@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -46,6 +47,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.myListBox1 = new FormsTest.MyListBox();
             this.myTextBox1 = new FormsTest.MyTextBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -210,11 +212,15 @@
             this.myTextBox1.Size = new System.Drawing.Size(120, 20);
             this.myTextBox1.TabIndex = 10;
             // 
+            // toolTip1
+            // 
+            this.toolTip1.ToolTipTitle = "DebugLayoutDialogTooltip";
+            // 
             // DebugLayoutForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(484, 381);
+            this.ClientSize = new System.Drawing.Size(504, 381);
             this.Controls.Add(this.myListBox1);
             this.Controls.Add(this.myTextBox1);
             this.Controls.Add(this.textBox1);
@@ -228,6 +234,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "DebugLayoutForm";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "DebugLayoutForm";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -258,5 +265,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private MyTextBox myTextBox1;
         private MyListBox myListBox1;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
