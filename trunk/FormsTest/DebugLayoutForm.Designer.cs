@@ -46,9 +46,9 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.button1 = new System.Windows.Forms.Button();
             this.myListBox1 = new FormsTest.MyListBox();
             this.myTextBox1 = new FormsTest.MyTextBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -71,7 +71,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(10, 10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.Size = new System.Drawing.Size(36, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "label1";
             // 
@@ -88,7 +88,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(10, 30);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "label2";
             // 
@@ -195,12 +195,22 @@
             // 
             this.textBox1.Location = new System.Drawing.Point(10, 350);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(200, 20);
+            this.textBox1.Size = new System.Drawing.Size(200, 22);
             this.textBox1.TabIndex = 9;
             // 
             // toolTip1
             // 
             this.toolTip1.ToolTipTitle = "DebugLayoutDialogTooltip";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(490, 340);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "button1";
+            this.toolTip1.SetToolTip(this.button1, "Button tooltip which should show up.");
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // myListBox1
             // 
@@ -214,18 +224,8 @@
             // 
             this.myTextBox1.Location = new System.Drawing.Point(220, 350);
             this.myTextBox1.Name = "myTextBox1";
-            this.myTextBox1.Size = new System.Drawing.Size(120, 20);
+            this.myTextBox1.Size = new System.Drawing.Size(120, 22);
             this.myTextBox1.TabIndex = 10;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(490, 340);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "button1";
-            this.toolTip1.SetToolTip(this.button1, "Button tooltip which should show up.");
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // DebugLayoutForm
             // 
@@ -245,6 +245,8 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "DebugLayoutForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "DebugLayoutForm";
