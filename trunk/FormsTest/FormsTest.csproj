@@ -57,6 +57,12 @@
     <Compile Include="DebugLayoutForm2.Designer.cs">
       <DependentUpon>DebugLayoutForm2.cs</DependentUpon>
     </Compile>
+    <Compile Include="DebugLayoutForm3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DebugLayoutForm3.Designer.cs">
+      <DependentUpon>DebugLayoutForm3.cs</DependentUpon>
+    </Compile>
     <Compile Include="LayoutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DebugLayoutForm2.resx">
       <DependentUpon>DebugLayoutForm2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DebugLayoutForm3.resx">
+      <DependentUpon>DebugLayoutForm3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LayoutForm.resx">
       <DependentUpon>LayoutForm.cs</DependentUpon>
