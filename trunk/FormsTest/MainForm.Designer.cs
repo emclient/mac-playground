@@ -46,6 +46,7 @@
             this.layoutDebugButton2 = new System.Windows.Forms.Button();
             this.filterTextBox = new FormsTest.MyTextBox();
             this.listBox1 = new FormsTest.MyListBox();
+            this.layoutDebugButton3 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -176,21 +177,21 @@
             // 
             // layoutDebugButton
             // 
-            this.layoutDebugButton.Location = new System.Drawing.Point(17, 410);
+            this.layoutDebugButton.Location = new System.Drawing.Point(17, 411);
             this.layoutDebugButton.Name = "layoutDebugButton";
-            this.layoutDebugButton.Size = new System.Drawing.Size(94, 23);
+            this.layoutDebugButton.Size = new System.Drawing.Size(56, 23);
             this.layoutDebugButton.TabIndex = 52;
-            this.layoutDebugButton.Text = "Layout Debug";
+            this.layoutDebugButton.Text = "Debug";
             this.layoutDebugButton.UseVisualStyleBackColor = true;
             this.layoutDebugButton.Click += new System.EventHandler(this.layoutDebugButton_Click);
             // 
             // layoutDebugButton2
             // 
-            this.layoutDebugButton2.Location = new System.Drawing.Point(118, 410);
+            this.layoutDebugButton2.Location = new System.Drawing.Point(79, 411);
             this.layoutDebugButton2.Name = "layoutDebugButton2";
-            this.layoutDebugButton2.Size = new System.Drawing.Size(98, 23);
+            this.layoutDebugButton2.Size = new System.Drawing.Size(60, 23);
             this.layoutDebugButton2.TabIndex = 53;
-            this.layoutDebugButton2.Text = "Layout Debug 2";
+            this.layoutDebugButton2.Text = "Debug 2";
             this.layoutDebugButton2.UseVisualStyleBackColor = true;
             this.layoutDebugButton2.Click += new System.EventHandler(this.layoutDebugButton2_Click);
             // 
@@ -212,11 +213,22 @@
             this.listBox1.TabIndex = 20;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
+            // layoutDebugButton3
+            // 
+            this.layoutDebugButton3.Location = new System.Drawing.Point(146, 411);
+            this.layoutDebugButton3.Name = "layoutDebugButton3";
+            this.layoutDebugButton3.Size = new System.Drawing.Size(59, 23);
+            this.layoutDebugButton3.TabIndex = 54;
+            this.layoutDebugButton3.Text = "Debug 3";
+            this.layoutDebugButton3.UseVisualStyleBackColor = true;
+            this.layoutDebugButton3.Click += new System.EventHandler(this.layoutDebugButton3_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(652, 446);
+            this.Controls.Add(this.layoutDebugButton3);
             this.Controls.Add(this.layoutDebugButton2);
             this.Controls.Add(this.layoutDebugButton);
             this.Controls.Add(this.dialogTypeCombo);
@@ -259,6 +271,7 @@
 		private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Button layoutDebugButton;
         private System.Windows.Forms.Button layoutDebugButton2;
+        private System.Windows.Forms.Button layoutDebugButton3;
     }
 }
 
