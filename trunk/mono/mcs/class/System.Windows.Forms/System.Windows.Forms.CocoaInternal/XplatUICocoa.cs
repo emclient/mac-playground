@@ -1097,8 +1097,10 @@ namespace System.Windows.Forms {
 			}
 				
 			SetHwndStyles(hwnd, cp);
-/* FIXME */
-			if (!StyleSet (cp.Style, WindowStyles.WS_CHILD)) {
+			/* FIXME */
+
+			bool isTopLevel = !StyleSet(cp.Style, WindowStyles.WS_CHILD);
+			if (isTopLevel) {
 				NSWindowStyle attributes = StyleFromCreateParams(cp);
 //				SetAutomaticControlDragTrackingEnabledForWindow (, true);
 //				ParentHandle = WindowView;
@@ -1174,13 +1176,16 @@ namespace System.Windows.Forms {
 					}
 				}
 
-				viewWrapper.Hidden = false;
-				clientWrapper.Hidden = false;
 				hwnd.visible = true;
 				hwnd.mapped = true;
 				if (! (Control.FromHandle (hwnd.Handle) is Form)) {
 					SendMessage (hwnd.Handle, Msg.WM_SHOWWINDOW, (IntPtr)1, IntPtr.Zero);
 				}
+			}
+			else
+			{
+				if (!isTopLevel)
+					viewWrapper.Hidden = true;
 			}
 
 			if (StyleSet (cp.Style, WindowStyles.WS_MINIMIZE)) {
