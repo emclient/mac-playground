@@ -44,6 +44,9 @@ trunk/FormsTest/App.ico -text
 trunk/FormsTest/DebugLayoutForm.Designer.cs -text
 trunk/FormsTest/DebugLayoutForm.cs -text
 trunk/FormsTest/DebugLayoutForm.resx -text
+trunk/FormsTest/DebugLayoutForm2.Designer.cs -text
+trunk/FormsTest/DebugLayoutForm2.cs -text
+trunk/FormsTest/DebugLayoutForm2.resx -text
 trunk/FormsTest/Extensions.cs -text
 trunk/FormsTest/FormsTest.csproj -text
 trunk/FormsTest/LayoutForm.Designer.cs -text
