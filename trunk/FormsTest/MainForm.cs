@@ -55,6 +55,10 @@ namespace FormsTest
 
             UpdateList();
             InitDialogCombo();
+
+            // Mac layout debugging
+            this.DebugAllControls();
+
         }
 
         protected override CreateParams CreateParams
