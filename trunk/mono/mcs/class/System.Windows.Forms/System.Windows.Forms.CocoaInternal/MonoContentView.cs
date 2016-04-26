@@ -376,19 +376,16 @@ namespace System.Windows.Forms.CocoaInternal
 			cmdDown = 0 != (flags & NSEventModifierMask.CommandKeyMask);
 
 			ProcessKeyPress(theEvent);
-			base.KeyDown(theEvent);
 		}
 
 		public override void KeyUp (NSEvent theEvent)
 		{
 			ProcessKeyPress(theEvent);
-			base.KeyUp(theEvent);
 		}
 
 		public override void FlagsChanged (NSEvent theEvent)
 		{
 			ProcessModifiers(theEvent);
-			base.FlagsChanged(theEvent);
 		}
 
 		public void ProcessKeyPress (NSEvent e)
