@@ -39,6 +39,7 @@
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
     <NoStdLib>false</NoStdLib>
+    <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
   </PropertyGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
