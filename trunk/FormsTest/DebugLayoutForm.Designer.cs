@@ -42,6 +42,8 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -162,7 +164,7 @@
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel4.Location = new System.Drawing.Point(220, 287);
+            this.panel4.Location = new System.Drawing.Point(220, 290);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(120, 50);
             this.panel4.TabIndex = 6;
@@ -176,11 +178,28 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Group Box 3";
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(350, 290);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(120, 21);
+            this.comboBox1.TabIndex = 8;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(10, 340);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(200, 20);
+            this.textBox1.TabIndex = 9;
+            // 
             // DebugLayoutForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(484, 361);
+            this.ClientSize = new System.Drawing.Size(484, 371);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
@@ -196,6 +215,7 @@
             this.tabControl1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -215,5 +235,7 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
