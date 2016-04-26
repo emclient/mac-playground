@@ -49,6 +49,11 @@ namespace System.Windows.Forms.CocoaInternal
 	{
 		NSTrackingArea trackingArea;
 		internal IntPtr FocusHandle;
+		internal static int repeatCount = 0;
+		internal static bool altDown;
+		internal static bool cmdDown;
+		internal static bool shiftDown;
+		internal static bool ctrlDown;
 
 		public MonoContentView (IntPtr instance) : base (instance)
 		{
@@ -250,7 +255,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 				// Debugging
 				// RGS I'm now using ControlDebugUtils
-				//DebugUtility.WriteInfoIfChanged(vuWrap);
+				DebugUtility.WriteInfoIfChanged(vuWrap);
 
 				// Embedded native control? => Find MonoView parent
 				while (vuWrap != null && !(vuWrap is MonoView))
@@ -364,28 +369,39 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void KeyDown (NSEvent theEvent)
 		{
-			ProcessKeyPress (theEvent, Msg.WM_KEYDOWN);
+			var flags = theEvent.ModifierFlags;
+			shiftDown = 0 != (flags & NSEventModifierMask.ShiftKeyMask);
+			ctrlDown = 0 != (flags & NSEventModifierMask.ControlKeyMask);
+			altDown = 0 != (flags & NSEventModifierMask.AlternateKeyMask);
+			cmdDown = 0 != (flags & NSEventModifierMask.CommandKeyMask);
+
+			ProcessKeyPress(theEvent);
+			base.KeyDown(theEvent);
 		}
 
 		public override void KeyUp (NSEvent theEvent)
 		{
-			ProcessKeyPress (theEvent, Msg.WM_KEYUP);
+			ProcessKeyPress(theEvent);
+			base.KeyUp(theEvent);
 		}
 
 		public override void FlagsChanged (NSEvent theEvent)
 		{
-			ProcessModifiers (theEvent);
+			ProcessModifiers(theEvent);
+			base.FlagsChanged(theEvent);
 		}
 
-		public void ProcessKeyPress (NSEvent e, Msg msg)
+		public void ProcessKeyPress (NSEvent e)
 		{
+			repeatCount = e.IsARepeat ? 1 + repeatCount : 0;
+
 			if (FocusHandle == IntPtr.Zero)
 				return;
 
 			ushort charCode = 0x0;
 			char c = '\0';
 
-			var chars = msg == Msg.WM_KEYDOWN ? GetCharactersForKeyPress (e) : "";
+			var chars = e.Type == NSEventType.KeyDown ? GetCharactersForKeyPress (e) : "";
 
 			chars = chars ?? e.Characters;
 			if (chars.Length > 0) {
@@ -397,21 +413,27 @@ namespace System.Windows.Forms.CocoaInternal
 
 			Keys key = GetKeys (e);
 			IntPtr wParam = (IntPtr) key;
-			IntPtr lParam = (IntPtr) (byte)charCode;
-			// Test
-			if (key == Keys.ShiftKey)
-				lParam = (IntPtr)0x2a0001;
+			ulong lp = 0;
+			lp |= ((ulong)(uint)repeatCount);
+			lp |= ((ulong)keyCode) << 16; // OEM-dependent scanCode
+			lp |= ((ulong)0) << 24;       // (extended key)
+			lp |= (((ulong)(e.IsARepeat ? 1 : 0)) << 30);
+			IntPtr lParam = (IntPtr)lp;
 
-			//Debug.WriteLine ("keyCode={0}, characters=\"{1}\", key='{2}', chars='{3}'", e.KeyCode, chars, key, chars);
-			driver.PostMessage (FocusHandle, msg, wParam, lParam);
+			Msg msg = altDown && !cmdDown
+				? (e.Type == NSEventType.KeyDown ? Msg.WM_SYSKEYDOWN : Msg.WM_SYSKEYUP)
+				: (e.Type == NSEventType.KeyDown ? Msg.WM_KEYDOWN : Msg.WM_KEYUP);
 
-			if (msg == Msg.WM_KEYDOWN && !string.IsNullOrEmpty (chars)) {
+			if (e.Type == NSEventType.KeyDown && !string.IsNullOrEmpty (chars)) {
 
 				if (IsChar (c, key)) {
-					XplatUICocoa.PushChars (chars);
-					driver.PostMessage (FocusHandle, Msg.WM_IME_COMPOSITION, IntPtr.Zero, IntPtr.Zero);
+					XplatUICocoa.PushChars (chars); // XplatUICocoa pops them
+					//driver.PostMessage (FocusHandle, Msg.WM_IME_COMPOSITION, IntPtr.Zero, IntPtr.Zero);
 				}
 			}
+
+			//Debug.WriteLine ("keyCode={0}, characters=\"{1}\", key='{2}', chars='{3}'", e.KeyCode, chars, key, chars);
+			driver.PostMessage(FocusHandle, msg, wParam, lParam);
 		}
 
 		public void ProcessModifiers (NSEvent eventref)
@@ -420,17 +442,18 @@ namespace System.Windows.Forms.CocoaInternal
 				return;
 
 			// we get notified when modifiers change, but not specifically what changed
-			NSEventModifierMask modifiers = eventref.ModifierFlags;
-			NSEventModifierMask diff = modifiers ^ XplatUICocoa.key_modifiers;
+			NSEventModifierMask flags = eventref.ModifierFlags;
+			NSEventModifierMask diff = flags ^ XplatUICocoa.key_modifiers;
+			XplatUICocoa.key_modifiers = flags;
 
-			if ((NSEventModifierMask.ShiftKeyMask & diff) != 0) {
-				driver.PostMessage (FocusHandle, (NSEventModifierMask.ShiftKeyMask & modifiers) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_SHIFT, IntPtr.Zero);
-			} else if ((NSEventModifierMask.ControlKeyMask & diff) != 0) {
-				driver.PostMessage (FocusHandle, (NSEventModifierMask.ControlKeyMask & modifiers) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_CONTROL, IntPtr.Zero);
-			} else if ((NSEventModifierMask.AlternateKeyMask & diff) != 0) {
-				driver.PostMessage (FocusHandle, (NSEventModifierMask.AlternateKeyMask & modifiers) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_MENU, IntPtr.Zero);
-			}
-			XplatUICocoa.key_modifiers = modifiers;
+			if ((NSEventModifierMask.ShiftKeyMask & diff) != 0)
+				driver.PostMessage(FocusHandle, (NSEventModifierMask.ShiftKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_SHIFT, IntPtr.Zero);
+			if ((NSEventModifierMask.ControlKeyMask & diff) != 0)
+				driver.PostMessage(FocusHandle, (NSEventModifierMask.ControlKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_CONTROL, IntPtr.Zero);
+			if ((NSEventModifierMask.AlternateKeyMask & diff) != 0)
+				driver.PostMessage(FocusHandle, (NSEventModifierMask.AlternateKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_MENU, IntPtr.Zero);
+			//if ((NSEventModifierMask.CommandKeyMask & diff) != 0)
+			//	driver.PostMessage(FocusHandle, (NSEventModifierMask.AlternateKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_LWIN, IntPtr.Zero);
 		}
 
 		#region Keyboard translation tables
