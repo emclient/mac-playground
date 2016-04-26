@@ -158,6 +158,12 @@ namespace FormsTest
             form.Show();
         }
 
+        private void layoutDebugButton2_Click(object sender, System.EventArgs e)
+        {
+            var form = new DebugLayoutForm2();
+            form.Show();
+        }
+
         private void filterTextBox_TextChanged(object sender, EventArgs e)
         {
             filter = filterTextBox.Text;
