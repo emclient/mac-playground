@@ -11,9 +11,9 @@ using MailClient.Common.UI;
 
 namespace FormsTest
 {
-    public partial class DebugLayoutForm2 : Form
+    public partial class DebugLayoutForm3 : Form
     {
-        public DebugLayoutForm2()
+        public DebugLayoutForm3()
         {
             InitializeComponent();
 
