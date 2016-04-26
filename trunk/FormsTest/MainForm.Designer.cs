@@ -43,6 +43,7 @@
             this.dialogTypeCombo = new System.Windows.Forms.ComboBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.layoutDebugButton = new System.Windows.Forms.Button();
+            this.layoutDebugButton2 = new System.Windows.Forms.Button();
             this.filterTextBox = new FormsTest.MyTextBox();
             this.listBox1 = new FormsTest.MyListBox();
             this.panel1.SuspendLayout();
@@ -183,6 +184,16 @@
             this.layoutDebugButton.UseVisualStyleBackColor = true;
             this.layoutDebugButton.Click += new System.EventHandler(this.layoutDebugButton_Click);
             // 
+            // layoutDebugButton2
+            // 
+            this.layoutDebugButton2.Location = new System.Drawing.Point(118, 410);
+            this.layoutDebugButton2.Name = "layoutDebugButton2";
+            this.layoutDebugButton2.Size = new System.Drawing.Size(98, 23);
+            this.layoutDebugButton2.TabIndex = 53;
+            this.layoutDebugButton2.Text = "Layout Debug 2";
+            this.layoutDebugButton2.UseVisualStyleBackColor = true;
+            this.layoutDebugButton2.Click += new System.EventHandler(this.layoutDebugButton2_Click);
+            // 
             // filterTextBox
             // 
             this.filterTextBox.Location = new System.Drawing.Point(133, 10);
@@ -206,6 +217,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(652, 446);
+            this.Controls.Add(this.layoutDebugButton2);
             this.Controls.Add(this.layoutDebugButton);
             this.Controls.Add(this.dialogTypeCombo);
             this.Controls.Add(this.filterTextBox);
@@ -246,6 +258,7 @@
         private System.Windows.Forms.ComboBox dialogTypeCombo;
 		private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Button layoutDebugButton;
+        private System.Windows.Forms.Button layoutDebugButton2;
     }
 }
 

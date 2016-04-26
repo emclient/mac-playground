@@ -51,6 +51,12 @@
     <Compile Include="DebugLayoutForm.Designer.cs">
       <DependentUpon>DebugLayoutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DebugLayoutForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DebugLayoutForm2.Designer.cs">
+      <DependentUpon>DebugLayoutForm2.cs</DependentUpon>
+    </Compile>
     <Compile Include="LayoutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +124,9 @@
   <ItemGroup>
     <EmbeddedResource Include="DebugLayoutForm.resx">
       <DependentUpon>DebugLayoutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DebugLayoutForm2.resx">
+      <DependentUpon>DebugLayoutForm2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LayoutForm.resx">
       <DependentUpon>LayoutForm.cs</DependentUpon>
