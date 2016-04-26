@@ -1852,14 +1852,16 @@ namespace System.Windows.Forms {
 				return IntPtr.Zero;
 
 			MSG m = new MSG { hwnd = hwnd, message = message, wParam = wParam, lParam = lParam };
-			TranslateMessage(ref m);
-
 			if (NSThread.IsMain)
+			{
+				TranslateMessage(ref m);
 				DispatchMessage(ref m);
+			}
 			else
 			{
 				NSApplication.SharedApplication.InvokeOnMainThread(delegate
 				{
+					TranslateMessage(ref m);
 					DispatchMessage(ref m);
 				});
 			}
@@ -2445,45 +2447,39 @@ namespace System.Windows.Forms {
 			vuWrap.DisplayIfNeeded();
 		}
 
-		internal override bool TranslateMessage (ref MSG msg) {
+		internal override bool TranslateMessage(ref MSG msg) {
 			bool result = false;
 
 			if (!result)
-				result = TranslateKeyMessage (ref msg);
+				result = TranslateKeyMessage(ref msg);
 			if (!result)
-				result = TranslateMouseMessage (ref msg);
+				result = TranslateMouseMessage(ref msg);
 
 			return result;
 		}
 
 		internal virtual bool TranslateKeyMessage (ref MSG msg) {
-			bool res = false;
-			if (msg.message >= Msg.WM_KEYFIRST && msg.message <= Msg.WM_KEYLAST)
-				res = true;
-
-			if (msg.message != Msg.WM_KEYDOWN && msg.message != Msg.WM_SYSKEYDOWN && msg.message != Msg.WM_KEYUP && msg.message != Msg.WM_SYSKEYUP && msg.message != Msg.WM_CHAR && msg.message != Msg.WM_SYSCHAR)
-				return res;
-
-			if (0 != (NSEventModifierMask.CommandKeyMask & key_modifiers) && 0 == (NSEventModifierMask.ControlKeyMask & key_modifiers)) {
-				if (msg.message == Msg.WM_KEYDOWN) {
-					msg.message = Msg.WM_SYSKEYDOWN;
-				} else if (msg.message == Msg.WM_CHAR) {
-					msg.message = Msg.WM_SYSCHAR;
-					translate_modifier = true;
-				} else if (msg.message == Msg.WM_KEYUP) {
-					msg.message = Msg.WM_SYSKEYUP;
-				} else {
-					return res;
-				}
-
-				msg.lParam = new IntPtr (0x20000000);
-			} else if (msg.message == Msg.WM_SYSKEYUP && translate_modifier && msg.wParam == (IntPtr)18) {
-				msg.message = Msg.WM_KEYUP;
-				msg.lParam = IntPtr.Zero;
-				translate_modifier = false;
+			bool sent = true;
+			switch (msg.message)
+			{
+				case Msg.WM_KEYDOWN:
+					foreach(var c in PopChars())
+						PostMessage(msg.hwnd, Msg.WM_CHAR, (IntPtr)c, msg.lParam);
+					break;
+				case Msg.WM_SYSKEYDOWN:
+					foreach (var c in PopChars())
+						PostMessage(msg.hwnd, Msg.WM_SYSCHAR, (IntPtr)c, msg.lParam);
+					break;
+				//case Msg.WM_KEYUP:
+				//case Msg.WM_SYSKEYUP:
+					//PostMessage(msg.hwnd, msg.message, msg.wParam, msg.lParam);
+					//break;
+				default:
+					sent = false;
+					break;
 			}
 
-			return res;
+			return sent;
 		}
 			
 		internal virtual bool TranslateMouseMessage (ref MSG msg) {
