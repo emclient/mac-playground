@@ -44,6 +44,8 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.myListBox1 = new FormsTest.MyListBox();
+            this.myTextBox1 = new FormsTest.MyTextBox();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -166,7 +168,7 @@
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Location = new System.Drawing.Point(220, 290);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(120, 50);
+            this.panel4.Size = new System.Drawing.Size(120, 56);
             this.panel4.TabIndex = 6;
             // 
             // groupBox3
@@ -181,23 +183,40 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(350, 290);
+            this.comboBox1.Location = new System.Drawing.Point(350, 350);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(120, 21);
             this.comboBox1.TabIndex = 8;
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(10, 340);
+            this.textBox1.Location = new System.Drawing.Point(10, 350);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(200, 20);
             this.textBox1.TabIndex = 9;
+            // 
+            // myListBox1
+            // 
+            this.myListBox1.FormattingEnabled = true;
+            this.myListBox1.Location = new System.Drawing.Point(350, 290);
+            this.myListBox1.Name = "myListBox1";
+            this.myListBox1.Size = new System.Drawing.Size(120, 56);
+            this.myListBox1.TabIndex = 11;
+            // 
+            // myTextBox1
+            // 
+            this.myTextBox1.Location = new System.Drawing.Point(220, 350);
+            this.myTextBox1.Name = "myTextBox1";
+            this.myTextBox1.Size = new System.Drawing.Size(120, 20);
+            this.myTextBox1.TabIndex = 10;
             // 
             // DebugLayoutForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(484, 371);
+            this.ClientSize = new System.Drawing.Size(484, 381);
+            this.Controls.Add(this.myListBox1);
+            this.Controls.Add(this.myTextBox1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.groupBox3);
@@ -237,5 +256,7 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TextBox textBox1;
+        private MyTextBox myTextBox1;
+        private MyListBox myListBox1;
     }
 }
