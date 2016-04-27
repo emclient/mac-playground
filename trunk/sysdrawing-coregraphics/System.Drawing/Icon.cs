@@ -853,7 +853,8 @@ namespace System.Drawing
 
 		public static Icon ExtractAssociatedIcon(string filePath)
 		{
-			throw new NotImplementedException ();
+            return SystemIcons.WinLogo;
+			//throw new NotImplementedException ();
 		}
 	}
 }
