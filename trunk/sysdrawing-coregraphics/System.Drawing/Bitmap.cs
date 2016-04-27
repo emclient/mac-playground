@@ -877,6 +877,12 @@ namespace System.Drawing {
 			UnlockBits(bmpData);
 		}
 
+		public void Save(string path, ImageCodecInfo encoder, EncoderParameters parameters)
+		{
+			// Workaround
+			Save(path, encoder.Format);
+		}
+
 		public void Save (string path, ImageFormat format)
 		{
 			if (path == null)

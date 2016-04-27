@@ -516,6 +516,24 @@
     <Compile Include="..\System.Drawing\GDIPlus.cs">
       <Link>System.Drawing\GDIPlus.cs</Link>
     </Compile>
+    <Compile Include="..\System.Drawing.Imaging\Encoder.cs">
+      <Link>System.Drawing.Imaging\Encoder.cs</Link>
+    </Compile>
+    <Compile Include="..\System.Drawing.Imaging\EncoderParameter.cs">
+      <Link>System.Drawing.Imaging\EncoderParameter.cs</Link>
+    </Compile>
+    <Compile Include="..\System.Drawing.Imaging\EncoderParameters.cs">
+      <Link>System.Drawing.Imaging\EncoderParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\System.Drawing.Imaging\EncoderParameterValueType.cs">
+      <Link>System.Drawing.Imaging\EncoderParameterValueType.cs</Link>
+    </Compile>
+    <Compile Include="..\System.Drawing.Imaging\ImageCodecFlags.cs">
+      <Link>System.Drawing.Imaging\ImageCodecFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\System.Drawing.Imaging\ImageCodecInfo.cs">
+      <Link>System.Drawing.Imaging\ImageCodecInfo.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\..\mono\mcs\class\System.Drawing\Assembly\Mono.ico">
