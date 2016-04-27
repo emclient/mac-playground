@@ -940,8 +940,8 @@ namespace System.Windows.Forms
 					quit = true; // make sure we exit
 					break;
 				default:
-					XplatUI.TranslateMessage (ref msg);
-					XplatUI.DispatchMessage (ref msg);
+					XplatUI.TranslateMessage(ref msg);
+					XplatUI.DispatchMessage(ref msg);
 					break;
 				}
 
