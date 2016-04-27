@@ -608,39 +608,23 @@ namespace System.Windows.Forms {
 		}
 
 		private void SendParentNotify(IntPtr child, Msg cause, int x, int y) {
-			Hwnd hwnd;
-			
-			if (child == IntPtr.Zero) {
+			if (child == IntPtr.Zero)
 				return;
-			}
 			
-			hwnd = Hwnd.GetObjectFromWindow (child);
-			
-			if (hwnd == null) {
+			Hwnd hwnd = Hwnd.GetObjectFromWindow(child);
+			if (hwnd == null || hwnd.Handle == IntPtr.Zero)
 				return;
-			}
 			
-			if (hwnd.Handle == IntPtr.Zero) {
+			if (ExStyleSet((int) hwnd.initial_ex_style, WindowExStyles.WS_EX_NOPARENTNOTIFY))
 				return;
-			}
 			
-			if (ExStyleSet ((int) hwnd.initial_ex_style, WindowExStyles.WS_EX_NOPARENTNOTIFY)) {
+			if (hwnd.Parent == null || hwnd.Parent.Handle == IntPtr.Zero)
 				return;
-			}
-			
-			if (hwnd.Parent == null) {
-				return;
-			}
-			
-			if (hwnd.Parent.Handle == IntPtr.Zero) {
-				return;
-			}
 
-			if (cause == Msg.WM_CREATE || cause == Msg.WM_DESTROY) {
+			if (cause == Msg.WM_CREATE || cause == Msg.WM_DESTROY)
 				SendMessage(hwnd.Parent.Handle, Msg.WM_PARENTNOTIFY, Control.MakeParam((int)cause, 0), child);
-			} else {
+			else
 				SendMessage(hwnd.Parent.Handle, Msg.WM_PARENTNOTIFY, Control.MakeParam((int)cause, 0), Control.MakeParam(x, y));
-			}
 			
 			SendParentNotify (hwnd.Parent.Handle, cause, x, y);
 		}
@@ -815,22 +799,13 @@ namespace System.Windows.Forms {
 			} else {
 				NSView superVuWrap = vuWrap.Superview;
 				Hwnd parent = hwnd.Parent;
-
-				// ?
-//				if (null != parent) {
-//					Point clientOffset = parent.ClientRect.Location;
-//					mrect.X += clientOffset.X;
-//					mrect.Y += clientOffset.Y;
-//				}
-
 				if (superVuWrap != null)
 					nsrect = MonoToNativeFramed (mrect, superVuWrap.Frame.Size.Height);
 				else
 					nsrect = new NSRect(mrect.X, mrect.Y, mrect.Width, mrect.Height);
 
-				if (vuWrap.Frame != nsrect) {
+				if (vuWrap.Frame != nsrect)
 					vuWrap.Frame = nsrect;
-				}
 			}
 #if DriverDebug
 			Console.WriteLine ("HwndToNative ({0}) : {1}", hwnd, nsrect);
@@ -1031,36 +1006,27 @@ namespace System.Windows.Forms {
 
 		internal override IntPtr CreateWindow (CreateParams cp)
 		{
-			Hwnd hwnd;
+			Hwnd hwnd = new Hwnd();
 			Hwnd parent_hwnd = null;
-			int X;
-			int Y;
-			int Width;
-			int Height;
-			IntPtr WindowHandle;
-			IntPtr wholeHandle;
-			IntPtr clientHandle;
+			int X = cp.X;
+			int Y = cp.Y;
 
-			hwnd = new Hwnd ();
+			int Width = Math.Max(1, cp.Width);
+			int Height = Math.Max(1, cp.Height);
+			IntPtr WindowHandle = IntPtr.Zero;
+			IntPtr wholeHandle = IntPtr.Zero;
+			IntPtr clientHandle = IntPtr.Zero;
 
-			X = cp.X;
-			Y = cp.Y;
-			Width = cp.Width;
-			Height = cp.Height;
-			WindowHandle = IntPtr.Zero;
-			wholeHandle = IntPtr.Zero;
-			clientHandle = IntPtr.Zero;
 			NSView ParentWrapper = null;  // If any
 			NSWindow windowWrapper = null;
 			NSView viewWrapper =  null;
 
-			if (Width < 1) Width = 1;
-			if (Height < 1) Height = 1;
+			bool isTopLevel = !StyleSet(cp.Style, WindowStyles.WS_CHILD);
 
 			if (cp.Parent != IntPtr.Zero) {
 				parent_hwnd = Hwnd.ObjectFromHandle (cp.Parent);
 				ParentWrapper = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(parent_hwnd.ClientWindow);
-				if (StyleSet (cp.Style, WindowStyles.WS_CHILD))
+				if (!isTopLevel)
 					windowWrapper = ParentWrapper.Window;
 			}
 
@@ -1090,20 +1056,19 @@ namespace System.Windows.Forms {
 
 			Rectangle mWholeRect = new Rectangle (new Point (X, Y), new Size(Width, Height));
 			NSRect WholeRect;
-			if (StyleSet (cp.Style, WindowStyles.WS_CHILD) && null != parent_hwnd) {
+			if (!isTopLevel && null != parent_hwnd) {
 				WholeRect = MonoToNativeFramed (mWholeRect, ParentWrapper.Frame.Size.Height);
 			} else {
 				WholeRect = MonoToNativeScreen (mWholeRect);
 			}
 				
 			SetHwndStyles(hwnd, cp);
-			/* FIXME */
+			// FIXME
 
-			bool isTopLevel = !StyleSet(cp.Style, WindowStyles.WS_CHILD);
 			if (isTopLevel) {
 				NSWindowStyle attributes = StyleFromCreateParams(cp);
-//				SetAutomaticControlDragTrackingEnabledForWindow (, true);
-//				ParentHandle = WindowView;
+				//SetAutomaticControlDragTrackingEnabledForWindow (, true);
+				//ParentHandle = WindowView;
 				WholeRect = NSWindow.ContentRectFor(WholeRect, attributes);
 				windowWrapper = new MonoWindow(WholeRect, attributes, NSBackingStore.Buffered, true, this);
 				WindowHandle = (IntPtr) windowWrapper.Handle;
@@ -1374,10 +1339,7 @@ namespace System.Windows.Forms {
 		}
 	
 		internal override void DestroyWindow (IntPtr handle) {
-			Hwnd	hwnd;
-
-			hwnd = Hwnd.ObjectFromHandle (handle);
-
+			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			if (null == hwnd) {
 				return;
 			}
@@ -2475,10 +2437,10 @@ namespace System.Windows.Forms {
 					foreach (var c in PopChars())
 						PostMessage(msg.hwnd, Msg.WM_SYSCHAR, (IntPtr)c, msg.lParam);
 					break;
-				//case Msg.WM_KEYUP:
-				//case Msg.WM_SYSKEYUP:
-					//PostMessage(msg.hwnd, msg.message, msg.wParam, msg.lParam);
-					//break;
+				case Msg.WM_KEYUP:
+				case Msg.WM_SYSKEYUP:
+					// Just return true, according to the docs
+					break;
 				default:
 					sent = false;
 					break;
