@@ -1555,11 +1555,23 @@ namespace System.Windows.Forms {
 			client_height = 0;
 		}
 
-		internal override FormWindowState GetWindowState (IntPtr handle)
+		internal override FormWindowState GetWindowState(IntPtr handle)
 		{
-			Hwnd		hwnd	= Hwnd.ObjectFromHandle (handle);
-			NSView		vuWrap	= (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
-			NSWindow	winWrap	= vuWrap.Window;
+			// FIXME: This Check is here because of DbRepair/DbBackup.
+			// It should be probably handled there - but on Windows it's OK.
+			if (NSThread.IsMain)
+				return GetWindowStateInternal(handle);
+
+			FormWindowState state = FormWindowState.Normal;
+			NSApplication.SharedApplication.InvokeOnMainThread(delegate { state = GetWindowStateInternal(handle); });
+			return state;
+		}
+
+		internal FormWindowState GetWindowStateInternal(IntPtr handle)
+		{
+			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
+			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSWindow winWrap = vuWrap.Window;
 
 			if (winWrap.IsMiniaturized)
 				return FormWindowState.Minimized;
@@ -1608,15 +1620,21 @@ namespace System.Windows.Forms {
 		
 		internal override void Invalidate(IntPtr handle, Rectangle rc, bool clear) {
 			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
-			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
-			vuWrap.SetNeedsDisplayInRect(MonoToNativeFramed(rc, vuWrap.Frame.Height));
+			if (hwnd.visible)
+			{
+				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
+				vuWrap.SetNeedsDisplayInRect(MonoToNativeFramed(rc, vuWrap.Frame.Height));
+			}
 		}
 
 		internal override void InvalidateNC(IntPtr handle)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
-			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
-			vuWrap.NeedsDisplay = true;
+			if (hwnd.visible)
+			{
+				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+				vuWrap.NeedsDisplay = true;
+			}
 		}
 		
 		internal override bool IsEnabled(IntPtr handle) {
@@ -2527,8 +2545,37 @@ namespace System.Windows.Forms {
 
 
 		#region Override Properties XplatUIDriver
-		internal override int KeyboardSpeed { get{ throw new NotImplementedException(); } } 
-		internal override int KeyboardDelay { get{ throw new NotImplementedException(); } } 
+
+		// MSDN: The keyboard repeat-speed setting, from 0 (approximately 2.5 repetitions per second) through 31 (approximately 30 repetitions per second).
+		internal override int KeyboardSpeed
+		{ 
+			get
+			{
+				var defaults = NSUserDefaults.StandardUserDefaults;
+				nint repeat = Math.Max(defaults.IntForKey("KeyRepeat"), 2); //2 ~ 30ms, 1 ~ 15mss
+				return ToWindowsKeyboardSpeed(repeat);
+			}
+		}
+
+		// MSDN: The keyboard repeat-delay setting, from 0 (approximately 250 millisecond delay) through 3 (approximately 1 second delay).
+		internal override int KeyboardDelay {
+			get
+			{
+				var defaults = NSUserDefaults.StandardUserDefaults;
+				var delay = defaults.IntForKey("InitialKeyRepeat");
+				return ToWindowsKeyboardSpeed(delay);
+			}
+		}
+
+		internal int ToWindowsKeyboardSpeed(int repeat)
+		{
+			double ms = 15.0 * repeat;
+			double rps = 1000.0 / ms;
+			const double a = 31.0 / (30.0 - 2.5);
+			const double b = -a * 2.5;
+			double speed = a * rps + b;
+			return (int)Math.Round(speed);
+		}
 
 		internal override int CaptionHeight {
 			get {
