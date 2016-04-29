@@ -218,30 +218,9 @@ namespace System.Windows.Forms {
 				NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
 				NSProcessInfo.ProcessInfo.ProcessName = Application.ProductName;
 			}
+
+			NSApplication.SharedApplication.DidFinishLaunching += (sender,e) => { CreateMenu(); };
 		
-			if (NSApplication.SharedApplication.MainMenu == null)
-			{
-				NSMenu mainMenu = new NSMenu();
-				NSMenu appMenu = new NSMenu(Application.ProductName);
-				NSMenuItem quitItem = appMenu.AddItem("Quit", new MonoMac.ObjCRuntime.Selector("terminate:"), "q"); 
-				quitItem.KeyEquivalentModifierMask = NSEventModifierMask.CommandKeyMask | NSEventModifierMask.AlternateKeyMask;
-				NSMenuItem appItem = new NSMenuItem(Application.ProductName);
-				appItem.Submenu = appMenu;
-				mainMenu.AddItem(appItem);
-
-				NSMenu windowMenu = new NSMenu();
-				windowMenu.AddItem("Minimize", new MonoMac.ObjCRuntime.Selector("performMiniaturize:"), "");
-				windowMenu.AddItem("Zoom", new MonoMac.ObjCRuntime.Selector("performZoom:"), "");
-				windowMenu.AddItem(NSMenuItem.SeparatorItem);
-				windowMenu.AddItem("Bring All to Front", new MonoMac.ObjCRuntime.Selector("arrangeInFront:"), "");
-				NSMenuItem windowItem = new NSMenuItem("Window");
-				windowItem.Submenu = windowMenu;
-				mainMenu.AddItem(windowItem);
-
-				NSApplication.SharedApplication.MainMenu = mainMenu;
-				NSApplication.SharedApplication.WindowsMenu = windowMenu;
-			}
-
 			ReverseWindow = new NSWindow(NSRect.Empty, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
 			CaretView = new NSView(NSRect.Empty);
 			CaretView.WantsLayer = true;
@@ -251,6 +230,31 @@ namespace System.Windows.Forms {
 			GetMessageResult = true;
 
 			ReverseWindowMapped = false;
+		}
+
+		void CreateMenu()
+		{
+			NSMenu mainMenu = new NSMenu();
+			NSMenu appMenu = new NSMenu(Application.ProductName);
+			NSMenuItem quitItem = appMenu.AddItem("Quit " + Application.ProductName, new MonoMac.ObjCRuntime.Selector("terminate:"), "q");
+			quitItem.KeyEquivalentModifierMask = NSEventModifierMask.CommandKeyMask;// | NSEventModifierMask.AlternateKeyMask;
+			NSMenuItem appItem = new NSMenuItem();
+			appItem.Title = Application.ProductName;
+			appItem.Submenu = appMenu;
+			mainMenu.AddItem(appItem);
+
+			NSMenu windowMenu = new NSMenu();
+			windowMenu.Title = "Window";
+			windowMenu.AddItem("Minimize", new MonoMac.ObjCRuntime.Selector("performMiniaturize:"), "");
+			windowMenu.AddItem("Zoom", new MonoMac.ObjCRuntime.Selector("performZoom:"), "");
+			windowMenu.AddItem(NSMenuItem.SeparatorItem);
+			windowMenu.AddItem("Bring All to Front", new MonoMac.ObjCRuntime.Selector("arrangeInFront:"), "");
+			NSMenuItem windowItem = new NSMenuItem();
+			windowItem.Submenu = windowMenu;
+			mainMenu.AddItem(windowItem);
+
+			NSApplication.SharedApplication.MainMenu = mainMenu;
+			NSApplication.SharedApplication.WindowsMenu = windowMenu;
 		}
 
 		internal void PerformNCCalc (Hwnd hwnd)
@@ -1361,7 +1365,9 @@ namespace System.Windows.Forms {
 				object wh = WindowMapping [h.Handle];
 				if (null != wh) { 
 					NSWindow winWrap = (NSWindow)MonoMac.ObjCRuntime.Runtime.GetNSObject((IntPtr) wh);
+					winWrap.ReleasedWhenClosed = true;
 					winWrap.Close ();
+					NSApplication.SharedApplication.RemoveWindowsItem(winWrap);
 					WindowMapping.Remove (h.Handle);
 				} else {
 					NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(h.WholeWindow);
@@ -1832,21 +1838,22 @@ namespace System.Windows.Forms {
 
 		internal override IntPtr SendMessage(IntPtr hwnd, Msg message, IntPtr wParam, IntPtr lParam)
 		{
+			IntPtr result = IntPtr.Zero;
 			MSG m = new MSG { hwnd = hwnd, message = message, wParam = wParam, lParam = lParam };
 			if (NSThread.IsMain)
 			{
 				TranslateMessage(ref m);
-				DispatchMessage(ref m);
+				result = DispatchMessage(ref m);
 			}
 			else
 			{
 				NSApplication.SharedApplication.InvokeOnMainThread(delegate
 				{
 					TranslateMessage(ref m);
-					DispatchMessage(ref m);
+					result = DispatchMessage(ref m);
 				});
 			}
-			return IntPtr.Zero;
+			return result;
 		}
 
 		internal override int SendInput (IntPtr hwnd, Queue keys) {
