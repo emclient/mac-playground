@@ -425,12 +425,12 @@ namespace System.Windows.Forms.CocoaInternal
 
 				if (IsChar (c, key)) {
 					XplatUICocoa.PushChars (chars); // XplatUICocoa pops them
-					//driver.PostMessage (FocusHandle, Msg.WM_IME_COMPOSITION, IntPtr.Zero, IntPtr.Zero);
+					//driver.SendMessage (FocusHandle, Msg.WM_IME_COMPOSITION, IntPtr.Zero, IntPtr.Zero);
 				}
 			}
 
 			//Debug.WriteLine ("keyCode={0}, characters=\"{1}\", key='{2}', chars='{3}'", e.KeyCode, chars, key, chars);
-			driver.PostMessage(FocusHandle, msg, wParam, lParam);
+			driver.SendMessage(FocusHandle, msg, wParam, lParam);
 		}
 
 		public void ProcessModifiers (NSEvent eventref)
@@ -444,13 +444,13 @@ namespace System.Windows.Forms.CocoaInternal
 			XplatUICocoa.key_modifiers = flags;
 
 			if ((NSEventModifierMask.ShiftKeyMask & diff) != 0)
-				driver.PostMessage(FocusHandle, (NSEventModifierMask.ShiftKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_SHIFT, IntPtr.Zero);
+				driver.SendMessage(FocusHandle, (NSEventModifierMask.ShiftKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_SHIFT, IntPtr.Zero);
 			if ((NSEventModifierMask.ControlKeyMask & diff) != 0)
-				driver.PostMessage(FocusHandle, (NSEventModifierMask.ControlKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_CONTROL, IntPtr.Zero);
+				driver.SendMessage(FocusHandle, (NSEventModifierMask.ControlKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_CONTROL, IntPtr.Zero);
 			if ((NSEventModifierMask.AlternateKeyMask & diff) != 0)
-				driver.PostMessage(FocusHandle, (NSEventModifierMask.AlternateKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_MENU, IntPtr.Zero);
+				driver.SendMessage(FocusHandle, (NSEventModifierMask.AlternateKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_MENU, IntPtr.Zero);
 			//if ((NSEventModifierMask.CommandKeyMask & diff) != 0)
-			//	driver.PostMessage(FocusHandle, (NSEventModifierMask.AlternateKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_LWIN, IntPtr.Zero);
+			//	driver.SendMessage(FocusHandle, (NSEventModifierMask.AlternateKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_LWIN, IntPtr.Zero);
 		}
 
 		#region Keyboard translation tables
