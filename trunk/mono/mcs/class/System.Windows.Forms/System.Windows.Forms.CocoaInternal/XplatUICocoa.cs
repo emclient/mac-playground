@@ -1812,20 +1812,18 @@ namespace System.Windows.Forms {
 		internal override IntPtr SendMessage(IntPtr hwnd, Msg message, IntPtr wParam, IntPtr lParam)
 		{
 			IntPtr result = IntPtr.Zero;
-			MSG m = new MSG { hwnd = hwnd, message = message, wParam = wParam, lParam = lParam };
 			if (NSThread.IsMain)
 			{
-				TranslateMessage(ref m);
-				result = DispatchMessage(ref m);
+				result = Application.SendMessage(hwnd, message, wParam, lParam);
 			}
 			else
 			{
 				NSApplication.SharedApplication.InvokeOnMainThread(delegate
 				{
-					TranslateMessage(ref m);
-					result = DispatchMessage(ref m);
+					result = Application.SendMessage(hwnd, message, wParam, lParam);
 				});
 			}
+
 			return result;
 		}
 
