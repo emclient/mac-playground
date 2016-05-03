@@ -795,28 +795,18 @@ namespace System.Windows.Forms
 
 		internal static void RunLoop (bool Modal, ApplicationContext context)
 		{
-			Queue		toplevels;
-			MSG		msg;
-			Object		queue_id;
-			MWFThread	thread;
-			ApplicationContext previous_thread_context;
+			MWFThread thread = MWFThread.Current;
 			
-			thread = MWFThread.Current;
-
-			/*
-			 * There is a NotWorking test for this, but since we are using this method both for Form.ShowDialog as for ApplicationContexts we'll
-			 * fail on nested ShowDialogs, so disable the check for the moment.
-			 */
+			// There is a NotWorking test for this, but since we are using this method both for Form.ShowDialog as for ApplicationContexts we'll
+			// fail on nested ShowDialogs, so disable the check for the moment.
 			//if (thread.MessageLoop) {
 			//        throw new InvalidOperationException ("Starting a second message loop on a single thread is not a valid operation. Use Form.ShowDialog instead.");
 			//}
 
-			msg = new MSG();
-
 			if (context == null)
 				context = new ApplicationContext();
 		
-			previous_thread_context = thread.Context;
+			ApplicationContext previous_thread_context = thread.Context;
 			thread.Context = context;
 
 			if (context.MainForm != null) {
@@ -833,25 +823,25 @@ namespace System.Windows.Forms
 				Console.WriteLine("Entering RunLoop(Modal={0}, Form={1})", Modal, context.MainForm != null ? context.MainForm.ToString() : "NULL");
 			#endif
 
+			Queue toplevels = new Queue();
+
 			if (Modal) {
-				toplevels = new Queue ();
 				DisableFormsForModalLoop (toplevels, context);
 				
 				// FIXME - need activate?
-				/* make sure the MainForm is enabled */
+				// make sure the MainForm is enabled
 				if (context.MainForm != null) {
 					XplatUI.EnableWindow (context.MainForm.Handle, true);
 					XplatUI.SetModal(context.MainForm.Handle, true);
 				}
-			} else {
-				toplevels = null;
 			}
 
-			queue_id = XplatUI.StartLoop(Thread.CurrentThread);
+			Object queue_id = XplatUI.StartLoop(Thread.CurrentThread);
 			thread.MessageLoop = true;
 
 			bool quit = false;
 
+			MSG msg = new MSG();
 			while (!quit && XplatUI.GetMessage(queue_id, ref msg, IntPtr.Zero, 0, 0)) {
 				Message m = Message.Create(msg.hwnd, (int)msg.message, msg.wParam, msg.lParam);
 				
