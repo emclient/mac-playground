@@ -147,6 +147,11 @@ namespace System.Windows.Forms
 						width = Math.Max (width, control_preferred_size.Width + control_margin.Horizontal);
 					}
 				}
+				if (horizontal) {
+					height += this.Padding.Vertical + 2;	// The controls will be offset by the top padding, and we need the bottom padding too. The +2 is something that just works at the moment, I am unsure why it should be needed but it's consistent
+				} else {
+					width += this.Padding.Horizontal;		// This may need +2 also
+				}
 			} else {
 				int size_in_flow_direction = 0;
 				int size_in_other_direction = 0;
