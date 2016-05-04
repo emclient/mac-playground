@@ -77,7 +77,7 @@
     <Compile Include="System.Windows.Forms.CarbonInternal\WindowHandler.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoApplicationDelegate.cs" />
     <Compile Include="System.Windows.Forms.Design\ComponentEditorForm.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms.Design\ComponentEditorPage.cs">
       <SubType>Component</SubType>
@@ -190,16 +190,16 @@
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStylesNative.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStyleState.cs" />
     <Compile Include="System.Windows.Forms.WebBrowserDialogs\AlertCheck.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms.WebBrowserDialogs\ConfirmCheck.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms.WebBrowserDialogs\Generic.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms.WebBrowserDialogs\Prompt.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms\AccessibleEvents.cs" />
     <Compile Include="System.Windows.Forms\AccessibleNavigation.cs" />
@@ -330,9 +330,7 @@
     <Compile Include="System.Windows.Forms\CursorConverter.cs" />
     <Compile Include="System.Windows.Forms\Cursors.cs" />
     <Compile Include="System.Windows.Forms\DataFormats.cs" />
-    <Compile Include="System.Windows.Forms\DataGrid.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\DataGrid.cs" />
     <Compile Include="System.Windows.Forms\DataGridBoolColumn.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -542,14 +540,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms\FlowLayoutSettings.cs" />
-    <Compile Include="System.Windows.Forms\FolderBrowserDialog.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\FolderBrowserDialog.cs" />
     <Compile Include="System.Windows.Forms\FontDialog.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms\Form.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms\FormBorderStyle.cs" />
     <Compile Include="System.Windows.Forms\FormClosedEventArgs.cs" />
@@ -736,9 +732,7 @@
     <Compile Include="System.Windows.Forms\Menu.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="System.Windows.Forms\MenuAPI.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\MenuAPI.cs" />
     <Compile Include="System.Windows.Forms\MenuGlyph.cs" />
     <Compile Include="System.Windows.Forms\MenuItem.cs">
       <SubType>Component</SubType>
@@ -787,9 +781,7 @@
     <Compile Include="System.Windows.Forms\NumericUpDownAcceleration.cs" />
     <Compile Include="System.Windows.Forms\NumericUpDownAccelerationCollection.cs" />
     <Compile Include="System.Windows.Forms\OpacityConverter.cs" />
-    <Compile Include="System.Windows.Forms\OpenFileDialog.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\OpenFileDialog.cs" />
     <Compile Include="System.Windows.Forms\OpenTreeNodeEnumerator.cs" />
     <Compile Include="System.Windows.Forms\Orientation.cs" />
     <Compile Include="System.Windows.Forms\OSFeature.cs" />
@@ -824,7 +816,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms\PrintPreviewDialog.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms\ProfessionalColors.cs" />
     <Compile Include="System.Windows.Forms\ProfessionalColorTable.cs" />
@@ -877,9 +869,7 @@
     <Compile Include="System.Windows.Forms\RightToLeft.cs" />
     <Compile Include="System.Windows.Forms\RootGridEntry.cs" />
     <Compile Include="System.Windows.Forms\RowStyle.cs" />
-    <Compile Include="System.Windows.Forms\SaveFileDialog.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\SaveFileDialog.cs" />
     <Compile Include="System.Windows.Forms\Screen.cs" />
     <Compile Include="System.Windows.Forms\ScreenOrientation.cs" />
     <Compile Include="System.Windows.Forms\ScrollableControl.cs">
@@ -993,7 +983,7 @@
     <Compile Include="System.Windows.Forms\ThemeVisualStyles.cs" />
     <Compile Include="System.Windows.Forms\ThemeWin32Classic.cs" />
     <Compile Include="System.Windows.Forms\ThreadExceptionDialog.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms\TickStyle.cs" />
     <Compile Include="System.Windows.Forms\Timer.cs">
@@ -1166,7 +1156,7 @@
     <Compile Include="System.Windows.Forms\UpDownEventArgs.cs" />
     <Compile Include="System.Windows.Forms\UpDownEventHandler.cs" />
     <Compile Include="System.Windows.Forms\UserControl.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms\ValidationConstraints.cs" />
     <Compile Include="System.Windows.Forms\View.cs" />
@@ -1218,13 +1208,23 @@
       <DependentUpon>MonoView.cs</DependentUpon>
     </Compile>
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoContentView.cs" />
-    <Compile Include="System.Windows.Forms\MessageBoxForm.cs" />
+    <Compile Include="System.Windows.Forms\MessageBoxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="System.Windows.Forms\MessageBoxForm.Mac.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\ModalDialogContext.cs" />
-    <Compile Include="System.Windows.Forms\FileDialog.Mac.cs" />
-    <Compile Include="System.Windows.Forms\OpenFileDialog.Mac.cs" />
-    <Compile Include="System.Windows.Forms\FolderBrowserDialog.Mac.cs" />
-    <Compile Include="System.Windows.Forms\SaveFileDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\FileDialog.Mac.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="System.Windows.Forms\OpenFileDialog.Mac.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="System.Windows.Forms\FolderBrowserDialog.Mac.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="System.Windows.Forms\SaveFileDialog.Mac.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="System.Windows.Forms\DebugUtility.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
