@@ -99,18 +99,16 @@ namespace System.Windows.Forms
 				Rectangle new_bounds = new Rectangle (bounds.Left, bounds.Top + (int)(font_size.Height / 2), bounds.Width, bounds.Height - (int)(font_size.Height / 2));
 				
 				// Don't paint over the background where we are going to put the text
-				Region old_clip = g.Clip;
+				g.SaveState();
 				g.SetClip (new Rectangle (bounds.Left + 9, bounds.Top, font_size.Width - 3, font_size.Height), System.Drawing.Drawing2D.CombineMode.Exclude);
-				
 				ControlPaint.DrawBorder3D (g, new_bounds, Border3DStyle.Etched);
-				
-				g.Clip = old_clip;
+				g.RestoreState();
 
 				if (groupBoxText != String.Empty) {
 					if (textColor == Color.Empty)
 						textColor = state == GroupBoxState.Normal ? SystemColors.ControlText :
 							SystemColors.GrayText;
-					TextRenderer.DrawText (g, groupBoxText, font, new Point (bounds.Left + 8, bounds.Top), textColor, flags);
+					TextRenderer.DrawText (g, groupBoxText, font, new Point (bounds.Left + 11/*8*/, bounds.Top), textColor, flags);
 				}
 			}
 		}
