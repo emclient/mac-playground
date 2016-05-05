@@ -1368,24 +1368,10 @@ namespace System.Drawing {
 			currentState.pageUnit = graphicsUnit;
 			currentState.pageScale = pageScale;
 			currentState.smoothingMode = smoothingMode;
-			currentState.clipRegion = clipRegion;
+			currentState.clipRegion = clipRegion.Clone();
 			return currentState;
 		}
 
-		// Saving the clipping state doesn't seem to restore correctly at the moment, so I'm adding these Mac Specific methods
-		// From Apple Docs:
-		// CGContextClip: "... Therefore, to re-enlarge the paintable area by restoring the clipping path to a prior state,
-		//   you must save the graphics state before you clip and restore the graphics state after you’ve completed any clipped drawing. ..."
-		public void SaveState()
-		{
-			context.SaveState();
-		}
-
-		public void RestoreState()
-		{
-			context.RestoreState();
-		}
-		
 		public void DrawClosedCurve (Pen pen, PointF [] points)
 		{
 			if (pen == null)
