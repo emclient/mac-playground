@@ -696,6 +696,7 @@ namespace System.Windows.Forms {
 				return form_border_style;
 			}
 			set {
+				Size current_client_size = ClientSize;
 				form_border_style = value;
 
 				if (window_manager == null) {
@@ -706,7 +707,6 @@ namespace System.Windows.Forms {
 					window_manager.UpdateBorderStyle (value);
 				}
 
-				Size current_client_size = ClientSize;
 				UpdateStyles();
 
 				if (this.IsHandleCreated)
