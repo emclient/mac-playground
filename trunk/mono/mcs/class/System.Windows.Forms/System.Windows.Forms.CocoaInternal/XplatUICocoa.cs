@@ -876,7 +876,7 @@ namespace System.Windows.Forms {
 							nsrect.Height
 						});
 					} else {
-						Debug.WriteLine ("CalculateWindowRect untitled window");
+//						Debug.WriteLine ("CalculateWindowRect untitled window");
 					}
 				}
 				// RGS TEST
