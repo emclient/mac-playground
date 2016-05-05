@@ -19,11 +19,6 @@ namespace WinApi
 		// would differ after changing resolution or switching monitors.
 		internal static Size screenSize = GetScreenSize();
 
-		internal static void NotImplemented(MethodBase method, object details = null)
-		{
-			Debug.WriteLine("Not Implemented: " + method.ReflectedType.Name + "." + method.Name + (details == null ? String.Empty : " (" + details.ToString() + ")"));
-		}
-
 		internal static Size GetScreenSize()
 		{
 			Size size;
@@ -578,6 +573,30 @@ namespace WinApi
 			WS style = 0;
 			// TODO: Implement
 			return (int)style;
+		}
+
+		#region Graphics
+		public static int DrawTextW(IntPtr hDC, string lpszString, int nCount, ref RECT lpRect, int nFormat)
+		{
+			// TODOO
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
+		}
+
+		public static int DrawTextA(IntPtr hDC, byte[] lpszString, int byteCount, ref RECT lpRect, int nFormat)
+		{
+			// TODOO
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
+		}
+
+		#endregion
+
+		public static uint GetGuiResources(IntPtr hProcess, uint uiFlags)
+		{
+			// TODOO
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
 		}
 	}
 }
