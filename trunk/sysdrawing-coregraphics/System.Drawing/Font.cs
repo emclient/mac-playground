@@ -147,7 +147,9 @@ namespace System.Drawing
 
 		public IntPtr ToHfont()
 		{
-			throw new NotImplementedException ();
+			// TODO
+			return IntPtr.Zero;
+			//throw new NotImplementedException ();
 		}
 
 		public static Font FromHfont(IntPtr hfont)
@@ -249,6 +251,11 @@ namespace System.Drawing
 			{
 				return gdiCharSet;
 			}
+		}
+
+		internal static void NotImplemented(System.Reflection.MethodBase method, object details = null)
+		{
+			System.Diagnostics.Debug.WriteLine("Not Implemented: " + method.ReflectedType.Name + "." + method.Name + (details == null ? String.Empty : " (" + details.ToString() + ")"));
 		}
 	}
 }
