@@ -82,5 +82,31 @@ namespace WinApi
             NotImplemented(MethodBase.GetCurrentMethod());
             return true;
         }
-    }
+
+		public static bool OffsetViewportOrgEx(IntPtr hdc, int nXOffset, int nYOffset, out POINT lpPoint)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			lpPoint = new POINT();
+			return false;
+		}
+
+		public static int SelectClipRgn(IntPtr hdc, IntPtr hrgn)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
+		}
+
+		public static int IntersectClipRect(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
+		}
+
+		public static bool GradientFill(IntPtr hdc, TRIVERTEX[] pVertex, uint dwNumVertex, GRADIENT_RECT[] pMesh, uint dwNumMesh, uint dwMode)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return false;
+		}
+
+	}
 }
