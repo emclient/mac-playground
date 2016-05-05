@@ -99,10 +99,12 @@ namespace System.Windows.Forms
 				Rectangle new_bounds = new Rectangle (bounds.Left, bounds.Top + (int)(font_size.Height / 2), bounds.Width, bounds.Height - (int)(font_size.Height / 2));
 				
 				// Don't paint over the background where we are going to put the text
-				g.SaveState();
+				var savedClip = g.Clip.Clone ();
+
 				g.SetClip (new Rectangle (bounds.Left + 9, bounds.Top, font_size.Width - 3, font_size.Height), System.Drawing.Drawing2D.CombineMode.Exclude);
 				ControlPaint.DrawBorder3D (g, new_bounds, Border3DStyle.Etched);
-				g.RestoreState();
+
+				g.Clip = savedClip;
 
 				if (groupBoxText != String.Empty) {
 					if (textColor == Color.Empty)
