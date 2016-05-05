@@ -242,17 +242,18 @@ namespace System.Drawing {
 
 		public IntPtr GetHdc()
 		{
-			throw new NotSupportedException ();
+			return context.Handle;	
+			//throw new NotSupportedException ();
 		}
 
 		public void ReleaseHdc()
 		{
-			throw new NotSupportedException ();
+			//throw new NotSupportedException ();
 		}
 
 		public void ReleaseHdc(IntPtr hdc)
 		{
-			throw new NotSupportedException ();
+			//throw new NotSupportedException ();
 		}
 
 		public static Graphics FromHdc(IntPtr hdc)
