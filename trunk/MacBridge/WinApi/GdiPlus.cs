@@ -108,5 +108,22 @@ namespace WinApi
 			return false;
 		}
 
+		public static IntPtr CreateBitmap(int nWidth, int nHeight, int nPlanes, int nBitCount, short[] lpBits)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return IntPtr.Zero;
+		}
+
+		public static IntPtr CreateBrushIndirect(LOGBRUSH lpLogBrush)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return IntPtr.Zero;
+		}
+
+		public static bool PatBlt(IntPtr hdc, int left, int top, int width, int height, int rop)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return false;
+		}
 	}
 }
