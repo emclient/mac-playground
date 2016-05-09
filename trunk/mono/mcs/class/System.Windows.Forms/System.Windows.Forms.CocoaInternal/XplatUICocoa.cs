@@ -1940,7 +1940,6 @@ namespace System.Windows.Forms {
 			{
 				IntPtr session = NSApplication.SharedApplication.BeginModalSession(winWrap);
 				ModalSessions.Push(session);
-				NSApplication.SharedApplication.RunModalSession(session);
 			}
 			else
 				NSApplication.SharedApplication.EndModalSession (ModalSessions.Pop ());
@@ -1949,7 +1948,6 @@ namespace System.Windows.Forms {
 
 		internal override IntPtr SetParent (IntPtr handle, IntPtr parent)
 		{
-//			IntPtr ParentHandle = IntPtr.Zero;
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			Hwnd newParent = Hwnd.ObjectFromHandle (parent);
 			NSView newParentWrap = null != newParent ? (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(newParent.ClientWindow) : null;
