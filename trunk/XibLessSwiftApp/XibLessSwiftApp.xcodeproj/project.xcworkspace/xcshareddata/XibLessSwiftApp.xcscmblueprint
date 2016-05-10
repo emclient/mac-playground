@@ -1,0 +1,35 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "80ec5edc-652c-9b4c-9526-21b1b3dffb85++505",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505" : {
+
+    },
+    "80ec5edc-652c-9b4c-9526-21b1b3dffb85++505" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505" : 0,
+    "80ec5edc-652c-9b4c-9526-21b1b3dffb85++505" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "B2B47B80-1F00-481E-9CF9-7D63CF886346",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505" : "..",
+    "80ec5edc-652c-9b4c-9526-21b1b3dffb85++505" : "Mac\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "XibLessSwiftApp",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "XibLessSwiftApp\/XibLessSwiftApp.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/svn.emclient.com\/emclient",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/svn.emclient.com\/osx-playground",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "80ec5edc-652c-9b4c-9526-21b1b3dffb85++505"
+    }
+  ]
+}
