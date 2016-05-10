@@ -1,32 +1,66 @@
 import Cocoa
 
+
 class AppDelegate: NSObject, NSApplicationDelegate {
+
+    var createWindowWhenLaunched:Bool
+    var window:NSWindow? = nil // prevents destroying the window
+    
+    init(createWindowWhenLaunched:Bool)
+    {
+        self.createWindowWhenLaunched = createWindowWhenLaunched
+    }
+    
+    func applicationDidFinishLaunching(notification: NSNotification) {
+        print("applicationDidFinishLaunching")
+        if createWindowWhenLaunched {
+            self.window = Program.windowWithTitle("Window")
+            window?.makeKeyAndOrderFront(window)
+        }
+    }
 }
 
 class Program {
 
     static let app:NSApplication = NSApplication.sharedApplication()
     
-    static func main() {
-        let delegate = AppDelegate()
+    static func runNative()
+    {
+        let delegate = AppDelegate(createWindowWhenLaunched: true)
         app.delegate = delegate
 
-        app.setActivationPolicy(.Regular)
-        atexit_b { app.setActivationPolicy(.Prohibited); return }
-
-        app.activateIgnoringOtherApps(true)
-        app.finishLaunching()
-
+        if app.activationPolicy() != .Regular {
+            atexit_b { app.setActivationPolicy(app.activationPolicy()); return }
+            app.setActivationPolicy(.Regular)
+            app.activateIgnoringOtherApps(true)
+        }
+        
         app.menu = Program.CreateMenu()
 
-        //app.run()
+        app.run()
+    }
+    
+    static func runCustom()
+    {
+        let delegate = AppDelegate(createWindowWhenLaunched: false)
+        app.delegate = delegate
 
+        if app.activationPolicy() != .Regular {
+            atexit_b { app.setActivationPolicy(app.activationPolicy()); return }
+            app.setActivationPolicy(.Regular)
+            app.activateIgnoringOtherApps(true)
+        }
+        
+        app.menu = Program.CreateMenu()
+
+        app.finishLaunching()
+        
         Program.runModalWindow(Program.windowWithTitle("Modal"))
-
+        
         Program.windowWithTitle("Normal").makeKeyAndOrderFront(app)
         Program.run()
     }
-    
+
     static func windowWithTitle(title:String) -> NSWindow {
         let style = NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask
         let window = NSWindow(contentRect:NSMakeRect(0, 0, 480, 320), styleMask:style, backing:.Buffered, `defer`:false)
@@ -88,5 +122,5 @@ class Program {
     
 }
 
-Program.main()
-
+//Program.runNative()
+Program.runCustom()
