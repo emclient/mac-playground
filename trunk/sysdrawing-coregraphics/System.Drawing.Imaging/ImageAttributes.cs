@@ -96,6 +96,21 @@ namespace System.Drawing.Imaging
 			isGammaSet = true;
 		}
 
+		public void SetWrapMode(WrapMode mode)
+		{
+			SetWrapMode(mode, new Color(), false);
+		}
+
+		public void SetWrapMode(WrapMode mode, Color color)
+		{
+			SetWrapMode(mode, color, false);
+		}
+
+		public void SetWrapMode(WrapMode mode, Color color, bool clamp)
+		{
+			// FIXME
+		}
+
 		#region ICloneable implementation
 		public object Clone ()
 		{
