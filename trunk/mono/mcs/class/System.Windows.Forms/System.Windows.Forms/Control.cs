@@ -2418,6 +2418,12 @@ namespace System.Windows.Forms
 					return cursor;
 				}
 
+				Cursor localDefault = DefaultCursor;
+				if (localDefault != Cursors.Default)
+				{
+					return localDefault;
+				}
+
 				if (parent != null) {
 					return parent.Cursor;
 				}
@@ -5655,13 +5661,11 @@ namespace System.Windows.Forms
 		}
 
 		private void WmSetCursor (ref Message m) {
-			if ((cursor == null && use_wait_cursor == false) || ((HitTest)(m.LParam.ToInt32() & 0xffff) != HitTest.HTCLIENT)) {
-				DefWndProc(ref m);
-				return;
-			}
 
-			XplatUI.SetCursor(window.Handle, Cursor.handle);
-			m.Result = (IntPtr)1;
+			if (m.WParam == window.Handle && ((HitTest)(m.LParam.ToInt32() & 0xffff) == HitTest.HTCLIENT) && !use_wait_cursor)
+				Cursor.Current = Cursor;
+			else
+				DefWndProc(ref m);
 		}
 
 		private void WmCaptureChanged (ref Message m) {
