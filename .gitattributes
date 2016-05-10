@@ -106,9 +106,6 @@ trunk/XibLessApp/XibLessApp.csproj -text
 trunk/XibLessSwiftApp/XibLessSwiftApp.xcodeproj/project.pbxproj -text
 trunk/XibLessSwiftApp/XibLessSwiftApp.xcodeproj/project.xcworkspace/contents.xcworkspacedata -text
 trunk/XibLessSwiftApp/XibLessSwiftApp.xcodeproj/project.xcworkspace/xcuserdata/jirkav.xcuserdatad/UserInterfaceState.xcuserstate -text
-trunk/XibLessSwiftApp/XibLessSwiftApp.xcodeproj/xcuserdata/jirkav.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist -text
-trunk/XibLessSwiftApp/XibLessSwiftApp.xcodeproj/xcuserdata/jirkav.xcuserdatad/xcschemes/TestModal.xcscheme -text
-trunk/XibLessSwiftApp/XibLessSwiftApp.xcodeproj/xcuserdata/jirkav.xcuserdatad/xcschemes/xcschememanagement.plist -text
 trunk/XibLessSwiftApp/XibLessSwiftApp/Info.plist -text
 trunk/XibLessSwiftApp/XibLessSwiftApp/main.swift -text
 trunk/mono/mcs/build/common/ChangeLog -text
