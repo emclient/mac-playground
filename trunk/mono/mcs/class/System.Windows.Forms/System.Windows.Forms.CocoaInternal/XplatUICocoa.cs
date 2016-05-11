@@ -2003,7 +2003,7 @@ namespace System.Windows.Forms {
 			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hWnd);
 			NSWindow winWrap = vuWrap.Window;
 			if (winWrap != null)
-				winWrap.Level = Enabled ? NSWindowLevel.Floating : NSWindowLevel.Normal;
+				winWrap.Level = Enabled ? NSWindowLevel.ModalPanel : NSWindowLevel.Normal;
 			return true;
 		}
 
