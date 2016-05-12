@@ -540,6 +540,7 @@ trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Mon
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoWindow.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Pasteboard.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Structs.cs -text
+trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Swizzle.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/XplatUICocoa.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Design/ChangeLog -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Design/ComponentEditorForm.cs -text
