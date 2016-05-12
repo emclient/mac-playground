@@ -54,6 +54,7 @@ namespace System.Windows.Forms.CocoaInternal
 		internal static bool cmdDown;
 		internal static bool shiftDown;
 		internal static bool ctrlDown;
+		internal NSView hitTestResult; //Helper for detecting clicks in the title bar & perf. optimisation
 
 		public MonoContentView (IntPtr instance) : base (instance)
 		{
@@ -221,7 +222,7 @@ namespace System.Windows.Forms.CocoaInternal
 					return vuWrap;
 			}
 
-			return base.HitTest(aPoint);
+			return hitTestResult = base.HitTest(aPoint);
 		}
 
 		public void ProcessMouseEvent (NSEvent eventref)
@@ -237,7 +238,6 @@ namespace System.Windows.Forms.CocoaInternal
 			NSView vuWrap;
 			if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero) {
 
-				// Debugging
 				//DebugUtility.WriteInfoIfChanged(XplatUICocoa.Grab.Hwnd);
 
 				currentHwnd = Hwnd.ObjectFromHandle (XplatUICocoa.Grab.Hwnd); 
@@ -253,9 +253,7 @@ namespace System.Windows.Forms.CocoaInternal
 			else {
 				vuWrap = Window.ContentView.HitTest(nspoint);
 
-				// Debugging
-				// RGS I'm now using ControlDebugUtils
-				DebugUtility.WriteInfoIfChanged(vuWrap);
+				//DebugUtility.WriteInfoIfChanged(vuWrap);
 
 				// Embedded native control? => Find MonoView parent
 				while (vuWrap != null && !(vuWrap is MonoView))
@@ -266,7 +264,7 @@ namespace System.Windows.Forms.CocoaInternal
 				currentHwnd = Hwnd.ObjectFromHandle(vuWrap.Handle);
 				nspoint = vuWrap.ConvertPointFromView(nspoint, null);
 				localMonoPoint = driver.NativeToMonoFramed(nspoint, Frame.Height);
-				client = currentHwnd.ClientWindow == currentHwnd.Handle;
+				client = currentHwnd.ClientWindow == vuWrap.Handle; // currentHwnd.Handle;
 			}
 
 			int button = (int) eventref.ButtonNumber;
@@ -347,13 +345,13 @@ namespace System.Windows.Forms.CocoaInternal
 					msg.lParam = (IntPtr)((msg.pt.x & 0xFFFF)| (msg.pt.y << 16));
 					break;
 
-				case NSEventType.TabletPoint:
-				case NSEventType.TabletProximity:
+				//case NSEventType.TabletPoint:
+				//case NSEventType.TabletProximity:
 				default:
 					return;
 			}
 
-			driver.EnqueueMessage(msg);
+			Application.SendMessage(ref msg);
 		}
 
 		int ScaleAndQuantizeDelta(float delta)

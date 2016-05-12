@@ -843,7 +843,7 @@ namespace System.Windows.Forms
 			MSG msg = new MSG();
 			while (!quit && XplatUI.GetMessage(queue_id, ref msg, IntPtr.Zero, 0, 0)) {
 
-				Application.ProcessMessage(ref msg, out drop, out quit, true);
+				Application.SendMessage(ref msg, out drop, out quit, true);
 				if (drop)
 					continue;
 
@@ -903,11 +903,18 @@ namespace System.Windows.Forms
 		{
 			bool drop, quit;
 			MSG msg = new MSG { hwnd = hwnd, message = message, wParam = wParam, lParam = lParam };
-			return Application.ProcessMessage(ref msg, out drop, out quit, false);
+			return Application.SendMessage(ref msg, out drop, out quit, false);
+		}
+
+		// Convenience wrapper
+		internal static IntPtr SendMessage(ref MSG msg, bool filter = true)
+		{
+			bool drop, quit;
+			return Application.SendMessage(ref msg, out drop, out quit, filter);
 		}
 
 		// Returns true if the message should be dropped.
-		internal static IntPtr ProcessMessage(ref MSG msg, out bool drop, out bool quit, bool filter)
+		internal static IntPtr SendMessage(ref MSG msg, out bool drop, out bool quit, bool filter)
 		{
 			drop = false;
 			quit = false;
