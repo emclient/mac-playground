@@ -36,6 +36,37 @@ namespace System.Windows.Forms.CocoaInternal
 			get { return CanBecomeKeyWindow; }
 		}
 
+		public override void SendEvent(NSEvent theEvent)
+		{
+			base.SendEvent(theEvent);
+
+			var monoContentView = (MonoContentView)ContentView;
+			switch (theEvent.Type)
+			{
+				case NSEventType.LeftMouseDown:
+				case NSEventType.RightMouseDown:
+				case NSEventType.OtherMouseDown:
+				case NSEventType.BeginGesture:
+					if (monoContentView.hitTestResult == null)
+						OnNonClientClick(theEvent);
+					else if (!(monoContentView.hitTestResult is MonoView))
+						OnNativeControlClick(theEvent);
+					break;
+			}
+		}
+
+		protected virtual void OnNonClientClick(NSEvent e)
+		{
+			// FIXME - Send WM_NCLBUTTONDOWN etc instead of the following line?
+			ToolStripManager.FireAppClicked();
+		}
+
+		protected virtual void OnNativeControlClick(NSEvent e)
+		{
+			// FIXME
+			ToolStripManager.FireAppClicked();
+		}
+
 		[Export("windowShouldClose:")]
 		internal virtual bool shouldClose (NSObject sender)
 		{
@@ -67,6 +98,8 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export ("windowWillResize:toSize:")]
 		internal virtual SizeF willResize (NSWindow sender, SizeF toFrameSize)
 		{
+			ToolStripManager.FireAppClicked();
+
 			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
 
 			var rect = new XplatUIWin32.RECT ();
