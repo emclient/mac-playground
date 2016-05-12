@@ -25,7 +25,7 @@ namespace System.Windows.Forms
 	//		{
 	//			Console.WriteLine("MouseDown(view:{0}, event:{1})", @this, new NSEvent(theEvent));
 	//
-	//			using (var orig = new Swizzle<NativeEventHandler>.Unswizzle(swizzle))
+	//			using (var orig = swizzle.Restore())
 	//				orig.Delegate(@this, selector, theEvent);
 	//		}
 	//	}
@@ -49,6 +49,11 @@ namespace System.Windows.Forms
 
 			newImpl = Marshal.GetFunctionPointerForDelegate(del as System.Delegate);
 			LibObjc.method_setImplementation(originalMethod, newImpl);
+		}
+
+		public Unswizzle Restore()
+		{
+			return new Unswizzle(this);
 		}
 
 		public virtual void Dispose()
