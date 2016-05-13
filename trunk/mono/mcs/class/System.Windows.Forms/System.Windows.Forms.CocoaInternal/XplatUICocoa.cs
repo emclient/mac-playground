@@ -120,6 +120,7 @@ namespace System.Windows.Forms {
 		
 		// Cocoa Specific
 		internal static GrabStruct Grab;
+		internal static Stack<GrabStruct> GrabStack = new Stack<GrabStruct>();
 		internal static Cocoa.Caret Caret;
 		private static Hashtable WindowMapping;
 		internal static ArrayList UtilityWindows;
@@ -746,6 +747,7 @@ namespace System.Windows.Forms {
 			}
 
 			if (Grab.Hwnd == hwnd.Handle) {
+				GrabStack.Pop();
 				Grab.Hwnd = IntPtr.Zero;
 				Grab.Confined = false;
 			}
@@ -1565,23 +1567,34 @@ namespace System.Windows.Forms {
 			GrabConfined = Grab.Confined;
 			GrabArea = Grab.Area;
 		}
+
 		internal override void GrabWindow (IntPtr handle, IntPtr confine_to_handle) {
-			if (Grab.Hwnd != IntPtr.Zero || handle == IntPtr.Zero)
+			if (handle == IntPtr.Zero)
 				return;
 
 			Grab.Hwnd = handle;
 			Grab.Confined = confine_to_handle != IntPtr.Zero;
-			/* FIXME: Set the Grab.Area */
+
+			GrabStack.Push(Grab);
+			// FIXME: Set the Grab.Area
 		}
 		
 		internal override void UngrabWindow (IntPtr hwnd) {
-			if (Grab.Hwnd != hwnd)
+			if (Grab.Hwnd != hwnd) {
+				Console.WriteLine("Unpaired ungrab!");
 				return;
+			}
+				
+			bool was_grabbed = GrabStack.Count != 0;
+			if (was_grabbed)
+				GrabStack.Pop();
 
-			bool was_grabbed = Grab.Hwnd != IntPtr.Zero;
-
-			Grab.Hwnd = IntPtr.Zero;
-			Grab.Confined = false;
+			if (GrabStack.Count == 0) {
+				Grab.Hwnd = IntPtr.Zero;
+				Grab.Confined = false;
+			} else {
+				Grab = GrabStack.Peek();
+			}
 
 			if (was_grabbed) {
 				// lparam should be the handle to the window gaining the mouse capture,
