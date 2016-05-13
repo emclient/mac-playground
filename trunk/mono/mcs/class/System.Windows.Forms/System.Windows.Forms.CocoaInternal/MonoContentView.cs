@@ -214,15 +214,26 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override NSView HitTest(NSPoint aPoint)
 		{
-			var grabbed = XplatUICocoa.Grab.Hwnd;
-			if (grabbed != IntPtr.Zero)
+			return HitTest(aPoint, false, true);
+		}
+
+		public virtual NSView HitTest(NSPoint aPoint, bool ignoreGrab, bool saveResult)
+		{
+			NSView hit = null;
+			if (!ignoreGrab)
 			{
-				var vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(grabbed);
-				if (vuWrap != null)
-					return vuWrap;
+				var grabbed = XplatUICocoa.Grab.Hwnd;
+				if (grabbed != IntPtr.Zero)
+					hit = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(grabbed);
 			}
 
-			return hitTestResult = base.HitTest(aPoint);
+			if (hit == null)
+				hit = base.HitTest(aPoint);
+
+			if (saveResult)
+				hitTestResult = hit;
+
+			return hit;
 		}
 
 		public void ProcessMouseEvent (NSEvent eventref)
@@ -237,22 +248,26 @@ namespace System.Windows.Forms.CocoaInternal
 
 			NSView vuWrap;
 			if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero) {
-
 				//DebugUtility.WriteInfoIfChanged(XplatUICocoa.Grab.Hwnd);
 
-				currentHwnd = Hwnd.ObjectFromHandle (XplatUICocoa.Grab.Hwnd); 
+				currentHwnd = Hwnd.ObjectFromHandle (XplatUICocoa.Grab.Hwnd);
 				if (null == currentHwnd || currentHwnd.zombie)
+				{
+					//DebugUtility.WriteInfoIfChanged(HitTest(nspoint, true, false));
 					return;
+				}
+
 				vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject(currentHwnd.ClientWindow);
 				if (vuWrap.Window != Window)
 					nspoint = vuWrap.Window.ConvertScreenToBase(Window.ConvertBaseToScreen(nspoint));
 				nspoint = vuWrap.ConvertPointFromView(nspoint, null);
+				//DebugUtility.WriteInfoIfChanged(vuWrap.Window.ContentView.HitTest(nspoint));
+
 				localMonoPoint = driver.NativeToMonoFramed(nspoint, (int) vuWrap.Frame.Size.Height);
 				client = true;
 			}
 			else {
-				vuWrap = Window.ContentView.HitTest(nspoint);
-
+				vuWrap = HitTest(nspoint, false, false);
 				//DebugUtility.WriteInfoIfChanged(vuWrap);
 
 				// Embedded native control? => Find MonoView parent
