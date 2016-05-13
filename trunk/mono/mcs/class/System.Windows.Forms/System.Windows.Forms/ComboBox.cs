@@ -2701,8 +2701,11 @@ namespace System.Windows.Forms
 			protected override void OnMouseDown (MouseEventArgs e)
 			{
 				if (InScrollBar) {
-					vscrollbar_ctrl.FireMouseDown (e);
+					vscrollbar_ctrl.FireMouseDown(e);
 					scrollbar_grabbed = true;
+				} else {
+					if (!Bounds.Contains(PointToScreen(e.Location)))
+						HideWindow();
 				}
 			}
 
