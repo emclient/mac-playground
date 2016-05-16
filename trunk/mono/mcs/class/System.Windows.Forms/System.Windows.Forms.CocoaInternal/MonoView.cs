@@ -125,10 +125,15 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void MouseExited(NSEvent e)
 		{
-			if (e.TrackingArea == clientArea && clientArea != null)
+			if (e.TrackingArea == clientArea && clientArea != null && !IsGrabbed)
 				driver.EnqueueMessage(ToMSG(e, Msg.WM_MOUSELEAVE));
 
 			base.MouseExited(e);
+		}
+
+		public bool IsGrabbed
+		{
+			get { return XplatUICocoa.Grab.Hwnd == hwnd.Handle; }
 		}
 
 		public override void DrawRect (NSRect dirtyRect)
