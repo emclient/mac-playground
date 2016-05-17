@@ -233,16 +233,11 @@ namespace System.Windows.Forms {
 
 		internal void PerformNCCalc (Hwnd hwnd)
 		{
-			XplatUIWin32.NCCALCSIZE_PARAMS  ncp;
-			IntPtr ptr;
-			Rectangle rect;
+			//FIXME! Should not reference Win32 variant here or NEED to do so.
+			XplatUIWin32.NCCALCSIZE_PARAMS ncp = new XplatUIWin32.NCCALCSIZE_PARAMS ();
+			IntPtr ptr = Marshal.AllocHGlobal (Marshal.SizeOf (ncp));
 
-			rect = new Rectangle (0, 0, hwnd.Width, hwnd.Height);
-
-//FIXME! Should not reference Win32 variant here or NEED to do so.
-			ncp = new XplatUIWin32.NCCALCSIZE_PARAMS ();
-			ptr = Marshal.AllocHGlobal (Marshal.SizeOf (ncp));
-
+			Rectangle rect = new Rectangle(0, 0, hwnd.Width, hwnd.Height);
 			ncp.rgrc1.left = rect.Left;
 			ncp.rgrc1.top = rect.Top;
 			ncp.rgrc1.right = rect.Right;
@@ -1504,12 +1499,9 @@ namespace System.Windows.Forms {
 			throw new NotImplementedException ();
 		}
 
-		internal override void GetWindowPos (IntPtr handle, bool is_toplevel, out int x, out int y, out int width, 
-							out int height, out int client_width, out int client_height)
+		internal override void GetWindowPos (IntPtr handle, bool is_toplevel, out int x, out int y, out int width, out int height, out int client_width, out int client_height)
 		{
-			Hwnd		hwnd;
-
-			hwnd = Hwnd.ObjectFromHandle(handle);
+			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
 
 			if (hwnd != null) {
 				x = hwnd.x;
@@ -1528,12 +1520,9 @@ namespace System.Windows.Forms {
 			// Should we throw an exception or fail silently?
 			// throw new ArgumentException("Called with an invalid window handle", "handle");
 
-			x = 0;
-			y = 0;
-			width = 0;
-			height = 0;
-			client_width = 0;
-			client_height = 0;
+			x = y = 0;
+			width = height = 0;
+			client_width = client_height = 0;
 		}
 
 		internal override FormWindowState GetWindowState(IntPtr handle)
@@ -1652,11 +1641,9 @@ namespace System.Windows.Forms {
 
 		internal override PaintEventArgs PaintEventStart (ref Message msg, IntPtr handle, bool client)
 		{
-			PaintEventArgs	paint_event;
-			Hwnd		hwnd;
-			Hwnd		paint_hwnd; 
+			Hwnd paint_hwnd; 
 
-			hwnd = Hwnd.ObjectFromHandle (msg.HWnd);
+			Hwnd hwnd = Hwnd.ObjectFromHandle (msg.HWnd);
 			if (msg.HWnd == handle) {
 				paint_hwnd = hwnd;
 			} else {
@@ -1671,6 +1658,7 @@ namespace System.Windows.Forms {
 			}
 
 			Graphics dc;
+			PaintEventArgs paint_event;
 
 			if (client) {
 				dc = Graphics.FromHwnd (paint_hwnd.ClientWindow);
@@ -1705,8 +1693,7 @@ namespace System.Windows.Forms {
 
 		internal override void PaintEventEnd (ref Message msg, IntPtr handle, bool client)
 		{
-			Hwnd	hwnd;
-			hwnd = Hwnd.ObjectFromHandle(handle);
+			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
 
 			// FIXME: Pop is causing invalid stack ops sometimes; race condition?
 			try {
@@ -1734,12 +1721,15 @@ namespace System.Windows.Forms {
 			return false;
 		}
 
-		internal override bool PostMessage (IntPtr hwnd, Msg message, IntPtr wParam, IntPtr lParam) {
-			MSG msg = new MSG ();
-			msg.hwnd = hwnd;
-			msg.message = message;
-			msg.wParam = wParam;
-			msg.lParam = lParam;
+		internal override bool PostMessage(IntPtr hwnd, Msg message, IntPtr wParam, IntPtr lParam)
+		{
+			MSG msg = new MSG
+			{
+				hwnd = hwnd,
+				message = message,
+				wParam = wParam,
+				lParam = lParam
+			};
 			EnqueueMessage (msg);
 			return true;
 		}
@@ -1759,9 +1749,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override void RequestNCRecalc (IntPtr handle) {
-			Hwnd hwnd;
-
-			hwnd = Hwnd.ObjectFromHandle (handle);
+			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 
 			if (hwnd == null) {
 				return;
@@ -2129,9 +2117,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override void SetMenu (IntPtr handle, Menu menu) {
-			Hwnd	hwnd;
-
-			hwnd = Hwnd.ObjectFromHandle(handle);
+			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
 			hwnd.menu = menu;
 
 			RequestNCRecalc(handle);
@@ -2406,9 +2392,7 @@ namespace System.Windows.Forms {
 
 		internal override void UpdateWindow (IntPtr handle)
 		{
-			Hwnd	hwnd;
-
-			hwnd = Hwnd.ObjectFromHandle (handle);
+			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
 
 			//if (!hwnd.visible || vuWrap.IsHiddenOrHasHiddenAncestor || NSRect.Empty == vuWrap.VisibleRect())
