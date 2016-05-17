@@ -291,30 +291,12 @@ namespace System.Windows.Forms.CocoaInternal
 			if (button >= (int) NSMouseButtons.X)
 				++msgOffset4Button;
 
-			int wParam = 0;
-			var mouseButtons = NSEvent.CurrentPressedMouseButtons;
-			if ((mouseButtons & 1) != 0)
-				wParam |= (int)MsgButtons.MK_LBUTTON;
-			if ((mouseButtons & 2) != 0)
-				wParam |= (int)MsgButtons.MK_RBUTTON;
-			if ((mouseButtons & 4) != 0)
-				wParam |= (int)MsgButtons.MK_MBUTTON;
-			if ((mouseButtons & 8) != 0)
-				wParam |= (int)MsgButtons.MK_XBUTTON1;
-			if ((mouseButtons & 16) != 0)
-				wParam |= (int)MsgButtons.MK_XBUTTON2;
-			var modifierFlags = NSEvent.CurrentModifierFlags;
-			if ((modifierFlags & NSEventModifierMask.ControlKeyMask) != 0)
-				wParam |= (int)MsgButtons.MK_CONTROL;
-			if ((modifierFlags & NSEventModifierMask.ShiftKeyMask) != 0)
-				wParam |= (int)MsgButtons.MK_SHIFT;
-
 			MSG msg = new MSG ();
 			msg.hwnd = currentHwnd.Handle;
 			msg.lParam = (IntPtr)(localMonoPoint.Y << 16 | (localMonoPoint.X & 0xFFFF));
 			msg.pt = driver.NativeToMonoScreen(Window.ConvertBaseToScreen(eventref.LocationInWindow)).ToPOINT();
 			msg.refobject = hwnd;
-			msg.wParam = (IntPtr)wParam;
+			msg.wParam = ToWParam(eventref);
 
 			switch (eventref.Type) {
 				case NSEventType.LeftMouseDown:
@@ -340,9 +322,9 @@ namespace System.Windows.Forms.CocoaInternal
 					if (XplatUICocoa.Grab.Hwnd == IntPtr.Zero) {
 						IntPtr ht = IntPtr.Zero;
 						if (client) {
-							ht = (IntPtr) System.Windows.Forms.HitTest.HTCLIENT;
+							ht = (IntPtr)Forms.HitTest.HTCLIENT;
 							NativeWindow.WndProc(msg.hwnd, Msg.WM_SETCURSOR, msg.hwnd, 
-								(IntPtr) System.Windows.Forms.HitTest.HTCLIENT);
+								(IntPtr)Forms.HitTest.HTCLIENT);
 						} else {
 							ht = (IntPtr) NativeWindow.WndProc (hwnd.ClientWindow, Msg.WM_NCHITTEST, 
 								IntPtr.Zero, msg.lParam).ToInt32 ();

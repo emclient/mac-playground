@@ -119,7 +119,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void MouseEntered(NSEvent e)
 		{
-			if (e.TrackingArea == clientArea && clientArea != null)
+			if (e.TrackingArea == clientArea && clientArea != null && XplatUICocoa.Grab.Hwnd == IntPtr.Zero)
 				driver.EnqueueMessage(ToMSG(e, Msg.WM_MOUSE_ENTER));
 		}
 
@@ -183,6 +183,20 @@ namespace System.Windows.Forms.CocoaInternal
 			var localMonoPoint = driver.NativeToMonoFramed(nspoint, Frame.Height);
 			var mousePosition = driver.NativeToMonoScreen(NSEvent.CurrentMouseLocation);
 
+			var hWnd = Hwnd.ObjectFromHandle(Handle);
+			return new MSG
+			{
+				hwnd = hWnd?.Handle ?? IntPtr.Zero,
+				message = type,
+				wParam = ToWParam(e),
+				lParam = (IntPtr)((ushort)localMonoPoint.Y << 16 | (ushort)localMonoPoint.X),
+				refobject = hwnd,
+				pt = { x = mousePosition.X, y = mousePosition.Y }
+			};
+		}
+
+		public static IntPtr ToWParam(NSEvent e)
+		{
 			int wParam = 0;
 			var mouseButtons = NSEvent.CurrentPressedMouseButtons;
 			if ((mouseButtons & 1) != 0)
@@ -195,22 +209,13 @@ namespace System.Windows.Forms.CocoaInternal
 				wParam |= (int)MsgButtons.MK_XBUTTON1;
 			if ((mouseButtons & 16) != 0)
 				wParam |= (int)MsgButtons.MK_XBUTTON2;
-			var modifierFlags = NSEvent.CurrentModifierFlags;
+			var modifierFlags = e.ModifierFlags;
 			if ((modifierFlags & NSEventModifierMask.ControlKeyMask) != 0)
 				wParam |= (int)MsgButtons.MK_CONTROL;
 			if ((modifierFlags & NSEventModifierMask.ShiftKeyMask) != 0)
 				wParam |= (int)MsgButtons.MK_SHIFT;
 
-			var hWnd = Hwnd.ObjectFromHandle(Handle);
-			return new MSG
-			{
-				hwnd = hWnd?.Handle ?? IntPtr.Zero,
-				message = type,
-				wParam = (IntPtr)wParam,
-				lParam = (IntPtr)((ushort)localMonoPoint.Y << 16 | (ushort)localMonoPoint.X),
-				refobject = hwnd,
-				pt = { x = mousePosition.X, y = mousePosition.Y }
-			};
+			return (IntPtr)wParam;
 		}
 
 		public bool PointInRect(NSPoint p, NSRect r)
