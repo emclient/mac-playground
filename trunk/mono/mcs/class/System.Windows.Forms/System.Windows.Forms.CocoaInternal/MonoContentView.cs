@@ -348,7 +348,7 @@ namespace System.Windows.Forms.CocoaInternal
 					return;
 			}
 
-			Application.SendMessage(ref msg);
+			driver.EnqueueMessage(msg);
 		}
 
 		int ScaleAndQuantizeDelta(float delta)
@@ -425,7 +425,7 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 
 			//Debug.WriteLine ("keyCode={0}, characters=\"{1}\", key='{2}', chars='{3}'", e.KeyCode, chars, key, chars);
-			driver.SendMessage(FocusHandle, msg, wParam, lParam);
+			driver.PostMessage(FocusHandle, msg, wParam, lParam);
 		}
 
 		public void ProcessModifiers (NSEvent eventref)
