@@ -128,6 +128,7 @@ namespace System.Windows.Forms
 		
 		internal override Size GetPreferredSizeCore (Size proposedSize)
 		{
+			bool allControlsHidden = true;	// Set to false, or Size(0,0) may be returned if AutoSize and GrowAndShrink...
 			int width = 0;
 			int height = 0;
 			bool horizontal = FlowDirection == FlowDirection.LeftToRight || FlowDirection == FlowDirection.RightToLeft;
@@ -136,6 +137,10 @@ namespace System.Windows.Forms
 				// A starting point for the deeper problems is DefaultLayout.GetPreferredControlSize() and the line: height = child.ExplicitBounds.Height;
 				int flow_break_add = 0;
 				foreach (Control control in Controls) {
+					if (false == control.Visible) {
+						continue;
+					}
+					allControlsHidden = false;
 					Size control_preferred_size;
 					if (control.AutoSize)
 						control_preferred_size = control.PreferredSize;
@@ -165,6 +170,10 @@ namespace System.Windows.Forms
 				int size_in_other_direction = 0;
 				int increase;
 				foreach (Control control in Controls) {
+					if (false == control.Visible) {
+						continue;
+					}
+					allControlsHidden = false;
 					Size control_preferred_size;
 					if (control.AutoSize)
 						control_preferred_size = control.PreferredSize;
@@ -201,6 +210,11 @@ namespace System.Windows.Forms
 					width += size_in_other_direction;
 				}
 			}
+
+			if (true == allControlsHidden && true == this.AutoSize && AutoSizeMode.GrowAndShrink == this.AutoSizeMode) {
+				return new Size (width:0, height:0);
+			}
+
 			return new Size (width, height);
 		}
 		#endregion
