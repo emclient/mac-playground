@@ -53,6 +53,7 @@ namespace System.Windows.Forms.CocoaInternal
 		protected Hwnd hwnd;
 
 		protected NSTrackingArea clientArea;
+		static MonoView mouseView; // A view that is currently under the mouse cursor.
 
 		public MonoView (IntPtr instance) : base (instance)
 		{
@@ -119,16 +120,36 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void MouseEntered(NSEvent e)
 		{
-			if (e.TrackingArea == clientArea && clientArea != null && XplatUICocoa.Grab.Hwnd == IntPtr.Zero)
-				driver.EnqueueMessage(ToMSG(e, Msg.WM_MOUSE_ENTER));
+			base.MouseEntered(e);
+			MouseEnteredOrExited(e);
 		}
 
 		public override void MouseExited(NSEvent e)
 		{
-			if (e.TrackingArea == clientArea && clientArea != null && !IsGrabbed)
-				driver.EnqueueMessage(ToMSG(e, Msg.WM_MOUSELEAVE));
-
 			base.MouseExited(e);
+			MouseEnteredOrExited(e);
+		}
+
+		public virtual void MouseEnteredOrExited(NSEvent e)
+		{
+			if (e.TrackingArea == clientArea && clientArea != null)
+			{
+				if (XplatUICocoa.Grab.Hwnd == IntPtr.Zero)
+				{
+					var view = Window.ContentView.HitTest(e.LocationInWindow) as MonoView;
+					if (view != mouseView && mouseView != null)
+					{
+						driver.EnqueueMessage(ToMSG(mouseView, e, Msg.WM_MOUSELEAVE));
+						mouseView = null;
+					}
+
+					if (view != null && mouseView != view)
+					{
+						driver.EnqueueMessage(ToMSG(view, e, Msg.WM_MOUSE_ENTER));
+						mouseView = view;
+					}
+				}
+			}
 		}
 
 		public bool IsGrabbed
@@ -179,18 +200,23 @@ namespace System.Windows.Forms.CocoaInternal
 
 		internal MSG ToMSG(NSEvent e, Msg type)
 		{
-			var nspoint = ConvertPointFromView(e.LocationInWindow, null);
-			var localMonoPoint = driver.NativeToMonoFramed(nspoint, Frame.Height);
-			var mousePosition = driver.NativeToMonoScreen(NSEvent.CurrentMouseLocation);
+			return ToMSG(this, e, type);
+		}
 
-			var hWnd = Hwnd.ObjectFromHandle(Handle);
+		internal static MSG ToMSG(MonoView view, NSEvent e, Msg type)
+		{
+			var nspoint = view.ConvertPointFromView(e.LocationInWindow, null);
+			var localMonoPoint = view.driver.NativeToMonoFramed(nspoint, view.Frame.Height);
+			var mousePosition = view.driver.NativeToMonoScreen(NSEvent.CurrentMouseLocation);
+
+			var hWnd = Hwnd.ObjectFromHandle(view.Handle)?.Handle ?? IntPtr.Zero;
 			return new MSG
 			{
-				hwnd = hWnd?.Handle ?? IntPtr.Zero,
+				hwnd = hWnd,
 				message = type,
 				wParam = ToWParam(e),
 				lParam = (IntPtr)((ushort)localMonoPoint.Y << 16 | (ushort)localMonoPoint.X),
-				refobject = hwnd,
+				refobject = hWnd,
 				pt = { x = mousePosition.X, y = mousePosition.Y }
 			};
 		}
