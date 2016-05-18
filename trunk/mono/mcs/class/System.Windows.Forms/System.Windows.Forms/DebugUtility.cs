@@ -37,22 +37,22 @@ namespace System.Windows.Forms
 		}
 
 		static String lastInfo;
-		public static void WriteInfoIfChanged(MonoMac.AppKit.NSView view)
+		public static void WriteInfoIfChanged(NSView view, string prefix = null)
 		{
 			string info = ControlInfo(view);
 			if (info != lastInfo)
-				Console.WriteLine(lastInfo = info);
+				Console.WriteLine((prefix ?? String.Empty) + (lastInfo = info));
 		}
 
-		public static void WriteInfoIfChanged(IntPtr handle)
+		public static void WriteInfoIfChanged(IntPtr handle, string prefix = null)
 		{
 			//var c = Control.FromHandle(handle);
 			string info = ControlInfo(handle);
 			if (info != lastInfo)
-				Console.WriteLine(lastInfo = info);
+				Console.WriteLine((prefix ?? String.Empty) + (lastInfo = info));
 		}
 
-		public static Control ControlFromView(MonoMac.AppKit.NSView view)
+		public static Control ControlFromView(NSView view)
 		{
 			if (view != null && view is CocoaInternal.MonoView)
 				return Control.FromHandle(view.Handle);
