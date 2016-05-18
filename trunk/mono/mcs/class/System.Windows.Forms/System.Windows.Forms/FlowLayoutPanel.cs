@@ -132,6 +132,8 @@ namespace System.Windows.Forms
 			int height = 0;
 			bool horizontal = FlowDirection == FlowDirection.LeftToRight || FlowDirection == FlowDirection.RightToLeft;
 			if (!WrapContents || (horizontal && proposedSize.Width == 0) || (!horizontal && proposedSize.Height == 0)) {
+				// TODO: RGS This code does not take into account the FlowBreak's, that's relatively easy to fix, but there are deeper problems
+				// A starting point for the deeper problems is DefaultLayout.GetPreferredControlSize() and the line: height = child.ExplicitBounds.Height;
 				foreach (Control control in Controls) {
 					Size control_preferred_size;
 					if (control.AutoSize)
