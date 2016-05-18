@@ -132,8 +132,9 @@ namespace System.Windows.Forms
 			int height = 0;
 			bool horizontal = FlowDirection == FlowDirection.LeftToRight || FlowDirection == FlowDirection.RightToLeft;
 			if (!WrapContents || (horizontal && proposedSize.Width == 0) || (!horizontal && proposedSize.Height == 0)) {
-				// TODO: RGS This code does not take into account the FlowBreak's, that's relatively easy to fix, but there are deeper problems
+				// TODO: RGS I have fixed FlowBreaks for LeftToRight and RightToLeft however there are some deeper problems.
 				// A starting point for the deeper problems is DefaultLayout.GetPreferredControlSize() and the line: height = child.ExplicitBounds.Height;
+				int flow_break_add = 0;
 				foreach (Control control in Controls) {
 					Size control_preferred_size;
 					if (control.AutoSize)
@@ -144,12 +145,17 @@ namespace System.Windows.Forms
 					if (horizontal) {
 						width += control_preferred_size.Width + control_margin.Horizontal;
 						height = Math.Max (height, control_preferred_size.Height + control_margin.Vertical);
+						if (GetFlowBreak (control)) {
+							flow_break_add += height;
+							height = 0;
+						}
 					} else {
 						height += control_preferred_size.Height + control_margin.Vertical;
 						width = Math.Max (width, control_preferred_size.Width + control_margin.Horizontal);
 					}
 				}
 				if (horizontal) {
+					height += flow_break_add;
 					height += this.Padding.Vertical + 2;	// The controls will be offset by the top padding, and we need the bottom padding too. The +2 is something that just works at the moment, I am unsure why it should be needed but it's consistent
 				} else {
 					width += this.Padding.Horizontal;		// This may need +2 also
