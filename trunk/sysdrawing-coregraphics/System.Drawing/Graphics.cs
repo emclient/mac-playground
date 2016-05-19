@@ -1132,6 +1132,7 @@ namespace System.Drawing {
 				{
 				case SmoothingMode.AntiAlias:
 				case SmoothingMode.HighQuality:
+				case SmoothingMode.Default:
 					context.SetAllowsAntialiasing(true);  // This parameter is not part of the graphics state.
 					context.SetShouldAntialias(true);
 					break;
