@@ -443,13 +443,17 @@ namespace System.Drawing
 
 			NSMutableAttributedString atts;
 
+			text = text.Replace("\0", "");
 			if (format == null || format.HotkeyPrefix == System.Drawing.Text.HotkeyPrefix.None) {
 				atts = new NSMutableAttributedString (text, ctAttributes.Dictionary);
 			} else {
 				var sb = new StringBuilder ();
 				bool wasHotkey = false;
-				foreach (var c in text) {
-					if (wasHotkey || c != '&') {
+
+				int end = text.Length - 1;
+				for (int i = 0; i < text.Length; ++i) {
+					char c = text[i];
+					if (wasHotkey || c != '&' || i == end) {
 						sb.Append (c);
 						wasHotkey = false;
 					} else if (c == '&') {
@@ -460,16 +464,18 @@ namespace System.Drawing
 				atts = new NSMutableAttributedString (sb.ToString(), ctAttributes.Dictionary);
 
 				// Underline
+				wasHotkey = false;
 				if (format.HotkeyPrefix == System.Drawing.Text.HotkeyPrefix.Show) {
 					int index = 0;
-					foreach (var c in text) {
+					for (int i = 0; i < text.Length; ++i) {
+						char c = text[i];
 						if (wasHotkey) {
 							atts.AddAttributes (
 								new CTStringAttributes () { UnderlineStyle = CTUnderlineStyle.Single },
 								new NSRange (index, 1));
 							index++;
 							wasHotkey = false;
-						} else if (c == '&') {
+						} else if (c == '&' && i != end && text[i+1] != '&') {
 							wasHotkey = true;
 						} else {
 							index++;
