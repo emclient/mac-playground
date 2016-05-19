@@ -125,5 +125,33 @@ namespace WinApi
 			NotImplemented(MethodBase.GetCurrentMethod());
 			return false;
 		}
+
+		public static uint GetFontUnicodeRanges(IntPtr hdc, IntPtr lpgs)
+		{
+			// FIXME:
+			// Currently, we only return empty result, just to not cause throwing exceptions after execution of this method.
+
+			int rangeCount = 0;
+
+			int size = Marshal.SizeOf(typeof(GLYPHSET));
+			if (rangeCount > 0)
+				size += rangeCount * Marshal.SizeOf(typeof(WCRANGE));
+
+			if (lpgs != IntPtr.Zero)
+			{
+				GLYPHSET glyphset = new GLYPHSET
+				{
+					cbThis = 0,
+					flAccel = 0,
+					cGlyphsSupported = 0,
+					cRanges = 0,
+					ranges = new WCRANGE[rangeCount]
+				};
+				Marshal.StructureToPtr(glyphset, lpgs, true);
+			}
+
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return (uint)size;
+		}
 	}
 }
