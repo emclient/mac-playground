@@ -13,6 +13,10 @@ namespace System.Windows.Forms.CocoaInternal
 			this.driver = driver;
 		}
 
+		public override void DidFinishLaunching(NSNotification notification)
+		{
+		}
+
 		public override void DidBecomeActive (NSNotification notification)
 		{
 			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
@@ -20,8 +24,6 @@ namespace System.Windows.Forms.CocoaInternal
 					utility_window.OrderFront (utility_window);
 
 			driver.SendMessage (XplatUI.GetActive (), Msg.WM_ACTIVATEAPP, (IntPtr)WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
-
-			CreateMenu();
 		}
 
 		public override void WillResignActive (NSNotification notification)
