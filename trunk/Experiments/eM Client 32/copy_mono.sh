@@ -69,7 +69,7 @@ cp -r "$MONO_GAC/Mono.Security.Win32" "$APP_GAC"
 #cp -r "$MONO_GAC/Mono.WebBrowser" "$APP_GAC"
 #cp -r "$MONO_GAC/Mono.WebServer2" "$APP_GAC"
 #cp -r "$MONO_GAC/Mono.XBuild.Tasks" "$APP_GAC"
-#cp -r "$MONO_GAC/Novell.Directory.Ldap" "$APP_GAC"
+cp -r "$MONO_GAC/Novell.Directory.Ldap" "$APP_GAC"
 #cp -r "$MONO_GAC/PEAPI" "$APP_GAC"
 #cp -r "$MONO_GAC/RabbitMQ.Client" "$APP_GAC"
 
