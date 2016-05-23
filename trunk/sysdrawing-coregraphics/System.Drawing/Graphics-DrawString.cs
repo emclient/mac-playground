@@ -152,6 +152,12 @@ namespace System.Drawing
 			DrawString (s, font, brush, new RectangleF(x, y, 0, 0), format);
 		}
 
+		private CTLine EllipsisToken(Font font, StringFormat format)
+		{
+			var attrStr = buildAttributedString("\u2026", font, format, lastBrushColor);
+			return new CTLine (attrStr);
+		}
+
 		public void DrawString (string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format = null)
 		{
 			if (font == null)
@@ -299,10 +305,10 @@ namespace System.Drawing
 			start = 0;
 			while (start < length && textPosition.Y < insetBounds.Bottom)
 			{
-
 				// Now we ask the typesetter to break off a line for us.
 				// This also will take into account line feeds embedded in the text.
 				//  Example: "This is text \n with a line feed embedded inside it"
+				// TODO: RGS deal with multiline and trimming
 				int count = noWrap ? length : typesetter.SuggestLineBreak(start, boundsWidth);
 				var line = typesetter.GetLine(new NSRange(start, count));
 
@@ -334,8 +340,31 @@ namespace System.Drawing
 
 
 					}
-
-
+					// We need to do the 0 != layoutRectangle.Width or we'll get a null CTLine 
+					if ( StringTrimming.None != format.Trimming /*&& 0 != layoutRectangle.Width*/) {
+						CTLine oldLine = null;
+						switch (format.Trimming) {
+						case StringTrimming.Character:
+							oldLine = line;
+							line = line.GetTruncatedLine (boundsWidth, CTLineTruncation.End, null);
+							break;
+						case StringTrimming.EllipsisCharacter:
+							oldLine = line;
+							line = line.GetTruncatedLine (boundsWidth, CTLineTruncation.End, EllipsisToken (font, format));
+							break;
+//						case StringTrimming.EllipsisWord:
+//							oldLine = line;
+//							line = line.GetTruncatedLine (lineWidth, CTLineTruncation.End, EllipsisToken (font, format));
+//							break;
+						default:
+//							Console.WriteLine ("Graphics-DrawString.cs unimplemented StringTrimming " + format.Trimming);
+							break;
+						}
+						if (null != oldLine) {
+							oldLine.Dispose ();
+						}
+					}
+					// TODO: StringTrimming.EllipsisPath, StringTrimming.EllipsisWord, Word
 				}
 
 				// initialize our Text Matrix or we could get trash in here
@@ -362,14 +391,16 @@ namespace System.Drawing
 
 				context.TextMatrix = textMatrix;
 
-				// and draw the line
-				line.Draw(context);
+				// Make sure that the line still exists, it may be null if it's too small to render any text and wants StringTrimming
+				if (null != line) {
+					// and draw the line
+					line.Draw (context);
+					line.Dispose ();
+				}
 
 				// Move the index beyond the line break.
 				start += count;
 				textPosition.Y += (float)NMath.Ceiling(ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior  
-				line.Dispose();
-
 			}
 
 			// Now we call the brush with a fill of true so the brush can do the fill if need be 
