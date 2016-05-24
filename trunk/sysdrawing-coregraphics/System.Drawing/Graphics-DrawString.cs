@@ -340,28 +340,30 @@ namespace System.Drawing
 
 
 					}
-					// We need to do the 0 != layoutRectangle.Width or we'll get a null CTLine 
-					if ( StringTrimming.None != format.Trimming /*&& 0 != layoutRectangle.Width*/) {
-						CTLine oldLine = null;
+
+					// Note: trimming may return a null line i.e. not enough space for any characters
+					if ( StringTrimming.None != format.Trimming) {
 						switch (format.Trimming) {
 						case StringTrimming.Character:
-							oldLine = line;
-							line = line.GetTruncatedLine (boundsWidth, CTLineTruncation.End, null);
+							using (CTLine oldLine = line) {
+								line = line.GetTruncatedLine (boundsWidth, CTLineTruncation.End, null);
+							}
 							break;
 						case StringTrimming.EllipsisCharacter:
-							oldLine = line;
-							line = line.GetTruncatedLine (boundsWidth, CTLineTruncation.End, EllipsisToken (font, format));
+							using (CTLine oldLine = line)
+							using (CTLine ellipsisToken = EllipsisToken (font, format)) {
+								line = line.GetTruncatedLine (boundsWidth, CTLineTruncation.End, ellipsisToken);
+							}
 							break;
 //						case StringTrimming.EllipsisWord:
-//							oldLine = line;
-//							line = line.GetTruncatedLine (lineWidth, CTLineTruncation.End, EllipsisToken (font, format));
+//							using (CTLine oldLine = line)
+//							using (CTLine ellipsisToken = EllipsisToken (font, format)) {
+//								line = line.GetTruncatedLine (lineWidth, CTLineTruncation.End, ellipsisToken);
+//							}
 //							break;
 						default:
 //							Console.WriteLine ("Graphics-DrawString.cs unimplemented StringTrimming " + format.Trimming);
 							break;
-						}
-						if (null != oldLine) {
-							oldLine.Dispose ();
 						}
 					}
 					// TODO: StringTrimming.EllipsisPath, StringTrimming.EllipsisWord, Word
