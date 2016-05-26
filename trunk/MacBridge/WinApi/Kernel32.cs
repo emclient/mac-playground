@@ -33,5 +33,29 @@ namespace WinApi
 			lpTotalNumberOfFreeBytes = 0;
 			return false;
 		}
+
+		public static IntPtr GlobalReAlloc(HandleRef handle, IntPtr bytes, int flags)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return IntPtr.Zero;
+		}
+
+		public static IntPtr GlobalLock(IntPtr hMem)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return IntPtr.Zero;
+		}
+
+		public static bool GlobalUnlock(IntPtr hMem)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return true;
+		}
+
+		public static IntPtr GlobalSize(IntPtr handle)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return IntPtr.Zero;
+		}
 	}
 }

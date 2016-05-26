@@ -76,6 +76,9 @@
       <Link>WinApi\ComDlg32.Structs.cs</Link>
     </Compile>
     <Compile Include="WinApi\Win32.cs" />
+    <Compile Include="..\..\..\WinApi\Ole32.Structs.cs">
+      <Link>WinApi\Ole32.Structs.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

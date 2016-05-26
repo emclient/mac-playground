@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace WinApi
 {
@@ -36,6 +36,13 @@ namespace WinApi
             NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
-    }
+
+		public static int SHCreateStdEnumFmtEtc(uint cfmt, FORMATETC[] afmt, out IEnumFORMATETC ppenumFormatEtc)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			ppenumFormatEtc = null;
+			return 0;
+		}
+	}
 }
 
