@@ -906,15 +906,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override int[] ClipboardAvailableFormats (IntPtr handle) {
-			ArrayList list = new ArrayList ();
-			DataFormats.Format f = DataFormats.Format.List;
-
-			while (f != null) {
-				list.Add (f.Id);
-				f = f.Next;
-			}
-
-			return (int []) list.ToArray (typeof (int));
+			return Pasteboard.GetAvailableFormats((NSPasteboard)MonoMac.ObjCRuntime.Runtime.GetNSObject(handle));
 		}
 
 		internal override void ClipboardClose (IntPtr handle) {
@@ -923,8 +915,8 @@ namespace System.Windows.Forms {
 		[MonoTODO ("Map our internal formats to the right os code where we can")]
 		internal override int ClipboardGetID(IntPtr handle, string format)
 		{
-			//return (int) (IntPtr) __CFStringMakeConstantString (format);
-			return 0;
+			DataFormats.Format f = DataFormats.Format.Find(format);
+			return f != null ? f.Id : DataFormats.Format.Count + 1;
 		}
 
 		internal override IntPtr ClipboardOpen(bool primary_selection) {

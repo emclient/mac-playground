@@ -28,6 +28,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 
 namespace System.Windows.Forms
@@ -38,11 +39,14 @@ namespace System.Windows.Forms
 		{
 			static readonly object lockobj = new object ();
 			
-			private static Format	formats;
-			private string		name;
-			private int		id;
-			private Format		next;
-			internal bool		is_serializable;
+			private static Format formats;
+			private static Dictionary<int, Format> byId = new Dictionary<int, DataFormats.Format>();
+			private static Dictionary<string, Format> byName = new Dictionary<string, DataFormats.Format>();
+
+			private string name;
+			private int id;
+			private Format next;
+			internal bool is_serializable;
 
 			public Format (string name, int id)
 			{
@@ -58,6 +62,9 @@ namespace System.Windows.Forms
 							f = f.next;
 						f.next = this;
 					}
+
+					byId[id] = this;
+					byName[name] = this;
 				}
 			}
 
@@ -107,21 +114,15 @@ namespace System.Windows.Forms
 			}
 
 			internal static Format Find (int id) {
-				Format f;
-
-				f = formats;
-				while ((f != null) && (f.Id != id))
-					f = f.next;
-				return f;
+				Format value;
+				byId.TryGetValue(id, out value);
+				return value;
 			}
 
 			internal static Format Find (string name) {
-				Format f;
-
-				f = formats;
-				while ((f != null) && (!f.Name.Equals(name)))
-					f = f.next;
-				return f;
+				Format value;
+				byName.TryGetValue(name, out value);
+				return value;
 			}
 
 			internal static Format List {
@@ -129,6 +130,12 @@ namespace System.Windows.Forms
 					return formats;
 				}
 			}
+
+			internal static int Count
+			{
+				get { return byId.Count; }
+			}
+
 			#endregion	// Private Methods
 		}
 		
@@ -191,6 +198,8 @@ namespace System.Windows.Forms
 				return Format.Add (format);
 			}
 		}
+
+
 
 		// Assumes we are locked on the lock_object when it is called
 		private static void Init ()
