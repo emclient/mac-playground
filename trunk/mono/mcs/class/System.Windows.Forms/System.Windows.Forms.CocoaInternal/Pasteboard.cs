@@ -75,6 +75,10 @@ namespace System.Windows.Forms.CocoaInternal {
 		internal static readonly string internal_format;
 		internal static readonly string serialized_format;
 
+		internal const string fmt_Text = "Text";
+		internal const string fmt_UnicodeText = "UnicodeText";
+		internal const string fmt_public_utf8_plain_text = "public.utf8-plain-text";
+
 		static Pasteboard ()
 		{
 			primary_pbref = NSPasteboard.GeneralPasteboard;
@@ -86,10 +90,40 @@ namespace System.Windows.Forms.CocoaInternal {
 			serialized_format = "com.novell.mono.mwf.pasteboard.WindowsForms10PersistentObject";
 		}
 
-		internal static object Retrieve (NSPasteboard pbref, int key)
+		internal static object Retrieve(NSPasteboard pboard, int id)
 		{
-//			UInt32 count = 0;
+			var name = DataFormats.GetFormat(id)?.Name;
+			switch (name)
+			{
+				// TODO: Add support for other typess
+				case fmt_Text:
+					return pboard.GetStringForType(fmt_public_utf8_plain_text);
+			}
 
+			return null;
+		}
+
+		internal static void Store(NSPasteboard pboard, object data, int id)
+		{
+			if (id == 0)
+			{
+				pboard.ClearContents();
+				return;
+			}
+
+			var name = DataFormats.GetFormat(id)?.Name;
+			switch (name)
+			{
+				// TODO: Add support for other types
+				case fmt_Text:
+					pboard.SetStringForType(data.ToString(), fmt_public_utf8_plain_text);
+				break;
+			}
+		}
+
+		// Original (mono) version of Retrieve method - it might help us in the future
+		internal static object RetrieveOrig (NSPasteboard pbref, int key)
+		{
 			DataFormats.Format keyFormat = DataFormats.GetFormat (key);
 			string keyString;
 			if (null != keyFormat)
@@ -131,7 +165,7 @@ namespace System.Windows.Forms.CocoaInternal {
 			return null;
 		}
 
-		internal static void Store (NSPasteboard pbref, object data, int key)
+		internal static void StoreOrig (NSPasteboard pbref, object data, int key)
 		{
 			// Free any GCHandle already on the pasteboard.
 			NSData pbdata = pbref.GetDataForType (internal_format);
@@ -179,30 +213,36 @@ namespace System.Windows.Forms.CocoaInternal {
 //			}
 		}
 
+		// Retrieves array of identifiers of available formats. Adds equivalent MWF identifiers.
+		internal static int[] GetAvailableFormats(NSPasteboard pboard)
+		{
+			var ids = new List<int>();
+			foreach (var type in pboard.Types)
+				AppendTypeIDs(pboard, ids, type);
+			return ids.ToArray();
+		}
+
+		internal static void AppendTypeIDs(NSPasteboard pboard, List<int> ids, string type)
+		{
+			switch (type)
+			{
+				// TODO: Add more identifiers - for images, sounds etc.
+				case "public.utf8-plain-text":
+					ids.Add(DataFormats.Format.Add(DataFormats.Text).Id);
+					break;
+			}
+
+			// We are mixing MWF pasteboard format identifiers with OSX identifiers (UTIs). Not necessary, maybe useful sometime.
+			ids.Add(DataFormats.Format.Add(type).Id);
+		}
+
 		internal static NSPasteboard Primary {
 			get { return primary_pbref; }
 		}
 		
 		internal static NSPasteboard Application {
-			get { return app_pbref; }
+			get { return primary_pbref; }
+			//get { return app_pbref; }
 		}
-
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern IntPtr CFDataCreate (IntPtr allocator, ref IntPtr buf, Int32 length);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern IntPtr CFDataGetBytePtr (IntPtr data);
-
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int PasteboardClear (IntPtr pbref);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int PasteboardCreate (IntPtr str, ref IntPtr pbref);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int PasteboardCopyItemFlavorData (IntPtr pbref, UInt32 itemid, UInt32 key, ref IntPtr data);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int PasteboardGetItemCount (IntPtr pbref, ref UInt32 count);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int PasteboardGetItemIdentifier (IntPtr pbref, UInt32 itemindex, ref UInt32 itemid);
-//		[DllImport ("/System/Library/Frameworks/Cocoa.framework/Versions/Current/Cocoa")]
-//		static extern int PasteboardPutItemFlavor (IntPtr pbref, UInt32 itemid, UInt32 key, IntPtr data, UInt32 flags);
 	}
 }
