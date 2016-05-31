@@ -20,5 +20,10 @@ namespace FormsTest
             // Mac layout debugging
             this.DebugAllControls();
         }
+
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
