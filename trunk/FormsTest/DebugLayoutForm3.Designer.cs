@@ -63,11 +63,11 @@
             this.table_Shortcuts.Controls.Add(this.label1, 0, 0);
             this.table_Shortcuts.Controls.Add(this.label2, 2, 0);
             this.table_Shortcuts.Controls.Add(this.label3, 1, 0);
-            this.table_Shortcuts.Location = new System.Drawing.Point(4, 215);
+            this.table_Shortcuts.Location = new System.Drawing.Point(4, 218);
             this.table_Shortcuts.Name = "table_Shortcuts";
             this.table_Shortcuts.RowCount = 1;
             this.table_Shortcuts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_Shortcuts.Size = new System.Drawing.Size(264, 28);
+            this.table_Shortcuts.Size = new System.Drawing.Size(264, 25);
             this.table_Shortcuts.TabIndex = 1;
             this.table_Shortcuts.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel2_Paint);
             // 
@@ -92,11 +92,10 @@
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Location = new System.Drawing.Point(82, 1);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(94, 26);
+            this.label3.Size = new System.Drawing.Size(94, 23);
             this.label3.TabIndex = 2;
             this.label3.Text = "And the text in middle...";
             // 
