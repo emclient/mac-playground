@@ -34,6 +34,8 @@
 #undef DebugFocus
 #undef DebugMessages
 
+#define USE_INITIAL_ANCHOR_VALUES
+
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
@@ -122,7 +124,15 @@ namespace System.Windows.Forms
 		// Please leave the next 2 as internal until DefaultLayout (2.0) is rewritten
 		internal int			dist_right; // distance to the right border of the parent
 		internal int			dist_bottom; // distance to the bottom border of the parent
-
+#if USE_INITIAL_ANCHOR_VALUES
+		internal enum AnchorValueCalculation {
+			//Prepare,
+			Calculate,
+			Done
+		}
+		private AnchorValueCalculation	anchor_value_calculation = AnchorValueCalculation.Calculate;
+		internal Padding				anchor_values;
+#endif // USE_INITIAL_ANCHOR_VALUES
 		// to be categorized...
 		ControlCollection       child_controls; // our children
 		Control                 parent; // our parent control
@@ -1783,12 +1793,64 @@ namespace System.Windows.Forms
 			return this.explicit_bounds.Size;
 		}
 
+		// Use speicifc getters and setters to help debug dist_right problems
+		internal int DistanceRight {
+			get {
+				return dist_right;
+			}
+			set {
+				dist_right = value;
+			}
+		}
+
+		internal int DistanceBottom {
+			get {
+				return dist_bottom;
+			}
+			set {
+				dist_bottom = value;
+			}
+		}
+
+		#if USE_INITIAL_ANCHOR_VALUES
+		internal Padding AnchorValues {
+			get {
+				if (AnchorValueCalculation.Calculate == anchor_value_calculation  && null != this.Parent) {
+					// RGS TEST
+					if (this.Name == "table_Shortcuts") {
+						Console.WriteLine ("Control.AnchorValues()'" + this.Name + "'");
+					}
+					// RGS TEST
+
+					AnchorStyles anchor_styles = this.Anchor;
+					anchor_values = Padding.Empty;
+					if ((anchor_styles & AnchorStyles.Left) != 0) {
+						anchor_values.Left = this.Bounds.Left;
+					}
+					if ((anchor_styles & AnchorStyles.Right) != 0) {
+						anchor_values.Right = this.Parent.ClientSize.Width - this.Bounds.Right;
+					}
+					if ((anchor_styles & AnchorStyles.Top) != 0) {
+						anchor_values.Top = this.Bounds.Top;
+					}
+					if ((anchor_styles & AnchorStyles.Bottom) != 0) {
+						anchor_values.Bottom = this.Parent.ClientSize.Height - this.Bounds.Bottom;
+					}
+
+					anchor_value_calculation = AnchorValueCalculation.Done;
+				}
+
+				return anchor_values;
+			}
+		}
+		#endif // USE_INITIAL_ANCHOR_VALUES
+
 		private void UpdateDistances() {
 			if (parent != null) {
 				if (bounds.Width >= 0)
-					dist_right = parent.ClientSize.Width - bounds.X - bounds.Width;
+					this.DistanceRight = parent.ClientSize.Width - bounds.X - bounds.Width;
 				if (bounds.Height >= 0)
-					dist_bottom = parent.ClientSize.Height - bounds.Y - bounds.Height;
+					this.DistanceBottom = parent.ClientSize.Height - bounds.Y - bounds.Height;
 
 				recalculate_distances = false;
 			}

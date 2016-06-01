@@ -27,6 +27,8 @@
 //	Stefan Noack (noackstefan@googlemail.com)
 //
 
+#define USE_INITIAL_ANCHOR_VALUES
+
 using System;
 using System.Drawing;
 
@@ -42,14 +44,15 @@ namespace System.Windows.Forms.Layout
 			// Deal with docking; go through in reverse, MS docs say that lowest Z-order is closest to edge
 			for (int i = controls.Length - 1; i >= 0; i--) {
 				Control child = controls[i];
-				Size child_size = child.Size;
-
-				if (child.AutoSize)
-					child_size = GetPreferredControlSize (child);
 
 				if (!child.VisibleInternal
 				    || child.ControlLayoutType == Control.LayoutType.Anchor)
 					continue;
+				
+				Size child_size = child.Size;
+
+				if (child.AutoSize)
+					child_size = GetPreferredControlSize (child);
 
 				// MdiClient never fills the whole area like other controls, have to do it later
 				if (child is MdiClient) {
@@ -115,34 +118,34 @@ namespace System.Windows.Forms.Layout
 
 				left = child.Left;
 				top = child.Top;
-				
+
 				width = child.Width;
 				height = child.Height;
 
 				if ((anchor & AnchorStyles.Right) != 0) {
 					if ((anchor & AnchorStyles.Left) != 0)
-						width = space.Width - child.dist_right - left;
+						width = space.Width - child.DistanceRight - left;
 					else
-						left = space.Width - child.dist_right - width;
+						left = space.Width - child.DistanceRight - width;
 				}
 				else if ((anchor & AnchorStyles.Left) == 0) {
 					// left+=diff_width/2 will introduce rounding errors (diff_width removed from svn after r51780)
 					// This calculates from scratch every time:
-					left = left + (space.Width - (left + width + child.dist_right)) / 2;
-					child.dist_right = space.Width - (left + width);
+					left = left + (space.Width - (left + width + child.DistanceRight)) / 2;
+					child.DistanceRight = space.Width - (left + width);
 				}
 
 				if ((anchor & AnchorStyles.Bottom) != 0) {
 					if ((anchor & AnchorStyles.Top) != 0)
-						height = space.Height - child.dist_bottom - top;
+						height = space.Height - child.DistanceBottom - top;
 					else
-						top = space.Height - child.dist_bottom - height;
+						top = space.Height - child.DistanceBottom - height;
 				}
 				else if ((anchor & AnchorStyles.Top) == 0) {
 					// top += diff_height/2 will introduce rounding errors (diff_height removed from after r51780)
 					// This calculates from scratch every time:
 					top = top + (space.Height - (top + height + child.dist_bottom)) / 2;
-					child.dist_bottom = space.Height - (top + height);
+					child.DistanceBottom = space.Height - (top + height);
 				}
 
 				// Sanity
@@ -171,13 +174,27 @@ namespace System.Windows.Forms.Layout
 				AnchorStyles anchor = child.Anchor;
 				left = child.Left;
 				top = child.Top;
-				
-				Size preferredsize = GetPreferredControlSize (child);
 
-				if (((anchor & AnchorStyles.Left) != 0) || ((anchor & AnchorStyles.Right) == 0))
-					child.dist_right += child.Width - preferredsize.Width;
+				#if USE_INITIAL_ANCHOR_VALUES
+				Size proposedSize;
+				if (AnchorStyles.None == anchor) {
+					proposedSize = new Size (width: parent.ClientSize.Width - child.Margin.Horizontal, height: parent.ClientSize.Height - child.Margin.Vertical);
+				} else {
+					proposedSize = new Size(width:parent.ClientSize.Width - child.AnchorValues.Left - child.AnchorValues.Right, height:parent.ClientSize.Height - child.AnchorValues.Top -  child.AnchorValues.Bottom);
+//					proposedSize = new Size(width:parent.ClientSize.Width - child.AnchorValues.Left - child.AnchorValues.Right - child.Margin.Horizontal, height:parent.ClientSize.Height - child.AnchorValues.Top -  child.AnchorValues.Bottom - child.Margin.Vertical);
+				}
+
+				Size preferredsize = GetPreferredControlSize (child, proposedSize);
+				#else
+				Size preferredsize = GetPreferredControlSize (child);
+				#endif // USE_INITIAL_ANCHOR_VALUES
+
+				// RGS TODO: This has to be wrong? Setting the values with an add?
+				if (((anchor & AnchorStyles.Left) != 0) || ((anchor & AnchorStyles.Right) == 0)) {
+					child.DistanceRight += child.Width - preferredsize.Width;
+				}
 				if (((anchor & AnchorStyles.Top) != 0) || ((anchor & AnchorStyles.Bottom) == 0))
-					child.dist_bottom += child.Height - preferredsize.Height;
+					child.DistanceBottom += child.Height - preferredsize.Height;
 
 				child.SetBoundsInternal (left, top, preferredsize.Width, preferredsize.Height, BoundsSpecified.None);
 			}
@@ -240,11 +257,19 @@ namespace System.Windows.Forms.Layout
 			return false;
 		}
 
+		#if USE_INITIAL_ANCHOR_VALUES
+		private Size GetPreferredControlSize (Control child, Size? proposedSize = null)
+		#else
 		private Size GetPreferredControlSize (Control child)
+		#endif // USE_INITIAL_ANCHOR_VALUES
 		{
 			int width;
 			int height;
+			#if USE_INITIAL_ANCHOR_VALUES
+			Size preferredsize = child.GetPreferredSize ((null == proposedSize) ? Size.Empty : proposedSize.Value);
+			#else
 			Size preferredsize = child.PreferredSize;
+			#endif // USE_INITIAL_ANCHOR_VALUES
 
 			if (child.GetAutoSizeMode () == AutoSizeMode.GrowAndShrink || (child.Dock != DockStyle.None && !(child is Button) && !(child is FlowLayoutPanel))) {
 				width = preferredsize.Width;
