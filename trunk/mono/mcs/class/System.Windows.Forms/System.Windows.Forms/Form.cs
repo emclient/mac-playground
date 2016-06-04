@@ -1071,7 +1071,7 @@ namespace System.Windows.Forms {
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool Modal  {
 			get {
-				return is_modal;
+				return is_modal || modal_dialogs.Contains(this);
 			}
 		}
 
