@@ -27,7 +27,7 @@
 //	Stefan Noack (noackstefan@googlemail.com)
 //
 
-#define USE_INITIAL_ANCHOR_VALUES
+//#define USE_INITIAL_ANCHOR_VALUES
 
 using System;
 using System.Drawing;
