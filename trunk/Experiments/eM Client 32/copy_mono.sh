@@ -275,3 +275,10 @@ cp "$MONO_LIB/libxml2.dylib" "$APP_LIB"
 
 cp "$APP_LIB/libgdiplus.dylib" "$APP_GAC/System.Drawing/4.0.0.0__b03f5f7f11d50a3a"
 
+
+# workaround for a mono bug - until the bug is fixed, the app will not work on other machine that where it was built
+
+export MONO_HARDWIRED_LIB_PATH="/private/tmp/source-mono-4.4.0/bockbuild-mono-4.4.0-branch/profiles/mono-mac-xamarin/package-root/lib/"
+
+mkdir -p "$MONO_HARDWIRED_LIB_PATH"
+\cp "$MONO_LIB/libmonosgen-2.0.1.dylib" "$MONO_HARDWIRED_LIB_PATH"
