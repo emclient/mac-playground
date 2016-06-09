@@ -1,16 +1,56 @@
-﻿using MonoMac.AppKit;
+﻿using System.Collections.Generic;
+using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
 
 namespace System.Windows.Forms.CocoaInternal
 {
-	class MonoApplicationDelegate : NSApplicationDelegate
+	internal class MonoApplicationDelegate : NSApplicationDelegate
 	{
 		XplatUICocoa driver;
+		const long ENDSESSION_LOGOFF = 0x80000000;
+
+		internal static bool IsGoingToPowerOff = false;
+		internal static DateTime IsGoingToPowerOfTime = DateTime.MinValue;
+		internal const double IsGoingToPowerOfMaxDelay = 30; // To pseudo-handle the case when shutdown is cancelled by another app.
 
 		public MonoApplicationDelegate (XplatUICocoa driver)
 		{
 			this.driver = driver;
+
+			NSWorkspace.SharedWorkspace.NotificationCenter.AddObserver(NSWorkspace.WillPowerOffNotification, WillPowerOff, null);
+		}
+
+		protected virtual void WillPowerOff(NSNotification n)
+		{
+			IsGoingToPowerOff = true;
+			IsGoingToPowerOfTime = DateTime.Now;
+		}
+
+		public override NSApplicationTerminateReply ApplicationShouldTerminate(NSApplication sender)
+		{
+			bool shouldTerminate = true;
+
+			if (IsGoingToPowerOff && (DateTime.Now - IsGoingToPowerOfTime).TotalSeconds < IsGoingToPowerOfMaxDelay)
+			{
+				IsGoingToPowerOff = false; // For the case the shutdown is going to be cancelled
+
+				var forms = GetOpenForms();
+				foreach (var form in forms)
+					if (!form.IsDisposed && form.IsHandleCreated)
+						if (IntPtr.Zero == XplatUI.SendMessage(form.Handle, Msg.WM_QUERYENDSESSION, (IntPtr)1, (IntPtr)ENDSESSION_LOGOFF))
+							shouldTerminate = false;
+			
+				if (!shouldTerminate)
+					return NSApplicationTerminateReply.Cancel;
+
+				forms = GetOpenForms();
+				foreach (var form in forms)
+					if (!form.IsDisposed && form.IsHandleCreated)
+						XplatUI.SendMessage(form.Handle, Msg.WM_ENDSESSION, (IntPtr)1, (IntPtr)ENDSESSION_LOGOFF);
+			}
+
+			return NSApplicationTerminateReply.Now;
 		}
 
 		public override void DidFinishLaunching(NSNotification notification)
@@ -68,6 +108,14 @@ namespace System.Windows.Forms.CocoaInternal
 
 			NSApplication.SharedApplication.MainMenu = mainMenu;
 			NSApplication.SharedApplication.WindowsMenu = windowMenu;
+		}
+
+		public static List<Form> GetOpenForms()
+		{
+			var forms = new List<Form>(Application.OpenForms.Count);
+			foreach (Form f in Application.OpenForms)
+				forms.Add(f);
+			return forms;
 		}
 	}
 }
