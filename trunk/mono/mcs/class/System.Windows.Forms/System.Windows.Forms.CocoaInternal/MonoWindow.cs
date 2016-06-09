@@ -71,7 +71,11 @@ namespace System.Windows.Forms.CocoaInternal
 		internal virtual bool shouldClose (NSObject sender)
 		{
 			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
-			driver.SendMessage (hwnd.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+			var form = Control.FromHandle(hwnd.Handle) as Form;
+			if (form != null)
+				form.Close(); // Sets CloseReason, among other things
+			else
+				driver.SendMessage (hwnd.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
 			return false;
 		}
 

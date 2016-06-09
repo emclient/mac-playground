@@ -52,6 +52,7 @@ namespace System.Windows.Forms {
 		#region Local Variables
 		internal bool			closing;
 		private bool			closed;
+		private CloseReason		closeReason;
 		FormBorderStyle			form_border_style;
 		private bool		        autoscale;
 		private Size			clientsize_set;
@@ -1616,6 +1617,7 @@ namespace System.Windows.Forms {
 			if (Menu != null)
 				XplatUI.SetMenu (window.Handle, null);
 
+			CloseReason = CloseReason.UserClosing;
 			XplatUI.SendMessage(this.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
 
 			closed = true;
@@ -1724,11 +1726,14 @@ namespace System.Windows.Forms {
 			// If our owner is topmost, we better be too, or else we'll show up under our owner
 			if (this.owner != null && this.owner.TopMost)
 				this.TopMost = true;
-				
+
 			#if broken
 			// Can't do this, will screw us in the modal loop
 			form_parent_window.Parent = this.owner;
 			#endif
+
+			// for modal dialogs make sure we reset close reason.
+			this.CloseReason = CloseReason.None;
 
 			// Release any captures
 			XplatUI.GrabInfo(out capture_window, out confined, out area);
@@ -2455,8 +2460,17 @@ namespace System.Windows.Forms {
 			}
 
 			case Msg.WM_CLOSE: {
+				if (CloseReason == CloseReason.None)
+					CloseReason = CloseReason.TaskManagerClosing;
 				WmClose (ref m);
 				return;
+			}
+
+			case Msg.WM_QUERYENDSESSION:
+			case Msg.WM_ENDSESSION: {
+				CloseReason = CloseReason.WindowsShutDown;
+				WmClose(ref m);
+				break;
 			}
 
 			case Msg.WM_WINDOWPOSCHANGED: {
@@ -2564,14 +2578,14 @@ namespace System.Windows.Forms {
 			}
 			
 			close_raised = true;
-			bool cancelled = FireClosingEvents (CloseReason.UserClosing, cancel);
+			bool cancelled = FireClosingEvents (CloseReason, cancel);
 			if (!cancelled) {
 				if (!last_check || DialogResult != DialogResult.None) {
 					if (mdi_container != null)
 						foreach (Form mdi_child in mdi_container.MdiChildren)
-							mdi_child.FireClosedEvents (CloseReason.UserClosing);
+							mdi_child.FireClosedEvents (CloseReason);
 
-					FireClosedEvents (CloseReason.UserClosing);
+					FireClosedEvents (CloseReason);
 				}
 				closing = true;
 				shown_raised = false;
@@ -2586,7 +2600,7 @@ namespace System.Windows.Forms {
 
 		private void WmClose (ref Message m)
 		{
-			if (this.Enabled == false)
+			if (this.Enabled == false) // How about WM_QUERYENDSESSION?
 				return; // prevent closing a disabled form.
 
 			Form act = Form.ActiveForm;
@@ -2624,12 +2638,15 @@ namespace System.Windows.Forms {
 						act.SelectActiveControl ();
 				}
 				mdi_parent = null;
-			} else {
+			} else { // cancelled
 				if (is_modal) {
 					DialogResult = DialogResult.None;
 				}
-				closing = false;	
+				closing = false;
 			}
+
+			if (m.Msg == (int)Msg.WM_QUERYENDSESSION)
+				m.Result = (IntPtr)(closing ? 1 : 0);
 		}
 		
 		private void WmWindowPosChanged (ref Message m)
@@ -2665,7 +2682,17 @@ namespace System.Windows.Forms {
 			if (XplatUI.IsEnabled (Handle))
 				ToolStripManager.FireAppClicked ();
 
-			base.WndProc (ref m);
+			bool callDefault = true;
+
+			SystemCommands sc = (SystemCommands)(int)((long)(m.WParam) & 0xFFF0);
+			switch (sc) {
+				case SystemCommands.SC_CLOSE:
+					CloseReason = CloseReason.UserClosing;
+					break;
+			}
+
+			if (callDefault)
+				base.WndProc (ref m);
 		}
 
 		private void WmActivate (ref Message m)
@@ -3055,6 +3082,13 @@ namespace System.Windows.Forms {
 			set {
 				base.Location = value;
 			}
+		}
+
+		// Added by JV
+		internal CloseReason CloseReason
+		{
+			get { return closeReason; }
+			set { closeReason = value; }
 		}
 
 		static object FormClosingEvent = new object ();
