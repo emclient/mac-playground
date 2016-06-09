@@ -57,5 +57,11 @@ namespace WinApi
 			NotImplemented(MethodBase.GetCurrentMethod());
 			return IntPtr.Zero;
 		}
+
+		public static int GetCurrentThreadId()
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
+		}
 	}
 }

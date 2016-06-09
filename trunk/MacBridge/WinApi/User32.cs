@@ -497,25 +497,31 @@ namespace WinApi
 
         public static uint MapVirtualKey(uint uCode, uint uMapType)
         {
-            // TODO
-            return 0;
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
         }
 
         public static int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpKeyState, 
             [Out, MarshalAs(UnmanagedType.LPWStr, SizeParamIndex = 4)] StringBuilder pwszBuff,
             int cchBuff, uint wFlags)
         {
-            // TODO
-            return 0;
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
         }
 
         public static bool GetKeyboardState(byte[] lpKeyState)
         {
-            // TODO
-            return false;
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return false;
         }
 
-        #endregion // Keyboard
+		public static IntPtr GetKeyboardLayout(int dwLayout)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return IntPtr.Zero;
+		}
+
+		#endregion // Keyboard
 
 		// Internal
 
@@ -568,21 +574,19 @@ namespace WinApi
 		public static int GetWindowExStyle(IntPtr hWnd)
 		{
 			WS style = 0;
-			// TODO: Implement
+			NotImplemented(MethodBase.GetCurrentMethod());
 			return (int)style;
 		}
 
 		#region Graphics
 		public static int DrawTextW(IntPtr hDC, string lpszString, int nCount, ref RECT lpRect, int nFormat)
 		{
-			// TODOO
 			NotImplemented(MethodBase.GetCurrentMethod());
 			return 0;
 		}
 
 		public static int DrawTextA(IntPtr hDC, byte[] lpszString, int byteCount, ref RECT lpRect, int nFormat)
 		{
-			// TODOO
 			NotImplemented(MethodBase.GetCurrentMethod());
 			return 0;
 		}
