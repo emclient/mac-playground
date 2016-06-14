@@ -1907,9 +1907,7 @@ namespace System.Windows.Forms {
 				if (icon == null) { 
 					NSApplication.SharedApplication.ApplicationIconImage = null;
 				} else {
-					Bitmap		bitmap;
-	
-					bitmap = new Bitmap (128, 128);
+					var bitmap = new Bitmap (128, 128);
 					using (Graphics g = Graphics.FromImage (bitmap)) {
 						g.DrawIcon (new Icon(icon, 128, 128), new Rectangle(0, 0, 128, 128));
 					}
