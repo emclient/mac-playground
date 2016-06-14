@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
+using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
+using MonoMac.Foundation;
 using WinApi;
 
 namespace MacBridge.CoreGraphics
@@ -10,6 +13,15 @@ namespace MacBridge.CoreGraphics
 		public static Bitmap ToBitmap(this CGImage cgImage)
 		{
 			return new Bitmap (cgImage);
+		}
+
+		public static NSImage ToNSImage(this Image image)
+		{
+			var stream = new MemoryStream();
+			image.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+
+			var data = NSData.FromArray(stream.ToArray());
+			return new NSImage(data);
 		}
 	}
 
