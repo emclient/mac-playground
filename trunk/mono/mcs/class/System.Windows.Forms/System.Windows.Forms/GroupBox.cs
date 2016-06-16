@@ -307,6 +307,8 @@ namespace System.Windows.Forms
 		{
 			Size retsize = new Size (Padding.Left, Padding.Top);
 
+			int hDocked = 0;
+
 			foreach (Control child in Controls) {
 				if (child.Dock == DockStyle.Fill) {
 					if (child.Bounds.Right > retsize.Width)
@@ -314,13 +316,29 @@ namespace System.Windows.Forms
 				} else if (child.Dock != DockStyle.Top && child.Dock != DockStyle.Bottom && (child.Bounds.Right + child.Margin.Right) > retsize.Width)
 					retsize.Width = child.Bounds.Right + child.Margin.Right;
 
-				if (child.Dock == DockStyle.Fill) {
-					var ps = child.GetPreferredSize (Size.Empty);
+				if (child.Dock == DockStyle.Fill)
+				{
+					var ps = child.GetPreferredSize(proposedSize);
 					if (child.Location.Y + ps.Height + child.Margin.Vertical > retsize.Height)
 						retsize.Height = child.Location.Y + ps.Height + child.Margin.Vertical;
-				} else if (child.Dock != DockStyle.Left && child.Dock != DockStyle.Right && (child.Bounds.Bottom + child.Margin.Bottom) > retsize.Height)
-					retsize.Height = child.Bounds.Bottom + child.Margin.Bottom;
+				}
+				else if (child.Dock != DockStyle.Left && child.Dock != DockStyle.Right)
+				{
+					if (child.Dock == DockStyle.Bottom)
+					{
+						hDocked += child.Bounds.Height + child.Margin.Bottom;
+					}
+					else if (child.Dock == DockStyle.Top)
+					{
+						hDocked += child.Bounds.Height + child.Margin.Top;
+					} else {
+						if ((child.Bounds.Bottom + child.Margin.Bottom) > retsize.Height)
+							retsize.Height = child.Bounds.Bottom + child.Margin.Bottom;
+					}
+				}
 			}
+
+			retsize.Height += hDocked;
 
 			retsize.Width += Padding.Right;
 			retsize.Height += Padding.Bottom;
