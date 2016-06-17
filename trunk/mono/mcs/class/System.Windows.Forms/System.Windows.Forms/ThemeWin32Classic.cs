@@ -1028,7 +1028,7 @@ namespace System.Windows.Forms
 			Size proposed = Size.Empty;
 			
 			// Force wrapping if we aren't AutoSize and our text is too long
-			if (!button.AutoSize)
+			//if (!button.AutoSize) // JV:Condition disabled to fix drawing checkboxes and radiobuttons that need wrapping
 				proposed.Width = button.PaddingClientRectangle.Width - glyphArea.Width - 2;
 
 			Size text_size = TextRenderer.MeasureTextInternal (text, button.Font, proposed, button.TextFormatFlags, button.UseCompatibleTextRendering);
