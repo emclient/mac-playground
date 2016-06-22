@@ -2145,10 +2145,12 @@ namespace System.Windows.Forms {
 				vuWrap.Hidden = true;
 			}
 
+			bool nomove = hwnd.x == x && hwnd.y == y;
+			bool nosize = hwnd.width == width && hwnd.height == height;
+
 			// Save a server roundtrip (and prevent a feedback loop)
-			if ((hwnd.x == x) && (hwnd.y == y) && (hwnd.width == width) && (hwnd.height == height)) {
+			if (nomove && nosize)
 				return;
-			}
 
 			hwnd.x = x;
 			hwnd.y = y;
@@ -2175,7 +2177,13 @@ namespace System.Windows.Forms {
                     y = y,
                     cx = width,
                     cy = height,
-                    flags = (uint)(XplatUIWin32.SetWindowPosFlags.SWP_NOZORDER | XplatUIWin32.SetWindowPosFlags.SWP_NOACTIVATE | XplatUIWin32.SetWindowPosFlags.SWP_NOOWNERZORDER),
+                    flags = (uint)(XplatUIWin32.SetWindowPosFlags.SWP_NOZORDER
+							| XplatUIWin32.SetWindowPosFlags.SWP_NOACTIVATE
+							| XplatUIWin32.SetWindowPosFlags.SWP_NOOWNERZORDER
+							| XplatUIWin32.SetWindowPosFlags.SWP_NOREPOSITION
+							| (nomove ? XplatUIWin32.SetWindowPosFlags.SWP_NOMOVE : 0)
+							| (nosize ? XplatUIWin32.SetWindowPosFlags.SWP_NOSIZE : 0)
+					),
                 };
                 var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(wp));
                 Marshal.StructureToPtr(wp, ptr, true);
