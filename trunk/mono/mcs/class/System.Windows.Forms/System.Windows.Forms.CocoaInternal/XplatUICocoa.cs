@@ -2103,7 +2103,8 @@ namespace System.Windows.Forms {
 				form.window_manager = new ToolWindowManager (form);
 			}
 
-			RequestNCRecalc (handle);
+			if (form != null && form.FormBorderStyle != border_style)
+				RequestNCRecalc (handle);
 		}
 
 		internal override void SetMenu (IntPtr handle, Menu menu) {
