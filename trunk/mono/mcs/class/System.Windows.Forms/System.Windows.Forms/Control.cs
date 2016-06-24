@@ -4934,29 +4934,20 @@ namespace System.Windows.Forms
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected void UpdateBounds(int x, int y, int width, int height, int clientWidth, int clientHeight) {
 			// UpdateBounds only seems to set our sizes and fire events but not update the GUI window to match
-			bool	moved	= false;
-			bool	resized	= false;
+			bool moved = bounds.X != x || bounds.Y != y;
+			bool resized = bounds.Width != width || bounds.Height != height;
 
-			// Needed to generate required notifications
-			if ((this.bounds.X!=x) || (this.bounds.Y!=y)) {
-				moved=true;
-			}
-
-			if ((this.Bounds.Width!=width) || (this.Bounds.Height!=height)) {
-				resized=true;
-			}
-
-			bounds.X=x;
-			bounds.Y=y;
-			bounds.Width=width;
-			bounds.Height=height;
+			bounds.X = x;
+			bounds.Y = y;
+			bounds.Width = width;
+			bounds.Height = height;
 
 			// Assume explicit bounds set. SetBoundsCore will restore old bounds
 			// if needed.
 			explicit_bounds = bounds;
 
-			client_size.Width=clientWidth;
-			client_size.Height=clientHeight;
+			client_size.Width = clientWidth;
+			client_size.Height = clientHeight;
 
 			if (moved) {
 				OnLocationChanged(EventArgs.Empty);

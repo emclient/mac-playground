@@ -76,7 +76,7 @@ namespace System.Drawing
 			charactersFitted = 0;
 			linesFilled = 0;
 
-			if (String.IsNullOrEmpty(text))
+			if (String.IsNullOrEmpty(text) || font == null)
 				return SizeF.Empty;
 
 			if (font == null)
