@@ -105,7 +105,7 @@ namespace System.Windows.Forms
 
 		public static FieldInfo FindField(Control parent, Control control)
 		{
-			if (parent == null || control == null)
+			if (parent == null || control == null || !parent.IsHandleCreated || !control.IsHandleCreated)
 				return null;
 
 			var type = parent.GetType();

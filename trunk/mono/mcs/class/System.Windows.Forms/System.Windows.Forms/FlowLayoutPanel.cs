@@ -112,48 +112,38 @@ namespace System.Windows.Forms
 				base.CalculateCanvasSize (canOverride);
 		}
 
-               protected override void OnLayout (LayoutEventArgs levent)
-               {
-                       base.OnLayout (levent);
+		protected override void OnLayout (LayoutEventArgs levent)
+		{
+			base.OnLayout (levent);
 
-                       // base.OnLayout() calls CalculateCanvasSize(true) in which we just set the canvas to
-                       // clientsize so we could re-layout everything according to the flow.
-                       // This time we want to actually calculate the canvas.
-                       CalculateCanvasSize (false);
-                       if (AutoSize && (canvas_size.Width > ClientSize.Width || canvas_size.Height > ClientSize.Height)) {
-                               ClientSize = canvas_size;
-                       }
-                       AdjustFormScrollbars (AutoScroll);
-               }
+			// base.OnLayout() calls CalculateCanvasSize(true) in which we just set the canvas to
+			// clientsize so we could re-layout everything according to the flow.
+			// This time we want to actually calculate the canvas.
+			CalculateCanvasSize(false);
+
+			if (AutoSize && (canvas_size.Width > ClientSize.Width || canvas_size.Height > ClientSize.Height))
+				ClientSize = canvas_size;
+
+			AdjustFormScrollbars (AutoScroll);
+		}
 		
 		internal override Size GetPreferredSizeCore (Size proposedSize)
 		{
-			bool allControlsHidden = true;	// Set to false, or Size(0,0) may be returned if AutoSize and GrowAndShrink...
 			int width = 0;
 			int height = 0;
 			bool horizontal = FlowDirection == FlowDirection.LeftToRight || FlowDirection == FlowDirection.RightToLeft;
 			if (!WrapContents || (horizontal && proposedSize.Width == 0) || (!horizontal && proposedSize.Height == 0)) {
-				// TODO: RGS I have fixed FlowBreaks for LeftToRight and RightToLeft however there are some deeper problems.
-				// A starting point for the deeper problems is DefaultLayout.GetPreferredControlSize() and the line: height = child.ExplicitBounds.Height;
 				int flow_break_add = 0;
 				foreach (Control control in Controls) {
-					if (false == control.Visible) {
-						continue;
-					}
-					allControlsHidden = false;
 					Size control_preferred_size;
 					if (control.AutoSize)
-						control_preferred_size = control.PreferredSize;
+						control_preferred_size = control.GetPreferredSize(proposedSize);
 					else
 						control_preferred_size = control.Size;
 					Padding control_margin = control.Margin;
 					if (horizontal) {
 						width += control_preferred_size.Width + control_margin.Horizontal;
 						height = Math.Max (height, control_preferred_size.Height + control_margin.Vertical);
-						if (GetFlowBreak (control)) {
-							flow_break_add += height;
-							height = 0;
-						}
 					} else {
 						height += control_preferred_size.Height + control_margin.Vertical;
 						width = Math.Max (width, control_preferred_size.Width + control_margin.Horizontal);
@@ -161,19 +151,15 @@ namespace System.Windows.Forms
 				}
 				if (horizontal) {
 					height += flow_break_add;
-					height += this.Padding.Vertical + 2;	// The controls will be offset by the top padding, and we need the bottom padding too. The +2 is something that just works at the moment, I am unsure why it should be needed but it's consistent
+					height += this.Padding.Vertical;
 				} else {
-					width += this.Padding.Horizontal;		// This may need +2 also
+					width += this.Padding.Horizontal;
 				}
 			} else {
 				int size_in_flow_direction = 0;
 				int size_in_other_direction = 0;
 				int increase;
 				foreach (Control control in Controls) {
-					if (false == control.Visible) {
-						continue;
-					}
-					allControlsHidden = false;
 					Size control_preferred_size;
 					if (control.AutoSize)
 						control_preferred_size = control.PreferredSize;
@@ -209,10 +195,6 @@ namespace System.Windows.Forms
 					height = Math.Max (height, size_in_flow_direction);
 					width += size_in_other_direction;
 				}
-			}
-
-			if (true == allControlsHidden && true == this.AutoSize && AutoSizeMode.GrowAndShrink == this.AutoSizeMode) {
-				return new Size (width:0, height:0);
 			}
 
 			return new Size (width, height);
