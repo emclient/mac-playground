@@ -363,7 +363,7 @@ namespace System.Windows.Forms.CocoaInternal
 				if (++nprecise % 3 != 0)
 					return 0;
 					
-				const double scale = 0.01;
+				const double scale = 10.0;
 				int step = delta >= 0 ? 60 : -60;
 				return ((int)((delta * scale + step) / step)) * step;
 			}
