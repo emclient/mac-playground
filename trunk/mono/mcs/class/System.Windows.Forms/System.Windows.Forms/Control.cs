@@ -3595,7 +3595,10 @@ namespace System.Windows.Forms
 			}
 			
 			if (parent != null && !parent.Created) {
-				return;
+				// Commented out as it prevented creating control in Graphics's ctor, which lead to crashes
+				// when setting attributes of the control in the parent's constructor
+				// (typically in the .Designer.cs).
+				//return;
 			}
 
 			if (!IsHandleCreated) {
