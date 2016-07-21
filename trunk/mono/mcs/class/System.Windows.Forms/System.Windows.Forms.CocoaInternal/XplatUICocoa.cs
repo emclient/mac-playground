@@ -1165,9 +1165,9 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle (msg.HWnd);
 			switch ((Msg) msg.Msg) {
 				case Msg.WM_IME_COMPOSITION:
-				string s = PopChars();
-					foreach (char c in s)
-						SendMessage (msg.HWnd, Msg.WM_IME_CHAR, (IntPtr) c, msg.LParam);
+					for (string s = PopChars(); s.Length != 0; s = PopChars())
+						foreach (char c in s)
+							SendMessage (msg.HWnd, Msg.WM_IME_CHAR, (IntPtr) c, msg.LParam);
 					break;
 				case Msg.WM_IME_CHAR:
 					// On Windows API it sends two WM_CHAR messages for each byte, but
@@ -2416,12 +2416,14 @@ namespace System.Windows.Forms {
 			switch (msg.message)
 			{
 				case Msg.WM_KEYDOWN:
-					foreach(var c in PopChars())
-						PostMessage(msg.hwnd, Msg.WM_CHAR, (IntPtr)c, msg.lParam);
+					for (string s = PopChars(); s.Length != 0; s = PopChars())
+						foreach(var c in s)
+							PostMessage(msg.hwnd, Msg.WM_CHAR, (IntPtr)c, msg.lParam);
 					break;
 				case Msg.WM_SYSKEYDOWN:
-					foreach (var c in PopChars())
-						PostMessage(msg.hwnd, Msg.WM_SYSCHAR, (IntPtr)c, msg.lParam);
+					for (string s = PopChars(); s.Length != 0; s = PopChars())
+						foreach (var c in s)
+							PostMessage(msg.hwnd, Msg.WM_SYSCHAR, (IntPtr)c, msg.lParam);
 					break;
 				case Msg.WM_KEYUP:
 				case Msg.WM_SYSKEYUP:
