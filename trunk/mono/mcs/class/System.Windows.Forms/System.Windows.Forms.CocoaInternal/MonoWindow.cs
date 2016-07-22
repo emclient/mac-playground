@@ -171,6 +171,10 @@ namespace System.Windows.Forms.CocoaInternal
 			XplatUICocoa.ActiveWindow = hwnd.Handle;
 			driver.SendMessage (hwnd.Handle, Msg.WM_ACTIVATE, (IntPtr) WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
 
+			var cv = (MonoContentView)ContentView;
+			if (cv.FocusHandle != IntPtr.Zero)
+				driver.SendMessage(cv.FocusHandle, Msg.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
+
 			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows) {
 				if (utility_window != this && ! utility_window.IsVisible)
 					utility_window.OrderFront (utility_window);
@@ -184,7 +188,7 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.SendMessage (hwnd.Handle, Msg.WM_ACTIVATE, (IntPtr) WindowActiveFlags.WA_INACTIVE, IntPtr.Zero);
 			if (XplatUICocoa.ActiveWindow == hwnd.Handle)
 				XplatUICocoa.ActiveWindow = IntPtr.Zero;
-			
+
 			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows) {
 				if (utility_window != this && utility_window.IsVisible)
 					utility_window.OrderOut (utility_window);
