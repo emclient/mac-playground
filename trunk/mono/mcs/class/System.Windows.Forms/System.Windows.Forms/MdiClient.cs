@@ -707,7 +707,6 @@ namespace System.Windows.Forms {
 			form.SendControlFocus (form);
 			SetWindowStates (wm);
 			if (current != form) {
-				form.has_focus = false;
 				if (current.IsHandleCreated)
 					XplatUI.InvalidateNC (current.Handle);
 				if (form.IsHandleCreated)
