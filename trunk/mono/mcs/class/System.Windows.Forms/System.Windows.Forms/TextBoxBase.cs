@@ -1704,7 +1704,7 @@ namespace System.Windows.Forms
 					return true;
 				}
 
-				return has_focus;
+				return Focused;
 			}
 
 			set {

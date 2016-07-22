@@ -73,7 +73,6 @@ namespace System.Windows.Forms
 
 		// State
 		bool                    is_created; // true if OnCreateControl has been sent
-		internal bool		has_focus;		// true if control has focus
 		internal bool		is_visible;		// true if control is visible
 		internal bool		is_entered;		// is the mouse inside the control?
 		internal bool		is_enabled;		// true if control is enabled (usable/not grayed out)
@@ -898,7 +897,6 @@ namespace System.Windows.Forms
 			layout_pending = false;
 			is_toplevel = false;
 			causes_validation = true;
-			has_focus = false;
 			layout_suspended = 0;
 			mouse_clicks = 1;
 			tab_index = -1;
@@ -1293,7 +1291,7 @@ namespace System.Windows.Forms
 			container = GetContainerControl();
 			if (container != null && (Control)container != control) {
 				container.ActiveControl = control;
-				if (container.ActiveControl == control && !control.has_focus && control.IsHandleCreated)
+				if (container.ActiveControl == control && !control.Focused && control.IsHandleCreated)
 					XplatUI.SetFocus(control.window.Handle);
 			}
 			else if (control.IsHandleCreated) {
@@ -2651,7 +2649,7 @@ namespace System.Windows.Forms
 				if (!value)
 					UpdateCursor ();
 
-				if (old_value != value && !value && this.has_focus)
+				if (old_value != value && !value && this.Focused)
 					SelectNextControl(this, true, true, true, true);
 
 				OnEnabledChanged (EventArgs.Empty);
@@ -2668,7 +2666,7 @@ namespace System.Windows.Forms
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual bool Focused {
 			get {
-				return this.has_focus;
+				return IsHandleCreated && XplatUI.GetFocus() == Handle;
 			}
 		}
 
@@ -3673,12 +3671,12 @@ namespace System.Windows.Forms
 		}
 
 		internal virtual bool FocusInternal (bool skip_check) {
-			if (skip_check || (CanFocus && IsHandleCreated && !has_focus && !is_focusing)) {
+			if (skip_check || (CanFocus && IsHandleCreated && !Focused && !is_focusing)) {
 				is_focusing = true;
 				Select(this);
 				is_focusing = false;
 			}
-			return has_focus;
+			return Focused;
 		}
 
 		internal Control GetRealChildAtPoint (Point pt) {
@@ -5700,15 +5698,12 @@ namespace System.Windows.Forms
 		}
 
 		private void WmKillFocus (ref Message m) {
-			this.has_focus = false;
 			OnLostFocus (EventArgs.Empty);
 		}
 
 		private void WmSetFocus (ref Message m) {
-			if (!has_focus) {
-				this.has_focus = true;
-				OnGotFocus (EventArgs.Empty);
-			}
+			DefWndProc(ref m);
+			OnGotFocus (EventArgs.Empty);
 		}
 					
 		private void WmSysColorChange (ref Message m) {

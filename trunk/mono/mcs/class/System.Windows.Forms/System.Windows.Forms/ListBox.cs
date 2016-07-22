@@ -1294,7 +1294,7 @@ namespace System.Windows.Forms
 				if (SelectedIndices.Contains (i))
 					state |= DrawItemState.Selected;
 					
-				if (has_focus && FocusedItem == i)
+				if (Focused && FocusedItem == i)
 					state |= DrawItemState.Focus;
 					
 				if (MultiColumn == false && hscrollbar != null && hscrollbar.Visible) {
@@ -2041,7 +2041,7 @@ namespace System.Windows.Forms
 			
 				focused_item = value;
 			
-				if (has_focus == false)
+				if (!Focused)
 					return;
 
 				if (prev != -1)
