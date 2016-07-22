@@ -10,6 +10,14 @@ namespace System.Windows.Forms
 	{
 		public static bool SwitchingConversations = false;
 
+		public static String FieldName(Control ctrl)
+		{
+			if (ctrl == null || !ctrl.IsHandleCreated)
+				return "null";
+			var field = ReverseLookupField(ctrl);
+			return field?.Name ?? ctrl.FindForm()?.Name ?? "<?>";
+		}
+
 		public static String ControlInfo(Control ctrl)
 		{
 			if (ctrl == null || !ctrl.IsHandleCreated)

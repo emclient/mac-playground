@@ -175,7 +175,7 @@ namespace System.Windows.Forms {
 		}
 
 		public virtual AccessibleObject GetFocused() {
-			if (owner.has_focus) {
+			if (owner.Focused) {
 				return owner.AccessibilityObject;
 			}
 

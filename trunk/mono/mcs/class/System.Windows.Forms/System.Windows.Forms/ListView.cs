@@ -3581,14 +3581,12 @@ namespace System.Windows.Forms
 			case Msg.WM_KILLFOCUS:
 				Control receiver = Control.FromHandle (m.WParam);
 				if (receiver == item_control) {
-					has_focus = false;
 					refocusing = true;
 					return;
 				}
 				break;
 			case Msg.WM_SETFOCUS:
 				if (refocusing) {
-					has_focus = true;
 					refocusing = false;
 					return;
 				}
