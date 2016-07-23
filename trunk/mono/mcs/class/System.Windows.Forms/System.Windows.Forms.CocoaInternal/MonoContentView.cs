@@ -87,7 +87,10 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			// Losing focus to non-SWF control
 			if (FocusHandle != IntPtr.Zero)
+			{
 				driver.SendMessage(FocusHandle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
+				FocusHandle = IntPtr.Zero;
+			}
 			return base.ResignFirstResponder();
 		}
 

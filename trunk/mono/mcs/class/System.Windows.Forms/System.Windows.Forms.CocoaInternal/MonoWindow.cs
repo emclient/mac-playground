@@ -189,6 +189,10 @@ namespace System.Windows.Forms.CocoaInternal
 			if (XplatUICocoa.ActiveWindow == hwnd.Handle)
 				XplatUICocoa.ActiveWindow = IntPtr.Zero;
 
+			var cv = (MonoContentView)ContentView;
+			if (cv.FocusHandle != IntPtr.Zero)
+				driver.SendMessage(cv.FocusHandle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
+
 			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows) {
 				if (utility_window != this && utility_window.IsVisible)
 					utility_window.OrderOut (utility_window);
@@ -197,10 +201,15 @@ namespace System.Windows.Forms.CocoaInternal
 
 		// TODO: expanding, collapsing
 
-//		[Export ("windowDidUpdate:")]
-//		internal virtual void windowDidUpdate (NSNotification notification)
-//		{
-//		}
+		NSResponder prevFirstResponder = null;
+		[Export ("windowDidUpdate:")]
+		internal virtual void windowDidUpdate (NSNotification notification)
+		{
+			if (prevFirstResponder != FirstResponder)
+			{
+				prevFirstResponder = FirstResponder;
+			}
+		}
 	
 		internal virtual void resizeWinForm()
 		{

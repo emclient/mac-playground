@@ -5702,6 +5702,13 @@ namespace System.Windows.Forms
 		}
 
 		private void WmSetFocus (ref Message m) {
+
+			// Update ActiveControl tree
+			IContainerControl c = (Parent ?? this).GetContainerControl();
+			if (c != null)
+				if (!c.ActivateControl(this))
+					return;
+
 			DefWndProc(ref m);
 			OnGotFocus (EventArgs.Empty);
 		}
