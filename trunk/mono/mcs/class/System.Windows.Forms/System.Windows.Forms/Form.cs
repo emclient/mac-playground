@@ -2296,9 +2296,6 @@ namespace System.Windows.Forms {
 		}
 
 		protected override void Select(bool directed, bool forward) {
-			Form	parent;
-
-
 			// MS causes the handle to be created here.
 			if (!IsHandleCreated)
 				if (!IsHandleCreated)
@@ -2308,7 +2305,7 @@ namespace System.Windows.Forms {
 				base.SelectNextControl(null, forward, true, true, true);
 			}
 
-			parent = this.ParentForm;
+			Form parent = this.ParentForm;
 			if (parent != null) {
 				parent.ActiveControl = this;
 			}
