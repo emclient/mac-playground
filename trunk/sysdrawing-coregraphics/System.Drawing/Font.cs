@@ -253,9 +253,61 @@ namespace System.Drawing
 			}
 		}
 
+		[BrowsableAttribute(false)]
+		public bool IsSystemFont
+		{
+			get
+			{
+				return !String.IsNullOrEmpty(SystemFontName);
+			}
+		}
+
+		public String SystemFontName
+		{
+			get
+			{
+				if (this.Equals(SystemFonts.CaptionFont))
+					return "CaptionFont";
+
+				if (this.Equals(SystemFonts.DefaultFont))
+					return "DefaultFont";
+
+				if (this.Equals(SystemFonts.DialogFont))
+					return "DialogFont";
+
+				if (this.Equals(SystemFonts.IconTitleFont))
+					return "IconTitleFont";
+
+				if (this.Equals(SystemFonts.MenuFont))
+					return "MenuFont";
+
+				if (this.Equals(SystemFonts.MessageBoxFont))
+					return "MessageBoxFont";
+
+				if (this.Equals(SystemFonts.SmallCaptionFont))
+					return "SmallCaptionFont";
+
+				if (this.Equals(SystemFonts.StatusFont))
+					return "StatusFont";
+
+				return String.Empty;
+			}
+		}
+
 		internal static void NotImplemented(System.Reflection.MethodBase method, object details = null)
 		{
 			System.Diagnostics.Debug.WriteLine("Not Implemented: " + method.ReflectedType.Name + "." + method.Name + (details == null ? String.Empty : " (" + details.ToString() + ")"));
+		}
+
+		public bool Equals(Font f)
+		{
+			return this.Name == f.Name
+			   && (int)Math.Round(10.0 * this.Size) == (int)Math.Round(10.0 * f.Size)
+			   && this.Underline == f.Underline
+			   && this.Bold == f.Bold
+			   && this.Strikeout == f.Strikeout
+			   && this.FontFamily.Name == f.FontFamily.Name
+			   && this.Style == f.Style;
 		}
 	}
 }
