@@ -301,13 +301,14 @@ namespace System.Drawing
 
 		public bool Equals(Font f)
 		{
-			return this.Name == f.Name
-			   && (int)Math.Round(10.0 * this.Size) == (int)Math.Round(10.0 * f.Size)
-			   && this.Underline == f.Underline
-			   && this.Bold == f.Bold
-			   && this.Strikeout == f.Strikeout
-			   && this.FontFamily.Name == f.FontFamily.Name
-			   && this.Style == f.Style;
+			return f != null
+				&& this.Name == f.Name
+				&& (int)Math.Round(10.0 * this.Size) == (int)Math.Round(10.0 * f.Size)
+				&& this.Underline == f.Underline
+				&& this.Bold == f.Bold
+				&& this.Strikeout == f.Strikeout
+				&& this.FontFamily.Name == f.FontFamily.Name
+				&& this.Style == f.Style;
 		}
 	}
 }
