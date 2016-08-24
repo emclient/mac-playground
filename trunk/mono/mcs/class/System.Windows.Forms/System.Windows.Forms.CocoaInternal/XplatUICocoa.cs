@@ -159,7 +159,7 @@ namespace System.Windows.Forms {
 					NSApplication.Init ();
 					try { NSApplication.InitDrawingBridge (); }
 					catch (NullReferenceException) { }
-					NSApplication.SharedApplication.FinishLaunching ();
+					//NSApplication.SharedApplication.FinishLaunching ();
 
 					Instance = new XplatUICocoa ();
 				}
