@@ -77,11 +77,16 @@ namespace System.Windows.Forms.CocoaInternal
 						int c = (int)theEvent.Characters[0];
 						if (c == ShiftTabKey || c == TabKey)
 						{
-							monoContentView.FocusHandle = FindNextControl(FirstResponder as NSView, c == 9);
+							monoContentView.FocusHandle = FindNextControl(FirstResponder as NSView, c == TabKey);
 							MakeFirstResponder(monoContentView);
 							return;
 						}
 					}
+					break;
+				
+				case NSEventType.FlagsChanged:
+					if (FirstResponder is NSControl)
+						monoContentView.ProcessModifiers(theEvent);
 					break;
 			}
 
@@ -349,7 +354,7 @@ namespace System.Windows.Forms.CocoaInternal
 					break;
 				}
 
-				if (next.CanSelect && next.TabStop)
+				if (next.CanSelect && next.TabStop && !next.Contains(control))
 					return next;
 
 			} while (next != control);
@@ -374,7 +379,7 @@ namespace System.Windows.Forms.CocoaInternal
 					break;
 				}
 
-				if (next.CanSelect && next.TabStop)
+				if (next.CanSelect && next.TabStop && !next.Contains(ctl))
 					prev = next;
 
 			} while (next != ctl);

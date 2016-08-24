@@ -450,13 +450,13 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public void ProcessModifiers (NSEvent eventref)
 		{
-			if (FocusHandle == IntPtr.Zero)
-				return;
-
 			// we get notified when modifiers change, but not specifically what changed
 			NSEventModifierMask flags = eventref.ModifierFlags;
 			NSEventModifierMask diff = flags ^ XplatUICocoa.key_modifiers;
 			XplatUICocoa.key_modifiers = flags;
+
+			if (FocusHandle == IntPtr.Zero)
+				return;
 
 			if ((NSEventModifierMask.ShiftKeyMask & diff) != 0)
 				driver.SendMessage(FocusHandle, (NSEventModifierMask.ShiftKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_SHIFT, IntPtr.Zero);
