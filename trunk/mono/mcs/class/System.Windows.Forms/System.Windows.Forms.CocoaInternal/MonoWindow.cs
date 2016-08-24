@@ -20,6 +20,9 @@ namespace System.Windows.Forms.CocoaInternal
 		internal XplatUICocoa driver;
 		internal NSWindow owner;
 
+		const int TabKey = 9;
+		const int ShiftTabKey = 25;
+
 		public MonoWindow (IntPtr handle) : base(handle)
 		{
 		}
@@ -38,21 +41,51 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void SendEvent(NSEvent theEvent)
 		{
-			base.SendEvent(theEvent);
-
 			var monoContentView = (MonoContentView)ContentView;
+			var hitTestView = monoContentView.hitTestResult;
+
+			//Console.WriteLine(hitTestView?.GetType()?.Name);
+
 			switch (theEvent.Type)
 			{
+				// Support for closing menus, dropdowns etc when clicking 'outside'.
 				case NSEventType.LeftMouseDown:
 				case NSEventType.RightMouseDown:
 				case NSEventType.OtherMouseDown:
 				case NSEventType.BeginGesture:
-					if (monoContentView.hitTestResult == null)
+					if (hitTestView == null)
 						OnNonClientClick(theEvent);
-					else if (!(monoContentView.hitTestResult is MonoView))
+					else if (!(hitTestView is MonoView))
 						OnNativeControlClick(theEvent);
 					break;
+
+				// Prevent native controls (webview etc) from eating certain mouse messages for MWF controls
+				case NSEventType.MouseMoved:
+				case NSEventType.MouseEntered:
+				case NSEventType.MouseExited:
+					if (FirstResponder is NSControl && hitTestView is MonoView)
+					{
+						monoContentView.ProcessMouseEvent(theEvent);
+						return;
+					}
+					break;
+				
+				// Handle tab and shift+tab keys so that switching focus works for both MWF and native controls 
+				case NSEventType.KeyDown:
+					if (FirstResponder is NSControl)
+					{
+						int c = (int)theEvent.Characters[0];
+						if (c == ShiftTabKey || c == TabKey)
+						{
+							monoContentView.FocusHandle = FindNextControl(FirstResponder as NSView, c == 9);
+							MakeFirstResponder(monoContentView);
+							return;
+						}
+					}
+					break;
 			}
+
+			base.SendEvent(theEvent);
 		}
 
 		protected virtual void OnNonClientClick(NSEvent e)
@@ -260,6 +293,96 @@ namespace System.Windows.Forms.CocoaInternal
 
 			return sorted;
 		}
+
+		#region Support for focusing native and MWF controls by Tab/ShiftTab
+
+		IntPtr FindNextControl(NSView view, bool forward)
+		{
+			Control control = FindContainingControl(view);
+			Control root = FindRootControl(control);
+
+			if (root != null)
+			{
+				var next = forward ? FindNextControl(root, control) : FindPrevControl(root, control);
+				if (next != null)
+					return next.Handle;
+			}
+
+			return IntPtr.Zero;
+		}
+
+		Control FindContainingControl(NSView view)
+		{
+			while (view != null)
+			{
+				var control = Control.FromHandle(view.Handle);
+				if (control != null)
+					return control;
+				view = view.Superview;
+			}
+			return null;
+		}
+
+		Control FindRootControl(Control control)
+		{
+			Control root;
+			for (root = control; control != null; control = control.Parent)
+				root = control;
+
+			return root;
+		}
+
+		public Control FindNextControl(Control top, Control control)
+		{
+			var next = control;
+			bool wrap = true;
+			do
+			{
+				next = top.GetNextControl(next, true);
+				if (next == null)
+				{
+					if (wrap)
+					{
+						wrap = false;
+						continue;
+					}
+					break;
+				}
+
+				if (next.CanSelect && next.TabStop)
+					return next;
+
+			} while (next != control);
+
+			return null;
+		}
+
+		public Control FindPrevControl(Control top, Control ctl)
+		{
+			bool wrap = true;
+			Control next = ctl, prev = null;
+			do
+			{
+				next = top.GetNextControl(next, true);
+				if (next == null)
+				{
+					if (wrap)
+					{
+						wrap = false;
+						continue;
+					}
+					break;
+				}
+
+				if (next.CanSelect && next.TabStop)
+					prev = next;
+
+			} while (next != ctl);
+
+			return prev;
+		}
+
+		#endregion
 	}
 }
 
