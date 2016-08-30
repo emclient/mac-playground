@@ -40,7 +40,7 @@ using System.Text;
 using System.Threading;
 using System.Xml;
 
-#if MONOMAC
+#if MONOMAC || XAMARINMAC
 #else
 
 namespace System.Windows.Forms

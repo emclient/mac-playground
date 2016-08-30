@@ -34,9 +34,16 @@ using System.Collections;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Collections.Generic;
-using MonoMac.Foundation;
-
 using System.Diagnostics;
+
+#if XAMARINMAC
+using Foundation;
+#elif MONOMAC
+using MonoMac.Foundation;
+using AppKit = MonoMac.AppKit;
+using CoreGraphics = MonoMac.CoreGraphics;
+using ObjCRuntime = MonoMac.ObjCRuntime;
+#endif
 
 namespace System.Windows.Forms {
 	[DesignerCategory("Form")]
@@ -388,7 +395,7 @@ namespace System.Windows.Forms {
 		#region Public Constructor & Destructor
 		public Form ()
 		{
-            MonoMac.AppKit.NSApplication.EnsureUIThread();
+            AppKit.NSApplication.EnsureUIThread();
 
 //            if (!NSThread.IsMain)
 //                Console.Error.WriteLine("Not in main thread");

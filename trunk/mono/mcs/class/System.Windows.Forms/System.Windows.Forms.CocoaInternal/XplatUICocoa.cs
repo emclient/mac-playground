@@ -68,19 +68,32 @@ using System.Runtime.InteropServices;
 using Cocoa = System.Windows.Forms.CocoaInternal;
 
 /// Cocoa Version
+#if XAMARINMAC
+using Foundation;
+using AppKit;
+using System.Windows.Forms.CocoaInternal;
+#elif MONOMAC
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using System.Windows.Forms.CocoaInternal;
-using MonoMac.CoreGraphics;
-
+using ObjCRuntime = MonoMac.ObjCRuntime;
+#endif
 #if SDCOMPAT
 using NSRect = System.Drawing.RectangleF;
 using NSPoint = System.Drawing.PointF;
 using NSSize = System.Drawing.SizeF;
 #else
+#if XAMARINMAC
+using CGPoint = CoreGraphics.CGPoint;
+using NSRect = CoreGraphics.CGRect;
+using NSPoint = CoreGraphics.CGPoint;
+using NSSize = CoreGraphics.CGSize;
+#elif MONOMAC
+using CGPoint = MonoMac.CoreGraphics.CGPoint;
 using NSRect = MonoMac.CoreGraphics.CGRect;
 using NSPoint = MonoMac.CoreGraphics.CGPoint;
 using NSSize = MonoMac.CoreGraphics.CGSize;
+#endif
 #endif
 
 #if MAC64
@@ -98,7 +111,7 @@ namespace System.Windows.Forms {
 	}
 
 	internal class XplatUICocoa : XplatUIDriver {
-		#region Local Variables
+#region Local Variables
 		// General driver variables
 		private static XplatUICocoa Instance;
 		private static int RefCount;
@@ -116,7 +129,7 @@ namespace System.Windows.Forms {
 		internal bool translate_modifier = false;
 
 		// Event handlers
-		private MonoApplicationDelegate applicationDelegate;
+		private Cocoa.MonoApplicationDelegate applicationDelegate;
 		
 		// Cocoa Specific
 		internal static GrabStruct Grab;
@@ -137,9 +150,9 @@ namespace System.Windows.Forms {
 		static Queue<String> charsQueue = new Queue<string>();
 		internal const int NSEventTypeWindowsMessage = 12345;
 
-		#endregion Local Variables
+#endregion Local Variables
 		
-		#region Constructors
+#region Constructors
 		private XplatUICocoa() {
 
 			RefCount = 0;
@@ -150,9 +163,9 @@ namespace System.Windows.Forms {
 		~XplatUICocoa() {
 			// FIXME: Clean up the FosterParent here.
 		}
-		#endregion
+#endregion
 
-		#region Singleton specific code
+#region Singleton specific code
 		public static XplatUICocoa GetInstance() {
 			lock (instancelock) {
 				if (Instance == null) {
@@ -173,9 +186,9 @@ namespace System.Windows.Forms {
 				return RefCount;
 			}
 		}
-		#endregion
+#endregion
 
-		#region Internal methods
+#region Internal methods
 
 		internal IntPtr HandleToWindow (IntPtr handle) {
 			if (WindowMapping [handle] != null)
@@ -191,7 +204,7 @@ namespace System.Windows.Forms {
 			screenHeight = size.Height;
 
 			// Initialize the event handlers
-			applicationDelegate = new MonoApplicationDelegate (this);
+			applicationDelegate = new Cocoa.MonoApplicationDelegate (this);
 			NSApplication.SharedApplication.Delegate = applicationDelegate;
 
 			// Initilize the mouse controls
@@ -256,7 +269,7 @@ namespace System.Windows.Forms {
 			if (hwnd.Parent == null)
 				rect = new Rectangle (new Point (0, 0), rect.Size);
 
-			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
+			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
 			NSRect cr = MonoToNativeFramed (rect, vuWrap.Superview.Frame.Height);
 			vuWrap.Frame = cr;
 		}
@@ -266,7 +279,7 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			NSView viewWrapper = null;
 			if (null != hwnd)
-				viewWrapper = MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow) as NSView;
+				viewWrapper = ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow) as NSView;
 			if (viewWrapper == null)
 				throw new ArgumentException ("XplatUICocoa.ScreenToClientWindow() requires NSView*");
 
@@ -293,7 +306,7 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			NSView viewWrapper = null;
 			if (null != hwnd)
-				viewWrapper = MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow) as NSView;
+				viewWrapper = ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow) as NSView;
 			if (viewWrapper == null)
 				throw new ArgumentException ("XplatUICocoa.ClientWindowToScreen() requires NSView*");
 
@@ -317,7 +330,7 @@ namespace System.Windows.Forms {
 			NSApplication.SharedApplication.PostEvent(msg.ToNSEvent(), false);
 		}
 
-		#region Reversible regions
+#region Reversible regions
 		/* 
 		 * Quartz has no concept of XOR drawing due to its compositing nature
 		 * We fake this by mapping a overlay window on the first draw and mapping it on the second.
@@ -329,7 +342,7 @@ namespace System.Windows.Forms {
 		 */
 		internal void SizeWindow (Rectangle rect, IntPtr window)
 		{
-			NSWindow winWrap = (NSWindow) MonoMac.ObjCRuntime.Runtime.GetNSObject (window);
+			NSWindow winWrap = (NSWindow) ObjCRuntime.Runtime.GetNSObject (window);
 			NSRect qrect = MonoToNativeScreen (rect);
 			qrect = winWrap.FrameRectFor (qrect);
 			winWrap.SetFrame (qrect, false);
@@ -341,7 +354,7 @@ namespace System.Windows.Forms {
 		internal void PositionWindowInClient (Rectangle rect, NSWindow window, IntPtr handle)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
+			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
 
 //			/*TODO? if (winWrap.contentView() != vuWrap) */ {
 //				rect.Location += (Size) hwnd.client_rectangle.Location;
@@ -358,7 +371,7 @@ namespace System.Windows.Forms {
 			Console.WriteLine ("PositionWindowInClient ({0}, {1}) : {2}", rect, window, nsrect);
 #endif
 		}
-		#endregion Reversible regions
+#endregion Reversible regions
 
 		internal NSPoint MonoToNativeScreen (Point monoPoint)
 		{
@@ -407,7 +420,7 @@ namespace System.Windows.Forms {
 			if (hwnd.zero_sized)
 				return;
 
-			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
+			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
 			NSRect nsrect = vuWrap.Frame;
 			Rectangle mrect;
 
@@ -438,9 +451,9 @@ namespace System.Windows.Forms {
 			Console.WriteLine ("HwndPositionFromNative ({0}) : {1}", hwnd, mrect);
 #endif
 		}
-		#endregion Internal methods
+#endregion Internal methods
 		
-		#region Callbacks
+#region Callbacks
 		private void CaretCallback (object sender, EventArgs e) {
 			if (Caret.Paused) {
 				return;
@@ -463,9 +476,9 @@ namespace System.Windows.Forms {
 				EnqueueMessage (msg);
 			}*/
 		}
-		#endregion
+#endregion
 		
-		#region Private Methods
+#region Private Methods
 		private Point ConvertScreenPointToClient (IntPtr handle, Point point)
 		{
 			NSPoint nspoint = MonoToNativeScreen (point);
@@ -473,7 +486,7 @@ namespace System.Windows.Forms {
 			ScreenToClientWindow (handle, ref nspoint);
 
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
+			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
 			point = NativeToMonoFramed (nspoint, vuWrap.Frame.Size.Height);
 
 //			/*TODO? if (winWrap.contentView() != vuWrap) */ {
@@ -486,7 +499,7 @@ namespace System.Windows.Forms {
 		private Point ConvertClientPointToScreen (IntPtr handle, Point point)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
+			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
 			if (vuWrap == null)
 				return Point.Empty;
 
@@ -508,7 +521,7 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			NSView viewWrapper = null;
 			if (null != hwnd)
-				viewWrapper = MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow) as NSView;
+				viewWrapper = ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow) as NSView;
 			if (viewWrapper == null)
 				throw new ArgumentException ("XplatUICocoa.ConvertScreenPointToNonClient() requires NSView*");
 
@@ -528,7 +541,7 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			NSView viewWrapper = null;
 			if (null != hwnd)
-				viewWrapper = MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow) as NSView;
+				viewWrapper = ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow) as NSView;
 			if (viewWrapper == null)
 				throw new ArgumentException ("XplatUICocoa.ConvertScreenPointToNonClient() requires NSView*");
 
@@ -545,7 +558,7 @@ namespace System.Windows.Forms {
 
 		private Point ConvertWindowPointToScreen (IntPtr macWindow, Point point)
 		{
-			NSWindow windowWrapper = MonoMac.ObjCRuntime.Runtime.GetNSObject (macWindow) as NSWindow;
+			NSWindow windowWrapper = ObjCRuntime.Runtime.GetNSObject (macWindow) as NSWindow;
 			if (windowWrapper == null)
 				throw new ArgumentException ("XplatUICocoa.ConvertWindowPointToScreen() requires NSWindow*");
 
@@ -755,7 +768,7 @@ namespace System.Windows.Forms {
 			if (hwnd.zero_sized)
 				return;
 
-			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 			Rectangle mrect = new Rectangle (hwnd.X, hwnd.Y, hwnd.Width, hwnd.Height);
 			NSRect nsrect;
 
@@ -784,13 +797,13 @@ namespace System.Windows.Forms {
 #if DriverDebug
 			Console.WriteLine ("HwndToNative ({0}) : {1}", hwnd, nsrect);
 #endif
-			/*NSView clientVuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
+			/*NSView clientVuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
 			nsrect = MonoToNativeFramed (hwnd.ClientRect, nsrect.Size.Height);
 			clientVuWrap.Frame = nsrect;*/
 		}
-		#endregion Private Methods
+#endregion Private Methods
 
-		#region Override Methods XplatUIDriver
+#region Override Methods XplatUIDriver
 		internal override void RaiseIdle (EventArgs e)
 		{
 			if (Idle != null)
@@ -816,7 +829,7 @@ namespace System.Windows.Forms {
 			{
 				Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 				if (hwnd != null) {
-					NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+					NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 					NSWindow winWrap = vuWrap.Window;
 					if (winWrap != null)
 					{
@@ -906,7 +919,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override int[] ClipboardAvailableFormats (IntPtr handle) {
-			return Pasteboard.GetAvailableFormats((NSPasteboard)MonoMac.ObjCRuntime.Runtime.GetNSObject(handle));
+			return Cocoa.Pasteboard.GetAvailableFormats((NSPasteboard)ObjCRuntime.Runtime.GetNSObject(handle));
 		}
 
 		internal override void ClipboardClose (IntPtr handle) {
@@ -926,12 +939,12 @@ namespace System.Windows.Forms {
 		}
 
 		internal override object ClipboardRetrieve (IntPtr handle, int type, XplatUI.ClipboardToObject converter) {
-			return Cocoa.Pasteboard.Retrieve ((NSPasteboard)MonoMac.ObjCRuntime.Runtime.GetNSObject(handle), type);
+			return Cocoa.Pasteboard.Retrieve ((NSPasteboard)ObjCRuntime.Runtime.GetNSObject(handle), type);
 		}
 
 		internal override void ClipboardStore (IntPtr handle, object obj, int type, XplatUI.ObjectToClipboard converter, bool copy)
 		{
-			Cocoa.Pasteboard.Store ((NSPasteboard)MonoMac.ObjCRuntime.Runtime.GetNSObject(handle), obj, type);
+			Cocoa.Pasteboard.Store ((NSPasteboard)ObjCRuntime.Runtime.GetNSObject(handle), obj, type);
 		}
 		
 		internal override void CreateCaret (IntPtr hwnd, int width, int height) {
@@ -944,7 +957,7 @@ namespace System.Windows.Forms {
 			Caret.Visible = 0;
 			Caret.On = false;
 
-			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(Hwnd.ObjectFromHandle(hwnd).ClientWindow);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(Hwnd.ObjectFromHandle(hwnd).ClientWindow);
 			if (CaretView.Superview != vuWrap)
 			{
 				if (CaretView.Superview != null)
@@ -991,7 +1004,7 @@ namespace System.Windows.Forms {
 
 			if (cp.Parent != IntPtr.Zero) {
 				parent_hwnd = Hwnd.ObjectFromHandle (cp.Parent);
-				ParentWrapper = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(parent_hwnd.ClientWindow);
+				ParentWrapper = (NSView)ObjCRuntime.Runtime.GetNSObject(parent_hwnd.ClientWindow);
 				if (!isTopLevel)
 					windowWrapper = ParentWrapper.Window;
 			}
@@ -1253,7 +1266,7 @@ namespace System.Windows.Forms {
 							case HitTest.HTTOPLEFT:		handle = Cursors.SizeNWSE.handle; break;
 							case HitTest.HTTOPRIGHT:	handle = Cursors.SizeNESW.handle; break;
 
-							#if SameAsDefault
+#if SameAsDefault
 							case HitTest.HTGROWBOX:
 							case HitTest.HTSIZE:
 							case HitTest.HTZOOM:
@@ -1269,7 +1282,7 @@ namespace System.Windows.Forms {
 							case HitTest.HTCAPTION:
 							case HitTest.HTCLIENT:
 							case HitTest.HTCLOSE:
-							#endif
+#endif
 							default: handle = Cursors.Default.handle; break;
 						}
 						SetCursor (msg.HWnd, handle);
@@ -1326,13 +1339,13 @@ namespace System.Windows.Forms {
 			foreach (Hwnd h in windows) {
 				object wh = WindowMapping [h.Handle];
 				if (null != wh) { 
-					NSWindow winWrap = (NSWindow)MonoMac.ObjCRuntime.Runtime.GetNSObject((IntPtr) wh);
+					NSWindow winWrap = (NSWindow)ObjCRuntime.Runtime.GetNSObject((IntPtr) wh);
 					winWrap.ReleasedWhenClosed = true;
 					winWrap.Close ();
 					NSApplication.SharedApplication.RemoveWindowsItem(winWrap);
 					WindowMapping.Remove (h.Handle);
 				} else {
-					NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(h.WholeWindow);
+					NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(h.WholeWindow);
 					vuWrap.RemoveFromSuperviewWithoutNeedingDisplay ();
 				}
 
@@ -1418,7 +1431,7 @@ namespace System.Windows.Forms {
 		internal override IntPtr GetPreviousWindow (IntPtr handle)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 			NSView superWrap = vuWrap.Superview;
 			if (superWrap == null)
 				return IntPtr.Zero;
@@ -1441,7 +1454,7 @@ namespace System.Windows.Forms {
 
 		internal override IntPtr GetFocus() {
 			if (ActiveWindow != IntPtr.Zero) {
-				NSView activeWindowWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (ActiveWindow);
+				NSView activeWindowWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (ActiveWindow);
 				MonoContentView contentView = activeWindowWrap.Window.FirstResponder as MonoContentView;
 				if (contentView != null)
 					return contentView.FocusHandle;
@@ -1532,7 +1545,7 @@ namespace System.Windows.Forms {
 		internal FormWindowState GetWindowStateInternal(IntPtr handle)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 			NSWindow winWrap = vuWrap.Window;
 
 			if (winWrap.IsMiniaturized)
@@ -1595,7 +1608,7 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
 			if (hwnd.visible)
 			{
-				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
+				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
 				vuWrap.SetNeedsDisplayInRect(MonoToNativeFramed(rc, vuWrap.Frame.Height));
 			}
 		}
@@ -1605,7 +1618,7 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
 			if (hwnd.visible)
 			{
-				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 				vuWrap.NeedsDisplay = true;
 			}
 		}
@@ -1620,9 +1633,9 @@ namespace System.Windows.Forms {
 		
 		internal override void KillTimer(Timer timer) {
 			if (timer.window != IntPtr.Zero) {
-				NSTimer nstimer = (NSTimer)MonoMac.ObjCRuntime.Runtime.GetNSObject(timer.window);
+				NSTimer nstimer = (NSTimer)ObjCRuntime.Runtime.GetNSObject(timer.window);
 				nstimer.Invalidate();
-				nstimer.Release();
+				//nstimer.Release();
 				timer.window = IntPtr.Zero;
 			}
 		}
@@ -1846,7 +1859,7 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
 			if (hwnd != null) {
 				hwnd.UserClip = region;
-				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
+				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
 				if (vuWrap != null && vuWrap.Window != null && vuWrap.Window.ContentView == vuWrap) {
 					if (region != null) {
 						vuWrap.Window.BackgroundColor = NSColor.Clear;
@@ -1882,7 +1895,7 @@ namespace System.Windows.Forms {
 
 		internal override void SetFocus (IntPtr handle) {
 			if (ActiveWindow != IntPtr.Zero) {
-				NSView activeWindowWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (ActiveWindow);
+				NSView activeWindowWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (ActiveWindow);
 				MonoContentView contentView = activeWindowWrap.Window.FirstResponder as MonoContentView;
 				IntPtr oldFocusHandle = IntPtr.Zero;
 				if (contentView != null && contentView.FocusHandle != IntPtr.Zero)
@@ -1925,7 +1938,7 @@ namespace System.Windows.Forms {
 		internal override void SetModal (IntPtr handle, bool Modal)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 			NSWindow winWrap = vuWrap.Window;
 			if (Modal)
 			{
@@ -1941,8 +1954,8 @@ namespace System.Windows.Forms {
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			Hwnd newParent = Hwnd.ObjectFromHandle (parent);
-			NSView newParentWrap = null != newParent ? (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(newParent.ClientWindow) : null;
-			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSView newParentWrap = null != newParent ? (NSView)ObjCRuntime.Runtime.GetNSObject(newParent.ClientWindow) : null;
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 			NSWindow winWrap = (NSWindow) vuWrap.Window;
 
 			if (winWrap != null && winWrap.ContentView == vuWrap) {
@@ -1975,6 +1988,23 @@ namespace System.Windows.Forms {
 			return IntPtr.Zero;
 		}
 
+		#if XAMARINMAC
+		internal override void SetTimer(Timer timer)
+		{
+			if (timer.window != IntPtr.Zero)
+				KillTimer(timer);
+
+			var nstimer = NSTimer.CreateRepeatingScheduledTimer(TimeSpan.FromMilliseconds(timer.Interval), (t) =>
+			{
+				if (NSThread.IsMain)
+					timer.FireTick();
+				else
+					NSApplication.SharedApplication.InvokeOnMainThread(timer.FireTick);
+			});
+			//nstimer.Retain();
+			timer.window = nstimer.Handle;
+		}
+		#elif MONOMAC
 		internal override void SetTimer (Timer timer) {
 			if (timer.window != IntPtr.Zero)
 				KillTimer(timer);
@@ -1988,10 +2018,11 @@ namespace System.Windows.Forms {
 			nstimer.Retain();
 			timer.window = nstimer.Handle;
 		}
+		#endif
 
 		internal override bool SetTopmost (IntPtr hWnd, bool Enabled)
 		{
-			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hWnd);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hWnd);
 			NSWindow winWrap = vuWrap.Window;
 			if (winWrap != null)
 				winWrap.Level = Enabled ? NSWindowLevel.ModalPanel : NSWindowLevel.Normal;
@@ -2004,8 +2035,8 @@ namespace System.Windows.Forms {
 			if (hWnd == IntPtr.Zero || hWndOwner == IntPtr.Zero)
 				return false;
 
-			MonoWindow winWrap = ((NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hWnd))?.Window as MonoWindow;
-			NSWindow winOwnerWrap = ((NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hWndOwner))?.Window;
+			MonoWindow winWrap = ((NSView)ObjCRuntime.Runtime.GetNSObject(hWnd))?.Window as MonoWindow;
+			NSWindow winOwnerWrap = ((NSView)ObjCRuntime.Runtime.GetNSObject(hWndOwner))?.Window;
 
 			if (winWrap != null && winWrap != winOwnerWrap)
 			{
@@ -2030,7 +2061,7 @@ namespace System.Windows.Forms {
 				UngrabWindow(handle);
 
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 			NSWindow winWrap = vuWrap.Window;
 			object window = WindowMapping [hwnd.Handle];
 			if (window != null && winWrap != null) {
@@ -2054,7 +2085,7 @@ namespace System.Windows.Forms {
 			} else {
 				if (!visible && winWrap != null)
 				{
-					NSView activeWindowWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(ActiveWindow);
+					NSView activeWindowWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(ActiveWindow);
 					if (activeWindowWrap != null && activeWindowWrap.Window == winWrap)
 					{
 						MonoContentView contentView = winWrap.FirstResponder as MonoContentView;
@@ -2134,7 +2165,7 @@ namespace System.Windows.Forms {
 			// X requires a sanity check for width & height; otherwise it dies
 			if (hwnd.zero_sized && width > 0 && height > 0) {
 				if (hwnd.visible) {
-					NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+					NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 					vuWrap.Hidden = false;
 				}
 				hwnd.zero_sized = false;
@@ -2142,7 +2173,7 @@ namespace System.Windows.Forms {
 
 			if ((width < 1) || (height < 1)) {
 				hwnd.zero_sized = true;
-				NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 				vuWrap.Hidden = true;
 			}
 
@@ -2162,7 +2193,7 @@ namespace System.Windows.Forms {
 				HwndPositionToNative (hwnd);
 
 #if DriverDebug
-				NSView		vuWrap	= (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+				NSView		vuWrap	= (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 				NSWindow	winWrap	= vuWrap.Window;
 				if ( null != winWrap )
 					Console.WriteLine ("{0} SetWindowPos( {1}, {2}, WxH: {3} x {4} )", winWrap.Title, x, y, width, height);
@@ -2198,7 +2229,7 @@ namespace System.Windows.Forms {
 		internal override void SetWindowState (IntPtr handle, FormWindowState state)
 		{
 			Hwnd 		hwnd 	= Hwnd.ObjectFromHandle (handle);
-			NSView		vuWrap	= (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
+			NSView		vuWrap	= (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
 			NSWindow	winWrap	=  vuWrap.Window;
 
 			switch (state) {
@@ -2239,7 +2270,7 @@ namespace System.Windows.Forms {
 			SetHwndStyles(hwnd, cp);
 			
 			if (WindowMapping [hwnd.Handle] != null) {
-				NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
+				NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
 				NSWindow winWrap = vuWrap.Window;
 				winWrap.StyleMask = StyleFromCreateParams(cp);
 			}
@@ -2261,7 +2292,7 @@ namespace System.Windows.Forms {
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			Hwnd afterHwnd = Hwnd.ObjectFromHandle (after_handle);
-			NSView itVuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
+			NSView itVuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
 			NSView afterVuWrap = null;
 			NSView itSuperVuWrap = itVuWrap.Superview;
 			bool results = true;
@@ -2272,7 +2303,7 @@ namespace System.Windows.Forms {
 
 			if (IntPtr.Zero != after_handle) {
 				if (null != afterHwnd)
-					afterVuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (afterHwnd.WholeWindow);
+					afterVuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (afterHwnd.WholeWindow);
 				if (afterVuWrap == null) {
 					return false;	// Bad after_handle.
 				}
@@ -2377,12 +2408,12 @@ namespace System.Windows.Forms {
 			object nswindowPtr = WindowMapping [hwnd.Handle];
 
 			if (null != nswindowPtr) {
-				NSWindow winWrap = (NSWindow) MonoMac.ObjCRuntime.Runtime.GetNSObject ((IntPtr) nswindowPtr);
+				NSWindow winWrap = (NSWindow) ObjCRuntime.Runtime.GetNSObject ((IntPtr) nswindowPtr);
 				winWrap.Title = text;
 			}
 			else {
 				// Just mark it for redisplay. The generic Mono code will redraw it using the text it stores.
-				NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
+				NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
 				vuWrap.NeedsDisplay = true;
 			}
 
@@ -2392,7 +2423,7 @@ namespace System.Windows.Forms {
 		internal override void UpdateWindow (IntPtr handle)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
+			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
 
 			//if (!hwnd.visible || vuWrap.IsHiddenOrHasHiddenAncestor || NSRect.Empty == vuWrap.VisibleRect())
 				return;
@@ -2441,7 +2472,7 @@ namespace System.Windows.Forms {
 			return false;
 		}
 
-		#region Reversible regions
+#region Reversible regions
 		/* 
 		 * Quartz has no concept of XOR drawing due to its compositing nature
 		 * We fake this by mapping a overlay window on the first draw and mapping it on the second.
@@ -2496,7 +2527,7 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		#endregion Reversible regions
+#endregion Reversible regions
 
 		internal override SizeF GetAutoScaleSize (Font font) {
 			Graphics        g;
@@ -2515,10 +2546,10 @@ namespace System.Windows.Forms {
 				return NativeToMonoScreen (NSEvent.CurrentMouseLocation);
 			}
 		}
-		#endregion Override Methods XplatUIDriver
+#endregion Override Methods XplatUIDriver
 
 
-		#region Override Properties XplatUIDriver
+#region Override Properties XplatUIDriver
 
 		// MSDN: The keyboard repeat-speed setting, from 0 (approximately 2.5 repetitions per second) through 31 (approximately 30 repetitions per second).
 		internal override int KeyboardSpeed
@@ -2526,8 +2557,8 @@ namespace System.Windows.Forms {
 			get
 			{
 				var defaults = NSUserDefaults.StandardUserDefaults;
-				nint repeat = Math.Max(defaults.IntForKey("KeyRepeat"), 2); //2 ~ 30ms, 1 ~ 15mss
-				return ToWindowsKeyboardSpeed(repeat);
+				var repeat = Math.Max(defaults.IntForKey("KeyRepeat"), 2); //2 ~ 30ms, 1 ~ 15mss
+				return ToWindowsKeyboardSpeed((int)repeat);
 			}
 		}
 
@@ -2537,7 +2568,7 @@ namespace System.Windows.Forms {
 			{
 				var defaults = NSUserDefaults.StandardUserDefaults;
 				var delay = defaults.IntForKey("InitialKeyRepeat");
-				return ToWindowsKeyboardSpeed(delay);
+				return ToWindowsKeyboardSpeed((int)delay);
 			}
 		}
 
@@ -2679,7 +2710,7 @@ namespace System.Windows.Forms {
 			
 		// Event Handlers
 		internal override event EventHandler Idle;
-		#endregion Override properties XplatUIDriver
+#endregion Override properties XplatUIDriver
 
 		[DllImport("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		extern static void CGDisplayMoveCursorToPoint (UInt32 display, NSPoint point);

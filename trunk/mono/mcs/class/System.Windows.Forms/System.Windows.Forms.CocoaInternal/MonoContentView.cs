@@ -26,22 +26,33 @@
 //
 
 using System;
+using System.Drawing;
+using System.Diagnostics;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+
+#if XAMARINMAC
+using Foundation;
+using AppKit;
+#elif MONOMAC
+using MonoMac;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using MonoMac.ObjCRuntime;
-using System.Runtime.InteropServices;
+using ObjCRuntime = MonoMac.ObjCRuntime;
+#endif
 
 #if SDCOMPAT
 using NSRect = System.Drawing.RectangleF;
 using NSPoint = System.Drawing.PointF;
 #else
+#if XAMARINMAC
+using NSRect = CoreGraphics.CGRect;
+using NSPoint = CoreGraphics.CGPoint;
+#elif MONOMAC
 using NSRect = MonoMac.CoreGraphics.CGRect;
 using NSPoint = MonoMac.CoreGraphics.CGPoint;
 #endif
-using System.Drawing;
-using System.Collections.Generic;
-using System.Diagnostics;
-
+#endif
 
 namespace System.Windows.Forms.CocoaInternal
 {
@@ -227,7 +238,7 @@ namespace System.Windows.Forms.CocoaInternal
 			{
 				var grabbed = XplatUICocoa.Grab.Hwnd;
 				if (grabbed != IntPtr.Zero)
-					hit = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(grabbed);
+					hit = (NSView)ObjCRuntime.Runtime.GetNSObject(grabbed);
 			}
 
 			if (hit == null)
@@ -260,7 +271,7 @@ namespace System.Windows.Forms.CocoaInternal
 					return;
 				}
 
-				vuWrap = (NSView) MonoMac.ObjCRuntime.Runtime.GetNSObject(currentHwnd.ClientWindow);
+				vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(currentHwnd.ClientWindow);
 				if (vuWrap.Window != Window)
 					nspoint = vuWrap.Window.ConvertScreenToBase(Window.ConvertBaseToScreen(nspoint));
 				nspoint = vuWrap.ConvertPointFromView(nspoint, null);
@@ -340,7 +351,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 				case NSEventType.ScrollWheel:
 
-					int delta = ScaleAndQuantizeDelta(eventref.ScrollingDeltaY, eventref.HasPreciseScrollingDeltas);
+					int delta = ScaleAndQuantizeDelta((float)eventref.ScrollingDeltaY, eventref.HasPreciseScrollingDeltas);
 					if (delta == 0)
 						return;
 
@@ -507,23 +518,24 @@ namespace System.Windows.Forms.CocoaInternal
 			keyNames.Add (NSKey.LeftBracket, Keys.OemOpenBrackets);
 			keyNames.Add (NSKey.Minus, Keys.OemMinus);
 			keyNames.Add (NSKey.Mute, Keys.VolumeMute);
-			keyNames.Add (NSKey.Next, Keys.MediaNextTrack);
 			keyNames.Add (NSKey.Option, Keys.Alt);
-			keyNames.Add (NSKey.Pause, Keys.MediaPlayPause);
-			keyNames.Add (NSKey.Prev, Keys.MediaPreviousTrack);
 			keyNames.Add (NSKey.Quote, Keys.OemQuotes);
 			keyNames.Add (NSKey.RightArrow, Keys.Right);
 			keyNames.Add (NSKey.RightBracket, Keys.OemCloseBrackets);
 			keyNames.Add (NSKey.RightControl, Keys.RControlKey);
 			keyNames.Add (NSKey.RightOption, Keys.Alt);
 			keyNames.Add (NSKey.RightShift, Keys.RShiftKey);
-			keyNames.Add (NSKey.ScrollLock, Keys.Scroll);
 			keyNames.Add (NSKey.Semicolon, Keys.OemSemicolon);
 			keyNames.Add (NSKey.Slash, Keys.OemQuestion);
 			keyNames.Add (NSKey.UpArrow, Keys.Up);
 			keyNames.Add (NSKey.Period, Keys.OemPeriod);
 			keyNames.Add (NSKey.Return, Keys.Enter);
 			keyNames.Add (NSKey.Grave, Keys.Oemtilde);
+
+			//keyNames.Add(NSKey.Next, Keys.MediaNextTrack);
+			//keyNames.Add(NSKey.Pause, Keys.MediaPlayPause);
+			//keyNames.Add(NSKey.Prev, Keys.MediaPreviousTrack);
+			//keyNames.Add(NSKey.ScrollLock, Keys.Scroll);
 
 			// Modifiers
 			modifiers.Add ("524576", Keys.Alt); //LeftAlt);
