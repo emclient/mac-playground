@@ -42,7 +42,11 @@ using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Collections.Generic;
 
-#if MONOMAC
+#if XAMARINMAC
+using CoreGraphics;
+using Foundation;
+using ImageIO;
+#elif MONOMAC
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
@@ -379,14 +383,14 @@ namespace System.Drawing {
 			alphaInfo = image.AlphaInfo;
 			hasAlpha = ((alphaInfo == CGImageAlphaInfo.PremultipliedLast) || (alphaInfo == CGImageAlphaInfo.PremultipliedFirst) || (alphaInfo == CGImageAlphaInfo.Last) || (alphaInfo == CGImageAlphaInfo.First) ? true : false);
 
-			imageSize.Width = image.Width;
-			imageSize.Height = image.Height;
+			imageSize.Width = (int)image.Width;
+			imageSize.Height = (int)image.Height;
 
 			// Not sure yet if we need to keep the original image information
 			// before we change it internally.  TODO look at what windows does
 			// and follow that.
-			bitsPerComponent = image.BitsPerComponent;
-			bitsPerPixel = image.BitsPerPixel;
+			bitsPerComponent = (int)image.BitsPerComponent;
+			bitsPerPixel = (int)image.BitsPerPixel;
 
 			colorSpace = image.ColorSpace;
 
@@ -446,7 +450,7 @@ namespace System.Drawing {
 		{
 			var imageSource = CGImageSource.FromDataProvider (dataProvider);
 
-			frameCount = imageSource.ImageCount;
+			frameCount = (int)imageSource.ImageCount;
 
 			var properties = imageSource.GetProperties (frame, null);
 
@@ -525,18 +529,18 @@ namespace System.Drawing {
 			alphaInfo = image.AlphaInfo;
 			hasAlpha = ((alphaInfo == CGImageAlphaInfo.PremultipliedLast) || (alphaInfo == CGImageAlphaInfo.PremultipliedFirst) || (alphaInfo == CGImageAlphaInfo.Last) || (alphaInfo == CGImageAlphaInfo.First) ? true : false);
 			
-			imageSize.Width = image.Width;
-			imageSize.Height = image.Height;
+			imageSize.Width = (int)image.Width;
+			imageSize.Height = (int)image.Height;
 			
-			width = image.Width;
-			height = image.Height;
+			width = (int)image.Width;
+			height = (int)image.Height;
 
 			// Not sure yet if we need to keep the original image information
 			// before we change it internally.  TODO look at what windows does
 			// and follow that.
 			bitmapInfo = image.BitmapInfo;
-			bitsPerComponent = image.BitsPerComponent;
-			bitsPerPixel = image.BitsPerPixel;
+			bitsPerComponent = (int)image.BitsPerComponent;
+			bitsPerPixel = (int)image.BitsPerPixel;
 			bytesPerRow = width * bitsPerPixel/bitsPerComponent;
 			int size = bytesPerRow * height;
 			
@@ -928,7 +932,11 @@ namespace System.Drawing {
 			// * NOTE * we only support one image for right now.
 
 			// Create an image destination that saves into the path that is passed in
+			#if !XAMARINMAC
 			CGImageDestination dest = CGImageDestination.FromUrl (url, typeIdentifier, frameCount, null); 
+			#else
+			CGImageDestination dest = CGImageDestination.Create(url, typeIdentifier, frameCount);
+			#endif
 
 			// Add an image to the destination
 			dest.AddImage(NativeCGImage, null);
@@ -978,7 +986,7 @@ namespace System.Drawing {
 			bitmapData.Height = (int)rect.Height;
 			bitmapData.Width = (int)rect.Width;
 			bitmapData.PixelFormat = pixelFormat;
-			bitmapData.Stride = NativeCGImage.BytesPerRow;
+			bitmapData.Stride = (int)NativeCGImage.BytesPerRow;
 			bitmapData.Reserved = (int)flags;
 
 			if (flags != ImageLockMode.WriteOnly) {

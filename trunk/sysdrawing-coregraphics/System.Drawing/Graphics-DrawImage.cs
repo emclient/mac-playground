@@ -1,8 +1,13 @@
 using System;
 using System.Drawing.Imaging;
 
-
-#if MONOMAC
+#if XAMARINMAC
+using CoreGraphics;
+using CoreImage;
+using Foundation;
+using AppKit;
+using ImageIO;
+#elif MONOMAC
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MonoMac.AppKit;

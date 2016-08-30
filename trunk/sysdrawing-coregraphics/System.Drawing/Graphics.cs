@@ -16,7 +16,10 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 
-#if MONOMAC
+#if XAMARINMAC
+using CoreGraphics;
+using AppKit;
+#elif MONOMAC
 using MonoMac.CoreGraphics;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
@@ -100,7 +103,53 @@ namespace System.Drawing {
 
 #endif
 
-#if MONOMAC
+#if XAMARINMAC
+		private Graphics() :
+			this (NSGraphicsContext.CurrentContext)
+		{	}
+
+		private Graphics (NSGraphicsContext context)
+		{
+			var gc = context;
+
+			// testing for now
+			//			var attribs = gc.Attributes;
+			//			attribs = NSScreen.MainScreen.DeviceDescription;
+			//			NSValue asdf = (NSValue)attribs["NSDeviceResolution"];
+			//			var size = asdf.SizeFValue;
+			// ----------------------
+			screenScale = 1;
+			nativeObject = gc;
+
+			isFlipped = gc.IsFlipped;
+
+			InitializeContext(gc.GraphicsPort);
+
+		}
+
+		public static Graphics FromContext (NSGraphicsContext context)
+		{
+			return new Graphics (context);
+		}
+
+		public static Graphics FromHwnd (IntPtr hwnd)
+		{
+			if (hwnd == IntPtr.Zero)
+				return Graphics.FromImage (new Bitmap (1, 1));
+
+			Graphics g;
+			NSView view = (NSView)ObjCRuntime.Runtime.GetNSObject (hwnd);
+			if (NSView.FocusView () != view && view.LockFocusIfCanDraw ()) {
+				g = new Graphics (view.Window.GraphicsContext) { focusedView = view };
+			} else if (view.Window != null && view.Window.GraphicsContext != null) {
+				g = new Graphics (view.Window.GraphicsContext);
+			} else {
+				g = Graphics.FromImage (new Bitmap (1, 1));
+			}
+
+			return g;
+		}
+#elif MONOMAC
 		private Graphics() :
 			this (NSGraphicsContext.CurrentContext)
 		{	}
@@ -543,7 +592,7 @@ namespace System.Drawing {
 		void RectanglePath (CGRect rectangle) 
 		{
 			//context.AddRect(rectangle);
-			RectanglePath(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom);
+			RectanglePath((float)rectangle.Left, (float)rectangle.Top, (float)rectangle.Right, (float)rectangle.Bottom);
 		}
 
 		public void DrawRectangle (Pen pen, float x1, float y1, float x2, float y2)
@@ -1338,7 +1387,8 @@ namespace System.Drawing {
 		public void Clear (Color color)
 		{
 			context.SaveState ();
-			context.SetFillColorWithColor(new CGColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f));
+			//context.SetFillColorWithColor(new CGColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f));
+			context.SetFillColor(new CGColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f));
 			context.FillRect(context.GetClipBoundingBox());
 			context.RestoreState ();
 		}

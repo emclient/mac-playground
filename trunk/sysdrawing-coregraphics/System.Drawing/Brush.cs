@@ -7,7 +7,9 @@
 // Copyright 2011-2013 Xamarin Inc
 //
 using System;
-#if MONOMAC
+#if XAMARINMAC
+using CoreGraphics;
+#elif MONOMAC
 using MonoMac.CoreGraphics;
 #else
 using MonoTouch.CoreGraphics;

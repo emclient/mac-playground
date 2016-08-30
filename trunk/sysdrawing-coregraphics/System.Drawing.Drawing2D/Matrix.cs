@@ -33,9 +33,11 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System.Runtime.InteropServices;
 using System.Collections.Generic;
-#if MONOMAC
+using System.Runtime.InteropServices;
+#if XAMARINMAC
+using CoreGraphics;
+#elif MONOMAC
 using MonoMac.CoreGraphics;
 #else
 using MonoTouch.CoreGraphics;

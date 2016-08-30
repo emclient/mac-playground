@@ -27,7 +27,10 @@
 //
 using System;
 
-#if MONOMAC
+#if XAMARINMAC
+using CoreGraphics;
+using CoreText;
+#elif MONOMAC
 using MonoMac.CoreGraphics;
 using MonoMac.CoreText;
 #else
