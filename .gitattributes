@@ -50,8 +50,11 @@ trunk/FormsTest/DebugLayoutForm2.resx -text
 trunk/FormsTest/DebugLayoutForm3.Designer.cs -text
 trunk/FormsTest/DebugLayoutForm3.cs -text
 trunk/FormsTest/DebugLayoutForm3.resx -text
+trunk/FormsTest/Entitlements.plist -text
 trunk/FormsTest/Extensions.cs -text
+trunk/FormsTest/FormsTest[!!-~](Unified).csproj -text
 trunk/FormsTest/FormsTest.csproj -text
+trunk/FormsTest/Info.plist -text
 trunk/FormsTest/LayoutForm.Designer.cs -text
 trunk/FormsTest/LayoutForm.cs -text
 trunk/FormsTest/LayoutForm.resx -text
@@ -496,6 +499,7 @@ trunk/mono/mcs/class/System.Drawing/System.Drawing/macFunctions.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/Assembly/AssemblyInfo.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/Assembly/ChangeLog -text
 trunk/mono/mcs/class/System.Windows.Forms/Assembly/Locale.cs -text
+trunk/mono/mcs/class/System.Windows.Forms/IAccessible.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Resources/AssemblyNamesTypeResolutionService.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Resources/ByteArrayFromResXHandler.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Resources/ChangeLog -text

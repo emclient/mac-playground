@@ -4,11 +4,18 @@ using System;
 
 #if MAC
 
+#if XAMARINMAC
+using AppKit;
+using Foundation;
+using WebKit;
+#else
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MonoMac.WebKit;
-
+using ObjCRuntime = MonoMac.ObjCRuntime;
 #endif
+
+#endif // MAC
 
 namespace FormsTest
 {
@@ -41,7 +48,7 @@ namespace FormsTest
 		{
 			#if MAC
 
-			this.container = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(this.Handle);
+			this.container = (NSView)ObjCRuntime.Runtime.GetNSObject(this.Handle);
 			this.webView = new WebView();
 			webView.Frame = container.Bounds;
 			container.AddSubview(webView);
