@@ -1,12 +1,16 @@
 ﻿#if MONOMAC || XAMARINMAC
 
-using System;
-using System.Windows.Forms;
 using System.Windows.Forms.CocoaInternal;
-using MonoMac.AppKit;
 using System.ComponentModel;
-using MonoMac.Foundation;
 using System.IO;
+
+#if XAMARINMAC
+using AppKit;
+using Foundation;
+#elif MONOMAC
+using MonoMac.AppKit;
+using MonoMac.Foundation;
+#endif
 
 namespace System.Windows.Forms
 {
@@ -47,7 +51,7 @@ namespace System.Windows.Forms
 					if (!String.IsNullOrWhiteSpace(FileName))
 						panel.NameFieldStringValue = FileName;
 
-					if (NSPanelButtonType.Ok != (NSPanelButtonType)panel.RunModal())
+					if (NSPanelButtonType.Ok != (NSPanelButtonType)(int)panel.RunModal())
 						return false;
 
 					FileNames = GetFileNames(panel);
