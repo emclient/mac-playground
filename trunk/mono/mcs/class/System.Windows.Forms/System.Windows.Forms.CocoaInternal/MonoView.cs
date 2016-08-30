@@ -26,17 +26,29 @@
 //
 
 using System;
+using System.Runtime.InteropServices;
+
+#if XAMARINMAC
+using Foundation;
+using AppKit;
+using ObjCRuntime;
+#elif MONOMAC
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MonoMac.ObjCRuntime;
-using System.Runtime.InteropServices;
+#endif
 
 #if SDCOMPAT
 using NSRect = System.Drawing.RectangleF;
 using NSPoint = System.Drawing.PointF;
 #else
+#if XAMARINMAC
+using NSRect = CoreGraphics.CGRect;
+using NSPoint = CoreGraphics.CGPoint;
+#elif MONOMAC
 using NSRect = MonoMac.CoreGraphics.CGRect;
 using NSPoint = MonoMac.CoreGraphics.CGPoint;
+#endif
 #endif
 using System.Drawing;
 using System.Collections.Generic;

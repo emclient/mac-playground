@@ -1,17 +1,29 @@
-﻿using MonoMac.Foundation;
-using MonoMac.AppKit;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using System.Diagnostics;
+
+#if XAMARINMAC
+using Foundation;
+using AppKit;
+#elif MONOMAC
+using MonoMac.Foundation;
+using MonoMac.AppKit;
+#endif
+
 #if SDCOMPAT
 using NSRect = System.Drawing.RectangleF;
 using NSPoint = System.Drawing.PointF;
 #else
+#if XAMARINMAC
+using NSRect = CoreGraphics.CGRect;
+using NSPoint = CoreGraphics.CGPoint;
+#elif MONOMAC
 using NSRect = MonoMac.CoreGraphics.CGRect;
 using NSPoint = MonoMac.CoreGraphics.CGPoint;
 #endif
-using System.Diagnostics;
+#endif
 
 namespace System.Windows.Forms.CocoaInternal
 {
@@ -130,12 +142,12 @@ namespace System.Windows.Forms.CocoaInternal
 			ActivateNextWindow();
 		}
 
-		public override void OrderWindow(NSWindowOrderingMode place, int relativeTo)
-		{
-			base.OrderWindow(place, relativeTo);
-			if (place == NSWindowOrderingMode.Out)
-				ActivateNextWindow();
-		}
+		//public override void OrderWindow(NSWindowOrderingMode place, int relativeTo)
+		//{
+		//	base.OrderWindow(place, relativeTo);
+		//	if (place == NSWindowOrderingMode.Out)
+		//		ActivateNextWindow();
+		//}
 
 		[Export ("windowWillResize:toSize:")]
 		internal virtual SizeF willResize (NSWindow sender, SizeF toFrameSize)
@@ -279,20 +291,20 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			var numbers = NSWindow.WindowNumbersWithOptions(NSWindowNumberListOptions.AllApplication | NSWindowNumberListOptions.AllSpaces);
 			var windows = NSApplication.SharedApplication.Windows;
-			var winByNum = new Dictionary<int, NSWindow>(windows.Length);
+			var winByNum = new Dictionary<long, NSWindow>(windows.Length);
 
 			foreach (var window in windows)
-				winByNum[window.WindowNumber] = window;
+				winByNum[(long)window.WindowNumber] = window;
 
 			var sorted = new List<NSWindow>(windows.Length);
 
 			for (uint i = 0; i < numbers.Count; ++i)
 			{
 				var handle = numbers.ValueAt((uint)i);
-				var number = new NSNumber(handle);
+				var number = NSNumber.ValueFromPointer(handle) as NSNumber; // new NSNumber(handle);
 
 				NSWindow window;
-				if (number != null && winByNum.TryGetValue(number.IntValue, out window))
+				if (number != null && winByNum.TryGetValue(number.Int64Value, out window))
 					sorted.Add(window);
 			}
 

@@ -57,7 +57,11 @@
 
 using System;
 using System.Drawing;
+#if XAMARINMAC
+using Foundation;
+#elif MONOMAC
 using MonoMac.Foundation;
+#endif
 
 namespace System.Windows.Forms.CocoaInternal {
 	internal struct Caret {

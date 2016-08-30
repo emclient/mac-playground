@@ -58,14 +58,20 @@
 
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+
+#if XAMARINMAC
+using Foundation;
+using AppKit;
+#elif MONOMAC
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using System.Collections.Generic;
+#endif
 
 namespace System.Windows.Forms.CocoaInternal {
 	internal class Pasteboard {

@@ -2,7 +2,13 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Reflection;
+
+#if XAMARINMAC
+using AppKit;
+#elif MONOMAC
 using MonoMac.AppKit;
+using ObjCRuntime = MonoMac.ObjCRuntime;
+#endif
 
 namespace System.Windows.Forms
 {
@@ -34,7 +40,7 @@ namespace System.Windows.Forms
 			return ControlInfo(Control.FromHandle(handle));
 		}
 
-		public static String ControlInfo(MonoMac.AppKit.NSView view)
+		public static String ControlInfo(NSView view)
 		{
 			var ctrl = ControlFromView(view);
 			if (ctrl != null)
@@ -70,13 +76,13 @@ namespace System.Windows.Forms
 		public static NSView ClientViewFromControl(Control control)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle(control.Handle);
-			return (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
+			return (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
 		}
 
 		public static NSView WholeViewFromControl(Control control)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle(control.Handle);
-			return (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			return (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 		}
 
 		public static string GetFieldInfo(Control control, string indent = "  ", string newLine = null)
