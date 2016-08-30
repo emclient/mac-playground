@@ -6,7 +6,7 @@
     <ProjectGuid>{597BC926-1CF3-4EC0-85C5-C55CC11D4BC8}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>ConsoleTest</RootNamespace>
-    <AssemblyName>MailClient</AssemblyName>
+    <AssemblyName>ConsoleTest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -29,6 +29,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
