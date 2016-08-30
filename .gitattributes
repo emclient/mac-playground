@@ -5699,6 +5699,7 @@ trunk/monomac-mac64/src/webkit.cs -text
 trunk/readme.rtf -text
 trunk/sysdrawing-coregraphics/AssemblyInfo.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing[!!-~](CoreGraphics).csproj -text
+trunk/sysdrawing-coregraphics/System.Drawing[!!-~](CoreGraphics).sln -text
 trunk/sysdrawing-coregraphics/System.Drawing[!!-~](Unified-CoreGraphics).csproj -text
 trunk/sysdrawing-coregraphics/System.Drawing.Drawing2D/GraphicsContainer.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing.Drawing2D/GraphicsPath-AddString.cs -text
