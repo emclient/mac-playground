@@ -510,6 +510,7 @@ trunk/mono/mcs/class/System.Windows.Forms/System.Resources/ResXResourceSet.cs -t
 trunk/mono/mcs/class/System.Windows.Forms/System.Resources/ResXResourceWriter.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Resources/SerializedFromResXHandler.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Resources/TypeConverterFromResXHandler.cs -text
+trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms[!!-~](Unified).csproj -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms-net_2_0.sln -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms-net_4_5.csproj -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms-net_4_5.sln -text
@@ -5696,6 +5697,9 @@ trunk/monomac-mac64/src/qtkit.cs -text
 trunk/monomac-mac64/src/scriptingbridge.cs -text
 trunk/monomac-mac64/src/webkit.cs -text
 trunk/readme.rtf -text
+trunk/sysdrawing-coregraphics/AssemblyInfo.cs -text
+trunk/sysdrawing-coregraphics/System.Drawing[!!-~](CoreGraphics).csproj -text
+trunk/sysdrawing-coregraphics/System.Drawing[!!-~](Unified-CoreGraphics).csproj -text
 trunk/sysdrawing-coregraphics/System.Drawing.Drawing2D/GraphicsContainer.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing.Drawing2D/GraphicsPath-AddString.cs -text
 trunk/sysdrawing-coregraphics/System.Drawing.Drawing2D/GraphicsPath.cs -text

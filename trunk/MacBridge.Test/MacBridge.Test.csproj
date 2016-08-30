@@ -50,9 +50,9 @@
       <Project>{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}</Project>
       <Name>MacBridge</Name>
     </ProjectReference>
-    <ProjectReference Include="..\sysdrawing-coregraphics\sysdrawing-coregraphics-Mac\sysdrawing-coregraphics-Mac.csproj">
+    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj">
       <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
-      <Name>sysdrawing-coregraphics-Mac</Name>
+      <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@
     <StartupObject>FormsTest.Program</StartupObject>
     <ApplicationIcon>application.ico</ApplicationIcon>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <AssemblyName>TestApp</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -18,13 +19,11 @@
     <Prefer32Bit>true</Prefer32Bit>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
-    <AssemblyName>XamTest2</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\Mono - Debug</OutputPath>
     <WarningLevel>4</WarningLevel>
-    <AssemblyName>FormsTest</AssemblyName>
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>DEBUG; NET_4_5; NET_4_0; MAC</DefineConstants>
   </PropertyGroup>
@@ -32,7 +31,6 @@
     <Optimize>false</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <WarningLevel>4</WarningLevel>
-    <AssemblyName>FormsTest</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MonoMac" Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
@@ -125,6 +123,9 @@
     <Compile Include="..\..\..\MailClient.Common.UI\Controls\ControlDebugUtils.cs">
       <Link>MailClient\UI\Controls\ControlDebugUtils.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\UI\Controls\WrappingCheckBox.Mac.cs">
+      <Link>MailClient\UI\Controls\WrappingCheckBox.Mac.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -156,10 +157,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\sysdrawing-coregraphics\sysdrawing-coregraphics-Mac\sysdrawing-coregraphics-Mac.csproj" Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
-      <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
-      <Name>sysdrawing-coregraphics-Mac</Name>
-    </ProjectReference>
     <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj" Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
@@ -171,6 +168,10 @@
     <ProjectReference Include="..\..\..\MailClient.Collections\MailClient.Collections.csproj">
       <Project>{C69A5715-2180-4C49-8AD0-150697A81790}</Project>
       <Name>MailClient.Collections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj">
+      <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
+      <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
