@@ -3,9 +3,16 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+
+#if XAMARINMAC
+using Foundation;
+using ObjCRuntime;
+using AppKit;
+#else
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
 using MonoMac.AppKit;
+#endif
 
 namespace FormsTest
 {

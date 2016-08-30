@@ -4,6 +4,16 @@ using System.Threading;
 using FormsTest;
 using System.Diagnostics;
 
+#if MAC
+
+#if XAMARINMAC
+using AppKit;
+#elif MONOMAC
+using MonoMac.AppKit;
+#endif
+
+#endif
+
 namespace FormsTest
 {
 	public static class Program
@@ -31,7 +41,7 @@ namespace FormsTest
 
 #if MAC
 			// Workaround for not exiting the app because of pending threads related to UrlProtocol subclass.
-            MonoMac.AppKit.NSApplication.SharedApplication.Terminate(MonoMac.AppKit.NSApplication.SharedApplication);
+            NSApplication.SharedApplication.Terminate(NSApplication.SharedApplication);
 #endif
         }
 	}
