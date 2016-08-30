@@ -30,7 +30,11 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-#if MONOMAC
+#if XAMARINMAC
+using CoreGraphics;
+using CoreText;
+using Foundation;
+#elif MONOMAC
 using MonoMac.CoreGraphics;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
@@ -123,7 +127,7 @@ namespace System.Drawing.Drawing2D
 			// are using anything but Top
 			if (layoutAvailable && stringFormat.LineAlignment != StringAlignment.Near) {
 				while (start < length) {
-					int count = typesetter.SuggestLineBreak (start, boundsWidth);
+					var count = typesetter.SuggestLineBreak (start, boundsWidth);
 					var line = typesetter.GetLine (new NSRange(start, count));
 
 					// Create and initialize some values from the bounds.
@@ -133,7 +137,7 @@ namespace System.Drawing.Drawing2D
 					line.GetTypographicBounds (out ascent, out descent, out leading);
 					baselineOffset += (float)Math.Ceiling (ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior  
 					line.Dispose ();
-					start += count;
+					start += (int)count;
 				}
 			}
 
@@ -145,7 +149,7 @@ namespace System.Drawing.Drawing2D
 				// Now we ask the typesetter to break off a line for us.
 				// This also will take into account line feeds embedded in the text.
 				//  Example: "This is text \n with a line feed embedded inside it"
-				int count = typesetter.SuggestLineBreak(start, boundsWidth);
+				var count = (int)typesetter.SuggestLineBreak(start, boundsWidth);
 				var line = typesetter.GetLine(new NSRange(start, count));
 
 				// Create and initialize some values from the bounds.

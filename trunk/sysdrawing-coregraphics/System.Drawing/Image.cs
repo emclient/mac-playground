@@ -41,7 +41,11 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
 
-#if MONOMAC
+#if XAMARINMAC
+using CoreGraphics;
+using Foundation;
+using AppKit;
+#elif MONOMAC
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
@@ -96,7 +100,7 @@ namespace System.Drawing {
 		public int Height {
 			get {
 				var b = this as Bitmap;
-				return b == null ? 0 : b.NativeCGImage.Height;
+				return b == null ? 0 : (int)b.NativeCGImage.Height;
 			}
 		}
 		
@@ -121,7 +125,7 @@ namespace System.Drawing {
 		public int Width {
 			get {
 				var b = this as Bitmap;
-				return b == null ? 0 : b.NativeCGImage.Width;
+				return b == null ? 0 : (int)b.NativeCGImage.Width;
 			}
 		}
 

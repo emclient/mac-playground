@@ -11,7 +11,9 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Drawing;
 
-#if MONOMAC
+#if XAMARINMAC
+using CoreGraphics;
+#elif MONOMAC
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MonoMac.CoreGraphics;

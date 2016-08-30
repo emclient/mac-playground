@@ -10,7 +10,9 @@
 using System.Drawing;
 using System.ComponentModel;
 
-#if MONOMAC
+#if XAMARINMAC
+using CoreGraphics;
+#elif MONOMAC
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MonoMac.CoreGraphics;

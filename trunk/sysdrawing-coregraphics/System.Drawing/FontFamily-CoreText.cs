@@ -28,7 +28,9 @@
 using System;
 using System.Drawing.Text;
 
-#if MONOMAC
+#if XAMARINMAC
+using CoreText;
+#elif MONOMAC
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MonoMac.CoreGraphics;

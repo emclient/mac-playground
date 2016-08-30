@@ -29,7 +29,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-#if MONOMAC
+#if XAMARINMAC
+using CoreGraphics;
+using CoreText;
+using Foundation;
+#elif MONOMAC
 using MonoMac.CoreText;
 using MonoMac.Foundation;
 using MonoMac.CoreGraphics;

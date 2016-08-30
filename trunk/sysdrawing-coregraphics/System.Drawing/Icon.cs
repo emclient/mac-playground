@@ -123,7 +123,7 @@ namespace System.Drawing
 		private Icon (IntPtr handle)
 		{
 			this.handle = handle;
-#if !MONOMAC
+#if !MONOMAC && !XAMARINMAC
 			bitmap = Bitmap.FromHicon (handle);
 			iconSize = new Size (bitmap.Width, bitmap.Height);
 			if (GDIPlus.RunningOnUnix ()) {
@@ -330,7 +330,7 @@ namespace System.Drawing
 				return;
 			
 			if (!disposed) {
-#if !MONOTOUCH && !MONOMAC
+#if !MONOTOUCH && !MONOMAC && !XAMARINMAC
 				if (GDIPlus.RunningOnWindows () && (handle != IntPtr.Zero)) {
 					GDIPlus.DestroyIcon (handle);
 					handle = IntPtr.Zero;
@@ -618,7 +618,7 @@ namespace System.Drawing
 		[Browsable (false)]
 		public IntPtr Handle {
 			get {
-#if !MONOMAC
+#if !MONOMAC && !XAMARINMAC
 				// note: this handle doesn't survive the lifespan of the icon instance
 				if (!disposed && (handle == IntPtr.Zero)) {
 					if (GDIPlus.RunningOnUnix ()) {
