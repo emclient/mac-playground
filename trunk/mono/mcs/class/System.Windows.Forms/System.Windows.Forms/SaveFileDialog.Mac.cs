@@ -1,11 +1,17 @@
-﻿#if MONOMAC
+﻿#if MONOMAC || XAMARINMAC
 
 using System;
 using System.Windows.Forms;
 using System.Windows.Forms.CocoaInternal;
+using System.IO;
+
+#if XAMARINMAC
+using AppKit;
+using Foundation;
+#elif MONOMAC
 using MonoMac.AppKit;
 using MonoMac.Foundation;
-using System.IO;
+#endif
 
 namespace System.Windows.Forms
 {
@@ -38,7 +44,7 @@ namespace System.Windows.Forms
 			{
 				using (var context = new ModalDialogContext())
 				{
-					var panel = new MonoMac.AppKit.NSSavePanel();
+					var panel = new NSSavePanel();
 
 					if (!String.IsNullOrWhiteSpace(InitialDirectory) && Directory.Exists(InitialDirectory))
 					{
@@ -49,7 +55,7 @@ namespace System.Windows.Forms
 					if (!String.IsNullOrWhiteSpace(FileName))
 						panel.NameFieldStringValue = FileName;
 
-					if (NSPanelButtonType.Ok != (NSPanelButtonType)panel.RunModal())
+					if (NSPanelButtonType.Ok != (NSPanelButtonType)(int)panel.RunModal())
 						return false;
 
 					FileName = SelectedPath = panel.Url.Path;

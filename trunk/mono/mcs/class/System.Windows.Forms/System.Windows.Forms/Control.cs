@@ -4588,7 +4588,7 @@ namespace System.Windows.Forms
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected void RecreateHandle() {
-			if (!IsHandleCreated)
+			//if (!IsHandleCreated)
 				return;
 
 #if DebugRecreate

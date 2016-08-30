@@ -1,7 +1,13 @@
 ﻿using System.Collections.Generic;
+
+#if XAMARINMAC
+using AppKit;
+using Foundation;
+#elif MONOMAC
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
+#endif
 
 namespace System.Windows.Forms.CocoaInternal
 {
