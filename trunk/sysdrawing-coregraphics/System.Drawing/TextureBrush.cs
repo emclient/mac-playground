@@ -8,7 +8,9 @@
 //
 using System;
 using System.Drawing.Drawing2D;
-#if MONOMAC
+#if XAMARINMAC
+using CoreGraphics;
+#elif MONOMAC
 using MonoMac.CoreGraphics;
 #else
 using MonoTouch.CoreGraphics;

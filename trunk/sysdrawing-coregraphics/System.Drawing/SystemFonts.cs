@@ -1,6 +1,8 @@
 using System;
 
-#if MONOMAC
+#if XAMARINMAC
+using AppKit;
+#elif MONOMAC
 using MonoMac.CoreGraphics;
 using MonoMac.AppKit;
 using MonoMac.Foundation;

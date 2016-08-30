@@ -28,7 +28,9 @@
 using System;
 using System.Collections.Generic;
 
-#if MONOMAC
+#if XAMARINMAC
+using CoreText;
+#elif MONOMAC
 using MonoMac.CoreText;
 #else
 using MonoTouch.CoreText;
