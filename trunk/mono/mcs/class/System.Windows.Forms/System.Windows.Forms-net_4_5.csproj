@@ -1443,9 +1443,9 @@
     <None Include="System.Windows.Forms.CocoaInternal\ChangeLog" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\sysdrawing-coregraphics\sysdrawing-coregraphics-Mac\sysdrawing-coregraphics-Mac.csproj">
+    <ProjectReference Include="..\..\..\..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj">
       <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
-      <Name>sysdrawing-coregraphics-Mac</Name>
+      <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
