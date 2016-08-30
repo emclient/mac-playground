@@ -1,4 +1,4 @@
-﻿#if MONOMAC
+﻿#if MONOMAC || XAMARINMAC
 
 using System;
 using System.Windows.Forms;
