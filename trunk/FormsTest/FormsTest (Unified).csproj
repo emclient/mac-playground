@@ -6,9 +6,10 @@
     <ProjectTypeGuids>{A3F8F2AB-B479-4A4A-A458-A89E7DC349F1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>TestApp</RootNamespace>
-    <AssemblyName>TestApp</AssemblyName>
+    <AssemblyName>FormsTest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
+    <UseXamMacFullFramework>true</UseXamMacFullFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,6 +30,7 @@
     <TlsProvider>Default</TlsProvider>
     <LinkMode>None</LinkMode>
     <XamMacArch></XamMacArch>
+    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -54,7 +56,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Mono - Debug</OutputPath>
-    <DefineConstants>__UNIFIED__;DEBUG;XAMARINMAC</DefineConstants>
+    <DefineConstants>__UNIFIED__;DEBUG;XAMARINMAC;MAC;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <EnableCodeSigning>false</EnableCodeSigning>
@@ -68,6 +70,7 @@
     <TlsProvider>Default</TlsProvider>
     <LinkMode>None</LinkMode>
     <XamMacArch></XamMacArch>
+    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -180,6 +183,7 @@
     <Compile Include="..\..\..\UI\Controls\WrappingCheckBox.Mac.cs">
       <Link>MailClient\UI\Controls\WrappingCheckBox.Mac.cs</Link>
     </Compile>
+    <Compile Include="XamUrlProtocol.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DebugLayoutForm.resx">

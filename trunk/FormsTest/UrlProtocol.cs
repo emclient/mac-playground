@@ -1,18 +1,13 @@
 ﻿#if MAC
+#if !XAMARINMAC
 
 using System;
 using System.IO;
 using System.Collections.Generic;
 
-#if XAMARINMAC
-using Foundation;
-using ObjCRuntime;
-using AppKit;
-#else
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
 using MonoMac.AppKit;
-#endif
 
 namespace FormsTest
 {
@@ -124,21 +119,22 @@ namespace FormsTest
 		}
 	}
 }
+#endif //!XAMARINAMC
 
 #else //MAC
 
 namespace FormsTest
 {
-    public class UrlProtocol
-    {
-        public static void Register()
-        {
-        }
+    //public class UrlProtocol
+    //{
+    //    public static void Register()
+    //    {
+    //    }
 
-        public static void Unregister()
-        {
-        }
-    }
+    //    public static void Unregister()
+    //    {
+    //    }
+    //}
 }
 
 #endif //MAC

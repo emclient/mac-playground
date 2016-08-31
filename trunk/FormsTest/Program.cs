@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 #if XAMARINMAC
 using AppKit;
-#elif MONOMAC
+#else //MONOMAC
 using MonoMac.AppKit;
 #endif
 
