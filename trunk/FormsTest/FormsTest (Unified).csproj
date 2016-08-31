@@ -5,7 +5,7 @@
     <ProjectGuid>{AC9F238E-8B69-4C89-B81C-25C6F2E57A87}</ProjectGuid>
     <ProjectTypeGuids>{A3F8F2AB-B479-4A4A-A458-A89E7DC349F1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
-    <RootNamespace>TestApp</RootNamespace>
+    <RootNamespace>FormsTest</RootNamespace>
     <AssemblyName>FormsTest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
@@ -164,9 +164,6 @@
     <Compile Include="..\..\..\MailClient.Common.UI\DisplaySettingsManager.cs">
       <Link>MailClient\UI\DisplaySettingsManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\MailClient.Common.UI\FontCache.cs">
-      <Link>MailClient\UI\FontCache.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\MailClient.Common.UI\FontStyleEx.cs">
       <Link>MailClient\UI\FontStyleEx.cs</Link>
     </Compile>
@@ -184,6 +181,7 @@
       <Link>MailClient\UI\Controls\WrappingCheckBox.Mac.cs</Link>
     </Compile>
     <Compile Include="XamUrlProtocol.cs" />
+    <Compile Include="MailClient\UI\FontCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DebugLayoutForm.resx">
