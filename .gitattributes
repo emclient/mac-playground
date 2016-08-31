@@ -70,6 +70,7 @@ trunk/FormsTest/Info.plist -text
 trunk/FormsTest/LayoutForm.Designer.cs -text
 trunk/FormsTest/LayoutForm.cs -text
 trunk/FormsTest/LayoutForm.resx -text
+trunk/FormsTest/MailClient/UI/FontCache.cs -text
 trunk/FormsTest/MainForm.Designer.cs -text
 trunk/FormsTest/MainForm.cs -text
 trunk/FormsTest/MainForm.resx -text
