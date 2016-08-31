@@ -85,6 +85,7 @@ trunk/FormsTest/Properties/Settings.Designer.cs -text
 trunk/FormsTest/Properties/Settings.settings -text
 trunk/FormsTest/UrlProtocol.cs -text
 trunk/FormsTest/WebForm.cs -text
+trunk/FormsTest/XamUrlProtocol.cs -text
 trunk/FormsTest/application.ico -text
 trunk/FormsTest/car.png -text
 trunk/MacBridge.Test/CGImageExtensionsTest.cs -text
