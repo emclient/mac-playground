@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XibLessApp", "XibLessApp\Xi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Drawing (CoreGraphics)", "sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj", "{C675FE3F-497D-4CE7-B441-3C0299B30C10}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUITest", "GUITest\GUITest.csproj", "{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -225,6 +227,30 @@ Global
 		{C675FE3F-497D-4CE7-B441-3C0299B30C10}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{C675FE3F-497D-4CE7-B441-3C0299B30C10}.Release|x86.ActiveCfg = Release|Any CPU
 		{C675FE3F-497D-4CE7-B441-3C0299B30C10}.Release|x86.Build.0 = Release|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Debug|x86.Build.0 = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Mono - Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Mono - Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Mono - Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Mono - Debug|iPhone.Build.0 = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Mono - Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Mono - Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Mono - Debug|x86.ActiveCfg = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Mono - Debug|x86.Build.0 = Debug|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Release|iPhone.Build.0 = Release|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Release|x86.ActiveCfg = Release|Any CPU
+		{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
