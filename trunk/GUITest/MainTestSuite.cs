@@ -41,29 +41,43 @@ namespace GUITest
 
 		void DropDownTest()
 		{
-			
 		}
 
 		void BrowserTest()
 		{
 			var button = (Button)GetMember("MainForm.button2", typeof(Button));
-			button.PerformClick();
+            mainForm.UIThread(() =>	button.PerformClick());
 
 			var webForm = WaitForForm("WebForm");
 			ThrowIfNull(webForm, "WebForm not found");
 
-			//webForm.Close();
+            Thread.Sleep(1000);
+            mainForm.UIThread(() =>	webForm.Close());
 		}
 
 		void DialogTest()
 		{
 			var button = (Button)GetMember("MainForm.button3", typeof(Button));
-
-            //WaitForFormAsyncAndCloseIt("Color", 10, 0.2);
-            //button.PerformClick();
+            Delay(1.0, () => { SendKeys.SendWait("{ESC}");  });
+            mainForm.UIThread(() => button.PerformClick());
 		}
 
-		#endregion //Tests
+        void OpenFileDialogTest()
+        {
+            var combo = (ComboBox)GetMember("MainForm.dialogTypeCombo", typeof(ComboBox));
+            mainForm.UIThread(() => combo.Focus());
+            SendKeys.SendWait("{F4}");
+            SendKeys.SendWait("{DOWN}");
+            SendKeys.SendWait("{ENTER}");
+            Thread.Sleep(500);
+
+            var button = (Button)GetMember("MainForm.button3", typeof(Button));
+            Delay(1.5, () => { SendKeys.SendWait("{ESC}"); });
+            mainForm.UIThread(() => button.PerformClick());
+            Thread.Sleep(2000);
+        }
+        
+        #endregion //Tests
 
 		#region Internals
 
@@ -76,6 +90,7 @@ namespace GUITest
 
 			Execute(BrowserTest);
 			Execute(DialogTest);
+            Execute(OpenFileDialogTest);
 		}
 
 		void Completed(object sender, EventArgs e)
@@ -92,21 +107,18 @@ namespace GUITest
 
 		void Execute(Action action)
 		{
-			mainForm.UIThread(() =>
+			try
 			{
-				try
-				{
-					action();
+				action();
 
-					succeded.Add(action);
-					Console.WriteLine("{0}: Success!", action.Method.Name);
-				}
-				catch (Exception e)
-				{
-					failed.Add(action);
-					Console.WriteLine("{0}: Failure! Details: '{1}'", action.Method.Name, e);
-				}
-			});
+				succeded.Add(action);
+				Console.WriteLine("{0}: Success!", action.Method.Name);
+			}
+			catch (Exception e)
+			{
+				failed.Add(action);
+				Console.WriteLine("{0}: Failure! Details: '{1}'", action.Method.Name, e);
+			}
 		}
 
 		Form WaitForForm(string nameOrType, double timeout = 3.0, double interval = 0.1)
@@ -220,22 +232,11 @@ namespace GUITest
 			return null;
 		}
 
-		void WaitForFormAsyncAndCloseIt(string nameOrTextOrType, int attempts, double interval)
+		void Delay(double interval, Action action)
 		{
-			Form form = null;
 			System.Threading.Timer timer = null;
-			timer = new System.Threading.Timer((e) =>
-			{
-				form = FindForm(nameOrTextOrType);
-				if (form != null)
-				{
-					timer.Change(int.MaxValue, int.MaxValue);
-					form.UIThread(() => { form.Close(); });
-				}
-				if (--attempts < 0)
-					ThrowIfNull(form);
-			});
-			timer.Change((int)(1000 * interval), (int) (1000 * interval));
+            timer = new System.Threading.Timer((e) => { action(); });
+			timer.Change((int)(1000 * interval), int.MaxValue);
 		}
 		#endregion // internals
 	}
