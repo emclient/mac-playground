@@ -19,7 +19,8 @@ namespace FormsTest
         Pair[] Dialogs = {
             new Pair { Name = "Color Dialog", Action = delegate { new ColorDialog().ShowDialog(); } },
             new Pair { Name = "Open File", Action = delegate { new OpenFileDialog().ShowDialog(); } },
-            new Pair { Name = "Save File", Action = delegate { new SaveFileDialog().ShowDialog(); } },
+            new Pair { Name = "Save File", Action = delegate { 
+                new SaveFileDialog().ShowDialog(); } },
             new Pair { Name = "Choose Folder", Action = delegate { 
 					var dlg = new FolderBrowserDialog();
 					dlg.Description = "Vyber nějakou složku vosle";
