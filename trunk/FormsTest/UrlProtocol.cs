@@ -125,16 +125,16 @@ namespace FormsTest
 
 namespace FormsTest
 {
-    //public class UrlProtocol
-    //{
-    //    public static void Register()
-    //    {
-    //    }
+    public class UrlProtocol
+    {
+        public static void Register()
+        {
+        }
 
-    //    public static void Unregister()
-    //    {
-    //    }
-    //}
+        public static void Unregister()
+        {
+        }
+    }
 }
 
 #endif //MAC

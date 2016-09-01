@@ -253,14 +253,14 @@ namespace System.Drawing {
 		public static Image FromStream (Stream stream)
 		{
 			if (stream == null)
-				throw new ArgumentNullException(nameof(stream));
+				throw new ArgumentNullException("stream");
 			return new Bitmap(stream);
 		}
 
 		public static Image FromStream (Stream stream, bool useIcm)
 		{
 			if (stream == null)
-				throw new ArgumentNullException(nameof(stream));
+				throw new ArgumentNullException("stream");
 			return new Bitmap(stream, useIcm);
 		}
 
@@ -289,7 +289,7 @@ namespace System.Drawing {
 			}
 			else 
 			{
-				Diagnostics.Debug.WriteLine($"Image.Save(): Unsupported format ({format})");
+				Diagnostics.Debug.WriteLine("Image.Save(): Unsupported format: " + format.ToString());
 			}
 		}
 
