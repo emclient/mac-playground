@@ -90,7 +90,10 @@ trunk/FormsTest/XamUrlProtocol.cs -text
 trunk/FormsTest/application.ico -text
 trunk/FormsTest/car.png -text
 trunk/GUITest/Extensions.cs -text
+trunk/GUITest/GUITest.csproj -text
 trunk/GUITest/MainTestSuite.cs -text
+trunk/GUITest/Program.cs -text
+trunk/GUITest/Properties/AssemblyInfo.cs -text
 trunk/MacBridge.Test/CGImageExtensionsTest.cs -text
 trunk/MacBridge.Test/LaunchServicesTest.cs -text
 trunk/MacBridge.Test/MacBridge.Test.csproj -text
