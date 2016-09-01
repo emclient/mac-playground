@@ -47,9 +47,9 @@ namespace System.Drawing.Printing {
 			}
 		}
 
-		public float HardMarginX { get; }
+        public float HardMarginX { get; protected set; }
 
-		public float HardMarginY { get; }
+        public float HardMarginY { get; protected set; }
 
 		public bool Color { get; set; }
 

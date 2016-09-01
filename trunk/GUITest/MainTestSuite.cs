@@ -59,8 +59,8 @@ namespace GUITest
 		{
 			var button = (Button)GetMember("MainForm.button3", typeof(Button));
 
-			WaitForFormAsyncAndCloseIt("Color", 10, 0.2);
-			button.PerformClick();
+            //WaitForFormAsyncAndCloseIt("Color", 10, 0.2);
+            //button.PerformClick();
 		}
 
 		#endregion //Tests
@@ -82,12 +82,12 @@ namespace GUITest
 		{
 			Console.WriteLine("GUI tests finished.");
 			Console.WriteLine("--------------------");
-			Console.WriteLine($"Succeeded: {succeded.Count}");
-			Console.WriteLine($"Failed:    {failed.Count}");
+            Console.WriteLine("Succeeded: {0}", succeded.Count);
+			Console.WriteLine("Failed:    {0}", failed.Count);
 			Console.WriteLine("--------------------");
 
 			if (mainForm != null)
-				mainForm.Close();
+                mainForm.UIThread(() => { mainForm.Close(); });
 		}
 
 		void Execute(Action action)
@@ -99,12 +99,12 @@ namespace GUITest
 					action();
 
 					succeded.Add(action);
-					Console.WriteLine($"{action.Method.Name}: Success!");
+					Console.WriteLine("{0}: Success!", action.Method.Name);
 				}
 				catch (Exception e)
 				{
 					failed.Add(action);
-					Console.WriteLine($"{action.Method.Name}: Failure! Details: '{e}'");
+					Console.WriteLine("{0}: Failure! Details: '{1}'", action.Method.Name, e);
 				}
 			});
 		}
@@ -143,7 +143,7 @@ namespace GUITest
 				return null;
 
 			var form = FindForm(parts[0]);
-			ThrowIfNull(form, $"Form not found: {type.Name}");
+			ThrowIfNull(form, "Form not found: " + type.Name);
 
 			if (parts.Length == 1)
 				return form;
@@ -159,7 +159,7 @@ namespace GUITest
 				parent = member;
 			}
 
-			ThrowIfNull(member, $"Member {path} not found");
+			ThrowIfNull(member, String.Format("Member {0} not found", path));
 			return member;
 		}
 
