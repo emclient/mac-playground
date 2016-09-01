@@ -1,7 +1,11 @@
+trunk/ConsoleTest/bin
+trunk/ConsoleTest/obj
 trunk/Experiments/Experiments.xcworkspace/xcuserdata
 trunk/Experiments/FakeMailApp.xcodeproj/xcuserdata
 trunk/FormsTest/bin
 trunk/FormsTest/obj
+trunk/GUITest/bin
+trunk/GUITest/obj
 trunk/MacBridge.Test/bin
 trunk/MacBridge.Test/obj
 trunk/MacBridge/bin
@@ -20,6 +24,7 @@ trunk/mono/mcs/class/System.Windows.Forms/bin
 trunk/mono/mcs/class/System.Windows.Forms/obj
 trunk/mono/mcs/class/lib
 trunk/packages
+trunk/sysdrawing-coregraphics/bin
 trunk/sysdrawing-coregraphics/lib
 trunk/sysdrawing-coregraphics/obj
 trunk/sysdrawing-coregraphics/sysdrawing-coregraphics.userprefs

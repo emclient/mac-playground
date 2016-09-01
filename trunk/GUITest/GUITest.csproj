@@ -44,7 +44,8 @@
       <Project>{DBFDDBD7-E236-444C-98E5-736A4F22C8A5}</Project>
       <Name>FormsTest</Name>
     </ProjectReference>
-    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj">
+    <Reference Include="System.Windows.Forms" Condition=" '$(Configuration)' == 'Debug' " />
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj" Condition=" '$(Configuration)' == 'Mono - Debug'" >
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
     </ProjectReference>
