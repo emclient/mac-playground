@@ -34,7 +34,7 @@ namespace FormsTest
         [Export("canInitWithRequest:")]
 		public static bool canInitWithRequest(NSUrlRequest request)
 		{
-			Console.WriteLine("canInitWithRequest: " +  request.Url);
+			//Console.WriteLine("canInitWithRequest: " +  request.Url);
 
 			if (NSUrlProtocol.GetProperty(BeingHandledKey, request) != null)
 				return false;
@@ -67,7 +67,7 @@ namespace FormsTest
 
 		public override void StartLoading()
 		{
-			Console.WriteLine("StartLoading: " +  this.Request.Url.AbsoluteString);
+			//Console.WriteLine("StartLoading: " +  this.Request.Url.AbsoluteString);
 
 			var request = (this.Request as NSMutableUrlRequest) ?? (NSMutableUrlRequest)this.Request.MutableCopy();
 			NSUrlProtocol.SetProperty(BeingHandledValue, BeingHandledKey, request);
@@ -96,25 +96,25 @@ namespace FormsTest
 
 		public override void ReceivedResponse(NSUrlConnection connection, NSUrlResponse response)
 		{
-			Console.WriteLine("ReceivedResponse");
+			//Console.WriteLine("ReceivedResponse");
 			handler.Client.ReceivedResponse(handler, response, NSUrlCacheStoragePolicy.NotAllowed);
 		}
 
 		public override void ReceivedData(NSUrlConnection connection, NSData data)
 		{
-			Console.WriteLine("ReceivedData");
+			//Console.WriteLine("ReceivedData");
 			handler.Client.DataLoaded(handler, data);
 		}
 
 		public override void FinishedLoading(NSUrlConnection connection)
 		{
-			Console.WriteLine("FinishedLoading");
+			//Console.WriteLine("FinishedLoading");
 			handler.Client.FinishedLoading(handler);
 		}
 
 		public override void FailedWithError(NSUrlConnection connection, NSError error)
 		{
-			Console.WriteLine("FailedWithError");
+			//Console.WriteLine("FailedWithError");
 			handler.Client.FailedWithError(handler, error);
 		}
 	}
