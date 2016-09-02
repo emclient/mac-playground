@@ -1833,7 +1833,49 @@ namespace System.Windows.Forms {
 			return result;
 		}
 
-		internal override int SendInput (IntPtr hwnd, Queue keys) {
+		internal override int SendInput(IntPtr hwnd, Queue keys)
+		{
+			int result = 0;
+			if (NSThread.IsMain)
+				 result = SendInputInternal(hwnd, keys);
+			else
+				NSApplication.SharedApplication.InvokeOnMainThread(() => { 
+					result = SendInputInternal(hwnd, keys);
+			});
+			return result;
+		}
+
+		int SendInputInternal(IntPtr hwnd, Queue keys)
+		{
+			while (keys.Count != 0)
+			{
+				var msg = (MSG)keys.Dequeue();
+
+				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd);
+				var windowNumber = vuWrap?.Window?.WindowNumber ?? 0;
+
+				var key = msg.wParam.ToInt32();
+				var keyCode = NSKeyFromKeys((Keys)key);
+
+				Console.WriteLine("Sending key: " + keyCode);
+
+				NSEvent e = null;
+				switch (msg.message)
+				{
+					case Msg.WM_KEYDOWN:
+						e = NSEvent.KeyEvent(NSEventType.KeyDown, CGPoint.Empty, (NSEventModifierMask)0, NSDate.Now.SecondsSinceReferenceDate, windowNumber, null, "", "", false, (ushort)keyCode);
+						break;
+					case Msg.WM_KEYUP:
+						e = NSEvent.KeyEvent(NSEventType.KeyUp, CGPoint.Empty, (NSEventModifierMask)0, NSDate.Now.SecondsSinceReferenceDate, windowNumber, null, "", "", false, (ushort)keyCode);
+						break;
+					default:
+						break;
+				}
+
+				if (e != null)
+					NSApplication.SharedApplication.SendEvent(e);
+			}
+
 			return 0;
 		}
 
@@ -2715,6 +2757,22 @@ namespace System.Windows.Forms {
 		[DllImport("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		extern static void CGDisplayMoveCursorToPoint (UInt32 display, NSPoint point);
 
+		NSKey NSKeyFromKeys(Keys key)
+		{
+			//FIXME: Add support for all key, replace switch statement with some look-up table.
+			switch (key)
+			{
+				case Keys.Escape: return NSKey.Escape;
+				case Keys.Enter: return NSKey.Return;
+				case Keys.Space: return NSKey.Space;
+				case Keys.F4: return NSKey.F4;
+				case Keys.Down: return NSKey.DownArrow;
+				case Keys.Up: return NSKey.UpArrow;
+			}
+
+			Debug.WriteLine("NSKeyFromKeys not implemented for {0}", key);
+			return (NSKey)(int)key;
+		}
 	}
 	// Windows / Native messaging support
 
