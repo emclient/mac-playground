@@ -26,6 +26,16 @@
     <WarningLevel>4</WarningLevel>
     <ExternalConsole>true</ExternalConsole>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Mono - Debug</OutputPath>
+    <DefineConstants>DEBUG;MAC;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ExternalConsole>true</ExternalConsole>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="MonoMac">
@@ -45,7 +55,7 @@
       <Name>FormsTest</Name>
     </ProjectReference>
     <Reference Include="System.Windows.Forms" Condition=" '$(Configuration)' == 'Debug' " />
-    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj" Condition=" '$(Configuration)' == 'Mono - Debug'" >
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj" Condition=" '$(Configuration)' == 'Mono - Debug'">
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
     </ProjectReference>
