@@ -58,7 +58,7 @@ namespace GUITest
 		void DialogTest()
 		{
 			var button = (Button)GetMember("MainForm.button3", typeof(Button));
-            Delay(1.0, () => { SendKeys.SendWait("{ESC}");  });
+            Delay(1.0, () => { SendKeys.Send("{ESC}");  });
             mainForm.UIThread(() => button.PerformClick());
 		}
 
@@ -66,13 +66,13 @@ namespace GUITest
         {
             var combo = (ComboBox)GetMember("MainForm.dialogTypeCombo", typeof(ComboBox));
             mainForm.UIThread(() => combo.Focus());
-            SendKeys.SendWait("{F4}");
-            SendKeys.SendWait("{DOWN}");
-            SendKeys.SendWait("{ENTER}");
+            SendKeys.Send("{F4}");
+            SendKeys.Send("{DOWN}");
+            SendKeys.Send("{ENTER}");
             Thread.Sleep(500);
 
             var button = (Button)GetMember("MainForm.button3", typeof(Button));
-            Delay(1.5, () => { SendKeys.SendWait("{ESC}"); });
+            Delay(1.5, () => { SendKeys.Send("{ESC}"); });
             mainForm.UIThread(() => button.PerformClick());
             Thread.Sleep(2000);
         }
