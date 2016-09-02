@@ -1857,7 +1857,7 @@ namespace System.Windows.Forms {
 				var key = msg.wParam.ToInt32();
 				var keyCode = NSKeyFromKeys((Keys)key);
 
-				Console.WriteLine("Sending key: " + keyCode);
+				Debug.WriteLine("Sending key: " + keyCode);
 
 				NSEvent e = null;
 				switch (msg.message)
