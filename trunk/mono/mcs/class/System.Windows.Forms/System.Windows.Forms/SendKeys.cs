@@ -335,7 +335,7 @@ namespace System.Windows.Forms {
 			lock(lockobj) {
 				Send(keys);
 			}
-			Flush();
+			//Flush();
 		}
 
 		#endregion	// Public Static Methods
