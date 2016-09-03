@@ -7,11 +7,7 @@ namespace GUITest
         [STAThread]
         public static void Main(string[] args)
 		{
-			var suite = new MainTestSuite().Initialize();
-
-			FormsTest.Program.Main(args);
-
-			suite.Done();
-		}
-	}
+            TestRunner.Run(FormsTest.Program.Main, args, typeof(FormsTest.MainForm));
+        }
+    }
 }
