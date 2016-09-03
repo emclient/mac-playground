@@ -94,6 +94,9 @@ trunk/GUITest/GUITest.csproj -text
 trunk/GUITest/MainTestSuite.cs -text
 trunk/GUITest/Program.cs -text
 trunk/GUITest/Properties/AssemblyInfo.cs -text
+trunk/GUITest/TestRunner.cs -text
+trunk/GUITest/UI.cs -text
+trunk/GUITest/packages.config -text
 trunk/MacBridge.Test/CGImageExtensionsTest.cs -text
 trunk/MacBridge.Test/LaunchServicesTest.cs -text
 trunk/MacBridge.Test/MacBridge.Test.csproj -text
