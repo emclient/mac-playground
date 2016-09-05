@@ -95,7 +95,6 @@
     </Compile>
     <Compile Include="..\..\..\UI\Controls\WrappingCheckBox.cs">
       <Link>MailClient\Common\UI\WrappingCheckBox.cs</Link>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="..\..\..\UI\Controls\WrappingRadioButton.cs">
       <Link>MailClient\Common\UI\WrappingRadioButton.cs</Link>
@@ -125,6 +124,7 @@
     </Compile>
     <Compile Include="..\..\..\UI\Controls\WrappingCheckBox.Mac.cs">
       <Link>MailClient\UI\Controls\WrappingCheckBox.Mac.cs</Link>
+      <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
