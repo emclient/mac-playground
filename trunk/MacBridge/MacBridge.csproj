@@ -108,7 +108,7 @@
       <Name>System.Windows.Forms-net_4_5</Name>
     </ProjectReference>
     <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj">
-      <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
+      <Project>{2C21E2FB-F0F9-4D54-8E78-130EF6284B1C}</Project>
       <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>
   </ItemGroup>
