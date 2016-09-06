@@ -11,7 +11,7 @@ namespace GUITest
 
         public static void Initialize(Type mainFormType)
         {
-            main = WaitForForm(mainFormType);
+            main = WaitForForm(mainFormType, 10);
         }
 
         public static void Initialize(string mainFormNameOrType)
@@ -75,13 +75,14 @@ namespace GUITest
 
         internal static void Close()
         {
-            Perform(() => { main.Close(); });
+            if (main != null)
+                Perform(() => { main.Close(); });
         }
 
         public static Form FindForm(Type type)
         {
             foreach (Form form in Application.OpenForms)
-                if (form.GetType().Equals(type))
+                if (type == null || form.GetType().Equals(type))
                     return form;
             return null;
         }
@@ -89,7 +90,7 @@ namespace GUITest
         public static Form FindForm(string nameOrType)
         {
             foreach (Form form in Application.OpenForms)
-                if (nameOrType.Equals(form.Name) || nameOrType.Equals(form.Text))
+                if (nameOrType == null || nameOrType.Equals(form.Name) || nameOrType.Equals(form.Text))
                     return form;
 
             foreach (Form form in Application.OpenForms)
