@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using System.Linq;
 
 namespace GUITest
 {
@@ -14,16 +15,24 @@ namespace GUITest
         List<MethodInfo> succeded = new List<MethodInfo>();
         List<MethodInfo> failed = new List<MethodInfo>();
 
+        public static void Run(string fullyQualifiedTypeName, string mainFunctionName, string[] args)
+        {
+            var main = FindMain(fullyQualifiedTypeName, mainFunctionName);
+            var runner = new TestRunner();
+            runner.Run();
+
+            var result = main.Invoke(null, new object[] { args });
+        }
+
         public static void Run(Action<string[]> main, string[] args, Type mainFormType)
         {
             var runner = new TestRunner(mainFormType);
             runner.Run();
 
-            // Run the original application
             main(args);
         }
 
-        internal TestRunner(Type mainFormType)
+        internal TestRunner(Type mainFormType = null)
         {
             this.mainFormType = mainFormType;
 
@@ -96,6 +105,16 @@ namespace GUITest
                 if (null != method.GetCustomAttribute<TestAttribute>())
                     tests.Add(method);
             return tests;
+        }
+
+        private static MethodInfo FindMain(string fullyQualifiedClassName, string methodName = "Main")
+        {
+            var type = Type.GetType(fullyQualifiedClassName);
+            return type.GetMethod(methodName,
+                BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy,
+                null,
+                new Type[] { typeof(string[]) },
+                null);
         }
     }
 }
