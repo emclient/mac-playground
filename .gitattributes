@@ -126,6 +126,7 @@ trunk/MonoMac.dll -text
 trunk/OSXPlayground[!!-~](Unified).sln -text
 trunk/OSXPlayground.mdw -text
 trunk/OSXPlayground.sln -text
+trunk/WinMac.targets -text
 trunk/XibLessApp/Info.plist -text
 trunk/XibLessApp/Main.cs -text
 trunk/XibLessApp/XibLessApp.csproj -text
