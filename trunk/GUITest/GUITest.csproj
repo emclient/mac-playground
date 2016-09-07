@@ -71,7 +71,7 @@
       <HintPath>..\..\..\References\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="MonoMac">
+    <Reference Include="MonoMac" Condition=" '$(Configuration)' == 'Mono - Debug'">
       <HintPath>..\MonoMac.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
@@ -100,7 +100,9 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>xcopy /s/e/d/y $(ProjectDir)..\..\..\$(OutDir)*.* $(TargetDir)</PostBuildEvent>
-  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="$(ProjectDir)..\..\..\$(OutDir)*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
