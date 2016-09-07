@@ -65,14 +65,29 @@
     <TlsProvider>Default</TlsProvider>
     <LinkMode>None</LinkMode>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin - Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Xamarin - Debug</OutputPath>
+    <DefineConstants>__UNIFIED__;DEBUG;XAMARINMAC; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <CreatePackage>false</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <UseSGen>false</UseSGen>
+    <HttpClientHandler>HttpClientHandler</HttpClientHandler>
+    <TlsProvider>Default</TlsProvider>
+    <LinkMode>None</LinkMode>
+    <XamMacArch></XamMacArch>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
-    <Reference Include="MonoMac" Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
-      <HintPath>..\MonoMac.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Mac" Condition=" '$(Configuration)|$(Platform)' == 'Xamarin - Debug|AnyCPU' " />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Imaging\BitmapData.cs">
@@ -592,8 +607,7 @@
       <LogicalName>Shield.ico</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" Condition=" '$(Configuration)|$(Platform)' != 'Xamarin - Debug|AnyCPU' " />
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" Condition=" '$(Configuration)|$(Platform)' == 'Xamarin - Debug|AnyCPU' " />
+  <Import Project="..\WinMac.targets" />
   <ItemGroup>
     <Folder Include="System.Drawing.Drawing2D\" />
     <Folder Include="System.Drawing.Printing\" />
