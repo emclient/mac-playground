@@ -32,6 +32,22 @@ namespace GUITest
             return null;
         }
 
+        internal static void Type(string text, double delay = 0.1)
+        {
+            if (text.StartsWith("{"))
+            {
+                SendKeys.SendWait(text);
+            }
+            else
+            {
+                foreach(var c in text)
+                {
+                    SendKeys.SendWait(c.ToString());
+                    Thread.Sleep((int)(delay * 1000));
+                }
+            }
+        }
+
         public static Form WaitForForm(Type type, double timeout = 3.0, double interval = 0.1)
         {
             var due = DateTime.Now.AddSeconds(timeout);
@@ -45,6 +61,39 @@ namespace GUITest
             return null;
         }
 
+        public static Control GetControl(string path, int maxLevel = int.MaxValue)
+        {
+            var parts = path.Split('.');
+
+            if (parts.Length == 0)
+                return null;
+
+            var form = FindForm(parts[0]);
+            ThrowIfNull(form, "Form not found: " + parts[0]);
+
+            if (parts.Length == 1)
+                return form;
+
+            Control parent = form;
+            Control member = null;
+            for (int i = 1; i < parts.Length; ++i)
+            {
+                member = FindControl(parent, parts[i]);
+                if (member == null)
+                    return null;
+
+                parent = member;
+            }
+
+            ThrowIfNull(member, String.Format("Member {0} not found", path));
+            return member;
+        }
+
+        public static T GetMember<T>(string path, Type type, int maxLevel = int.MaxValue) where T : class
+        {
+            return GetMember(path, type, maxLevel = int.MaxValue) as T;
+        }
+
         public static object GetMember(string path, Type type, int maxLevel = int.MaxValue)
         {
             var parts = path.Split('.');
@@ -53,7 +102,7 @@ namespace GUITest
                 return null;
 
             var form = FindForm(parts[0]);
-            ThrowIfNull(form, "Form not found: " + type.Name);
+            ThrowIfNull(form, "Form not found: " + parts[0]);
 
             if (parts.Length == 1)
                 return form;
@@ -99,6 +148,16 @@ namespace GUITest
                 if (typeName.Equals(nameOrType) || typeName.EndsWith("." + nameOrType))
                     return form;
             }
+
+            return null;
+        }
+
+        public static Control FindControl(Control instance, string name, int maxLevel = 1)
+        {
+            if (instance is ContainerControl)
+                foreach (Control control in ((ContainerControl)instance).Controls)
+                    if (name.Equals(control.Name))
+                        return control;
 
             return null;
         }
