@@ -5,9 +5,9 @@ namespace GUITest
 	class MainClass
 	{
         [STAThread]
-        public static void Main(string[] args)
+        public static int Main(string[] args)
 		{
-            TestRunner.Run("MailClient.Program,MailClient", "Main", args);
+            return TestRunner.Run("MailClient.Program,MailClient", "Main", args);
         }
     }
 }
