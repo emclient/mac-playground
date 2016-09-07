@@ -93,8 +93,9 @@ namespace GUITest
         {
             var fixtures = new List<Type>();
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
-                if (null != type.GetCustomAttribute<TestFixtureAttribute>())
-                    fixtures.Add(type);
+                foreach (var attr in type.GetCustomAttributes(false))
+                    if (attr is TestFixtureAttribute)
+                       fixtures.Add(type);
             return fixtures;
         }
 
@@ -102,8 +103,9 @@ namespace GUITest
         {
             var tests = new List<MethodInfo>();
             foreach (var method in fixture.GetMethods())
-                if (null != method.GetCustomAttribute<TestAttribute>())
-                    tests.Add(method);
+                foreach (var attr in method.GetCustomAttributes(false))
+                    if (attr is TestAttribute)
+                        tests.Add(method);
             return tests;
         }
 
