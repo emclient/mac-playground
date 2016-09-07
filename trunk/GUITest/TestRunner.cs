@@ -15,13 +15,13 @@ namespace GUITest
         List<MethodInfo> succeded = new List<MethodInfo>();
         List<MethodInfo> failed = new List<MethodInfo>();
 
-        public static void Run(string fullyQualifiedTypeName, string mainFunctionName, string[] args)
+        public static int Run(string fullyQualifiedTypeName, string mainFunctionName, string[] args)
         {
             var main = FindMain(fullyQualifiedTypeName, mainFunctionName);
             var runner = new TestRunner();
             runner.Run();
 
-            var result = main.Invoke(null, new object[] { args });
+			return (int)main.Invoke(null, new object[] { args });
         }
 
         public static void Run(Action<string[]> main, string[] args, Type mainFormType)
