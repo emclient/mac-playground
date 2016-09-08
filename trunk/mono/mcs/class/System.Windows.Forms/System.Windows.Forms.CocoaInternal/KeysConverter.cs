@@ -5,8 +5,14 @@ using System.Runtime.InteropServices;
 
 #if MONOMAC
 using MonoMac.AppKit;
+using MonoMac.CoreGraphics;
+using MonoMac.Foundation;
+using ObjCRuntime = MonoMac.ObjCRuntime;
+
 #elif XAMARINMAC
 using AppKit;
+using CoreGraphics;
+using Foundation;
 #endif
 
 namespace System.Windows.Forms.CocoaInternal
@@ -417,6 +423,49 @@ namespace System.Windows.Forms.CocoaInternal
 
 				CFRelease(currentKeyboard);
 			}
+		}
+
+		public static NSEvent ConvertKeyEvent(IntPtr hwnd, MSG msg)
+		{
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd);
+			var windowNumber = vuWrap?.Window?.WindowNumber ?? 0;
+
+			var key = msg.wParam.ToInt32();
+			var keyCode = NSKeyFromKeys((Keys)key);
+
+			Debug.WriteLine("Sending key: " + keyCode);
+
+			NSEvent e = null;
+			switch (msg.message)
+			{
+				case Msg.WM_KEYDOWN:
+					e = NSEvent.KeyEvent(NSEventType.KeyDown, CGPoint.Empty, (NSEventModifierMask)0, NSDate.Now.SecondsSinceReferenceDate, windowNumber, null, "", "", false, (ushort)keyCode);
+					break;
+				case Msg.WM_KEYUP:
+					e = NSEvent.KeyEvent(NSEventType.KeyUp, CGPoint.Empty, (NSEventModifierMask)0, NSDate.Now.SecondsSinceReferenceDate, windowNumber, null, "", "", false, (ushort)keyCode);
+					break;
+				default:
+					break;
+			}
+
+			return e;
+		}
+
+		public static NSKey NSKeyFromKeys(Keys key)
+		{
+			//FIXME: Add support for all key, replace switch statement with some look-up table.
+			switch (key)
+			{
+				case Keys.Escape: return NSKey.Escape;
+				case Keys.Enter: return NSKey.Return;
+				case Keys.Space: return NSKey.Space;
+				case Keys.F4: return NSKey.F4;
+				case Keys.Down: return NSKey.DownArrow;
+				case Keys.Up: return NSKey.UpArrow;
+			}
+
+			Debug.WriteLine("NSKeyFromKeys not implemented for {0}", key);
+			return (NSKey)(int)key;
 		}
 	}
 }
