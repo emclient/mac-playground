@@ -561,6 +561,7 @@ trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CarbonInternal/Wi
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/ChangeLog -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Cursor.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Enums.cs -text
+trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/KeysConverter.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/ModalDialogContext.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoApplicationDelegate.cs -text
 trunk/mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoContentView.cs -text
