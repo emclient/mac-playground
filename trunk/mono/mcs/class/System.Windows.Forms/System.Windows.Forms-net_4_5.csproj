@@ -1239,6 +1239,7 @@
     </Compile>
     <Compile Include="System.Windows.Forms\DebugUtility.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Swizzle.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\KeysConverter.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -1456,7 +1457,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj">
-      <Project>{2C21E2FB-F0F9-4D54-8E78-130EF6284B1C}</Project>
+      <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
       <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>
   </ItemGroup>
