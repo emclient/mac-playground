@@ -30,10 +30,10 @@ namespace FormsTest
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.ApplicationExit += (object sender, EventArgs e) =>
 			{
-                UrlProtocol.Unregister();
+                //UrlProtocol.Unregister();
 			};
 
-            UrlProtocol.Register();
+            //UrlProtocol.Register();
 
 			Application.Run(new MainForm());
 

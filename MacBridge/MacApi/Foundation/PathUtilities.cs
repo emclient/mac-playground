@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+#if XAMARINMAC
+using Foundation;
+#else
 using MonoMac.Foundation;
+#endif
 
 namespace MacBridge
 {
-	public static partial class Foundation
+	public static partial class FoundationStatic
 	{
 		public static string UserName
 		{
