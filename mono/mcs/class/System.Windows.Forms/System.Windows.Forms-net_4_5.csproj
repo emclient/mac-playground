@@ -564,7 +564,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms\FlowLayoutSettings.cs" />
-    <Compile Include="System.Windows.Forms\FolderBrowserDialog.cs" />
+    <Compile Include="System.Windows.Forms\FolderBrowserDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="System.Windows.Forms\FontDialog.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -805,7 +807,9 @@
     <Compile Include="System.Windows.Forms\NumericUpDownAcceleration.cs" />
     <Compile Include="System.Windows.Forms\NumericUpDownAccelerationCollection.cs" />
     <Compile Include="System.Windows.Forms\OpacityConverter.cs" />
-    <Compile Include="System.Windows.Forms\OpenFileDialog.cs" />
+    <Compile Include="System.Windows.Forms\OpenFileDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="System.Windows.Forms\OpenTreeNodeEnumerator.cs" />
     <Compile Include="System.Windows.Forms\Orientation.cs" />
     <Compile Include="System.Windows.Forms\OSFeature.cs" />
@@ -893,7 +897,9 @@
     <Compile Include="System.Windows.Forms\RightToLeft.cs" />
     <Compile Include="System.Windows.Forms\RootGridEntry.cs" />
     <Compile Include="System.Windows.Forms\RowStyle.cs" />
-    <Compile Include="System.Windows.Forms\SaveFileDialog.cs" />
+    <Compile Include="System.Windows.Forms\SaveFileDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="System.Windows.Forms\Screen.cs" />
     <Compile Include="System.Windows.Forms\ScreenOrientation.cs" />
     <Compile Include="System.Windows.Forms\ScrollableControl.cs">
@@ -1237,18 +1243,10 @@
     </Compile>
     <Compile Include="System.Windows.Forms\MessageBoxForm.Mac.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\ModalDialogContext.cs" />
-    <Compile Include="System.Windows.Forms\FileDialog.Mac.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\OpenFileDialog.Mac.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\FolderBrowserDialog.Mac.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\SaveFileDialog.Mac.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\FileDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\OpenFileDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\FolderBrowserDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\SaveFileDialog.Mac.cs" />
     <Compile Include="System.Windows.Forms\DebugUtility.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Swizzle.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\KeysConverter.cs" />
@@ -1261,10 +1259,14 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' "></PreBuildEvent>
-    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' "></PreBuildEvent>
-    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' "></PostBuildEvent>
-    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' "></PostBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">
+    </PreBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">
+    </PreBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">
+    </PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">
+    </PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
