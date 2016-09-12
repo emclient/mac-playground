@@ -1,3 +1,4 @@
+#if !NO_GTK
 //
 // GtkPlus.cs: Wraps GTK+, exposing its control painting features to code
 // that uses System.Drawing types (such as IDeviceContext, Rectangle).
@@ -1771,3 +1772,4 @@ namespace System.Windows.Forms.VisualStyles
 	}
 	#endregion
 }
+#endif

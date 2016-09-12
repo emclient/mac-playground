@@ -1,3 +1,4 @@
+#if !NO_X11
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -7686,3 +7687,4 @@ namespace System.Windows.Forms {
 #endif
 	}
 }
+#endif

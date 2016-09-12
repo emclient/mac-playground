@@ -100,7 +100,8 @@ namespace System.Windows.Forms
 			SmallIcons.TransparentColor = Color.Transparent;
 			LargeIcons.ColorDepth = ColorDepth.Depth32Bit;
 			LargeIcons.TransparentColor = Color.Transparent;
-			
+
+			#if !NO_GTK
 			string session =  Environment.GetEnvironmentVariable ("DESKTOP_SESSION");
 			
 			if (session != null) {
@@ -128,7 +129,9 @@ namespace System.Windows.Forms
 					platformMimeHandler = new PlatformDefaultHandler ();
 					platformMimeHandler.Start ();
 				}
-			} else {
+			} else
+			#endif
+			{
 				SmallIcons.ImageSize = new Size (16, 16);
 				LargeIcons.ImageSize = new Size (48, 48);
 				
@@ -295,7 +298,8 @@ namespace System.Windows.Forms
 			return MimeExtensionHandlerStatus.OK; // return always ok
 		}
 	}
-	
+
+	#if !NO_GTK
 	internal class GnomeHandler : PlatformMimeIconHandler
 	{
 		public override MimeExtensionHandlerStatus Start ()
@@ -552,5 +556,6 @@ namespace System.Windows.Forms
 			return gtk_icon_theme_has_icon (default_icon_theme, name);
 		}
 	}
+	#endif
 }
 
