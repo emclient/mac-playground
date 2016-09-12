@@ -1,3 +1,4 @@
+#if !NO_GTK
 //
 // VisualStylesGtkPlus.cs: IVisualStyles that uses GtkPlus.
 //
@@ -1172,3 +1173,4 @@ namespace System.Windows.Forms.VisualStyles
 		#endregion
 	}
 }
+#endif

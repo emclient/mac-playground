@@ -84,4 +84,11 @@ namespace System.Windows.Forms.CocoaInternal {
 		internal int Y;
 		internal int Interval;
 	}
+
+	internal struct GrabStruct
+	{
+		internal bool Confined;     // Is the current grab (if any) confined to grab_area?
+		internal IntPtr Hwnd;           // The window that is grabbed
+		internal Rectangle Area;            // The area the current grab is confined to
+	}
 }	

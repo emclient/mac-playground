@@ -93,6 +93,13 @@ namespace System.Windows.Forms {
 //			default_class_name = "SWFClass" + System.Threading.Thread.GetDomainID ().ToString ();
 
 			if (RunningOnUnix) {
+#if NO_X11
+#if NO_CARBON
+				driver= XplatUICocoa.GetInstance ();
+#else
+				driver= XplatUICarbon.GetInstance ();
+#endif
+#else
 				//if (Environment.GetEnvironmentVariable ("not_supported_MONO_MWF_USE_NEW_X11_BACKEND") != null) {
 				//        driver=XplatUIX11_new.GetInstance ();
 				//} else 
@@ -107,13 +114,17 @@ namespace System.Windows.Forms {
 					} else {
 						string os = Marshal.PtrToStringAnsi (buf);
 						if (os == "Darwin")
+#if NO_CARBON
 							driver= XplatUICocoa.GetInstance ();
-                            //driver= XplatUICarbon.GetInstance ();
+#else
+                            driver= XplatUICarbon.GetInstance ();
+#endif
 						else
 							driver=XplatUIX11.GetInstance ();
 					}
 					Marshal.FreeHGlobal (buf);
 				}
+#endif
 			} else {
 				driver=XplatUIWin32.GetInstance ();
 			}

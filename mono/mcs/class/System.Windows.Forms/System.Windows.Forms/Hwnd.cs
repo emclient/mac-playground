@@ -78,7 +78,9 @@ namespace System.Windows.Forms {
 		internal bool		zombie; /* X11 only flag.  true if the X windows have been destroyed but we haven't been Disposed */
 		internal bool		topmost; /* X11 only. */
 		internal Region		user_clip;
+#if !NO_X11
 		internal XEventQueue	queue;
+#endif
 		internal WindowExStyles	initial_ex_style;
 		internal WindowStyles	initial_style;
 		internal FormWindowState cached_window_state = (FormWindowState)(-1);  /* X11 only field */
@@ -542,6 +544,7 @@ namespace System.Windows.Forms {
 			}
 		}
 
+#if !NO_X11
 		public XEventQueue Queue {
 			get {
 				return queue;
@@ -551,6 +554,7 @@ namespace System.Windows.Forms {
 				queue = value;
 			}
 		}
+#endif
 
 		public bool Enabled {
 			get {
