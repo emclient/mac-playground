@@ -93,10 +93,6 @@
       <Project>{5a6284d5-80a1-4e20-b253-2ed87e140e5a}</Project>
       <Name>MailClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FormsTest\FormsTest.csproj">
-      <Project>{DBFDDBD7-E236-444C-98E5-736A4F22C8A5}</Project>
-      <Name>FormsTest</Name>
-    </ProjectReference>
     <Reference Include="System.Windows.Forms" Condition=" '$(Configuration)' != 'Mono - Debug' " />
     <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj" Condition=" '$(Configuration)' == 'Mono - Debug'">
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
