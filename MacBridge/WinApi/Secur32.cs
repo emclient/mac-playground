@@ -13,7 +13,7 @@ namespace WinApi
 			switch (nameFormat)
 			{
 				case ExtendedNameFormat.NameDisplay:
-					value = Foundation.FullUserName;
+					value = FoundationStatic.FullUserName;
 					break;
 
 				case ExtendedNameFormat.NameUnknown:

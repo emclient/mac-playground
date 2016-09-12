@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -31,6 +32,8 @@
     <LinkMode>None</LinkMode>
     <XamMacArch></XamMacArch>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <NoStdLib>false</NoStdLib>
+    <I18n>cjk,mideast,other,rare,west</I18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -50,6 +53,7 @@
     <HttpClientHandler>HttpClientHandler</HttpClientHandler>
     <TlsProvider>Default</TlsProvider>
     <XamMacArch></XamMacArch>
+    <NoStdLib>false</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -71,6 +75,30 @@
     <LinkMode>None</LinkMode>
     <XamMacArch></XamMacArch>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <PlatformTarget>x64</PlatformTarget>
+    <NoStdLib>false</NoStdLib>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin - Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Xamarin - Debug</OutputPath>
+    <DefineConstants>__UNIFIED__;DEBUG;XAMARINMAC;MAC;;XAMARINMAC;__UNIFIED__</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <CodeSigningKey>Mac Developer</CodeSigningKey>
+    <CreatePackage>false</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <UseSGen>true</UseSGen>
+    <UseRefCounting>true</UseRefCounting>
+    <HttpClientHandler>HttpClientHandler</HttpClientHandler>
+    <TlsProvider>Default</TlsProvider>
+    <LinkMode>None</LinkMode>
+    <XamMacArch></XamMacArch>
+    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <NoStdLib>false</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

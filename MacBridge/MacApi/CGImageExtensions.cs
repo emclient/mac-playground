@@ -7,18 +7,18 @@ using WinApi;
 using AppKit;
 using CoreGraphics;
 using Foundation;
+using CGImage = CoreGraphics.CGImage;
 #elif MONOMAC
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
+using CGImage = MonoMac.CoreGraphics.CGImage;
 #else
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.AppKit;
+using CGImage = MonoTouch.CoreGraphics.CGImage;
 #endif
-
-
-using CGImage = MonoMac.CoreGraphics.CGImage;
 
 namespace MacBridge.CoreGraphics
 {

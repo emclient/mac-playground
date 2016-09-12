@@ -5,10 +5,16 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using MonoMac.AppKit;
 using MacBridge.CoreGraphics;
 using System.Windows.Forms.CocoaInternal;
+#if XAMARINMAC
+using AppKit;
+using CoreGraphics;
+#else
+using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
+using ObjCRuntime = MonoMac.ObjCRuntime;
+#endif
 
 namespace WinApi
 {
@@ -31,7 +37,7 @@ namespace WinApi
             p.Y = screenSize.Height - p.Y;
             var screenLocation = p.ToCGPoint();
 
-            int wnum = NSWindow.WindowNumberAtPoint(screenLocation, 0);
+			var wnum = NSWindow.WindowNumberAtPoint(screenLocation, 0);
             var window = NSApplication.SharedApplication.WindowWithWindowNumber(wnum);
             if (window != null)
             {
@@ -426,7 +432,7 @@ namespace WinApi
 
             lpwndpl = new WINDOWPLACEMENT();
 
-            var nsobject = MonoMac.ObjCRuntime.Runtime.GetNSObject(hWnd);
+            var nsobject = ObjCRuntime.Runtime.GetNSObject(hWnd);
             if (nsobject == null)
                 return false;
 
@@ -527,9 +533,9 @@ namespace WinApi
 
 		public static int GetWindowIdentifier(IntPtr hWnd)
 		{
-			NSView view = ((NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hWnd));
+			NSView view = ((NSView)ObjCRuntime.Runtime.GetNSObject(hWnd));
 			if (view is MonoContentView)
-				return view.Window.WindowNumber;
+				return (int)view.Window.WindowNumber;
 			return 0;
 		}
 
@@ -538,7 +544,7 @@ namespace WinApi
 			WS style = 0;
 
 			Hwnd hwnd = Hwnd.ObjectFromHandle(hWnd);
-			NSView vuWrap = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
 			NSWindow winWrap = vuWrap.Window;
 
 			if ((hwnd.initial_style & WindowStyles.WS_POPUP) != 0)
