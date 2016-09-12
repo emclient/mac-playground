@@ -939,7 +939,7 @@ namespace System.Drawing {
 			#endif
 
 			// Add an image to the destination
-			dest.AddImage(NativeCGImage, null);
+			dest.AddImage(NativeCGImage, (NSDictionary)null);
 
 			// Finish the export
 			bool success = dest.Close ();

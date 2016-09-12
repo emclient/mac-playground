@@ -39,6 +39,16 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin - Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Xamarin - Debug</OutputPath>
+    <DefineConstants>DEBUG;MONOMAC;;XAMARINMAC;__UNIFIED__</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\..\WinApi\GdiPlus.Structs.cs">
       <Link>WinApi\GdiPlus.Structs.cs</Link>
@@ -95,11 +105,8 @@
     </Compile>
     <Compile Include="WinApi\DwmApi.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
-    <Reference Include="MonoMac">
-      <HintPath>..\MonoMac.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -108,7 +115,7 @@
       <Name>System.Windows.Forms-net_4_5</Name>
     </ProjectReference>
     <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj">
-      <Project>{2C21E2FB-F0F9-4D54-8E78-130EF6284B1C}</Project>
+      <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
       <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>
   </ItemGroup>

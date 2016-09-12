@@ -1,18 +1,31 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+#if XAMARINMAC
+using Foundation;
+using CoreFoundation;
+#else
 using MonoMac.Foundation;
 using MonoMac.CoreFoundation;
+#endif
 
 namespace MacBridge.LaunchServices
 {
     public partial class LS {
 
-        public static NSUrl CopyDefaultApplicationUrlForUrl(NSUrl url, int lsRolesMask) {
+		class NSUrlHelper : NSUrl
+		{
+			public NSUrlHelper (IntPtr handle) : base(handle)
+			{
+			}
+		}
+
+        public static NSUrl CopyDefaultApplicationUrlForUrl(NSUrl url, int lsRolesMask)
+		{
             var cfErrorHandle = IntPtr.Zero;
             var hAppUrl = LSCopyDefaultApplicationURLForURL(url.Handle, lsRolesMask, ref cfErrorHandle);
             if (cfErrorHandle != IntPtr.Zero)
                 throw CFException.FromCFError(cfErrorHandle);
-            return new NSUrl(hAppUrl);
+            return new NSUrlHelper(hAppUrl);
         }
 
         public static string CopyDefaultHandlerForURLScheme(string urlScheme)

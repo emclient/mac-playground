@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -575,7 +575,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms\HScrollProperties.cs" />
-<!--
+    <!--
 	<Compile Include="System.Windows.Forms\HtmlDocument.cs" />
     <Compile Include="System.Windows.Forms\HtmlElement.cs" />
     <Compile Include="System.Windows.Forms\HtmlElementCollection.cs" />
@@ -1157,7 +1157,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms\VScrollProperties.cs" />
-<!--
+    <!--
     <Compile Include="System.Windows.Forms\WebBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -1177,7 +1177,7 @@
     <Compile Include="System.Windows.Forms\WebBrowserRefreshOption.cs" />
     <Compile Include="System.Windows.Forms\WebBrowserSiteBase.cs" />
 -->
-	<Compile Include="System.Windows.Forms\Win32DnD.cs" />
+    <Compile Include="System.Windows.Forms\Win32DnD.cs" />
     <Compile Include="System.Windows.Forms\WindowsFormsSection.cs" />
     <Compile Include="System.Windows.Forms\WindowsFormsSynchronizationContext.cs" />
     <Compile Include="System.Windows.Forms\X11Clipboard.cs" />
@@ -1223,6 +1223,7 @@
     <Compile Include="System.Windows.Forms\DebugUtility.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Swizzle.cs" />
     <Compile Include="IAccessible.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\KeysConverter.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -1232,14 +1233,10 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">
-    </PreBuildEvent>
-    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">
-    </PreBuildEvent>
-    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">
-    </PostBuildEvent>
-    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">
-    </PostBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' "></PreBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' "></PreBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' "></PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' "></PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -1268,6 +1265,27 @@
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug-Unified</OutputPath>
     <DefineConstants>__UNIFIED__;DEBUG;XAMARINMAC; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <CreatePackage>false</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <UseSGen>false</UseSGen>
+    <HttpClientHandler></HttpClientHandler>
+    <TlsProvider></TlsProvider>
+    <LinkMode></LinkMode>
+    <XamMacArch></XamMacArch>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
+    <NoStdLib>false</NoStdLib>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin - Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug-Unified</OutputPath>
+    <DefineConstants>__UNIFIED__;DEBUG;XAMARINMAC; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5;XAMARINMAC;__UNIFIED__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <EnableCodeSigning>false</EnableCodeSigning>

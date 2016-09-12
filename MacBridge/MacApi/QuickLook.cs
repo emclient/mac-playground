@@ -1,7 +1,14 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+#if XAMARINMAC
+using CoreGraphics;
+using Foundation;
+using CoreFoundation;
+#else
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
+using MonoMac.CoreFoundation;
+#endif
 
 namespace MacBridge.QuickLook
 {
@@ -9,7 +16,7 @@ namespace MacBridge.QuickLook
     {
         public static CGImage Create(NSUrl url, CGSize maxThumbnailSize, bool asIcon)
         {
-            var allocator = MonoMac.CoreFoundation.CFAllocator.Default;
+            var allocator = CFAllocator.Default;
             var dict = NSDictionary.FromObjectAndKey (new NSNumber (asIcon), new NSString ("kQLThumbnailOptionIconModeKey"));
             var cgImageHandle = QLThumbnailImageCreate(allocator.Handle, url.Handle, maxThumbnailSize, dict.Handle);
             return cgImageHandle != IntPtr.Zero ? new CGImage(cgImageHandle) : null;
