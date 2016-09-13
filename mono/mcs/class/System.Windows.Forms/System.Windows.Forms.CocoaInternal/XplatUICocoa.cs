@@ -1936,6 +1936,9 @@ namespace System.Windows.Forms {
 
 		internal override void SetIcon (IntPtr handle, Icon icon)
 		{
+			// Commented out intentionally.
+			// The native mac application package already contains the app icon.
+			/*
 			if (Application.MWFThread.Current.Context != null &&
 				Application.MWFThread.Current.Context.MainForm != null &&
 				Application.MWFThread.Current.Context.MainForm.Handle == handle) {
@@ -1955,6 +1958,7 @@ namespace System.Windows.Forms {
 					NSApplication.SharedApplication.ApplicationIconImage = image;
 				}
 			}
+			*/
 		}
 		
 		internal override void SetModal (IntPtr handle, bool Modal)
