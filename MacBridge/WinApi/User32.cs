@@ -605,5 +605,23 @@ namespace WinApi
 			NotImplemented(MethodBase.GetCurrentMethod());
 			return 0;
 		}
+
+		public static IntPtr CreatePopupMenu()
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return IntPtr.Zero;
+		}
+
+		public static bool DestroyMenu(IntPtr hMenu)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return true;
+		}
+
+		public static int GetMenuDefaultItem(IntPtr hMenu, uint fByPos, uint gmdiFlags)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
+		}
 	}
 }
