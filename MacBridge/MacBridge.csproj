@@ -106,6 +106,13 @@
       <Link>WinApi\Dwmapi.Structs.cs</Link>
     </Compile>
     <Compile Include="WinApi\DwmApi.cs" />
+    <Compile Include="..\..\..\WinApi\Shell32.Interfaces.cs">
+      <Link>WinApi\Shell32.Interfaces.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\WinApi\Win32.Structs.cs">
+      <Link>WinApi\Win32.Structs.cs</Link>
+    </Compile>
+    <Compile Include="WinApi\Shell32.Wrappers.cs" />
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>

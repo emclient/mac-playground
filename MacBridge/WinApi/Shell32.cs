@@ -43,6 +43,23 @@ namespace WinApi
 			ppenumFormatEtc = null;
 			return 0;
 		}
+
+		public static int SHCreateItemFromParsingName([MarshalAs(UnmanagedType.LPWStr)] string pszPath, IntPtr pbc, ref Guid riid, [MarshalAs(UnmanagedType.Interface)] out object ppv)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			ppv = null;
+			return (int)HRESULT.S_FALSE;
+		}
+
+		public static IShellItem CreateItemFromParsingName(string path)
+		{
+			object item;
+			Guid guid = new Guid("43826d1e-e718-42ee-bc55-a1e261c37bfe"); // IID_IShellItem
+			int hr = SHCreateItemFromParsingName(path, IntPtr.Zero, ref guid, out item);
+			if (hr != 0)
+				throw new System.ComponentModel.Win32Exception(hr);
+			return (IShellItem)item;
+		}
 	}
 }
 
