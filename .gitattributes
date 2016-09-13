@@ -117,6 +117,7 @@ MacBridge/WinApi/Imm32.cs -text
 MacBridge/WinApi/Kernel32.cs -text
 MacBridge/WinApi/Ole32.cs -text
 MacBridge/WinApi/Secur32.cs -text
+MacBridge/WinApi/Shell32.Wrappers.cs -text
 MacBridge/WinApi/Shell32.cs -text
 MacBridge/WinApi/ShlWapi.cs -text
 MacBridge/WinApi/User32.cs -text
