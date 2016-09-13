@@ -11,7 +11,7 @@ namespace GUITest
 
         public static void Initialize(Type mainFormType)
         {
-            main = WaitForForm(mainFormType, 10);
+            main = WaitForForm(mainFormType, 60);
         }
 
         public static void Initialize(string mainFormNameOrType)
