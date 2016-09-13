@@ -113,6 +113,9 @@
       <Link>WinApi\Win32.Structs.cs</Link>
     </Compile>
     <Compile Include="WinApi\Shell32.Wrappers.cs" />
+    <Compile Include="..\..\..\WinApi\ObjIdl.Types.cs">
+      <Link>WinApi\ObjIdl.Types.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
