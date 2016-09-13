@@ -12,7 +12,7 @@ namespace GUITest
         [Test]
         public void OpenNewMessageWindow()
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(10000);
 
             ControlToolStripButton button = null;
             UI.Perform(() => { button = UI.GetMember<ControlToolStripButton>("formMain.stripButton_New", null); });
@@ -33,7 +33,6 @@ namespace GUITest
             UI.Type("{ESC}");
             Thread.Sleep(1000);
             UI.Type("{ENTER}");
-
             Thread.Sleep(2000);
         }
 
