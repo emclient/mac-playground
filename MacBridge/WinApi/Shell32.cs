@@ -60,6 +60,27 @@ namespace WinApi
 				throw new System.ComponentModel.Win32Exception(hr);
 			return (IShellItem)item;
 		}
+
+		public static void SHParseDisplayName([MarshalAs(UnmanagedType.LPWStr)] string name, IntPtr bindingContext, [Out()] out IntPtr pidl, uint sfgaoIn, [Out()] out uint psfgaoOut)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			pidl = IntPtr.Zero;
+			psfgaoOut = 0;
+		}
+
+		public static int SHGetMalloc(out IMalloc ppMalloc)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			ppMalloc = null;
+			return 0;
+		}
+
+		public static void SHBindToParent([In] IntPtr pidl, [In] ref Guid riid, [MarshalAs(UnmanagedType.Interface)] out object ppv, out IntPtr ppidlLast)
+		{
+			ppv = null;
+			ppidlLast = IntPtr.Zero;
+			NotImplemented(MethodBase.GetCurrentMethod());
+		}
 	}
 }
 
