@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using WinApi;
 
 namespace GUITest
 {
@@ -207,6 +209,44 @@ namespace GUITest
         {
             if (instance == null)
                 throw new ApplicationException(message);
+        }
+
+        public static void Type(char c)
+        {
+            var inputs = CreateSingleInput(c);
+            Win32.SendInput((uint)inputs.Count, inputs.ToArray(), INPUT.Size);
+        }
+
+        private static List<INPUT> CreateSingleInput(char character)
+        {
+            var inputs = new List<INPUT>();
+            inputs.Add(new INPUT()
+            {
+                type = InputType.KEYBOARD,
+                U = new InputUnion()
+                {
+                    ki = new KEYBDINPUT()
+                    {
+                        wVk = 0,
+                        wScan = (ScanCodeShort)character,
+                        dwFlags = KEYEVENTF.UNICODE
+                    }
+                }
+            });
+            inputs.Add(new INPUT()
+            {
+                type = InputType.KEYBOARD,
+                U = new InputUnion()
+                {
+                    ki = new KEYBDINPUT()
+                    {
+                        wVk = 0,
+                        wScan = (ScanCodeShort)character,
+                        dwFlags = KEYEVENTF.UNICODE | KEYEVENTF.KEYUP
+                    }
+                }
+            });
+            return inputs;
         }
     }
 }
