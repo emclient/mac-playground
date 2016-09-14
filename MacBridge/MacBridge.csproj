@@ -102,7 +102,7 @@
     <Compile Include="..\..\..\WinApi\Ole32.Structs.cs">
       <Link>WinApi\Ole32.Structs.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\WinApi\Dwmapi.Structs.cs">
+    <Compile Include="..\..\..\WinApi\DwmApi.Structs.cs">
       <Link>WinApi\Dwmapi.Structs.cs</Link>
     </Compile>
     <Compile Include="WinApi\DwmApi.cs" />
