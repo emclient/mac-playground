@@ -3,13 +3,56 @@ using System.Windows.Forms;
 using System.Threading;
 using NUnit.Framework;
 using MailClient.Common.UI.Controls.ControlToolStrip;
+using WinApi;
+using System.Collections.Generic;
 
 namespace GUITest
 {
     [TestFixture]
     public class MainTestSuite
 	{
-        [Test]
+		private List<INPUT> createSingleInput(char character)
+		{
+			VirtualKeyShort virtualKeyCode = (VirtualKeyShort)Win32.VkKeyScan(character);
+			List<INPUT> inputs = new List<INPUT>();
+			inputs.Add(new INPUT()
+			{
+				type = InputType.KEYBOARD,
+				U = new InputUnion()
+				{
+					ki = new KEYBDINPUT()
+					{
+						wVk = virtualKeyCode
+					}
+				}
+			});
+			inputs.Add(new INPUT()
+			{
+				type = InputType.KEYBOARD,
+				U = new InputUnion()
+				{
+					ki = new KEYBDINPUT()
+					{
+						wVk = virtualKeyCode,
+						dwFlags = KEYEVENTF.SCANCODE | KEYEVENTF.KEYUP
+					}
+				}
+			});
+			return inputs;
+		}
+
+		private void SendInputTest()
+		{
+			List<INPUT> inputs = new List<INPUT>();
+			inputs.AddRange(createSingleInput('X'));
+			inputs.AddRange(createSingleInput('X'));
+
+			Thread.Sleep(2500);
+			Win32.SendInput((uint)inputs.Count, inputs.ToArray(), INPUT.Size);
+			Thread.Sleep(2500);
+		}
+
+		[Test]
         public void OpenNewMessageWindow()
         {
             Thread.Sleep(10000);

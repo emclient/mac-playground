@@ -76,6 +76,10 @@
       <Name>MailClient</Name>
     </ProjectReference>
     <Reference Include="System.Windows.Forms" Condition=" '$(Configuration)' != 'Mono - Debug' " />
+    <ProjectReference Include="..\..\..\WinApi\WinApi.csproj">
+      <Project>{13fe9512-3dc7-4c6a-a817-551224a63dbb}</Project>
+      <Name>WinApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj" Condition=" '$(Configuration)' == 'Mono - Debug'">
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
