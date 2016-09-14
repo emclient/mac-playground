@@ -623,5 +623,20 @@ namespace WinApi
 			NotImplemented(MethodBase.GetCurrentMethod());
 			return 0;
 		}
-	}
+
+        /// <summary>
+        /// Synthesizes keystrokes, mouse motions, and button clicks.
+        /// </summary>
+        public static uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize)
+        {
+            NotImplemented(MethodBase.GetCurrentMethod());
+            return 0;
+        }
+
+        public static short VkKeyScan(char ch)
+        {
+            NotImplemented(MethodBase.GetCurrentMethod());
+            return 0;
+        }
+    }
 }
