@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -84,7 +84,7 @@
       <Name>MailClient</Name>
     </ProjectReference>
     <Reference Include="System.Windows.Forms" Condition=" '$(Configuration)' != 'Mono - Debug' " />
-    <ProjectReference Include="..\..\..\WinApi\WinApi.csproj">
+    <ProjectReference Include="..\..\..\WinApi\WinApi.csproj" Condition=" '$(Configuration)' != 'Mono - Debug' ">
       <Project>{13fe9512-3dc7-4c6a-a817-551224a63dbb}</Project>
       <Name>WinApi</Name>
     </ProjectReference>

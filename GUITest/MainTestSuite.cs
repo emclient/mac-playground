@@ -12,7 +12,7 @@ namespace GUITest
 		[Test]
         public void OpenNewMessageWindow()
         {
-            Thread.Sleep(10000);
+            Thread.Sleep(2000);
 
             ControlToolStripButton button = null;
             UI.Perform(() => { button = UI.GetMember<ControlToolStripButton>("formMain.stripButton_New", null); });
