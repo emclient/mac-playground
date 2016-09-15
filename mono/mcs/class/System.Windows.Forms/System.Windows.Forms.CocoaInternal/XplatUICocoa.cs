@@ -1853,7 +1853,7 @@ namespace System.Windows.Forms {
 				var e = CocoaInternal.KeysConverter.ConvertKeyEvent(hwnd, msg);
 
 				if (e != null)
-					NSApplication.SharedApplication.SendEvent(e);
+					NSApplication.SharedApplication.PostEvent(e, false);
 			}
 
 			return 0;
