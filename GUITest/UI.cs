@@ -34,7 +34,41 @@ namespace GUITest
             return null;
         }
 
-		internal static void Type(params string[] args)
+        public static bool WaitForFormClosed(string nameOrType, double timeout = 5.0, double interval = 0.1)
+        {
+            var due = DateTime.Now.AddSeconds(timeout);
+            while (DateTime.Now.CompareTo(due) < 0)
+            {
+                var form = FindForm(nameOrType);
+                if (form == null)
+                    return true;
+                Thread.Sleep((int)(1000 * interval));
+            }
+            return false;
+        }
+
+        public static bool WaitForFormClosed(Form form, double timeout = 5.0, double interval = 0.1)
+        {
+            var due = DateTime.Now.AddSeconds(timeout);
+            bool found = false;
+            while (DateTime.Now.CompareTo(due) < 0)
+            {
+                foreach (var openForm in Application.OpenForms)
+                {
+                    if (openForm == form)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found || !form.Visible || form.IsDisposed)
+                    return true;
+                Thread.Sleep((int)(1000 * interval));
+            }
+            return false;
+        }
+
+        internal static void Type(params string[] args)
 		{
 			foreach (var arg in args)
 				Type(arg);
