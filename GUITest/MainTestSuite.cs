@@ -6,6 +6,10 @@ using MailClient.Common.UI.Controls.ControlToolStrip;
 
 namespace GUITest
 {
+    // Note:
+    // To avoid blocking the UI, all tests run in the background thread.
+    // Therefore, you have to use UI.Perform() for invoking actions on UI elements.
+
     [TestFixture]
     public class MainTestSuite
 	{
@@ -23,27 +27,23 @@ namespace GUITest
             var formSendMail = UI.WaitForForm("formSendMail");
             ThrowIfNull(formSendMail, "Failed opening formSendMail");
             
-            UI.Type("volejnik@emclient.com");
-            UI.Type("{ENTER}");
-            UI.Type("{TAB}");
-            UI.Type("New Message Test");
+            UI.Type("volejnik@emclient.com{ENTER}{TAB}"); // {ENTER} closes the list of suggested addresses (if open).
+            UI.Type("New Message Test{TAB}");
+            UI.Type("Zdravi te GUITest.{ENTER}");
+			UI.Type("`1234567890-=[]\\;',./{ENTER}");
+			UI.Type("{~}!@#${%}{^}&*{(}{)}_{+}{{}{}}|:\"<>?{ENTER}"); // Special characters have to be escaped using curly braces: +^%{}()~
 
-            UI.Type(' ');
+            // Try sending keystrokes using direct calls of Win32.SendInput - not implemented on the Mac yet.
             UI.Type('X');
             UI.Type('y');
-
-            UI.Type("{TAB}");
-            UI.Type("Zdravi te GUITest.");
-			UI.Type("{ENTER}");
-			UI.Type("`1234567890-=[]\\;',./");
-			UI.Type("{ENTER}");
-			UI.Type("{~}!@#${%}{^}&*{(}{)}_{+}{{}{}}|:\"<>?");
+            UI.Type('.');
 
             Thread.Sleep(1000);
-            UI.Type("{ESC}");
-            Thread.Sleep(2000);
-            UI.Type("{ENTER}");
-            Thread.Sleep(2000);
+            UI.Type("{ESC}"); // Invokes closing the window (with confirmation dialog)
+            Thread.Sleep(2000); // Replace this with waiting for confirmation dialog.
+            UI.Type("{ENTER}"); // Confirms the save dialog and allows closing the e-mail window.
+
+            ThrowIfNot(UI.WaitForFormClosed(formSendMail), "formSendMail failed to close.");
         }
 
         //[Test]
@@ -83,10 +83,18 @@ namespace GUITest
             Thread.Sleep(2000);
         }
         
-		void ThrowIfNull(object instance, string message = "Instance not found")
+		public static void ThrowIfNull(object instance, string message = "Instance not found")
 		{
 			if (instance == null)
 				throw new ApplicationException(message);
 		}
-	}
+
+        public static void ThrowIfNot(bool result, string message)
+        {
+            if (!result)
+                throw new ApplicationException(message);
+        }
+
+
+    }
 }
