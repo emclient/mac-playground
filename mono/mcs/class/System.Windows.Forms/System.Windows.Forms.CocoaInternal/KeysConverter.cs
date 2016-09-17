@@ -664,6 +664,7 @@ namespace System.Windows.Forms.CocoaInternal
 			{ NSKey.KeypadMultiply,	Keys.Multiply,			false, "MULTIPLY" },
 			{ NSKey.KeypadPlus,		Keys.Add,				false, "ADD" },
 
+			{ NSKey.Escape,			Keys.Escape,            false, "ESC" },
 			{ NSKey.LeftArrow,		Keys.Left,				false, "LEFT" },
 			{ NSKey.LeftBracket,	Keys.OemOpenBrackets,	true, "(" },
 			{ NSKey.Minus,			Keys.OemMinus,			true, "-" },

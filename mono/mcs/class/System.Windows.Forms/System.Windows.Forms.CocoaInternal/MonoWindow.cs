@@ -82,7 +82,11 @@ namespace System.Windows.Forms.CocoaInternal
 					}
 					break;
 				
-				// Handle tab and shift+tab keys so that switching focus works for both MWF and native controls 
+				// Handles tab and shift+tab keys so that switching focus works for both MWF and native controls.
+				// Handles ESC key as well (forwards it to the parent control, so that closing window works)
+				// - Both tasks should handled better, this is a workaround rather than solution.
+				// - This way you can't type TAB char inside web view - it always focuses next control
+				// - NSControl should be asked if it's ready to resign the 1st responder
 				case NSEventType.KeyDown:
 					if (FirstResponder is NSControl && theEvent.Characters.Length > 0)
 					{
@@ -93,9 +97,22 @@ namespace System.Windows.Forms.CocoaInternal
 							MakeFirstResponder(monoContentView);
 							return;
 						}
+
+						if (theEvent.KeyCode == (ushort)NSKey.Escape)
+						{
+							var control = FindContainingControl(FirstResponder as NSView);
+							if (control != null)
+							{
+								var focus = monoContentView.FocusHandle;
+								monoContentView.FocusHandle = control.Handle;
+								monoContentView.ProcessKeyPress(theEvent);
+								monoContentView.FocusHandle = focus;
+								return;
+							}
+						}
 					}
 					break;
-				
+
 				case NSEventType.FlagsChanged:
 					if (FirstResponder is NSControl)
 						monoContentView.ProcessModifiers(theEvent);
