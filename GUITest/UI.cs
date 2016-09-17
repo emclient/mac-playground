@@ -34,7 +34,13 @@ namespace GUITest
             return null;
         }
 
-        internal static void Type(string text, double delay = 0.1)
+		internal static void Type(params string[] args)
+		{
+			foreach (var arg in args)
+				Type(arg);
+		}
+
+        internal static void Type(string text, double delay = 0.05)
         {
             if (text.StartsWith("{"))
             {

@@ -934,8 +934,8 @@ namespace System.Windows.Forms {
 
 		internal override IntPtr ClipboardOpen(bool primary_selection) {
 			if (primary_selection)
-				return Cocoa.Pasteboard.Primary.Handle;
-			return Cocoa.Pasteboard.Application.Handle;
+				return Pasteboard.Primary != null ? Pasteboard.Primary.Handle : IntPtr.Zero;
+			return Pasteboard.Application != null ? Pasteboard.Application.Handle : IntPtr.Zero;
 		}
 
 		internal override object ClipboardRetrieve (IntPtr handle, int type, XplatUI.ClipboardToObject converter) {
@@ -1847,10 +1847,11 @@ namespace System.Windows.Forms {
 
 		int SendInputInternal(IntPtr hwnd, Queue keys)
 		{
+
 			while (keys.Count != 0)
 			{
 				var msg = (MSG)keys.Dequeue();
-				var e = CocoaInternal.KeysConverter.ConvertKeyEvent(hwnd, msg);
+				var e = CocoaInternal.KeysConverter.ConvertKeyEvent(hwnd, msg, ref key_modifiers);
 
 				if (e != null)
 					NSApplication.SharedApplication.PostEvent(e, false);

@@ -220,27 +220,51 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		public static NSEvent ConvertKeyEvent(IntPtr hwnd, MSG msg)
+		public static NSEvent ConvertKeyEvent(IntPtr hwnd, MSG msg, ref NSEventModifierMask flags)
 		{
 			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd);
 			var windowNumber = vuWrap?.Window?.WindowNumber ?? 0;
 
-			var key = msg.wParam.ToInt32();
+			var key = (Keys)msg.wParam.ToInt32();
 			var keyCode = NSKeyFromKeys((Keys)key);
-
 			if (!keyCode.HasValue)
 				return null;
 
-			Debug.WriteLine($"Converting message: {msg.message}, {keyCode.Value}");
+			bool down = msg.message == Msg.WM_KEYDOWN;
+			if (down)
+			{
+				switch (key)
+				{
+					case Keys.ShiftKey: flags |= NSEventModifierMask.ShiftKeyMask; break;
+					case Keys.ControlKey: flags |= NSEventModifierMask.ControlKeyMask; break;
+					case Keys.Menu: flags |= NSEventModifierMask.AlternateKeyMask; break;
+				}
+			}
+			else
+			{
+				switch (key)
+				{
+					case Keys.ShiftKey: flags &= ~NSEventModifierMask.ShiftKeyMask; break;
+					case Keys.ControlKey: flags &= ~NSEventModifierMask.ControlKeyMask; break;
+					case Keys.Menu: flags &= ~NSEventModifierMask.AlternateKeyMask; break;
+				}
+			}
 
+			Debug.WriteLine($"Converting message: {msg.message}, {keyCode}");
+
+			string keys = GetCharactersForKeyPress((ushort)keyCode.Value, flags, ref deadKeyState);
+
+			uint dummy = 0;
+			string keysIgnoringFlags = GetCharactersForKeyPress((ushort)keyCode.Value, 0, ref dummy);
+				
 			NSEvent e = null;
 			switch (msg.message)
 			{
 				case Msg.WM_KEYDOWN:
-					e = NSEvent.KeyEvent(NSEventType.KeyDown, CGPoint.Empty, (NSEventModifierMask)0, NSDate.Now.SecondsSinceReferenceDate, windowNumber, null, "", "", false, (ushort)keyCode.Value);
+					e = NSEvent.KeyEvent(NSEventType.KeyDown, CGPoint.Empty, flags, NSDate.Now.SecondsSinceReferenceDate, windowNumber, null, keys, keysIgnoringFlags, false, (ushort)keyCode.Value);
 					break;
 				case Msg.WM_KEYUP:
-					e = NSEvent.KeyEvent(NSEventType.KeyUp, CGPoint.Empty, (NSEventModifierMask)0, NSDate.Now.SecondsSinceReferenceDate, windowNumber, null, "", "", false, (ushort)keyCode.Value);
+					e = NSEvent.KeyEvent(NSEventType.KeyUp, CGPoint.Empty, flags, NSDate.Now.SecondsSinceReferenceDate, windowNumber, null, keys, keysIgnoringFlags, false, (ushort)keyCode.Value);
 					break;
 				default:
 					break;
@@ -539,6 +563,12 @@ namespace System.Windows.Forms.CocoaInternal
 
 		static readonly Entries entries = new Entries
 		{
+			{ NSKey.Shift,			Keys.ShiftKey,		false, "SHIFT" },
+			{ NSKey.RightShift,		Keys.RShiftKey,		false, "RSHIFT" },
+			{ NSKey.Control,		Keys.ControlKey,	false, "CONTROL" },
+			{ NSKey.RightControl,	Keys.RControlKey,	false, "RCONTROL" },
+			{ NSKey.Option,			Keys.Menu,			false, "ALT" },
+
 			{ NSKey.F1, Keys.F1, false, "F1" },
 			{ NSKey.F2, Keys.F2, false, "F2" },
 			{ NSKey.F3, Keys.F3, false, "F3" },
@@ -653,7 +683,7 @@ namespace System.Windows.Forms.CocoaInternal
 			{ NSKey.Return,			Keys.Enter,				false, "" },
 			{ NSKey.Space,			Keys.Space,         	true, " " },
 			{ NSKey.Grave,			Keys.Oemtilde,			true,  "~" },
-		
+
 		};
 
 		#endregion // Keyboard translation tables
