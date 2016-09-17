@@ -84,7 +84,7 @@ namespace System.Windows.Forms.CocoaInternal
 				
 				// Handle tab and shift+tab keys so that switching focus works for both MWF and native controls 
 				case NSEventType.KeyDown:
-					if (FirstResponder is NSControl)
+					if (FirstResponder is NSControl && theEvent.Characters.Length > 0)
 					{
 						int c = (int)theEvent.Characters[0];
 						if (c == ShiftTabKey || c == TabKey)

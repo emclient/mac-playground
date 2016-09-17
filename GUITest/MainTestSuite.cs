@@ -10,7 +10,7 @@ namespace GUITest
     public class MainTestSuite
 	{
 		[Test]
-        public void OpenNewMessageWindow()
+        public void NewMessageTest()
         {
             Thread.Sleep(2000);
 
@@ -22,19 +22,24 @@ namespace GUITest
 
             var formSendMail = UI.WaitForForm("formSendMail");
             ThrowIfNull(formSendMail, "Failed opening formSendMail");
-
+            
             UI.Type("volejnik@emclient.com");
             UI.Type("{ENTER}");
             UI.Type("{TAB}");
-            UI.Type("OpenNewMessageWindowTest");
+            UI.Type("New Message Test");
 
             UI.Type(' ');
             UI.Type('X');
             UI.Type('y');
 
             UI.Type("{TAB}");
-            UI.Type("Hezky den vam preje GUITest.");
-            Thread.Sleep(1000);
+            UI.Type("Zdravi te GUITest.");
+			UI.Type("{ENTER}");
+			UI.Type("`1234567890-=[]\\;',./");
+			UI.Type("{ENTER}");
+			UI.Type("{~}", "!@#$","{%}", "{^}", "&*", "{(}", "{)}", "{_}", "{+}", "{{}","{}}","|:\"<>?");
+
+            Thread.Sleep(3000);
             UI.Type("{ESC}");
             Thread.Sleep(1000);
             UI.Type("{ENTER}");
