@@ -39,9 +39,9 @@ namespace GUITest
 			UI.Type("{ENTER}");
 			UI.Type("{~}", "!@#$","{%}", "{^}", "&*", "{(}", "{)}", "{_}", "{+}", "{{}","{}}","|:\"<>?");
 
-            Thread.Sleep(3000);
-            UI.Type("{ESC}");
             Thread.Sleep(1000);
+            UI.Type("{ESC}");
+            Thread.Sleep(2000);
             UI.Type("{ENTER}");
             Thread.Sleep(2000);
         }
