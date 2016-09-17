@@ -60,7 +60,6 @@ namespace System.Windows.Forms {
 			keywords.Add("DOWN", (int)Keys.Down);
 			keywords.Add("END", (int)Keys.End);
 			keywords.Add("ENTER", (int)Keys.Enter);
-			keywords.Add("~", (int)Keys.Enter);
 			keywords.Add("ESC", (int)Keys.Escape);
 			keywords.Add("HELP", (int)Keys.Help);
 			keywords.Add("HOME", (int)Keys.Home);
@@ -95,9 +94,6 @@ namespace System.Windows.Forms {
 			keywords.Add("SUBTRACT", (int)Keys.Subtract);
 			keywords.Add("MULTIPLY", (int)Keys.Multiply);
 			keywords.Add("DIVIDE", (int)Keys.Divide);
-			keywords.Add("+", (int)Keys.ShiftKey);
-			keywords.Add("^", (int)Keys.ControlKey);
-			keywords.Add("%", (int)Keys.Menu);
 		}
 
 		#region Private methods
@@ -117,40 +113,68 @@ namespace System.Windows.Forms {
 
 		private static void AddVKey(int vk, int repeat_count) 
 		{
-			MSG	msg;
-
 			for (int i = 0; i < repeat_count; i++ ) {
-				msg = new MSG();
-				msg.message = Msg.WM_KEYDOWN;
-				msg.wParam = new IntPtr(vk);
-				msg.lParam = (IntPtr)1;
-				keys.Enqueue(msg);
-
-				msg = new MSG();
-				msg.message = Msg.WM_KEYUP;
-				msg.wParam = new IntPtr(vk);
-				msg.lParam = IntPtr.Zero;
-				keys.Enqueue(msg);
-
+				keys.Enqueue(new MSG { message = Msg.WM_KEYDOWN, wParam = new IntPtr(vk), lParam = (IntPtr)1 });
+				keys.Enqueue(new MSG { message = Msg.WM_KEYUP, wParam = new IntPtr(vk), lParam = (IntPtr)0 });
 			}
 		}
 
 		private static void AddKey(char key, int repeat_count) {
-			MSG	msg;
+
+			Keys k;
+			bool shift = false;
+			bool ctrl = false;
+			bool alt = false;
+
+			switch (key)
+			{
+				case '!': k = Keys.D1; shift = true; break;
+				case '@': k = Keys.D2; shift = true; break;
+				case '#': k = Keys.D3; shift = true; break;
+				case '$': k = Keys.D4; shift = true; break;
+				case '%': k = Keys.D5; shift = true; break;
+				case '^': k = Keys.D6; shift = true; break;
+				case '&': k = Keys.D7; shift = true; break;
+				case '*': k = Keys.D8; shift = true; break;
+				case '(': k = Keys.D9; shift = true; break;
+				case ')': k = Keys.D0; shift = true; break;
+				case '_': k = Keys.OemMinus; shift = true; break;
+				case '+': k = Keys.Oemplus; shift = true; break;
+				case '{': k = Keys.OemOpenBrackets; shift = true; break;
+				case '}': k = Keys.OemCloseBrackets; shift = true; break;
+				case '|': k = Keys.OemBackslash; shift = true; break;
+				case ':': k = Keys.OemSemicolon; shift = true; break;
+				case '\"': k = Keys.OemQuotes; shift = true; break;
+				case '<': k = Keys.Oemcomma; shift = true; break;
+				case '>': k = Keys.OemPeriod; shift = true; break;
+				case '?': k = Keys.OemQuestion; shift = true; break;
+				case '~': k = Keys.Oemtilde; shift = true; break;
+				case '`': k = Keys.Oemtilde; break;
+				case ',': k = Keys.Oemcomma; break;
+				case '.': k = Keys.OemPeriod; break;
+				case '-': k = Keys.OemMinus; break;
+				case '=': k = Keys.Oemplus; break;
+				case '[': k = Keys.OemOpenBrackets; break;
+				case ']': k = Keys.OemCloseBrackets; break;
+				case '\\': k = Keys.OemBackslash; break;
+				case ';': k = Keys.OemSemicolon; break;
+				case '\'': k = Keys.OemQuotes; break;
+				case '/': k = Keys.Divide; break;
+				default: k = (Keys)key; break;
+			}
+
+			if (shift) keys.Enqueue(new MSG { message = Msg.WM_KEYDOWN, wParam = new IntPtr((int)Keys.ShiftKey), lParam = IntPtr.Zero });
+			if (ctrl) keys.Enqueue(new MSG { message = Msg.WM_KEYDOWN, wParam = new IntPtr((int)Keys.ControlKey), lParam = IntPtr.Zero });
+			if (alt) keys.Enqueue(new MSG { message = Msg.WM_KEYDOWN, wParam = new IntPtr((int)Keys.Menu), lParam = IntPtr.Zero });
 
 			for (int i = 0; i < repeat_count; i++ ) {
-				msg = new MSG();
-				msg.message = Msg.WM_KEYDOWN;
-				msg.wParam = new IntPtr(key);
-				msg.lParam = IntPtr.Zero;
-				keys.Enqueue(msg);
-
-				msg = new MSG();
-				msg.message = Msg.WM_KEYUP;
-				msg.wParam = new IntPtr(key);
-				msg.lParam = IntPtr.Zero;
-				keys.Enqueue(msg);
+				keys.Enqueue(new MSG { message = Msg.WM_KEYDOWN, wParam = new IntPtr((int)k), lParam = IntPtr.Zero });
+				keys.Enqueue(new MSG { message = Msg.WM_KEYUP, wParam = new IntPtr((int)k), lParam = IntPtr.Zero });
 			}
+
+			if (shift) keys.Enqueue(new MSG { message = Msg.WM_KEYUP, wParam = new IntPtr((int)Keys.ShiftKey), lParam = IntPtr.Zero });
+			if (ctrl) keys.Enqueue(new MSG { message = Msg.WM_KEYUP, wParam = new IntPtr((int)Keys.ControlKey), lParam = IntPtr.Zero });
+			if (alt) keys.Enqueue(new MSG { message = Msg.WM_KEYUP, wParam = new IntPtr((int)Keys.Menu), lParam = IntPtr.Zero });
 		}
 
 		private static void Parse(string key_string) {
@@ -171,8 +195,11 @@ namespace System.Windows.Forms {
 
 						group_string.Remove(0, group_string.Length);
 						repeats.Remove(0, repeats.Length);
-						int start = i+1;
-						for (; start < key_len && key_string[start] != '}'; start++) {
+						int start = i + 1;
+						for (; start < key_len; start++) {
+							if (start > i + 1 && key_string[start] == '}') // allow right parenthesis char "{}}"
+								break;
+
 							if (Char.IsWhiteSpace(key_string[start])) {
 								if (isRepeat)
 									throw new ArgumentException("SendKeys string {0} is not valid.", key_string);
@@ -185,20 +212,22 @@ namespace System.Windows.Forms {
 									throw new ArgumentException("SendKeys string {0} is not valid.", key_string);
 								
 								repeats.Append(key_string[start]);
-
 								continue;
 							}
 
 							group_string.Append(key_string[start]);
 						}
-						if (start == key_len || start == i+1)
-							throw new ArgumentException("SendKeys string {0} is not valid.", key_string);
+						if (start == key_len || start == i + 1)
+						{
+							break;
+							//throw new ArgumentException("SendKeys string {0} is not valid.", key_string);
+						}
 
 						else if (SendKeys.keywords.Contains(group_string.ToString().ToUpper())) {
 							isVkey = true;
 						}
 						else {
-							throw new ArgumentException("SendKeys string {0} is not valid.", key_string);
+							//throw new ArgumentException("SendKeys string {0} is not valid.", key_string);
 						}
 
 						int repeat = 1;
@@ -209,10 +238,10 @@ namespace System.Windows.Forms {
 						else {
 							if (Char.IsUpper(Char.Parse(group_string.ToString()))) {
 								if (!isShift)
-									AddVKey((int)keywords["+"], true);
+									AddVKey((int)Keys.ShiftKey, true);
 								AddKey(Char.Parse(group_string.ToString()), 1);
 								if (!isShift)
-									AddVKey((int)keywords["+"], false);
+									AddVKey((int)Keys.ShiftKey, false);
 							}
 							else
 								AddKey(Char.Parse(group_string.ToString().ToUpper()), repeats.Length == 0 ? 1 : repeat);
@@ -221,34 +250,34 @@ namespace System.Windows.Forms {
 						i = start;
 						isRepeat = isVkey = false;
 						if (isShift)
-							AddVKey((int)keywords["+"], false);
+							AddVKey((int)Keys.ShiftKey, false);
 						if (isCtrl)
-							AddVKey((int)keywords["^"], false);
+							AddVKey((int)Keys.ControlKey, false);
 						if (isAlt)
-							AddVKey((int)keywords["%"], false);
+							AddVKey((int)Keys.Menu, false);
 						isShift = isCtrl = isAlt = false;
 						break;
 					
 					case '+': {
-						AddVKey((int)keywords["+"], true);
-						isShift = true;;
+						AddVKey((int)Keys.ShiftKey, true);
+						isShift = true;
 						break;
 					}
 
 					case '^': {
-						AddVKey((int)keywords["^"], true);
+							AddVKey((int)Keys.ControlKey, true);
 						isCtrl = true;
 						break;
 					}
 
 					case '%': {
-						AddVKey((int)keywords["%"], true);
+						AddVKey((int)Keys.Menu, true);
 						isAlt = true;
 						break;
 					}
 
 					case '~': {
-						AddVKey((int)keywords["ENTER"], 1);
+						AddVKey((int)Keys.Enter, 1);
 						break;
 					}
 
@@ -258,11 +287,11 @@ namespace System.Windows.Forms {
 
 					case ')': {
 						if (isShift)
-							AddVKey((int)keywords["+"], false);
+							AddVKey((int)Keys.ShiftKey, false);
 						if (isCtrl)
-							AddVKey((int)keywords["^"], false);
+							AddVKey((int)Keys.ControlKey, false);
 						if (isAlt)
-							AddVKey((int)keywords["%"], false);
+							AddVKey((int)Keys.Menu, false);
 						isShift = isCtrl = isAlt = isBlock = false;
 						break;
 					}
@@ -270,21 +299,21 @@ namespace System.Windows.Forms {
 					default: {
 						if (Char.IsUpper(key_string[i])) {
 							if (!isShift)
-								AddVKey((int)keywords["+"], true);
+								AddVKey((int)Keys.ShiftKey, true);
 							AddKey(key_string[i], 1);
 							if (!isShift)
-								AddVKey((int)keywords["+"], false);
+								AddVKey((int)Keys.ShiftKey, false);
 						}
 						else
 							AddKey(Char.Parse(key_string[i].ToString().ToUpper()), 1);
 						
 						if (!isBlock) {
 							if (isShift)
-								AddVKey((int)keywords["+"], false);
+								AddVKey((int)Keys.ShiftKey, false);
 							if (isCtrl)
-								AddVKey((int)keywords["^"], false);
+								AddVKey((int)Keys.ControlKey, false);
 							if (isAlt)
-								AddVKey((int)keywords["%"], false);
+								AddVKey((int)Keys.Menu, false);
 							isShift = isCtrl = isAlt = isBlock = false;
 						}
 						break;
@@ -296,11 +325,11 @@ namespace System.Windows.Forms {
 				throw new ArgumentException("SendKeys string {0} is not valid.", key_string);
 
 			if (isShift)
-				AddVKey((int)keywords["+"], false);
+				AddVKey((int)Keys.ShiftKey, false);
 			if (isCtrl)
-				AddVKey((int)keywords["^"], false);
+				AddVKey((int)Keys.ControlKey, false);
 			if (isAlt)
-				AddVKey((int)keywords["%"], false);
+				AddVKey((int)Keys.Menu, false);
 
 		}
 
