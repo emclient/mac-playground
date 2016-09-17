@@ -40,23 +40,77 @@ namespace GUITest
 				Type(arg);
 		}
 
-        internal static void Type(string text, double delay = 0.05)
-        {
-            if (text.StartsWith("{"))
-            {
-                SendKeys.SendWait(text);
-            }
-            else
-            {
-                foreach(var c in text)
-                {
-                    SendKeys.SendWait(c.ToString());
-                    Thread.Sleep((int)(delay * 1000));
-                }
-            }
-        }
+		internal static void Type(string text, double delay = 0.05)
+		{
+			var segments = SplitForSendKeys(text);
+			foreach (var segment in segments)
+			{
+				SendKeys.SendWait(segment);
+				Thread.Sleep((int)(delay * 1000));
+			}
+		}
 
-        public static Form WaitForForm(Type type, double timeout = 3.0, double interval = 0.1)
+		public static IList<String> SplitForSendKeys(string text)
+		{
+			var segments = new List<string>();
+			int modifier = -1;
+			int from = 0, i;
+			for (i = 0; i < text.Length;)
+			{
+				char c = text[i];
+				switch (c)
+				{
+					case '^':
+					case '+':
+					case '%': modifier = i; break;
+					case '(':
+						FinishSegment(segments, text, from, i - 1, modifier);
+						ExtractSegment(segments, text, ref i, ')', ref modifier);
+						from = i;
+						break;
+					case '{':
+						FinishSegment(segments, text, from, i - 1, modifier);
+						ExtractSegment(segments, text, ref i, '}', ref modifier);
+						from = i;
+						break;
+					default:
+						FinishSegment(segments, text, from, i, modifier);
+						i += 1;
+						from = i;
+						break;
+				}
+			}
+			FinishSegment(segments, text, from, i, modifier);
+			return segments;
+		}
+
+		static void FinishSegment(List<string> segments, string text, int from, int i, int modifier)
+		{
+			if (i >= text.Length) 
+				i = text.Length - 1;
+			if (i == modifier - 1)
+				i = i - 1;
+			if (i >= from)
+				segments.Add(text.Substring(from, i - from + 1));
+		}
+
+		static void ExtractSegment(List<string> segments, string text, ref int i, char c, ref int modifier)
+		{
+			int from = modifier == i - 1 && modifier >= 0 ? i - 1 : i;
+			int to = text.IndexOf(c, i + 2);
+			if (to >= 0)
+			{
+				var segment = text.Substring(from, to - from + 1);
+				segments.Add(segment);
+				i = to + 1;
+				return;
+			}
+
+			 // Error: the end of the sequence not found. Move forward by 1 char, ignoring
+			i += 1;
+		}
+
+		public static Form WaitForForm(Type type, double timeout = 3.0, double interval = 0.1)
         {
             var due = DateTime.Now.AddSeconds(timeout);
             while (DateTime.Now.CompareTo(due) < 0)
