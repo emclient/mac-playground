@@ -96,6 +96,7 @@
       <Project>{5a6284d5-80a1-4e20-b253-2ed87e140e5a}</Project>
       <Name>MailClient</Name>
     </ProjectReference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" Condition=" '$(Configuration)' != 'Mono - Debug' " />
     <ProjectReference Include="..\..\..\WinApi\WinApi.csproj" Condition=" '$(Configuration)' != 'Mono - Debug' ">
       <Project>{13fe9512-3dc7-4c6a-a817-551224a63dbb}</Project>

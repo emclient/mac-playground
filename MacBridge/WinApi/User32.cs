@@ -638,5 +638,25 @@ namespace WinApi
             NotImplemented(MethodBase.GetCurrentMethod());
             return 0;
         }
+
+        public static short GetKeyState(int vKey)
+        {
+            NotImplemented(MethodBase.GetCurrentMethod());
+            return 0;
+        }
+
+        public static bool SetCursorPos(int x, int y)
+        {
+            x = y = 0;
+            NotImplemented(MethodBase.GetCurrentMethod());
+            return true;
+        }
+
+        public static bool GetCursorPos(out Point p)
+        {
+            p = Point.Empty;
+            NotImplemented(MethodBase.GetCurrentMethod());
+            return true;
+        }
     }
 }
