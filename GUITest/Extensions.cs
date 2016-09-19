@@ -16,5 +16,17 @@ namespace GUITest
 				code.Invoke();
 			}
 		}
-	}
+
+        public static T UIThread<T>(this Control @this, Func<T> function)
+        {
+            if (@this.InvokeRequired)
+            {
+                return (T)@this.Invoke(function);
+            }
+            else
+            {
+                return function.Invoke();
+            }
+        }
+    }
 }
