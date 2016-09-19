@@ -23,6 +23,7 @@ namespace GUITest
             ThrowIfNull(button, "Failed locating New button (formMain.stripButton_New)");
 
             UI.Perform(() => { button.PerformClick(); });
+            //UI.Click(button);
 
             var formSendMail = UI.WaitForForm("formSendMail");
             ThrowIfNull(formSendMail, "Failed opening formSendMail");

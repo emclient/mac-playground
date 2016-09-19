@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
@@ -29,7 +30,7 @@ namespace GUITest
                 var form = FindForm(nameOrType);
                 if (form != null)
                     return form;
-                Thread.Sleep((int)(1000 * interval));
+                Sleep(interval);
             }
             return null;
         }
@@ -42,7 +43,7 @@ namespace GUITest
                 var form = FindForm(nameOrType);
                 if (form == null)
                     return true;
-                Thread.Sleep((int)(1000 * interval));
+                Sleep(interval);
             }
             return false;
         }
@@ -63,88 +64,88 @@ namespace GUITest
                 }
                 if (!found || !form.Visible || form.IsDisposed)
                     return true;
-                Thread.Sleep((int)(1000 * interval));
+                Sleep(interval);
             }
             return false;
         }
 
         internal static void Type(params string[] args)
-		{
-			foreach (var arg in args)
-				Type(arg);
-		}
+        {
+            foreach (var arg in args)
+                Type(arg);
+        }
 
-		internal static void Type(string text, double delay = 0.05)
-		{
-			var segments = SplitForSendKeys(text);
-			foreach (var segment in segments)
-			{
-				SendKeys.SendWait(segment);
-				Thread.Sleep((int)(delay * 1000));
-			}
-		}
+        internal static void Type(string text, double delay = 0.05)
+        {
+            var segments = SplitForSendKeys(text);
+            foreach (var segment in segments)
+            {
+                SendKeys.SendWait(segment);
+                Sleep(delay);
+            }
+        }
 
-		public static IList<String> SplitForSendKeys(string text)
-		{
-			var segments = new List<string>();
-			int modifier = -1;
-			int from = 0, i;
-			for (i = 0; i < text.Length;)
-			{
-				char c = text[i];
-				switch (c)
-				{
-					case '^':
-					case '+':
-					case '%': modifier = i; break;
-					case '(':
-						FinishSegment(segments, text, from, i - 1, modifier);
-						ExtractSegment(segments, text, ref i, ')', ref modifier);
-						from = i;
-						break;
-					case '{':
-						FinishSegment(segments, text, from, i - 1, modifier);
-						ExtractSegment(segments, text, ref i, '}', ref modifier);
-						from = i;
-						break;
-					default:
-						FinishSegment(segments, text, from, i, modifier);
-						i += 1;
-						from = i;
-						break;
-				}
-			}
-			FinishSegment(segments, text, from, i, modifier);
-			return segments;
-		}
+        public static IList<String> SplitForSendKeys(string text)
+        {
+            var segments = new List<string>();
+            int modifier = -1;
+            int from = 0, i;
+            for (i = 0; i < text.Length;)
+            {
+                char c = text[i];
+                switch (c)
+                {
+                    case '^':
+                    case '+':
+                    case '%': modifier = i; break;
+                    case '(':
+                        FinishSegment(segments, text, from, i - 1, modifier);
+                        ExtractSegment(segments, text, ref i, ')', ref modifier);
+                        from = i;
+                        break;
+                    case '{':
+                        FinishSegment(segments, text, from, i - 1, modifier);
+                        ExtractSegment(segments, text, ref i, '}', ref modifier);
+                        from = i;
+                        break;
+                    default:
+                        FinishSegment(segments, text, from, i, modifier);
+                        i += 1;
+                        from = i;
+                        break;
+                }
+            }
+            FinishSegment(segments, text, from, i, modifier);
+            return segments;
+        }
 
-		static void FinishSegment(List<string> segments, string text, int from, int i, int modifier)
-		{
-			if (i >= text.Length) 
-				i = text.Length - 1;
-			if (i == modifier - 1)
-				i = i - 1;
-			if (i >= from)
-				segments.Add(text.Substring(from, i - from + 1));
-		}
+        static void FinishSegment(List<string> segments, string text, int from, int i, int modifier)
+        {
+            if (i >= text.Length)
+                i = text.Length - 1;
+            if (i == modifier - 1)
+                i = i - 1;
+            if (i >= from)
+                segments.Add(text.Substring(from, i - from + 1));
+        }
 
-		static void ExtractSegment(List<string> segments, string text, ref int i, char c, ref int modifier)
-		{
-			int from = modifier == i - 1 && modifier >= 0 ? i - 1 : i;
-			int to = text.IndexOf(c, i + 2);
-			if (to >= 0)
-			{
-				var segment = text.Substring(from, to - from + 1);
-				segments.Add(segment);
-				i = to + 1;
-				return;
-			}
+        static void ExtractSegment(List<string> segments, string text, ref int i, char c, ref int modifier)
+        {
+            int from = modifier == i - 1 && modifier >= 0 ? i - 1 : i;
+            int to = text.IndexOf(c, i + 2);
+            if (to >= 0)
+            {
+                var segment = text.Substring(from, to - from + 1);
+                segments.Add(segment);
+                i = to + 1;
+                return;
+            }
 
-			 // Error: the end of the sequence not found. Move forward by 1 char, ignoring
-			i += 1;
-		}
+            // Error: the end of the sequence not found. Move forward by 1 char, ignoring it.
+            i += 1;
+        }
 
-		public static Form WaitForForm(Type type, double timeout = 3.0, double interval = 0.1)
+        public static Form WaitForForm(Type type, double timeout = 3.0, double interval = 0.1)
         {
             var due = DateTime.Now.AddSeconds(timeout);
             while (DateTime.Now.CompareTo(due) < 0)
@@ -152,7 +153,7 @@ namespace GUITest
                 var form = FindForm(type);
                 if (form != null)
                     return form;
-                Thread.Sleep((int)(1000 * interval));
+                Sleep(interval);
             }
             return null;
         }
@@ -220,11 +221,15 @@ namespace GUITest
 
         internal static void Close()
         {
-            if (main != null)
-                Perform(() => { main.Close(); });
+            Perform(() => { if (main != null) main.Close(); });
         }
 
         public static Form FindForm(Type type)
+        {
+            return Perform(() => DoFindForm(type));
+        }
+
+        private static Form DoFindForm(Type type)
         {
             foreach (Form form in Application.OpenForms)
                 if (type == null || form.GetType().Equals(type))
@@ -233,6 +238,11 @@ namespace GUITest
         }
 
         public static Form FindForm(string nameOrType)
+        {
+            return Perform(() => DoFindForm(nameOrType));
+        }
+
+        private static Form DoFindForm(string nameOrType)
         {
             foreach (Form form in Application.OpenForms)
                 if (nameOrType == null || nameOrType.Equals(form.Name) || nameOrType.Equals(form.Text))
@@ -250,12 +260,15 @@ namespace GUITest
 
         public static Control FindControl(Control instance, string name, int maxLevel = 1)
         {
-            if (instance is ContainerControl)
-                foreach (Control control in ((ContainerControl)instance).Controls)
-                    if (name.Equals(control.Name))
-                        return control;
+            return Perform(() =>
+            {
+                if (instance is ContainerControl)
+                    foreach (Control control in ((ContainerControl)instance).Controls)
+                        if (name.Equals(control.Name))
+                            return control;
 
-            return null;
+                return null;
+            });
         }
 
         public static object FindMember(object instance, string name, Type type = null, int maxLevel = 1)
@@ -295,8 +308,28 @@ namespace GUITest
         // Use this method to execute your action in the UI thread.
         public static void Perform(Action action)
         {
-            ThrowIfNull(main, "UI not initialized - root control is null.");
-            main.UIThread(action);
+            // test - initialization
+            if (main == null)
+                action();
+
+            //ThrowIfNull(main, "UI not initialized - root control is null.");
+            if (main.InvokeRequired)
+                main.UIThread(action);
+            else
+                action();
+        }
+
+        public static T Perform<T>(Func<T> function)
+        {
+            // test - initialization
+            if (main == null)
+                return function();
+
+            //ThrowIfNull(main, "UI not initialized - root control is null.");
+            if (main.InvokeRequired)
+                return main.UIThread(function);
+            else
+                return function();
         }
 
         public static void ThrowIfNull(object instance, string message = "Instance not found")
@@ -305,42 +338,124 @@ namespace GUITest
                 throw new ApplicationException(message);
         }
 
-        public static void Type(char c)
+        public static void Type(char c, double delay = 0.05)
         {
-            var inputs = CreateSingleInput(c);
-            Win32.SendInput((uint)inputs.Count, inputs.ToArray(), INPUT.Size);
+            Key(c);
+            Sleep(delay / 2);
+            Key(c, KEYEVENTF.KEYUP);
+            Sleep(delay / 2);
         }
 
-        private static List<INPUT> CreateSingleInput(char character)
+        internal static void Key(char c, KEYEVENTF flags = 0)
         {
-            var inputs = new List<INPUT>();
-            inputs.Add(new INPUT()
+            var input = new INPUT { type = InputType.KEYBOARD };
+            input.U.ki.wScan = (ScanCodeShort)c;
+            input.U.ki.wVk = 0;
+            input.U.ki.dwFlags = KEYEVENTF.UNICODE | flags;
+            Win32.SendInput(1, new INPUT[] { input }, INPUT.Size);
+        }
+
+        internal static void Mouse(MOUSEEVENTF flags)
+        {
+            var input = new INPUT { type = InputType.MOUSE };
+            input.U.mi.dx = input.U.mi.dy = input.U.mi.mouseData = 0;
+            input.U.mi.dwFlags = flags;
+            Win32.SendInput(1, new INPUT[] { input }, INPUT.Size);
+        }
+
+        public static void Click(Control control, double delay = 0.2)
+        {
+            MouseTo(control);
+            Mouse(MOUSEEVENTF.LEFTDOWN);
+            Sleep(delay);
+            MouseTo(control);
+            Mouse(MOUSEEVENTF.LEFTUP);
+            Sleep(delay);
+        }
+
+        public static void RightClick(Control control, double delay = 0.2)
+        {
+            MouseTo(control);
+            Mouse(MOUSEEVENTF.RIGHTDOWN);
+            Sleep(delay);
+            MouseTo(control);
+            Mouse(MOUSEEVENTF.RIGHTUP);
+            Sleep(delay);
+        }
+
+        public static void MouseTo(Control control)
+        {
+            var dt = 0.02;
+            var form = (Form)null; //  new Form(); // For debugging
+            var step = new Point(0, 0);
+
+            while (true)
             {
-                type = InputType.KEYBOARD,
-                U = new InputUnion()
+                var r = Rectangle.Empty;
+                Perform(() => { r = control.RectangleToScreen(control.Bounds); });
+                var c = new Point((r.Left + r.Right) / 2, (r.Top + r.Bottom) / 2);
+                r = new Rectangle(c.X - 1, c.Y - 1, 2, 2);
+
+                Point p;
+                Win32.GetCursorPos(out p);
+                if (r.Contains(p))
+                    break;
+
+                var d = new Point(c.X - p.X, c.Y - p.Y);
+                double l = Math.Sqrt(d.X * d.X + d.Y * d.Y);
+
+                if (l != 0.0)
                 {
-                    ki = new KEYBDINPUT()
-                    {
-                        wVk = 0,
-                        wScan = (ScanCodeShort)character,
-                        dwFlags = KEYEVENTF.UNICODE
-                    }
+                    var speed = SpeedFromDistance(l); // Faster when far away, slower when approaching the destination.
+                    var pixelsPerInterval = speed * dt;
+                    step.X = (int)(pixelsPerInterval * (d.X / l));
+                    step.Y = (int)(pixelsPerInterval * (d.Y / l));
                 }
-            });
-            inputs.Add(new INPUT()
-            {
-                type = InputType.KEYBOARD,
-                U = new InputUnion()
+                if (step.IsEmpty)
+                    break;
+
+                var input = new INPUT { type = InputType.MOUSE };
+                input.U.mi.dx = step.X;
+                input.U.mi.dy = step.Y;
+                input.U.mi.dwFlags = MOUSEEVENTF.MOVE;
+                input.U.mi.mouseData = 0;
+
+                if (form != null)
                 {
-                    ki = new KEYBDINPUT()
-                    {
-                        wVk = 0,
-                        wScan = (ScanCodeShort)character,
-                        dwFlags = KEYEVENTF.UNICODE | KEYEVENTF.KEYUP
-                    }
+                    form.SetDesktopLocation(p.X + 1, p.Y + 1);
+                    if (!form.Visible)
+                        form.Show();
                 }
-            });
-            return inputs;
+
+                Win32.SendInput(1, new INPUT[] { input }, INPUT.Size);
+                Sleep(dt);
+            }
+
+            if (form != null)
+                form.Close();
+
+            Sleep(dt);
+        }
+
+        static readonly double[] speeds = {
+            2000, 3000,
+            1000, 2000,
+            100, 1200,
+            10, 300,
+        };
+
+        private static double SpeedFromDistance(double l)
+        {
+            // TODO: Make it independent on the DPI, so that it works the same way on every monitor.
+            for (int i = 0; i < speeds.Length; i += 2)
+                if (l > speeds[i])
+                    return speeds[1 + i];
+            return speeds[speeds.Length - 1];
+        }
+
+        private static void Sleep(double interval)
+        {
+            Thread.Sleep((int)(1000 * interval));
         }
     }
 }
