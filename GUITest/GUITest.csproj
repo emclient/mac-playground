@@ -97,8 +97,8 @@
       <Name>MailClient</Name>
     </ProjectReference>
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" Condition=" '$(Configuration)' != 'Mono - Debug' " />
-    <ProjectReference Include="..\..\..\WinApi\WinApi.csproj" Condition=" '$(Configuration)' != 'Mono - Debug' ">
+    <Reference Include="System.Windows.Forms" Condition=" '$(Configuration)' != 'Mono - Debug' and '$(Configuration)' != 'Xamarin - Debug'"/>
+    <ProjectReference Include="..\..\..\WinApi\WinApi.csproj" Condition=" '$(Configuration)' != 'Mono - Debug' and '$(Configuration)' != 'Xamarin - Debug'">
       <Project>{13fe9512-3dc7-4c6a-a817-551224a63dbb}</Project>
       <Name>WinApi</Name>
     </ProjectReference>
@@ -106,11 +106,11 @@
       <Project>{66621034-90cc-4d1a-b49e-73a13e3b22ef}</Project>
       <Name>LinqBridge</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MacBridge\MacBridge.csproj" Condition=" '$(Configuration)' == 'Mono - Debug'">
+    <ProjectReference Include="..\MacBridge\MacBridge.csproj" Condition=" '$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug'">
       <Project>{00d3baed-f1d5-4ae5-a479-a7e55bb08530}</Project>
       <Name>MacBridge</Name>
     </ProjectReference>
-    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj" Condition=" '$(Configuration)' == 'Mono - Debug'">
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj" Condition=" '$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug'">
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
     </ProjectReference>
