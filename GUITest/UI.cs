@@ -392,7 +392,7 @@ namespace GUITest
             while (true)
             {
                 var r = Rectangle.Empty;
-                Perform(() => { r = control.RectangleToScreen(control.Bounds); });
+				Perform(() => { r = (control.Parent ?? control).RectangleToScreen(control.Bounds); });
                 var c = new Point((r.Left + r.Right) / 2, (r.Top + r.Bottom) / 2);
                 r = new Rectangle(c.X - 1, c.Y - 1, 2, 2);
 
