@@ -22,8 +22,8 @@ namespace GUITest
             UI.Perform(() => { button = UI.GetMember<ControlToolStripButton>("formMain.stripButton_New", null); });
             ThrowIfNull(button, "Failed locating New button (formMain.stripButton_New)");
 
-            UI.Perform(() => { button.PerformClick(); });
-            //UI.Click(button);
+            //UI.Perform(() => { button.PerformClick(); });
+            UI.Click(button);
 
             var formSendMail = UI.WaitForForm("formSendMail");
             ThrowIfNull(formSendMail, "Failed opening formSendMail");

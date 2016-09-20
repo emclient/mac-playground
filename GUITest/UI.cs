@@ -404,7 +404,7 @@ namespace GUITest
                 var d = new Point(c.X - p.X, c.Y - p.Y);
                 double l = Math.Sqrt(d.X * d.X + d.Y * d.Y);
 
-                if (l != 0.0)
+				if (Math.Abs(l) > 1)
                 {
                     var speed = SpeedFromDistance(l); // Faster when far away, slower when approaching the destination.
                     var pixelsPerInterval = speed * dt;
@@ -438,10 +438,11 @@ namespace GUITest
         }
 
         static readonly double[] speeds = {
-            2000, 3000,
-            1000, 2000,
-            100, 1200,
-            10, 300,
+            2000, 4000,
+            1000, 3000,
+            100, 2000,
+            10, 500,
+			4, 50
         };
 
         private static double SpeedFromDistance(double l)
