@@ -40,9 +40,16 @@ namespace GUITest
             UI.Type('.');
 
             Thread.Sleep(1000);
-            UI.Type("{ESC}"); // Invokes closing the window (with confirmation dialog)
-            Thread.Sleep(2000); // Replace this with waiting for confirmation dialog.
-            UI.Type("{ENTER}"); // Confirms the save dialog and allows closing the e-mail window.
+			UI.Type("{ESC}"); // Invokes closing the window (with confirmation dialog))
+
+			var taskForm = UI.WaitForForm("taskForm");
+			ThrowIfNull(taskForm, "Confirmation dialog hasn't appeared.");
+
+			var noButton = UI.FindControl(taskForm, "No");
+			ThrowIfNull(noButton, "'No' button not found.");
+			UI.Click(noButton);
+
+			//UI.Type("{ENTER}"); // Confirms the save dialog and allows closing the e-mail window.
 
             ThrowIfNot(UI.WaitForFormClosed(formSendMail), "formSendMail failed to close.");
         }
