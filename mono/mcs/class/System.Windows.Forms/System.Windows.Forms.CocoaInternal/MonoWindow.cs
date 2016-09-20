@@ -15,13 +15,16 @@ using MonoMac.AppKit;
 #if SDCOMPAT
 using NSRect = System.Drawing.RectangleF;
 using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
 #else
 #if XAMARINMAC
 using NSRect = CoreGraphics.CGRect;
 using NSPoint = CoreGraphics.CGPoint;
+using NSSize = CoreGraphics.CGSize;
 #elif MONOMAC
 using NSRect = MonoMac.CoreGraphics.CGRect;
 using NSPoint = MonoMac.CoreGraphics.CGPoint;
+using NSSize = MonoMac.CoreGraphics.CGSize;
 #endif
 #endif
 
@@ -167,7 +170,7 @@ namespace System.Windows.Forms.CocoaInternal
 		//}
 
 		[Export ("windowWillResize:toSize:")]
-		internal virtual SizeF willResize (NSWindow sender, SizeF toFrameSize)
+		internal virtual NSSize willResize(NSWindow sender, NSSize toFrameSize)
 		{
 			ToolStripManager.FireAppClicked();
 
