@@ -103,6 +103,8 @@ MacBridge.Test/TLSTest.cs -text
 MacBridge.Test/data/SetupLogo.jpg -text
 MacBridge.Test/packages.config -text
 MacBridge/MacApi/CGImageExtensions.cs -text
+MacBridge/MacApi/Constants.cs -text
+MacBridge/MacApi/CoreGraphics/CGEventTypes.cs -text
 MacBridge/MacApi/Foundation/Foundation.cs -text
 MacBridge/MacApi/Foundation/PathUtilities.cs -text
 MacBridge/MacApi/LaunchServices.cs -text
