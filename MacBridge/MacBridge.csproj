@@ -46,7 +46,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Xamarin - Debug</OutputPath>
-    <DefineConstants>DEBUG;MONOMAC;;XAMARINMAC;__UNIFIED__</DefineConstants>
+    <DefineConstants>DEBUG;XAMARINMAC;__UNIFIED__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -116,10 +116,15 @@
     <Compile Include="..\..\..\WinApi\ObjIdl.Types.cs">
       <Link>WinApi\ObjIdl.Types.cs</Link>
     </Compile>
+    <Compile Include="MacApi\CoreGraphics\CGEventTypes.cs" />
+    <Compile Include="MacApi\Constants.cs" />
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="MonoMac">
+      <HintPath>..\MonoMac.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj">
@@ -135,5 +140,6 @@
     <Folder Include="WinApi\" />
     <Folder Include="MacApi\" />
     <Folder Include="MacApi\Foundation\" />
+    <Folder Include="MacApi\CoreGraphics\" />
   </ItemGroup>
 </Project>

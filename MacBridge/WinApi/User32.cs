@@ -7,6 +7,8 @@ using System.Text;
 using System.Windows.Forms;
 using MacBridge.CoreGraphics;
 using System.Windows.Forms.CocoaInternal;
+using MacBridge;
+using System.Collections.Generic;
 #if XAMARINMAC
 using AppKit;
 using CoreGraphics;
@@ -624,39 +626,138 @@ namespace WinApi
 			return 0;
 		}
 
-        /// <summary>
-        /// Synthesizes keystrokes, mouse motions, and button clicks.
-        /// </summary>
-        public static uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize)
-        {
-            NotImplemented(MethodBase.GetCurrentMethod());
-            return 0;
-        }
+		/// <summary>
+		/// Synthesizes keystrokes, mouse motions, and button clicks.
+		/// </summary>
+		public static uint SendInput(uint nInputs, INPUT[] inputs, int cbSize)
+		{
+			foreach (var input in inputs)
+				SendInput(input);
 
-        public static short VkKeyScan(char ch)
-        {
-            NotImplemented(MethodBase.GetCurrentMethod());
-            return 0;
-        }
+			return 0;
+		}
 
-        public static short GetKeyState(int vKey)
-        {
-            NotImplemented(MethodBase.GetCurrentMethod());
-            return 0;
-        }
+		public static short VkKeyScan(char ch)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
+		}
 
-        public static bool SetCursorPos(int x, int y)
-        {
-            x = y = 0;
-            NotImplemented(MethodBase.GetCurrentMethod());
-            return true;
-        }
+		public static short GetKeyState(int vKey)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
+		}
 
-        public static bool GetCursorPos(out Point p)
-        {
-            p = Point.Empty;
-            NotImplemented(MethodBase.GetCurrentMethod());
-            return true;
-        }
-    }
+		public static bool SetCursorPos(int x, int y)
+		{
+			NSApplication.SharedApplication.InvokeOnMainThread(() =>
+			{
+			CGPoint p = new CGPoint(x, y);
+				var e = CGEventCreateMouseEvent(IntPtr.Zero, CGEventType.MouseMoved, p, (CGMouseButton)0);
+				CGEventPost(CGEventTapLocation.HID, e);
+				CFRelease(e);
+			});
+
+			return true;
+		}
+
+		public static bool GetCursorPos(out Point p)
+		{
+			CGPoint q = CGPoint.Empty;
+			NSApplication.SharedApplication.InvokeOnMainThread(() =>
+			{
+				var e = CGEventCreate(IntPtr.Zero);
+				q = CGEventGetLocation(e);
+				CFRelease(e);
+			});
+			p = new Point((int)q.X, (int)q.Y);
+			return true;
+		}
+
+		internal static void SendInput(INPUT input)
+		{
+			switch (input.type)
+			{
+				case InputType.MOUSE: SendMouse(input); break;
+				case InputType.KEYBOARD: SendKey(input); break;
+				case InputType.HARDWARE: SendHardware(input); break;
+			}
+		}
+
+		internal static void SendMouse(INPUT input)
+		{
+			NSApplication.SharedApplication.InvokeOnMainThread(() =>
+			{
+				var e = CGEventCreate(IntPtr.Zero);
+				var q = CGEventGetLocation(e);
+				CFRelease(e);
+
+				var p = new CGPoint(q.X + input.U.mi.dx, q.Y + input.U.mi.dy);
+
+				CGEventType type;
+				CGMouseButton button;
+				ToTypeAndButton(input.U.mi.dwFlags, out type, out button);
+				e = CGEventCreateMouseEvent(IntPtr.Zero, type, p, button);
+				CGEventPost(CGEventTapLocation.HID, e);
+				CFRelease(e);
+			});
+		}
+
+		class EventEntry { public CGEventType type; public CGMouseButton button; }
+		static readonly Dictionary<MOUSEEVENTF, EventEntry> EventTypes = CreateEventTypesDict();
+		static Dictionary<MOUSEEVENTF, EventEntry> CreateEventTypesDict()
+		{
+			var d = new Dictionary<MOUSEEVENTF, EventEntry>();
+			d.Add(MOUSEEVENTF.LEFTDOWN, new EventEntry { type = CGEventType.LeftMouseDown, button = CGMouseButton.Left });
+			d.Add(MOUSEEVENTF.LEFTUP, new EventEntry { type = CGEventType.LeftMouseUp, button = CGMouseButton.Left });
+			d.Add(MOUSEEVENTF.RIGHTDOWN, new EventEntry { type = CGEventType.RightMouseDown, button = CGMouseButton.Right });
+			d.Add(MOUSEEVENTF.RIGHTUP, new EventEntry { type = CGEventType.RightMouseUp, button = CGMouseButton.Right });
+			d.Add(MOUSEEVENTF.MIDDLEDOWN, new EventEntry { type = CGEventType.OtherMouseDown, button = CGMouseButton.Center });
+			d.Add(MOUSEEVENTF.MIDDLEUP, new EventEntry { type = CGEventType.OtherMouseUp, button = CGMouseButton.Center });
+			d.Add(MOUSEEVENTF.MOVE, new EventEntry { type = CGEventType.MouseMoved });
+			d.Add(MOUSEEVENTF.HWHEEL, new EventEntry { type = CGEventType.ScrollWheel });
+			return d;
+		}
+
+		internal static void ToTypeAndButton(MOUSEEVENTF flags, out CGEventType type, out CGMouseButton button)
+		{
+			EventEntry e;
+			if (EventTypes.TryGetValue((MOUSEEVENTF)((uint)flags & 0x1FFFF), out e))
+			{
+				type = e.type;
+				button = e.button;
+			}
+			else
+			{
+				type = CGEventType.Null;
+				button = 0;
+			}
+		}
+
+		internal static void SendKey(INPUT input)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		internal static void SendHardware(INPUT input)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		[DllImport(Constants.ApplicationServicesCoreGraphicsLibrary)]
+		internal extern static IntPtr CGEventCreate(IntPtr source);
+
+		[DllImport(Constants.ApplicationServicesCoreGraphicsLibrary)]
+		internal extern static CGPoint CGEventGetLocation(IntPtr handle);
+
+		[DllImport(Constants.ApplicationServicesCoreGraphicsLibrary)]
+		internal extern static IntPtr CGEventCreateMouseEvent(IntPtr source, CGEventType mouseType, CGPoint mouseCursorPosition, CGMouseButton mouseButton);
+
+		[DllImport(Constants.ApplicationServicesCoreGraphicsLibrary)]
+		internal extern static void CGEventPost(CGEventTapLocation location, IntPtr handle);
+
+		[DllImport(Constants.CoreFoundationLibrary)]
+		internal static extern void CFRelease(IntPtr obj);
+	}
 }
