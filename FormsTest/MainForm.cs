@@ -60,6 +60,13 @@ namespace FormsTest
             // Mac layout debugging
             this.DebugAllControls();
 
+            this.filterTextBox.KeyDown += FilterTextBox_KeyDown;
+
+        }
+
+        private void FilterTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            Console.WriteLine($"KeyDown:[KeyCode={e.KeyCode},KeyValue={e.KeyValue},Modifiers={e.Modifiers}]");
         }
 
         protected override CreateParams CreateParams
