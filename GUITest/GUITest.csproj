@@ -97,7 +97,7 @@
       <Name>MailClient</Name>
     </ProjectReference>
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" Condition=" '$(Configuration)' != 'Mono - Debug' and '$(Configuration)' != 'Xamarin - Debug'"/>
+    <Reference Include="System.Windows.Forms" Condition=" '$(Configuration)' != 'Mono - Debug' and '$(Configuration)' != 'Xamarin - Debug'" />
     <ProjectReference Include="..\..\..\WinApi\WinApi.csproj" Condition=" '$(Configuration)' != 'Mono - Debug' and '$(Configuration)' != 'Xamarin - Debug'">
       <Project>{13fe9512-3dc7-4c6a-a817-551224a63dbb}</Project>
       <Name>WinApi</Name>
@@ -114,6 +114,9 @@
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
