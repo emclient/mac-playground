@@ -19,75 +19,136 @@ namespace System.Windows.Forms.CocoaInternal
 {
 	internal class KeysConverter
 	{
-		public KeysConverter()
-		{
-		}
-
-		private static Dictionary<NSKey, Keys> keyNames;
-		private static Dictionary<string, Keys> modifiers;
-
+		private static Dictionary<ulong, Keys> keys;
 
 		static KeysConverter()
 		{
-			keyNames = new Dictionary<NSKey, Keys>();
-			modifiers = new Dictionary<string, Keys>();
+			keys = new Dictionary<ulong, Keys>();
 
-			keyNames.Add(NSKey.Backslash, Keys.OemBackslash);
-			keyNames.Add(NSKey.CapsLock, Keys.CapsLock);
-			keyNames.Add(NSKey.Comma, Keys.Oemcomma);
-			keyNames.Add(NSKey.Command, Keys.LWin);
-			keyNames.Add(NSKey.Delete, Keys.Back);
-			keyNames.Add(NSKey.DownArrow, Keys.Down);
-			keyNames.Add(NSKey.Equal, Keys.Oemplus); // Should be "="
-			keyNames.Add(NSKey.ForwardDelete, Keys.Delete);
-			keyNames.Add(NSKey.Keypad0, Keys.NumPad0);
-			keyNames.Add(NSKey.Keypad1, Keys.NumPad1);
-			keyNames.Add(NSKey.Keypad2, Keys.NumPad2);
-			keyNames.Add(NSKey.Keypad3, Keys.NumPad3);
-			keyNames.Add(NSKey.Keypad4, Keys.NumPad4);
-			keyNames.Add(NSKey.Keypad5, Keys.NumPad5);
-			keyNames.Add(NSKey.Keypad6, Keys.NumPad6);
-			keyNames.Add(NSKey.Keypad7, Keys.NumPad7);
-			keyNames.Add(NSKey.Keypad8, Keys.NumPad8);
-			keyNames.Add(NSKey.Keypad9, Keys.NumPad9);
-			keyNames.Add(NSKey.KeypadDecimal, Keys.Decimal);
-			keyNames.Add(NSKey.KeypadDivide, Keys.Divide);
-			keyNames.Add(NSKey.KeypadEnter, Keys.Enter);
-			keyNames.Add(NSKey.KeypadEquals, Keys.Oemplus);
-			keyNames.Add(NSKey.KeypadMinus, Keys.OemMinus);
-			keyNames.Add(NSKey.KeypadMultiply, Keys.Multiply);
-			keyNames.Add(NSKey.KeypadPlus, Keys.Oemplus | Keys.Shift);
-			keyNames.Add(NSKey.LeftArrow, Keys.Left);
-			keyNames.Add(NSKey.LeftBracket, Keys.OemOpenBrackets);
-			keyNames.Add(NSKey.Minus, Keys.OemMinus);
-			keyNames.Add(NSKey.Mute, Keys.VolumeMute);
-			keyNames.Add(NSKey.Option, Keys.Alt);
-			keyNames.Add(NSKey.Quote, Keys.OemQuotes);
-			keyNames.Add(NSKey.RightArrow, Keys.Right);
-			keyNames.Add(NSKey.RightBracket, Keys.OemCloseBrackets);
-			keyNames.Add(NSKey.RightControl, Keys.RControlKey);
-			keyNames.Add(NSKey.RightOption, Keys.Alt);
-			keyNames.Add(NSKey.RightShift, Keys.RShiftKey);
-			keyNames.Add(NSKey.Semicolon, Keys.OemSemicolon);
-			keyNames.Add(NSKey.Slash, Keys.OemQuestion);
-			keyNames.Add(NSKey.UpArrow, Keys.Up);
-			keyNames.Add(NSKey.Period, Keys.OemPeriod);
-			keyNames.Add(NSKey.Return, Keys.Enter);
-			keyNames.Add(NSKey.Grave, Keys.Oemtilde);
+			keys.Add((ulong)NSKeyEx.GtLt, Keys.Oem7);
 
-			//keyNames.Add(NSKey.Next, Keys.MediaNextTrack);
-			//keyNames.Add(NSKey.Pause, Keys.MediaPlayPause);
-			//keyNames.Add(NSKey.Prev, Keys.MediaPreviousTrack);
-			//keyNames.Add(NSKey.ScrollLock, Keys.Scroll);
+			keys.Add((ulong)NSKeyEx.Home, Keys.Home);
+			keys.Add((ulong)NSKeyEx.End, Keys.End);
+			keys.Add((ulong)NSKeyEx.PageUp, Keys.PageUp);
+			keys.Add((ulong)NSKeyEx.PageDown, Keys.PageDown);
+			keys.Add((ulong)NSKeyEx.LeftArrow, Keys.Left);
+			keys.Add((ulong)NSKeyEx.RightArrow, Keys.Right);
+			keys.Add((ulong)NSKeyEx.UpArrow, Keys.Up);
+			keys.Add((ulong)NSKeyEx.DownArrow, Keys.Down);
 
-			// Modifiers
-			modifiers.Add("524576", Keys.Alt); //LeftAlt);
-			modifiers.Add("65792", Keys.CapsLock);
-			modifiers.Add("524608", Keys.LWin);// .LeftWindows);
-			modifiers.Add("262401", Keys.LControlKey); //LeftControl);
-			modifiers.Add("131332", Keys.RShiftKey);// RightShift);
-			modifiers.Add("131330", Keys.LShiftKey);// LeftShift);
-			modifiers.Add("655650", Keys.RShiftKey);
+			keys.Add((ulong)NSKey.Escape, Keys.Escape);
+			keys.Add((ulong)NSKey.Tab, Keys.Tab);
+			keys.Add((ulong)NSKey.CapsLock, Keys.CapsLock);
+
+			keys.Add((ulong)NSKey.Delete, Keys.Back);
+			//keys.Add((ulong)NSKey.Insert, Keys.Insert);
+			keys.Add((ulong)NSKey.Help, Keys.Help);
+			//keys.Add((ulong)NSKey.Pause, Keys.Pause);
+			//keys.Add((ulong)NSKey.ScrollLock, Keys.Scroll);
+			//keys.Add((ulong)NSKey.Print, Keys.Print);
+			//keys.Add((ulong)NSKey.Execute, Keys.Execute);
+
+			keys.Add((ulong)NSKey.Shift, Keys.ShiftKey);
+			keys.Add((ulong)NSKey.Control, Keys.ControlKey);
+			keys.Add((ulong)NSKey.Option, Keys.Menu);
+			keys.Add((ulong)NSKey.Command, Keys.LWin);
+
+			keys.Add((ulong)NSKey.KeypadClear, Keys.NumLock);
+			keys.Add((ulong)NSKey.KeypadEquals, Keys.Oemplus);
+			keys.Add((ulong)NSKey.ForwardDelete, Keys.Delete);
+			keys.Add((ulong)NSKey.Backslash, Keys.OemBackslash);
+			keys.Add((ulong)NSKey.Comma, Keys.Oemcomma);
+			keys.Add((ulong)NSKey.Equal, Keys.Oemplus);
+
+			keys.Add((ulong)NSKey.Keypad0, Keys.NumPad0);
+			keys.Add((ulong)NSKey.Keypad1, Keys.NumPad1);
+			keys.Add((ulong)NSKey.Keypad2, Keys.NumPad2);
+			keys.Add((ulong)NSKey.Keypad3, Keys.NumPad3);
+			keys.Add((ulong)NSKey.Keypad4, Keys.NumPad4);
+			keys.Add((ulong)NSKey.Keypad5, Keys.NumPad5);
+			keys.Add((ulong)NSKey.Keypad6, Keys.NumPad6);
+			keys.Add((ulong)NSKey.Keypad7, Keys.NumPad7);
+			keys.Add((ulong)NSKey.Keypad8, Keys.NumPad8);
+			keys.Add((ulong)NSKey.Keypad9, Keys.NumPad9);
+			keys.Add((ulong)NSKey.KeypadDecimal, Keys.Decimal);
+			keys.Add((ulong)NSKey.KeypadEnter, Keys.Enter);
+			keys.Add((ulong)NSKey.KeypadMinus, Keys.Subtract);
+			keys.Add((ulong)NSKey.KeypadMultiply, Keys.Multiply);
+			keys.Add((ulong)NSKey.KeypadPlus, Keys.Add);
+			keys.Add((ulong)NSKey.KeypadDivide, Keys.Divide);
+
+			keys.Add((ulong)NSKey.LeftBracket, Keys.OemOpenBrackets);
+			keys.Add((ulong)NSKey.Minus, Keys.OemMinus);
+			keys.Add((ulong)NSKey.Mute, Keys.VolumeMute);
+			keys.Add((ulong)NSKey.Quote, Keys.OemQuotes);
+			keys.Add((ulong)NSKey.RightBracket, Keys.OemCloseBrackets);
+			keys.Add((ulong)NSKey.RightControl, Keys.RControlKey);
+			keys.Add((ulong)NSKey.RightOption, Keys.Alt);
+			keys.Add((ulong)NSKey.RightShift, Keys.RShiftKey);
+			keys.Add((ulong)NSKey.Semicolon, Keys.OemSemicolon);
+			keys.Add((ulong)NSKey.Slash, Keys.OemQuestion);
+			keys.Add((ulong)NSKey.Period, Keys.OemPeriod);
+			keys.Add((ulong)NSKey.Return, Keys.Enter);
+			keys.Add((ulong)NSKey.Grave, Keys.Oemtilde);
+
+			keys.Add((ulong)NSKeyEx.F1, Keys.F1);
+			keys.Add((ulong)NSKeyEx.F2, Keys.F2);
+			keys.Add((ulong)NSKeyEx.F3, Keys.F3);
+			keys.Add((ulong)NSKeyEx.F4, Keys.F4);
+			keys.Add((ulong)NSKeyEx.F5, Keys.F5);
+			keys.Add((ulong)NSKeyEx.F6, Keys.F6);
+			keys.Add((ulong)NSKeyEx.F7, Keys.F7);
+			keys.Add((ulong)NSKeyEx.F8, Keys.F8);
+			keys.Add((ulong)NSKeyEx.F9, Keys.F9);
+			keys.Add((ulong)NSKeyEx.F10, Keys.F10);
+			keys.Add((ulong)NSKeyEx.F11, Keys.F11);
+			keys.Add((ulong)NSKeyEx.F12, Keys.F12);
+			keys.Add((ulong)NSKeyEx.F13, Keys.F13);
+			keys.Add((ulong)NSKeyEx.F14, Keys.F14);
+			keys.Add((ulong)NSKeyEx.F15, Keys.F15);
+			keys.Add((ulong)NSKeyEx.F16, Keys.F16);
+			keys.Add((ulong)NSKeyEx.F17, Keys.F17);
+			keys.Add((ulong)NSKeyEx.F18, Keys.F18);
+			keys.Add((ulong)NSKeyEx.F19, Keys.F19);
+			keys.Add((ulong)NSKeyEx.F20, Keys.F20);
+
+			keys.Add((ulong)NSKey.D0, Keys.D0);
+			keys.Add((ulong)NSKey.D1, Keys.D1);
+			keys.Add((ulong)NSKey.D2, Keys.D2);
+			keys.Add((ulong)NSKey.D3,Keys.D3);
+			keys.Add((ulong)NSKey.D4,Keys.D4);
+			keys.Add((ulong)NSKey.D5,Keys.D5);
+			keys.Add((ulong)NSKey.D6,Keys.D6);
+			keys.Add((ulong)NSKey.D7,Keys.D7);
+			keys.Add((ulong)NSKey.D8,Keys.D8);
+			keys.Add((ulong)NSKey.D9,Keys.D9);
+
+			keys.Add((ulong)NSKey.A,Keys.A);
+			keys.Add((ulong)NSKey.B,Keys.B);
+			keys.Add((ulong)NSKey.C,Keys.C);
+			keys.Add((ulong)NSKey.D,Keys.D);
+			keys.Add((ulong)NSKey.E,Keys.E);
+			keys.Add((ulong)NSKey.F,Keys.F);
+			keys.Add((ulong)NSKey.G,Keys.G);
+			keys.Add((ulong)NSKey.H,Keys.H);
+			keys.Add((ulong)NSKey.I,Keys.I);
+			keys.Add((ulong)NSKey.J,Keys.J);
+			keys.Add((ulong)NSKey.K,Keys.K);
+			keys.Add((ulong)NSKey.L,Keys.L);
+			keys.Add((ulong)NSKey.M,Keys.M);
+			keys.Add((ulong)NSKey.N,Keys.N);
+			keys.Add((ulong)NSKey.O,Keys.O);
+			keys.Add((ulong)NSKey.P,Keys.P);
+			keys.Add((ulong)NSKey.Q,Keys.Q);
+			keys.Add((ulong)NSKey.R,Keys.R);
+			keys.Add((ulong)NSKey.S,Keys.S);
+			keys.Add((ulong)NSKey.T,Keys.T);
+			keys.Add((ulong)NSKey.U,Keys.U);
+			keys.Add((ulong)NSKey.V,Keys.V);
+			keys.Add((ulong)NSKey.W,Keys.W);
+			keys.Add((ulong)NSKey.X,Keys.X);
+			keys.Add((ulong)NSKey.Y,Keys.Y);
+			keys.Add((ulong)NSKey.Z,Keys.Z);
 		}
 
 		internal static bool IsChar(char c, Keys k)
@@ -95,26 +156,13 @@ namespace System.Windows.Forms.CocoaInternal
 			return c == '\b' || !char.IsControl(c) && !NonChars.ContainsKey(k);
 		}
 
-		public static Keys GetKeys(NSEvent theEvent)
+		public static Keys GetKeys(NSEvent e)
 		{
-			Debug.WriteLine("DeadKeyState = {0:X8}", deadKeyState);
-
-			var nskey = (NSKey)Enum.ToObject(typeof(NSKey), theEvent.KeyCode);
-			if ((theEvent.ModifierFlags & NSEventModifierMask.FunctionKeyMask) > 0)
-			{
-				var chars = theEvent.Characters.ToCharArray();
-				var thekey = chars[0];
-				if (theEvent.KeyCode != (char)NSKey.ForwardDelete)
-					nskey = (NSKey)Enum.ToObject(typeof(NSKey), thekey);
-			}
-
 			Keys key;
-			if (keyNames.TryGetValue(nskey, out key))
+			if (keys.TryGetValue(e.KeyCode, out key))
 				return key;
 
-			if (Enum.TryParse<Keys>(nskey.ToString(), out key))
-				return key;
-
+			//DebugUtility.WriteLine("KeyCode '{0}' not found in keys dictionary", e.KeyCode);
 			return Keys.None;
 		}
 
