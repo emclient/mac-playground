@@ -737,13 +737,35 @@ namespace WinApi
 
 		internal static void SendKey(INPUT input)
 		{
-			NotImplemented(MethodBase.GetCurrentMethod());
+			NSApplication.SharedApplication.InvokeOnMainThread(() =>
+			{
+				var strokes = ToKeyStrokes(input);
+				foreach (var stroke in strokes)
+				{
+					var e = CGEventCreateKeyboardEvent(IntPtr.Zero, stroke.KeyCode, stroke.Down);
+					CGEventPost(CGEventTapLocation.HID, e);
+					CFRelease(e);
+				}
+			});
+		}
+
+		internal class KeyStroke
+		{
+			public ushort KeyCode;
+			public bool Down;
+		}
+			                                                   
+		internal static IEnumerable<KeyStroke> ToKeyStrokes(INPUT input)
+		{
+			return new KeyStroke[] { };
 		}
 
 		internal static void SendHardware(INPUT input)
 		{
 			NotImplemented(MethodBase.GetCurrentMethod());
 		}
+
+		//https://github.com/xamarin/xamarin-macios/blob/master/src/CoreGraphics/CGEvent.cs
 
 		[DllImport(Constants.ApplicationServicesCoreGraphicsLibrary)]
 		internal extern static IntPtr CGEventCreate(IntPtr source);
@@ -753,6 +775,9 @@ namespace WinApi
 
 		[DllImport(Constants.ApplicationServicesCoreGraphicsLibrary)]
 		internal extern static IntPtr CGEventCreateMouseEvent(IntPtr source, CGEventType mouseType, CGPoint mouseCursorPosition, CGMouseButton mouseButton);
+
+		[DllImport(Constants.ApplicationServicesCoreGraphicsLibrary)]
+		internal extern static IntPtr CGEventCreateKeyboardEvent(IntPtr source, ushort virtualKey, bool keyDown);
 
 		[DllImport(Constants.ApplicationServicesCoreGraphicsLibrary)]
 		internal extern static void CGEventPost(CGEventTapLocation location, IntPtr handle);

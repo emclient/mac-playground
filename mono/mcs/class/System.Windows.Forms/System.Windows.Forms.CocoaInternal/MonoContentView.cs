@@ -432,9 +432,12 @@ namespace System.Windows.Forms.CocoaInternal
 				charCode = chars [0];
 			}
 
-			byte keyCode = (byte) e.KeyCode;
+			var keyCode = (ushort)e.KeyCode;
 
 			Keys key = KeysConverter.GetKeys (e);
+			if (key == Keys.None)
+				return;
+
 			IntPtr wParam = (IntPtr) key;
 			ulong lp = 0;
 			lp |= ((ulong)(uint)repeatCount);

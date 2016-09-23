@@ -571,6 +571,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoConte
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoView.Debug.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoView.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoWindow.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/NSKeyEx.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Pasteboard.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Structs.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Swizzle.cs -text

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Windows.Forms;
 using System.Reflection;
+using System.IO;
+using System.Text.RegularExpressions;
 
 #if XAMARINMAC
 using AppKit;
@@ -14,7 +15,7 @@ namespace System.Windows.Forms
 {
 	public static class DebugUtility
 	{
-		public static bool SwitchingConversations = false;
+		public static readonly Regex trimmer = new Regex(@"\s+", RegexOptions.Compiled);
 
 		public static String FieldName(Control ctrl)
 		{
@@ -133,6 +134,42 @@ namespace System.Windows.Forms
 			}
 
 			return null;
+		}
+
+		private static string logPath;
+
+		public static void WriteLine(string format, params object[] args)
+		{
+			WriteLine(String.Format(format, args));
+		}
+
+		public static bool LogToFile = false;
+		public static void WriteLine(string line)
+		{
+			Debug.WriteLine(line);
+
+			// Comment out the line below to see more CefBrowser console output
+			if (!LogToFile)
+				return;
+
+			lock (trimmer)
+			{
+				if (logPath == null)
+				{
+					var path = Path.GetTempFileName();
+					var fname = Path.GetFileName(path);
+
+					int pos = path.Length - fname.Length;
+					logPath = path.Substring(0, pos) + "emclient-" + path.Substring(pos) + ".txt";
+					Debug.WriteLine("DebugUtility - creating log file: \"" + logPath + "\"");
+
+					using (var writer = File.AppendText(logPath))
+						writer.WriteLine("----- " + DateTime.Now.ToString() + " -----");
+				}
+
+				using (var writer = File.AppendText(logPath))
+					writer.WriteLine(line);
+			}
 		}
 	}
 }
