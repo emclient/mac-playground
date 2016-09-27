@@ -23,7 +23,7 @@ namespace GUITest
             ThrowIfNull(button, "Failed locating New button (formMain.stripButton_New)");
 
             //UI.Perform(() => { button.PerformClick(); });
-            UI.Click(button);
+            UI.Mouse.Click(button);
 
             var formSendMail = UI.WaitForForm("formSendMail");
             ThrowIfNull(formSendMail, "Failed opening formSendMail");
@@ -47,7 +47,7 @@ namespace GUITest
 
 			var noButton = UI.FindControl(taskForm, "No");
 			ThrowIfNull(noButton, "'No' button not found.");
-			UI.Click(noButton);
+			UI.Mouse.Click(noButton);
 
 			//UI.Type("{ENTER}"); // Confirms the save dialog and allows closing the e-mail window.
 
