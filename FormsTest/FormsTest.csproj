@@ -156,6 +156,8 @@
     <None Include="Properties\Resources.resx" />
     <None Include="Properties\Settings.settings" />
     <None Include="application.ico" />
+    <None Include="Entitlements.plist" />
+    <None Include="Info.plist" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />

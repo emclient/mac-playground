@@ -57,7 +57,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <Import Project="..\Tools\BuildTasks\Unified.targets" />
+  <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
