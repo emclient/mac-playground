@@ -17,10 +17,10 @@ namespace GUITest
             main = WaitForForm(mainFormType, 60);
         }
 
-        public static void Initialize(string mainFormNameOrType)
-        {
-            main = WaitForForm(mainFormNameOrType);
-        }
+        //public static void Initialize(string mainFormNameOrType)
+        //{
+        //    main = WaitForForm(mainFormNameOrType);
+        //}
 
         public static Form WaitForForm(string nameOrType, double timeout = 3.0, double interval = 0.1)
         {
@@ -35,18 +35,18 @@ namespace GUITest
             return null;
         }
 
-        public static bool WaitForFormClosed(string nameOrType, double timeout = 5.0, double interval = 0.1)
-        {
-            var due = DateTime.Now.AddSeconds(timeout);
-            while (DateTime.Now.CompareTo(due) < 0)
-            {
-                var form = FindForm(nameOrType);
-                if (form == null)
-                    return true;
-                Sleep(interval);
-            }
-            return false;
-        }
+        //public static bool WaitForFormClosed(string nameOrType, double timeout = 5.0, double interval = 0.1)
+        //{
+        //    var due = DateTime.Now.AddSeconds(timeout);
+        //    while (DateTime.Now.CompareTo(due) < 0)
+        //    {
+        //        var form = FindForm(nameOrType);
+        //        if (form == null)
+        //            return true;
+        //        Sleep(interval);
+        //    }
+        //    return false;
+        //}
 
         public static bool WaitForFormClosed(Form form, double timeout = 5.0, double interval = 0.1)
         {
@@ -69,11 +69,11 @@ namespace GUITest
             return false;
         }
 
-        internal static void Type(params string[] args)
-        {
-            foreach (var arg in args)
-                Type(arg);
-        }
+        //internal static void Type(params string[] args)
+        //{
+        //    foreach (var arg in args)
+        //        Type(arg);
+        //}
 
         internal static void Type(string text, double delay = 0.05)
         {
@@ -158,33 +158,33 @@ namespace GUITest
             return null;
         }
 
-        public static Control GetControl(string path, int maxLevel = int.MaxValue)
-        {
-            var parts = path.Split('.');
+        //public static Control GetControl(string path, int maxLevel = int.MaxValue)
+        //{
+        //    var parts = path.Split('.');
 
-            if (parts.Length == 0)
-                return null;
+        //    if (parts.Length == 0)
+        //        return null;
 
-            var form = FindForm(parts[0]);
-            ThrowIfNull(form, "Form not found: " + parts[0]);
+        //    var form = FindForm(parts[0]);
+        //    ThrowIfNull(form, "Form not found: " + parts[0]);
 
-            if (parts.Length == 1)
-                return form;
+        //    if (parts.Length == 1)
+        //        return form;
 
-            Control parent = form;
-            Control member = null;
-            for (int i = 1; i < parts.Length; ++i)
-            {
-                member = FindControl(parent, parts[i]);
-                if (member == null)
-                    return null;
+        //    Control parent = form;
+        //    Control member = null;
+        //    for (int i = 1; i < parts.Length; ++i)
+        //    {
+        //        member = FindControl(parent, parts[i]);
+        //        if (member == null)
+        //            return null;
 
-                parent = member;
-            }
+        //        parent = member;
+        //    }
 
-            ThrowIfNull(member, String.Format("Member {0} not found", path));
-            return member;
-        }
+        //    ThrowIfNull(member, String.Format("Member {0} not found", path));
+        //    return member;
+        //}
 
         public static T GetMember<T>(string path, Type type, int maxLevel = int.MaxValue) where T : class
         {
@@ -219,7 +219,17 @@ namespace GUITest
             return member;
         }
 
-        internal static void Close()
+		public static T TryGetControl<T>(string name, int maxLevel = 1) where T : class
+		{
+			T control = Perform(() =>
+			{
+				return UI.GetMember<T>(name, null);
+			});
+			ThrowIfNull(control, String.Format("Failed locating control: {0}", control));
+			return control;
+		}
+
+		internal static void Close()
         {
             Perform(() => { if (main != null) main.Close(); });
         }
@@ -355,108 +365,105 @@ namespace GUITest
             Win32.SendInput(1, new INPUT[] { input }, INPUT.Size);
         }
 
-        internal static void Mouse(MOUSEEVENTF flags)
-        {
-            var input = new INPUT { type = InputType.MOUSE };
-            input.U.mi.dx = input.U.mi.dy = input.U.mi.mouseData = 0;
-            input.U.mi.dwFlags = flags;
-            Win32.SendInput(1, new INPUT[] { input }, INPUT.Size);
-        }
-
-        public static void Click(Control control, double delay = 0.2)
-        {
-            MouseTo(control);
-            Mouse(MOUSEEVENTF.LEFTDOWN);
-            Sleep(delay);
-            MouseTo(control);
-            Mouse(MOUSEEVENTF.LEFTUP);
-            Sleep(delay);
-        }
-
-        public static void RightClick(Control control, double delay = 0.2)
-        {
-            MouseTo(control);
-            Mouse(MOUSEEVENTF.RIGHTDOWN);
-            Sleep(delay);
-            MouseTo(control);
-            Mouse(MOUSEEVENTF.RIGHTUP);
-            Sleep(delay);
-        }
-
-        public static void MouseTo(Control control)
-        {
-            var dt = 0.02;
-            var form = (Form)null; //  new Form(); // For debugging
-            var step = new Point(0, 0);
-
-            while (true)
-            {
-                var r = Rectangle.Empty;
-				Perform(() => { r = (control.Parent ?? control).RectangleToScreen(control.Bounds); });
-                var c = new Point((r.Left + r.Right) / 2, (r.Top + r.Bottom) / 2);
-                r = new Rectangle(c.X - 1, c.Y - 1, 2, 2);
-
-                Point p;
-                Win32.GetCursorPos(out p);
-                if (r.Contains(p))
-                    break;
-
-                var d = new Point(c.X - p.X, c.Y - p.Y);
-                double l = Math.Sqrt(d.X * d.X + d.Y * d.Y);
-
-				if (Math.Abs(l) > 1)
-                {
-                    var speed = SpeedFromDistance(l); // Faster when far away, slower when approaching the destination.
-                    var pixelsPerInterval = speed * dt;
-                    step.X = (int)(pixelsPerInterval * (d.X / l));
-                    step.Y = (int)(pixelsPerInterval * (d.Y / l));
-                }
-                if (step.IsEmpty)
-                    break;
-
-                var input = new INPUT { type = InputType.MOUSE };
-                input.U.mi.dx = step.X;
-                input.U.mi.dy = step.Y;
-                input.U.mi.dwFlags = MOUSEEVENTF.MOVE;
-                input.U.mi.mouseData = 0;
-
-                if (form != null)
-                {
-                    form.SetDesktopLocation(p.X + 1, p.Y + 1);
-                    if (!form.Visible)
-                        form.Show();
-                }
-
-                Win32.SendInput(1, new INPUT[] { input }, INPUT.Size);
-                Sleep(dt);
-            }
-
-            if (form != null)
-                form.Close();
-
-            Sleep(dt);
-        }
-
-        static readonly double[] speeds = {
-            2000, 4000,
-            1000, 3000,
-            100, 2000,
-            10, 500,
-			4, 50
-        };
-
-        private static double SpeedFromDistance(double l)
-        {
-            // TODO: Make it independent on the DPI, so that it works the same way on every monitor.
-            for (int i = 0; i < speeds.Length; i += 2)
-                if (l > speeds[i])
-                    return speeds[1 + i];
-            return speeds[speeds.Length - 1];
-        }
-
         private static void Sleep(double interval)
         {
             Thread.Sleep((int)(1000 * interval));
         }
-    }
+
+		public static class Mouse
+		{
+			public static void Click(Control control, double delay = 0.2)
+			{
+				MoveTo(control);
+				SendInput(MOUSEEVENTF.LEFTDOWN);
+				Sleep(delay);
+				MoveTo(control);
+				SendInput(MOUSEEVENTF.LEFTUP);
+				Sleep(delay);
+			}
+
+			public static void RightClick(Control control, double delay = 0.2)
+			{
+				MoveTo(control);
+				SendInput(MOUSEEVENTF.RIGHTDOWN);
+				Sleep(delay);
+				MoveTo(control);
+				SendInput(MOUSEEVENTF.RIGHTUP);
+				Sleep(delay);
+			}
+
+			private static void SendInput(MOUSEEVENTF flags)
+			{
+				var input = new INPUT { type = InputType.MOUSE };
+				input.U.mi.dx = input.U.mi.dy = input.U.mi.mouseData = 0;
+				input.U.mi.dwFlags = flags;
+				Win32.SendInput(1, new INPUT[] { input }, INPUT.Size);
+			}
+
+			private static void MoveTo(Control control)
+			{
+				var dt = 0.02;
+				var form = (Form)null; //  new Form(); // For debugging
+				var step = new Point(0, 0);
+
+				while (true)
+				{
+					var r = Rectangle.Empty;
+					Perform(() => { r = (control.Parent ?? control).RectangleToScreen(control.Bounds); });
+					var c = new Point((r.Left + r.Right) / 2, (r.Top + r.Bottom) / 2);
+					r = new Rectangle(c.X - 1, c.Y - 1, 2, 2);
+
+					Point p;
+					Win32.GetCursorPos(out p);
+					if (r.Contains(p))
+						break;
+
+					var d = new Point(c.X - p.X, c.Y - p.Y);
+					double l = Math.Sqrt(d.X * d.X + d.Y * d.Y);
+
+					if (Math.Abs(l) > 1)
+					{
+						var speed = SpeedFromDistance(l); // Faster when far away, slower when approaching the destination.
+						var pixelsPerInterval = speed * dt;
+						step.X = (int)(pixelsPerInterval * (d.X / l));
+						step.Y = (int)(pixelsPerInterval * (d.Y / l));
+					}
+					if (step.IsEmpty)
+						break;
+
+					var input = new INPUT { type = InputType.MOUSE };
+					input.U.mi.dx = step.X;
+					input.U.mi.dy = step.Y;
+					input.U.mi.dwFlags = MOUSEEVENTF.MOVE;
+					input.U.mi.mouseData = 0;
+
+					if (form != null)
+					{
+						form.SetDesktopLocation(p.X + 1, p.Y + 1);
+						if (!form.Visible)
+							form.Show();
+					}
+
+					Win32.SendInput(1, new INPUT[] { input }, INPUT.Size);
+					Sleep(dt);
+				}
+
+				if (form != null)
+					form.Close();
+
+				Sleep(dt);
+			}
+
+			private static readonly double[] speeds = { 2000, 4000, 1000, 3000, 100, 2000, 10, 500, 4, 50};
+
+			private static double SpeedFromDistance(double l)
+			{
+				// TODO: Make it independent on the DPI, so that it works the same way on every monitor.
+				for (int i = 0; i < speeds.Length; i += 2)
+					if (l > speeds[i])
+						return speeds[1 + i];
+				return speeds[speeds.Length - 1];
+			}
+		}
+	}
 }
