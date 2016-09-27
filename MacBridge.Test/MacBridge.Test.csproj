@@ -61,7 +61,7 @@
     <Compile Include="LaunchServicesTest.cs" />
     <Compile Include="TLSTest.cs" />
   </ItemGroup>
-  <Import Project="..\Tools\BuildTasks\Unified.targets" />
+  <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
