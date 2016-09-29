@@ -53,15 +53,13 @@ namespace System.Drawing.Drawing2D
 		float angle = 0;
 		bool angleIsScalable = false;
 
-		LinearGradientMode mode = LinearGradientMode.Horizontal;
-
 		// Everything I have read on the internet shows Microsoft 
 		// using a 2.2 gamma correction for colors.
 		// for instance: http://msdn.microsoft.com/en-gb/library/windows/desktop/hh972627(v=vs.85).aspx
 		float gamma = 1.0f / 2.2f;
 
 		// Shading
-		float[][] shadingColors;
+		nfloat[,] shadingColors;
 
 		// When stroking with a gradient we have to use Transparency Layers.
 		bool hasTransparencyLayer = false;
@@ -124,7 +122,6 @@ namespace System.Drawing.Drawing2D
 		public LinearGradientBrush(RectangleF rect, Color color1, Color color2, LinearGradientMode linearGradientMode)
 			: this(rect, color1, color2, linearGradientMode.ToAngle(), true)
 		{
-			mode = linearGradientMode;
 		}
 		
 		public LinearGradientBrush(RectangleF rect, Color color1, Color color2, float angle) 
@@ -424,8 +421,8 @@ namespace System.Drawing.Drawing2D
 //				                  prevPosition, dist, normalized, i, t);
 				for(ushort ctr = 0; ctr < 4; ctr++) {
 					
-					outData[ctr] = GeomUtilities.Lerp(shadingColors[0][ctr], 
-					                    shadingColors[1][ctr],
+					outData[ctr] = GeomUtilities.Lerp(shadingColors[0,ctr], 
+					                    shadingColors[1,ctr],
 					                    normalized);
 				}
 			} 
@@ -446,8 +443,8 @@ namespace System.Drawing.Drawing2D
 
 				for(ushort ctr = 0; ctr < 4; ctr++) {
 
-					outData[ctr] = GeomUtilities.Lerp(shadingColors[i-1][ctr], 
-					                    shadingColors[i][ctr],
+					outData[ctr] = GeomUtilities.Lerp(shadingColors[i-1,ctr], 
+					                    shadingColors[i,ctr],
 					                    normalized);
 				}
 			}
@@ -489,7 +486,7 @@ namespace System.Drawing.Drawing2D
 		{
 			int size = colorBlend.Positions.Length;
 			
-			shadingColors = new float[size][];
+			shadingColors = new nfloat[size,4];
 			positions = colorBlend.Positions;
 
 			float[] cgColor;
@@ -497,15 +494,11 @@ namespace System.Drawing.Drawing2D
 			{
 				cgColor = colorBlend.Colors[s].ElementsCGRGBA();
 				//Console.WriteLine("shadingIndex {0} position {1} factor {2}",s, positions[s], factor);
-				shadingColors[s] = new float[4];
-
 				for (int c = 0; c < 4; c++)
 				{
-					shadingColors[s][c] = cgColor[c];
+					shadingColors[s,c] = cgColor[c];
 				}
 			}
-			
-			
 		}
 
 		void setColorsUsingBlend() 
@@ -514,7 +507,7 @@ namespace System.Drawing.Drawing2D
 			
 			if (size == 1) 
 			{
-				shadingColors = new float[2][];
+				shadingColors = new nfloat[2,4];
 				factors = new float[2];
 				positions = new float[2];
 				
@@ -549,7 +542,7 @@ namespace System.Drawing.Drawing2D
 			}
 			else 
 			{
-				shadingColors = new float[size][];
+				shadingColors = new nfloat[size,4];
 				factors = blend.Factors;
 				positions = blend.Positions;
 			}
@@ -560,13 +553,12 @@ namespace System.Drawing.Drawing2D
 			float factor = 0;
 			for (int s = 0; s < positions.Length; s++)
 			{
-				shadingColors[s] = new float[4];
 				factor = factors[s];
 				//Console.WriteLine("shadingIndex {0} position {1} factor {2}",s, positions[s], factor);
 				
 				for (int c = 0; c < 4; c++)
 				{
-					shadingColors[s][c] = GeomUtilities.Lerp (sc[c], ec[c], factor);
+					shadingColors[s,c] = GeomUtilities.Lerp (sc[c], ec[c], factor);
 				}
 			}
 		}

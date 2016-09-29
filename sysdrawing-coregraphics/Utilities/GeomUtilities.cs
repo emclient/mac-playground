@@ -106,7 +106,7 @@ namespace System.Drawing
 		/*
 		 * Linear Interpoloation helper function
 		 */
-		internal static float Lerp (float value1, float value2, float amount)
+		internal static nfloat Lerp (nfloat value1, nfloat value2, nfloat amount)
 		{
 			return value1 + (value2 - value1) * amount;
 		}
