@@ -65,7 +65,7 @@ namespace System.Drawing
 				((traits & NSFontSymbolicTraits.ItalicTrait) == NSFontSymbolicTraits.ItalicTrait ? FontStyle.Italic : 0);
 			gdiVerticalFont = false;
 			gdiCharSet = DefaultCharSet;
-			sizeInPoints = font.PointSize / dpiScale;
+			sizeInPoints = (float)font.PointSize / dpiScale;
 			size = sizeInPoints;
 			unit = GraphicsUnit.Point;
 
