@@ -3,34 +3,15 @@ using System;
 #if XAMARINMAC
 using AppKit;
 #elif MONOMAC
-using MonoMac.CoreGraphics;
 using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.CoreText;
 #else
-using MonoTouch.CoreGraphics;
 using MonoTouch.UIKit;
-using MonoTouch.Foundation;
-using MonoTouch.CoreText;
 #endif
 
 namespace System.Drawing {
 
 	public sealed class SystemFonts {
-		static readonly string messageFontFamily;
-		static readonly string systemFontFamily;
-		static readonly string menuFontFamily;
-		static readonly string labelFontFamily;
-
 		static SystemFonts ()
-		{
-			messageFontFamily = NSFont.MessageFontOfSize (NSFont.SystemFontSize).FamilyName;
-			systemFontFamily = "Helvetica Neue"; //NSFont.SystemFontOfSize (NSFont.SystemFontSize).FamilyName;
-			menuFontFamily = NSFont.MenuFontOfSize (NSFont.SystemFontSize).FamilyName;
-			labelFontFamily = NSFont.LabelFontOfSize (NSFont.LabelFontSize).FamilyName;
-		}
-
-		private SystemFonts()
 		{
 		}
 
@@ -64,35 +45,35 @@ namespace System.Drawing {
 		}
 
 		public static Font CaptionFont { 
-			get { return new Font (systemFontFamily, (float)NSFont.SmallSystemFontSize, "CaptionFont"); }
+			get { return new Font (NSFont.TitleBarFontOfSize(NSFont.SystemFontSize)); }
 		}
 
 		public static Font DefaultFont  { 
-			get { return new Font (systemFontFamily, 9f, "DefaultFont"); }
+			get { return new Font (NSFont.LabelFontOfSize(NSFont.LabelFontSize)); }
 		}
 
 		public static Font DialogFont  { 
-			get { return new Font (labelFontFamily, (float)NSFont.LabelFontSize, "DialogFont"); }
+			get { return new Font (NSFont.LabelFontOfSize(NSFont.LabelFontSize)); }
 		}
 
 		public static Font IconTitleFont  { 
-			get { return new Font (systemFontFamily, (float)NSFont.SmallSystemFontSize, "IconTitleFont"); }
+			get { return new Font (NSFont.LabelFontOfSize(NSFont.LabelFontSize)); }
 		}
 
 		public static Font MenuFont  { 
-			get { return new Font (menuFontFamily, (float)NSFont.SmallSystemFontSize, "MenuFont"); }
+			get { return new Font (NSFont.MenuFontOfSize(NSFont.SystemFontSize)); }
 		}
 
 		public static Font MessageBoxFont  { 
-			get { return new Font (messageFontFamily, 9f, "MessageBoxFont"); }
+			get { return new Font (NSFont.SystemFontOfSize(NSFont.SmallSystemFontSize)); }
 		}
 
 		public static Font SmallCaptionFont  { 
-			get { return new Font (systemFontFamily, (float)NSFont.SmallSystemFontSize, "SmallCaptionFont"); }
+			get { return new Font (NSFont.TitleBarFontOfSize(NSFont.SmallSystemFontSize)); }
 		}
 
 		public static Font StatusFont  { 
-			get { return new Font (systemFontFamily, (float)NSFont.SmallSystemFontSize, "StatusFont"); }
-		}	      
+			get { return new Font (NSFont.LabelFontOfSize(NSFont.LabelFontSize)); }
+		}
 	}
 }

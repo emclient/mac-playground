@@ -30,12 +30,15 @@ using System;
 #if XAMARINMAC
 using CoreGraphics;
 using CoreText;
+using AppKit;
 #elif MONOMAC
 using MonoMac.CoreGraphics;
 using MonoMac.CoreText;
+using MonoMac.AppKit;
 #else
 using MonoTouch.CoreGraphics;
 using MonoTouch.CoreText;
+using MonoTouch.UIKit;
 #endif
 
 #if MAC64
@@ -52,6 +55,28 @@ namespace System.Drawing
 		bool bold = false;
 		bool italic = false;
 
+		internal Font(NSFont font)
+		{
+			var traits = font.FontDescriptor.SymbolicTraits;
+
+			fontFamily = new FontFamily(font.FamilyName, true);
+			fontStyle =
+				((traits & NSFontSymbolicTraits.BoldTrait) == NSFontSymbolicTraits.BoldTrait ? FontStyle.Bold : 0) |
+				((traits & NSFontSymbolicTraits.ItalicTrait) == NSFontSymbolicTraits.ItalicTrait ? FontStyle.Italic : 0);
+			gdiVerticalFont = false;
+			gdiCharSet = DefaultCharSet;
+			sizeInPoints = font.PointSize / dpiScale;
+			size = sizeInPoints;
+			unit = GraphicsUnit.Point;
+
+			// CTFont and NSFont are toll-free bridged
+			this.nativeFont = (CTFont)Activator.CreateInstance(
+				typeof(CTFont),
+				Reflection.BindingFlags.NonPublic | Reflection.BindingFlags.Instance,
+				null,
+				new object[] { font.Handle },
+				null);
+		}
 
 		private void CreateNativeFont (FontFamily familyName, float emSize, FontStyle style,
 			GraphicsUnit unit, byte gdiCharSet, bool  gdiVerticalFont )
