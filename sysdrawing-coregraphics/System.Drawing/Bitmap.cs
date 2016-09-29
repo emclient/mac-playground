@@ -881,13 +881,13 @@ namespace System.Drawing {
 			UnlockBits(bmpData);
 		}
 
-		public void Save(string path, ImageCodecInfo encoder, EncoderParameters parameters)
+		public new void Save(string path, ImageCodecInfo encoder, EncoderParameters parameters)
 		{
 			// Workaround
 			Save(path, encoder.Format);
 		}
 
-		public void Save (string path, ImageFormat format)
+		public new void Save (string path, ImageFormat format)
 		{
 			if (path == null)
 				throw new ArgumentNullException ("path");
@@ -1004,7 +1004,11 @@ namespace System.Drawing {
 
 			using (var imageData = new NSMutableData())
 			{
+				#if XAMARINMAC
+				using (var dest = CGImageDestination.Create(imageData, typeIdentifier, frameCount))
+				#else
 				using (var dest = CGImageDestination.FromData(imageData, typeIdentifier, frameCount))
+				#endif
 				{
 					dest.AddImage(NativeCGImage, (NSDictionary)null);
 					dest.Close();
