@@ -402,7 +402,7 @@ namespace System.Drawing.Drawing2D
 
 			nfloat prevPosition = 0;
 			nfloat dist = 0;
-			float normalized = 0;
+			nfloat normalized = 0;
 
 			if (i == 0 || i == numPositions) {
 				if (i == numPositions)
@@ -419,7 +419,7 @@ namespace System.Drawing.Drawing2D
 				// Get the distance between current position and last position
 				dist = factors[i] - prevPosition;
 				// normalized value between the two shading colors
-				normalized = (float)((lerpDist - prevPosition)/dist);
+				normalized = (nfloat)((lerpDist - prevPosition)/dist);
 //				Console.WriteLine("prev {0} dist {1} normal {2} i {3} t {4}", 
 //				                  prevPosition, dist, normalized, i, t);
 				for(ushort ctr = 0; ctr < 4; ctr++) {
@@ -442,7 +442,7 @@ namespace System.Drawing.Drawing2D
 				// Get the distance between current position and last position
 				dist = positions[i] - prevPosition;
 				// normalized value between the two shading colors
-				normalized = (float)((lerpDist - prevPosition)/dist);
+				normalized = (nfloat)((lerpDist - prevPosition)/dist);
 
 				for(ushort ctr = 0; ctr < 4; ctr++) {
 
@@ -460,7 +460,7 @@ namespace System.Drawing.Drawing2D
 				// it is really never mentioned that alpha is included.
 				for(ushort ctr = 0; ctr < 3; ctr++) {
 					
-					outData[ctr] = (float)Math.Pow(outData[ctr], gamma);
+					outData[ctr] = (nfloat)Math.Pow(outData[ctr], gamma);
 				}
 
 			}
