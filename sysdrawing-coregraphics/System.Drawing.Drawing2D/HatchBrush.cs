@@ -1211,6 +1211,7 @@ namespace System.Drawing.Drawing2D
 			//choose the pattern to be filled based on the currentPattern selected
 			var patternSpace = CGColorSpace.CreatePattern(null);
 			graphics.context.SetFillColorSpace(patternSpace);
+			graphics.context.SetStrokeColorSpace(patternSpace);
 			patternSpace.Dispose();
 
 			// Pattern default work variables
@@ -1358,6 +1359,7 @@ namespace System.Drawing.Drawing2D
 			                        true, drawPattern);
 			//we dont need to set any color, as the pattern cell itself has chosen its own color
 			graphics.context.SetFillPattern(pattern, new nfloat[] { 1 });
+			graphics.context.SetStrokePattern(pattern, new nfloat[] { 1 });
 
 
 			graphics.LastBrush = this;
