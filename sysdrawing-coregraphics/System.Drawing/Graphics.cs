@@ -1145,7 +1145,7 @@ namespace System.Drawing {
 		
 		public GraphicsContainer BeginContainer ()
 		{
-			throw new NotImplementedException ();		
+			throw new NotImplementedException ();
 		}
 		
 		public GraphicsContainer BeginContainer (Rectangle dstRect, Rectangle srcRect, GraphicsUnit unit)
@@ -1161,8 +1161,7 @@ namespace System.Drawing {
 		public void EndContainer (GraphicsContainer container)
 		{
 			throw new NotImplementedException ();
-		}
-		
+		}	
 
 		// CGContext Anti-Alias:
 		// A Boolean value that specifies whether anti-aliasing should be turned on. 
@@ -1177,6 +1176,7 @@ namespace System.Drawing {
 			{
 				// Quartz performs antialiasing for a graphics context if both the allowsAntialiasing parameter 
 				// and the graphics state parameter shouldAntialias are true.
+				smoothingMode = value;
 				switch (value) 
 				{
 				case SmoothingMode.AntiAlias:
