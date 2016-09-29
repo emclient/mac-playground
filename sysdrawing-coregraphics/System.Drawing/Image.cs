@@ -266,31 +266,9 @@ namespace System.Drawing {
 
 		public void Save(Stream stream, ImageFormat format)
 		{
-			// FIXME - can we do it on background thread?
-			if (NSThread.IsMain)
-				SaveImpl(stream, format);
-			else 
-				NSApplication.SharedApplication.InvokeOnMainThread(() => { SaveImpl(stream, format); });
-		}
-
-		private void SaveImpl(Stream stream, ImageFormat format)
-		{
-			if (format == ImageFormat.Png)
-			{
-				var rep = new NSBitmapImageRep(NativeCGImage);
-				var data = rep.RepresentationUsingTypeProperties(NSBitmapImageFileType.Png, new NSDictionary());
-				var buffer = new byte[0x10000];
-				using (var s = data.AsStream())
-				{
-					int bytes;
-					while ((bytes = s.Read(buffer, 0, buffer.Length)) > 0)
-						stream.Write(buffer, 0, bytes);
-				}
-			}
-			else 
-			{
-				Diagnostics.Debug.WriteLine("Image.Save(): Unsupported format: " + format.ToString());
-			}
+			var b = this as Bitmap ?? new Bitmap(this);
+			if (b != null)
+				b.Save(stream, format);
 		}
 
 		public void Save(string path, ImageCodecInfo encoder, EncoderParameters parameters)
