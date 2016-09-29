@@ -218,6 +218,41 @@ namespace System.Drawing {
 		{
 			// note: Mono's SWF Theme class will call the static Update method to apply
 			// correct system colors outside Windows
+
+			// KnownColor.ActiveBorder
+			// KnownColor.ActiveCaption
+			// KnownColor.ActiveCaptionText
+			// KnownColor.AppWorkspace
+			ArgbValues[(int)KnownColor.Control] = (uint)Color.FromNSColor(NSColor.Control).ToArgb();
+			ArgbValues[(int)KnownColor.ControlText] = (uint)Color.FromNSColor(NSColor.ControlText).ToArgb();
+			ArgbValues[(int)KnownColor.ControlDark] = (uint)Color.FromNSColor(NSColor.ControlShadow).ToArgb();
+			ArgbValues[(int)KnownColor.ControlDarkDark] = (uint)Color.FromNSColor(NSColor.ControlDarkShadow).ToArgb();
+			ArgbValues[(int)KnownColor.ControlLight] = (uint)Color.FromNSColor(NSColor.ControlHighlight).ToArgb();
+			ArgbValues[(int)KnownColor.ControlLightLight] = (uint)Color.FromNSColor(NSColor.ControlLightHighlight).ToArgb();
+			// KnownColor.Desktop
+			ArgbValues[(int)KnownColor.GrayText] = (uint)Color.FromNSColor(NSColor.DisabledControlText).ToArgb();
+			//ArgbValues[(int)KnownColor.Highlight] = (uint)Color.FromNSColor(NSColor.Highlight).ToArgb();
+			// KnownColor.Highlight
+			// KnownColor.HighlightText
+			// KnownColor.HotTrack
+			// KnownColor.InactiveBorder
+			// KnownColor.InactiveCaption
+			// KnownColor.InactiveCaptionText
+			// KnownColor.Info
+			// KnownColor.InfoText
+			// KnownColor.Menu
+			// KnownColor.MenuText
+			ArgbValues[(int)KnownColor.ScrollBar] = (uint)Color.FromNSColor(NSColor.ScrollBar).ToArgb();
+			//ArgbValues[(int)KnownColor.Window] = (uint)Color.FromNSColor(NSColor.WindowBackground).ToArgb();
+			//ArgbValues[(int)KnownColor.WindowFrame] = (uint)Color.FromNSColor(NSColor.WindowFrame).ToArgb();
+			//ArgbValues[(int)KnownColor.WindowText] = (uint)Color.FromNSColor(NSColor.WindowFrameText).ToArgb();
+			ArgbValues[(int)KnownColor.ButtonFace] = (uint)Color.FromNSColor(NSColor.Control).ToArgb();
+			ArgbValues[(int)KnownColor.ButtonHighlight] = (uint)Color.FromNSColor(NSColor.ControlHighlight).ToArgb();
+			ArgbValues[(int)KnownColor.ButtonShadow] = (uint)Color.FromNSColor(NSColor.ControlShadow).ToArgb();
+			// KnownColor.GradientActiveCaption
+			// KnownColor.GradientInactiveCaption
+			// KnownColor.MenuBar
+			// KnownColor.MenuHighlight
 		}
 
 		public static Color FromKnownColor (KnownColor kc)
