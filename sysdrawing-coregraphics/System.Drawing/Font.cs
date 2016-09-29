@@ -147,9 +147,7 @@ namespace System.Drawing
 
 		public IntPtr ToHfont()
 		{
-			// TODO
-			return IntPtr.Zero;
-			//throw new NotImplementedException ();
+			return nativeFont != null ? nativeFont.Handle : IntPtr.Zero;
 		}
 
 		public static Font FromHfont(IntPtr hfont)
