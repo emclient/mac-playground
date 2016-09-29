@@ -117,14 +117,10 @@ namespace System.Windows.Forms.Theming.Default
 			g.DrawLine (pen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
 			g.DrawLine (pen, rect.X, rect.Bottom - 1, rect.Right - 1, rect.Bottom - 1);
 
-			// oh boy, matching ms is like fighting against windmills
-			using (Pen h_pen = new Pen (ResPool.GetHatchBrush (HatchStyle.Percent50,
-									   Color.FromArgb (Clamp (ColorControl.R + 3, 0, 255),
-											   ColorControl.G, ColorControl.B), ColorControl))) {
-				g.DrawLine (h_pen, rect.X + 1, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 2);
-				g.DrawLine (h_pen, rect.Right - 2, rect.Y + 1, rect.Right - 2, rect.Bottom - 2);
-			}
-			
+			pen = SystemPens.Control;
+			g.DrawLine (pen, rect.X + 1, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 2);
+			g.DrawLine (pen, rect.Right - 2, rect.Y + 1, rect.Right - 2, rect.Bottom - 2);
+
 			if (state == CheckState.Checked)
 				DrawCheck (g, bounds, Color.Black);
 			else if (state == CheckState.Indeterminate)
