@@ -6906,8 +6906,8 @@ namespace System.Windows.Forms
 			// make a rectange to trace around border of the button
 			Rectangle trace_rectangle = new Rectangle(rectangle.X, rectangle.Y, Math.Max (rectangle.Width-1, 0), Math.Max (rectangle.Height-1, 0));
 			
-#if NotUntilCairoIsFixed
-			Color colorBackInverted = Color.FromArgb (Math.Abs (backColor.R-255), Math.Abs (backColor.G-255), Math.Abs (backColor.B-255));
+//#if NotUntilCairoIsFixed
+			Color colorBackInverted = Color.FromArgb (255 - backColor.R, 255 - backColor.G, 255 - backColor.B);
 			DashStyle oldStyle; // used for caching old penstyle
 			Pen pen = ResPool.GetPen (colorBackInverted);
 
@@ -6916,9 +6916,9 @@ namespace System.Windows.Forms
 
 			graphics.DrawRectangle (pen, trace_rectangle);
 			pen.DashStyle = oldStyle;
-#else
-			CPDrawFocusRectangle(graphics, trace_rectangle, Color.Wheat, backColor);
-#endif
+//#else
+//			CPDrawFocusRectangle(graphics, trace_rectangle, Color.Wheat, backColor);
+//#endif
 		}
 				
 
@@ -6933,11 +6933,12 @@ namespace System.Windows.Forms
 				backColor = Color.Black;
 				
 			} else {
-				backColor = Color.FromArgb (Math.Abs (backColor.R-255), Math.Abs (backColor.G-255), Math.Abs (backColor.B-255));
+				backColor = Color.FromArgb (255 - backColor.R, 255 - backColor.G, 255 - backColor.B);
 				foreColor = Color.Black;
 			}
-						
-			brush = ResPool.GetHatchBrush (HatchStyle.Percent50, backColor, foreColor);
+
+			// FIXME: The focus rectangle should always fill the corner
+			brush = ResPool.GetHatchBrush (HatchStyle.Percent50, foreColor, backColor);
 			pen = new Pen (brush, 1);
 						
 			rect.Width--;
