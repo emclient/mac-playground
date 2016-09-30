@@ -403,22 +403,21 @@ namespace GUITest
 			private static void MoveTo(Control control)
 			{
 				var dt = 0.02;
-				var form = (Form)null; //  new Form(); // For debugging
 				var step = new Point(0, 0);
 
 				while (true)
 				{
-					var r = Rectangle.Empty;
-					Perform(() => { r = (control.Parent ?? control).RectangleToScreen(control.Bounds); });
-					var c = new Point((r.Left + r.Right) / 2, (r.Top + r.Bottom) / 2);
-					r = new Rectangle(c.X - 1, c.Y - 1, 2, 2);
+					var rectangle = Rectangle.Empty;
+					Perform(() => { rectangle = (control.Parent ?? control).RectangleToScreen(control.Bounds); });
+					var center = new Point((rectangle.Left + rectangle.Right) / 2, (rectangle.Top + rectangle.Bottom) / 2);
+					rectangle = new Rectangle(center.X - 1, center.Y - 1, 2, 2);
 
 					Point p;
 					Win32.GetCursorPos(out p);
-					if (r.Contains(p))
+					if (rectangle.Contains(p))
 						break;
 
-					var d = new Point(c.X - p.X, c.Y - p.Y);
+					var d = new Point(center.X - p.X, center.Y - p.Y);
 					double l = Math.Sqrt(d.X * d.X + d.Y * d.Y);
 
 					if (Math.Abs(l) > 1)
@@ -437,19 +436,9 @@ namespace GUITest
 					input.U.mi.dwFlags = MOUSEEVENTF.MOVE;
 					input.U.mi.mouseData = 0;
 
-					if (form != null)
-					{
-						form.SetDesktopLocation(p.X + 1, p.Y + 1);
-						if (!form.Visible)
-							form.Show();
-					}
-
 					Win32.SendInput(1, new INPUT[] { input }, INPUT.Size);
 					Sleep(dt);
 				}
-
-				if (form != null)
-					form.Close();
 
 				Sleep(dt);
 			}
