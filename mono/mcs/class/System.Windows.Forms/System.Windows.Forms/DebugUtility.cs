@@ -76,14 +76,7 @@ namespace System.Windows.Forms
 
 		public static NSView ClientViewFromControl(Control control)
 		{
-			Hwnd hwnd = Hwnd.ObjectFromHandle(control.Handle);
-			return (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
-		}
-
-		public static NSView WholeViewFromControl(Control control)
-		{
-			Hwnd hwnd = Hwnd.ObjectFromHandle(control.Handle);
-			return (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			return (NSView)ObjCRuntime.Runtime.GetNSObject(control.Handle);
 		}
 
 		public static string GetFieldInfo(Control control, string indent = "  ", string newLine = null)
