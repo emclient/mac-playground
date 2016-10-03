@@ -135,10 +135,10 @@ namespace System.Windows.Forms {
 		internal static GrabStruct Grab;
 		internal static Stack<GrabStruct> GrabStack = new Stack<GrabStruct>();
 		internal static Cocoa.Caret Caret;
-		private static Hashtable WindowMapping;
 		internal static ArrayList UtilityWindows;
 		internal static readonly Stack<IntPtr> ModalSessions = new Stack<IntPtr>();
 		internal float screenHeight;
+		private NSAutoreleasePool autoreleasePool;
 
 		// Message loop
 		private static bool GetMessageResult;
@@ -172,7 +172,6 @@ namespace System.Windows.Forms {
 					NSApplication.Init ();
 					try { NSApplication.InitDrawingBridge (); }
 					catch (NullReferenceException) { }
-					//NSApplication.SharedApplication.FinishLaunching ();
 
 					Instance = new XplatUICocoa ();
 				}
@@ -189,12 +188,6 @@ namespace System.Windows.Forms {
 #endregion
 
 #region Internal methods
-
-		internal IntPtr HandleToWindow (IntPtr handle) {
-			if (WindowMapping [handle] != null)
-				return (IntPtr) WindowMapping [handle];
-			return IntPtr.Zero;
-		}
 
 		internal void Initialize ()
 		{
@@ -222,7 +215,6 @@ namespace System.Windows.Forms {
 			Caret.Timer.Tick += new EventHandler (CaretCallback);
 
 			// Initialize the Cocoa Specific stuff
-			WindowMapping = new Hashtable ();
 			UtilityWindows = new ArrayList ();
 
 			// Transform to foreground process
@@ -415,12 +407,12 @@ namespace System.Windows.Forms {
 				return;
 
 			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.Handle);
+			NSWindow winWrap = vuWrap.Window;
 			NSRect nsrect = vuWrap.Frame;
 			Rectangle mrect;
 
-			bool top = null != WindowMapping [hwnd.Handle];
+			bool top = winWrap != null && winWrap.ContentView == vuWrap;
 			if (top) {
-				NSWindow winWrap = vuWrap.Window;
 				var size = winWrap.Frame.Size;
 				nsrect = new NSRect(
 					winWrap.ConvertBaseToScreen (nsrect.Location),
@@ -555,6 +547,9 @@ namespace System.Windows.Forms {
 
 		private bool PumpNativeEvent (bool wait, ref MSG msg, bool dequeue = true)
 		{
+			autoreleasePool.Dispose();
+			autoreleasePool = new NSAutoreleasePool();
+
 			msg.message = Msg.WM_NULL;
 
 			NSDate timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
@@ -569,8 +564,10 @@ namespace System.Windows.Forms {
 				return true;
 			}
 
-			if (dequeue)
-				NSApp.SendEvent (evtRef);
+			if (dequeue) {
+				NSApp.SendEvent(evtRef);
+				NSApp.UpdateWindows();
+			}
 
 			return true;
 		}
@@ -751,22 +748,18 @@ namespace System.Windows.Forms {
 				return;
 
 			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.Handle);
+			NSWindow winWrap = vuWrap.Window;
 			Rectangle mrect = new Rectangle (hwnd.X, hwnd.Y, hwnd.Width, hwnd.Height);
 			NSRect nsrect;
 
-			if (WindowMapping[hwnd.Handle] != null)
+			if (winWrap != null && winWrap.ContentView == vuWrap)
 			{
 				nsrect = MonoToNativeScreen(mrect);
-
-				NSWindow winWrap = vuWrap.Window;
-				//nsrect = winWrap.FrameRectFor (nsrect);
-
 				if (winWrap.Frame != nsrect)
 				{
 					winWrap.SetFrame(nsrect, false);
 					SetCaretPos(hwnd.Handle, Caret.X, Caret.Y);
 				}
-
 			}
 			else {
 				NSView superVuWrap = vuWrap.Superview;
@@ -1047,6 +1040,7 @@ namespace System.Windows.Forms {
 				wholeHandle = (IntPtr) viewWrapper.Handle;
 				windowWrapper.ContentView = viewWrapper;
 				windowWrapper.InitialFirstResponder = viewWrapper;
+				windowWrapper.SetOneShot(true);
 
 				if (StyleSet (cp.Style, WindowStyles.WS_POPUP))
 					windowWrapper.Level = NSWindowLevel.PopUpMenu;
@@ -1059,10 +1053,11 @@ namespace System.Windows.Forms {
 					ParentWrapper.AddSubview (viewWrapper);
 			}
 
+			viewWrapper.AutoresizesSubviews = false;
+
 			hwnd.ClientWindow = wholeHandle;
 
 			if (WindowHandle != IntPtr.Zero) {
-				WindowMapping [hwnd.Handle] = WindowHandle;
 				if (hwnd.border_style == FormBorderStyle.FixedToolWindow || 
 				    hwnd.border_style == FormBorderStyle.SizableToolWindow) {
 					UtilityWindows.Add (windowWrapper);
@@ -1167,20 +1162,15 @@ namespace System.Windows.Forms {
 					// reconstruct those bytes into chars).
 					SendMessage (msg.HWnd, Msg.WM_CHAR, msg.WParam, msg.LParam);
 					return IntPtr.Zero;
-				case Msg.WM_QUIT: {
-					if (WindowMapping [hwnd.Handle] != null)
-
-						Exit ();
+				case Msg.WM_QUIT:
+					Exit ();
 					break;
-				}
-				case Msg.WM_PAINT: {
+				case Msg.WM_PAINT:
 					hwnd.expose_pending = false;
 					break;
-				}
-				case Msg.WM_NCPAINT: {
+				case Msg.WM_NCPAINT:
 					hwnd.nc_expose_pending = false;
 					break;
-				}  
 				case Msg.WM_NCCALCSIZE: {
 					if (msg.WParam == (IntPtr)1) {
 						// Add all the stuff X is supposed to draw.
@@ -1316,15 +1306,20 @@ namespace System.Windows.Forms {
 			}
 
 			foreach (Hwnd h in windows) {
-				object wh = WindowMapping [h.Handle];
-				if (null != wh) { 
-					NSWindow winWrap = (NSWindow)ObjCRuntime.Runtime.GetNSObject((IntPtr) wh);
+				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(h.Handle);
+				NSWindow winWrap = vuWrap.Window;
+				if (winWrap != null && winWrap.ContentView == vuWrap) { 
+					if (hwnd.border_style == FormBorderStyle.FixedToolWindow ||
+						hwnd.border_style == FormBorderStyle.SizableToolWindow)
+					{
+						UtilityWindows.Remove(winWrap);
+					}
+
+					winWrap.OrderOut (winWrap);
 					winWrap.ReleasedWhenClosed = true;
 					winWrap.Close ();
 					NSApplication.SharedApplication.RemoveWindowsItem(winWrap);
-					WindowMapping.Remove (h.Handle);
 				} else {
-					NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(h.Handle);
 					vuWrap.RemoveFromSuperviewWithoutNeedingDisplay ();
 				}
 
@@ -1354,6 +1349,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override void EndLoop (Thread thread) {
+			autoreleasePool.Dispose();
 		}
 
 		internal void Exit () {
@@ -2049,8 +2045,7 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 			NSWindow winWrap = vuWrap.Window;
-			object window = WindowMapping [handle];
-			if (window != null && winWrap != null) {
+			if (winWrap != null && winWrap.ContentView == vuWrap) {
 				if (visible) {
 					/*if (Application.MWFThread.Current.Context != null &&
 					    Application.MWFThread.Current.Context.MainForm != null &&
@@ -2252,13 +2247,10 @@ namespace System.Windows.Forms {
 		internal override void SetWindowStyle (IntPtr handle, CreateParams cp)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 			SetHwndStyles(hwnd, cp);
-			
-			if (WindowMapping [handle] != null) {
-				NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
-				NSWindow winWrap = vuWrap.Window;
-				winWrap.StyleMask = StyleFromCreateParams(cp);
-			}
+			if (vuWrap.Window != null && vuWrap.Window.ContentView == vuWrap)
+				vuWrap.Window.StyleMask = StyleFromCreateParams(cp);
 		}
 
 		internal override void SetWindowTransparency (IntPtr handle, double transparency, Color key) {
@@ -2356,6 +2348,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override object StartLoop (Thread thread) {
+			autoreleasePool = new NSAutoreleasePool();
 			return new object ();
 		}
 
@@ -2386,24 +2379,18 @@ namespace System.Windows.Forms {
 
 		internal override bool Text (IntPtr handle, string text)
 		{
-			object nswindowPtr = WindowMapping [handle];
-			if (null != nswindowPtr) {
-				NSWindow winWrap = (NSWindow) ObjCRuntime.Runtime.GetNSObject ((IntPtr) nswindowPtr);
-				winWrap.Title = text;
-			}
-			else {
-				// Just mark it for redisplay. The generic Mono code will redraw it using the text it stores.
-				NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
+			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
+			if (vuWrap.Window != null && vuWrap.Window.ContentView == vuWrap)
+				vuWrap.Window.Title = text;
+			else
 				vuWrap.NeedsDisplay = true;
-			}
-
 			return true;
 		}
 
 		internal override void UpdateWindow (IntPtr handle)
 		{
-			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
-			vuWrap.DisplayIfNeeded();
+			//NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
+			//vuWrap.DisplayIfNeeded();
 		}
 
 		internal override bool TranslateMessage(ref MSG msg) {

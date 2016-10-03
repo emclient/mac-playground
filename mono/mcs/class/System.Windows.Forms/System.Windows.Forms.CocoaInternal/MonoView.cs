@@ -36,6 +36,7 @@ using ObjCRuntime;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MonoMac.ObjCRuntime;
+using NMath = System.Math;
 #endif
 
 #if SDCOMPAT
@@ -51,13 +52,9 @@ using NSPoint = MonoMac.CoreGraphics.CGPoint;
 #endif
 #endif
 using System.Drawing;
-using System.Collections.Generic;
-using System.Diagnostics;
-
 
 namespace System.Windows.Forms.CocoaInternal
 {
-
 	//[ExportClass("MonoView", "NSView")]
 	internal partial class MonoView : NSView
 	{
@@ -193,10 +190,10 @@ namespace System.Windows.Forms.CocoaInternal
 			get
 			{
 				return new NSEdgeInsets(
-					Math.Max(this.hwnd.ClientRect.Top, 0),
-					Math.Max(this.hwnd.ClientRect.Left, 0),
-					Math.Max(this.Frame.Height - this.hwnd.ClientRect.Bottom, 0),
-					Math.Max(this.Frame.Width - this.hwnd.ClientRect.Right, 0));
+					NMath.Max(this.hwnd.ClientRect.Top, 0),
+					NMath.Max(this.hwnd.ClientRect.Left, 0),
+					NMath.Max(this.Frame.Height - this.hwnd.ClientRect.Bottom, 0),
+					NMath.Max(this.Frame.Width - this.hwnd.ClientRect.Right, 0));
 			}
 		}
 
