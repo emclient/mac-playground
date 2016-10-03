@@ -104,7 +104,7 @@ namespace System.Drawing {
 
 #endif
 
-#if MONOMAC
+#if MONOMAC || XAMARINMAC
 		private Graphics() :
 			this (NSGraphicsContext.CurrentContext)
 		{	}
