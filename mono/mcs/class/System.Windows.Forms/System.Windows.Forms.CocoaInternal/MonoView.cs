@@ -109,7 +109,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void UpdateTrackingAreas()
 		{
-			if (Handle == hwnd.ClientWindow)
+			//if (Handle == hwnd.WholeWindow)
 			{
 				if (clientArea != null)
 				{
@@ -172,20 +172,31 @@ namespace System.Windows.Forms.CocoaInternal
 		public override void DrawRect (NSRect dirtyRect)
 		{
 			Rectangle bounds = driver.NativeToMonoFramed (dirtyRect, Frame.Size.Height);
-			if (hwnd.ClientWindow != Handle) {
-				DrawBorders ();
-				hwnd.AddNcInvalidArea (bounds);
-				//driver.SendMessage (hwnd.Handle, Msg.WM_NCPAINT, IntPtr.Zero, IntPtr.Zero);				var msg = new MSG { hwnd = hwnd.Handle, message = Msg.WM_NCPAINT };
-				driver.DispatchMessage(ref msg);
-				hwnd.ClearNcInvalidArea();
-			}
-			else {
-				// FIXME: Use getRectsBeingDrawn		
-				hwnd.AddInvalidArea (bounds);
-//				driver.SendMessage (hwnd.Handle, Msg.WM_PAINT, IntPtr.Zero, IntPtr.Zero);
-				var msg = new MSG { hwnd = hwnd.Handle, message = Msg.WM_PAINT };
-				driver.DispatchMessage(ref msg);
-				hwnd.ClearInvalidArea();
+
+			DrawBorders ();
+			hwnd.AddNcInvalidArea (bounds);
+			//driver.SendMessage (hwnd.Handle, Msg.WM_NCPAINT, IntPtr.Zero, IntPtr.Zero);			var msg = new MSG { hwnd = hwnd.Handle, message = Msg.WM_NCPAINT };
+			driver.DispatchMessage(ref msg);
+			hwnd.ClearNcInvalidArea();
+
+			bounds.X -= hwnd.ClientRect.X;
+			bounds.Y -= hwnd.ClientRect.Y;
+			hwnd.AddInvalidArea (bounds);
+			//driver.SendMessage (hwnd.Handle, Msg.WM_PAINT, IntPtr.Zero, IntPtr.Zero);
+			msg = new MSG { hwnd = hwnd.Handle, message = Msg.WM_PAINT };
+			driver.DispatchMessage(ref msg);
+			hwnd.ClearInvalidArea();
+		}
+
+		public override NSEdgeInsets AlignmentRectInsets
+		{
+			get
+			{
+				return new NSEdgeInsets(
+					Math.Max(this.hwnd.ClientRect.Top, 0),
+					Math.Max(this.hwnd.ClientRect.Left, 0),
+					Math.Max(this.Frame.Height - this.hwnd.ClientRect.Bottom, 0),
+					Math.Max(this.Frame.Width - this.hwnd.ClientRect.Right, 0));
 			}
 		}
 
@@ -195,7 +206,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 			switch (hwnd.BorderStyle) {
 			case FormBorderStyle.Fixed3D:
-				using (g = Graphics.FromHwnd (hwnd.WholeWindow)) {
+				using (g = Graphics.FromHwnd (Handle, false)) {
 					if (hwnd.border_static)
 						ControlPaint.DrawBorder3D (g, new Rectangle (0, 0, hwnd.Width, hwnd.Height), Border3DStyle.SunkenOuter);
 					else
@@ -204,7 +215,7 @@ namespace System.Windows.Forms.CocoaInternal
 				break;
 
 			case FormBorderStyle.FixedSingle:
-				using (g = Graphics.FromHwnd (hwnd.WholeWindow))
+				using (g = Graphics.FromHwnd (Handle, false))
 					ControlPaint.DrawBorder (g, new Rectangle (0, 0, hwnd.Width, hwnd.Height), Color.Black, ButtonBorderStyle.Solid);
 				break;
 			}
