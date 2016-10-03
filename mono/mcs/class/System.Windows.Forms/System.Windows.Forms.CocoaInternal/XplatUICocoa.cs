@@ -1315,7 +1315,6 @@ namespace System.Windows.Forms {
 						UtilityWindows.Remove(winWrap);
 					}
 
-					winWrap.OrderOut (winWrap);
 					winWrap.ReleasedWhenClosed = true;
 					winWrap.Close ();
 					NSApplication.SharedApplication.RemoveWindowsItem(winWrap);
