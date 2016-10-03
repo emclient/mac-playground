@@ -255,7 +255,7 @@ namespace System.Windows.Forms.CocoaInternal
 			NSPoint nspoint = eventref.LocationInWindow;
 			Point localMonoPoint;
 			Hwnd currentHwnd;
-			bool client;
+			bool client = false;
 
 			if (hwnd.zombie)
 				return;
@@ -271,7 +271,7 @@ namespace System.Windows.Forms.CocoaInternal
 					return;
 				}
 
-				vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(currentHwnd.ClientWindow);
+				vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(currentHwnd.Handle);
 				if (vuWrap.Window != Window)
 					nspoint = vuWrap.Window.ConvertScreenToBase(Window.ConvertBaseToScreen(nspoint));
 				nspoint = vuWrap.ConvertPointFromView(nspoint, null);
@@ -293,7 +293,12 @@ namespace System.Windows.Forms.CocoaInternal
 				currentHwnd = Hwnd.ObjectFromHandle(vuWrap.Handle);
 				nspoint = vuWrap.ConvertPointFromView(nspoint, null);
 				localMonoPoint = driver.NativeToMonoFramed(nspoint, Frame.Height);
-				client = currentHwnd.ClientWindow == vuWrap.Handle; // currentHwnd.Handle;
+				if (currentHwnd.ClientRect.Contains(localMonoPoint))
+				{
+					client = true;//currentHwnd.ClientWindow == vuWrap.Handle; // currentHwnd.Handle;
+					localMonoPoint.X -= currentHwnd.ClientRect.X;
+					localMonoPoint.Y -= currentHwnd.ClientRect.Y;
+				}
 			}
 
 			int button = (int) eventref.ButtonNumber;

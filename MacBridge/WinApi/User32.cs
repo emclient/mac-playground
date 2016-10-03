@@ -444,7 +444,7 @@ namespace WinApi
 
             var hwnd = Hwnd.ObjectFromHandle(hWnd);
             var window = monoView.Window;
-            var isTopLevelView = window.ContentView.Handle == hwnd.WholeWindow;
+			var isTopLevelView = window.ContentView.Handle == hwnd.Handle;
 
             var rScreen = isTopLevelView
                 ? window.Frame // if it's top level view, then we have to use window's frame, because of the caption
@@ -546,7 +546,7 @@ namespace WinApi
 			WS style = 0;
 
 			Hwnd hwnd = Hwnd.ObjectFromHandle(hWnd);
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hWnd);
 			NSWindow winWrap = vuWrap.Window;
 
 			if ((hwnd.initial_style & WindowStyles.WS_POPUP) != 0)

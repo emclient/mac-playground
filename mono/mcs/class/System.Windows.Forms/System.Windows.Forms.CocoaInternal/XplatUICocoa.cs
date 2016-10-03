@@ -262,24 +262,26 @@ namespace System.Windows.Forms {
 			Marshal.FreeHGlobal(ptr);
 
 			rect = new Rectangle(ncp.rgrc1.left, ncp.rgrc1.top, ncp.rgrc1.right - ncp.rgrc1.left, ncp.rgrc1.bottom - ncp.rgrc1.top);
-			hwnd.ClientRect = rect;
-
 			// For top-level windows the client area position is calculated with the window title, but the actual view is already
 			// adjusted for that.
 			if (hwnd.Parent == null)
 				rect = new Rectangle (new Point (0, 0), rect.Size);
+			hwnd.ClientRect = rect;
 
-			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
-			NSRect cr = MonoToNativeFramed (rect, vuWrap.Superview.Frame.Height);
-			vuWrap.Frame = cr;
+			// Update subview locations
+			var vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.Handle);
+			foreach (var subView in vuWrap.Subviews)
+			{
+				var subViewHwnd = Hwnd.ObjectFromHandle(subView.Handle);
+				if (subViewHwnd != null)
+					HwndPositionToNative(subViewHwnd);
+			}
 		}
 
 		internal void ScreenToClientWindow (IntPtr handle, ref NSPoint point)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView viewWrapper = null;
-			if (null != hwnd)
-				viewWrapper = ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow) as NSView;
+			NSView viewWrapper = ObjCRuntime.Runtime.GetNSObject (handle) as NSView;
 			if (viewWrapper == null)
 				throw new ArgumentException ("XplatUICocoa.ScreenToClientWindow() requires NSView*");
 
@@ -291,22 +293,14 @@ namespace System.Windows.Forms {
 
 			point = windowWrapper.ConvertScreenToBase (point);
 			point = viewWrapper.ConvertPointFromView (point, null);
-
-			// TODO?
-//			if (windowWrapper.ContentView != viewWrapper) 
-//			{
-//				Point clientOrigin = hwnd.client_rectangle.Location;
-//				point.X -= clientOrigin.X;
-//				point.Y -= clientOrigin.Y;
-//			}
+			point.X -= hwnd.ClientRect.X;
+			point.Y -= hwnd.ClientRect.Y;
 		}
 
 		internal void ClientWindowToScreen (IntPtr handle, ref NSPoint point)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView viewWrapper = null;
-			if (null != hwnd)
-				viewWrapper = ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow) as NSView;
+			NSView viewWrapper = ObjCRuntime.Runtime.GetNSObject (handle) as NSView;
 			if (viewWrapper == null)
 				throw new ArgumentException ("XplatUICocoa.ClientWindowToScreen() requires NSView*");
 
@@ -321,6 +315,8 @@ namespace System.Windows.Forms {
 			//}
 
 			if (viewWrapper != null && windowWrapper != null) {
+				point.X += hwnd.ClientRect.X;
+				point.Y += hwnd.ClientRect.Y;
 				point = viewWrapper.ConvertPointToView (point, null);
 				point = windowWrapper.ConvertBaseToScreen (point);
 			}
@@ -354,11 +350,9 @@ namespace System.Windows.Forms {
 		internal void PositionWindowInClient (Rectangle rect, NSWindow window, IntPtr handle)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
-
-//			/*TODO? if (winWrap.contentView() != vuWrap) */ {
-//				rect.Location += (Size) hwnd.client_rectangle.Location;
-//			}
+			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
+			rect.X += hwnd.ClientRect.X;
+			rect.Y += hwnd.ClientRect.Y;
 
 			NSRect nsrect = MonoToNativeFramed (rect, vuWrap.Frame.Size.Height);
 
@@ -420,7 +414,7 @@ namespace System.Windows.Forms {
 			if (hwnd.zero_sized)
 				return;
 
-			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
+			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.Handle);
 			NSRect nsrect = vuWrap.Frame;
 			Rectangle mrect;
 
@@ -486,27 +480,21 @@ namespace System.Windows.Forms {
 			ScreenToClientWindow (handle, ref nspoint);
 
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
+			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
 			point = NativeToMonoFramed (nspoint, vuWrap.Frame.Size.Height);
-
-//			/*TODO? if (winWrap.contentView() != vuWrap) */ {
-//				point -= (Size) hwnd.client_rectangle.Location;
-//			}
-
+			point.X -= hwnd.ClientRect.X;
+			point.Y -= hwnd.ClientRect.Y;
 			return point;
 		}
 
 		private Point ConvertClientPointToScreen (IntPtr handle, Point point)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
+			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
 			if (vuWrap == null)
 				return Point.Empty;
-
-//			/*TODO? if (winWrap.contentView() != vuWrap) */ {
-//				point += (Size) hwnd.client_rectangle.Location;
-//			}
-
+			point.X += hwnd.ClientRect.X;
+			point.Y += hwnd.ClientRect.Y;
 
 			NSPoint nspoint = MonoToNativeFramed (point, vuWrap.Frame.Size.Height);
 
@@ -518,10 +506,7 @@ namespace System.Windows.Forms {
 
 		private Point ConvertScreenPointToNonClient (IntPtr handle, Point point)
 		{
-			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView viewWrapper = null;
-			if (null != hwnd)
-				viewWrapper = ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow) as NSView;
+			NSView viewWrapper = ObjCRuntime.Runtime.GetNSObject (handle) as NSView;
 			if (viewWrapper == null)
 				throw new ArgumentException ("XplatUICocoa.ConvertScreenPointToNonClient() requires NSView*");
 
@@ -538,10 +523,7 @@ namespace System.Windows.Forms {
 
 		private Point ConvertNonClientPointToScreen (IntPtr handle, Point point)
 		{
-			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView viewWrapper = null;
-			if (null != hwnd)
-				viewWrapper = ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow) as NSView;
+			NSView viewWrapper = ObjCRuntime.Runtime.GetNSObject (handle) as NSView;
 			if (viewWrapper == null)
 				throw new ArgumentException ("XplatUICocoa.ConvertScreenPointToNonClient() requires NSView*");
 
@@ -768,27 +750,33 @@ namespace System.Windows.Forms {
 			if (hwnd.zero_sized)
 				return;
 
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.Handle);
 			Rectangle mrect = new Rectangle (hwnd.X, hwnd.Y, hwnd.Width, hwnd.Height);
 			NSRect nsrect;
 
-			if (WindowMapping [hwnd.Handle] != null) {
-				nsrect = MonoToNativeScreen (mrect);
+			if (WindowMapping[hwnd.Handle] != null)
+			{
+				nsrect = MonoToNativeScreen(mrect);
 
 				NSWindow winWrap = vuWrap.Window;
 				//nsrect = winWrap.FrameRectFor (nsrect);
 
-				if (winWrap.Frame != nsrect) {
-					winWrap.SetFrame (nsrect, false);
-					SetCaretPos (hwnd.Handle, Caret.X, Caret.Y);
+				if (winWrap.Frame != nsrect)
+				{
+					winWrap.SetFrame(nsrect, false);
+					SetCaretPos(hwnd.Handle, Caret.X, Caret.Y);
 				}
 
-			} else {
+			}
+			else {
 				NSView superVuWrap = vuWrap.Superview;
 				Hwnd parent = hwnd.Parent;
-				if (superVuWrap != null)
-					nsrect = MonoToNativeFramed (mrect, superVuWrap.Frame.Size.Height);
-				else
+
+				if (superVuWrap != null) {
+						mrect.Y += (int)superVuWrap.AlignmentRectInsets.Top;
+						mrect.X += (int)superVuWrap.AlignmentRectInsets.Left;
+						nsrect = MonoToNativeFramed(mrect, superVuWrap.Frame.Size.Height);
+				} else
 					nsrect = new NSRect(mrect.X, mrect.Y, mrect.Width, mrect.Height);
 
 				if (vuWrap.Frame != nsrect)
@@ -827,9 +815,9 @@ namespace System.Windows.Forms {
 		{
 			if (ActiveWindow != handle && handle != IntPtr.Zero)
 			{
-				Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-				if (hwnd != null) {
-					NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+				if (vuWrap != null)
+				{
 					NSWindow winWrap = vuWrap.Window;
 					if (winWrap != null)
 					{
@@ -957,7 +945,7 @@ namespace System.Windows.Forms {
 			Caret.Visible = 0;
 			Caret.On = false;
 
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(Hwnd.ObjectFromHandle(hwnd).ClientWindow);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd);
 			if (CaretView.Superview != vuWrap)
 			{
 				if (CaretView.Superview != null)
@@ -994,7 +982,6 @@ namespace System.Windows.Forms {
 			int Height = Math.Max(1, cp.Height);
 			IntPtr WindowHandle = IntPtr.Zero;
 			IntPtr wholeHandle = IntPtr.Zero;
-			IntPtr clientHandle = IntPtr.Zero;
 
 			NSView ParentWrapper = null;  // If any
 			NSWindow windowWrapper = null;
@@ -1004,7 +991,7 @@ namespace System.Windows.Forms {
 
 			if (cp.Parent != IntPtr.Zero) {
 				parent_hwnd = Hwnd.ObjectFromHandle (cp.Parent);
-				ParentWrapper = (NSView)ObjCRuntime.Runtime.GetNSObject(parent_hwnd.ClientWindow);
+				ParentWrapper = (NSView)ObjCRuntime.Runtime.GetNSObject(parent_hwnd.Handle);
 				if (!isTopLevel)
 					windowWrapper = ParentWrapper.Window;
 			}
@@ -1031,11 +1018,11 @@ namespace System.Windows.Forms {
 				hwnd.enabled = false;
 			}
 
-			clientHandle = IntPtr.Zero;
-
 			Rectangle mWholeRect = new Rectangle (new Point (X, Y), new Size(Width, Height));
 			NSRect WholeRect;
 			if (!isTopLevel && null != parent_hwnd) {
+				mWholeRect.X += (int)ParentWrapper.AlignmentRectInsets.Left;
+				mWholeRect.Y += (int)ParentWrapper.AlignmentRectInsets.Top;
 				WholeRect = MonoToNativeFramed (mWholeRect, ParentWrapper.Frame.Size.Height);
 			} else {
 				WholeRect = MonoToNativeScreen (mWholeRect);
@@ -1072,15 +1059,7 @@ namespace System.Windows.Forms {
 					ParentWrapper.AddSubview (viewWrapper);
 			}
 
-			var ClientSize = cp.control.ClientSizeFromSize(new Size(Width, Height));
-			NSRect ClientRect = new NSRect(0, 0, ClientSize.Width, ClientSize.Height);//MonoToNativeFramed (QClientRect, WholeRect.Size.Height);
-			NSView clientWrapper = new Cocoa.MonoView (this, ClientRect, hwnd);
-			clientHandle = (IntPtr) clientWrapper.Handle;
-
-			hwnd.WholeWindow = wholeHandle;
-			hwnd.ClientWindow = clientHandle;
-
-			viewWrapper.AddSubview (clientWrapper);
+			hwnd.ClientWindow = wholeHandle;
 
 			if (WindowHandle != IntPtr.Zero) {
 				WindowMapping [hwnd.Handle] = WindowHandle;
@@ -1138,7 +1117,7 @@ namespace System.Windows.Forms {
 				SetWindowState (hwnd.Handle, FormWindowState.Maximized);
 			}
 
-			hwnd.UserData = new object[] { windowWrapper, viewWrapper, clientWrapper };
+			hwnd.UserData = new object[] { windowWrapper, viewWrapper };
 
 			return hwnd.Handle;
 		}
@@ -1345,7 +1324,7 @@ namespace System.Windows.Forms {
 					NSApplication.SharedApplication.RemoveWindowsItem(winWrap);
 					WindowMapping.Remove (h.Handle);
 				} else {
-					NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(h.WholeWindow);
+					NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(h.Handle);
 					vuWrap.RemoveFromSuperviewWithoutNeedingDisplay ();
 				}
 
@@ -1430,8 +1409,7 @@ namespace System.Windows.Forms {
 
 		internal override IntPtr GetPreviousWindow (IntPtr handle)
 		{
-			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 			NSView superWrap = vuWrap.Superview;
 			if (superWrap == null)
 				return IntPtr.Zero;
@@ -1544,8 +1522,7 @@ namespace System.Windows.Forms {
 
 		internal FormWindowState GetWindowStateInternal(IntPtr handle)
 		{
-			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 			NSWindow winWrap = vuWrap.Window;
 
 			if (winWrap.IsMiniaturized)
@@ -1608,7 +1585,9 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
 			if (hwnd.visible)
 			{
-				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
+				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+				rc.X += hwnd.ClientRect.X;
+				rc.Y += hwnd.ClientRect.Y;
 				vuWrap.SetNeedsDisplayInRect(MonoToNativeFramed(rc, vuWrap.Frame.Height));
 			}
 		}
@@ -1618,7 +1597,7 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
 			if (hwnd.visible)
 			{
-				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 				vuWrap.NeedsDisplay = true;
 			}
 		}
@@ -1646,27 +1625,12 @@ namespace System.Windows.Forms {
 
 		internal override PaintEventArgs PaintEventStart (ref Message msg, IntPtr handle, bool client)
 		{
-			Hwnd paint_hwnd; 
-
 			Hwnd hwnd = Hwnd.ObjectFromHandle (msg.HWnd);
-			if (msg.HWnd == handle) {
-				paint_hwnd = hwnd;
-			} else {
-				paint_hwnd = Hwnd.ObjectFromHandle (handle);
-			}
-
-			Control control = Control.FromHandle (paint_hwnd.Handle);
-			if (null != control && "StackTraceMe" == control.Name) {
-				Console.WriteLine ("PaintEventStart ({0}, 0x{1:X} [{2}] [{3}], {4}) ", 
-							msg, handle.ToInt32 (), paint_hwnd, control, client);
-				Console.WriteLine (" {0}", new StackTrace (1, true));
-			}
-
 			Graphics dc;
 			PaintEventArgs paint_event;
 
 			if (client) {
-				dc = Graphics.FromHwnd (paint_hwnd.ClientWindow);
+				dc = Graphics.FromHwnd (handle);
 				if (null == dc)
 					return null;
 
@@ -1680,7 +1644,7 @@ namespace System.Windows.Forms {
 				hwnd.drawing_stack.Push (paint_event);
 				hwnd.drawing_stack.Push (dc);
 			} else {
-				dc = Graphics.FromHwnd (paint_hwnd.WholeWindow);
+				dc = Graphics.FromHwnd (handle, false);
 
 				if (null == dc)
 					return null;
@@ -1742,11 +1706,8 @@ namespace System.Windows.Forms {
 		internal override void PostQuitMessage (int exitCode)
 		{
 			NSWindow winWrap = NSApplication.SharedApplication.MainWindow;
-			if (winWrap != null) {
-				var hwnd = Hwnd.ObjectFromHandle (winWrap.ContentView.Handle);
-				PostMessage (hwnd.Handle, Msg.WM_QUIT, IntPtr.Zero, IntPtr.Zero);
-			}
-
+			if (winWrap != null)
+				PostMessage (winWrap.ContentView.Handle, Msg.WM_QUIT, IntPtr.Zero, IntPtr.Zero);
 			PostMessage (IntPtr.Zero, Msg.WM_QUIT, IntPtr.Zero, IntPtr.Zero);
 		}
 
@@ -1866,7 +1827,7 @@ namespace System.Windows.Forms {
 				Caret.X = x;
 				Caret.Y = y;
 
-				CaretView.Frame = new NSRect(Caret.rect.X, Caret.rect.Top, Caret.rect.Width, Caret.rect.Height);
+				CaretView.Frame = new NSRect(Caret.rect.X + (int)CaretView.Superview.AlignmentRectInsets.Left, Caret.rect.Top + (int)CaretView.Superview.AlignmentRectInsets.Top, Caret.rect.Width, Caret.rect.Height);
 
 				Caret.Timer.Stop ();
 				HideCaret ();
@@ -1882,7 +1843,7 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
 			if (hwnd != null) {
 				hwnd.UserClip = region;
-				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
+				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject (handle);
 				if (vuWrap != null && vuWrap.Window != null && vuWrap.Window.ContentView == vuWrap) {
 					if (region != null) {
 						vuWrap.Window.BackgroundColor = NSColor.Clear;
@@ -1964,8 +1925,7 @@ namespace System.Windows.Forms {
 		
 		internal override void SetModal (IntPtr handle, bool Modal)
 		{
-			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 			NSWindow winWrap = vuWrap.Window;
 			if (Modal)
 			{
@@ -1974,15 +1934,14 @@ namespace System.Windows.Forms {
 			}
 			else
 				NSApplication.SharedApplication.EndModalSession (ModalSessions.Pop ());
-			return;
 		}
 
 		internal override IntPtr SetParent (IntPtr handle, IntPtr parent)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			Hwnd newParent = Hwnd.ObjectFromHandle (parent);
-			NSView newParentWrap = null != newParent ? (NSView)ObjCRuntime.Runtime.GetNSObject(newParent.ClientWindow) : null;
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSView newParentWrap = null != newParent ? (NSView)ObjCRuntime.Runtime.GetNSObject(parent) : null;
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 			NSWindow winWrap = (NSWindow) vuWrap.Window;
 
 			if (winWrap != null && winWrap.ContentView == vuWrap) {
@@ -2006,7 +1965,7 @@ namespace System.Windows.Forms {
 				hwnd.Parent = newParent;
 				if (newParentWrap != null) {
 					newParentWrap.AddSubview (vuWrap);
-					vuWrap.Frame = MonoToNativeFramed (new Rectangle (hwnd.X, hwnd.Y, hwnd.Width, hwnd.Height), newParentWrap.Frame.Height);
+					vuWrap.Frame = MonoToNativeFramed (new Rectangle (hwnd.X + newParent.ClientRect.X, hwnd.Y + newParent.ClientRect.Y, hwnd.Width, hwnd.Height), newParentWrap.Frame.Height);
 					//if (adoption)
 					//	vuWrap.Release ();
 				}
@@ -2088,9 +2047,9 @@ namespace System.Windows.Forms {
 				UngrabWindow(handle);
 
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 			NSWindow winWrap = vuWrap.Window;
-			object window = WindowMapping [hwnd.Handle];
+			object window = WindowMapping [handle];
 			if (window != null && winWrap != null) {
 				if (visible) {
 					/*if (Application.MWFThread.Current.Context != null &&
@@ -2192,7 +2151,7 @@ namespace System.Windows.Forms {
 			// X requires a sanity check for width & height; otherwise it dies
 			if (hwnd.zero_sized && width > 0 && height > 0) {
 				if (hwnd.visible) {
-					NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+					NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 					vuWrap.Hidden = false;
 				}
 				hwnd.zero_sized = false;
@@ -2200,7 +2159,7 @@ namespace System.Windows.Forms {
 
 			if ((width < 1) || (height < 1)) {
 				hwnd.zero_sized = true;
-				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.WholeWindow);
+				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 				vuWrap.Hidden = true;
 			}
 
@@ -2255,8 +2214,7 @@ namespace System.Windows.Forms {
 		
 		internal override void SetWindowState (IntPtr handle, FormWindowState state)
 		{
-			Hwnd 		hwnd 	= Hwnd.ObjectFromHandle (handle);
-			NSView		vuWrap	= (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
+			NSView		vuWrap	= (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
 			NSWindow	winWrap	=  vuWrap.Window;
 
 			switch (state) {
@@ -2296,8 +2254,8 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			SetHwndStyles(hwnd, cp);
 			
-			if (WindowMapping [hwnd.Handle] != null) {
-				NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
+			if (WindowMapping [handle] != null) {
+				NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
 				NSWindow winWrap = vuWrap.Window;
 				winWrap.StyleMask = StyleFromCreateParams(cp);
 			}
@@ -2317,9 +2275,7 @@ namespace System.Windows.Forms {
 
 		internal override bool SetZOrder (IntPtr handle, IntPtr after_handle, bool Top, bool Bottom)
 		{
-			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			Hwnd afterHwnd = Hwnd.ObjectFromHandle (after_handle);
-			NSView itVuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.WholeWindow);
+			NSView itVuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
 			NSView afterVuWrap = null;
 			NSView itSuperVuWrap = itVuWrap.Superview;
 			bool results = true;
@@ -2329,8 +2285,7 @@ namespace System.Windows.Forms {
 #endif
 
 			if (IntPtr.Zero != after_handle) {
-				if (null != afterHwnd)
-					afterVuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (afterHwnd.WholeWindow);
+				afterVuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (after_handle);
 				if (afterVuWrap == null) {
 					return false;	// Bad after_handle.
 				}
@@ -2431,16 +2386,14 @@ namespace System.Windows.Forms {
 
 		internal override bool Text (IntPtr handle, string text)
 		{
-			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			object nswindowPtr = WindowMapping [hwnd.Handle];
-
+			object nswindowPtr = WindowMapping [handle];
 			if (null != nswindowPtr) {
 				NSWindow winWrap = (NSWindow) ObjCRuntime.Runtime.GetNSObject ((IntPtr) nswindowPtr);
 				winWrap.Title = text;
 			}
 			else {
 				// Just mark it for redisplay. The generic Mono code will redraw it using the text it stores.
-				NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
+				NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
 				vuWrap.NeedsDisplay = true;
 			}
 
@@ -2449,12 +2402,7 @@ namespace System.Windows.Forms {
 
 		internal override void UpdateWindow (IntPtr handle)
 		{
-			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.ClientWindow);
-
-			//if (!hwnd.visible || vuWrap.IsHiddenOrHasHiddenAncestor || NSRect.Empty == vuWrap.VisibleRect())
-				return;
-			
+			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
 			vuWrap.DisplayIfNeeded();
 		}
 

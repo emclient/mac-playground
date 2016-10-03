@@ -19,11 +19,11 @@ using System.Drawing.Text;
 #if XAMARINMAC
 using CoreGraphics;
 using AppKit;
+using NSRuntime = ObjCRuntime.Runtime;
 #elif MONOMAC
 using MonoMac.CoreGraphics;
 using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.CoreText;
+using NSRuntime = MonoMac.ObjCRuntime.Runtime;
 #else
 using MonoTouch.CoreGraphics;
 using MonoTouch.UIKit;
@@ -36,7 +36,8 @@ namespace System.Drawing {
 	public sealed partial class Graphics : MarshalByRefObject, IDisposable, IDeviceContext {
 		internal CGContext context;
 		private Image image;
-		internal NSView focusedView;
+		private NSView focusedView;
+		private bool hasClientTransform;
 		internal Pen LastPen;
 		internal Brush LastBrush;
 		internal SizeF contextUserSpace;
@@ -103,7 +104,7 @@ namespace System.Drawing {
 
 #endif
 
-#if XAMARINMAC
+#if MONOMAC
 		private Graphics() :
 			this (NSGraphicsContext.CurrentContext)
 		{	}
@@ -132,68 +133,42 @@ namespace System.Drawing {
 			return new Graphics (context);
 		}
 
-		public static Graphics FromHwnd (IntPtr hwnd)
+		public static Graphics FromHwnd (IntPtr hwnd, bool client)
 		{
 			if (hwnd == IntPtr.Zero)
 				return Graphics.FromImage (new Bitmap (1, 1));
 
 			Graphics g;
-			NSView view = (NSView)ObjCRuntime.Runtime.GetNSObject (hwnd);
+			NSView view = (NSView)NSRuntime.GetNSObject (hwnd);
 			if (NSView.FocusView () != view && view.LockFocusIfCanDraw ()) {
 				g = new Graphics (view.Window.GraphicsContext) { focusedView = view };
 			} else if (view.Window != null && view.Window.GraphicsContext != null) {
 				g = new Graphics (view.Window.GraphicsContext);
 			} else {
-				g = Graphics.FromImage (new Bitmap (1, 1));
-			}
-
-			return g;
-		}
-#elif MONOMAC
-		private Graphics() :
-			this (NSGraphicsContext.CurrentContext)
-		{	}
-
-		private Graphics (NSGraphicsContext context)
-		{
-			var gc = context;
-
-			// testing for now
-			//			var attribs = gc.Attributes;
-			//			attribs = NSScreen.MainScreen.DeviceDescription;
-			//			NSValue asdf = (NSValue)attribs["NSDeviceResolution"];
-			//			var size = asdf.SizeFValue;
-			// ----------------------
-			screenScale = 1;
-			nativeObject = gc;
-
-			isFlipped = gc.IsFlipped;
-
-			InitializeContext(gc.GraphicsPort);
-
-		}
-
-		public static Graphics FromContext (NSGraphicsContext context)
-		{
-			return new Graphics (context);
-		}
-
-		public static Graphics FromHwnd (IntPtr hwnd)
-		{
-			if (hwnd == IntPtr.Zero)
 				return Graphics.FromImage (new Bitmap (1, 1));
+			}
 
-			Graphics g;
-			NSView view = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject (hwnd);
-			if (NSView.FocusView () != view && view.LockFocusIfCanDraw ()) {
-				g = new Graphics (view.Window.GraphicsContext) { focusedView = view };
-			} else if (view.Window != null && view.Window.GraphicsContext != null) {
-				g = new Graphics (view.Window.GraphicsContext);
-			} else {
-				g = Graphics.FromImage (new Bitmap (1, 1));
+			if (client) {
+				var frameRect = view.Frame;
+				var alignmentRect = view.GetAlignmentRectForFrame(frameRect);
+				view.Window.GraphicsContext.GraphicsPort.SaveState();
+				view.Window.GraphicsContext.GraphicsPort.TranslateCTM(
+					(alignmentRect.Left - frameRect.Left),
+					(alignmentRect.Top - frameRect.Top));
+				view.Window.GraphicsContext.GraphicsPort.ClipToRect(new CGRect(
+					0,
+					0,
+					alignmentRect.Width,
+					alignmentRect.Height));
+				g.hasClientTransform = true;
 			}
 
 			return g;
+		}
+
+		public static Graphics FromHwnd(IntPtr hwnd)
+		{
+			return FromHwnd(hwnd, true);
 		}
 #endif
 
@@ -281,11 +256,14 @@ namespace System.Drawing {
 
 				if (context != null){
 					context.RestoreState ();
+					if (hasClientTransform)
+						context.RestoreState();
 					// Do not dispose contexts for images, they are cached
 					if (image == null)
 						context.Dispose ();
 					context = null;
 				}
+
 			}
 		}
 
