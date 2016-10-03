@@ -149,17 +149,31 @@ namespace System.Windows.Forms.CocoaInternal
 			return false;
 		}
 
+		public override bool CanBecomeKeyWindow
+		{
+			get
+			{
+				var hwnd = Hwnd.GetObjectFromWindow(this.ContentView.Handle);
+				if (hwnd.zombie)
+					return false;
+				return base.CanBecomeKeyWindow;
+			}
+		}
+
 		[Export("windowWillClose:")]
 		internal virtual bool willClose (NSObject sender)
 		{
-			ActivateNextWindow();
+			if (IsKeyWindow)
+				ActivateNextWindow();
 			return true;
 		}
 
 		public override void OrderOut(NSObject sender)
 		{
-			base.OrderOut(sender);
-			ActivateNextWindow();
+			if (IsKeyWindow) {
+				base.OrderOut(sender);
+				ActivateNextWindow();
+			}
 		}
 
 		//public override void OrderWindow(NSWindowOrderingMode place, int relativeTo)
@@ -309,7 +323,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		static internal List<NSWindow> GetOrderedWindowList()
 		{
-			var numbers = NSWindow.WindowNumbersWithOptions(NSWindowNumberListOptions.AllApplication | NSWindowNumberListOptions.AllSpaces);
+			var numbers = WindowNumbersWithOptions(NSWindowNumberListOptions.AllApplication | NSWindowNumberListOptions.AllSpaces);
 			var windows = NSApplication.SharedApplication.Windows;
 			var winByNum = new Dictionary<long, NSWindow>(windows.Length);
 
@@ -318,15 +332,32 @@ namespace System.Windows.Forms.CocoaInternal
 
 			var sorted = new List<NSWindow>(windows.Length);
 
-			for (uint i = 0; i < numbers.Count; ++i)
+#if XAMARINMAC
+			for (nuint i = 0; i < numbers.Count; ++i)
 			{
-				var handle = numbers.ValueAt((uint)i);
-				var number = NSNumber.ValueFromPointer(handle) as NSNumber; // new NSNumber(handle);
+				var handle = numbers.ValueAt(i);
+				var number = (NSNumber)Activator.CreateInstance(
+					typeof(NSNumber),
+					Reflection.BindingFlags.NonPublic | Reflection.BindingFlags.Instance,
+					null,
+					new object[] { handle },
+					null);
 
 				NSWindow window;
 				if (number != null && winByNum.TryGetValue(number.Int64Value, out window))
 					sorted.Add(window);
 			}
+#else
+			for (int i = 0; i < numbers.Count; ++i)
+			{
+				var handle = numbers.ValueAt((uint)i);
+				var number = new NSNumber(handle);
+
+				NSWindow window;
+				if (number != null && winByNum.TryGetValue(number.Int64Value, out window))
+					sorted.Add(window);
+			}
+#endif
 
 			return sorted;
 		}
