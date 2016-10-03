@@ -163,14 +163,14 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("windowWillClose:")]
 		internal virtual bool willClose (NSObject sender)
 		{
-			if (IsKeyWindow)
+			//if (IsKeyWindow)
 				ActivateNextWindow();
 			return true;
 		}
 
 		public override void OrderOut(NSObject sender)
 		{
-			if (IsKeyWindow) {
+			/*if (IsKeyWindow)*/{
 				base.OrderOut(sender);
 				ActivateNextWindow();
 			}
