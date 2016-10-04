@@ -6,6 +6,8 @@ using System.Threading;
 using System.Windows.Forms;
 using WinApi;
 
+using MailClient.UI.Controls.ControlDataGrid;
+
 namespace GUITest
 {
     public static class UI
@@ -374,21 +376,43 @@ namespace GUITest
 		{
 			public static void Click(Control control, double delay = 0.2)
 			{
-				MoveTo(control);
-				SendInput(MOUSEEVENTF.LEFTDOWN);
-				Sleep(delay);
-				MoveTo(control);
-				SendInput(MOUSEEVENTF.LEFTUP);
-				Sleep(delay);
+				Click(GetCenterOfControl, control, delay);
 			}
 
 			public static void RightClick(Control control, double delay = 0.2)
 			{
-				MoveTo(control);
-				SendInput(MOUSEEVENTF.RIGHTDOWN);
+				Click(GetCenterOfControl, control, delay, true);
+			}
+
+			public static void Click(ControlDataGrid control, int row, double delay = 0.2)
+			{
+				Click(GetCenterOfControlDataGridRow, new ControlDataGridWithPosition(control, row), delay);
+			}
+
+			public static void RightClick(ControlDataGridWithPosition control, double delay = 0.2)
+			{
+				Click(GetCenterOfControlDataGridRow, control, delay, true);
+			}
+
+			private static void Click<T>(GetMouseDestinationDelegate<T> getMouseDestinationDelegate, T destinationObject, double delay = 0.2, bool rightClick = false)
+			{
+				MOUSEEVENTF downFlags;
+				MOUSEEVENTF upFlags;
+				if (!rightClick)
+				{
+					downFlags = MOUSEEVENTF.LEFTDOWN;
+					upFlags = MOUSEEVENTF.LEFTUP;
+				}
+				else
+				{
+					downFlags = MOUSEEVENTF.RIGHTDOWN;
+					upFlags = MOUSEEVENTF.RIGHTUP;
+				}
+				MoveTo(getMouseDestinationDelegate, destinationObject);
+				SendInput(downFlags);
 				Sleep(delay);
-				MoveTo(control);
-				SendInput(MOUSEEVENTF.RIGHTUP);
+				MoveTo(getMouseDestinationDelegate, destinationObject);
+				SendInput(upFlags);
 				Sleep(delay);
 			}
 
@@ -400,7 +424,28 @@ namespace GUITest
 				Win32.SendInput(1, new INPUT[] { input }, INPUT.Size);
 			}
 
-			private static void MoveTo(Control control)
+			private static Point GetCenterOfControl(Control control)
+			{
+				var rectangleControl = Rectangle.Empty;
+				Perform(() => { rectangleControl = (control.Parent ?? control).RectangleToScreen(control.Bounds); });
+				return new Point((rectangleControl.Left + rectangleControl.Right) / 2, (rectangleControl.Top + rectangleControl.Bottom) / 2);
+			}
+
+			private static Point GetCenterOfControlDataGridRow(ControlDataGridWithPosition control)
+			{
+				var dataGridRectangle = Rectangle.Empty;
+				Perform(() => { dataGridRectangle = (control.dataGrid.Parent ?? control.dataGrid).RectangleToScreen(control.dataGrid.Bounds); });
+				var rowRectangle = new Rectangle(
+					dataGridRectangle.X, 
+					dataGridRectangle.Y + control.dataGrid.RowHeight * (control.row - 1),
+					dataGridRectangle.Width,
+					control.dataGrid.RowHeight);
+				return new Point((rowRectangle.Left + rowRectangle.Right) / 2, (rowRectangle.Top + rowRectangle.Bottom) / 2);
+			}
+
+			private delegate Point GetMouseDestinationDelegate<T>(T destinationObject);
+
+			private static void MoveTo<T>(GetMouseDestinationDelegate<T> getMouseDestinationDelegate, T destinationObject)
 			{
 				var dt = 0.02;
 				var step = new Point(0, 0);
@@ -408,8 +453,7 @@ namespace GUITest
 				while (true)
 				{
 					var rectangle = Rectangle.Empty;
-					Perform(() => { rectangle = (control.Parent ?? control).RectangleToScreen(control.Bounds); });
-					var center = new Point((rectangle.Left + rectangle.Right) / 2, (rectangle.Top + rectangle.Bottom) / 2);
+					var center = getMouseDestinationDelegate(destinationObject);
 					rectangle = new Rectangle(center.X - 1, center.Y - 1, 2, 2);
 
 					Point p;
