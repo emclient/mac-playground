@@ -24,13 +24,13 @@ namespace GUITest
 			return (int)main.Invoke(null, new object[] { args });
         }
 
-        public static void Run(Action<string[]> main, string[] args, Type mainFormType)
-        {
-            var runner = new TestRunner(mainFormType);
-            runner.Run();
+        //public static void Run(Action<string[]> main, string[] args, Type mainFormType)
+        //{
+        //    var runner = new TestRunner(mainFormType);
+        //    runner.Run();
 
-            main(args);
-        }
+        //    main(args);
+        //}
 
         internal TestRunner(Type mainFormType = null)
         {
