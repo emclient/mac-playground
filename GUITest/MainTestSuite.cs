@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Threading;
 using NUnit.Framework;
 using MailClient.Common.UI.Controls.ControlToolStrip;
+using MailClient.UI.Controls.ControlSidebar;
 
 namespace GUITest
 {
@@ -18,7 +19,9 @@ namespace GUITest
         {
             Thread.Sleep(2000);
 
-            ControlToolStripButton button = null;
+			UI.Mouse.Click(UI.TryGetControl<ControlSidebarBoxMailFolders>("formMain.leftSpine1.controlSidebarBoxMailFolders"));
+
+			ControlToolStripButton button = null;
             UI.Perform(() => { button = UI.GetMember<ControlToolStripButton>("formMain.stripButton_New", null); });
             ThrowIfNull(button, "Failed locating New button (formMain.stripButton_New)");
 
