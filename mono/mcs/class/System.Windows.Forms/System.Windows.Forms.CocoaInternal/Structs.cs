@@ -77,14 +77,6 @@ namespace System.Windows.Forms.CocoaInternal {
 		internal Rectangle rect;
 	}
 
-	internal struct Hover {
-		internal Timer Timer;
-		internal IntPtr Hwnd;
-		internal int X;
-		internal int Y;
-		internal int Interval;
-	}
-
 	internal struct GrabStruct
 	{
 		internal bool Confined;     // Is the current grab (if any) confined to grab_area?
