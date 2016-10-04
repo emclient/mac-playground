@@ -79,14 +79,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContactsTestSuite.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainTestSuite.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="TestRunner.cs" />
     <Compile Include="UI.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\MailClient.Accounts\MailClient.Accounts.csproj">
+      <Project>{f614ca78-f3a2-4869-84ce-61001f624964}</Project>
+      <Name>MailClient.Accounts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\MailClient.Common.UI\MailClient.Common.UI.csproj">
       <Project>{a0da62d2-7d4d-43ba-bca3-1dd3354c746c}</Project>
       <Name>MailClient.Common.UI</Name>
@@ -95,8 +101,13 @@
       <Project>{5a6284d5-80a1-4e20-b253-2ed87e140e5a}</Project>
       <Name>MailClient</Name>
     </ProjectReference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" Condition=" '$(Configuration)' != 'Mono - Debug' and '$(Configuration)' != 'Xamarin - Debug'" />
+    <ProjectReference Include="..\..\..\MailClient.Storage\MailClient.Storage.csproj">
+      <Project>{9BBFB892-676D-417D-A7E7-D3A9F71DF4A3}</Project>
+      <Name>MailClient.Storage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\WinApi\WinApi.csproj" Condition=" '$(Configuration)' != 'Mono - Debug' and '$(Configuration)' != 'Xamarin - Debug'">
       <Project>{13fe9512-3dc7-4c6a-a817-551224a63dbb}</Project>
       <Name>WinApi</Name>
