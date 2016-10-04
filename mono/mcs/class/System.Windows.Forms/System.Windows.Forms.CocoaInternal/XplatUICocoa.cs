@@ -56,10 +56,8 @@
 //
 //
 
-using System;
 using System.Threading;
 using System.Drawing;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Collections;
 using System.Diagnostics;
@@ -121,8 +119,6 @@ namespace System.Windows.Forms {
 		internal static IntPtr ActiveWindow;
 		internal static NSWindow ReverseWindow;
 		internal static NSView CaretView;
-
-		internal static Cocoa.Hover Hover;
 
 		// Instance members
 		internal static NSEventModifierMask key_modifiers = 0;
@@ -199,15 +195,6 @@ namespace System.Windows.Forms {
 			// Initialize the event handlers
 			applicationDelegate = new Cocoa.MonoApplicationDelegate (this);
 			NSApplication.SharedApplication.Delegate = applicationDelegate;
-
-			// Initilize the mouse controls
-			Hover.Interval = 500;
-			Hover.Timer = new Timer ();
-			Hover.Timer.Enabled = false;
-			Hover.Timer.Interval = Hover.Interval;
-			Hover.Timer.Tick += new EventHandler (HoverCallback);
-			Hover.X = -1;
-			Hover.Y = -1;
 
 			// Initialize the Caret
 			Caret.Timer = new Timer ();
@@ -297,15 +284,6 @@ namespace System.Windows.Forms {
 				throw new ArgumentException ("XplatUICocoa.ClientWindowToScreen() requires NSView*");
 
 			NSWindow windowWrapper = viewWrapper.Window;
-
-			//TODO?
-//			if (windowWrapper.ContentView != viewWrapper)
-//			{
-//				Point clientOrigin = hwnd.client_rectangle.Location;
-//				point.X += clientOrigin.X;
-//				point.Y += clientOrigin.Y;
-			//}
-
 			if (viewWrapper != null && windowWrapper != null) {
 				point.X += hwnd.ClientRect.X;
 				point.Y += hwnd.ClientRect.Y;
@@ -316,27 +294,6 @@ namespace System.Windows.Forms {
 
 		internal void EnqueueMessage (MSG msg) {
 			NSApplication.SharedApplication.PostEvent(msg.ToNSEvent(), false);
-		}
-
-#region Reversible regions
-		/* 
-		 * Quartz has no concept of XOR drawing due to its compositing nature
-		 * We fake this by mapping a overlay window on the first draw and mapping it on the second.
-		 * This has some issues with it because its POSSIBLE for ControlPaint.DrawReversible* to actually
-		 * reverse two regions at once.  We dont do this in MWF, but this behaviour woudn't work.
-		 * We could in theory cache the Rectangle/Color combination to handle this behaviour.
-		 *
-		 * PROBLEMS: This has some flicker / banding
-		 */
-		internal void SizeWindow (Rectangle rect, IntPtr window)
-		{
-			NSWindow winWrap = (NSWindow) ObjCRuntime.Runtime.GetNSObject (window);
-			NSRect qrect = MonoToNativeScreen (rect);
-			qrect = winWrap.FrameRectFor (qrect);
-			winWrap.SetFrame (qrect, false);
-#if DriverDebug
-			Console.WriteLine ("SizeWindow ({0}, {1}) : {2}", rect, winWrap, qrect);
-#endif
 		}
 
 		internal void PositionWindowInClient (Rectangle rect, NSWindow window, IntPtr handle)
@@ -357,7 +314,6 @@ namespace System.Windows.Forms {
 			Console.WriteLine ("PositionWindowInClient ({0}, {1}) : {2}", rect, window, nsrect);
 #endif
 		}
-#endregion Reversible regions
 
 		internal NSPoint MonoToNativeScreen (Point monoPoint)
 		{
@@ -451,17 +407,6 @@ namespace System.Windows.Forms {
 				HideCaret ();
 			}
 		}
-		
-		private void HoverCallback (object sender, EventArgs e) {
-			/*if ((Hover.X == mouse_position.X) && (Hover.Y == mouse_position.Y)) {
-				MSG msg = new MSG ();
-				msg.hwnd = Hover.Hwnd;
-				msg.message = Msg.WM_MOUSEHOVER;
-				msg.wParam = GetMousewParam (0);
-				msg.lParam = (IntPtr)((ushort)Hover.X << 16 | (ushort)Hover.X);
-				EnqueueMessage (msg);
-			}*/
-		}
 #endregion
 		
 #region Private Methods
@@ -523,21 +468,6 @@ namespace System.Windows.Forms {
 			NSWindow windowWrapper = viewWrapper.Window;
 
 			native_point = viewWrapper.ConvertPointToView (native_point, null);
-			native_point = windowWrapper.ConvertBaseToScreen(native_point);
-
-			Point converted_point = NativeToMonoScreen (native_point);
-
-			return converted_point;
-		}
-
-		private Point ConvertWindowPointToScreen (IntPtr macWindow, Point point)
-		{
-			NSWindow windowWrapper = ObjCRuntime.Runtime.GetNSObject (macWindow) as NSWindow;
-			if (windowWrapper == null)
-				throw new ArgumentException ("XplatUICocoa.ConvertWindowPointToScreen() requires NSWindow*");
-
-			NSPoint native_point = MonoToNativeFramed (point, windowWrapper.Frame.Size.Height);
-
 			native_point = windowWrapper.ConvertBaseToScreen(native_point);
 
 			Point converted_point = NativeToMonoScreen (native_point);
@@ -778,9 +708,6 @@ namespace System.Windows.Forms {
 #if DriverDebug
 			Console.WriteLine ("HwndToNative ({0}) : {1}", hwnd, nsrect);
 #endif
-			/*NSView clientVuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.ClientWindow);
-			nsrect = MonoToNativeFramed (hwnd.ClientRect, nsrect.Size.Height);
-			clientVuWrap.Frame = nsrect;*/
 		}
 #endregion Private Methods
 
