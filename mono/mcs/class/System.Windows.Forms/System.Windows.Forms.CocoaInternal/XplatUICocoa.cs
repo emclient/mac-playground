@@ -933,6 +933,7 @@ namespace System.Windows.Forms {
 			hwnd.initial_style = cp.WindowStyle;
 			hwnd.initial_ex_style = cp.WindowExStyle;
 			hwnd.visible = false;
+			//hwnd.ClientRect = new Rectangle(0, 0, Width, Height);
 
 			if (StyleSet (cp.Style, WindowStyles.WS_DISABLED)) {
 				hwnd.enabled = false;
@@ -1004,6 +1005,9 @@ namespace System.Windows.Forms {
 
 			Text (hwnd.Handle, cp.Caption);
 			
+			SendMessage (hwnd.Handle, Msg.WM_NCCREATE, (IntPtr)1, IntPtr.Zero /* XXX unused */);
+			PerformNCCalc (hwnd);
+
 			SendMessage (hwnd.Handle, Msg.WM_CREATE, (IntPtr)1, IntPtr.Zero /* XXX unused */);
 			SendParentNotify (hwnd.Handle, Msg.WM_CREATE, int.MaxValue, int.MaxValue);
 
@@ -1812,7 +1816,8 @@ namespace System.Windows.Forms {
 					SendMessage(oldFocusHandle, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
 				contentView = (MonoContentView)activeWindowWrap.Window.ContentView;
 				contentView.FocusHandle = handle;
-				activeWindowWrap.Window.MakeFirstResponder(contentView);
+				if (activeWindowWrap.Window.FirstResponder != contentView)
+					activeWindowWrap.Window.MakeFirstResponder(contentView);
 				if (handle != IntPtr.Zero)
 					SendMessage(handle, Msg.WM_SETFOCUS, oldFocusHandle, IntPtr.Zero);
 			}
