@@ -1812,13 +1812,13 @@ namespace System.Windows.Forms {
 					oldFocusHandle = contentView.FocusHandle;
 				if (oldFocusHandle == handle)
 					return;
-				if (oldFocusHandle != IntPtr.Zero)
-					SendMessage(oldFocusHandle, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
 				contentView = (MonoContentView)activeWindowWrap.Window.ContentView;
 				contentView.FocusHandle = handle;
 				if (activeWindowWrap.Window.FirstResponder != contentView)
 					activeWindowWrap.Window.MakeFirstResponder(contentView);
-				if (handle != IntPtr.Zero)
+				if (oldFocusHandle != IntPtr.Zero)
+					SendMessage(oldFocusHandle, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
+				if (handle != IntPtr.Zero && GetFocus() == handle)
 					SendMessage(handle, Msg.WM_SETFOCUS, oldFocusHandle, IntPtr.Zero);
 			}
 		}
