@@ -134,7 +134,8 @@ namespace System.Windows.Forms {
 		internal static ArrayList UtilityWindows;
 		internal static readonly Stack<IntPtr> ModalSessions = new Stack<IntPtr>();
 		internal float screenHeight;
-		private NSAutoreleasePool autoreleasePool;
+
+		private Dictionary<Thread, Stack<NSAutoreleasePool>> pools = new Dictionary<Thread, Stack<NSAutoreleasePool>>();
 
 		// Message loop
 		private static bool GetMessageResult;
@@ -477,9 +478,6 @@ namespace System.Windows.Forms {
 
 		private bool PumpNativeEvent (bool wait, ref MSG msg, bool dequeue = true)
 		{
-			autoreleasePool.Dispose();
-			autoreleasePool = new NSAutoreleasePool();
-
 			msg.message = Msg.WM_NULL;
 
 			NSDate timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
@@ -1279,7 +1277,10 @@ namespace System.Windows.Forms {
 		}
 
 		internal override void EndLoop (Thread thread) {
-			autoreleasePool.Dispose();
+			var stack = pools[thread];
+			stack.Pop().Dispose();
+			if (stack.Count == 0)
+				pools.Remove(thread);
 		}
 
 		internal void Exit () {
@@ -2279,7 +2280,10 @@ namespace System.Windows.Forms {
 		}
 
 		internal override object StartLoop (Thread thread) {
-			autoreleasePool = new NSAutoreleasePool();
+			Stack<NSAutoreleasePool> stack;
+			if (!pools.TryGetValue(thread, out stack))
+				pools.Add(thread, stack = new Stack<NSAutoreleasePool>());
+			stack.Push(new NSAutoreleasePool());
 			return new object ();
 		}
 
