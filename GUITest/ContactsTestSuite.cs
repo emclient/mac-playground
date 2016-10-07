@@ -4,10 +4,11 @@ using System.Threading;
 using NUnit.Framework;
 
 // Controls used in tests
-using MailClient.Common.UI.Controls.ControlToolStrip;
-using MailClient.UI.Controls.ControlSidebar;
-using MailClient.Common.UI.Controls.ControlTextBox;
 using MailClient.UI.Controls;
+using MailClient.UI.Controls.ControlSidebar;
+using MailClient.Common.UI.Controls;
+using MailClient.Common.UI.Controls.ControlToolStrip;
+using MailClient.Common.UI.Controls.ControlTextBox;
 
 using MailClient.Storage.Data;
 
@@ -20,24 +21,43 @@ namespace GUITest
 		public void CreateNewContactTest()
 		{
 			Thread.Sleep(2000);
-			UI.Mouse.Click(UI.TryGetControl<ControlSidebarBoxContactsPanel>("formMain.leftSpine1.controlSidebarBoxContacts"));
-			UI.Mouse.Click(UI.TryGetControl<ControlToolStripButton>("formMain.stripButton_New"));
+
+			UI.Mouse.Click(UI.TryGetControl("formMain.leftSpine1.controlSidebarBoxContacts"));
+			UI.Mouse.Click(UI.TryGetControl("formMain.stripButton_New"));
 
 			var formContact = UI.WaitForForm("formContact");
-			MainTestSuite.ThrowIfNull(formContact, "Failed opening formContact");
-
+			Assert.IsNotNull(formContact);
 			// Name, Surname
-			UI.Mouse.Click(UI.TryGetControl<ControlTextBox>("formContact.text_Overview_FullName"));
+			UI.Mouse.Click(UI.TryGetControl("formContact.text_Overview_FullName"));
 			UI.Type("GUITest_Name GUITest_Surname");
 			// Company
-			UI.Mouse.Click(UI.TryGetControl<ControlTextBox>("formContact.text_Overview_Company"));
+			UI.Mouse.Click(UI.TryGetControl("formContact.text_Overview_Company"));
 			UI.Type("GUITest_Company");
 			// Category combobox
 			ComboBoxCategory combo = UI.TryGetControl<ComboBoxCategory>("formContact.combo_Overview_Category");
+			Assert.IsNotNull(combo);
 			UI.Mouse.Click(combo);
 			UI.Mouse.Click(Utils.GetDropdownControlDataGrid(combo), 2);
 
-			UI.Mouse.Click(UI.TryGetControl<ControlToolStripButton>("formContact.stripButton_Cancel"));
+			// Add email
+			UI.Mouse.Click(UI.TryGetControl("formContact.toolStripButton_AddEmail"));
+			UI.Mouse.Click(UI.TryGetControl<ToolStripMenuItemEx>("formContact.menuItem_AddEmail_Email"));
+			UI.Mouse.Click(UI.TryGetControl("formContact.toolStripButton_AddEmail"));
+			UI.Mouse.Click(UI.TryGetControl<ToolStripMenuItemEx>("formContact.menuItem_AddEmail_Work"));
+			UI.Mouse.Click(UI.TryGetControl("formContact.toolStripButton_AddEmail"));
+			UI.Mouse.Click(UI.TryGetControl<ToolStripMenuItemEx>("formContact.menuItem_AddEmail_Home"));
+
+			UI.Mouse.Click(UI.FindControl(UI.TryGetControl("formContact.tableLayoutPanel_Overview_Left"), "text_Email_Email"));
+			UI.Type("personal_email@example.com");
+
+			//UI.Mouse.Click(UI.TryGetControl<RemovableControl>("formContact.tableLayoutPanel_Overview_Left.ahojTohleJeTestovaciJmeno"));
+			//UI.Mouse.Click(UI.TryGetControl<MailClient.Common.UI.Controls.ToolStripMenuItemEx>("formContact.menuItem_AddEmail_Home"));
+
+			// predelat TryGetControl ze pouziva FindControl, ne GetMember
+
+
+			// Cancel
+			UI.Mouse.Click(UI.TryGetControl("formContact.stripButton_Cancel"));
 
 			var taskForm = UI.WaitForForm("taskForm");
 			Assert.IsNull(taskForm);
