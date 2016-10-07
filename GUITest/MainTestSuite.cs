@@ -14,12 +14,12 @@ namespace GUITest
     [TestFixture]
     public class MainTestSuite
 	{
-		[Test]
+		//[Test]
         public void NewMessageTest()
         {
             Thread.Sleep(2000);
 
-			UI.Mouse.Click(UI.TryGetControl<ControlSidebarBoxMailFolders>("formMain.leftSpine1.controlSidebarBoxMailFolders"));
+			UI.Mouse.Click(UI.TryGetControl("formMain.leftSpine1.controlSidebarBoxMailFolders"));
 
 			ControlToolStripButton button = null;
             UI.Perform(() => { button = UI.GetMember<ControlToolStripButton>("formMain.stripButton_New", null); });
@@ -60,7 +60,7 @@ namespace GUITest
         //[Test]
         public void BrowserTest()
 		{
-            var button = (Button)UI.GetMember("MainForm.button2", typeof(Button));
+            var button = (Button)UI.GetMember("MainForm.button2");
             UI.Perform(() => button.PerformClick());
 
             var webForm = UI.WaitForForm("WebForm");
@@ -73,7 +73,7 @@ namespace GUITest
         //[Test]
         public void DialogTest()
 		{
-			var button = (Button)UI.GetMember("MainForm.button3", typeof(Button));
+			var button = (Button)UI.GetMember("MainForm.button3");
             UI.Delay(1.0, () => { SendKeys.SendWait("{ESC}");  });
             UI.Perform(() => button.PerformClick());
 		}
@@ -81,14 +81,14 @@ namespace GUITest
         //[Test]
         public void OpenFileDialogTest()
         {
-            var combo = (ComboBox)UI.GetMember("MainForm.dialogTypeCombo", typeof(ComboBox));
+            var combo = (ComboBox)UI.GetMember("MainForm.dialogTypeCombo");
             UI.Perform(() => combo.Focus());
             SendKeys.SendWait("{F4}");
             SendKeys.SendWait("{DOWN}");
             SendKeys.SendWait("{ENTER}");
             Thread.Sleep(500);
 
-            var button = (Button)UI.GetMember("MainForm.button3", typeof(Button));
+            var button = (Button)UI.GetMember("MainForm.button3");
             UI.Delay(1.5, () => { SendKeys.SendWait("{ESC}"); });
             UI.Perform(() => button.PerformClick());
             Thread.Sleep(2000);

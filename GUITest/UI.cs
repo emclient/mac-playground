@@ -190,10 +190,10 @@ namespace GUITest
 
         public static T GetMember<T>(string path, Type type, int maxLevel = int.MaxValue) where T : class
         {
-            return GetMember(path, type, maxLevel = int.MaxValue) as T;
+            return GetMember(path, maxLevel = int.MaxValue) as T;
         }
 
-        public static object GetMember(string path, Type type, int maxLevel = int.MaxValue)
+        public static object GetMember(string path, int maxLevel = int.MaxValue)
         {
             var parts = path.Split('.');
 
@@ -217,7 +217,7 @@ namespace GUITest
                 parent = member;
             }
 
-            ThrowIfNull(member, String.Format("Member {0} not found", path));
+            ThrowIfNull(member, string.Format("Member {0} not found", path));
             return member;
         }
 
@@ -225,10 +225,15 @@ namespace GUITest
 		{
 			T control = Perform(() =>
 			{
-				return UI.GetMember<T>(name, null);
+				return GetMember(name) as T;
 			});
-			ThrowIfNull(control, String.Format("Failed locating control: {0}", control));
+			ThrowIfNull(control, string.Format("Failed locating control: {0}", control));
 			return control;
+		}
+
+		public static Control TryGetControl(string name, int maxLevel = 1)
+		{
+			return TryGetControl<Control>(name, maxLevel);
 		}
 
 		internal static void Close()
@@ -287,9 +292,9 @@ namespace GUITest
 					return c;
 
 				if (--maxLevel >= 0)
-					foreach (var child in c.Controls) 
+					foreach (Control child in c.Controls) 
 						if (child is ContainerControl)
-							q.Enqueue(c);
+							q.Enqueue(child);
 			}
 
 			return null;
@@ -401,9 +406,14 @@ namespace GUITest
 				Click(GetCenterOfControlDataGridRow, new ControlDataGridWithPosition(control, row), delay);
 			}
 
-			public static void RightClick(ControlDataGridWithPosition control, double delay = 0.2)
+			public static void RightClick(ControlDataGrid control, int row, double delay = 0.2)
 			{
-				Click(GetCenterOfControlDataGridRow, control, delay, true);
+				Click(GetCenterOfControlDataGridRow, new ControlDataGridWithPosition(control, row), delay, true);
+			}
+
+			public static void Click(ToolStripMenuItem control, double delay = 0.2)
+			{
+				Click(GetCenterOfToolStripMenuItem, control, delay);
 			}
 
 			private static void Click<T>(GetMouseDestinationDelegate<T> getMouseDestinationDelegate, T destinationObject, double delay = 0.2, bool rightClick = false)
@@ -453,6 +463,13 @@ namespace GUITest
 					dataGridRectangle.Width,
 					control.dataGrid.RowHeight);
 				return new Point((rowRectangle.Left + rowRectangle.Right) / 2, (rowRectangle.Top + rowRectangle.Bottom) / 2);
+			}
+
+			private static Point GetCenterOfToolStripMenuItem(ToolStripMenuItem control)
+			{
+				var rectangleControl = Rectangle.Empty;
+				Perform(() => { rectangleControl = control.Owner.RectangleToScreen(control.Bounds); });
+				return new Point((rectangleControl.Left + rectangleControl.Right) / 2, (rectangleControl.Top + rectangleControl.Bottom) / 2);
 			}
 
 			private delegate Point GetMouseDestinationDelegate<T>(T destinationObject);
