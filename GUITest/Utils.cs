@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 
+using MailClient.UI.Controls;
 using MailClient.UI.Controls.ControlDataGrid;
+using MailClient.UI.Controls.ToolStripControls;
 
 namespace GUITest
 {
 	public static class Utils
 	{
-		public static ControlDataGrid GetDropdownControlDataGrid(MailClient.UI.Controls.ComboBoxWithDataGrid comboBox)
+		public static ControlDataGrid GetDropdownControlDataGrid(ComboBoxWithDataGrid comboBox)
 		{
-			return (ControlDataGrid)((MailClient.UI.Controls.ToolStripControls.DropDownPanel)((System.Windows.Forms.ToolStripControlHost)comboBox.PopupHelper.Items[0]).Control).Controls[0];
+			return (ControlDataGrid)((DropDownPanel)((ToolStripControlHost)comboBox.PopupHelper.Items[0]).Control).Controls[0];
 		}
 	}
 
