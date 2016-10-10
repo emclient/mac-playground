@@ -400,6 +400,19 @@ namespace System.Windows.Forms.CocoaInternal
 			return root;
 		}
 
+		public Control FindSuperControl(Control control)
+		{
+			var next = control;
+			while (next != null)
+			{
+				if (next.CanSelect && next.TabStop)
+					return next;
+
+				next = next.Parent;
+			}
+			return null;
+		}
+
 		public Control FindNextControl(Control top, Control control)
 		{
 			var next = control;
