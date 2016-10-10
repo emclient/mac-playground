@@ -970,11 +970,11 @@ namespace System.Windows.Forms
 		internal override bool ProcessArrowKey (Keys keyData)
 		{
 			switch (keyData) {
-				case Keys.Down:
+				//case Keys.Down:
 				case Keys.Tab:
 					this.SelectNextToolStripItem (this.GetCurrentlySelectedItem (), true);
 					return true;
-				case Keys.Up:
+				//case Keys.Up:
 				case Keys.Shift | Keys.Tab:
 					this.SelectNextToolStripItem (this.GetCurrentlySelectedItem (), false);
 					return true;
