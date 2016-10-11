@@ -692,9 +692,12 @@ namespace System.Windows.Forms {
 				Hwnd parent = hwnd.Parent;
 
 				if (superVuWrap != null) {
-						mrect.Y += (int)superVuWrap.AlignmentRectInsets.Top;
-						mrect.X += (int)superVuWrap.AlignmentRectInsets.Left;
-						nsrect = MonoToNativeFramed(mrect, superVuWrap.Frame.Size.Height);
+					var clientView = superVuWrap as IClientView;
+					if (clientView != null) {
+						mrect.Y += (int)clientView.ClientBounds.Top;
+						mrect.X += (int)clientView.ClientBounds.Left;
+					}
+					nsrect = MonoToNativeFramed(mrect, superVuWrap.Frame.Size.Height);
 				} else
 					nsrect = new NSRect(mrect.X, mrect.Y, mrect.Width, mrect.Height);
 
@@ -938,8 +941,11 @@ namespace System.Windows.Forms {
 			Rectangle mWholeRect = new Rectangle (new Point (X, Y), new Size(Width, Height));
 			NSRect WholeRect;
 			if (!isTopLevel && null != parent_hwnd) {
-				mWholeRect.X += (int)ParentWrapper.AlignmentRectInsets.Left;
-				mWholeRect.Y += (int)ParentWrapper.AlignmentRectInsets.Top;
+				var clientView = ParentWrapper as IClientView;
+				if (clientView != null) {
+					mWholeRect.X += (int)clientView.ClientBounds.Left;
+					mWholeRect.Y += (int)clientView.ClientBounds.Top;
+				}
 				WholeRect = MonoToNativeFramed (mWholeRect, ParentWrapper.Frame.Size.Height);
 			} else {
 				WholeRect = MonoToNativeScreen (mWholeRect);
