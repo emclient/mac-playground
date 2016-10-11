@@ -129,7 +129,6 @@ namespace System.Windows.Forms {
 		
 		// Cocoa Specific
 		internal static GrabStruct Grab;
-		internal static Stack<GrabStruct> GrabStack = new Stack<GrabStruct>();
 		internal static Cocoa.Caret Caret;
 		internal static ArrayList UtilityWindows;
 		internal static readonly Stack<IntPtr> ModalSessions = new Stack<IntPtr>();
@@ -662,7 +661,6 @@ namespace System.Windows.Forms {
 			}
 
 			if (Grab.Hwnd == hwnd.Handle) {
-				GrabStack.Pop();
 				Grab.Hwnd = IntPtr.Zero;
 				Grab.Confined = false;
 			}
@@ -1472,8 +1470,6 @@ namespace System.Windows.Forms {
 
 			Grab.Hwnd = handle;
 			Grab.Confined = confine_to_handle != IntPtr.Zero;
-
-			GrabStack.Push(Grab);
 			// FIXME: Set the Grab.Area
 		}
 		
@@ -1482,17 +1478,10 @@ namespace System.Windows.Forms {
 				Console.WriteLine("Unpaired ungrab!");
 				return;
 			}
-				
-			bool was_grabbed = GrabStack.Count != 0;
-			if (was_grabbed)
-				GrabStack.Pop();
 
-			if (GrabStack.Count == 0) {
-				Grab.Hwnd = IntPtr.Zero;
-				Grab.Confined = false;
-			} else {
-				Grab = GrabStack.Peek();
-			}
+			bool was_grabbed = Grab.Hwnd != IntPtr.Zero;
+			Grab.Hwnd = IntPtr.Zero;
+			Grab.Confined = false;
 
 			if (was_grabbed) {
 				// lparam should be the handle to the window gaining the mouse capture,
