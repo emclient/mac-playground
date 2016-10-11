@@ -56,7 +56,7 @@ using System.Drawing;
 namespace System.Windows.Forms.CocoaInternal
 {
 	//[ExportClass("MonoView", "NSView")]
-	internal partial class MonoView : NSView
+	internal partial class MonoView : NSView, System.Drawing.IClientView
 	{
 		protected XplatUICocoa driver;
 		protected Hwnd hwnd;
@@ -95,7 +95,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override bool AcceptsFirstMouse(NSEvent theEvent)
 		{
-			return false;
+			return true;
 		}
 
 		public override void ViewDidMoveToWindow ()
@@ -169,10 +169,12 @@ namespace System.Windows.Forms.CocoaInternal
 		public override void DrawRect (NSRect dirtyRect)
 		{
 			Rectangle bounds = driver.NativeToMonoFramed (dirtyRect, Frame.Size.Height);
+			MSG msg;
 
-			DrawBorders ();
-			hwnd.AddNcInvalidArea (bounds);
-			//driver.SendMessage (hwnd.Handle, Msg.WM_NCPAINT, IntPtr.Zero, IntPtr.Zero);			var msg = new MSG { hwnd = hwnd.Handle, message = Msg.WM_NCPAINT };
+			DrawBorders();
+			hwnd.AddNcInvalidArea(bounds);
+			//driver.SendMessage (hwnd.Handle, Msg.WM_NCPAINT, IntPtr.Zero, IntPtr.Zero);
+			msg = new MSG { hwnd = hwnd.Handle, message = Msg.WM_NCPAINT };
 			driver.DispatchMessage(ref msg);
 			hwnd.ClearNcInvalidArea();
 
@@ -185,15 +187,15 @@ namespace System.Windows.Forms.CocoaInternal
 			hwnd.ClearInvalidArea();
 		}
 
-		public override NSEdgeInsets AlignmentRectInsets
+		public NSRect ClientBounds
 		{
 			get
 			{
-				return new NSEdgeInsets(
+				return new NSRect(
 					NMath.Max(this.hwnd.ClientRect.Top, 0),
 					NMath.Max(this.hwnd.ClientRect.Left, 0),
-					NMath.Max(this.Frame.Height - this.hwnd.ClientRect.Bottom, 0),
-					NMath.Max(this.Frame.Width - this.hwnd.ClientRect.Right, 0));
+					NMath.Max(this.hwnd.ClientRect.Width, 0),
+					NMath.Max(this.hwnd.ClientRect.Height, 0));
 			}
 		}
 
@@ -262,13 +264,6 @@ namespace System.Windows.Forms.CocoaInternal
 				wParam |= (int)MsgButtons.MK_SHIFT;
 
 			return (IntPtr)wParam;
-		}
-
-		public bool PointInRect(NSPoint p, NSRect r)
-		{
-			return IsFlipped
-				? !(p.X < r.X || p.Y < r.Top || p.X > r.Right || p.Y > r.Bottom)
-					: !(p.X < r.X || p.Y < r.Bottom || p.X > r.Right || p.Y > r.Top);
 		}
 	}
 }
