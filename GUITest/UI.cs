@@ -277,27 +277,44 @@ namespace GUITest
 
         public static Control FindControl(Control root, string name, int maxLevel = int.MaxValue)
         {
-            return Perform(() => { return DoFindControl(root, name, maxLevel); });
-        }
+			return FindControls(root, name, 1, maxLevel)[0];
+		}
 
-		internal static Control DoFindControl(Control instance, string name, int maxLevel)
+		public static List<Control> FindControls(Control root, string name, int count, int maxLevel = int.MaxValue)
 		{
+			return Perform(() => { return DoFindControls(root, name, count, maxLevel); });
+		}
+
+		internal static List<Control> DoFindControls(Control instance, string name, int count, int maxLevel)
+		{
+			List<Control> controls = new List<Control>();
+
 			Queue<Control> q = new Queue<Control>();
 			q.Enqueue(instance);
 
-			while (q.Count > 0)
+			if (instance.Name.Equals(name))
+				controls.Add(instance);
+
+			while ((q.Count > 0) && (controls.Count < count))
 			{
-				var c = q.Dequeue();
-				if (name.Equals(c.Name))
-					return c;
+				Control control = q.Dequeue();
 
 				if (--maxLevel >= 0)
-					foreach (Control child in c.Controls) 
+					foreach (Control child in control.Controls)
+					{
+						if (child.Name.Equals(name))
+							controls.Add(child);
+
 						if (child is ContainerControl)
 							q.Enqueue(child);
+					}
 			}
 
-			return null;
+			if (controls.Count == 0)
+			{
+				return null;
+			}
+			return controls;
 		}
 
 		public static object FindMember(object instance, string name, Type type = null, int maxLevel = 1)
