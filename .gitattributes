@@ -5789,4 +5789,5 @@ sysdrawing-coregraphics/Utilities/ClipperLib/clipper.cs -text
 sysdrawing-coregraphics/Utilities/ConversionHelpers.cs -text
 sysdrawing-coregraphics/Utilities/GeomTransformUtils.cs -text
 sysdrawing-coregraphics/Utilities/GeomUtilities.cs -text
+sysdrawing-coregraphics/Utilities/IClientView.cs -text
 sysdrawing-coregraphics/Utilities/Locale.cs -text
