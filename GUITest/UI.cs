@@ -466,7 +466,8 @@ namespace GUITest
 			private static Point GetCenterOfControl(Control control)
 			{
 				var rectangleControl = Rectangle.Empty;
-				Perform(() => { rectangleControl = (control.Parent ?? control).RectangleToScreen(control.Bounds); });
+				//Perform(() => { rectangleControl = (control.Parent ?? control).RectangleToScreen(control.Bounds); });
+				Perform(() => { rectangleControl = control.RectangleToScreen(control.ClientRectangle); });
 				return new Point((rectangleControl.Left + rectangleControl.Right) / 2, (rectangleControl.Top + rectangleControl.Bottom) / 2);
 			}
 
