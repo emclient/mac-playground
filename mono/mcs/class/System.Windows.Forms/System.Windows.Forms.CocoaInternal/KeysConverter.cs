@@ -123,6 +123,8 @@ namespace System.Windows.Forms.CocoaInternal
 			keys.Add((ulong)NSKey.D8,Keys.D8);
 			keys.Add((ulong)NSKey.D9,Keys.D9);
 
+			keys.Add((ulong)NSKey.Space, Keys.Space);
+
 			keys.Add((ulong)NSKey.A,Keys.A);
 			keys.Add((ulong)NSKey.B,Keys.B);
 			keys.Add((ulong)NSKey.C,Keys.C);
