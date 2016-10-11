@@ -149,18 +149,20 @@ namespace System.Drawing {
 			}
 
 			if (client) {
-				var frameRect = view.Frame;
-				var alignmentRect = view.GetAlignmentRectForFrame(frameRect);
-				view.Window.GraphicsContext.GraphicsPort.SaveState();
-				view.Window.GraphicsContext.GraphicsPort.TranslateCTM(
-					(alignmentRect.Left - frameRect.Left),
-					(alignmentRect.Top - frameRect.Top));
-				view.Window.GraphicsContext.GraphicsPort.ClipToRect(new CGRect(
-					0,
-					0,
-					alignmentRect.Width,
-					alignmentRect.Height));
-				g.hasClientTransform = true;
+				var clientView = view as IClientView;
+				if (clientView != null) {
+					var clientBounds = clientView.ClientBounds;
+					view.Window.GraphicsContext.GraphicsPort.SaveState();
+					view.Window.GraphicsContext.GraphicsPort.TranslateCTM(
+						clientBounds.Left,
+						clientBounds.Top);
+					view.Window.GraphicsContext.GraphicsPort.ClipToRect(new CGRect(
+						0,
+						0,
+						clientBounds.Width,
+						clientBounds.Height));
+					g.hasClientTransform = true;
+				}
 			}
 
 			return g;

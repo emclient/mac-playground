@@ -590,6 +590,7 @@
     <Compile Include="System.Drawing.Imaging\ImageCodecInfo.cs">
       <Link>System.Drawing.Imaging\ImageCodecInfo.cs</Link>
     </Compile>
+    <Compile Include="Utilities\IClientView.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Mono.ico">
