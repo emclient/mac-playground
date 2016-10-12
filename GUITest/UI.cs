@@ -477,7 +477,7 @@ namespace GUITest
 				Perform(() => { dataGridRectangle = (control.dataGrid.Parent ?? control.dataGrid).RectangleToScreen(control.dataGrid.Bounds); });
 				var rowRectangle = new Rectangle(
 					dataGridRectangle.X, 
-					dataGridRectangle.Y + control.dataGrid.RowHeight * (control.row - 1),
+					dataGridRectangle.Y + control.dataGrid.RowHeight * control.row,
 					dataGridRectangle.Width,
 					control.dataGrid.RowHeight);
 				return new Point((rowRectangle.Left + rowRectangle.Right) / 2, (rowRectangle.Top + rowRectangle.Bottom) / 2);

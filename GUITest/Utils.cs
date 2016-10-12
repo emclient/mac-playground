@@ -17,6 +17,18 @@ namespace GUITest
 		{
 			return (ControlDataGrid)((DropDownPanel)((ToolStripControlHost)comboBox.PopupHelper.Items[0]).Control).Controls[0];
 		}
+
+		public static int GetRowOfTheCategory(ControlDataGrid controlDataGrid, string category)
+		{
+			foreach (MailClient.UI.Categories.UICategory item in controlDataGrid.DataSource)
+			{
+				if (item.CategoryName.Equals(category))
+				{
+					return controlDataGrid.DataSource.IndexOf(item);
+				}
+			}
+			return -1;
+		}
 	}
 	
 	public class ControlDataGridWithPosition
