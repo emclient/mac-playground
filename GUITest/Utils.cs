@@ -6,8 +6,6 @@ using System.Windows.Forms;
 using MailClient.UI.Controls;
 using MailClient.UI.Controls.ControlDataGrid;
 using MailClient.UI.Controls.ToolStripControls;
-using MailClient.Common.UI.Controls.ControlToolStrip;
-using MailClient.Common.UI.Controls.ControlTextBox;
 
 namespace GUITest
 {

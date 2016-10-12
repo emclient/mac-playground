@@ -59,10 +59,6 @@ namespace GUITest
 			UI.Mouse.Click(UI.FindControls(contactInfoPanel, "text_Email_Email", 3)[2]);
 			UI.Type(Contact.TestContact.Mails[2].Address);
 
-
-			//UI.Mouse.Click(UI.TryGetControl<RemovableControl>("formContact.tableLayoutPanel_Overview_Left.ahojTohleJeTestovaciJmeno"));
-			//UI.Mouse.Click(UI.TryGetControl<MailClient.Common.UI.Controls.ToolStripMenuItemEx>("formContact.menuItem_AddEmail_Home"));
-
 			// Cancel
 			UI.Mouse.Click(UI.TryGetControl("formContact.stripButton_Cancel"));
 
@@ -83,7 +79,6 @@ namespace GUITest
 			//MailClient.Security.MasterPasswordManager MasterPasswordManager = new MailClient.Security.MasterPasswordManager(Settings);
 			//MailClient.Protocols.InteractionControllerFactory ControllerFactory = new MailClient.Protocols.InteractionControllerFactory();
 			//MailClient.Accounts.AccountManager AccountManager = new MailClient.Accounts.AccountManager(DataStore, Settings.GetValue("online", true), ControllerFactory, MasterPasswordManager);
-
 		}
 	}
 }
