@@ -43,12 +43,12 @@ namespace GUITest
 			// Add personal email
 			UI.Mouse.Click(UI.TryGetControl("formContact.toolStripButton_AddEmail"));
 			UI.Mouse.Click(UI.TryGetControl<ToolStripMenuItemEx>("formContact.menuItem_AddEmail_Email"));
-			UI.Mouse.Click(Utils.GetNthRemovableControlEmbedded(contactInfoPanel, 1));
+			UI.Mouse.Click(UI.FindControl(contactInfoPanel, "text_Email_Email"));
 			UI.Type("test_email_personal@example.com");
 			// Add work email
 			UI.Mouse.Click(UI.TryGetControl("formContact.toolStripButton_AddEmail"));
 			UI.Mouse.Click(UI.TryGetControl<ToolStripMenuItemEx>("formContact.menuItem_AddEmail_Work"));
-			UI.Mouse.Click(Utils.GetNthRemovableControlEmbedded(contactInfoPanel, 2));
+			UI.Mouse.Click(UI.FindControls(contactInfoPanel, "text_Email_Email", 2)[1]);
 			UI.Type("test_email_work@example.com");
 			UI.Mouse.Click(UI.FindControls(contactInfoPanel, "toolStripButton_AddDisplayAs", 2)[1]);
 			UI.Mouse.Click(UI.FindControls(contactInfoPanel, "text_Email_DisplayAs", 2)[1]);
@@ -56,7 +56,7 @@ namespace GUITest
 			// Add work email
 			UI.Mouse.Click(UI.TryGetControl("formContact.toolStripButton_AddEmail"));
 			UI.Mouse.Click(UI.TryGetControl<ToolStripMenuItemEx>("formContact.menuItem_AddEmail_Home"));
-			UI.Mouse.Click(Utils.GetNthRemovableControlEmbedded(contactInfoPanel, 3));
+			UI.Mouse.Click(UI.FindControls(contactInfoPanel, "text_Email_Email", 3)[2]);
 			UI.Type("test_email_home@example.com");
 
 
