@@ -463,31 +463,35 @@ namespace GUITest
 				Win32.SendInput(1, new INPUT[] { input }, INPUT.Size);
 			}
 
+			private static Point GetCenterOfRectangle(Rectangle rectangle)
+			{
+				return new Point((rectangle.Left + rectangle.Right) / 2, (rectangle.Top + rectangle.Bottom) / 2);
+			}
+
 			private static Point GetCenterOfControl(Control control)
 			{
 				var rectangleControl = Rectangle.Empty;
-				//Perform(() => { rectangleControl = (control.Parent ?? control).RectangleToScreen(control.Bounds); });
 				Perform(() => { rectangleControl = control.RectangleToScreen(control.ClientRectangle); });
-				return new Point((rectangleControl.Left + rectangleControl.Right) / 2, (rectangleControl.Top + rectangleControl.Bottom) / 2);
+				return GetCenterOfRectangle(rectangleControl);
 			}
 
 			private static Point GetCenterOfControlDataGridRow(ControlDataGridWithPosition control)
 			{
 				var dataGridRectangle = Rectangle.Empty;
-				Perform(() => { dataGridRectangle = (control.dataGrid.Parent ?? control.dataGrid).RectangleToScreen(control.dataGrid.Bounds); });
+				Perform(() => { dataGridRectangle = control.dataGrid.RectangleToScreen(control.dataGrid.ClientRectangle); });
 				var rowRectangle = new Rectangle(
 					dataGridRectangle.X, 
 					dataGridRectangle.Y + control.dataGrid.RowHeight * control.row,
 					dataGridRectangle.Width,
 					control.dataGrid.RowHeight);
-				return new Point((rowRectangle.Left + rowRectangle.Right) / 2, (rowRectangle.Top + rowRectangle.Bottom) / 2);
+				return GetCenterOfRectangle(rowRectangle);
 			}
 
 			private static Point GetCenterOfToolStripMenuItem(ToolStripMenuItem control)
 			{
 				var rectangleControl = Rectangle.Empty;
 				Perform(() => { rectangleControl = control.Owner.RectangleToScreen(control.Bounds); });
-				return new Point((rectangleControl.Left + rectangleControl.Right) / 2, (rectangleControl.Top + rectangleControl.Bottom) / 2);
+				return GetCenterOfRectangle(rectangleControl);
 			}
 
 			private delegate Point GetMouseDestinationDelegate<T>(T destinationObject);
