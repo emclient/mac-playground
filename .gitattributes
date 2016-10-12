@@ -89,6 +89,7 @@ FormsTest/WebForm.cs -text
 FormsTest/XamUrlProtocol.cs -text
 FormsTest/application.ico -text
 FormsTest/car.png -text
+GUITest/Contact.cs -text
 GUITest/ContactsTestSuite.cs -text
 GUITest/Extensions.cs -text
 GUITest/GUITest.csproj -text
