@@ -35,9 +35,9 @@ namespace GUITest
 			UI.Type(Contact.TestContact.Company);
 			// Category combobox
 			ComboBoxCategory combo = UI.TryGetControl<ComboBoxCategory>("formContact.combo_Overview_Category");
-			Assert.IsNotNull(combo);
 			UI.Mouse.Click(combo);
-			UI.Mouse.Click(Utils.GetDropdownControlDataGrid(combo), 2);
+			var controlDataGrid = Utils.GetDropdownControlDataGrid(combo);
+			UI.Mouse.Click(controlDataGrid, Utils.GetRowOfTheCategory(controlDataGrid, Contact.TestContact.Category));
 
 			var contactInfoPanel = UI.TryGetControl("formContact.tableLayoutPanel_Overview_Left");
 			// Add personal email
