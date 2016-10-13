@@ -339,38 +339,53 @@ namespace System.Windows.Forms
 			this.Close (ToolStripDropDownCloseReason.CloseCalled);
 		}
 
-		public void Close (ToolStripDropDownCloseReason reason)
+		ToolStripDropDownCloseReason closeReason = ToolStripDropDownCloseReason.AppFocusChange;
+		public void Close(ToolStripDropDownCloseReason reason)
 		{
-			if (!this.Visible)
-				return;
-				
-			// Give users a chance to cancel the close
-			ToolStripDropDownClosingEventArgs e = new ToolStripDropDownClosingEventArgs (reason);
-			this.OnClosing (e);
+			closeReason = reason;
+			this.Visible = false;
+		}
 
-			if (e.Cancel)
-				return;
-
-			// Don't actually close if AutoClose == true unless explicitly called
-			if (!this.auto_close && reason != ToolStripDropDownCloseReason.CloseCalled)
+		protected override void SetVisibleCore(bool visible)
+		{
+			if (this.Visible == visible)
 				return;
 
-			// Detach from the tracker
-			ToolStripManager.AppClicked -= new EventHandler (ToolStripMenuTracker_AppClicked); ;
-			ToolStripManager.AppFocusChange -= new EventHandler (ToolStripMenuTracker_AppFocusChange);
+			if (visible)
+			{
+				// TODO: Move here the code from Show().
+				base.SetVisibleCore(visible);
+			}
+			else
+			{
+				// Give users a chance to cancel the close
+				ToolStripDropDownClosingEventArgs e = new ToolStripDropDownClosingEventArgs(closeReason);
+				this.OnClosing(e);
 
-			// Hide this dropdown
-			this.Hide ();
+				if (e.Cancel)
+					return;
 
-			// Owner MenuItem needs to be told to redraw (it's no longer selected)
-			if (owner_item != null)
-				owner_item.Invalidate ();
+				// Don't actually close if AutoClose == true unless explicitly called
+				if (!this.auto_close && closeReason != ToolStripDropDownCloseReason.CloseCalled)
+					return;
 
-			// Recursive hide all child dropdowns
-			foreach (ToolStripItem tsi in this.Items)
-				tsi.Dismiss (reason);
-			
-			this.OnClosed (new ToolStripDropDownClosedEventArgs (reason));
+				// Detach from the tracker
+				ToolStripManager.AppClicked -= new EventHandler(ToolStripMenuTracker_AppClicked); ;
+				ToolStripManager.AppFocusChange -= new EventHandler(ToolStripMenuTracker_AppFocusChange);
+
+				// Owner MenuItem needs to be told to redraw (it's no longer selected)
+				if (owner_item != null)
+					owner_item.Invalidate();
+
+				// Recursive hide all child dropdowns
+				foreach (ToolStripItem tsi in this.Items)
+					tsi.Dismiss(closeReason);
+
+				// Hide this dropdown
+				base.SetVisibleCore(visible);
+
+				this.OnClosed(new ToolStripDropDownClosedEventArgs(closeReason));
+			}
 		}
 
 		[Browsable (false)]
@@ -724,11 +739,6 @@ namespace System.Windows.Forms
 		protected override void SetBoundsCore (int x, int y, int width, int height, BoundsSpecified specified)
 		{
 			base.SetBoundsCore (x, y, width, height, specified);
-		}
-
-		protected override void SetVisibleCore (bool visible)
-		{
-			base.SetVisibleCore (visible);
 		}
 
 		protected override void WndProc (ref Message m)
