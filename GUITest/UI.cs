@@ -305,8 +305,7 @@ namespace GUITest
 						if (child.Name.Equals(name))
 							controls.Add(child);
 
-						if (child is ContainerControl)
-							q.Enqueue(child);
+						q.Enqueue(child);
 					}
 			}
 
