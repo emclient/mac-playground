@@ -32,6 +32,11 @@
 //
 using System.Collections;
 using System.ComponentModel;
+#if XAMARINMAC
+using AppKit;
+#elif MONOMAC
+using MonoMac.AppKit;
+#endif
 
 namespace System.Drawing.Printing {
 	
@@ -169,7 +174,7 @@ namespace System.Drawing.Printing {
 
 		public static PrinterSettings.StringCollection InstalledPrinters
 		{
-			get { return new StringCollection(new string[0]); }
+			get { return new StringCollection(NSPrinter.PrinterNames); }
 		}
 
 		public class PaperSourceCollection : ICollection, IEnumerable

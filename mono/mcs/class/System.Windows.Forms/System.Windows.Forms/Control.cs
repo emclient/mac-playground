@@ -2973,6 +2973,9 @@ namespace System.Windows.Forms
 					}
 
 					value.Controls.Add(this);
+
+					if (this.Visible && parent.Created)
+						this.CreateControl();
 				}
 			}
 		}
@@ -4187,6 +4190,26 @@ namespace System.Windows.Forms
 			return false;
 		}
 
+		private void SelectNextIfFocused()
+		{
+			// V#32437 - We want to move focus away from hidden controls, so this
+			//           function was added.
+			//
+			if (ContainsFocus && Parent != null)
+			{
+				IContainerControl c = Parent.GetContainerControl();
+
+				if (c != null)
+				{
+					// SECREVIEW : Control.SelectNextControl generates a call to ContainerControl.ActiveControl which demands
+					//             ModifyFocus permission, the demand is to prevent DOS attacks but it doesn't expose a sec
+					//             vulnerability indirectly.  So it is safe to call the internal version of SelectNextControl here.
+					//
+					((Control)c).SelectNextControl(this, true, true, true, true);
+				}
+			}
+		}
+
 		public void SendToBack() {
 			if (parent != null) {
 				parent.child_controls.SetChildIndex(this, parent.child_controls.Count);
@@ -4854,6 +4877,10 @@ namespace System.Windows.Forms
 
 		protected virtual void SetVisibleCore(bool value) {
 			if (value != is_visible) {
+
+				if (!value)
+					SelectNextIfFocused();
+
 				is_visible = value;
 				
 				if (is_visible && ((window.Handle == IntPtr.Zero) || !is_created)) {
