@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
+using MailClient.Contact;
+
 namespace GUITest
 {
 	class Contact
 	{
-		public string Name;
-		public string Surname;
+		public ContactName Name;
 		public string Company;
 		public string Category;
 		public List<ContactMail> Mails;
@@ -35,8 +36,7 @@ namespace GUITest
 		public static Contact CreateNewTestContact()
 		{
 			Contact contact = new Contact();
-			contact.Name = "GUITest_Name";
-			contact.Surname = "GUITest_Surname";
+			ContactName.TryParse("GUITest_Name GUITest_Surname", out contact.Name);
 			contact.Company = "GUITest_Company";
 			contact.Category = "Home";
 			contact.Mails = new List<ContactMail>();
