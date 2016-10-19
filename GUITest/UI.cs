@@ -407,41 +407,66 @@ namespace GUITest
 
 		public static class Mouse
 		{
-			public static void Click(Control control, double delay = 0.2)
+			enum ClickType
 			{
-				Click(GetCenterOfControl, control, delay);
+				Left,
+				Right,
+				DoubleClick
 			}
 
-			public static void RightClick(Control control, double delay = 0.2)
+			public static void Click(Control control)
 			{
-				Click(GetCenterOfControl, control, delay, true);
+				Click(ClickType.Left, GetCenterOfControl, control);
 			}
 
-			public static void Click(ControlDataGrid control, int row, double delay = 0.2)
+			public static void RightClick(Control control)
 			{
-				Click(GetCenterOfControlDataGridRow, new ControlDataGridWithPosition(control, row), delay);
+				Click(ClickType.Right, GetCenterOfControl, control);
 			}
 
-			public static void RightClick(ControlDataGrid control, int row, double delay = 0.2)
+			public static void DoubleClick(Control control)
 			{
-				Click(GetCenterOfControlDataGridRow, new ControlDataGridWithPosition(control, row), delay, true);
+				Click(ClickType.DoubleClick, GetCenterOfControl, control);
 			}
 
-			public static void Click(ToolStripMenuItem control, double delay = 0.2)
+			public static void Click(ControlDataGrid control, int row)
 			{
-				Click(GetCenterOfToolStripMenuItem, control, delay);
+				Click(ClickType.Left, GetCenterOfControlDataGridRow, new ControlDataGridWithPosition(control, row));
 			}
 
-			private static void Click<T>(GetScreenRectangleOfControl<T> getMouseDestinationDelegate, T destinationObject, double delay = 0.2, bool rightClick = false)
+			public static void RightClick(ControlDataGrid control, int row)
 			{
-				MOUSEEVENTF downFlags = (rightClick) ? MOUSEEVENTF.RIGHTDOWN : MOUSEEVENTF.LEFTDOWN;
-				MOUSEEVENTF upFlags = (rightClick) ? MOUSEEVENTF.RIGHTUP : MOUSEEVENTF.LEFTUP;
-				MoveTo(getMouseDestinationDelegate, destinationObject);
-				SendInput(downFlags);
-				Sleep(delay);
-				//MoveTo(getMouseDestinationDelegate, destinationObject);
-				SendInput(upFlags);
-				Sleep(delay);
+				Click(ClickType.Right, GetCenterOfControlDataGridRow, new ControlDataGridWithPosition(control, row));
+			}
+
+			public static void DoubleClick(ControlDataGrid control, int row)
+			{
+				Click(ClickType.DoubleClick, GetCenterOfControlDataGridRow, new ControlDataGridWithPosition(control, row));
+			}
+
+			public static void Click(ToolStripMenuItem control)
+			{
+				Click(ClickType.Left, GetCenterOfToolStripMenuItem, control);
+			}
+
+			private static void Click<T>(ClickType clickType, GetScreenRectangleOfControl<T> getMouseDestinationDelegate, T destinationObject)
+			{
+				MOUSEEVENTF downFlags = (clickType == ClickType.Right) ? MOUSEEVENTF.RIGHTDOWN : MOUSEEVENTF.LEFTDOWN;
+				MOUSEEVENTF upFlags = (clickType == ClickType.Right) ? MOUSEEVENTF.RIGHTUP : MOUSEEVENTF.LEFTUP;
+				int numberOfClicks = (clickType == ClickType.DoubleClick) ? 2 : 1;
+				for (int i = 0; i < numberOfClicks; i++)
+				{
+					MoveTo(getMouseDestinationDelegate, destinationObject);
+					SendInput(downFlags);
+					Thread.Sleep(SystemInformation.DoubleClickTime / 8);
+					MoveTo(getMouseDestinationDelegate, destinationObject);
+					SendInput(upFlags);
+					Thread.Sleep(SystemInformation.DoubleClickTime / 8);
+
+					if (clickType == ClickType.DoubleClick)
+						Thread.Sleep(SystemInformation.DoubleClickTime / 4);
+				}
+
 			}
 
 			private static void SendInput(MOUSEEVENTF flags)
