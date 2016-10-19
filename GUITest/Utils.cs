@@ -18,26 +18,34 @@ namespace GUITest
 
 		public static int GetRowOfTheCategory(ControlDataGrid controlDataGrid, string category)
 		{
-			foreach (MailClient.UI.Categories.UICategory item in controlDataGrid.DataSource)
-			{
-				if (item.CategoryName.Equals(category))
-				{
-					return controlDataGrid.DataSource.IndexOf(item);
-				}
-			}
-			return -1;
+			if (controlDataGrid.DataSource?[0] is MailClient.UI.Categories.UICategory)
+				foreach (MailClient.UI.Categories.UICategory item in controlDataGrid.DataSource)
+					if (item.CategoryName.Equals(category))
+						return controlDataGrid.DataSource.IndexOf(item);
+
+			throw new ApplicationException();
+		}
+
+		public static int GetRowOfTheContactsList(ControlDataGrid controlDataGrid, string name)
+		{
+			if (controlDataGrid.DataSource?[0] is MailClient.Storage.Application.Contact.ContactItem)
+				foreach (MailClient.Storage.Application.Contact.ContactItem item in controlDataGrid.DataSource)
+					if (item.Name.DisplayName.Equals(name))
+						return controlDataGrid.DataSource.IndexOf(item);
+
+			throw new ApplicationException();
 		}
 	}
 	
 	public class ControlDataGridWithPosition
 	{
-		public ControlDataGrid dataGrid;
-		public int row;
+		public ControlDataGrid DataGrid;
+		public int Row;
 
 		public ControlDataGridWithPosition(ControlDataGrid dataGrid, int row)
 		{
-			this.dataGrid = dataGrid;
-			this.row = row;
+			this.DataGrid = dataGrid;
+			this.Row = row;
 		}
 	}
 }
