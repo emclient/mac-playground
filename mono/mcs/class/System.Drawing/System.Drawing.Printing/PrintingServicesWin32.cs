@@ -61,22 +61,22 @@ namespace System.Drawing.Printing
 			IntPtr hPrn = IntPtr.Zero;
 			IntPtr ptr_dev = IntPtr.Zero;
 
-			settings.maximum_copies = Win32DeviceCapabilities (printer, null, DCCapabilities.DC_COPIES, IntPtr.Zero, IntPtr.Zero);
+			settings.Copies = (short) Win32DeviceCapabilities (printer, null, DCCapabilities.DC_COPIES, IntPtr.Zero, IntPtr.Zero);
 
 			ret = Win32DeviceCapabilities (printer, null, DCCapabilities.DC_DUPLEX, IntPtr.Zero, IntPtr.Zero);
-			settings.can_duplex = (ret == 1) ? true : false;
+			settings.CanDuplex = (ret == 1) ? true : false;
 
 			ret = Win32DeviceCapabilities (printer, null, DCCapabilities.DC_COLORDEVICE, IntPtr.Zero, IntPtr.Zero);
-			settings.supports_color = (ret == 1) ? true : false;
+			settings.SupportsColor = (ret == 1) ? true : false;
 
 			ret = Win32DeviceCapabilities (printer, null, DCCapabilities.DC_ORIENTATION, IntPtr.Zero, IntPtr.Zero);
 			if (ret != -1)
-				settings.landscape_angle = ret;
+				settings.LandscapeAngle = ret;
 			
 			IntPtr dc = IntPtr.Zero;
 			dc = Win32CreateIC (null, printer, null, IntPtr.Zero /* DEVMODE */);
 			ret = Win32GetDeviceCaps (dc, (int)DevCapabilities.TECHNOLOGY);
-			settings.is_plotter = ret == (int)PrinterType.DT_PLOTTER;
+			settings.IsPlotter = ret == (int)PrinterType.DT_PLOTTER;
 			Win32DeleteDC (dc);
 
 			try {
@@ -154,7 +154,7 @@ namespace System.Drawing.Printing
 			string name;
 
 			if (settings.PaperSizes == null)
-				settings.paper_sizes = new PrinterSettings.PaperSizeCollection (new PaperSize [0]);
+				settings.PaperSizes = new PrinterSettings.PaperSizeCollection (new PaperSize [0]);
 			else
 				settings.PaperSizes.Clear ();
 
@@ -236,7 +236,7 @@ namespace System.Drawing.Printing
 			string name;
 
 			if (settings.PaperSources == null)
-				settings.paper_sources = new PrinterSettings.PaperSourceCollection (new PaperSource [0]);
+				settings.PaperSources = new PrinterSettings.PaperSourceCollection (new PaperSource [0]);
 			else
 				settings.PaperSources.Clear ();
 

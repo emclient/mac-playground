@@ -44,8 +44,15 @@ namespace System.Drawing.Printing
 		{
 		}
 
+		public PrintEventArgs(PrintAction action)
+		{
+			this.action = action;
+		}
+
 		public PrintAction PrintAction {
 			get { return action; }
 		}
+
+		internal GraphicsPrinter GraphicsContext { get; set; }
 	}
 }
