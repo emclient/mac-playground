@@ -98,6 +98,10 @@
       <Project>{a0da62d2-7d4d-43ba-bca3-1dd3354c746c}</Project>
       <Name>MailClient.Common.UI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\MailClient.Contact\MailClient.Contact.csproj">
+      <Project>{9ff36918-9903-45ab-88c2-5b502990a725}</Project>
+      <Name>MailClient.Contact</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\MailClient.csproj">
       <Project>{5a6284d5-80a1-4e20-b253-2ed87e140e5a}</Project>
       <Name>MailClient</Name>
