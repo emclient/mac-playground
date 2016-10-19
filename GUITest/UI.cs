@@ -432,7 +432,7 @@ namespace GUITest
 				Click(GetCenterOfToolStripMenuItem, control, delay);
 			}
 
-			private static void Click<T>(GetMouseDestinationDelegate<T> getMouseDestinationDelegate, T destinationObject, double delay = 0.2, bool rightClick = false)
+			private static void Click<T>(GetScreenRectangleOfControl<T> getMouseDestinationDelegate, T destinationObject, double delay = 0.2, bool rightClick = false)
 			{
 				MOUSEEVENTF downFlags = (rightClick) ? MOUSEEVENTF.RIGHTDOWN : MOUSEEVENTF.LEFTDOWN;
 				MOUSEEVENTF upFlags = (rightClick) ? MOUSEEVENTF.RIGHTUP : MOUSEEVENTF.LEFTUP;
@@ -457,38 +457,32 @@ namespace GUITest
 				return new Point((rectangle.Left + rectangle.Right) / 2, (rectangle.Top + rectangle.Bottom) / 2);
 			}
 
-			private static Point GetCenterOfControl(Control control)
+			private static Rectangle GetCenterOfControl(Control control)
 			{
-				Rectangle controlRectangle = Rectangle.Empty;
-				Perform(() => { controlRectangle = control.RectangleToScreen(control.ClientRectangle); });
-				return GetCenterOfRectangle(controlRectangle);
+				return control.RectangleToScreen(control.ClientRectangle);
 			}
 
-			private static Point GetCenterOfControlDataGridRow(ControlDataGridWithPosition control)
+			private static Rectangle GetCenterOfControlDataGridRow(ControlDataGridWithPosition control)
 			{
-				Rectangle rowRectangle = Rectangle.Empty;
 				Rectangle relativeRowRectangle = control.DataGrid.GetRowBoundaries(control.DataGrid.GetRowFromDataSourceIndex(control.Row, true));
-				Perform(() => { rowRectangle = control.DataGrid.RectangleToScreen(relativeRowRectangle); });
-				return GetCenterOfRectangle(rowRectangle);
+				return control.DataGrid.RectangleToScreen(relativeRowRectangle);
 			}
 
-			private static Point GetCenterOfToolStripMenuItem(ToolStripMenuItem control)
+			private static Rectangle GetCenterOfToolStripMenuItem(ToolStripMenuItem control)
 			{
-				var rectangleControl = Rectangle.Empty;
-				Perform(() => { rectangleControl = control.Owner.RectangleToScreen(control.Bounds); });
-				return GetCenterOfRectangle(rectangleControl);
+				return control.Owner.RectangleToScreen(control.Bounds);
 			}
 
-			private delegate Point GetMouseDestinationDelegate<T>(T destinationObject);
+			private delegate Rectangle GetScreenRectangleOfControl<T>(T destinationObject);
 
-			private static void MoveTo<T>(GetMouseDestinationDelegate<T> getMouseDestinationDelegate, T destinationObject)
+			private static void MoveTo<T>(GetScreenRectangleOfControl<T> getScreenRectangleOfControl, T destinationObject)
 			{
 				var dt = 0.02;
 				var step = new Point(0, 0);
 
 				while (true)
 				{
-					Point center = getMouseDestinationDelegate(destinationObject);
+					Point center = GetCenterOfRectangle(Perform(() => { return getScreenRectangleOfControl(destinationObject); }));
 					Rectangle rectangle = new Rectangle(center.X - 1, center.Y - 1, 2, 2);
 
 					Point cursorPosition;
