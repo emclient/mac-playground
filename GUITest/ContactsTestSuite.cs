@@ -64,11 +64,11 @@ namespace GUITest
 			// Save
 			//UI.Mouse.Click(UI.TryGetControl("formContact.stripButton_Save"));
 
+			Thread.Sleep(2000);
+
 			//var taskForm = UI.WaitForForm("taskForm");
 			//Assert.IsNull(taskForm);
 			//MainTestSuite.ThrowIfNull(taskForm, "Confirmation dialog hasn't appeared.");
-			//Thread.Sleep(2000);
-
 			//var noButton = UI.FindControl(taskForm, "No");
 			//MainTestSuite.ThrowIfNull(noButton, "'No' button not found.");
 			//UI.Mouse.Click(noButton);
@@ -85,8 +85,11 @@ namespace GUITest
 			var controlContactsDataGrid = (UI.FindControl(UI.TryGetControl("formMain.panelContactsList"), "controlContacts") as ControlContacts).DataGrid;
 			//string name = ((controlContactsDataGrid.DataSource[5] as MailClient.Storage.Application.Contact.ContactItem).Name as MailClient.Contact.ContactName).DisplayName;
 			string name = Contact.TestContact.Name.DisplayName;
-			UI.Mouse.Click(controlContactsDataGrid, Utils.GetRowOfTheContactsList(controlContactsDataGrid, name));
+			UI.Mouse.DoubleClick(controlContactsDataGrid, Utils.GetRowOfTheContactsList(controlContactsDataGrid, name));
 			Thread.Sleep(3000);
+
+
+			UI.Mouse.Click(UI.TryGetControl("formContact.stripButton_Cancel"));
 
 			//UI.Mouse.Click(UI.TryGetControl("formMain.panelContactsList"));
 			//UI.Mouse.Click(UI.TryGetControl("formMain.stripButton_BusinessCards"));
