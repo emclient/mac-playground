@@ -434,22 +434,12 @@ namespace GUITest
 
 			private static void Click<T>(GetMouseDestinationDelegate<T> getMouseDestinationDelegate, T destinationObject, double delay = 0.2, bool rightClick = false)
 			{
-				MOUSEEVENTF downFlags;
-				MOUSEEVENTF upFlags;
-				if (!rightClick)
-				{
-					downFlags = MOUSEEVENTF.LEFTDOWN;
-					upFlags = MOUSEEVENTF.LEFTUP;
-				}
-				else
-				{
-					downFlags = MOUSEEVENTF.RIGHTDOWN;
-					upFlags = MOUSEEVENTF.RIGHTUP;
-				}
+				MOUSEEVENTF downFlags = (rightClick) ? MOUSEEVENTF.RIGHTDOWN : MOUSEEVENTF.LEFTDOWN;
+				MOUSEEVENTF upFlags = (rightClick) ? MOUSEEVENTF.RIGHTUP : MOUSEEVENTF.LEFTUP;
 				MoveTo(getMouseDestinationDelegate, destinationObject);
 				SendInput(downFlags);
 				Sleep(delay);
-				MoveTo(getMouseDestinationDelegate, destinationObject);
+				//MoveTo(getMouseDestinationDelegate, destinationObject);
 				SendInput(upFlags);
 				Sleep(delay);
 			}
@@ -469,20 +459,16 @@ namespace GUITest
 
 			private static Point GetCenterOfControl(Control control)
 			{
-				var rectangleControl = Rectangle.Empty;
-				Perform(() => { rectangleControl = control.RectangleToScreen(control.ClientRectangle); });
-				return GetCenterOfRectangle(rectangleControl);
+				Rectangle controlRectangle = Rectangle.Empty;
+				Perform(() => { controlRectangle = control.RectangleToScreen(control.ClientRectangle); });
+				return GetCenterOfRectangle(controlRectangle);
 			}
 
 			private static Point GetCenterOfControlDataGridRow(ControlDataGridWithPosition control)
 			{
-				var dataGridRectangle = Rectangle.Empty;
-				Perform(() => { dataGridRectangle = control.dataGrid.RectangleToScreen(control.dataGrid.ClientRectangle); });
-				var rowRectangle = new Rectangle(
-					dataGridRectangle.X, 
-					dataGridRectangle.Y + control.dataGrid.RowHeight * control.row,
-					dataGridRectangle.Width,
-					control.dataGrid.RowHeight);
+				Rectangle rowRectangle = Rectangle.Empty;
+				Rectangle relativeRowRectangle = control.DataGrid.GetRowBoundaries(control.DataGrid.GetRowFromDataSourceIndex(control.Row, true));
+				Perform(() => { rowRectangle = control.DataGrid.RectangleToScreen(relativeRowRectangle); });
 				return GetCenterOfRectangle(rowRectangle);
 			}
 
@@ -502,25 +488,25 @@ namespace GUITest
 
 				while (true)
 				{
-					var rectangle = Rectangle.Empty;
-					var center = getMouseDestinationDelegate(destinationObject);
-					rectangle = new Rectangle(center.X - 1, center.Y - 1, 2, 2);
+					Point center = getMouseDestinationDelegate(destinationObject);
+					Rectangle rectangle = new Rectangle(center.X - 1, center.Y - 1, 2, 2);
 
-					Point p;
-					Win32.GetCursorPos(out p);
-					if (rectangle.Contains(p))
+					Point cursorPosition;
+					Win32.GetCursorPos(out cursorPosition);
+					if (rectangle.Contains(cursorPosition))
 						break;
 
-					var d = new Point(center.X - p.X, center.Y - p.Y);
-					double l = Math.Sqrt(d.X * d.X + d.Y * d.Y);
+					Point coordinatesDifference = new Point(center.X - cursorPosition.X, center.Y - cursorPosition.Y);
+					double distance = Math.Sqrt(coordinatesDifference.X * coordinatesDifference.X + coordinatesDifference.Y * coordinatesDifference.Y);
 
-					if (Math.Abs(l) > 1)
+					if (distance > 1)
 					{
-						var speed = SpeedFromDistance(l); // Faster when far away, slower when approaching the destination.
-						var pixelsPerInterval = speed * dt;
-						step.X = (int)(pixelsPerInterval * (d.X / l));
-						step.Y = (int)(pixelsPerInterval * (d.Y / l));
+						double speed = SpeedFromDistance(distance); // Faster when far away, slower when approaching the destination.
+						double pixelsPerInterval = speed * dt;
+						step.X = (int)(pixelsPerInterval * (coordinatesDifference.X / distance));
+						step.Y = (int)(pixelsPerInterval * (coordinatesDifference.Y / distance));
 					}
+
 					if (step.IsEmpty)
 						break;
 
@@ -537,15 +523,15 @@ namespace GUITest
 				Sleep(dt);
 			}
 
-			private static readonly double[] speeds = { 2000, 4000, 1000, 3000, 100, 2000, 10, 500, 4, 50};
+			private static readonly double[,] speeds = { { 2000, 4000 }, { 1000, 3000 }, { 100, 2000 }, { 10, 500 }, { 4, 100 } };
 
-			private static double SpeedFromDistance(double l)
+			private static double SpeedFromDistance(double distance)
 			{
 				// TODO: Make it independent on the DPI, so that it works the same way on every monitor.
-				for (int i = 0; i < speeds.Length; i += 2)
-					if (l > speeds[i])
-						return speeds[1 + i];
-				return speeds[speeds.Length - 1];
+				for (int i = 0; i < speeds.GetLength(0); i++)
+					if (distance > speeds[i, 0])
+						return speeds[i, 1];
+				return speeds[speeds.GetLength(0) - 1, 1];
 			}
 		}
 	}
