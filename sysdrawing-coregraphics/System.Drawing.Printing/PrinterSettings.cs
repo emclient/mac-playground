@@ -63,11 +63,6 @@ namespace System.Drawing.Printing {
 			get { return false; }
 		}
 
-		public string PrinterName {
-			get;
-			set;
-		}
-
 		public int FromPage
 		{
 			get { return from_page; }
@@ -113,11 +108,6 @@ namespace System.Drawing.Printing {
 			}
 		}
 
-		public bool Collate {
-			get;
-			set;
-		}
-
 		public short Copies
 		{
 			get { return copies; }
@@ -129,41 +119,33 @@ namespace System.Drawing.Printing {
 			}
 		}
 
-		public PrinterSettings.PaperSizeCollection PaperSizes
-		{
-			get {
-				throw new InvalidPrinterException(this);
-			}
-		}
-
-		public PrinterSettings.PaperSourceCollection PaperSources
-		{
-			get {
-				throw new InvalidPrinterException(this);
-			}
-		}
-
 		public PrintRange PrintRange
 		{
 			get { return print_range; }
-			set { 
+			set
+			{
 				if (value != PrintRange.AllPages && value != PrintRange.Selection &&
 					value != PrintRange.SomePages)
-					throw new InvalidEnumArgumentException ("The value of the PrintRange property is not one of the PrintRange values");
+					throw new InvalidEnumArgumentException("The value of the PrintRange property is not one of the PrintRange values");
 
 				print_range = value;
 			}
 		}
 
-		public bool PrintToFile {
-			get;
-			set;
-		}
-
-		public string PrintFileName {
-			get;
-			set;
-		}
+		public bool PrintToFile { get; set; }
+		public string PrintFileName { get; set; }
+		public bool CanDuplex { get; internal set; }
+		public Duplex Duplex { get; internal set; }
+		public bool Collate { get; set; }
+		public bool IsPlotter { get; set; }
+		public int LandscapeAngle { get; internal set; }
+		public bool SupportsColor { get; internal set; }
+		public string PrinterName { get; set; }
+		public bool PrintDialogDisplayed { get; set; }
+		public PrinterSettings.PaperSourceCollection PaperSources { get; set; }
+		public PrinterSettings.PaperSizeCollection PaperSizes { get; set; }
+		public PrinterResolutionCollection PrinterResolutions { get; internal set; }
+		public object printer_capabilities { get; internal set; }
 
 		public PageSettings DefaultPageSettings
 		{
@@ -190,9 +172,10 @@ namespace System.Drawing.Printing {
 			int ICollection.Count { get { return _PaperSources.Count; } }
 			bool ICollection.IsSynchronized { get { return false; } }
 			object ICollection.SyncRoot { get { return this; } }			
+
 			[EditorBrowsable(EditorBrowsableState.Never)]
-			public int Add (PaperSource paperSource) {return _PaperSources.Add (paperSource); }
-			public void CopyTo (PaperSource[] paperSources, int index)  {throw new NotImplementedException (); }
+			public int Add (PaperSource paperSource) { return _PaperSources.Add (paperSource); }
+			public void CopyTo (PaperSource[] paperSources, int index)  { throw new NotImplementedException (); }
 
 			public virtual PaperSource this[int index] {
 				get { return _PaperSources[index] as PaperSource; }
@@ -217,7 +200,6 @@ namespace System.Drawing.Printing {
 			{ 
 				_PaperSources.Clear (); 
 			}
-
 		}
 
 		public class PaperSizeCollection : ICollection, IEnumerable

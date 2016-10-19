@@ -30,6 +30,9 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System.Diagnostics;
+using System.Reflection;
+
 namespace System.Drawing.Printing {
 	
 	public class PageSettings : ICloneable {
@@ -43,6 +46,7 @@ namespace System.Drawing.Printing {
 			get
 			{
 				// FIXME
+				NotImplemented(MethodBase.GetCurrentMethod());
 				return Rectangle.Empty;
 			}
 		}
@@ -68,6 +72,7 @@ namespace System.Drawing.Printing {
 			get
 			{
 				// FIXME
+				NotImplemented(MethodBase.GetCurrentMethod());
 				return RectangleF.Empty;
 			}
 		}
@@ -77,18 +82,32 @@ namespace System.Drawing.Printing {
 		public void CopyToHdevmode(IntPtr hdevmode)
 		{
 			// FIXME
+			NotImplemented(MethodBase.GetCurrentMethod());
 		}
 
 		public void SetHdevmode(IntPtr hdevmode)
 		{
 			// FIXME
+			NotImplemented(MethodBase.GetCurrentMethod());
 		}
 
 		public object Clone()
 		{
 			// FIXME
+			NotImplemented(MethodBase.GetCurrentMethod());
 			return new PageSettings();
 		}
 
+		internal Rectangle GetBounds(object modeHandle)
+		{
+			// FIXME
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return new Rectangle(0, 0, 0, 0);
+		}
+
+		internal static void NotImplemented(MethodBase method)
+		{
+			Debug.WriteLine("Not Implemented: " + method.ReflectedType.Name + "." + method.Name);
+		}
 	}
 }

@@ -591,6 +591,27 @@
       <Link>System.Drawing.Imaging\ImageCodecInfo.cs</Link>
     </Compile>
     <Compile Include="Utilities\IClientView.cs" />
+    <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Printing\StandardPrintController.cs">
+      <Link>External\StandardPrintController.cs</Link>
+    </Compile>
+    <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Printing\PrintingServices.cs">
+      <Link>External\PrintingServices.cs</Link>
+    </Compile>
+    <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Printing\PrintingServicesUnix.cs">
+      <Link>External\PrintingServicesUnix.cs</Link>
+    </Compile>
+    <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Printing\PrintingServicesWin32.cs">
+      <Link>External\PrintingServicesWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Printing\QueryPageSettingsEventArgs.cs">
+      <Link>External\QueryPageSettingsEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Printing\QueryPageSettingsEventHandler.cs">
+      <Link>External\QueryPageSettingsEventHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Printing\Duplex.cs">
+      <Link>External\Duplex.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Mono.ico">
