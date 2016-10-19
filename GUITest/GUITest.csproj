@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{BE26F63D-BD75-45FF-B9BA-37F0D3A927E3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>GUITest</RootNamespace>
@@ -128,6 +128,22 @@
     <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj" Condition=" '$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug'">
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\MailClient.Attachment\MailClient.Attachment.csproj">
+      <Project>{DBACBAFB-207D-4E4A-B699-1EEFFCC5FBB3}</Project>
+      <Name>MailClient.Attachment</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\MailClient.Schedule\MailClient.Schedule.csproj">
+      <Project>{0D2D3436-A548-4BCD-B51B-75FD86D71397}</Project>
+      <Name>MailClient.Schedule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\MailClient.Storage.Contact\MailClient.Storage.Contact.csproj">
+      <Project>{E26DDEB3-3FCF-41DD-8703-1284FA295721}</Project>
+      <Name>MailClient.Storage.Contact</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\MailClient.Storage.Folders\MailClient.Storage.Folders.csproj">
+      <Project>{C94FEC01-8166-48FD-AAF4-4EFBA50B504A}</Project>
+      <Name>MailClient.Storage.Folders</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
