@@ -196,19 +196,19 @@ namespace System.Drawing.Printing
 
 			if (((SysPrn.Printer)installed_printers[printer]).Settings != null) {
 				SysPrn.Printer p = (SysPrn.Printer) installed_printers[printer];
-				settings.can_duplex = p.Settings.can_duplex;
-				settings.is_plotter = p.Settings.is_plotter;
-				settings.landscape_angle = p.Settings.landscape_angle;
-				settings.maximum_copies = p.Settings.maximum_copies;
-				settings.paper_sizes = p.Settings.paper_sizes;
-				settings.paper_sources = p.Settings.paper_sources;
+				settings.CanDuplex = p.Settings.CanDuplex;
+				settings.IsPlotter = p.Settings.IsPlotter;
+				settings.LandscapeAngle = p.Settings.LandscapeAngle;
+				settings.Copies = p.Settings.Copies;
+				settings.PaperSizes = p.Settings.PaperSizes;
+				settings.PaperSources = p.Settings.PaperSources;
 				settings.printer_capabilities = p.Settings.printer_capabilities;
-				settings.printer_resolutions = p.Settings.printer_resolutions;
-				settings.supports_color = p.Settings.supports_color;
+				settings.PrinterResolutions = p.Settings.PrinterResolutions;
+				settings.SupportsColor = p.Settings.SupportsColor;
 				return;
 			}
 
-			settings.PrinterCapabilities.Clear ();
+			//settings.PrinterCapabilities.Clear ();
 
 			IntPtr dests = IntPtr.Zero, ptr = IntPtr.Zero, ptr_printer, ppd_handle = IntPtr.Zero;
 			string name = String.Empty;
@@ -251,24 +251,24 @@ namespace System.Drawing.Printing
 					paper_names, out defsize,
 					paper_sources, out defsource);
 
-				if (settings.paper_sizes == null)
-					settings.paper_sizes = new PrinterSettings.PaperSizeCollection (new PaperSize [] {});
+				if (settings.PaperSizes == null)
+					settings.PaperSizes = new PrinterSettings.PaperSizeCollection (new PaperSize [] {});
 				else
-					settings.paper_sizes.Clear();
+					settings.PaperSizes.Clear();
 			
-				if (settings.paper_sources == null)				
-					settings.paper_sources = new PrinterSettings.PaperSourceCollection (new PaperSource [] {});
+				if (settings.PaperSources == null)				
+					settings.PaperSources = new PrinterSettings.PaperSourceCollection (new PaperSource [] {});
 				else
-					settings.paper_sources.Clear();
+					settings.PaperSources.Clear();
 
 				settings.DefaultPageSettings.PaperSource = LoadPrinterPaperSources (settings, defsource, paper_sources);
 				settings.DefaultPageSettings.PaperSize = LoadPrinterPaperSizes (ppd_handle, settings, defsize, paper_names);
 				LoadPrinterResolutionsAndDefault (printer, settings, ppd_handle);
 
 				ppd = (PPD_FILE) Marshal.PtrToStructure (ppd_handle, typeof (PPD_FILE));
-				settings.landscape_angle = ppd.landscape;
-				settings.supports_color = (ppd.color_device == 0) ? false : true;
-				settings.can_duplex = options["Duplex"] != null;
+				settings.LandscapeAngle = ppd.landscape;
+				settings.SupportsColor = (ppd.color_device == 0) ? false : true;
+				settings.CanDuplex = options["Duplex"] != null;
 
 				ClosePrinter (ref ppd_handle);
 			
@@ -464,7 +464,7 @@ namespace System.Drawing.Printing
 				ps.SetKind (kind);
 				if (def_size == ps.Kind.ToString ())
 					defsize = ps;
-				settings.paper_sizes.Add (ps);
+				settings.PaperSizes.Add (ps);
 				ptr = (IntPtr) ((long)ptr + Marshal.SizeOf (size));
 			}
 			
@@ -505,13 +505,13 @@ namespace System.Drawing.Printing
 						kind = PaperSourceKind.Custom;
 						break;
 				}
-				settings.paper_sources.Add (new PaperSource (paper_sources[source], kind, def_source == source));
+				settings.PaperSources.Add (new PaperSource (paper_sources[source], kind, def_source == source));
 				if (def_source == source)
-					defsource = settings.paper_sources[settings.paper_sources.Count-1];
+					defsource = settings.PaperSources[settings.PaperSources.Count-1];
 			}
 			
-			if (defsource == null && settings.paper_sources.Count > 0)
-				return settings.paper_sources[0];
+			if (defsource == null && settings.PaperSources.Count > 0)
+				return settings.PaperSources[0];
 			return defsource;
 		}
 
@@ -522,10 +522,10 @@ namespace System.Drawing.Printing
 		private void LoadPrinterResolutionsAndDefault (string printer,
 			PrinterSettings settings, IntPtr ppd_handle)
 		{
-			if (settings.printer_resolutions == null)
-				settings.printer_resolutions = new PrinterSettings.PrinterResolutionCollection (new PrinterResolution [] {});
+			if (settings.PrinterResolutions == null)
+				settings.PrinterResolutions = new PrinterSettings.PrinterResolutionCollection (new PrinterResolution [] {});
 			else
-				settings.printer_resolutions.Clear ();
+				settings.PrinterResolutions.Clear ();
 
 			var printer_resolutions = new NameValueCollection ();
 			string defresolution;

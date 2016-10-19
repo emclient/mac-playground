@@ -53,5 +53,6 @@ namespace System.Drawing.Printing
 			}
 		}
 
+		public bool PageSettingsChanged { get; internal set; }
 	}
 }
