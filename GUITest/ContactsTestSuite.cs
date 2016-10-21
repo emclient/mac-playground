@@ -5,10 +5,6 @@ using NUnit.Framework;
 
 // Controls used in tests
 using MailClient.UI.Controls;
-using MailClient.UI.Controls.ControlSidebar;
-using MailClient.Common.UI.Controls;
-using MailClient.Common.UI.Controls.ControlToolStrip;
-using MailClient.Common.UI.Controls.ControlTextBox;
 
 using MailClient.Storage.Data;
 
@@ -17,50 +13,37 @@ namespace GUITest
 	[TestFixture]
 	class ContactsTestSuite
 	{
-		//[Test]
+		[Test]
 		public void CreateNewContactTest()
 		{
 			Thread.Sleep(2000);
 
-			UI.Mouse.Click(UI.TryGetControl("formMain.leftSpine1.controlSidebarBoxContacts"));
-			UI.Mouse.Click(UI.TryGetControl("formMain.stripButton_New"));
+			UI.Mouse.Click(UI.TryGetMember("formMain.leftSpine1.controlSidebarBoxContacts"));
+			UI.Mouse.Click(UI.TryGetMember("formMain.stripButton_New"));
 
 			var formContact = UI.WaitForForm("formContact");
 			Assert.IsNotNull(formContact);
 			// Name, Surname
-			UI.Mouse.Click(UI.TryGetControl("formContact.text_Overview_FullName"));
+			UI.Mouse.Click(UI.TryGetMember("formContact.text_Overview_FullName"));
 			UI.Type(string.Format("{0} {1}", Contact.TestContact.Name.FirstName, Contact.TestContact.Name.LastName));
 			// Company
-			UI.Mouse.Click(UI.TryGetControl("formContact.text_Overview_Company"));
+			UI.Mouse.Click(UI.TryGetMember("formContact.text_Overview_Company"));
 			UI.Type(Contact.TestContact.Company);
 			// Category combobox
-			ComboBoxCategory combo = UI.TryGetControl<ComboBoxCategory>("formContact.combo_Overview_Category");
-			UI.Mouse.Click(combo);
-			var controlDataGrid = Utils.GetDropdownControlDataGrid(combo);
-			UI.Mouse.Click(controlDataGrid, Utils.GetRowOfTheCategory(controlDataGrid, Contact.TestContact.Category));
+			FormContactUtils.SetCategory(UI.TryGetMember<ComboBoxCategory>("formContact.combo_Overview_Category"), Contact.TestContact.Category);
 
-			var contactInfoPanel = UI.TryGetControl("formContact.tableLayoutPanel_Overview_Left");
 			// Add personal email
-			UI.Mouse.Click(UI.TryGetControl("formContact.toolStripButton_AddEmail"));
-			UI.Mouse.Click(UI.TryGetControl<ToolStripMenuItemEx>("formContact.menuItem_AddEmail_Email"));
-			UI.Mouse.Click(UI.FindControl(contactInfoPanel, "text_Email_Email"));
-			UI.Type(Contact.TestContact.Mails[0].Address);
+			FormContactUtils.AddNewEmail(ContactMailType.Email, Contact.TestContact.Mails[0].Address);
 			// Add work email
-			UI.Mouse.Click(UI.TryGetControl("formContact.toolStripButton_AddEmail"));
-			UI.Mouse.Click(UI.TryGetControl<ToolStripMenuItemEx>("formContact.menuItem_AddEmail_Work"));
-			UI.Mouse.Click(UI.FindControls(contactInfoPanel, "text_Email_Email", 2)[1]);
-			UI.Type(Contact.TestContact.Mails[1].Address);
-			UI.Mouse.Click(UI.FindControls(contactInfoPanel, "toolStripButton_AddDisplayAs", 2)[1]);
-			UI.Mouse.Click(UI.FindControls(contactInfoPanel, "text_Email_DisplayAs", 2)[1]);
-			UI.Type(Contact.TestContact.Mails[1].DisplayAs);
-			// Add work email
-			UI.Mouse.Click(UI.TryGetControl("formContact.toolStripButton_AddEmail"));
-			UI.Mouse.Click(UI.TryGetControl<ToolStripMenuItemEx>("formContact.menuItem_AddEmail_Home"));
-			UI.Mouse.Click(UI.FindControls(contactInfoPanel, "text_Email_Email", 3)[2]);
-			UI.Type(Contact.TestContact.Mails[2].Address);
+			FormContactUtils.AddNewEmail(ContactMailType.Work, Contact.TestContact.Mails[1].Address, Contact.TestContact.Mails[1].DisplayAs);
+			// Add home email
+			FormContactUtils.AddNewEmail(ContactMailType.Home, Contact.TestContact.Mails[2].Address);
+
+			// Add moblie phone
+			FormContactUtils.AddNewTelephone(ContactPhoneType.Mobile, Contact.TestContact.Telephones[0]);
 
 			// Cancel - TEMP
-			UI.Mouse.Click(UI.TryGetControl("formContact.stripButton_Cancel"));
+			UI.Mouse.Click(UI.TryGetMember("formContact.stripButton_Cancel"));
 			// Save
 			//UI.Mouse.Click(UI.TryGetControl("formContact.stripButton_Save"));
 
@@ -74,28 +57,25 @@ namespace GUITest
 			//UI.Mouse.Click(noButton);
 		}
 
-		[Test]
+		//[Test]
 		public void EditContactTest()
 		{
 			Thread.Sleep(2000);
 
-			UI.Mouse.Click(UI.TryGetControl("formMain.leftSpine1.controlSidebarBoxContacts"));
-			UI.Mouse.Click(UI.TryGetControl("formMain.stripButton_CustomView"));
+			UI.Mouse.Click(UI.TryGetMember("formMain.leftSpine1.controlSidebarBoxContacts"));
+			UI.Mouse.Click(UI.TryGetMember("formMain.stripButton_CustomView"));
 
-			var controlContactsDataGrid = (UI.FindControl(UI.TryGetControl("formMain.panelContactsList"), "controlContacts") as ControlContacts).DataGrid;
+			var controlContactsDataGrid = (UI.TryGetSubcontrol(UI.TryGetMember("formMain.panelContactsList"), "controlContacts") as ControlContacts).DataGrid;
 			//string name = ((controlContactsDataGrid.DataSource[5] as MailClient.Storage.Application.Contact.ContactItem).Name as MailClient.Contact.ContactName).DisplayName;
-			string name = Contact.TestContact.Name.DisplayName;
-			UI.Mouse.DoubleClick(controlContactsDataGrid, Utils.GetRowOfTheContactsList(controlContactsDataGrid, name));
-			Thread.Sleep(3000);
+			UI.Mouse.DoubleClick(controlContactsDataGrid, GeneralUtils.GetRowOfTheContactName(controlContactsDataGrid, Contact.TestContact.Name.DisplayName));
 
-
-			UI.Mouse.Click(UI.TryGetControl("formContact.stripButton_Cancel"));
+			Assert.IsNotNull(UI.WaitForForm("formContact"));
+			UI.Mouse.Click(UI.TryGetMember("formContact.stripButton_Cancel"));
 
 			//UI.Mouse.Click(UI.TryGetControl("formMain.panelContactsList"));
 			//UI.Mouse.Click(UI.TryGetControl("formMain.stripButton_BusinessCards"));
 			//UI.Mouse.Click(UI.TryGetControl("formMain.panelContacts"));
-			//Thread.Sleep(2000);
-
+			Thread.Sleep(2000);
 		}
 
 		private void DbConnection()
