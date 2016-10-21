@@ -32,15 +32,11 @@ namespace GUITest
 			// Category combobox
 			FormContactUtils.SetCategory(UI.TryGetMember<ComboBoxCategory>("formContact.combo_Overview_Category"), Contact.TestContact.Category);
 
-			// Add personal email
-			FormContactUtils.AddNewEmail(ContactMailType.Email, Contact.TestContact.Mails[0].Address);
-			// Add work email
-			FormContactUtils.AddNewEmail(ContactMailType.Work, Contact.TestContact.Mails[1].Address, Contact.TestContact.Mails[1].DisplayAs);
-			// Add home email
-			FormContactUtils.AddNewEmail(ContactMailType.Home, Contact.TestContact.Mails[2].Address);
-
-			// Add moblie phone
-			FormContactUtils.AddNewTelephone(ContactPhoneType.Mobile, Contact.TestContact.Telephones[0]);
+			FormContactUtils.AddNewEmail(Contact.TestContact.Mails[0]);
+			FormContactUtils.AddNewEmail(Contact.TestContact.Mails[1]);
+			FormContactUtils.AddNewEmail(Contact.TestContact.Mails[2]);
+			FormContactUtils.AddNewTelephone(Contact.TestContact.Telephones[0]);
+			FormContactUtils.AddNewTelephone(Contact.TestContact.Telephones[1]);
 
 			// Cancel - TEMP
 			UI.Mouse.Click(UI.TryGetMember("formContact.stripButton_Cancel"));
