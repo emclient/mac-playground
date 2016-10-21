@@ -12,7 +12,7 @@ namespace GUITest
 		public string Company;
 		public string Category;
 		public List<ContactMail> Mails;
-		public List<string> Telephones;
+		public List<ContactTelephone> Telephones;
 
 		private static object oLockInstance = new object();
 		private static Contact testContact;
@@ -44,8 +44,9 @@ namespace GUITest
 			contact.Mails.Add(new ContactMail(ContactMailType.Email, "test_email_personal@example.com"));
 			contact.Mails.Add(new ContactMail(ContactMailType.Work, "test_email_work@example.com", "Test Work Email"));
 			contact.Mails.Add(new ContactMail(ContactMailType.Home, "test_email_home@example.com"));
-			contact.Telephones = new List<string>();
-			contact.Telephones.Add("111222333");
+			contact.Telephones = new List<ContactTelephone>();
+			contact.Telephones.Add(new ContactTelephone(ContactTelephoneType.Mobile, "777666555"));
+			contact.Telephones.Add(new ContactTelephone(ContactTelephoneType.Work, "111222333"));
 			return contact;
 		}
 	}
@@ -57,7 +58,7 @@ namespace GUITest
 		Home
 	}
 
-	public enum ContactPhoneType
+	public enum ContactTelephoneType
 	{
 		Work,
 		Fax,
@@ -83,6 +84,18 @@ namespace GUITest
 			Type = type;
 			Address = address;
 			DisplayAs = displayAs;
+		}
+	}
+
+	class ContactTelephone
+	{
+		public ContactTelephoneType Type;
+		public string Number;
+
+		public ContactTelephone(ContactTelephoneType type, string number)
+		{
+			Type = type;
+			Number = number;
 		}
 	}
 }

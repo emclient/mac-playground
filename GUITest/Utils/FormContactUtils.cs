@@ -9,10 +9,10 @@ namespace GUITest
 {
 	public static class FormContactUtils
 	{
-		internal static void AddNewEmail(ContactMailType type, string address, string displayAs = null)
+		internal static void AddNewEmail(ContactMail mail)
 		{
 			UI.Mouse.Click(UI.TryGetMember("formContact.toolStripButton_AddEmail"));
-			switch (type)
+			switch (mail.Type)
 			{
 				default:
 				case ContactMailType.Email:
@@ -31,55 +31,55 @@ namespace GUITest
 				if (contactInfoPanelControls[i].Name.Equals("text_Email_Email"))
 				{
 					UI.Mouse.Click(contactInfoPanelControls[i]);
-					UI.Type(address);
-					if (displayAs != null)
+					UI.Type(mail.Address);
+					if (mail.DisplayAs != null)
 					{
 						UI.Mouse.Click(contactInfoPanelControls[i + 3]);
 						UI.Mouse.Click(contactInfoPanelControls[i + 2]);
-						UI.Type(displayAs);
+						UI.Type(mail.DisplayAs);
 					}
 					break;
 				}
 			}
 		}
 
-		internal static void AddNewTelephone(ContactPhoneType type, string number)
+		internal static void AddNewTelephone(ContactTelephone telephone)
 		{
 			UI.Mouse.Click(UI.TryGetMember("formContact.toolStripButton_AddPhone"));
-			switch (type)
+			switch (telephone.Type)
 			{
-				case ContactPhoneType.Work:
+				case ContactTelephoneType.Work:
 					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Work"));
 					break;
-				case ContactPhoneType.Fax:
+				case ContactTelephoneType.Fax:
 					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Fax"));
 					break;
-				case ContactPhoneType.Car:
+				case ContactTelephoneType.Car:
 					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Car"));
 					break;
-				case ContactPhoneType.Company:
+				case ContactTelephoneType.Company:
 					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Company"));
 					break;
-				case ContactPhoneType.Home:
+				case ContactTelephoneType.Home:
 					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Home"));
 					break;
-				case ContactPhoneType.FaxHome:
+				case ContactTelephoneType.FaxHome:
 					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_FaxHome"));
 					break;
 				default:
-				case ContactPhoneType.Mobile:
+				case ContactTelephoneType.Mobile:
 					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Mobile"));
 					break;
-				case ContactPhoneType.Other:
+				case ContactTelephoneType.Other:
 					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Other"));
 					break;
-				case ContactPhoneType.OtherFax:
+				case ContactTelephoneType.OtherFax:
 					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_OtherFax"));
 					break;
-				case ContactPhoneType.Pager:
+				case ContactTelephoneType.Pager:
 					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Pager"));
 					break;
-				case ContactPhoneType.ISDN:
+				case ContactTelephoneType.ISDN:
 					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_ISDN"));
 					break;
 			}
@@ -89,7 +89,7 @@ namespace GUITest
 				if (contactInfoPanelControls[i].Name.Equals("text_Phone"))
 				{
 					UI.Mouse.Click(contactInfoPanelControls[i]);
-					UI.Type(number);
+					UI.Type(telephone.Number);
 					break;
 				}
 			}
