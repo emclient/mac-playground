@@ -221,19 +221,16 @@ namespace GUITest
             return member;
         }
 
-		public static T TryGetControl<T>(string name, int maxLevel = 1) where T : class
+		public static T TryGetMember<T>(string name, int maxLevel = 1) where T : class
 		{
-			T control = Perform(() =>
-			{
-				return GetMember(name) as T;
-			});
+			T control = Perform(() => { return GetMember(name) as T; });
 			ThrowIfNull(control, string.Format("Failed locating control: {0}", control));
 			return control;
 		}
 
-		public static Control TryGetControl(string name, int maxLevel = 1)
+		public static Control TryGetMember(string name, int maxLevel = 1)
 		{
-			return TryGetControl<Control>(name, maxLevel);
+			return TryGetMember<Control>(name, maxLevel);
 		}
 
 		internal static void Close()
@@ -275,17 +272,17 @@ namespace GUITest
             return null;
         }
 
-        public static Control FindControl(Control root, string name, int maxLevel = int.MaxValue)
+        public static Control TryGetSubcontrol(Control root, string name, int maxLevel = int.MaxValue)
         {
-			return FindControls(root, name, 1, maxLevel)[0];
+			return TryGetControls(root, name, 1, maxLevel)[0];
 		}
 
-		public static List<Control> FindControls(Control root, string name, int count, int maxLevel = int.MaxValue)
+		public static List<Control> TryGetControls(Control root, string name, int count, int maxLevel = int.MaxValue)
 		{
-			return Perform(() => { return DoFindControls(root, name, count, maxLevel); });
+			return Perform(() => { return DoFindSubcontrols(root, name, count, maxLevel); });
 		}
 
-		internal static List<Control> DoFindControls(Control instance, string name, int count, int maxLevel)
+		internal static List<Control> DoFindSubcontrols(Control instance, string name, int count, int maxLevel)
 		{
 			List<Control> controls = new List<Control>();
 
@@ -383,7 +380,30 @@ namespace GUITest
                 throw new ApplicationException(message);
         }
 
-        public static void Type(char c, double delay = 0.05)
+		public static void ThrowIfNotVisible(object control, string message = "Control is not visible")
+		{
+			if (control is Control)
+			{
+				if (!((Control)control).Visible)
+					throw new ApplicationException(message);
+			}
+			else if (control is ControlDataGridWithSourceIndex)
+			{
+				if (!((ControlDataGridWithSourceIndex)control).DataGrid.Visible)
+					throw new ApplicationException(message);
+			}
+			else if (control is ToolStripItem)
+			{
+				if (!((ToolStripItem)control).Visible)
+					throw new ApplicationException(message);
+			}
+			else
+			{
+				throw new ApplicationException("Control was not cast as any of the known types");
+			}
+		}
+
+		public static void Type(char c, double delay = 0.05)
         {
             Key(c);
             Sleep(delay / 2);
@@ -431,17 +451,17 @@ namespace GUITest
 
 			public static void Click(ControlDataGrid control, int row)
 			{
-				Click(ClickType.Left, GetCenterOfControlDataGridRow, new ControlDataGridWithPosition(control, row));
+				Click(ClickType.Left, GetCenterOfControlDataGridRow, new ControlDataGridWithSourceIndex(control, row));
 			}
 
 			public static void RightClick(ControlDataGrid control, int row)
 			{
-				Click(ClickType.Right, GetCenterOfControlDataGridRow, new ControlDataGridWithPosition(control, row));
+				Click(ClickType.Right, GetCenterOfControlDataGridRow, new ControlDataGridWithSourceIndex(control, row));
 			}
 
 			public static void DoubleClick(ControlDataGrid control, int row)
 			{
-				Click(ClickType.DoubleClick, GetCenterOfControlDataGridRow, new ControlDataGridWithPosition(control, row));
+				Click(ClickType.DoubleClick, GetCenterOfControlDataGridRow, new ControlDataGridWithSourceIndex(control, row));
 			}
 
 			public static void Click(ToolStripMenuItem control)
@@ -451,6 +471,7 @@ namespace GUITest
 
 			private static void Click<T>(ClickType clickType, GetScreenRectangleOfControl<T> getMouseDestinationDelegate, T destinationObject)
 			{
+				ThrowIfNotVisible(destinationObject);
 				MOUSEEVENTF downFlags = (clickType == ClickType.Right) ? MOUSEEVENTF.RIGHTDOWN : MOUSEEVENTF.LEFTDOWN;
 				MOUSEEVENTF upFlags = (clickType == ClickType.Right) ? MOUSEEVENTF.RIGHTUP : MOUSEEVENTF.LEFTUP;
 				int numberOfClicks = (clickType == ClickType.DoubleClick) ? 2 : 1;
@@ -487,7 +508,7 @@ namespace GUITest
 				return control.RectangleToScreen(control.ClientRectangle);
 			}
 
-			private static Rectangle GetCenterOfControlDataGridRow(ControlDataGridWithPosition control)
+			private static Rectangle GetCenterOfControlDataGridRow(ControlDataGridWithSourceIndex control)
 			{
 				Rectangle relativeRowRectangle = control.DataGrid.GetRowBoundaries(control.DataGrid.GetRowFromDataSourceIndex(control.Row, true));
 				return control.DataGrid.RectangleToScreen(relativeRowRectangle);
