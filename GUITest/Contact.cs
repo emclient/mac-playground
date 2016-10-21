@@ -50,11 +50,26 @@ namespace GUITest
 		}
 	}
 
-	enum ContactMailType
+	public enum ContactMailType
 	{
 		Email,
 		Work,
 		Home
+	}
+
+	public enum ContactPhoneType
+	{
+		Work,
+		Fax,
+		Car,
+		Company,
+		Home,
+		FaxHome,
+		Mobile,
+		Other,
+		OtherFax,
+		Pager,
+		ISDN
 	}
 
 	class ContactMail
