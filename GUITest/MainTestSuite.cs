@@ -19,7 +19,7 @@ namespace GUITest
         {
             Thread.Sleep(2000);
 
-			UI.Mouse.Click(UI.TryGetControl("formMain.leftSpine1.controlSidebarBoxMailFolders"));
+			UI.Mouse.Click(UI.TryGetMember("formMain.leftSpine1.controlSidebarBoxMailFolders"));
 
 			ControlToolStripButton button = null;
             UI.Perform(() => { button = UI.GetMember<ControlToolStripButton>("formMain.stripButton_New", null); });
@@ -48,7 +48,7 @@ namespace GUITest
 			var taskForm = UI.WaitForForm("taskForm");
 			ThrowIfNull(taskForm, "Confirmation dialog hasn't appeared.");
 
-			var noButton = UI.FindControl(taskForm, "No");
+			var noButton = UI.TryGetSubcontrol(taskForm, "No");
 			ThrowIfNull(noButton, "'No' button not found.");
 			UI.Mouse.Click(noButton);
 

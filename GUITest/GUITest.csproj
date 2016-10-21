@@ -87,7 +87,8 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="TestRunner.cs" />
     <Compile Include="UI.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="Utils\General.cs" />
+    <Compile Include="Utils\formContactUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\MailClient.Accounts\MailClient.Accounts.csproj">
