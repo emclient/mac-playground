@@ -1,6 +1,0 @@
-<Namespace Name="MonoMac.Security">
-  <Docs>
-    <summary>Access to the Mac KeyChain.</summary>
-    <remarks>To be added.</remarks>
-  </Docs>
-</Namespace>

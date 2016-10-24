@@ -1,3 +1,0 @@
-maccore:
-	This module contains a set of bindings that are shared between
-	MonoMac and MonoTouch.
