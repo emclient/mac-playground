@@ -256,17 +256,17 @@ namespace System.Drawing
 			if ((format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical) {
 				//textMatrix.Rotate (ConversionHelpers.DegreesToRadians (90));
 				//var verticalOffset = 0.0f;
-				baselineOffset = 0;
 				while (start < length) {
 					var count = noWrap ? length : typesetter.SuggestLineBreak (start, insetBounds.Height);
 					var line = typesetter.GetLine (new NSRange (start, count));
 
 					// Create and initialize some values from the bounds.
-					nfloat ascent;
-					nfloat descent;
-					nfloat leading;
+					nfloat ascent, descent, leading;
 					line.GetTypographicBounds (out ascent, out descent, out leading);
-					baselineOffset += (float)NMath.Ceiling (ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior  
+					double lineHeight = NMath.Ceiling(ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior
+					//if (format.LineAlignment == StringAlignment.Far && baselineOffset + lineHeight > layoutRectangle.Height)
+					//	break;
+					baselineOffset += (float)lineHeight;
 					line.Dispose ();
 					start += (int)count;
 				}
@@ -289,11 +289,12 @@ namespace System.Drawing
 						var line = typesetter.GetLine (new NSRange(start, count));
 
 						// Create and initialize some values from the bounds.
-						nfloat ascent;
-						nfloat descent;
-						nfloat leading;
+						nfloat ascent, descent, leading;
 						line.GetTypographicBounds (out ascent, out descent, out leading);
-						baselineOffset += (float)NMath.Ceiling (ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior  
+						double lineHeight = NMath.Ceiling(ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior
+						if (format.LineAlignment == StringAlignment.Far && baselineOffset + lineHeight > layoutRectangle.Height)
+							break;
+						baselineOffset += (float)lineHeight;
 						line.Dispose ();
 						start += (int)count;
 					}
@@ -320,6 +321,7 @@ namespace System.Drawing
 				nfloat descent;
 				nfloat leading;
 				double lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
+				double lineHeight = NMath.Ceiling(ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior  
 
 				// Calculate the string format if need be
 				var penFlushness = 0.0f;
@@ -340,8 +342,6 @@ namespace System.Drawing
 							penFlushness -= (float)lineWidth;
 						else if (format.Alignment == StringAlignment.Center)
 							penFlushness -= (float)lineWidth / 2.0f;
-
-
 					}
 
 					// Note: trimming may return a null line i.e. not enough space for any characters
@@ -388,6 +388,12 @@ namespace System.Drawing
 
 				if (format.LineAlignment == StringAlignment.Far) 
 				{
+					// Do not overflow
+					if (lineHeight + textPosition.Y > insetBounds.Bottom)
+						break;
+
+					// TODO: If this is the last line that can fit into the bounding box and we have more lines,
+					// crop it, and possibly use ellipsis...
 					if (layoutAvailable)
 						textMatrix.Translate (penFlushness + textPosition.X, textPosition.Y + ((boundsHeight) - (baselineOffset)));
 					else
@@ -405,7 +411,7 @@ namespace System.Drawing
 
 				// Move the index beyond the line break.
 				start += (int)count;
-				textPosition.Y += (float)NMath.Ceiling(ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior  
+				textPosition.Y += (float)lineHeight;
 			}
 
 			// Now we call the brush with a fill of true so the brush can do the fill if need be 
