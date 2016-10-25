@@ -21,16 +21,9 @@ namespace GUITest
 			UI.Mouse.Click(UI.TryGetMember("formMain.leftSpine1.controlSidebarBoxContacts"));
 			UI.Mouse.Click(UI.TryGetMember("formMain.stripButton_New"));
 
-			var formContact = UI.WaitForForm("formContact");
-			Assert.IsNotNull(formContact);
-			// Name, Surname
-			UI.Mouse.Click(UI.TryGetMember("formContact.text_Overview_FullName"));
-			UI.Type(string.Format("{0} {1}", Contact.TestContact.Name.FirstName, Contact.TestContact.Name.LastName));
-			// Company
-			UI.Mouse.Click(UI.TryGetMember("formContact.text_Overview_Company"));
-			UI.Type(Contact.TestContact.Company);
-			// Category combobox
-			FormContactUtils.SetCategory(UI.TryGetMember<ComboBoxCategory>("formContact.combo_Overview_Category"), Contact.TestContact.Category);
+			FormContactUtils.SetName(string.Format("{0} {1}", Contact.TestContact.Name.FirstName, Contact.TestContact.Name.LastName));
+			FormContactUtils.SetCompany(Contact.TestContact.Company);
+			FormContactUtils.SetCategory(Contact.TestContact.Category);
 
 			FormContactUtils.AddNewEmail(Contact.TestContact.Mails[0]);
 			FormContactUtils.AddNewEmail(Contact.TestContact.Mails[1]);
