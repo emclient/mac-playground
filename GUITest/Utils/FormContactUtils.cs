@@ -9,6 +9,26 @@ namespace GUITest
 {
 	public static class FormContactUtils
 	{
+		internal static void SetName(string contactName)
+		{
+			UI.Mouse.Click(UI.TryGetMember("formContact.text_Overview_FullName"));
+			UI.Type(contactName);
+		}
+
+		internal static void SetCompany(string companyName)
+		{
+			UI.Mouse.Click(UI.TryGetMember("formContact.text_Overview_Company"));
+			UI.Type(companyName);
+		}
+
+		internal static void SetCategory(string categoryName)
+		{
+			ComboBoxCategory categoryComboBox = UI.TryGetMember<ComboBoxCategory>("formContact.combo_Overview_Category");
+			UI.Mouse.Click(categoryComboBox);
+			var controlDataGrid = GeneralUtils.GetDropdownControlDataGrid(categoryComboBox);
+			UI.Mouse.Click(controlDataGrid, GeneralUtils.GetRowOfTheCategory(controlDataGrid, categoryName));
+		}
+
 		internal static void AddNewEmail(ContactMail mail)
 		{
 			UI.Mouse.Click(UI.TryGetMember("formContact.toolStripButton_AddEmail"));
@@ -93,14 +113,6 @@ namespace GUITest
 					break;
 				}
 			}
-		}
-
-		internal static void SetCategory(ComboBoxCategory categoryComboBox, string categoryName)
-		{
-			ComboBoxCategory combo = UI.TryGetMember<ComboBoxCategory>("formContact.combo_Overview_Category");
-			UI.Mouse.Click(categoryComboBox);
-			var controlDataGrid = GeneralUtils.GetDropdownControlDataGrid(categoryComboBox);
-			UI.Mouse.Click(controlDataGrid, GeneralUtils.GetRowOfTheCategory(controlDataGrid, categoryName));
 		}
 	}
 }
