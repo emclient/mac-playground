@@ -87,6 +87,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="TestRunner.cs" />
     <Compile Include="UI.cs" />
+    <Compile Include="Utils\FormMainUtils.cs" />
     <Compile Include="Utils\GeneralUtils.cs" />
     <Compile Include="Utils\FormContactUtils.cs" />
   </ItemGroup>
