@@ -116,7 +116,7 @@ namespace System.Drawing
 			var typesetter = new CTTypesetter(atts);
 
 			if ((stringFormat.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical) {
-				layoutArea = new SizeF (layoutArea.Height, layoutArea.Width);
+				layoutArea = new SizeF(layoutArea.Height, layoutArea.Width);
 			}
 
 			while (start < length) {
@@ -124,9 +124,7 @@ namespace System.Drawing
 				var line = typesetter.GetLine (new NSRange(start, count));
 
 				// Create and initialize some values from the bounds.
-				nfloat ascent;
-				nfloat descent;
-				nfloat leading;
+				nfloat ascent, descent, leading;
 				var lineWidth = line.GetTypographicBounds (out ascent, out descent, out leading);
 
 				measure.Height += (float)NMath.Ceiling (ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior  
@@ -171,9 +169,7 @@ namespace System.Drawing
 				return;
 
 			if (format == null) 
-			{
 				format = StringFormat.GenericDefault;
-			}
 
 			// TODO: Take into consideration units
 
@@ -234,12 +230,8 @@ namespace System.Drawing
 				layoutAvailable = false;
 
 				if (format.LineAlignment != StringAlignment.Near) 
-				{
-					insetBounds.Size = MeasureString (s, font);
-				}
+					insetBounds.Size = MeasureString(s, font);
 			}
-
-			PointF textPosition = new PointF(insetBounds.X + .5f, insetBounds.Y + .5f);
 
 			float boundsWidth;
 			float boundsHeight;
@@ -251,24 +243,20 @@ namespace System.Drawing
 			bool noWrap = (format.FormatFlags & StringFormatFlags.NoWrap) != 0;
 
 			var typesetter = new CTTypesetter(attributedString);
-
-			// If we are drawing vertial direction then we need to rotate our context transform by 90 degrees
+			int lines = 0;
+			// If we are drawing vertical direction then we need to rotate our context transform by 90 degrees
 			if ((format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical) {
 				//textMatrix.Rotate (ConversionHelpers.DegreesToRadians (90));
 				//var verticalOffset = 0.0f;
-				while (start < length) {
+				while (start < length)
+				{
 					var count = noWrap ? length : typesetter.SuggestLineBreak (start, insetBounds.Height);
-					var line = typesetter.GetLine (new NSRange (start, count));
-
-					// Create and initialize some values from the bounds.
-					nfloat ascent, descent, leading;
-					line.GetTypographicBounds (out ascent, out descent, out leading);
-					double lineHeight = NMath.Ceiling(ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior
+					double lineHeight = NMath.Ceiling(1 + GetLineHeight(typesetter, start, count)); // +1 matches best to CTFramesetter's behavior
 					//if (format.LineAlignment == StringAlignment.Far && baselineOffset + lineHeight > layoutRectangle.Height)
 					//	break;
 					baselineOffset += (float)lineHeight;
-					line.Dispose ();
 					start += (int)count;
+					++lines;
 				}
 				context.TranslateCTM (layoutRectangle.X, layoutRectangle.Y);
 				context.RotateCTM (ConversionHelpers.DegreesToRadians (90));
@@ -279,27 +267,23 @@ namespace System.Drawing
 					context.TranslateCTM (0, -baselineOffset);
 				boundsWidth = insetBounds.Height;
 				boundsHeight = insetBounds.Width;
-				start = 0;
 			} else {
-				// First we need to calculate the offset for Vertical Alignment if we 
-				// are using anything but Top
-				if (layoutAvailable && format.LineAlignment != StringAlignment.Near) {
-					while (start < length) {
-						var count = noWrap ? length : typesetter.SuggestLineBreak (start, insetBounds.Width);
-						var line = typesetter.GetLine (new NSRange(start, count));
 
-						// Create and initialize some values from the bounds.
-						nfloat ascent, descent, leading;
-						line.GetTypographicBounds (out ascent, out descent, out leading);
-						double lineHeight = NMath.Ceiling(ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior
+				// First we need to calculate the offset for Vertical Alignment if we are using anything but Top
+				//if (layoutAvailable && format.LineAlignment != StringAlignment.Near)
+				// Calculate offset and number of lines that can fit bounds
+				{
+					double y = insetBounds.Y + .5f;
+					while (start < length && y < insetBounds.Bottom) {
+						var count = noWrap ? length : typesetter.SuggestLineBreak (start, insetBounds.Width);
+						var lineHeight = Math.Ceiling(1 + GetLineHeight(typesetter, start, count));
 						if (format.LineAlignment == StringAlignment.Far && baselineOffset + lineHeight > layoutRectangle.Height)
 							break;
 						baselineOffset += (float)lineHeight;
-						line.Dispose ();
 						start += (int)count;
+						++lines;
+						y += lineHeight;
 					}
-
-					start = 0;
 				}
 
 				boundsWidth = insetBounds.Width;
@@ -307,69 +291,61 @@ namespace System.Drawing
 			}
 
 			start = 0;
+			int currentLine = 0;
+			PointF textPosition = new PointF(insetBounds.X + .5f, insetBounds.Y + .5f);
 			while (start < length && textPosition.Y < insetBounds.Bottom)
 			{
 				// Now we ask the typesetter to break off a line for us.
 				// This also will take into account line feeds embedded in the text.
 				//  Example: "This is text \n with a line feed embedded inside it"
-				// TODO: RGS deal with multiline and trimming
-				var count = noWrap ? length : typesetter.SuggestLineBreak(start, boundsWidth);
+				var trimmingLastLineNow = currentLine == lines - 1 && format.Trimming != StringTrimming.None;
+				var count = noWrap || trimmingLastLineNow ? (length - start) : typesetter.SuggestLineBreak(start, boundsWidth);
 				var line = typesetter.GetLine(new NSRange(start, count));
 
 				// Create and initialize some values from the bounds.
-				nfloat ascent;
-				nfloat descent;
-				nfloat leading;
+				nfloat ascent, descent, leading;
 				double lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
 				double lineHeight = NMath.Ceiling(ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior  
 
 				// Calculate the string format if need be
 				var penFlushness = 0.0f;
-				if (format != null) 
+				if (layoutAvailable) 
 				{
-					if (layoutAvailable) 
-					{
-						if (format.Alignment == StringAlignment.Far)
-							penFlushness = (float)line.GetPenOffsetForFlush(1.0f, boundsWidth);
-						else if (format.Alignment == StringAlignment.Center)
-							penFlushness = (float)line.GetPenOffsetForFlush(0.5f, boundsWidth);
-					}
-					else 
-					{
-						// We were only passed in a point so we need to format based
-						// on the point.
-						if (format.Alignment == StringAlignment.Far)
-							penFlushness -= (float)lineWidth;
-						else if (format.Alignment == StringAlignment.Center)
-							penFlushness -= (float)lineWidth / 2.0f;
-					}
+					if (format.Alignment == StringAlignment.Far)
+						penFlushness = (float)line.GetPenOffsetForFlush(1.0f, boundsWidth);
+					else if (format.Alignment == StringAlignment.Center)
+						penFlushness = (float)line.GetPenOffsetForFlush(0.5f, boundsWidth);
+				}
+				else 
+				{
+					// We were only passed in a point so we need to format based on the point.
+					if (format.Alignment == StringAlignment.Far)
+						penFlushness -= (float)lineWidth;
+					else if (format.Alignment == StringAlignment.Center)
+						penFlushness -= (float)lineWidth / 2.0f;
+				}
 
-					// Note: trimming may return a null line i.e. not enough space for any characters
-					if ( StringTrimming.None != format.Trimming) {
-						switch (format.Trimming) {
-						case StringTrimming.Character:
-							using (CTLine oldLine = line) {
-								line = line.GetTruncatedLine (boundsWidth, CTLineTruncation.End, null);
-							}
-							break;
-						case StringTrimming.EllipsisCharacter:
-							using (CTLine oldLine = line)
-							using (CTLine ellipsisToken = EllipsisToken (font, format)) {
-								line = line.GetTruncatedLine (boundsWidth, CTLineTruncation.End, ellipsisToken);
-							}
-							break;
-//						case StringTrimming.EllipsisWord:
-//							using (CTLine oldLine = line)
-//							using (CTLine ellipsisToken = EllipsisToken (font, format)) {
-//								line = line.GetTruncatedLine (lineWidth, CTLineTruncation.End, ellipsisToken);
-//							}
-//							break;
-						default:
-//							Console.WriteLine ("Graphics-DrawString.cs unimplemented StringTrimming " + format.Trimming);
-							break;
-						}
-					}
-					// TODO: StringTrimming.EllipsisPath, StringTrimming.EllipsisWord, Word
+				// Note: trimming may return a null line i.e. not enough space for any characters
+				switch (format.Trimming)
+				{
+					case StringTrimming.Character:
+						using (CTLine oldLine = line)
+							line = line.GetTruncatedLine (boundsWidth, CTLineTruncation.End, null);
+						break;
+					case StringTrimming.EllipsisWord: // Fall thru for now
+					case StringTrimming.EllipsisCharacter:
+						using (CTLine oldLine = line)
+						using (CTLine ellipsisToken = EllipsisToken (font, format))
+							line = line.GetTruncatedLine (boundsWidth, CTLineTruncation.End, ellipsisToken);
+						break;
+					case StringTrimming.EllipsisPath:
+						using (CTLine oldLine = line)
+						using (CTLine ellipsisToken = EllipsisToken (font, format))
+							line = line.GetTruncatedLine (boundsWidth, CTLineTruncation.Middle, ellipsisToken);
+						break;
+					default:
+						//Console.WriteLine ("Graphics-DrawString.cs unimplemented StringTrimming " + format.Trimming);
+						break;
 				}
 
 				// initialize our Text Matrix or we could get trash in here
@@ -388,12 +364,9 @@ namespace System.Drawing
 
 				if (format.LineAlignment == StringAlignment.Far) 
 				{
-					// Do not overflow
-					if (lineHeight + textPosition.Y > insetBounds.Bottom)
+					if (lineHeight + textPosition.Y > insetBounds.Bottom) // Do not overflow
 						break;
 
-					// TODO: If this is the last line that can fit into the bounding box and we have more lines,
-					// crop it, and possibly use ellipsis...
 					if (layoutAvailable)
 						textMatrix.Translate (penFlushness + textPosition.X, textPosition.Y + ((boundsHeight) - (baselineOffset)));
 					else
@@ -404,7 +377,6 @@ namespace System.Drawing
 
 				// Make sure that the line still exists, it may be null if it's too small to render any text and wants StringTrimming
 				if (null != line) {
-					// and draw the line
 					line.Draw (context);
 					line.Dispose ();
 				}
@@ -412,6 +384,7 @@ namespace System.Drawing
 				// Move the index beyond the line break.
 				start += (int)count;
 				textPosition.Y += (float)lineHeight;
+				++currentLine;
 			}
 
 			// Now we call the brush with a fill of true so the brush can do the fill if need be 
@@ -423,45 +396,31 @@ namespace System.Drawing
 			context.RestoreState();
 		}	
 
-		private NSMutableAttributedString buildAttributedString(string text, Font font, StringFormat format = null, 
-			Color? fontColor=null) 
+		private NSMutableAttributedString buildAttributedString(string text, Font font, StringFormat format = null, Color? fontColor = null) 
 		{
-			// Create a new attributed string definition
 			var ctAttributes = new CTStringAttributes ();
-
-			// Font attribute
 			ctAttributes.Font = font.nativeFont;
-			// -- end font 
 
 			if (format != null && (format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical) 
 			{
 				//ctAttributes.VerticalForms = true;
-
 			}
 
-			if (fontColor.HasValue) {
-
-				// Font color
+			if (fontColor.HasValue)
+			{
 				var fc = fontColor.Value;
-				var cgColor = new CGColor(fc.R / 255f, 
-					fc.G / 255f,
-					fc.B / 255f,
-					fc.A / 255f);
-
+				var cgColor = new CGColor(fc.R / 255f, fc.G / 255f, fc.B / 255f, fc.A / 255f);
 				ctAttributes.ForegroundColor = cgColor;
 				ctAttributes.ForegroundColorFromContext = false;
-				// -- end font Color
 			}
 
-			if (font.Underline) {
-				// Underline
+			if (font.Underline)
+			{
 				ctAttributes.UnderlineStyle = CTUnderlineStyle.Single;
-				// --- end underline
 			}
 
-
-			if (font.Strikeout) {
-				// StrikeThrough
+			if (font.Strikeout)
+			{
 #if MONOMAC
 				int single = (int)MonoMac.AppKit.NSUnderlineStyle.Single;
 				int solid = (int)MonoMac.AppKit.NSUnderlinePattern.Solid;
@@ -470,10 +429,7 @@ namespace System.Drawing
 #else
 				ctAttributes.UnderlineStyleValue = 1;
 #endif
-
-				// --- end StrikeThrough
 			}
-
 
 			var alignment = CTTextAlignment.Left;
 			var alignmentSettings = new CTParagraphStyleSettings();
@@ -483,50 +439,60 @@ namespace System.Drawing
 			ctAttributes.ParagraphStyle = paragraphStyle;
 			// end text alignment
 
-			NSMutableAttributedString atts;
-
 			text = text.Replace("\0", "");
-			if (format == null || format.HotkeyPrefix == System.Drawing.Text.HotkeyPrefix.None) {
-				atts = new NSMutableAttributedString (text, ctAttributes.Dictionary);
-			} else {
-				var sb = new StringBuilder ();
-				bool wasHotkey = false;
+			if (format == null || format.HotkeyPrefix == System.Drawing.Text.HotkeyPrefix.None)
+				return new NSMutableAttributedString (text, ctAttributes.Dictionary);
+			
+			var sb = new StringBuilder ();
+			bool wasHotkey = false;
 
-				int end = text.Length - 1;
+			int end = text.Length - 1;
+			for (int i = 0; i < text.Length; ++i) {
+				char c = text[i];
+				if (wasHotkey || c != '&' || i == end) {
+					sb.Append (c);
+					wasHotkey = false;
+				} else if (c == '&') {
+					wasHotkey = true;
+				}	
+			}
+
+			var atts = new NSMutableAttributedString (sb.ToString(), ctAttributes.Dictionary);
+
+			// Underline
+			wasHotkey = false;
+			if (format.HotkeyPrefix == System.Drawing.Text.HotkeyPrefix.Show) {
+				int index = 0;
 				for (int i = 0; i < text.Length; ++i) {
 					char c = text[i];
-					if (wasHotkey || c != '&' || i == end) {
-						sb.Append (c);
+					if (wasHotkey) {
+						atts.AddAttributes (
+							new CTStringAttributes () { UnderlineStyle = CTUnderlineStyle.Single },
+							new NSRange (index, 1));
+						index++;
 						wasHotkey = false;
-					} else if (c == '&') {
+					} else if (c == '&' && i != end && text[i+1] != '&') {
 						wasHotkey = true;
-					}	
-				}
-
-				atts = new NSMutableAttributedString (sb.ToString(), ctAttributes.Dictionary);
-
-				// Underline
-				wasHotkey = false;
-				if (format.HotkeyPrefix == System.Drawing.Text.HotkeyPrefix.Show) {
-					int index = 0;
-					for (int i = 0; i < text.Length; ++i) {
-						char c = text[i];
-						if (wasHotkey) {
-							atts.AddAttributes (
-								new CTStringAttributes () { UnderlineStyle = CTUnderlineStyle.Single },
-								new NSRange (index, 1));
-							index++;
-							wasHotkey = false;
-						} else if (c == '&' && i != end && text[i+1] != '&') {
-							wasHotkey = true;
-						} else {
-							index++;
-						}
+					} else {
+						index++;
 					}
 				}
 			}
 
 			return atts;
+		}
+
+		internal static double GetLineHeight(CTTypesetter typesetter, int start, int count)
+		{
+			using (var line = typesetter.GetLine(new NSRange(start, count)))
+				return GetLineHeight(line);
+		}
+
+		internal static double GetLineHeight(CTLine line)
+		{
+			nfloat ascent, descent, leading;
+			line.GetTypographicBounds(out ascent, out descent, out leading);
+			return ascent + descent + leading;
 		}
 	}
 }
