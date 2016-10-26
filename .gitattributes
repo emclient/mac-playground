@@ -99,6 +99,7 @@ GUITest/Properties/AssemblyInfo.cs -text
 GUITest/TestRunner.cs -text
 GUITest/UI.cs -text
 GUITest/Utils/FormContactUtils.cs -text
+GUITest/Utils/FormMainUtils.cs -text
 GUITest/Utils/GeneralUtils.cs -text
 MacBridge.Test/CGImageExtensionsTest.cs -text
 MacBridge.Test/LaunchServicesTest.cs -text

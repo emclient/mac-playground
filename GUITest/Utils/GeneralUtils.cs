@@ -31,9 +31,9 @@ namespace GUITest
 			return GetRowOf<MailClient.UI.Categories.UICategory>(controlDataGrid, category, x => x.CategoryName);
 		}
 
-		public static int GetRowOfTheContactName(ControlDataGrid controlDataGrid, string name)
+		public static int GetRowOfTheContactName(ControlDataGrid controlDataGrid, string displayName)
 		{
-			return GetRowOf<MailClient.Storage.Application.Contact.ContactItem>(controlDataGrid, name, x => x.Name.DisplayName);
+			return GetRowOf<MailClient.Storage.Application.Contact.ContactItem>(controlDataGrid, displayName, x => x.Name.DisplayName);
 		}
 	}
 	

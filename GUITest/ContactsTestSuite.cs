@@ -18,8 +18,8 @@ namespace GUITest
 		{
 			Thread.Sleep(2000);
 
-			UI.Mouse.Click(UI.TryGetMember("formMain.leftSpine1.controlSidebarBoxContacts"));
-			UI.Mouse.Click(UI.TryGetMember("formMain.stripButton_New"));
+			FormMainUtils.SwitchToContactsModule();
+			FormMainUtils.AddNewItemInCurrentModule();
 
 			FormContactUtils.SetName(string.Format("{0} {1}", Contact.TestContact.Name.FirstName, Contact.TestContact.Name.LastName));
 			FormContactUtils.SetCompany(Contact.TestContact.Company);
@@ -51,15 +51,13 @@ namespace GUITest
 		{
 			Thread.Sleep(2000);
 
-			UI.Mouse.Click(UI.TryGetMember("formMain.leftSpine1.controlSidebarBoxContacts"));
+			FormMainUtils.SwitchToContactsModule();
 			UI.Mouse.Click(UI.TryGetMember("formMain.stripButton_CustomView"));
 
-			var controlContactsDataGrid = (UI.TryGetSubcontrol(UI.TryGetMember("formMain.panelContactsList"), "controlContacts") as ControlContacts).DataGrid;
-			//string name = ((controlContactsDataGrid.DataSource[5] as MailClient.Storage.Application.Contact.ContactItem).Name as MailClient.Contact.ContactName).DisplayName;
-			UI.Mouse.DoubleClick(controlContactsDataGrid, GeneralUtils.GetRowOfTheContactName(controlContactsDataGrid, Contact.TestContact.Name.DisplayName));
+			FormMainUtils.OpenContactDetailFromContactsList(Contact.TestContact.Name.DisplayName);
 
-			Assert.IsNotNull(UI.WaitForForm("formContact"));
-			UI.Mouse.Click(UI.TryGetMember("formContact.stripButton_Cancel"));
+			// Cancel - TEMP
+			FormContactUtils.Cancel();
 
 			//UI.Mouse.Click(UI.TryGetControl("formMain.panelContactsList"));
 			//UI.Mouse.Click(UI.TryGetControl("formMain.stripButton_BusinessCards"));
