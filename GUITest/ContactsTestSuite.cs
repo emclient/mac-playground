@@ -31,10 +31,10 @@ namespace GUITest
 			FormContactUtils.AddNewTelephone(Contact.TestContact.Telephones[0]);
 			FormContactUtils.AddNewTelephone(Contact.TestContact.Telephones[1]);
 
+			FormContactUtils.AddNewAddress(Contact.TestContact.Addresses[0]);
+
 			// Cancel - TEMP
-			UI.Mouse.Click(UI.TryGetMember("formContact.stripButton_Cancel"));
-			// Save
-			//UI.Mouse.Click(UI.TryGetControl("formContact.stripButton_Save"));
+			FormContactUtils.Cancel();
 
 			Thread.Sleep(2000);
 

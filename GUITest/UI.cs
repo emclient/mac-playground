@@ -274,10 +274,10 @@ namespace GUITest
 
         public static Control TryGetSubcontrol(Control root, string name, int maxLevel = int.MaxValue)
         {
-			return TryGetControls(root, name, 1, maxLevel)[0];
+			return TryGetSubcontrols(root, name, 1, maxLevel)[0];
 		}
 
-		public static List<Control> TryGetControls(Control root, string name, int count, int maxLevel = int.MaxValue)
+		public static List<Control> TryGetSubcontrols(Control root, string name, int count, int maxLevel = int.MaxValue)
 		{
 			return Perform(() => { return DoFindSubcontrols(root, name, count, maxLevel); });
 		}
