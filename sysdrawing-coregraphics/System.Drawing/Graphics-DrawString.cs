@@ -364,9 +364,6 @@ namespace System.Drawing
 
 				if (format.LineAlignment == StringAlignment.Far) 
 				{
-					if (lineHeight + textPosition.Y > insetBounds.Bottom) // Do not overflow
-						break;
-
 					if (layoutAvailable)
 						textMatrix.Translate (penFlushness + textPosition.X, textPosition.Y + ((boundsHeight) - (baselineOffset)));
 					else
