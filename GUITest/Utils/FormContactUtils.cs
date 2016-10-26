@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.Windows.Forms;
 
 using MailClient.UI.Controls;
@@ -113,6 +114,77 @@ namespace GUITest
 					break;
 				}
 			}
+		}
+
+		internal static void AddNewAddress(ContactAddress address)
+		{
+			UI.Mouse.Click(UI.TryGetMember("formContact.toolStripButton_AddAddress"));
+			switch (address.Type)
+			{
+				default:
+				case ContactAddressType.Work:
+					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_AddAddress_Work"));
+					break;
+				case ContactAddressType.Home:
+					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_AddAddress_Home"));
+					break;
+				case ContactAddressType.Other:
+					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_AddAddress_Other"));
+					break;
+			}
+			var newlyCreatedAddressPanel = UI.TryGetMember("formContact.tableLayoutPanel_Overview_Right").Controls.OfType<Control>().Last();
+			bool showMoreButtonClicked = false;
+
+			if (!string.IsNullOrEmpty(address.Street))
+			{
+				UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_Street"));
+				UI.Type(address.Street);
+			}
+			if (!string.IsNullOrEmpty(address.City))
+			{
+				UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_City"));
+				UI.Type(address.City);
+			}
+			if (!string.IsNullOrEmpty(address.ZIP))
+			{
+				UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_Zip"));
+				UI.Type(address.ZIP);
+			}
+			if (!string.IsNullOrEmpty(address.State))
+			{
+				if (!showMoreButtonClicked)
+				{
+					showMoreButtonClicked = true;
+					UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "button_Address_More"));
+				}
+				UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_County"));
+				UI.Type(address.State);
+			}
+			if (!string.IsNullOrEmpty(address.Country))
+			{
+				UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_Country"));
+				UI.Type(address.Country);
+			}
+			if (!string.IsNullOrEmpty(address.GPS))
+			{
+				if (!showMoreButtonClicked)
+				{
+					showMoreButtonClicked = true;
+					UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "button_Address_More"));
+				}
+				UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_GPS"));
+				UI.Type(address.GPS);
+			}
+		}
+
+		internal static void Save()
+		{
+			UI.Mouse.Click(UI.TryGetMember("formContact.stripButton_Save"));
+		}
+
+		internal static void Cancel()
+		{
+			UI.Mouse.Click(UI.TryGetMember("formContact.stripButton_Cancel"));
 		}
 	}
 }

@@ -13,6 +13,7 @@ namespace GUITest
 		public string Category;
 		public List<ContactMail> Mails;
 		public List<ContactTelephone> Telephones;
+		public List<ContactAddress> Addresses;
 
 		private static object oLockInstance = new object();
 		private static Contact testContact;
@@ -47,6 +48,8 @@ namespace GUITest
 			contact.Telephones = new List<ContactTelephone>();
 			contact.Telephones.Add(new ContactTelephone(ContactTelephoneType.Mobile, "777666555"));
 			contact.Telephones.Add(new ContactTelephone(ContactTelephoneType.Work, "111222333"));
+			contact.Addresses = new List<ContactAddress>();
+			contact.Addresses.Add(new ContactAddress(ContactAddressType.Work, "Thámova 18", "Prague", "186 00", "test", "Czech Republic", "50.092409,14.452772"));
 			return contact;
 		}
 	}
@@ -73,6 +76,14 @@ namespace GUITest
 		ISDN
 	}
 
+	public enum ContactAddressType
+	{
+		Work,
+		Home,
+		Other,
+		Custom
+	}
+
 	class ContactMail
 	{
 		public ContactMailType Type;
@@ -96,6 +107,28 @@ namespace GUITest
 		{
 			Type = type;
 			Number = number;
+		}
+	}
+
+	class ContactAddress
+	{
+		public ContactAddressType Type;
+		public string Street;
+		public string City;
+		public string ZIP;
+		public string State;
+		public string Country;
+		public string GPS;
+
+		public ContactAddress(ContactAddressType type, string street, string city, string zip, string state, string country, string gps)
+		{
+			Type = type;
+			Street = street;
+			City = city;
+			ZIP = zip;
+			State = state;
+			Country = country;
+			GPS = gps;
 		}
 	}
 }
