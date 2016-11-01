@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using MailClient.UI.Controls;
 using MailClient.UI.Controls.ControlDataGrid;
 using MailClient.UI.Controls.ToolStripControls;
+using MailClient.Common.UI.Controls.ControlPanelSwitcher;
 
 namespace GUITest
 {
@@ -46,6 +47,18 @@ namespace GUITest
 		{
 			this.DataGrid = dataGrid;
 			this.Row = row;
+		}
+	}
+
+	public class ControlPanelTabSwitcherWithTabIndex
+	{
+		public ControlPanelTabSwitcher PanelTabSwitcher;
+		public int TabIndex;
+
+		public ControlPanelTabSwitcherWithTabIndex(ControlPanelTabSwitcher panelTabSwitcher, int tabIndex)
+		{
+			this.PanelTabSwitcher = panelTabSwitcher;
+			this.TabIndex = tabIndex;
 		}
 	}
 }
