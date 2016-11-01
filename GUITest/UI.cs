@@ -392,6 +392,11 @@ namespace GUITest
 				if (!((ControlDataGridWithSourceIndex)control).DataGrid.Visible)
 					throw new ApplicationException(message);
 			}
+			else if (control is ControlPanelTabSwitcherWithTabIndex)
+			{
+				if (!((ControlPanelTabSwitcherWithTabIndex)control).PanelTabSwitcher.Visible)
+					throw new ApplicationException(message);
+			}
 			else if (control is ToolStripItem)
 			{
 				if (!((ToolStripItem)control).Visible)
@@ -469,6 +474,11 @@ namespace GUITest
 				Click(ClickType.Left, GetCenterOfToolStripMenuItem, control);
 			}
 
+			public static void Click(ControlPanelTabSwitcherWithTabIndex control)
+			{
+				Click(ClickType.Left, GetCenterOfControlPanelTabSwitcherTab, control);
+			}
+
 			private static void Click<T>(ClickType clickType, GetScreenRectangleOfControl<T> getMouseDestinationDelegate, T destinationObject)
 			{
 				ThrowIfNotVisible(destinationObject);
@@ -512,6 +522,12 @@ namespace GUITest
 			{
 				Rectangle relativeRowRectangle = control.DataGrid.GetRowBoundaries(control.DataGrid.GetRowFromDataSourceIndex(control.Row, true));
 				return control.DataGrid.RectangleToScreen(relativeRowRectangle);
+			}
+
+			private static Rectangle GetCenterOfControlPanelTabSwitcherTab(ControlPanelTabSwitcherWithTabIndex control)
+			{
+				Rectangle relativeTabRectangle = control.PanelTabSwitcher.GetTabRectangleForPanel(control.PanelTabSwitcher.Controls[control.TabIndex] as MailClient.Common.UI.Controls.ControlPanelSwitcher.SwitchPanel);
+				return control.PanelTabSwitcher.RectangleToScreen(relativeTabRectangle);
 			}
 
 			private static Rectangle GetCenterOfToolStripMenuItem(ToolStripMenuItem control)

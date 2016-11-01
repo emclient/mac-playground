@@ -10,20 +10,37 @@ namespace GUITest
 {
 	public static class FormContactUtils
 	{
+		private enum FormContactTabs
+		{
+			Overview,
+			Details,
+			Certificate
+		}
+
+		private static void SwitchToTab(FormContactTabs desiredTab)
+		{
+			var tabSwitcher = UI.TryGetMember("formContact.controlPanelTabSwitcher1") as MailClient.Common.UI.Controls.ControlPanelSwitcher.ControlPanelTabSwitcher;
+			if (tabSwitcher.SelectedIndex != (int)desiredTab)
+				UI.Mouse.Click(new ControlPanelTabSwitcherWithTabIndex(tabSwitcher, (int)desiredTab));
+		}
+
 		internal static void SetName(string contactName)
 		{
+			SwitchToTab(FormContactTabs.Overview);
 			UI.Mouse.Click(UI.TryGetMember("formContact.text_Overview_FullName"));
 			UI.Type(contactName);
 		}
 
 		internal static void SetCompany(string companyName)
 		{
+			SwitchToTab(FormContactTabs.Overview);
 			UI.Mouse.Click(UI.TryGetMember("formContact.text_Overview_Company"));
 			UI.Type(companyName);
 		}
 
 		internal static void SetCategory(string categoryName)
 		{
+			SwitchToTab(FormContactTabs.Overview);
 			ComboBoxCategory categoryComboBox = UI.TryGetMember<ComboBoxCategory>("formContact.combo_Overview_Category");
 			UI.Mouse.Click(categoryComboBox);
 			var controlDataGrid = GeneralUtils.GetDropdownControlDataGrid(categoryComboBox);
@@ -32,6 +49,7 @@ namespace GUITest
 
 		internal static void AddNewEmail(ContactMail mail)
 		{
+			SwitchToTab(FormContactTabs.Overview);
 			UI.Mouse.Click(UI.TryGetMember("formContact.toolStripButton_AddEmail"));
 			switch (mail.Type)
 			{
@@ -66,6 +84,7 @@ namespace GUITest
 
 		internal static void AddNewTelephone(ContactTelephone telephone)
 		{
+			SwitchToTab(FormContactTabs.Overview);
 			UI.Mouse.Click(UI.TryGetMember("formContact.toolStripButton_AddPhone"));
 			switch (telephone.Type)
 			{
@@ -118,6 +137,7 @@ namespace GUITest
 
 		internal static void AddNewAddress(ContactAddress address)
 		{
+			SwitchToTab(FormContactTabs.Overview);
 			UI.Mouse.Click(UI.TryGetMember("formContact.toolStripButton_AddAddress"));
 			switch (address.Type)
 			{
