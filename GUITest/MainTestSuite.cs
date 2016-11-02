@@ -2,8 +2,10 @@
 using System.Windows.Forms;
 using System.Threading;
 using NUnit.Framework;
+
 using MailClient.Common.UI.Controls.ControlToolStrip;
 using MailClient.UI.Controls.ControlSidebar;
+using GUITest.Handlers.Controls;
 
 namespace GUITest
 {
@@ -19,14 +21,14 @@ namespace GUITest
         {
             Thread.Sleep(2000);
 
-			UI.Mouse.Click(UI.TryGetMember("formMain.leftSpine1.controlSidebarBoxMailFolders"));
+			ControlHandler.Click(UI.TryGetMember("formMain.leftSpine1.controlSidebarBoxMailFolders"));
 
 			ControlToolStripButton button = null;
             UI.Perform(() => { button = UI.GetMember<ControlToolStripButton>("formMain.stripButton_New", null); });
             ThrowIfNull(button, "Failed locating New button (formMain.stripButton_New)");
 
-            //UI.Perform(() => { button.PerformClick(); });
-            UI.Mouse.Click(button);
+			//UI.Perform(() => { button.PerformClick(); });
+			ControlHandler.Click(button);
 
             var formSendMail = UI.WaitForForm("formSendMail");
             ThrowIfNull(formSendMail, "Failed opening formSendMail");
@@ -50,7 +52,7 @@ namespace GUITest
 
 			var noButton = UI.TryGetSubcontrol(taskForm, "No");
 			ThrowIfNull(noButton, "'No' button not found.");
-			UI.Mouse.Click(noButton);
+			ControlHandler.Click(noButton);
 
 			//UI.Type("{ENTER}"); // Confirms the save dialog and allows closing the e-mail window.
 

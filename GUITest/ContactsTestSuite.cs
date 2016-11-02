@@ -3,10 +3,8 @@ using System.Windows.Forms;
 using System.Threading;
 using NUnit.Framework;
 
-// Controls used in tests
-using MailClient.UI.Controls;
-
 using MailClient.Storage.Data;
+using GUITest.Handlers.Forms;
 
 namespace GUITest
 {
@@ -18,23 +16,23 @@ namespace GUITest
 		{
 			Thread.Sleep(2000);
 
-			FormMainUtils.SwitchToContactsModule();
-			FormMainUtils.AddNewItemInCurrentModule();
+			FormMainHandler.SwitchToContactsModule();
+			FormMainHandler.AddNewItemInCurrentModule();
 
-			FormContactUtils.SetName(string.Format("{0} {1}", Contact.TestContact.Name.FirstName, Contact.TestContact.Name.LastName));
-			FormContactUtils.SetCompany(Contact.TestContact.Company);
-			FormContactUtils.SetCategory(Contact.TestContact.Category);
+			FormContactHandler.SetName(string.Format("{0} {1}", Contact.TestContact.Name.FirstName, Contact.TestContact.Name.LastName));
+			FormContactHandler.SetCompany(Contact.TestContact.Company);
+			FormContactHandler.SetCategory(Contact.TestContact.Category);
 
-			FormContactUtils.AddNewEmail(Contact.TestContact.Mails[0]);
-			FormContactUtils.AddNewEmail(Contact.TestContact.Mails[1]);
-			FormContactUtils.AddNewEmail(Contact.TestContact.Mails[2]);
-			FormContactUtils.AddNewTelephone(Contact.TestContact.Telephones[0]);
-			FormContactUtils.AddNewTelephone(Contact.TestContact.Telephones[1]);
+			FormContactHandler.AddNewEmail(Contact.TestContact.Mails[0]);
+			FormContactHandler.AddNewEmail(Contact.TestContact.Mails[1]);
+			FormContactHandler.AddNewEmail(Contact.TestContact.Mails[2]);
+			FormContactHandler.AddNewTelephone(Contact.TestContact.Telephones[0]);
+			FormContactHandler.AddNewTelephone(Contact.TestContact.Telephones[1]);
 
-			FormContactUtils.AddNewAddress(Contact.TestContact.Addresses[0]);
+			FormContactHandler.AddNewAddress(Contact.TestContact.Addresses[0]);
 
 			// Cancel - TEMP
-			FormContactUtils.Cancel();
+			FormContactHandler.Cancel();
 
 			Thread.Sleep(2000);
 
@@ -51,13 +49,13 @@ namespace GUITest
 		{
 			Thread.Sleep(2000);
 
-			FormMainUtils.SwitchToContactsModule();
-			UI.Mouse.Click(UI.TryGetMember("formMain.stripButton_CustomView"));
+			FormMainHandler.SwitchToContactsModule();
+			Handlers.Controls.ControlHandler.Click(UI.TryGetMember("formMain.stripButton_CustomView"));
 
-			FormMainUtils.OpenContactDetailFromContactsList(Contact.TestContact.Name.DisplayName);
+			FormMainHandler.OpenContactDetailFromContactsList(Contact.TestContact.Name.DisplayName);
 
 			// Cancel - TEMP
-			FormContactUtils.Cancel();
+			FormContactHandler.Cancel();
 
 			//UI.Mouse.Click(UI.TryGetControl("formMain.panelContactsList"));
 			//UI.Mouse.Click(UI.TryGetControl("formMain.stripButton_BusinessCards"));

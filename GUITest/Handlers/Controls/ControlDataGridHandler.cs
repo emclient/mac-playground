@@ -1,17 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 using System.Windows.Forms;
 
 using MailClient.UI.Controls;
 using MailClient.UI.Controls.ControlDataGrid;
 using MailClient.UI.Controls.ToolStripControls;
-using MailClient.Common.UI.Controls.ControlPanelSwitcher;
 
-namespace GUITest
+namespace GUITest.Handlers.Controls
 {
-	public static class GeneralUtils
+	public static class ControlDataGridHandler
 	{
+		private static Rectangle GetCenterOfControlDataGridRow(ControlDataGridWithSourceIndex control)
+		{
+			Rectangle relativeRowRectangle = control.DataGrid.GetRowBoundaries(control.DataGrid.GetRowFromDataSourceIndex(control.Row, true));
+			return control.DataGrid.RectangleToScreen(relativeRowRectangle);
+		}
+
+		public static void ThrowIfNotVisible(ControlDataGridWithSourceIndex control, string message = "Control is not visible")
+		{
+			if (!control.DataGrid.Visible)
+				throw new ApplicationException(message);
+		}
+
+		public static void Click(ControlDataGrid control, int row)
+		{
+			Mouse.Click(Mouse.ClickType.Left, GetCenterOfControlDataGridRow, ThrowIfNotVisible, new ControlDataGridWithSourceIndex(control, row));
+		}
+
+		public static void RightClick(ControlDataGrid control, int row)
+		{
+			Mouse.Click(Mouse.ClickType.Right, GetCenterOfControlDataGridRow, ThrowIfNotVisible, new ControlDataGridWithSourceIndex(control, row));
+		}
+
+		public static void DoubleClick(ControlDataGrid control, int row)
+		{
+			Mouse.Click(Mouse.ClickType.DoubleClick, GetCenterOfControlDataGridRow, ThrowIfNotVisible, new ControlDataGridWithSourceIndex(control, row));
+		}
+
 		public static ControlDataGrid GetDropdownControlDataGrid(ComboBoxWithDataGrid comboBox)
 		{
 			return (ControlDataGrid)((DropDownPanel)((ToolStripControlHost)comboBox.PopupHelper.Items[0]).Control).Controls[0];
@@ -37,7 +64,7 @@ namespace GUITest
 			return GetRowOf<MailClient.Storage.Application.Contact.ContactItem>(controlDataGrid, displayName, x => x.Name.DisplayName);
 		}
 	}
-	
+
 	public class ControlDataGridWithSourceIndex
 	{
 		public ControlDataGrid DataGrid;
@@ -47,18 +74,6 @@ namespace GUITest
 		{
 			this.DataGrid = dataGrid;
 			this.Row = row;
-		}
-	}
-
-	public class ControlPanelTabSwitcherWithTabIndex
-	{
-		public ControlPanelTabSwitcher PanelTabSwitcher;
-		public int TabIndex;
-
-		public ControlPanelTabSwitcherWithTabIndex(ControlPanelTabSwitcher panelTabSwitcher, int tabIndex)
-		{
-			this.PanelTabSwitcher = panelTabSwitcher;
-			this.TabIndex = tabIndex;
 		}
 	}
 }
