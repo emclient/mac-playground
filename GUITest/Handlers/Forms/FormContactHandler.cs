@@ -5,10 +5,11 @@ using System.Linq;
 using System.Windows.Forms;
 
 using MailClient.UI.Controls;
+using GUITest.Handlers.Controls;
 
-namespace GUITest
+namespace GUITest.Handlers.Forms
 {
-	public static class FormContactUtils
+	public static class FormContactHandler
 	{
 		private enum FormContactTabs
 		{
@@ -21,20 +22,20 @@ namespace GUITest
 		{
 			var tabSwitcher = UI.TryGetMember("formContact.controlPanelTabSwitcher1") as MailClient.Common.UI.Controls.ControlPanelSwitcher.ControlPanelTabSwitcher;
 			if (tabSwitcher.SelectedIndex != (int)desiredTab)
-				UI.Mouse.Click(new ControlPanelTabSwitcherWithTabIndex(tabSwitcher, (int)desiredTab));
+				ControlPanelTabSwitcherHandler.Click(new ControlPanelTabSwitcherWithTabIndex(tabSwitcher, (int)desiredTab));
 		}
 
 		internal static void SetName(string contactName)
 		{
 			SwitchToTab(FormContactTabs.Overview);
-			UI.Mouse.Click(UI.TryGetMember("formContact.text_Overview_FullName"));
+			ControlHandler.Click(UI.TryGetMember("formContact.text_Overview_FullName"));
 			UI.Type(contactName);
 		}
 
 		internal static void SetCompany(string companyName)
 		{
 			SwitchToTab(FormContactTabs.Overview);
-			UI.Mouse.Click(UI.TryGetMember("formContact.text_Overview_Company"));
+			ControlHandler.Click(UI.TryGetMember("formContact.text_Overview_Company"));
 			UI.Type(companyName);
 		}
 
@@ -42,26 +43,26 @@ namespace GUITest
 		{
 			SwitchToTab(FormContactTabs.Overview);
 			ComboBoxCategory categoryComboBox = UI.TryGetMember<ComboBoxCategory>("formContact.combo_Overview_Category");
-			UI.Mouse.Click(categoryComboBox);
-			var controlDataGrid = GeneralUtils.GetDropdownControlDataGrid(categoryComboBox);
-			UI.Mouse.Click(controlDataGrid, GeneralUtils.GetRowOfTheCategory(controlDataGrid, categoryName));
+			ControlHandler.Click(categoryComboBox);
+			var controlDataGrid = ControlDataGridHandler.GetDropdownControlDataGrid(categoryComboBox);
+			ControlDataGridHandler.Click(controlDataGrid, ControlDataGridHandler.GetRowOfTheCategory(controlDataGrid, categoryName));
 		}
 
 		internal static void AddNewEmail(ContactMail mail)
 		{
 			SwitchToTab(FormContactTabs.Overview);
-			UI.Mouse.Click(UI.TryGetMember("formContact.toolStripButton_AddEmail"));
+			ControlHandler.Click(UI.TryGetMember("formContact.toolStripButton_AddEmail"));
 			switch (mail.Type)
 			{
 				default:
 				case ContactMailType.Email:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_AddEmail_Email"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_AddEmail_Email"));
 					break;
 				case ContactMailType.Work:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_AddEmail_Work"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_AddEmail_Work"));
 					break;
 				case ContactMailType.Home:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_AddEmail_Home"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_AddEmail_Home"));
 					break;
 			}
 			var contactInfoPanelControls = UI.TryGetMember("formContact.tableLayoutPanel_Overview_Left").Controls;
@@ -69,12 +70,12 @@ namespace GUITest
 			{
 				if (contactInfoPanelControls[i].Name.Equals("text_Email_Email"))
 				{
-					UI.Mouse.Click(contactInfoPanelControls[i]);
+					ControlHandler.Click(contactInfoPanelControls[i]);
 					UI.Type(mail.Address);
 					if (mail.DisplayAs != null)
 					{
-						UI.Mouse.Click(contactInfoPanelControls[i + 3]);
-						UI.Mouse.Click(contactInfoPanelControls[i + 2]);
+						ControlHandler.Click(contactInfoPanelControls[i + 3]);
+						ControlHandler.Click(contactInfoPanelControls[i + 2]);
 						UI.Type(mail.DisplayAs);
 					}
 					break;
@@ -85,42 +86,42 @@ namespace GUITest
 		internal static void AddNewTelephone(ContactTelephone telephone)
 		{
 			SwitchToTab(FormContactTabs.Overview);
-			UI.Mouse.Click(UI.TryGetMember("formContact.toolStripButton_AddPhone"));
+			ControlHandler.Click(UI.TryGetMember("formContact.toolStripButton_AddPhone"));
 			switch (telephone.Type)
 			{
 				case ContactTelephoneType.Work:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Work"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Work"));
 					break;
 				case ContactTelephoneType.Fax:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Fax"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Fax"));
 					break;
 				case ContactTelephoneType.Car:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Car"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Car"));
 					break;
 				case ContactTelephoneType.Company:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Company"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Company"));
 					break;
 				case ContactTelephoneType.Home:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Home"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Home"));
 					break;
 				case ContactTelephoneType.FaxHome:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_FaxHome"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_FaxHome"));
 					break;
 				default:
 				case ContactTelephoneType.Mobile:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Mobile"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Mobile"));
 					break;
 				case ContactTelephoneType.Other:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Other"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Other"));
 					break;
 				case ContactTelephoneType.OtherFax:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_OtherFax"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_OtherFax"));
 					break;
 				case ContactTelephoneType.Pager:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Pager"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_Pager"));
 					break;
 				case ContactTelephoneType.ISDN:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_ISDN"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_PhonePurpose_ISDN"));
 					break;
 			}
 			var contactInfoPanelControls = UI.TryGetMember("formContact.tableLayoutPanel_Overview_Left").Controls;
@@ -128,7 +129,7 @@ namespace GUITest
 			{
 				if (contactInfoPanelControls[i].Name.Equals("text_Phone"))
 				{
-					UI.Mouse.Click(contactInfoPanelControls[i]);
+					ControlHandler.Click(contactInfoPanelControls[i]);
 					UI.Type(telephone.Number);
 					break;
 				}
@@ -138,18 +139,18 @@ namespace GUITest
 		internal static void AddNewAddress(ContactAddress address)
 		{
 			SwitchToTab(FormContactTabs.Overview);
-			UI.Mouse.Click(UI.TryGetMember("formContact.toolStripButton_AddAddress"));
+			ControlHandler.Click(UI.TryGetMember("formContact.toolStripButton_AddAddress"));
 			switch (address.Type)
 			{
 				default:
 				case ContactAddressType.Work:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_AddAddress_Work"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_AddAddress_Work"));
 					break;
 				case ContactAddressType.Home:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_AddAddress_Home"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_AddAddress_Home"));
 					break;
 				case ContactAddressType.Other:
-					UI.Mouse.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_AddAddress_Other"));
+					ToolStripMenuItemHandler.Click(UI.TryGetMember<ToolStripMenuItem>("formContact.menuItem_AddAddress_Other"));
 					break;
 			}
 			var newlyCreatedAddressPanel = UI.TryGetMember("formContact.tableLayoutPanel_Overview_Right").Controls.OfType<Control>().Last();
@@ -157,17 +158,17 @@ namespace GUITest
 
 			if (!string.IsNullOrEmpty(address.Street))
 			{
-				UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_Street"));
+				ControlHandler.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_Street"));
 				UI.Type(address.Street);
 			}
 			if (!string.IsNullOrEmpty(address.City))
 			{
-				UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_City"));
+				ControlHandler.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_City"));
 				UI.Type(address.City);
 			}
 			if (!string.IsNullOrEmpty(address.ZIP))
 			{
-				UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_Zip"));
+				ControlHandler.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_Zip"));
 				UI.Type(address.ZIP);
 			}
 			if (!string.IsNullOrEmpty(address.State))
@@ -175,14 +176,14 @@ namespace GUITest
 				if (!showMoreButtonClicked)
 				{
 					showMoreButtonClicked = true;
-					UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "button_Address_More"));
+					ControlHandler.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "button_Address_More"));
 				}
-				UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_County"));
+				ControlHandler.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_County"));
 				UI.Type(address.State);
 			}
 			if (!string.IsNullOrEmpty(address.Country))
 			{
-				UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_Country"));
+				ControlHandler.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_Country"));
 				UI.Type(address.Country);
 			}
 			if (!string.IsNullOrEmpty(address.GPS))
@@ -190,21 +191,21 @@ namespace GUITest
 				if (!showMoreButtonClicked)
 				{
 					showMoreButtonClicked = true;
-					UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "button_Address_More"));
+					ControlHandler.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "button_Address_More"));
 				}
-				UI.Mouse.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_GPS"));
+				ControlHandler.Click(UI.TryGetSubcontrol(newlyCreatedAddressPanel, "text_Address_GPS"));
 				UI.Type(address.GPS);
 			}
 		}
 
 		internal static void Save()
 		{
-			UI.Mouse.Click(UI.TryGetMember("formContact.stripButton_Save"));
+			ControlHandler.Click(UI.TryGetMember("formContact.stripButton_Save"));
 		}
 
 		internal static void Cancel()
 		{
-			UI.Mouse.Click(UI.TryGetMember("formContact.stripButton_Cancel"));
+			ControlHandler.Click(UI.TryGetMember("formContact.stripButton_Cancel"));
 		}
 	}
 }

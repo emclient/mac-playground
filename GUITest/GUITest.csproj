@@ -81,15 +81,19 @@
   <ItemGroup>
     <Compile Include="Contact.cs" />
     <Compile Include="ContactsTestSuite.cs" />
+    <Compile Include="Handlers\Controls\ControlDataGridHandler.cs" />
+    <Compile Include="Handlers\Controls\ControlHandler.cs" />
+    <Compile Include="Handlers\Controls\ControlPanelTabSwitcherHandler.cs" />
+    <Compile Include="Handlers\Controls\ToolStripMenuItemHandler.cs" />
+    <Compile Include="Mouse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainTestSuite.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="TestRunner.cs" />
     <Compile Include="UI.cs" />
-    <Compile Include="Utils\FormMainUtils.cs" />
-    <Compile Include="Utils\GeneralUtils.cs" />
-    <Compile Include="Utils\FormContactUtils.cs" />
+    <Compile Include="Handlers\Forms\FormMainHandler.cs" />
+    <Compile Include="Handlers\Forms\FormContactHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\MailClient.Accounts\MailClient.Accounts.csproj">
@@ -150,6 +154,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
