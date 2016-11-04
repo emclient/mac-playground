@@ -1214,6 +1214,10 @@ namespace System.Windows.Forms
 		protected override void SetVisibleCore (bool visible)
 		{
 			base.SetVisibleCore (visible);
+
+			// Ensures releasing captured keyboard
+			if (!visible && Application.KeyboardCapture != null)
+				Application.KeyboardCapture.KeyboardActive = false;
 		}
 
 		protected override void WndProc (ref Message m)
