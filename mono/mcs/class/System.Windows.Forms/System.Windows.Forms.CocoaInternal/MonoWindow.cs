@@ -160,28 +160,13 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		[Export("windowWillClose:")]
-		internal virtual bool willClose (NSObject sender)
+		public override void OrderWindow(NSWindowOrderingMode place, int relativeTo)
 		{
-			//if (IsKeyWindow)
-				ActivateNextWindow();
-			return true;
-		}
+			base.OrderWindow(place, relativeTo);
 
-		public override void OrderOut(NSObject sender)
-		{
-			/*if (IsKeyWindow)*/{
-				base.OrderOut(sender);
-				ActivateNextWindow();
-			}
+			if (place == NSWindowOrderingMode.Out && IsKeyWindow)
+				NSApplication.SharedApplication.BeginInvokeOnMainThread(() => { ActivateNextWindow(); });
 		}
-
-		//public override void OrderWindow(NSWindowOrderingMode place, int relativeTo)
-		//{
-		//	base.OrderWindow(place, relativeTo);
-		//	if (place == NSWindowOrderingMode.Out)
-		//		ActivateNextWindow();
-		//}
 
 		[Export ("windowWillResize:toSize:")]
 		internal virtual NSSize willResize(NSWindow sender, NSSize toFrameSize)
@@ -253,7 +238,9 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
 			XplatUICocoa.ActiveWindow = hwnd.Handle;
-			driver.SendMessage (hwnd.Handle, Msg.WM_ACTIVATE, (IntPtr) WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
+
+			if (FirstResponder is MonoContentView)
+				driver.SendMessage(hwnd.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
 
 			var cv = (MonoContentView)ContentView;
 			if (cv.FocusHandle != IntPtr.Zero)
@@ -285,16 +272,6 @@ namespace System.Windows.Forms.CocoaInternal
 
 		// TODO: expanding, collapsing
 
-		NSResponder prevFirstResponder = null;
-		[Export ("windowDidUpdate:")]
-		internal virtual void windowDidUpdate (NSNotification notification)
-		{
-			if (prevFirstResponder != FirstResponder)
-			{
-				prevFirstResponder = FirstResponder;
-			}
-		}
-	
 		internal virtual void resizeWinForm()
 		{
 			resizeWinForm(Hwnd.GetObjectFromWindow(this.ContentView.Handle));
@@ -307,13 +284,12 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.SendMessage (contentViewHandle.Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
 
-
 		internal virtual void ActivateNextWindow()
 		{
 			var windows = GetOrderedWindowList();
 			foreach (var window in windows)
 			{
-				if (window is MonoWindow && window != this && window.IsVisible && !window.IsMiniaturized && !window.IsSheet)
+				if (window is MonoWindow && window != this && window.IsVisible && !window.IsMiniaturized && !window.IsSheet && window.CanBecomeKeyWindow && !window.IsKeyWindow)
 				{
 					window.MakeKeyAndOrderFront(this);
 					break;
