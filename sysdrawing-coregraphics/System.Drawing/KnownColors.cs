@@ -29,8 +29,10 @@
 //
 #if XAMARINMAC
 using AppKit;
+using Foundation;
 #elif MONOMAC
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 #endif
 
 namespace System.Drawing {
@@ -213,8 +215,8 @@ namespace System.Drawing {
 			0xFFECE9D8,	/* 173 - MenuBar */
 			0xFF316AC5,	/* 174 - MenuHighlight */
 		};
-			
-		static KnownColors ()
+
+		static void Update()
 		{
 			// note: Mono's SWF Theme class will call the static Update method to apply
 			// correct system colors outside Windows
@@ -232,7 +234,8 @@ namespace System.Drawing {
 			// KnownColor.Desktop
 			ArgbValues[(int)KnownColor.GrayText] = (uint)Color.FromNSColor(NSColor.DisabledControlText).ToArgb();
 			//ArgbValues[(int)KnownColor.Highlight] = (uint)Color.FromNSColor(NSColor.Highlight).ToArgb();
-			// KnownColor.Highlight
+			ArgbValues[(int)KnownColor.Highlight] = (uint)Color.FromNSColor(NSColor.SelectedTextBackground).ToArgb();
+			ArgbValues[(int)KnownColor.HighlightText] = (uint)Color.FromNSColor(NSColor.SelectedText).ToArgb();
 			// KnownColor.HighlightText
 			// KnownColor.HotTrack
 			// KnownColor.InactiveBorder
@@ -461,5 +464,27 @@ namespace System.Drawing {
 		{
 			ArgbValues[knownColor] = (uint)color;
 		}
+
+#if XAMARINMAC || MONOMAC
+
+		static NSObject observer = null;
+		static KnownColors()
+		{
+			Update();
+
+			observer = NSNotificationCenter.DefaultCenter.AddObserver("NSSystemColorsDidChangeNotification", (obj) =>
+			{
+				Update();
+			});
+		}
+
+#else
+
+		static KnownColors()
+		{
+			Update();
+		}
+
+#endif
 	}
 }
