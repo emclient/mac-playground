@@ -233,23 +233,34 @@ namespace System.Windows.Forms.CocoaInternal
 			resizeWinForm (hwnd);
 		}
 
-		[Export ("windowDidBecomeKey:")]
+		[Export("windowDidBecomeKey:")]
 		internal virtual void windowDidBecomeKey(NSNotification notification)
 		{
-			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
+			var hwnd = Hwnd.GetObjectFromWindow(this.ContentView.Handle);
 			XplatUICocoa.ActiveWindow = hwnd.Handle;
 
-			if (FirstResponder is MonoContentView)
+			// Activating the window when the FirstReceiver was a native control would result in selecting next control
+			if (FirstResponder is MonoContentView || FirstResponder is MonoWindow || FirstResponder == null)
+			{
 				driver.SendMessage(hwnd.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
+			}
+			else
+			{
+				// Setting IsActive causes invoking OnActivate, which is necessary for refreshing menus.
+				var form = Control.FromHandle(ContentView.Handle)?.FindForm();
+				if (form != null)
+					form.IsActive = true;
+			}
 
 			var cv = (MonoContentView)ContentView;
 			if (cv.FocusHandle != IntPtr.Zero)
 				driver.SendMessage(cv.FocusHandle, Msg.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
 
-			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows) {
-				if (utility_window != this && ! utility_window.IsVisible)
-					utility_window.OrderFront (utility_window);
-			}	
+			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
+			{
+				if (utility_window != this && !utility_window.IsVisible)
+					utility_window.OrderFront(utility_window);
+			}
 		}
 
 		[Export ("windowDidResignKey:")]
