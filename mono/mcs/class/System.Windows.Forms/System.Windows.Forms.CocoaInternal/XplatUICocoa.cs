@@ -1828,9 +1828,12 @@ namespace System.Windows.Forms {
 				activeContentView = (MonoContentView)activeWindowWrap.Window.ContentView;
 				activeContentView.FocusHandle = handle;
 
-				if (activeWindowWrap.Window.FirstResponder != activeContentView)
+				if (activeWindowWrap.Window.FirstResponder != activeContentView && !differentWindows)
+				{
 					activeWindowWrap.Window.MakeFirstResponder(activeContentView);
-
+					return;
+				}
+				
 				if (prevFocusHandle != IntPtr.Zero)
 					SendMessage(prevFocusHandle, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
 
