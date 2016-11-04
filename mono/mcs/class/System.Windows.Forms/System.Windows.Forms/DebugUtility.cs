@@ -54,6 +54,9 @@ namespace System.Windows.Forms
 		static String lastInfo;
 		public static void WriteInfoIfChanged(NSView view, string prefix = null)
 		{
+			if ((NSEvent.CurrentModifierFlags & NSEventModifierMask.FunctionKeyMask) != NSEventModifierMask.FunctionKeyMask)
+				return;
+			
 			string info = ControlInfo(view);
 			if (info != lastInfo)
 				Console.WriteLine((prefix ?? String.Empty) + (lastInfo = info));
