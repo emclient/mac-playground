@@ -465,26 +465,13 @@ namespace System.Drawing {
 			ArgbValues[knownColor] = (uint)color;
 		}
 
-#if XAMARINMAC || MONOMAC
-
-		static NSObject observer = null;
 		static KnownColors()
 		{
 			Update();
 
-			observer = NSNotificationCenter.DefaultCenter.AddObserver("NSSystemColorsDidChangeNotification", (obj) =>
-			{
-				Update();
-			});
+			#if XAMARINMAC || MONOMAC
+			NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSSystemColorsDidChangeNotification"), (obj) => { Update(); });
+			#endif
 		}
-
-#else
-
-		static KnownColors()
-		{
-			Update();
-		}
-
-#endif
 	}
 }
