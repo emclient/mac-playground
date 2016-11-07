@@ -16,15 +16,18 @@ using MonoMac.AppKit;
 using NSRect = System.Drawing.RectangleF;
 using NSPoint = System.Drawing.PointF;
 using NSSize = System.Drawing.SizeF;
+using nint = System.Int32;
 #else
 #if XAMARINMAC
 using NSRect = CoreGraphics.CGRect;
 using NSPoint = CoreGraphics.CGPoint;
 using NSSize = CoreGraphics.CGSize;
+using nint = System.Int64;
 #elif MONOMAC
 using NSRect = MonoMac.CoreGraphics.CGRect;
 using NSPoint = MonoMac.CoreGraphics.CGPoint;
 using NSSize = MonoMac.CoreGraphics.CGSize;
+using nint = System.Int32;
 #endif
 #endif
 
@@ -160,7 +163,7 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		public override void OrderWindow(NSWindowOrderingMode place, int relativeTo)
+		public override void OrderWindow(NSWindowOrderingMode place, nint relativeTo)
 		{
 			base.OrderWindow(place, relativeTo);
 
