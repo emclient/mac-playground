@@ -4,6 +4,8 @@ Experiments/Experiments.xcworkspace/xcuserdata
 Experiments/FakeMailApp.xcodeproj/xcuserdata
 FormsTest/bin
 FormsTest/obj
+GUITest/bin
+GUITest/obj
 MacBridge.Test/bin
 MacBridge.Test/obj
 MacBridge/bin
