@@ -617,7 +617,6 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms.RTF/StyleType.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.RTF/TextMap.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.RTF/TokenClass.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.RTF/rtf.csproj -text
-mono/mcs/class/System.Windows.Forms/System.Windows.Forms.RTF/rtf.csproj.user -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.RTF/test.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Theming/ChangeLog -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Theming/Default/ButtonPainter.cs -text
@@ -1259,7 +1258,6 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/RichTextBoxWordPunctuat
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/RightToLeft.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/RootGridEntry.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/RowStyle.cs -text
-mono/mcs/class/System.Windows.Forms/System.Windows.Forms/SWF.csproj.user -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/SaveFileDialog.Mac.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/SaveFileDialog.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/Screen.cs -text

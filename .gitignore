@@ -21,6 +21,8 @@ mono/mcs/class/Mono.WebBrowser/obj
 mono/mcs/class/System.Drawing/bin
 mono/mcs/class/System.Drawing/obj
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms-net_4_5.userprefs
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms.RTF/rtf.csproj.user
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/SWF.csproj.user
 mono/mcs/class/System.Windows.Forms/bin
 mono/mcs/class/System.Windows.Forms/obj
 mono/mcs/class/lib
