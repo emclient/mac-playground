@@ -612,6 +612,7 @@
     <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Printing\Duplex.cs">
       <Link>External\Duplex.cs</Link>
     </Compile>
+    <Compile Include="System.Drawing.Mac\Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Mono.ico">
@@ -639,5 +640,6 @@
     <Folder Include="System.Drawing.Printing\" />
     <Folder Include="System.Drawing.Text\" />
     <Folder Include="Utilities\ClipperLib\" />
+    <Folder Include="System.Drawing.Mac\" />
   </ItemGroup>
 </Project>
