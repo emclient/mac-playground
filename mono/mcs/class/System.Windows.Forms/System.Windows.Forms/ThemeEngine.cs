@@ -45,11 +45,15 @@ namespace System.Windows.Forms
 				theme_var = theme_var.ToLower ();
 			}
 
+#if MACOS_THEME
+			theme = new ThemeMacOS();
+#else
 			if (Application.VisualStylesEnabled) {
 				theme = new ThemeVisualStyles ();
 			} else {
 				theme = new ThemeWin32Classic ();
 			}
+#endif
 		}
 		
 			

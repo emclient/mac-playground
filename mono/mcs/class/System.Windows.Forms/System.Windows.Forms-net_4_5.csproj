@@ -46,7 +46,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Mono - Debug\</OutputPath>
-    <DefineConstants>DEBUG;NO_CARBON;NO_GTK;NO_X11; MONOMAC; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5</DefineConstants>
+    <DefineConstants>DEBUG;NO_CARBON;NO_GTK;NO_X11; MONOMAC; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5;MACOS_THEME</DefineConstants>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
@@ -59,7 +59,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Xamarin - Debug\</OutputPath>
-    <DefineConstants>DEBUG;NO_CARBON;NO_GTK;NO_X11; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5;XAMARINMAC;__UNIFIED__</DefineConstants>
+    <DefineConstants>DEBUG;NO_CARBON;NO_GTK;NO_X11; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5;XAMARINMAC;__UNIFIED__;MACOS_THEME</DefineConstants>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
@@ -1256,6 +1256,7 @@
     <Compile Include="System.Windows.Forms.CocoaInternal\Swizzle.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\KeysConverter.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\NSKeyEx.cs" />
+    <Compile Include="System.Windows.Forms\ThemeMacOS.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
