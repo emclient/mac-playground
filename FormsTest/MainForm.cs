@@ -174,7 +174,7 @@ namespace FormsTest
 
         private void layoutDebugButton3_Click(object sender, System.EventArgs e)
         {
-            var form = new DebugLayoutForm3();
+            var form = new DebugLayoutForm4();
             form.Show();
         }
 
