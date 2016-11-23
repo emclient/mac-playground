@@ -62,6 +62,9 @@ FormsTest/DebugLayoutForm2.resx -text
 FormsTest/DebugLayoutForm3.Designer.cs -text
 FormsTest/DebugLayoutForm3.cs -text
 FormsTest/DebugLayoutForm3.resx -text
+FormsTest/DebugLayoutForm4.Designer.cs -text
+FormsTest/DebugLayoutForm4.cs -text
+FormsTest/DebugLayoutForm4.resx -text
 FormsTest/Entitlements.plist -text
 FormsTest/Extensions.cs -text
 FormsTest/FormsTest[!!-~](Unified).csproj -text

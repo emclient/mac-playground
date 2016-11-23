@@ -68,6 +68,9 @@
     <Compile Include="DebugLayoutForm3.Designer.cs">
       <DependentUpon>DebugLayoutForm3.cs</DependentUpon>
     </Compile>
+    <Compile Include="DebugLayoutForm4.Designer.cs">
+      <DependentUpon>DebugLayoutForm4.cs</DependentUpon>
+    </Compile>
     <Compile Include="LayoutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +136,7 @@
     <Compile Include="..\..\..\UI\Controls\WrappingCheckBox.Mac.cs">
       <Link>MailClient\UI\Controls\WrappingCheckBox.Mac.cs</Link>
     </Compile>
+    <Compile Include="DebugLayoutForm4.cs" />
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
@@ -144,6 +148,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DebugLayoutForm3.resx">
       <DependentUpon>DebugLayoutForm3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DebugLayoutForm4.resx">
+      <DependentUpon>DebugLayoutForm4.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LayoutForm.resx">
       <DependentUpon>LayoutForm.cs</DependentUpon>
