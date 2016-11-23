@@ -85,6 +85,31 @@ namespace System.Windows.Forms
 		}
 	}
 
+	internal class SWFPopUpButtonCell : NSPopUpButtonCell
+	{
+		public SWFPopUpButtonCell()
+		{
+		}
+
+		public SWFPopUpButtonCell(NSCoder coder) : base(coder)
+		{
+		}
+
+		public override void DrawWithFrame(CGRect cellFrame, NSView inView)
+		{
+			cellFrame = cellFrame.Move(-2, 1);
+			base.DrawWithFrame(cellFrame, inView);
+		}
+
+		public override CGRect TitleRectForBounds(CGRect theRect)
+		{
+			// FIXME: Calculate the offset from font heights (standard vs used)
+
+			var r = base.TitleRectForBounds(theRect);
+			return r.Move(0, -1);
+		}
+	}
+
 	internal class ThemeMacOS : Theme
 	{		
 		internal static void NotImplemented(System.Reflection.MethodBase method, object details = null)
@@ -278,6 +303,32 @@ namespace System.Windows.Forms
 		#endregion
 
 		#region Popup Button Style
+
+		NSButtonCell GetPopupButtonCell(ComboBox b)
+		{
+			var cell = new SWFPopUpButtonCell();
+			cell.Font = b.Font.ToNSFont();
+			cell.Alignment = NSTextAlignment.Natural;
+			cell.Highlighted = b.DroppedDown;
+			cell.Bezeled = true;
+			cell.Bordered = true;
+			cell.BezelStyle = NSBezelStyle.Rounded;
+			cell.Enabled = b.Enabled;
+			cell.PullsDown = true;
+
+			foreach (var item in b.Items)
+				cell.AddItem(item.ToString());
+			cell.SelectItemAt(b.SelectedIndex);
+			cell.SetTitle(b.SelectedItem?.ToString() ?? b.SelectedText) ;
+
+			return cell;
+		}
+
+		NSMenuItem[] GetMenuItems(ComboBox b)
+		{
+			throw new NotImplementedException();
+		}
+
 		public override void DrawPopupButton (Graphics g, Button b, Rectangle textBounds, Rectangle imageBounds, Rectangle clipRectangle)
 		{
 			// Draw Button Background
@@ -502,17 +553,17 @@ namespace System.Windows.Forms
 			using (var cell = GetCheckBoxCell(cb))
 			{
 				var frame = cb.ClientRectangle.ToCGRect();
-				var s = cell.CellSizeForBounds(frame);
 
 				// Move to the top if necessary
-				if (s.Height < frame.Height)
-					frame.Height = (int)Math.Round(s.Height);
+				//var s = cell.CellSizeForBounds(frame);
+				//if (s.Height < frame.Height)
+				//	frame.Height = (int)Math.Round(s.Height);
 
 				var view = NSView.FocusView(); //CocoaInternal.MonoView.FocusedView;
-				if (cb.Focused && cb.Enabled && cb.ShowFocusCues)
+					if (cb.Focused && cb.Enabled && cb.ShowFocusCues)
 				{
-					var fr = cell.GetFocusRingMaskBounds(frame, view);
-					cell.DrawFocusRing(fr, view);
+					//var fr = cell.GetFocusRingMaskBounds(frame, view);
+					cell.DrawFocusRing(frame, view);
 				}
 
 				cell.DrawWithFrame(frame, view);
@@ -710,20 +761,40 @@ namespace System.Windows.Forms
 				graphics.FillPolygon(SystemBrushes.ControlText, arrow, FillMode.Winding);
 			}		
 		}
-		public override void ComboBoxDrawNormalDropDownButton (ComboBox comboBox, Graphics g, Rectangle clippingArea, Rectangle area, ButtonState state)
+		public override void ComboBoxDrawNormalDropDownButton (ComboBox cb, Graphics g, Rectangle clippingArea, Rectangle area, ButtonState state)
 		{
-			CPDrawComboButton (g, area, state);
+			using (var cell = GetPopupButtonCell(cb))
+			{
+				var view = NSView.FocusView();
+				var frame = cb.ClientRectangle.ToCGRect();
+				cell.DrawWithFrame(frame, view);
+			}
+
+			//CPDrawComboButton (g, area, state);
 		}
 		public override bool ComboBoxNormalDropDownButtonHasTransparentBackground (ComboBox comboBox, ButtonState state)
 		{
-			return true;
+			return false; // Prevents ComboBox from drawing the background itself.
 		}
 		public override bool ComboBoxDropDownButtonHasHotElementStyle (ComboBox comboBox)
 		{
 			return false;
 		}
+
 		public override void ComboBoxDrawBackground (ComboBox comboBox, Graphics g, Rectangle clippingArea, FlatStyle style)
 		{
+			var parent = comboBox.Parent;
+			if (parent != null)
+			{
+				var e = new PaintEventArgs(g, new Rectangle(clippingArea.X + comboBox.Left, clippingArea.Y + comboBox.Top, clippingArea.Width, clippingArea.Height));
+				var state = e.Graphics.Save();
+				e.Graphics.TranslateTransform(-comboBox.Left, -comboBox.Top);
+				parent.PaintControlBackground(e);
+				e.Graphics.Restore(state);
+				e.SetGraphics(null);
+				return;
+			}
+
 			if (!comboBox.Enabled)
 				g.FillRectangle (SystemBrushes.Control, comboBox.ClientRectangle);
 
@@ -3436,7 +3507,7 @@ namespace System.Windows.Forms
 		public override Size CalculateRadioButtonAutoSize(RadioButton rb)
 		{
 			using (var cell = GetRadioButtonCell(rb))
-				return cell.CellSize.Inflate(0, -2).ToSDSize(); // -2 is a temporary hack. We nedd to adjust Draw() instead.
+				return cell.CellSize.Inflate(0, 0).ToSDSize(); // -2 is a temporary hack. We nedd to adjust Draw() instead.
 		}
 
 		public override void DrawRadioButton (Graphics g, RadioButton rb, Rectangle glyphArea, Rectangle textBounds, Rectangle imageBounds, Rectangle clipRectangle)
