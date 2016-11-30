@@ -7,6 +7,7 @@ using MonoMac.CoreGraphics;
 using MonoMac.CoreText;
 using MonoMac.Foundation;
 using ObjCRuntime = MonoMac.ObjCRuntime;
+using nfloat = System.Single;
 #elif XAMARINMAC
 using AppKit;
 using CoreGraphics;
@@ -102,6 +103,47 @@ namespace System.Drawing.Mac
 		public static NSColor ToNSColor(this Color c)
 		{
 			return NSColor.FromDeviceRgba(c.R / 255f, c.G / 255f, c.B / 255f, c.A / 255f);
+		}
+
+		public static Color ToSDColor(this NSColor color)
+		{
+			var convertedColor = color.UsingColorSpace(NSColorSpace.GenericRGBColorSpace);
+			if (convertedColor != null)
+			{
+				nfloat r, g, b, a;
+				convertedColor.GetRgba(out r, out g, out b, out a);
+				return Color.FromArgb((int)(a * 255), (int)(r * 255), (int)(g * 255), (int)(b * 255));
+			}
+
+			var cgColor = color.CGColor; // 10.8+
+			if (cgColor != null)
+			{
+				if (cgColor.NumberOfComponents == 4)
+					return Color.FromArgb(
+						(int)(cgColor.Components[3] * 255),
+						(int)(cgColor.Components[0] * 255),
+						(int)(cgColor.Components[1] * 255),
+						(int)(cgColor.Components[2] * 255));
+
+				if (cgColor.NumberOfComponents == 2)
+					return Color.FromArgb(
+						(int)(cgColor.Components[1] * 255),
+						(int)(cgColor.Components[0] * 255),
+						(int)(cgColor.Components[0] * 255),
+						(int)(cgColor.Components[0] * 255));
+			}
+
+			return Color.Transparent;
+		}
+
+		public static int ToArgb(this NSColor color)
+		{
+			return color.ToSDColor().ToArgb();
+		}
+	
+		public static uint ToUArgb(this NSColor color)
+		{
+			return (uint)color.ToSDColor().ToArgb();
 		}
 	}
 
