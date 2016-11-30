@@ -2656,6 +2656,14 @@ namespace System.Windows.Forms {
 			}
 		}
 
+		internal override Size Border3DSize
+		{
+			get
+			{
+				return new Size(1, 1);
+			}
+		}
+
 		internal static void PushChars(string chars)
 		{
 			lock (charsQueue) {

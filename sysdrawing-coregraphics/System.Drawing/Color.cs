@@ -107,37 +107,6 @@ namespace System.Drawing
 			return color;
 		}
 
-		internal static Color FromNSColor (NSColor color)
-		{
-			var convertedColor = color.UsingColorSpace(NSColorSpace.GenericRGBColorSpace);
-			if (convertedColor != null)
-			{
-				nfloat r, g, b, a;
-				convertedColor.GetRgba(out r, out g, out b, out a);
-				return FromArgb((int)(a * 255), (int)(r * 255), (int)(g * 255), (int)(b * 255));
-			}
-
-			var cgColor = color.CGColor; // 10.8+
-			if (cgColor != null)
-			{
-				if (cgColor.NumberOfComponents == 4)
-					return FromArgb(
-						(int)(cgColor.Components[3] * 255),
-						(int)(cgColor.Components[0] * 255),
-						(int)(cgColor.Components[1] * 255),
-						(int)(cgColor.Components[2] * 255));
-				
-				if (cgColor.NumberOfComponents == 2)
-					return FromArgb(
-						(int)(cgColor.Components[1] * 255),
-						(int)(cgColor.Components[0] * 255),
-						(int)(cgColor.Components[0] * 255),
-						(int)(cgColor.Components[0] * 255));
-			}
-
-			return Color.Transparent;
-		}
-
 		public int ToArgb()
 		{
 			return (int) value;
