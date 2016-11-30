@@ -34,6 +34,7 @@ using Foundation;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 #endif
+using System.Drawing.Mac;
 
 namespace System.Drawing {
 
@@ -221,21 +222,21 @@ namespace System.Drawing {
 			// note: Mono's SWF Theme class will call the static Update method to apply
 			// correct system colors outside Windows
 
-			// KnownColor.ActiveBorder
+			ArgbValues[(int)KnownColor.ActiveBorder] = NSColor.WindowFrame.ToUArgb();
 			// KnownColor.ActiveCaption
 			// KnownColor.ActiveCaptionText
 			// KnownColor.AppWorkspace
-			ArgbValues[(int)KnownColor.Control] = (uint)Color.FromNSColor(NSColor.Control).ToArgb();
-			ArgbValues[(int)KnownColor.ControlText] = (uint)Color.FromNSColor(NSColor.ControlText).ToArgb();
-			ArgbValues[(int)KnownColor.ControlDark] = (uint)Color.FromNSColor(NSColor.ControlShadow).ToArgb();
-			ArgbValues[(int)KnownColor.ControlDarkDark] = (uint)Color.FromNSColor(NSColor.ControlDarkShadow).ToArgb();
-			ArgbValues[(int)KnownColor.ControlLight] = (uint)Color.FromNSColor(NSColor.ControlHighlight).ToArgb();
-			ArgbValues[(int)KnownColor.ControlLightLight] = (uint)Color.FromNSColor(NSColor.ControlLightHighlight).ToArgb();
+			ArgbValues[(int)KnownColor.Control] = NSColor.Control.ToUArgb();
+			ArgbValues[(int)KnownColor.ControlText] = NSColor.ControlText.ToUArgb();
+			ArgbValues[(int)KnownColor.ControlDark] = NSColor.ControlShadow.ToUArgb();
+			ArgbValues[(int)KnownColor.ControlDarkDark] = NSColor.ControlDarkShadow.ToUArgb();
+			ArgbValues[(int)KnownColor.ControlLight] = NSColor.ControlHighlight.ToUArgb();
+			ArgbValues[(int)KnownColor.ControlLightLight] = NSColor.ControlLightHighlight.ToUArgb();
 			// KnownColor.Desktop
-			ArgbValues[(int)KnownColor.GrayText] = (uint)Color.FromNSColor(NSColor.DisabledControlText).ToArgb();
-			//ArgbValues[(int)KnownColor.Highlight] = (uint)Color.FromNSColor(NSColor.Highlight).ToArgb();
-			ArgbValues[(int)KnownColor.Highlight] = (uint)Color.FromNSColor(NSColor.SelectedTextBackground).ToArgb();
-			ArgbValues[(int)KnownColor.HighlightText] = (uint)Color.FromNSColor(NSColor.SelectedText).ToArgb();
+			ArgbValues[(int)KnownColor.GrayText] = NSColor.DisabledControlText.ToUArgb();
+			//ArgbValues[(int)KnownColor.Highlight] = NSColor.Highlight.ToUArgb();
+			ArgbValues[(int)KnownColor.Highlight] = NSColor.SelectedTextBackground.ToUArgb();
+			ArgbValues[(int)KnownColor.HighlightText] = NSColor.SelectedText.ToUArgb();
 			// KnownColor.HighlightText
 			// KnownColor.HotTrack
 			// KnownColor.InactiveBorder
@@ -245,13 +246,13 @@ namespace System.Drawing {
 			// KnownColor.InfoText
 			// KnownColor.Menu
 			// KnownColor.MenuText
-			ArgbValues[(int)KnownColor.ScrollBar] = (uint)Color.FromNSColor(NSColor.ScrollBar).ToArgb();
-			//ArgbValues[(int)KnownColor.Window] = (uint)Color.FromNSColor(NSColor.WindowBackground).ToArgb();
-			//ArgbValues[(int)KnownColor.WindowFrame] = (uint)Color.FromNSColor(NSColor.WindowFrame).ToArgb();
-			//ArgbValues[(int)KnownColor.WindowText] = (uint)Color.FromNSColor(NSColor.WindowFrameText).ToArgb();
-			ArgbValues[(int)KnownColor.ButtonFace] = (uint)Color.FromNSColor(NSColor.Control).ToArgb();
-			ArgbValues[(int)KnownColor.ButtonHighlight] = (uint)Color.FromNSColor(NSColor.ControlHighlight).ToArgb();
-			ArgbValues[(int)KnownColor.ButtonShadow] = (uint)Color.FromNSColor(NSColor.ControlShadow).ToArgb();
+			ArgbValues[(int)KnownColor.ScrollBar] = NSColor.ScrollBar.ToUArgb();
+			//ArgbValues[(int)KnownColor.Window] = NSColor.WindowBackground.ToUArgb();
+			//ArgbValues[(int)KnownColor.WindowFrame] = NSColor.WindowFrame.ToUArgb();
+			//ArgbValues[(int)KnownColor.WindowText] = NSColor.WindowFrameText.ToUArgb();
+			ArgbValues[(int)KnownColor.ButtonFace] = NSColor.Control.ToUArgb();
+			ArgbValues[(int)KnownColor.ButtonHighlight] = NSColor.ControlHighlight.ToUArgb();
+			ArgbValues[(int)KnownColor.ButtonShadow] = NSColor.ControlShadow.ToUArgb();
 			// KnownColor.GradientActiveCaption
 			// KnownColor.GradientInactiveCaption
 			// KnownColor.MenuBar

@@ -304,7 +304,7 @@ namespace System.Windows.Forms
 
 		#region Popup Button Style
 
-		NSButtonCell GetPopupButtonCell(ComboBox b)
+		SWFPopUpButtonCell GetPopupButtonCell(ComboBox b)
 		{
 			var cell = new SWFPopUpButtonCell();
 			cell.Font = b.Font.ToNSFont();
@@ -319,7 +319,7 @@ namespace System.Windows.Forms
 			foreach (var item in b.Items)
 				cell.AddItem(item.ToString());
 			cell.SelectItemAt(b.SelectedIndex);
-			cell.SetTitle(b.SelectedItem?.ToString() ?? b.SelectedText) ;
+			cell.SetTitle(b.SelectedItem?.ToString() ?? b.SelectedText);
 
 			return cell;
 		}
@@ -5296,11 +5296,7 @@ namespace System.Windows.Forms
 
 		public override void CPDrawBorder3D (Graphics graphics, Rectangle rectangle, Border3DStyle style, Border3DSide sides, Color control_color)
 		{
-			Pen		penTopLeft;
-			Pen		penTopLeftInner;
-			Pen		penBottomRight;
-			Pen		penBottomRightInner;
-			Rectangle	rect= new Rectangle (rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+			Rectangle rect = new Rectangle (rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
 			bool is_ColorControl = control_color.ToArgb () == ColorControl.ToArgb () ? true : false;
 			
 			if ((style & Border3DStyle.Adjust) != 0) {
@@ -5310,81 +5306,27 @@ namespace System.Windows.Forms
 				rect.Height += 4;
 			}
 			
-			penTopLeft = penTopLeftInner = penBottomRight = penBottomRightInner = is_ColorControl ? SystemPens.Control : ResPool.GetPen (control_color);
-			
-			CPColor cpcolor = CPColor.Empty;
-			
-			if (!is_ColorControl)
-				cpcolor = ResPool.GetCPColor (control_color);
-			
-			switch (style) {
-			case Border3DStyle.Raised:
-				penTopLeftInner = is_ColorControl ? SystemPens.ControlLightLight : ResPool.GetPen (cpcolor.LightLight);
-				penBottomRight = is_ColorControl ? SystemPens.ControlDarkDark : ResPool.GetPen (cpcolor.DarkDark);
-				penBottomRightInner = is_ColorControl ? SystemPens.ControlDark : ResPool.GetPen (cpcolor.Dark);
-				break;
-			case Border3DStyle.Sunken:
-				penTopLeft = is_ColorControl ? SystemPens.ControlDark : ResPool.GetPen (cpcolor.Dark);
-				penTopLeftInner = is_ColorControl ? SystemPens.ControlDarkDark : ResPool.GetPen (cpcolor.DarkDark);
-				penBottomRight = is_ColorControl ? SystemPens.ControlLightLight : ResPool.GetPen (cpcolor.LightLight);
-				break;
-			case Border3DStyle.Etched:
-				penTopLeft = penBottomRightInner = is_ColorControl ? SystemPens.ControlDark : ResPool.GetPen (cpcolor.Dark);
-				penTopLeftInner = penBottomRight = is_ColorControl ? SystemPens.ControlLightLight : ResPool.GetPen (cpcolor.LightLight);
-				break;
-			case Border3DStyle.RaisedOuter:
-				penBottomRight = is_ColorControl ? SystemPens.ControlDarkDark : ResPool.GetPen (cpcolor.DarkDark);
-				break;
-			case Border3DStyle.SunkenOuter:
-				penTopLeft = is_ColorControl ? SystemPens.ControlDark : ResPool.GetPen (cpcolor.Dark);
-				penBottomRight = is_ColorControl ? SystemPens.ControlLightLight : ResPool.GetPen (cpcolor.LightLight);
-				break;
-			case Border3DStyle.RaisedInner:
-				penTopLeft = is_ColorControl ? SystemPens.ControlLightLight : ResPool.GetPen (cpcolor.LightLight);
-				penBottomRight = is_ColorControl ? SystemPens.ControlDark : ResPool.GetPen (cpcolor.Dark);
-				break;
-			case Border3DStyle.SunkenInner:
-				penTopLeft = is_ColorControl ? SystemPens.ControlDarkDark : ResPool.GetPen (cpcolor.DarkDark);
-				break;
-			case Border3DStyle.Flat:
-				penTopLeft = penBottomRight = is_ColorControl ? SystemPens.ControlDark : ResPool.GetPen (cpcolor.Dark);
-				break;
-			case Border3DStyle.Bump:
-				penTopLeftInner = penBottomRight = is_ColorControl ? SystemPens.ControlDarkDark : ResPool.GetPen (cpcolor.DarkDark);
-				break;
-			default:
-				break;
-			}
-			
-			bool inner = ((style != Border3DStyle.RaisedOuter) && (style != Border3DStyle.SunkenOuter));
-			
+			Pen pen = ResPool.GetPen(NSColor.Grid.ToSDColor());
+
 			if ((sides & Border3DSide.Middle) != 0) {
 				Brush brush = is_ColorControl ? SystemBrushes.Control : ResPool.GetSolidBrush (control_color);
 				graphics.FillRectangle (brush, rect);
 			}
 			
 			if ((sides & Border3DSide.Left) != 0) {
-				graphics.DrawLine (penTopLeft, rect.Left, rect.Bottom - 2, rect.Left, rect.Top);
-				if ((rect.Width > 2) && inner)
-					graphics.DrawLine (penTopLeftInner, rect.Left + 1, rect.Bottom - 2, rect.Left + 1, rect.Top);
+				graphics.DrawLine(pen, rect.Left, rect.Bottom - 2, rect.Left, rect.Top);
 			}
 			
 			if ((sides & Border3DSide.Top) != 0) {
-				graphics.DrawLine (penTopLeft, rect.Left, rect.Top, rect.Right - 2, rect.Top);
-				if ((rect.Height > 2) && inner)
-					graphics.DrawLine (penTopLeftInner, rect.Left + 1, rect.Top + 1, rect.Right - 3, rect.Top + 1);
+				graphics.DrawLine(pen, rect.Left, rect.Top, rect.Right - 2, rect.Top);
 			}
 			
 			if ((sides & Border3DSide.Right) != 0) {
-				graphics.DrawLine (penBottomRight, rect.Right - 1, rect.Top, rect.Right - 1, rect.Bottom - 1);
-				if ((rect.Width > 3) && inner)
-					graphics.DrawLine (penBottomRightInner, rect.Right - 2, rect.Top + 1, rect.Right - 2, rect.Bottom - 2);
+				graphics.DrawLine(pen, rect.Right - 1, rect.Top, rect.Right - 1, rect.Bottom - 1);
 			}
 			
 			if ((sides & Border3DSide.Bottom) != 0) {
-				graphics.DrawLine (penBottomRight, rect.Left, rect.Bottom - 1, rect.Right - 1, rect.Bottom - 1);
-				if ((rect.Height > 3) && inner)
-					graphics.DrawLine (penBottomRightInner, rect.Left + 1, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 2);
+				graphics.DrawLine(pen, rect.Left, rect.Bottom - 1, rect.Right - 1, rect.Bottom - 1);
 			}
 		}
 
