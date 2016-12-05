@@ -87,6 +87,9 @@ FormsTest/Properties/Resources.Designer.cs -text
 FormsTest/Properties/Resources.resx -text
 FormsTest/Properties/Settings.Designer.cs -text
 FormsTest/Properties/Settings.settings -text
+FormsTest/TextBoxForm.Designer.cs -text
+FormsTest/TextBoxForm.cs -text
+FormsTest/TextBoxForm.resx -text
 FormsTest/UrlProtocol.cs -text
 FormsTest/WebForm.cs -text
 FormsTest/XamUrlProtocol.cs -text
