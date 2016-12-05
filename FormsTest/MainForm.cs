@@ -162,7 +162,8 @@ namespace FormsTest
 
         private void layoutDebugButton_Click(object sender, System.EventArgs e)
         {
-            var form = new DebugLayoutForm();
+            var form = new TextBoxForm();
+			//var form = new DebugLayoutForm();
             form.Show();
         }
 
