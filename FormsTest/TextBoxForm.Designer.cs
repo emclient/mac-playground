@@ -43,14 +43,14 @@
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(1);
-            this.panel1.Size = new System.Drawing.Size(272, 249);
+            this.panel1.Size = new System.Drawing.Size(600, 249);
             this.panel1.TabIndex = 0;
 			this.panel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
 
 			// textbox1
 			this.textbox1.AutoSize = true;
             this.textbox1.Name = "textbox1";
-            this.textbox1.Size = new System.Drawing.Size(71, 13);
+            this.textbox1.Size = new System.Drawing.Size(600, 13);
 			this.textbox1.TabIndex = 0;
 			this.textbox1.Font = System.Drawing.SystemFonts.DefaultFont;
 			this.textbox1.Text = this.textbox1.Font.ToString();
@@ -58,7 +58,7 @@
 			// textbox2
 			this.textbox2.AutoSize = true;
 			this.textbox2.Name = "textbox1";
-			this.textbox2.Size = new System.Drawing.Size(71, 13);
+			this.textbox2.Size = new System.Drawing.Size(600, 13);
 			this.textbox2.TabIndex = 1;
 			this.textbox2.Font = System.Drawing.SystemFonts.CaptionFont;
 			this.textbox2.Text = this.textbox2.Font.ToString();
@@ -66,7 +66,7 @@
 			// textbox3
 			this.textbox3.AutoSize = true;
 			this.textbox3.Name = "textbox3";
-			this.textbox3.Size = new System.Drawing.Size(71, 13);
+			this.textbox3.Size = new System.Drawing.Size(600, 13);
 			this.textbox3.TabIndex = 2;
 			this.textbox3.Font = System.Drawing.SystemFonts.MenuFont;
 			this.textbox3.Text = this.textbox3.Font.ToString();
@@ -79,7 +79,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(640, 480);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "DebugLayoutForm4";
