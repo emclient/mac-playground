@@ -71,6 +71,12 @@
     <Compile Include="DebugLayoutForm4.Designer.cs">
       <DependentUpon>DebugLayoutForm4.cs</DependentUpon>
     </Compile>
+    <Compile Include="TextBoxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TextBoxForm.Designer.cs">
+      <DependentUpon>TextBoxForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="LayoutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DebugLayoutForm4.resx">
       <DependentUpon>DebugLayoutForm4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextBoxForm.resx">
+      <DependentUpon>TextBoxForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LayoutForm.resx">
       <DependentUpon>LayoutForm.cs</DependentUpon>
