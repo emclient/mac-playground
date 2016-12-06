@@ -108,8 +108,8 @@ namespace System.Windows.Forms
 		{
 			if (canOverride)
 				canvas_size = ClientSize;
-			else
-				base.CalculateCanvasSize (canOverride);
+			//else
+			//	base.CalculateCanvasSize (canOverride);
 		}
 
 		protected override void OnLayout (LayoutEventArgs levent)
