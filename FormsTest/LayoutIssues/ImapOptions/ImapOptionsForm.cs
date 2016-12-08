@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Windows.Forms;
+
 namespace FormsTest
 {
-	public class ImapOptionsForm
+	public partial class ImapOptionsForm : Form
 	{
 		public ImapOptionsForm()
 		{
+			InitializeComponent();
 		}
 	}
 }

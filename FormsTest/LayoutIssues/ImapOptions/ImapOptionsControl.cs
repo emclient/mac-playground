@@ -75,6 +75,70 @@ namespace MailClient.Protocols.Imap
 			}
 		}
 */
+		public ImapOptionsControl()
+		{
+			InitializeComponent();
+
+			//this.account = account;
+			//this.accountConfiguration = accountConfiguration;
+
+			//accountConfiguration.PropertyChanged += Configuration_PropertyChanged;
+
+			this.text_Host.Text = "host"; //accountConfiguration.Host;
+			this.text_Port.Text = "port"; //accountConfiguration.Port.ToString();
+			updatingComboFromCode = true;
+			this.combo_Security.SelectedIndex = 0;// this.TlsTypeToIndex(accountConfiguration.SSL);
+			updatingComboFromCode = false;
+
+			//switch (accountConfiguration.AccountCredentialsModel)
+			//{
+			//	//case CredentialsModelTypes.Anonymous: this.radio_Anonymous.Checked = true; break;
+			//	case CredentialsModelTypes.UseBindingAccount: this.radio_UseIdentityCredentials.Checked = true; break;
+			//	case CredentialsModelTypes.UseAccountDefaults: this.radio_UseAccountCredentials.Checked = true; break;
+			//}
+			this.radio_UseIdentityCredentials.Checked = true;
+			this.radio_UseAccountCredentials.Checked = false;
+
+			this.text_LoginName.Text = "username"; //accountConfiguration.Username;
+			this.text_Password.Text = "password"; //accountConfiguration.Password;
+
+			//if (hideCredentials)
+			//	group_Server_Authentication.Visible = false;
+
+			//if (account != null)
+			//{
+			//	Folder folder = account.AccountFolder;
+			//	switch (folder == null ? OfflineSynchronizationMode.None : folder.OfflineSynchronizationMode)
+			//	{
+			//		case OfflineSynchronizationMode.Body:
+						this.checkOffline.Checked = true;
+						this.checkOfflineAttachments.Checked = false;
+				//		break;
+				//	case OfflineSynchronizationMode.BodyAndAttachments:
+				//		this.checkOffline.Checked = true;
+				//		this.checkOfflineAttachments.Checked = true;
+				//		break;
+				//	default:
+				//		this.checkOffline.Checked = false;
+				//		this.checkOfflineAttachments.Checked = false;
+				//		this.checkOfflineAttachments.Enabled = false;
+				//		break;
+				//}
+
+				//bool isFallback;
+				//checkAutodetectFolderNames.Checked = accountConfiguration.AutodetectFolderNames;
+				//textBoxSentName.Text = account.GetSpecialFolderImapPath(SpecialFolderType.Sent, out isFallback);
+				//textBoxDraftsName.Text = account.GetSpecialFolderImapPath(SpecialFolderType.Draft, out isFallback);
+				//textBoxTrashName.Text = account.GetSpecialFolderImapPath(SpecialFolderType.Trash, out isFallback);
+				//textBoxJunkName.Text = account.GetSpecialFolderImapPath(SpecialFolderType.Spam, out isFallback);
+			//}
+			//else
+			//{
+			//	group_Server_Offline.Visible = false;
+			//	group_Server_SpecialFolders.Visible = false;
+			//}
+		}
+
 		protected override void OnCreateControl()
 		{
 			base.OnCreateControl();
