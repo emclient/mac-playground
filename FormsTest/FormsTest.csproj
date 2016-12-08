@@ -115,6 +115,7 @@
     <Compile Include="..\..\..\UI\Controls\WrappingCheckBox.Mac.cs">
       <Link>WrappingCheckBox.Mac.cs</Link>
     </Compile>
+    <Compile Include="LayoutIssues\ImapOptions\ImapOptionsForm.Designer.cs" />
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
@@ -139,6 +140,9 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">
+      <LogicalName>MailClient.Protocols.Imap.ImapOptionsControl.resources</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Resources.resx" />
@@ -146,7 +150,6 @@
     <None Include="application.ico" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
-    <None Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />

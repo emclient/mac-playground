@@ -76,6 +76,7 @@ FormsTest/LayoutForm.resx -text
 FormsTest/LayoutIssues/ImapOptions/ImapOptionsControl.Designer.cs -text
 FormsTest/LayoutIssues/ImapOptions/ImapOptionsControl.cs -text
 FormsTest/LayoutIssues/ImapOptions/ImapOptionsControl.resx -text
+FormsTest/LayoutIssues/ImapOptions/ImapOptionsForm.Designer.cs -text
 FormsTest/LayoutIssues/ImapOptions/ImapOptionsForm.cs -text
 FormsTest/MainForm.Designer.cs -text
 FormsTest/MainForm.cs -text
