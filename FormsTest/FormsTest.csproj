@@ -101,48 +101,20 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Msg.cs" />
-    <Compile Include="..\..\..\UI\Controls\ComboBoxEx.cs">
-      <Link>MailClient\Common\UI\ComboBoxEx.cs</Link>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="..\..\..\UI\Controls\SeparatorBox.cs">
-      <Link>MailClient\Common\UI\SeparatorBox.cs</Link>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="..\..\..\UI\Controls\WrappingCheckBox.cs">
-      <Link>MailClient\Common\UI\WrappingCheckBox.cs</Link>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="..\..\..\UI\Controls\WrappingRadioButton.cs">
-      <Link>MailClient\Common\UI\WrappingRadioButton.cs</Link>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="..\..\..\MailClient.Common.UI\CommonUIUtils.cs">
-      <Link>MailClient\UI\CommonUIUtils.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\MailClient.Common.UI\DisplaySettingsManager.cs">
-      <Link>MailClient\UI\DisplaySettingsManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\MailClient.Common.UI\FontCache.cs">
-      <Link>MailClient\UI\FontCache.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\MailClient.Common.UI\FontStyleEx.cs">
-      <Link>MailClient\UI\FontStyleEx.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\MailClient.Common.UI\TextRendererEx.cs">
-      <Link>MailClient\UI\TextRendererEx.cs</Link>
-    </Compile>
     <Compile Include="WebForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UrlProtocol.cs" />
-    <Compile Include="..\..\..\MailClient.Common.UI\Controls\ControlDebugUtils.cs">
-      <Link>MailClient\UI\Controls\ControlDebugUtils.cs</Link>
+    <Compile Include="DebugLayoutForm4.cs" />
+    <Compile Include="LayoutIssues\ImapOptions\ImapOptionsForm.cs" />
+    <Compile Include="LayoutIssues\ImapOptions\ImapOptionsControl.cs" />
+    <Compile Include="LayoutIssues\ImapOptions\ImapOptionsControl.Designer.cs" />
+    <Compile Include="..\..\..\UI\Controls\WrappingCheckBox.cs">
+      <Link>WrappingCheckBox.cs</Link>
     </Compile>
     <Compile Include="..\..\..\UI\Controls\WrappingCheckBox.Mac.cs">
-      <Link>MailClient\UI\Controls\WrappingCheckBox.Mac.cs</Link>
+      <Link>WrappingCheckBox.Mac.cs</Link>
     </Compile>
-    <Compile Include="DebugLayoutForm4.cs" />
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
@@ -174,6 +146,7 @@
     <None Include="application.ico" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
+    <None Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
@@ -198,8 +171,13 @@
       <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
       <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\MailClient.Common.UI\MailClient.Common.UI.csproj">
+      <Project>{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}</Project>
+      <Name>MailClient.Common.UI</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MailClient\Common\UI\Themes\" />
+    <Folder Include="LayoutIssues\" />
+    <Folder Include="LayoutIssues\ImapOptions\" />
   </ItemGroup>
 </Project>

@@ -36,7 +36,9 @@
             // 
             // panel1
             // 
-            this.panel1.AutoSize = true;
+			this.panel1.SuspendLayout();
+			this.panel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+			this.panel1.AutoSize = true;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(6, 6);
@@ -45,7 +47,6 @@
             this.panel1.Padding = new System.Windows.Forms.Padding(1);
             this.panel1.Size = new System.Drawing.Size(600, 249);
             this.panel1.TabIndex = 0;
-			this.panel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
 
 			// textbox1
 			this.textbox1.AutoSize = true;
@@ -74,21 +75,21 @@
 			this.panel1.Controls.Add(textbox1);			this.panel1.Controls.Add(textbox2);
 			this.panel1.Controls.Add(textbox3);
 
-			// 
-			// DebugLayoutForm4
-			// 
+			// TextBoxForm
+			this.MinimumSize = new System.Drawing.Size(0, 0);
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(640, 480);
-            this.Controls.Add(this.panel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "DebugLayoutForm4";
-            this.Padding = new System.Windows.Forms.Padding(6);
-            this.Text = "DebugLayoutForm4";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+			this.ClientSize = new System.Drawing.Size(640, 480);
+			this.Controls.Add(this.panel1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+			this.Name = "TextBoxForm";
+			this.Padding = new System.Windows.Forms.Padding(6);
+			this.Text = "TextBoxForm";
+
+			this.panel1.ResumeLayout(true);
+			this.ResumeLayout(false);
+			this.PerformLayout();
 		}
 		
 		#endregion
