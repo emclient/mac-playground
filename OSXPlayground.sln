@@ -22,6 +22,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Drawing (CoreGraphic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mono.WebBrowser-net_4_5", "mono\mcs\class\Mono.WebBrowser\Mono.WebBrowser-net_4_5.csproj", "{1D660912-8164-4499-A2D7-A3B2FE742E17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailClient.Common.UI", "..\..\MailClient.Common.UI\MailClient.Common.UI.csproj", "{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefGlue.Mac", "..\..\CefGlue.Mac\CefGlue.Mac.csproj", "{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefGlue.WindowsForms", "..\..\CefGlue.WindowsForms\CefGlue.WindowsForms.csproj", "{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailClient.Streams", "..\..\MailClient.Streams\MailClient.Streams.csproj", "{148D8A8D-5675-4333-9523-B6EB14BA4FFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SgmlReader", "..\..\SgmlReader\SgmlReader.csproj", "{B25921E6-096D-477E-B7BC-780B38F9016B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefGlue", "..\..\CefGlue\CefGlue.csproj", "{703FF300-34B9-48D4-A5D6-E741F48D5F95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +109,54 @@ Global
 		{1D660912-8164-4499-A2D7-A3B2FE742E17}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1D660912-8164-4499-A2D7-A3B2FE742E17}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
 		{1D660912-8164-4499-A2D7-A3B2FE742E17}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
+		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
+		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Mono - Debug|Any CPU.Build.0 = Mono - Debug|Any CPU
+		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
+		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
+		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
+		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Mono - Debug|Any CPU.Build.0 = Mono - Debug|Any CPU
+		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
+		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
+		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
+		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Mono - Debug|Any CPU.Build.0 = Mono - Debug|Any CPU
+		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
+		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
+		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
+		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Mono - Debug|Any CPU.Build.0 = Mono - Debug|Any CPU
+		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
+		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
+		{B25921E6-096D-477E-B7BC-780B38F9016B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B25921E6-096D-477E-B7BC-780B38F9016B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B25921E6-096D-477E-B7BC-780B38F9016B}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
+		{B25921E6-096D-477E-B7BC-780B38F9016B}.Mono - Debug|Any CPU.Build.0 = Mono - Debug|Any CPU
+		{B25921E6-096D-477E-B7BC-780B38F9016B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B25921E6-096D-477E-B7BC-780B38F9016B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B25921E6-096D-477E-B7BC-780B38F9016B}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
+		{B25921E6-096D-477E-B7BC-780B38F9016B}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
+		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Mono - Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Mono - Debug|Any CPU.Build.0 = Debug|Any CPU
+		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Xamarin - Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Xamarin - Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
