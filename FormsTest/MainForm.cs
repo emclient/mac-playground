@@ -8,8 +8,9 @@ using System.Diagnostics;
 
 namespace FormsTest
 {
-    using CocoaMessageBox = MessageBox;
+    //using CocoaMessageBox = MessageBox;
     using FormsMessageBox = System.Windows.Forms.MessageBox;
+	using MessageBox = System.Windows.Forms.MessageBox;
 
     public partial class MainForm : Form
     {
@@ -58,7 +59,7 @@ namespace FormsTest
             InitDialogCombo();
 
             // Mac layout debugging
-            this.DebugAllControls();
+            //this.DebugAllControls();
 
             this.filterTextBox.KeyDown += FilterTextBox_KeyDown;
 
@@ -169,7 +170,8 @@ namespace FormsTest
 
         private void layoutDebugButton2_Click(object sender, System.EventArgs e)
         {
-            var form = new DebugLayoutForm2();
+			var form = new ImapOptionsForm();
+			//var form = new DebugLayoutForm2();
             form.Show();
         }
 
