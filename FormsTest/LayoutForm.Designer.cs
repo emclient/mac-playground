@@ -1,4 +1,6 @@
-﻿using MailClient.UI.Controls;
+﻿using MailClient.Common.UI.Controls;
+using MailClient.UI.Controls;
+
 namespace FormsTest
 {
     partial class LayoutForm
@@ -30,16 +32,16 @@ namespace FormsTest
         private void InitializeComponent()
         {
             this.tableLayoutPanel20 = new System.Windows.Forms.TableLayoutPanel();
-            this.group_General_DefaultApp = new MailClient.UI.Controls.SeparatorBox();
+            this.group_General_DefaultApp = new MailClient.Common.UI.Controls.SeparatorBox();
             this.button_General_MakeDefault = new System.Windows.Forms.Button();
             this.label_General_ApplicationIsHandler = new System.Windows.Forms.Label();
-            this.group_General_SendReceive = new MailClient.UI.Controls.SeparatorBox();
+            this.group_General_SendReceive = new MailClient.Common.UI.Controls.SeparatorBox();
             this.flowLayoutPanel_General_CheckForNew = new System.Windows.Forms.FlowLayoutPanel();
             this.check_General_CheckMessages = new MailClient.UI.Controls.WrappingCheckBox();
             this.numeric_General_CheckInterval = new System.Windows.Forms.NumericUpDown();
             this.label_General_Minutes = new System.Windows.Forms.Label();
             this.check_General_SendAndReceiveAtStartup = new MailClient.UI.Controls.WrappingCheckBox();
-            this.group_General_General = new MailClient.UI.Controls.SeparatorBox();
+            this.group_General_General = new MailClient.Common.UI.Controls.SeparatorBox();
             this.flowLayoutPanel23 = new System.Windows.Forms.FlowLayoutPanel();
             this.check_General_MinimizeToTray = new MailClient.UI.Controls.WrappingCheckBox();
             this.check_General_CloseToTray = new MailClient.UI.Controls.WrappingCheckBox();
@@ -48,10 +50,10 @@ namespace FormsTest
             this.check_General_ShowGlobalFolders = new MailClient.UI.Controls.WrappingCheckBox();
             this.check_General_ShowLocalFolders = new MailClient.UI.Controls.WrappingCheckBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.combo_General_AfterStart = new MailClient.UI.Controls.ComboBoxEx();
+            this.combo_General_AfterStart = new MailClient.Common.UI.Controls.ComboBoxEx();
             this.label_General_AfterStart = new System.Windows.Forms.Label();
             this.button_General_AfterStartFolderBrowse = new System.Windows.Forms.Button();
-            this.group_General_ActivityWindow = new MailClient.UI.Controls.SeparatorBox();
+            this.group_General_ActivityWindow = new MailClient.Common.UI.Controls.SeparatorBox();
             this.check_General_ShowWindowWhenErrorOccurs = new MailClient.UI.Controls.WrappingCheckBox();
             this.check_General_HideWindowAfterSendAndReceive = new MailClient.UI.Controls.WrappingCheckBox();
             this.check_General_ShowWindowOnSendAndReceive = new MailClient.UI.Controls.WrappingCheckBox();
@@ -89,7 +91,7 @@ namespace FormsTest
             // 
             // group_General_DefaultApp
             // 
-            this.group_General_DefaultApp.BoxStyle = MailClient.UI.Controls.SeparatorBox.Style.Header;
+            this.group_General_DefaultApp.BoxStyle = MailClient.Common.UI.Controls.SeparatorBox.Style.Header;
             this.group_General_DefaultApp.Controls.Add(this.button_General_MakeDefault);
             this.group_General_DefaultApp.Controls.Add(this.label_General_ApplicationIsHandler);
             this.group_General_DefaultApp.Dock = System.Windows.Forms.DockStyle.Top;
@@ -124,7 +126,7 @@ namespace FormsTest
             // 
             // group_General_SendReceive
             // 
-            this.group_General_SendReceive.BoxStyle = MailClient.UI.Controls.SeparatorBox.Style.Header;
+            this.group_General_SendReceive.BoxStyle = MailClient.Common.UI.Controls.SeparatorBox.Style.Header;
             this.group_General_SendReceive.Controls.Add(this.flowLayoutPanel_General_CheckForNew);
             this.group_General_SendReceive.Controls.Add(this.check_General_SendAndReceiveAtStartup);
             this.group_General_SendReceive.Dock = System.Windows.Forms.DockStyle.Top;
@@ -211,7 +213,7 @@ namespace FormsTest
             // group_General_General
             // 
             this.group_General_General.AutoSize = true;
-            this.group_General_General.BoxStyle = MailClient.UI.Controls.SeparatorBox.Style.Header;
+			this.group_General_General.BoxStyle = MailClient.Common.UI.Controls.SeparatorBox.Style.Header;
             this.group_General_General.Controls.Add(this.flowLayoutPanel23);
             this.group_General_General.Dock = System.Windows.Forms.DockStyle.Top;
             this.group_General_General.Location = new System.Drawing.Point(3, 3);
@@ -364,7 +366,7 @@ namespace FormsTest
             // 
             // group_General_ActivityWindow
             // 
-            this.group_General_ActivityWindow.BoxStyle = MailClient.UI.Controls.SeparatorBox.Style.Header;
+            this.group_General_ActivityWindow.BoxStyle = MailClient.Common.UI.Controls.SeparatorBox.Style.Header;
             this.group_General_ActivityWindow.Controls.Add(this.check_General_ShowWindowWhenErrorOccurs);
             this.group_General_ActivityWindow.Controls.Add(this.check_General_HideWindowAfterSendAndReceive);
             this.group_General_ActivityWindow.Controls.Add(this.check_General_ShowWindowOnSendAndReceive);
