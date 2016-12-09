@@ -210,6 +210,9 @@
 			// 
 			// flowLayoutPanel1
 			// 
+			this.flowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			//this.flowLayoutPanel1.AutoSize = true;
+			this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
 			resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
 			this.flowLayoutPanel1.Controls.Add(this.radio_UseIdentityCredentials);
 			this.flowLayoutPanel1.Controls.Add(this.radio_UseAccountCredentials);

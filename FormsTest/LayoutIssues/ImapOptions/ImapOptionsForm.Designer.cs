@@ -45,15 +45,11 @@
 			this.panel1.Size = new System.Drawing.Size(600, 249);
 			this.panel1.TabIndex = 0;
 
-
-			this.imapOptionsControl = new MailClient.Protocols.Imap.ImapOptionsControl();
-			this.panel1.Controls.Add(this.imapOptionsControl);
-
 			// ImapOptionsForm
 			this.MinimumSize = new System.Drawing.Size(0, 0);
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(640, 480);
+			this.ClientSize = new System.Drawing.Size(340, 480);
 			this.Controls.Add(this.panel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
@@ -69,6 +65,5 @@
 		#endregion
 
 		private System.Windows.Forms.FlowLayoutPanel panel1;
-		private MailClient.Protocols.Imap.ImapOptionsControl imapOptionsControl;
 	}
 }
