@@ -257,20 +257,12 @@ namespace System.Windows.Forms.Layout
 			return false;
 		}
 
-		#if USE_INITIAL_ANCHOR_VALUES
-		private Size GetPreferredControlSize (Control child, Size? proposedSize = null)
-		#else
-		private Size GetPreferredControlSize (Control child)
-		#endif // USE_INITIAL_ANCHOR_VALUES
+		private Size GetPreferredControlSize(Control child)
 		{
-			int width;
-			int height;
-			#if USE_INITIAL_ANCHOR_VALUES
-			Size preferredsize = child.GetPreferredSize ((null == proposedSize) ? Size.Empty : proposedSize.Value);
-			#else
-			Size preferredsize = child.PreferredSize;
-			#endif // USE_INITIAL_ANCHOR_VALUES
+			var proposed = new Size(child.Parent.ClientSize.Width, Int32.MaxValue);
+			var preferredsize = child.GetPreferredSize(proposed);
 
+			int width, height;
 			if (child.GetAutoSizeMode () == AutoSizeMode.GrowAndShrink || (child.Dock != DockStyle.None && !(child is Button) && !(child is FlowLayoutPanel))) {
 				width = preferredsize.Width;
 				height = preferredsize.Height;
