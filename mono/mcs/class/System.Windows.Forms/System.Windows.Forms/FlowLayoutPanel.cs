@@ -159,6 +159,9 @@ namespace System.Windows.Forms
 				int size_in_flow_direction = 0;
 				int size_in_other_direction = 0;
 				int increase;
+				Size margin = new Size(0,0);
+				bool forceFlowBreak = false;
+
 				foreach (Control control in Controls) {
 					Size control_preferred_size;
 					if (control.AutoSize)
@@ -168,7 +171,7 @@ namespace System.Windows.Forms
 					Padding control_margin = control.Margin;
 					if (horizontal) {
 						increase = control_preferred_size.Width + control_margin.Horizontal;
-						if (size_in_flow_direction != 0 && size_in_flow_direction + increase >= proposedSize.Width) {
+						if (size_in_flow_direction != 0 && size_in_flow_direction + increase >= proposedSize.Width || forceFlowBreak) {
 							width = Math.Max (width, size_in_flow_direction);
 							size_in_flow_direction = 0;
 							height += size_in_other_direction;
@@ -176,9 +179,10 @@ namespace System.Windows.Forms
 						}
 						size_in_flow_direction += increase;
 						size_in_other_direction = Math.Max (size_in_other_direction, control_preferred_size.Height + control_margin.Vertical);
+						margin.Height = Math.Max(margin.Height, control_margin.Vertical);
 					} else {
 						increase = control_preferred_size.Height + control_margin.Vertical;
-						if (size_in_flow_direction != 0 && size_in_flow_direction + increase >= proposedSize.Height) {
+						if (size_in_flow_direction != 0 && size_in_flow_direction + increase >= proposedSize.Height || forceFlowBreak) {
 							height = Math.Max (height, size_in_flow_direction);
 							size_in_flow_direction = 0;
 							width += size_in_other_direction;
@@ -186,17 +190,23 @@ namespace System.Windows.Forms
 						}
 						size_in_flow_direction += increase;
 						size_in_other_direction = Math.Max (size_in_other_direction, control_preferred_size.Width + control_margin.Horizontal);
+						margin.Width = Math.Max(margin.Width, control_margin.Horizontal);
 					}
+
+					forceFlowBreak = settings.GetFlowBreak(control);
 				}
 				if (horizontal) {
 					width = Math.Max (width, size_in_flow_direction);
 					height += size_in_other_direction;
+					height += margin.Height;
+					height += this.Padding.Vertical;
 				} else {
 					height = Math.Max (height, size_in_flow_direction);
 					width += size_in_other_direction;
+					width += margin.Width;
+					width += this.Padding.Horizontal;
 				}
 			}
-
 			return new Size (width, height);
 		}
 		#endregion
