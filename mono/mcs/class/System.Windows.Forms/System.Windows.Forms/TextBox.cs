@@ -648,12 +648,6 @@ namespace System.Windows.Forms {
 
 					ProcessAutoCompleteInput (ref m, char_value == 8);
 					return;
-				case Msg.WM_LBUTTONDOWN:
-					// When the textbox gets focus by LBUTTON (but not by middle or right)
-					// it does not do the select all / scroll thing.
-					has_been_focused = true;
-					FocusInternal (true);
-					break;
 			}
 
 			base.WndProc(ref m);

@@ -1197,6 +1197,17 @@ namespace System.Windows.Forms {
 						msg.Result = NativeWindow.WndProc(hwnd.Parent.Handle, (Msg)msg.Msg, msg.WParam, msg.LParam);
 					return (IntPtr)msg.Result;
 				}
+				case Msg.WM_LBUTTONDOWN:
+				{
+					// Text boxes and buttons are automatically focused by DefWndProc on Windows..
+					var control = Control.FromHandle(msg.HWnd);
+					if (control.Enabled && control is TextBoxBase || control is ButtonBase)
+					{
+						SetFocus(msg.HWnd);
+						return (IntPtr)1;
+					}
+					break;
+				}
 			}
 			return IntPtr.Zero;
 		}
@@ -1278,6 +1289,9 @@ namespace System.Windows.Forms {
 
 		internal override void EnableWindow (IntPtr handle, bool Enable) {
 			//Like X11 we need not do anything here
+			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
+			if (hwnd != null)
+				hwnd.Enabled = Enable;
 		}
 
 		internal override void EndLoop (Thread thread) {
@@ -1810,6 +1824,9 @@ namespace System.Windows.Forms {
 				if (prevFocusHandle == handle)
 					return;
 
+				if (prevFocusHandle != IntPtr.Zero)
+					SendMessage(prevFocusHandle, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
+
 				var view = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 				var window = view != null ? view.Window : null;
 				if (window == null)
@@ -1834,9 +1851,6 @@ namespace System.Windows.Forms {
 					return;
 				}
 				
-				if (prevFocusHandle != IntPtr.Zero)
-					SendMessage(prevFocusHandle, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
-
 				if (handle != IntPtr.Zero && GetFocus() == handle)
 					SendMessage(handle, Msg.WM_SETFOCUS, prevFocusHandle, IntPtr.Zero);
 			}
@@ -1990,6 +2004,8 @@ namespace System.Windows.Forms {
 				UngrabWindow(handle);
 
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
+			hwnd.Visible = visible;
+
 			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 			NSWindow winWrap = vuWrap.Window;
 			if (winWrap != null && winWrap.ContentView == vuWrap) {
