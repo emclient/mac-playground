@@ -1087,25 +1087,44 @@ namespace System.Windows.Forms
 				eh (this, e);
 		}
 
+		protected void HandleMouseDown(MouseEventArgs e)
+		{
+			this.is_pressed = true;
+			this.Invalidate();
+
+			OnMouseDown(e);
+
+			MouseEventHandler eh = (MouseEventHandler)(Events[MouseDownEvent]);
+			if (eh != null)
+				eh(this, e);
+		}
+
 		protected virtual void OnMouseDown (MouseEventArgs e)
 		{
-			if (this.Enabled) {
-				this.is_pressed = true;
-				this.Invalidate ();
+		}
 
-				MouseEventHandler eh = (MouseEventHandler)(Events [MouseDownEvent]);
-				if (eh != null)
-					eh (this, e);
-			}
+		protected void HandleMouseEnter(MouseEventArgs e)
+		{
+			this.Select();
+
+			OnMouseEnter(e);
+
+			EventHandler eh = (EventHandler)(Events[MouseEnterEvent]);
+			if (eh != null)
+				eh(this, e);
 		}
 
 		protected virtual void OnMouseEnter (EventArgs e)
 		{
-			this.Select ();
+		}
 
-			EventHandler eh = (EventHandler)(Events [MouseEnterEvent]);
+		protected void HandleMouseHover(EventArgs e)
+		{
+			OnMouseHover(e);
+
+			EventHandler eh = (EventHandler)(Events[MouseHoverEvent]);
 			if (eh != null)
-				eh (this, e);
+				eh(this, e);
 		}
 
 		protected virtual void OnMouseHover (EventArgs e)
@@ -1117,48 +1136,73 @@ namespace System.Windows.Forms
 			}
 		}
 
-		protected virtual void OnMouseLeave (EventArgs e)
+		protected void HandleMouseLeave(EventArgs e)
 		{
-			if (this.CanSelect) {
+			if (this.CanSelect)
+			{
 				this.is_selected = false;
 				this.is_pressed = false;
-				this.Invalidate ();
-				OnUIASelectionChanged ();
+				this.Invalidate();
+				OnUIASelectionChanged();
 			}
 
-			EventHandler eh = (EventHandler)(Events [MouseLeaveEvent]);
-			if (eh != null)
-				eh (this, e);
+			if (Enabled)
+			{
+				OnMouseLeave(e);
+
+				EventHandler eh = (EventHandler)(Events[MouseLeaveEvent]);
+				if (eh != null)
+					eh(this, e);
+			}
+		}
+
+		protected virtual void OnMouseLeave (EventArgs e)
+		{
+		}
+
+		protected void HandleMouseMove(MouseEventArgs mea)
+		{
+			if (this.Enabled && CanSelect && !Selected)
+			{
+				OnMouseMove(mea);
+
+				MouseEventHandler eh = (MouseEventHandler)(Events[MouseMoveEvent]);
+				if (eh != null)
+					eh(this, mea);
+			}
 		}
 
 		protected virtual void OnMouseMove (MouseEventArgs mea)
 		{
-			if (this.Enabled) {
-				MouseEventHandler eh = (MouseEventHandler)(Events [MouseMoveEvent]);
+		}
+
+		protected void HandleMouseUp(MouseEventArgs e)
+		{
+			if (this.Enabled)
+			{
+				this.is_pressed = false;
+				this.Invalidate();
+
+				if (this.IsOnDropDown)
+				{
+					if (!(this is ToolStripDropDownItem) || !(this as ToolStripDropDownItem).HasDropDownItems || (this as ToolStripDropDownItem).DropDown.Visible == false)
+					{
+						if ((this.Parent as ToolStripDropDown).OwnerItem != null)
+							((this.Parent as ToolStripDropDown).OwnerItem as ToolStripDropDownItem).HideDropDown();
+						else
+							(this.Parent as ToolStripDropDown).Hide();
+					}
+				}
+
+				OnMouseUp(e);
+				MouseEventHandler eh = (MouseEventHandler)(Events[MouseUpEvent]);
 				if (eh != null)
-					eh (this, mea);
+					eh(this, e);
 			}
 		}
 
 		protected virtual void OnMouseUp (MouseEventArgs e)
 		{
-			if (this.Enabled) {
-				this.is_pressed = false;
-				this.Invalidate ();
-
-				if (this.IsOnDropDown)
-					if (!(this is ToolStripDropDownItem) || !(this as ToolStripDropDownItem).HasDropDownItems || (this as ToolStripDropDownItem).DropDown.Visible == false) {
-						if ((this.Parent as ToolStripDropDown).OwnerItem != null)
-							((this.Parent as ToolStripDropDown).OwnerItem as ToolStripDropDownItem).HideDropDown ();
-						else
-							(this.Parent as ToolStripDropDown).Hide ();
-					}
-						
-				
-				MouseEventHandler eh = (MouseEventHandler)(Events [MouseUpEvent]);
-				if (eh != null)
-					eh (this, e);
-			}
 		}
 
 		protected virtual void OnOwnerChanged (EventArgs e)
@@ -1779,25 +1823,25 @@ namespace System.Windows.Forms
 				case ToolStripItemEventType.MouseUp:
 					if (((MouseEventArgs)e).Button == MouseButtons.Left)
 						this.HandleClick (((MouseEventArgs)e).Clicks, e);
-					this.OnMouseUp ((MouseEventArgs)e);
+					this.HandleMouseUp ((MouseEventArgs)e);
 					break;
 				case ToolStripItemEventType.MouseDown:
-					this.OnMouseDown ((MouseEventArgs)e);
+					this.HandleMouseDown((MouseEventArgs)e);
 					break;
 				case ToolStripItemEventType.MouseEnter:
-					this.OnMouseEnter (e);
+					this.HandleMouseEnter((MouseEventArgs)e);
 					break;
 				case ToolStripItemEventType.MouseHover:
-					this.OnMouseHover (e);
+					this.HandleMouseHover(e);
 					break;
 				case ToolStripItemEventType.MouseLeave:
-					this.OnMouseLeave (e);
+					this.HandleMouseLeave(e);
 					break;
 				case ToolStripItemEventType.MouseMove:
-					this.OnMouseMove ((MouseEventArgs)e);
+					this.HandleMouseMove((MouseEventArgs)e);
 					break;
 				case ToolStripItemEventType.Paint:
-					this.OnPaintInternal ((PaintEventArgs)e);
+					this.OnPaintInternal((PaintEventArgs)e);
 					break;
 				case ToolStripItemEventType.Click:
 					this.HandleClick (1, e);
