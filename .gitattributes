@@ -78,6 +78,11 @@ FormsTest/LayoutIssues/ImapOptions/ImapOptionsControl.cs -text
 FormsTest/LayoutIssues/ImapOptions/ImapOptionsControl.resx -text
 FormsTest/LayoutIssues/ImapOptions/ImapOptionsForm.Designer.cs -text
 FormsTest/LayoutIssues/ImapOptions/ImapOptionsForm.cs -text
+FormsTest/LayoutIssues/MailOptions/MailOptionsControl.Designer.cs -text
+FormsTest/LayoutIssues/MailOptions/MailOptionsControl.cs -text
+FormsTest/LayoutIssues/MailOptions/MailOptionsControl.resx -text
+FormsTest/LayoutIssues/MailOptions/MailOptionsForm.Designer.cs -text
+FormsTest/LayoutIssues/MailOptions/MailOptionsForm.cs -text
 FormsTest/MainForm.Designer.cs -text
 FormsTest/MainForm.cs -text
 FormsTest/MainForm.resx -text

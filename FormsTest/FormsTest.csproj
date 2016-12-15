@@ -116,6 +116,10 @@
       <Link>WrappingCheckBox.Mac.cs</Link>
     </Compile>
     <Compile Include="LayoutIssues\ImapOptions\ImapOptionsForm.Designer.cs" />
+    <Compile Include="LayoutIssues\MailOptions\MailOptionsForm.cs" />
+    <Compile Include="LayoutIssues\MailOptions\MailOptionsForm.Designer.cs" />
+    <Compile Include="LayoutIssues\MailOptions\MailOptionsControl.cs" />
+    <Compile Include="LayoutIssues\MailOptions\MailOptionsControl.Designer.cs" />
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
@@ -142,6 +146,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">
       <LogicalName>MailClient.Protocols.Imap.ImapOptionsControl.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayoutIssues\MailOptions\MailOptionsControl.resx">
+      <LogicalName>MailClient.Accounts.Mail.MailOptionsControl.resources</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -182,5 +189,6 @@
   <ItemGroup>
     <Folder Include="LayoutIssues\" />
     <Folder Include="LayoutIssues\ImapOptions\" />
+    <Folder Include="LayoutIssues\MailOptions\" />
   </ItemGroup>
 </Project>
