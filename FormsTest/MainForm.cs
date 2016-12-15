@@ -170,9 +170,10 @@ namespace FormsTest
 
         private void layoutDebugButton2_Click(object sender, System.EventArgs e)
         {
-			var form = new ImapOptionsForm();
+			var form = new MailOptionsForm();
+			//var form = new ImapOptionsForm();
 			//var form = new DebugLayoutForm2();
-            form.Show();
+			form.Show();
         }
 
         private void layoutDebugButton3_Click(object sender, System.EventArgs e)
