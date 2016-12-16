@@ -135,6 +135,8 @@ namespace System.Windows.Forms
 			if (!WrapContents || (horizontal && proposedSize.Width == 0) || (!horizontal && proposedSize.Height == 0)) {
 				int flow_break_add = 0;
 				foreach (Control control in Controls) {
+					if (!control.Visible)
+						continue;
 					Size control_preferred_size;
 					if (control.AutoSize)
 						control_preferred_size = control.GetPreferredSize(proposedSize);
@@ -163,6 +165,8 @@ namespace System.Windows.Forms
 				bool forceFlowBreak = false;
 
 				foreach (Control control in Controls) {
+					if (!control.Visible)
+						continue;
 					Size control_preferred_size;
 					if (control.AutoSize)
 						control_preferred_size = control.PreferredSize;
@@ -198,13 +202,19 @@ namespace System.Windows.Forms
 				if (horizontal) {
 					width = Math.Max (width, size_in_flow_direction);
 					height += size_in_other_direction;
-					height += margin.Height;
-					height += this.Padding.Vertical;
+					if (height != 0)
+					{
+						height += margin.Height;
+						height += this.Padding.Vertical;
+					}
 				} else {
 					height = Math.Max (height, size_in_flow_direction);
 					width += size_in_other_direction;
-					width += margin.Width;
-					width += this.Padding.Horizontal;
+					if (width != 0)
+					{
+						width += margin.Width;
+						width += this.Padding.Horizontal;
+					}
 				}
 			}
 			return new Size (width, height);
