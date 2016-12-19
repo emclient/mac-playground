@@ -27,8 +27,6 @@
 //	Stefan Noack (noackstefan@googlemail.com)
 //
 
-//#define USE_INITIAL_ANCHOR_VALUES
-
 using System;
 using System.Drawing;
 
@@ -45,8 +43,7 @@ namespace System.Windows.Forms.Layout
 			for (int i = controls.Length - 1; i >= 0; i--) {
 				Control child = controls[i];
 
-				if (!child.VisibleInternal
-				    || child.ControlLayoutType == Control.LayoutType.Anchor)
+				if (!child.VisibleInternal || child.ControlLayoutType == Control.LayoutType.Anchor)
 					continue;
 				
 				Size child_size = child.Size;
@@ -103,24 +100,17 @@ namespace System.Windows.Forms.Layout
 			Rectangle space = parent.ClientRectangle;
 
 			for (int i = 0; i < controls.Length; i++) {
-				int left;
-				int top;
-				int width;
-				int height;
-
 				Control child = controls[i];
 
-				if (!child.VisibleInternal
-				    || child.ControlLayoutType == Control.LayoutType.Dock)
+				if (!child.VisibleInternal || child.ControlLayoutType == Control.LayoutType.Dock)
 					continue;
 
 				AnchorStyles anchor = child.Anchor;
 
-				left = child.Left;
-				top = child.Top;
-
-				width = child.Width;
-				height = child.Height;
+				int left = child.Left;
+				int top = child.Top;
+				int width = child.Width;
+				int height = child.Height;
 
 				if ((anchor & AnchorStyles.Right) != 0) {
 					if ((anchor & AnchorStyles.Left) != 0)
@@ -162,32 +152,16 @@ namespace System.Windows.Forms.Layout
 		void LayoutAutoSizedChildren (Control parent, Control[] controls)
 		{
 			for (int i = 0; i < controls.Length; i++) {
-				int left;
-				int top;
 
 				Control child = controls[i];
-				if (!child.VisibleInternal
-				    || child.ControlLayoutType == Control.LayoutType.Dock
-				    || !child.AutoSize)
+				if (!child.VisibleInternal || child.ControlLayoutType == Control.LayoutType.Dock || !child.AutoSize)
 					continue;
 
 				AnchorStyles anchor = child.Anchor;
-				left = child.Left;
-				top = child.Top;
+				int left = child.Left;
+				int top = child.Top;
 
-				#if USE_INITIAL_ANCHOR_VALUES
-				Size proposedSize;
-				if (AnchorStyles.None == anchor) {
-					proposedSize = new Size (width: parent.ClientSize.Width - child.Margin.Horizontal, height: parent.ClientSize.Height - child.Margin.Vertical);
-				} else {
-					proposedSize = new Size(width:parent.ClientSize.Width - child.AnchorValues.Left - child.AnchorValues.Right, height:parent.ClientSize.Height - child.AnchorValues.Top -  child.AnchorValues.Bottom);
-//					proposedSize = new Size(width:parent.ClientSize.Width - child.AnchorValues.Left - child.AnchorValues.Right - child.Margin.Horizontal, height:parent.ClientSize.Height - child.AnchorValues.Top -  child.AnchorValues.Bottom - child.Margin.Vertical);
-				}
-
-				Size preferredsize = GetPreferredControlSize (child, proposedSize);
-				#else
 				Size preferredsize = GetPreferredControlSize (child);
-				#endif // USE_INITIAL_ANCHOR_VALUES
 
 				// RGS TODO: This has to be wrong? Setting the values with an add?
 				if (((anchor & AnchorStyles.Left) != 0) || ((anchor & AnchorStyles.Right) == 0)) {
@@ -202,19 +176,15 @@ namespace System.Windows.Forms.Layout
 
 		void LayoutAutoSizeContainer (Control container)
 		{
-			int left;
-			int top;
-			int width;
-			int height;
-
 			if (!container.VisibleInternal || container.ControlLayoutType == Control.LayoutType.Dock || !container.AutoSize)
 				return;
 
-			left = container.Left;
-			top = container.Top;
+			int left = container.Left;
+			int top = container.Top;
 
 			Size preferredsize = container.PreferredSize;
 
+			int width, height;
 			if (container.GetAutoSizeMode () == AutoSizeMode.GrowAndShrink) {
 				width = preferredsize.Width;
 				height = preferredsize.Height;

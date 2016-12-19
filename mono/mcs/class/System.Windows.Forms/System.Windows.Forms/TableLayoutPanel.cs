@@ -26,8 +26,6 @@
 //	Jonathan Pobst (monkey@jpobst.com)
 //
 
-//#define USE_INITIAL_ANCHOR_VALUES
-
 using System;
 using System.Drawing;
 using System.Collections.Generic;
