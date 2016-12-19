@@ -28,10 +28,12 @@
 using System;
 
 #if XAMARINMAC
+using Foundation;
 using CoreGraphics;
 using CoreText;
 using AppKit;
 #elif MONOMAC
+using MonoMac.Foundation;
 using MonoMac.CoreGraphics;
 using MonoMac.CoreText;
 using MonoMac.AppKit;
@@ -86,11 +88,14 @@ namespace System.Drawing
 
 			try 
 			{
-				nativeFont = new CTFont(familyName.NativeDescriptor,dpiSize);
+				if (IsFontInstalled(familyName.NativeDescriptor, dpiSize) && IsFontSafe(familyName.Name))
+					nativeFont = new CTFont(familyName.NativeDescriptor, dpiSize);
+				else
+					nativeFont = new CTFont(CTFontUIFontType.System, dpiSize, PreferredLanguage);
 			}
 			catch
 			{
-				nativeFont = new CTFont("Helvetica",dpiSize);
+				nativeFont = new CTFont(CTFontUIFontType.System, dpiSize, PreferredLanguage);
 			}
 
 			CTFontSymbolicTraits tMask = CTFontSymbolicTraits.None;
@@ -103,7 +108,6 @@ namespace System.Drawing
 			underLine = (style & FontStyle.Underline) == FontStyle.Underline;
 
 			var nativeFont2 = nativeFont.WithSymbolicTraits(dpiSize,tMask,tMask);
-
 			if (nativeFont2 != null)
 				nativeFont = nativeFont2;
 
@@ -116,6 +120,33 @@ namespace System.Drawing
 			// I do not like the hard coded 72 but am just trying to boot strap the Font class right now
 			size = ConversionHelpers.GraphicsUnitConversion(GraphicsUnit.Point, unit, 72.0f, sizeInPoints); 
 
+		}
+
+		internal static string PreferredLanguage
+		{
+			get
+			{
+				var langauges = NSLocale.PreferredLanguages;
+				return langauges.Length > 0 ? langauges[0] : "en-US";
+			}
+		}
+
+		internal static bool IsFontInstalled(CTFontDescriptor descriptor, nfloat size)
+		{
+			var matching = descriptor.GetMatchingFontDescriptors((NSSet)null);
+			return matching != null && matching.Length > 0;
+		}
+
+		internal static bool IsFontSafe(string name)
+		{
+			switch (name)
+			{
+				// For some reason, Helvetica causes problems on the Mac:
+				// The metric looks good, but glyphs get rendered just at the top of the bounding rectangle.
+				// The layout then seems broken. Until determining the real reason, let's disable this font.
+				case "Helvetica": return false;
+				default: return true;
+			}
 		}
 
 		/**
@@ -138,17 +169,7 @@ namespace System.Drawing
 		 **/
 		private float GetNativeheight()
 		{
-			// Documentation for Accessing Font Metrics
-			// http://developer.apple.com/library/ios/#documentation/StringsTextFonts/Conceptual/CoreText_Programming/Operations/Operations.html
-			nfloat lineHeight = 0;
-			lineHeight += nativeFont.AscentMetric;
-			lineHeight += nativeFont.DescentMetric;
-			lineHeight += nativeFont.LeadingMetric;
-
-
-			// Still have not figured this out yet!!!!
-			return (float)lineHeight;
-
+			return nativeFont.BoundingBox.Height;
 		}
 	}
 }

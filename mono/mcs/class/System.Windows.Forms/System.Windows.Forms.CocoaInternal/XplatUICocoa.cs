@@ -2676,7 +2676,11 @@ namespace System.Windows.Forms {
 		{
 			get
 			{
+#if MACOS_THEME
 				return new Size(1, 1);
+#else
+				return new Size(2, 2);
+#endif
 			}
 		}
 
