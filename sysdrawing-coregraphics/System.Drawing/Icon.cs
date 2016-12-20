@@ -218,6 +218,10 @@ namespace System.Drawing
 		{
 		}
 		
+		public Icon (Stream stream, Size size) : this(stream, size.Width, size.Height)
+		{
+		}
+
 		public Icon (Stream stream, int width, int height)
 		{
 			InitFromStreamWithSize (stream, width, height);
