@@ -169,7 +169,7 @@ namespace System.Drawing
 		 **/
 		private float GetNativeheight()
 		{
-			return nativeFont.BoundingBox.Height;
+			return (float)nativeFont.BoundingBox.Height;
 		}
 	}
 }
