@@ -8,11 +8,13 @@ using System.Diagnostics;
 
 namespace FormsTest
 {
-    //using CocoaMessageBox = MessageBox;
-    using FormsMessageBox = System.Windows.Forms.MessageBox;
+	using System.Collections.Generic;
+	using MailClient.UI.Forms;
+	//using CocoaMessageBox = MessageBox;
+	using FormsMessageBox = System.Windows.Forms.MessageBox;
 	using MessageBox = System.Windows.Forms.MessageBox;
 
-    public partial class MainForm : Form
+	public partial class MainForm : Form
     {
         const string title = "Title";
         const string loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
@@ -63,9 +65,38 @@ namespace FormsTest
 
             this.filterTextBox.KeyDown += FilterTextBox_KeyDown;
 
-        }
+			AddButton("WebForm", () => { new WebForm().Show(); });
+			AddButton("TextBoxes", () => { new TextBoxForm().Show(); });
+			AddButton("ImapOptions", () => { new ImapOptionsForm().Show(); });
+			AddButton("MailOptions", () => { new MailOptionsForm().Show(); });
+			AddButton("FormInputBox", () => { new FormInputBox(
+				"Nazdar", 
+				"Přihlášení k webovému kalendáři",
+			    "Zadej url kalendáře, ke kterému se chceš přihlásit, třeba http://calndar.org-mycalndar.ics"
+			).Show(); });
+			AddButton("Layout 1", () => { new DebugLayoutForm().Show(); });
+			AddButton("Layout 2", () => { new DebugLayoutForm2().Show(); });
+			AddButton("Layout 3", () => { new DebugLayoutForm3().Show(); });
+			AddButton("Layout 4", () => { new DebugLayoutForm4().Show(); });
+		}
 
-        private void FilterTextBox_KeyDown(object sender, KeyEventArgs e)
+		List<Button> buttons = new List<Button>();
+		void AddButton(string text, Action a)
+		{
+			const int gap = 5;
+
+			var b = new Button();
+			b.AutoSize = true;
+			b.Anchor = AnchorStyles.Right;
+			b.Click += (sender, e) => { a(); };
+			b.Text = text;
+			b.SetBounds(panel1.Width - b.Width - gap, gap + buttons.Count * 30, 0, 0, BoundsSpecified.Y | BoundsSpecified.X);
+
+			buttons.Add(b);
+			panel1.Controls.Add(b);
+		}
+
+		private void FilterTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             Console.WriteLine($"KeyDown:[KeyCode={e.KeyCode},KeyValue={e.KeyValue},Modifiers={e.Modifiers}]");
         }
@@ -144,8 +175,7 @@ namespace FormsTest
 
         private void button2_Click(object sender, System.EventArgs e)
         {
-            //var form = new LayoutForm();
-			var form = new WebForm();
+            var form = new LayoutForm();
             form.Show();
         }
 
@@ -159,27 +189,6 @@ namespace FormsTest
             {
 				Debug.WriteLine(x.ToString());
             }
-        }
-
-        private void layoutDebugButton_Click(object sender, System.EventArgs e)
-        {
-            var form = new TextBoxForm();
-			//var form = new DebugLayoutForm();
-            form.Show();
-        }
-
-        private void layoutDebugButton2_Click(object sender, System.EventArgs e)
-        {
-			var form = new MailOptionsForm();
-			//var form = new ImapOptionsForm();
-			//var form = new DebugLayoutForm2();
-			form.Show();
-        }
-
-        private void layoutDebugButton3_Click(object sender, System.EventArgs e)
-        {
-            var form = new DebugLayoutForm4();
-            form.Show();
         }
 
         private void filterTextBox_TextChanged(object sender, EventArgs e)
