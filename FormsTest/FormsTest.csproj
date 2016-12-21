@@ -120,6 +120,8 @@
     <Compile Include="LayoutIssues\MailOptions\MailOptionsForm.Designer.cs" />
     <Compile Include="LayoutIssues\MailOptions\MailOptionsControl.cs" />
     <Compile Include="LayoutIssues\MailOptions\MailOptionsControl.Designer.cs" />
+    <Compile Include="LayoutIssues\FormInputBox\FormInputBox.cs" />
+    <Compile Include="LayoutIssues\FormInputBox\FormInputBox.Designer.cs" />
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
@@ -149,6 +151,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LayoutIssues\MailOptions\MailOptionsControl.resx">
       <LogicalName>MailClient.Accounts.Mail.MailOptionsControl.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayoutIssues\FormInputBox\FormInputBox.resx">
+      <LogicalName>MailClient.UI.Forms.FormInputBox.resources</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -190,5 +195,6 @@
     <Folder Include="LayoutIssues\" />
     <Folder Include="LayoutIssues\ImapOptions\" />
     <Folder Include="LayoutIssues\MailOptions\" />
+    <Folder Include="LayoutIssues\FormInputBox\" />
   </ItemGroup>
 </Project>

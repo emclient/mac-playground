@@ -73,6 +73,9 @@ FormsTest/Info.plist -text
 FormsTest/LayoutForm.Designer.cs -text
 FormsTest/LayoutForm.cs -text
 FormsTest/LayoutForm.resx -text
+FormsTest/LayoutIssues/FormInputBox/FormInputBox.Designer.cs -text
+FormsTest/LayoutIssues/FormInputBox/FormInputBox.cs -text
+FormsTest/LayoutIssues/FormInputBox/FormInputBox.resx -text
 FormsTest/LayoutIssues/ImapOptions/ImapOptionsControl.Designer.cs -text
 FormsTest/LayoutIssues/ImapOptions/ImapOptionsControl.cs -text
 FormsTest/LayoutIssues/ImapOptions/ImapOptionsControl.resx -text
