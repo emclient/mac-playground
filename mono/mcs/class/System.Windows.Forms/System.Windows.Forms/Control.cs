@@ -1843,11 +1843,13 @@ namespace System.Windows.Forms
 		}
 		#endif // USE_INITIAL_ANCHOR_VALUES
 
-		private void UpdateDistances() {
-			if (parent != null) {
-				if (bounds.Width >= 0)
+		internal void UpdateDistances(BoundsSpecified specified = BoundsSpecified.All)
+		{
+			if (parent != null)
+			{
+				if (bounds.Width >= 0 && (specified & (BoundsSpecified.Width | BoundsSpecified.X)) != BoundsSpecified.None)
 					this.DistanceRight = parent.ClientSize.Width - bounds.X - bounds.Width;
-				if (bounds.Height >= 0)
+				if (bounds.Height >= 0 && (specified & (BoundsSpecified.Height | BoundsSpecified.Y)) != BoundsSpecified.None)
 					this.DistanceBottom = parent.ClientSize.Height - bounds.Y - bounds.Height;
 
 				recalculate_distances = false;
@@ -4254,8 +4256,8 @@ namespace System.Windows.Forms
 			
 			// If the user explicitly moved or resized us, recalculate our anchor distances
 			if (specified != BoundsSpecified.None)
-				UpdateDistances ();
-			
+				UpdateDistances(specified);
+
 			if (parent != null)
 				parent.PerformLayout(this, "Bounds");
 		}
