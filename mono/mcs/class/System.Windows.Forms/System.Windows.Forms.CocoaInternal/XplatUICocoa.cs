@@ -2420,19 +2420,22 @@ namespace System.Windows.Forms {
 			return result;
 		}
 
+		// TranslateMessage produces WM_CHAR messages only for keys that are mapped to ASCII characters by the keyboard driver.
 		internal virtual bool TranslateKeyMessage (ref MSG msg) {
 			bool sent = true;
 			switch (msg.message)
 			{
 				case Msg.WM_KEYDOWN:
 					for (string s = PopChars(); s.Length != 0; s = PopChars())
-						foreach(var c in s)
-							PostMessage(msg.hwnd, Msg.WM_CHAR, (IntPtr)c, msg.lParam);
+						if (!msg.HasExtendedCharFlag())
+							foreach (var c in s)
+								PostMessage(msg.hwnd, Msg.WM_CHAR, (IntPtr)c, msg.lParam);
 					break;
 				case Msg.WM_SYSKEYDOWN:
 					for (string s = PopChars(); s.Length != 0; s = PopChars())
-						foreach (var c in s)
-							PostMessage(msg.hwnd, Msg.WM_SYSCHAR, (IntPtr)c, msg.lParam);
+						if (!msg.HasExtendedCharFlag())
+							foreach (var c in s)
+								PostMessage(msg.hwnd, Msg.WM_SYSCHAR, (IntPtr)c, msg.lParam);
 					break;
 				case Msg.WM_KEYUP:
 				case Msg.WM_SYSKEYUP:
@@ -2731,6 +2734,11 @@ namespace System.Windows.Forms {
 			var ptr = (int)GCHandle.ToIntPtr (handle).ToInt64();
 
 			return NSEvent.OtherEvent (NSEventType.ApplicationDefined, CGPoint.Empty, 0, NSDate.Now.SecondsSinceReferenceDate, 0, null, XplatUICocoa.NSEventTypeWindowsMessage, ptr, 0);
+		}
+
+		public static bool HasExtendedCharFlag(this MSG msg)
+		{
+			return ((int)msg.lParam & (1 << 24)) != 0;
 		}
 	}
 }

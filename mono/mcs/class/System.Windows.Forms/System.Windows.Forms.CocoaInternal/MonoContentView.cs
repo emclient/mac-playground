@@ -443,12 +443,14 @@ namespace System.Windows.Forms.CocoaInternal
 			if (key == Keys.None)
 				return;
 
+			bool isExtendedKey = 0 != (uint)(e.ModifierFlags & (NSEventModifierMask.ControlKeyMask | NSEventModifierMask.AlternateKeyMask));
+
 			IntPtr wParam = (IntPtr) key;
 			ulong lp = 0;
 			lp |= ((ulong)(uint)repeatCount);
 			lp |= ((ulong)keyCode) << 16; // OEM-dependent scanCode
-			lp |= ((ulong)0) << 24;       // (extended key)
-			lp |= (((ulong)(e.IsARepeat ? 1 : 0)) << 30);
+			lp |= ((ulong)(isExtendedKey ? 1 : 0)) << 24;
+			lp |= ((ulong)(e.IsARepeat ? 1 : 0)) << 30;
 			IntPtr lParam = (IntPtr)lp;
 
 			Msg msg = altDown && !cmdDown
