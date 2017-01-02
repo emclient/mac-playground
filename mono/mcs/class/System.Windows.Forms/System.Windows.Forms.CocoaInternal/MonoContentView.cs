@@ -426,47 +426,37 @@ namespace System.Windows.Forms.CocoaInternal
 			if (FocusHandle == IntPtr.Zero)
 				return;
 
-			ushort charCode = 0x0;
-			char c = '\0';
-
-			var chars = e.Type == NSEventType.KeyDown ? KeysConverter.GetCharactersForKeyPress (e) : "";
-
-			chars = chars ?? e.Characters;
-			if (chars.Length > 0) {
-				c = chars [0];
-				charCode = chars [0];
-			}
-
 			var keyCode = (ushort)e.KeyCode;
-
-			Keys key = KeysConverter.GetKeys (e);
+			Keys key = KeysConverter.GetKeys(e);
 			if (key == Keys.None)
 				return;
 
 			bool isExtendedKey = 0 != (uint)(e.ModifierFlags & (NSEventModifierMask.ControlKeyMask | NSEventModifierMask.AlternateKeyMask));
 
-			IntPtr wParam = (IntPtr) key;
 			ulong lp = 0;
 			lp |= ((ulong)(uint)repeatCount);
 			lp |= ((ulong)keyCode) << 16; // OEM-dependent scanCode
 			lp |= ((ulong)(isExtendedKey ? 1 : 0)) << 24;
 			lp |= ((ulong)(e.IsARepeat ? 1 : 0)) << 30;
 			IntPtr lParam = (IntPtr)lp;
+			IntPtr wParam = (IntPtr)key;
 
-			Msg msg = altDown && !cmdDown
+			bool isSysKey = altDown && !cmdDown;
+			Msg msg = isSysKey
 				? (e.Type == NSEventType.KeyDown ? Msg.WM_SYSKEYDOWN : Msg.WM_SYSKEYUP)
 				: (e.Type == NSEventType.KeyDown ? Msg.WM_KEYDOWN : Msg.WM_KEYUP);
 
-			if (e.Type == NSEventType.KeyDown && !string.IsNullOrEmpty (chars)) {
-
-				if (KeysConverter.IsChar (c, key)) {
-					XplatUICocoa.PushChars (chars); // XplatUICocoa pops them
-					//driver.SendMessage (FocusHandle, Msg.WM_IME_COMPOSITION, IntPtr.Zero, IntPtr.Zero);
-				}
-			}
-
 			//Debug.WriteLine ("keyCode={0}, characters=\"{1}\", key='{2}', chars='{3}'", e.KeyCode, chars, key, chars);
 			driver.PostMessage(FocusHandle, msg, wParam, lParam);
+
+			// On Windows, this would normally be done in TranslateMessage
+			if (e.Type == NSEventType.KeyDown && !isExtendedKey)
+			{
+				var chars = KeysConverter.GetCharactersForKeyPress(e);
+				foreach (var c in chars)
+					if (KeysConverter.IsChar(c, key))
+						driver.PostMessage(FocusHandle, isSysKey? Msg.WM_SYSCHAR : Msg.WM_CHAR, (IntPtr)c, lParam);
+			}
 		}
 
 		public void ProcessModifiers (NSEvent eventref)
