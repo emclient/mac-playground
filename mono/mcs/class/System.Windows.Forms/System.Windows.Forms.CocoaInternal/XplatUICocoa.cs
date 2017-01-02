@@ -1085,9 +1085,7 @@ namespace System.Windows.Forms {
 			Hwnd hwnd = Hwnd.ObjectFromHandle (msg.HWnd);
 			switch ((Msg) msg.Msg) {
 				case Msg.WM_IME_COMPOSITION:
-					for (string s = PopChars(); s.Length != 0; s = PopChars())
-						foreach (char c in s)
-							SendMessage (msg.HWnd, Msg.WM_IME_CHAR, (IntPtr) c, msg.LParam);
+					SendMessage(msg.HWnd, Msg.WM_CHAR, msg.WParam, msg.LParam);
 					break;
 				case Msg.WM_IME_CHAR:
 					// On Windows API it sends two WM_CHAR messages for each byte, but
@@ -2426,17 +2424,8 @@ namespace System.Windows.Forms {
 			switch (msg.message)
 			{
 				case Msg.WM_KEYDOWN:
-					for (string s = PopChars(); s.Length != 0; s = PopChars())
-						if (!msg.HasExtendedCharFlag())
-							foreach (var c in s)
-								PostMessage(msg.hwnd, Msg.WM_CHAR, (IntPtr)c, msg.lParam);
-					break;
 				case Msg.WM_SYSKEYDOWN:
-					for (string s = PopChars(); s.Length != 0; s = PopChars())
-						if (!msg.HasExtendedCharFlag())
-							foreach (var c in s)
-								PostMessage(msg.hwnd, Msg.WM_SYSCHAR, (IntPtr)c, msg.lParam);
-					break;
+					// Posting WM_CHAR moved to MonoContentView
 				case Msg.WM_KEYUP:
 				case Msg.WM_SYSKEYUP:
 					// Just return true, according to the docs
@@ -2687,20 +2676,6 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		internal static void PushChars(string chars)
-		{
-			lock (charsQueue) {
-				charsQueue.Enqueue (chars);
-			}
-		}
-
-		internal static string PopChars()
-		{
-			lock (charsQueue) {
-				return charsQueue.Count > 0 ? charsQueue.Dequeue() : String.Empty;
-			}
-		}
-			
 		// Event Handlers
 		internal override event EventHandler Idle;
 #endregion Override properties XplatUIDriver
