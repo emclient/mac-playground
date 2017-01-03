@@ -155,7 +155,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		internal static bool IsChar(char c, Keys k)
 		{
-			return c == '\b' || !char.IsControl(c) && !NonChars.ContainsKey(k);
+			return c == '\b' || k == Keys.Back || !char.IsControl(c) && !NonChars.ContainsKey(k);
 		}
 
 		public static Keys GetKeys(NSEvent e)
