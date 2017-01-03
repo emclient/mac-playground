@@ -252,6 +252,8 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public void ProcessMouseEvent (NSEvent eventref)
 		{
+			ProcessModifiers(eventref);
+
 			NSPoint nspoint = eventref.LocationInWindow;
 			Point localMonoPoint;
 			Hwnd currentHwnd;
@@ -400,12 +402,6 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void KeyDown (NSEvent theEvent)
 		{
-			var flags = theEvent.ModifierFlags;
-			shiftDown = 0 != (flags & NSEventModifierMask.ShiftKeyMask);
-			ctrlDown = 0 != (flags & NSEventModifierMask.ControlKeyMask);
-			altDown = 0 != (flags & NSEventModifierMask.AlternateKeyMask);
-			cmdDown = 0 != (flags & NSEventModifierMask.CommandKeyMask);
-
 			ProcessKeyPress(theEvent);
 		}
 
@@ -421,27 +417,28 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public void ProcessKeyPress (NSEvent e)
 		{
+			ProcessModifiers(e);
+
 			repeatCount = e.IsARepeat ? 1 + repeatCount : 0;
 
 			if (FocusHandle == IntPtr.Zero)
 				return;
 
-			var keyCode = (ushort)e.KeyCode;
 			Keys key = KeysConverter.GetKeys(e);
 			if (key == Keys.None)
 				return;
 
-			bool isExtendedKey = 0 != (uint)(e.ModifierFlags & (NSEventModifierMask.ControlKeyMask | NSEventModifierMask.AlternateKeyMask));
+			bool isExtendedKey = e.Characters.Length == 0 || !KeysConverter.IsChar(e.Characters[0], key);
 
 			ulong lp = 0;
 			lp |= ((ulong)(uint)repeatCount);
-			lp |= ((ulong)keyCode) << 16; // OEM-dependent scanCode
+			lp |= ((ulong)e.KeyCode) << 16; // OEM-dependent scanCode
 			lp |= ((ulong)(isExtendedKey ? 1 : 0)) << 24;
 			lp |= ((ulong)(e.IsARepeat ? 1 : 0)) << 30;
 			IntPtr lParam = (IntPtr)lp;
 			IntPtr wParam = (IntPtr)key;
 
-			bool isSysKey = altDown && !cmdDown;
+			bool isSysKey = false;// altDown && !cmdDown
 			Msg msg = isSysKey
 				? (e.Type == NSEventType.KeyDown ? Msg.WM_SYSKEYDOWN : Msg.WM_SYSKEYUP)
 				: (e.Type == NSEventType.KeyDown ? Msg.WM_KEYDOWN : Msg.WM_KEYUP);
@@ -465,6 +462,11 @@ namespace System.Windows.Forms.CocoaInternal
 			NSEventModifierMask flags = eventref.ModifierFlags;
 			NSEventModifierMask diff = flags ^ XplatUICocoa.key_modifiers;
 			XplatUICocoa.key_modifiers = flags;
+
+			shiftDown = 0 != (flags & NSEventModifierMask.ShiftKeyMask);
+			ctrlDown = 0 != (flags & NSEventModifierMask.ControlKeyMask);
+			altDown = 0 != (flags & NSEventModifierMask.AlternateKeyMask);
+			cmdDown = 0 != (flags & NSEventModifierMask.CommandKeyMask);
 
 			if (FocusHandle == IntPtr.Zero)
 				return;
