@@ -428,7 +428,8 @@ namespace System.Windows.Forms.CocoaInternal
 			if (key == Keys.None)
 				return;
 
-			bool isExtendedKey = e.Characters.Length == 0 || !KeysConverter.IsChar(e.Characters[0], key);
+			var chars = KeysConverter.GetCharactersForKeyPress(e);
+			bool isExtendedKey = ctrlDown || cmdDown || e.Characters.Length == 0 || !KeysConverter.IsChar(e.Characters[0], key) && KeysConverter.DeadKeyState == 0;
 
 			ulong lp = 0;
 			lp |= ((ulong)(uint)repeatCount);
@@ -449,7 +450,6 @@ namespace System.Windows.Forms.CocoaInternal
 			// On Windows, this would normally be done in TranslateMessage
 			if (e.Type == NSEventType.KeyDown && !isExtendedKey)
 			{
-				var chars = KeysConverter.GetCharactersForKeyPress(e);
 				foreach (var c in chars)
 					if (KeysConverter.IsChar(c, key))
 						driver.PostMessage(FocusHandle, isSysKey? Msg.WM_SYSCHAR : Msg.WM_CHAR, (IntPtr)c, lParam);
