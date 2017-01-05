@@ -126,53 +126,43 @@ namespace System.Windows.Forms
 		
 		public static bool IsValidShortcut (Keys shortcut)
 		{
-			// Anything with an F1 - F12 is a shortcut
-			if ((shortcut & Keys.F1) == Keys.F1)
-				return true;
-			else if ((shortcut & Keys.F2) == Keys.F2)
-				return true;
-			else if ((shortcut & Keys.F3) == Keys.F3)
-				return true;
-			else if ((shortcut & Keys.F4) == Keys.F4)
-				return true;
-			else if ((shortcut & Keys.F5) == Keys.F5)
-				return true;
-			else if ((shortcut & Keys.F6) == Keys.F6)
-				return true;
-			else if ((shortcut & Keys.F7) == Keys.F7)
-				return true;
-			else if ((shortcut & Keys.F8) == Keys.F8)
-				return true;
-			else if ((shortcut & Keys.F9) == Keys.F9)
-				return true;
-			else if ((shortcut & Keys.F10) == Keys.F10)
-				return true;
-			else if ((shortcut & Keys.F11) == Keys.F11)
-				return true;
-			else if ((shortcut & Keys.F12) == Keys.F12)
-				return true;
-				
-			// Modifier keys alone are not shortcuts
-			switch (shortcut) {
-				case Keys.Alt:
-				case Keys.Control:
-				case Keys.Shift:
-				case Keys.Alt | Keys.Control:
-				case Keys.Alt | Keys.Shift:
-				case Keys.Control | Keys.Shift:
-				case Keys.Alt | Keys.Control | Keys.Shift:
-					return false;
-			}
-	
-			// Anything else with a modifier key is a shortcut
-			if ((shortcut & Keys.Alt) == Keys.Alt)
-				return true;
-			else if ((shortcut & Keys.Control) == Keys.Control)
-				return true;
-			else if ((shortcut & Keys.Shift) == Keys.Shift)
-				return true;
+			Keys keyCode = (Keys)(shortcut & Keys.KeyCode);
+			Keys modifiers = (Keys)(shortcut & Keys.Modifiers);
 
-			// Anything else is not a shortcut
+			if (shortcut == Keys.None)
+			{
+				return false;
+			}
+			else if ((keyCode == Keys.Delete) || (keyCode == Keys.Insert))
+			{
+				return true;
+			}
+			else if (((int)keyCode >= (int)Keys.F1) && ((int)keyCode <= (int)Keys.F24))
+			{
+				// function keys by themselves are valid
+				return true;
+			}
+			else if ((keyCode != Keys.None) && (modifiers != Keys.None))
+			{
+				switch (keyCode)
+				{
+					case Keys.LWin: // macOS specific (CommandKey)
+					case Keys.RWin: // dtto
+					case Keys.Menu:
+					case Keys.ControlKey:
+					case Keys.ShiftKey:
+						// cmd, shift, control and alt arent valid on their own.
+						return false;
+					default:
+						if (modifiers == Keys.Shift)
+						{
+							// shift + somekey isnt a valid modifier either
+							return false;
+						}
+						return true;
+				}
+			}
+			// has to have a valid keycode and valid modifier.
 			return false;
 		}
 
