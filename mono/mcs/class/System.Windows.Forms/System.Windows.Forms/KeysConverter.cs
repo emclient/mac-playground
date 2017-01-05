@@ -107,6 +107,9 @@ namespace System.Windows.Forms {
 					sb.Append("Shift+");
 				}
 
+				if ((key & Keys.Cmd) != 0) // macOS Specific
+					sb.Append("Cmd+");
+
 				// Keycode last
 				sb.Append(Enum.GetName(typeof(Keys), key & Keys.KeyCode));
 

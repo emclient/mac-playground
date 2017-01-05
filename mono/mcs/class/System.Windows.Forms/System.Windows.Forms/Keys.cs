@@ -218,6 +218,7 @@ namespace System.Windows.Forms {
 		Shift		= 0x00010000,
 		Control		= 0x00020000,
 		Alt		= 0x00040000,
+		Cmd			= 0x00080000, // MAC SPECIFIC
 		Modifiers	= unchecked((int)0xFFFF0000),
 		IMEAccept	= 0x0000001E,
 		Oem1		= 0x000000BA,

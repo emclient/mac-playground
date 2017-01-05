@@ -477,8 +477,8 @@ namespace System.Windows.Forms.CocoaInternal
 				driver.SendMessage(FocusHandle, (NSEventModifierMask.ControlKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_CONTROL, IntPtr.Zero);
 			if ((NSEventModifierMask.AlternateKeyMask & diff) != 0)
 				driver.SendMessage(FocusHandle, (NSEventModifierMask.AlternateKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_MENU, IntPtr.Zero);
-			//if ((NSEventModifierMask.CommandKeyMask & diff) != 0)
-			//	driver.SendMessage(FocusHandle, (NSEventModifierMask.AlternateKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_LWIN, IntPtr.Zero);
+			if ((NSEventModifierMask.CommandKeyMask & diff) != 0)
+				driver.SendMessage(FocusHandle, (NSEventModifierMask.CommandKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_LWIN, IntPtr.Zero);
 		}
 
 		#endregion
