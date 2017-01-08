@@ -451,6 +451,8 @@ namespace System.Drawing {
 			var imageSource = CGImageSource.FromDataProvider (dataProvider);
 
 			frameCount = (int)imageSource.ImageCount;
+			if (frameCount == 0)
+				throw new ArgumentException("Invalid image");
 
 			var properties = imageSource.GetProperties (frame, null);
 
