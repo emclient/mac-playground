@@ -186,6 +186,19 @@ namespace System.Windows.Forms
 				}
 			 }
 		}
+
+		internal static KeysConverter keysConverter = new KeysConverter();
+
+		[Localizable(true)]
+		[DefaultValue("")]
+		public string ShortcutKeysMac
+		{
+			set
+			{
+				ShortcutKeys = (Keys)keysConverter.ConvertFromString(value);
+			}
+		}
+
 		#endregion
 
 		#region Protected Properties
