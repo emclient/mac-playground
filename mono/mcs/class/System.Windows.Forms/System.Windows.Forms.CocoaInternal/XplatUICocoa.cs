@@ -2597,10 +2597,10 @@ namespace System.Windows.Forms {
 				return keys;
 			}
 		}
-		internal override Size SmallIconSize { get{ throw new NotImplementedException(); } }
-		internal override int MouseButtonCount { get{ throw new NotImplementedException(); } }
-		internal override bool MouseButtonsSwapped { get{ throw new NotImplementedException(); } }
-		internal override bool MouseWheelPresent { get{ throw new NotImplementedException(); } }
+		internal override Size SmallIconSize { get{ return new Size(16, 16); } }
+		internal override int MouseButtonCount { get{ return 3; } }
+		internal override bool MouseButtonsSwapped { get{ return false; } }
+		internal override bool MouseWheelPresent { get{ return true; } }
 
 		internal override MouseButtons MouseButtons {
 			get {
