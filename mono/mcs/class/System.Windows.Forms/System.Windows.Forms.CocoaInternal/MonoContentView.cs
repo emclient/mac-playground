@@ -51,6 +51,7 @@ using NSPoint = CoreGraphics.CGPoint;
 #elif MONOMAC
 using NSRect = MonoMac.CoreGraphics.CGRect;
 using NSPoint = MonoMac.CoreGraphics.CGPoint;
+using System.Reflection;
 #endif
 #endif
 
@@ -482,5 +483,33 @@ namespace System.Windows.Forms.CocoaInternal
 		}
 
 		#endregion
+
+		[Export("selectAll:")]
+		public virtual void SelectAll(NSObject sender)
+		{
+			if (FocusHandle != IntPtr.Zero)
+				driver.SendMessage(FocusHandle, Msg.WM_SELECT_ALL, IntPtr.Zero, IntPtr.Zero);
+		}
+
+		[Export("copy:")]
+		public virtual void Copy(NSObject sender)
+		{
+			if (FocusHandle != IntPtr.Zero)
+				driver.SendMessage(FocusHandle, Msg.WM_COPY, IntPtr.Zero, IntPtr.Zero);
+		}
+
+		[Export("paste:")]
+		public virtual void Paste(NSObject sender)
+		{
+			if (FocusHandle != IntPtr.Zero)
+				driver.SendMessage(FocusHandle, Msg.WM_PASTE, IntPtr.Zero, IntPtr.Zero);
+		}
+
+		[Export("cut:")]
+		public virtual void Cut(NSObject sender)
+		{
+			if (FocusHandle != IntPtr.Zero)
+				driver.SendMessage(FocusHandle, Msg.WM_CUT, IntPtr.Zero, IntPtr.Zero);
+		}
 	}
 }
