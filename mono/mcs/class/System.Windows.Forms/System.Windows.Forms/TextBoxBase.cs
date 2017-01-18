@@ -35,6 +35,7 @@ using System.Drawing.Text;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace System.Windows.Forms
 {
@@ -85,9 +86,10 @@ namespace System.Windows.Forms
 		internal CaretSelection		click_mode;
 		internal BorderStyle actual_border_style;
 		internal bool shortcuts_enabled = true;
-		#if Debug
+#if Debug
 		internal static bool	draw_lines = false;
-		#endif
+#endif
+		internal Dictionary<Keys, Func<bool>> keyHandlers;
 
 		#endregion	// Local Variables
 
@@ -162,6 +164,8 @@ namespace System.Windows.Forms
 			document.ViewPortHeight = canvas_height;
 
 			Cursor = Cursors.IBeam;
+
+			keyHandlers = LoadKeyHandlers();
 		}
 		#endregion	// Internal Constructor
 
@@ -1060,243 +1064,156 @@ namespace System.Windows.Forms
 
 		private bool ProcessKey (Keys keyData)
 		{
-			bool control;
-			bool shift;
+			if (shortcuts_enabled)
+			{
+				Func<bool> handler = null;
+				if (keyHandlers.TryGetValue(keyData, out handler))
+					return handler();
+			}
+			return false;
+		}
 
-			control = (Control.ModifierKeys & Keys.Control) != 0;
-			shift = (Control.ModifierKeys & Keys.Shift) != 0;
+		#region Key Handlers
 
-			if (shortcuts_enabled) {
-				switch (keyData & Keys.KeyCode) {
-				case Keys.X:
-					if (control && read_only == false) {
-						Cut();
-						return true;
-					}
-					return false;
+		internal virtual bool PerformCut()
+		{
+			if (!read_only)
+			{
+				Cut();
+				return true;
+			}
+			return false;
+		}
 
-				case Keys.C:
-					if (control) {
-						Copy();
-						return true;
-					}
-					return false;
+		internal virtual bool PerformCopy()
+		{
+			Copy();
+			return true;
+		}
 
-				case Keys.V:
-					if (control && read_only == false) {
-						return Paste(Clipboard.GetDataObject(), null, true);
-					}
-					return false;
+		internal virtual bool PerformPaste()
+		{
+			if (!read_only)
+				return Paste(Clipboard.GetDataObject(), null, true);
+			return false;
+		}
 
-				case Keys.Z:
-					if (control && read_only == false) {
-						Undo ();
-						return true;
-					}
-					return false;
+		internal virtual bool PerformSelectAll()
+		{
+			SelectAll();
+			return true;
+		}
 
-				case Keys.A:
-					if (control) {
-						SelectAll();
-						return true;
-					}
-					return false;
+		internal virtual bool PerformUndo()
+		{
+			if (!read_only)
+			{
+				Undo();
+				return true;
+			}
+			return false;
+		}
 
-				case Keys.Insert:
+		internal virtual bool PerformRedo()
+		{
+			if (!read_only)
+			{
+			//	Redo();
+				return true;
+			}
+			return false;
+		}
 
-					if (read_only == false) {
-						if (shift) {
-							Paste (Clipboard.GetDataObject (), null, true);
-							return true;
-						}
+		internal virtual bool PerformDelete()
+		{
+			if (!read_only)
+			{
+				HandleBackspace(false);
+				return true;
+			}
+			return false;
+		}
 
-						if (control) {
-							Copy ();
-							return true;
-						}
-					}
+		internal virtual bool PerformDeleteWord()
+		{
+			if (!read_only)
+			{
+				HandleBackspace(true);
+				return true;
+			}
+			return false;
+		}
 
-					return false;
+		internal virtual bool PerformForwardDelete()
+		{
+			return PerformForwardDelete(false);
+		}
 
-				case Keys.Delete:
+		internal virtual bool PerformForwardDeleteWord()
+		{
+			return PerformForwardDelete(true);
+		}
 
-					if (read_only)
-						break;
-
-					if (shift && read_only == false) {
-						Cut ();
-						return true;
-					}
-
-					if (document.selection_visible) {
-						document.ReplaceSelection("", false);
-					} else {
-						// DeleteChar only deletes on the line, doesn't do the combine
-						if (document.CaretPosition >= document.CaretLine.TextLengthWithoutEnding ()) {
-							if (document.CaretLine.LineNo < document.Lines) {
-								Line	line;
-
-								line = document.GetLine(document.CaretLine.LineNo + 1);
-
-								// this line needs to be invalidated before it is combined
-								// because once it is combined, all it's coordinates will
-								// have changed
-								document.Invalidate (line, 0, line, line.text.Length);
-								document.Combine(document.CaretLine, line);
-
-								document.UpdateView(document.CaretLine,
-										document.Lines, 0);
-
-							}
-						} else {
-							if (!control) {
-								document.DeleteChar(document.CaretTag.Line, document.CaretPosition, true);
-							} else {
-								int end_pos;
-
-								end_pos = document.CaretPosition;
-
-								while ((end_pos < document.CaretLine.Text.Length) && !Document.IsWordSeparator(document.CaretLine.Text[end_pos])) {
-									end_pos++;
-								}
-
-								if (end_pos < document.CaretLine.Text.Length) {
-									end_pos++;
-								}
-								document.DeleteChars(document.CaretTag.Line, document.CaretPosition, end_pos - document.CaretPosition);
-							}
-						}
-					}
-
-					document.AlignCaret();
-					document.UpdateCaret();
-					CaretMoved(this, null);
-
-					Modified = true;
-					OnTextChanged (EventArgs.Empty);
-		
-					return true;
+		internal virtual bool PerformForwardDelete(bool word)
+		{
+			if (!read_only)
+			{
+				if (document.selection_visible)
+				{
+					document.ReplaceSelection("", false);
 				}
+				else
+				{
+					// DeleteChar only deletes on the line, doesn't do the combine
+					if (document.CaretPosition >= document.CaretLine.TextLengthWithoutEnding())
+					{
+						if (document.CaretLine.LineNo < document.Lines)
+						{
+							Line line = document.GetLine(document.CaretLine.LineNo + 1);
+
+							// this line needs to be invalidated before it is combined
+							// because once it is combined, all it's coordinates will
+							// have changed
+							document.Invalidate(line, 0, line, line.text.Length);
+							document.Combine(document.CaretLine, line);
+							document.UpdateView(document.CaretLine,
+									document.Lines, 0);
+						}
+					}
+					else
+					{
+						if (!word)
+						{
+							document.DeleteChar(document.CaretTag.Line, document.CaretPosition, true);
+						}
+						else
+						{
+							int end_pos = document.CaretPosition;
+							while ((end_pos < document.CaretLine.Text.Length) && !Document.IsWordSeparator(document.CaretLine.Text[end_pos]))
+								end_pos++;
+							if (end_pos < document.CaretLine.Text.Length)
+								end_pos++;
+
+							document.DeleteChars(document.CaretTag.Line, document.CaretPosition, end_pos - document.CaretPosition);
+						}
+					}
+				}
+
+				document.AlignCaret();
+				document.UpdateCaret();
+				CaretMoved(this, null);
+
+				Modified = true;
+				OnTextChanged(EventArgs.Empty);
+				return true;
 			}
 
-			switch (keyData & Keys.KeyCode) {
-				case Keys.Left: {
-					if (control) {
-						document.MoveCaret(CaretDirection.WordBack);
-					} else {
-						if (!document.selection_visible || shift) {
-							document.MoveCaret(CaretDirection.CharBack);
-						} else {
-							document.MoveCaret(CaretDirection.SelectionStart);
-						}
-					}
-					
-					if (!shift) {
-						document.SetSelectionToCaret(true);
-					} else {
-						document.SetSelectionToCaret(false);
-					}
+			return false;
+		}
 
-					CaretMoved(this, null);
-					return true;
-				}
-
-				case Keys.Right: {
-					if (control) {
-						document.MoveCaret(CaretDirection.WordForward);
-					} else {
-						if (!document.selection_visible || shift) {
-							document.MoveCaret(CaretDirection.CharForward);
-						} else {
-							document.MoveCaret(CaretDirection.SelectionEnd);
-						}
-					}
-					if (!shift) {
-						document.SetSelectionToCaret(true);
-					} else {
-						document.SetSelectionToCaret(false);
-					}
-
-					CaretMoved(this, null);
-					return true;
-				}
-
-				case Keys.Up: {
-					if (control) {
-						if (document.CaretPosition == 0) {
-							document.MoveCaret(CaretDirection.LineUp);
-						} else {
-							document.MoveCaret(CaretDirection.Home);
-						}
-					} else {
-						document.MoveCaret(CaretDirection.LineUp);
-					}
-
-					if ((Control.ModifierKeys & Keys.Shift) == 0) {
-						document.SetSelectionToCaret(true);
-					} else {
-						document.SetSelectionToCaret(false);
-					}
-
-					CaretMoved(this, null);
-					return true;
-				}
-
-				case Keys.Down: {
-					if (control) {
-						if (document.CaretPosition == document.CaretLine.Text.Length) {
-							document.MoveCaret(CaretDirection.LineDown);
-						} else {
-							document.MoveCaret(CaretDirection.End);
-						}
-					} else {
-						document.MoveCaret(CaretDirection.LineDown);
-					}
-
-					if ((Control.ModifierKeys & Keys.Shift) == 0) {
-						document.SetSelectionToCaret(true);
-					} else {
-						document.SetSelectionToCaret(false);
-					}
-
-					CaretMoved(this, null);
-					return true;
-				}
-
-				case Keys.Home: {
-					if ((Control.ModifierKeys & Keys.Control) != 0) {
-						document.MoveCaret(CaretDirection.CtrlHome);
-					} else {
-						document.MoveCaret(CaretDirection.Home);
-					}
-
-					if ((Control.ModifierKeys & Keys.Shift) == 0) {
-						document.SetSelectionToCaret(true);
-					} else {
-						document.SetSelectionToCaret(false);
-					}
-
-					CaretMoved(this, null);
-					return true;
-				}
-
-				case Keys.End: {
-					if ((Control.ModifierKeys & Keys.Control) != 0) {
-						document.MoveCaret(CaretDirection.CtrlEnd);
-					} else {
-						document.MoveCaret(CaretDirection.End);
-					}
-
-					if ((Control.ModifierKeys & Keys.Shift) == 0) {
-						document.SetSelectionToCaret(true);
-					} else {
-						document.SetSelectionToCaret(false);
-					}
-
-					CaretMoved(this, null);
-					return true;
-				}
-
+		/*
+			switch (keyData & Keys.KeyCode)
+			{
 				//case Keys.Enter: {
 				//        // ignoring accepts_return, fixes bug #76355
 				//        if (!read_only && document.multiline && (accepts_return || (FindForm() != null && FindForm().AcceptButton == null) || ((Control.ModifierKeys & Keys.Control) != 0))) {
@@ -1320,55 +1237,197 @@ namespace System.Windows.Forms
 				//        }
 				//        break;
 				//}
-
-				case Keys.Tab: {
-					if (!read_only && accepts_tab && document.multiline) {
-						document.InsertCharAtCaret ('\t', true);
-
-						CaretMoved(this, null);
-						Modified = true;
-						OnTextChanged (EventArgs.Empty);
-
-						return true;
-					}
-					break;
-				}
-
-				case Keys.PageUp: {
-					if ((Control.ModifierKeys & Keys.Control) != 0) {
-						document.MoveCaret(CaretDirection.CtrlPgUp);
-					} else {
-						document.MoveCaret(CaretDirection.PgUp);
-					}
-					document.DisplayCaret ();
-					return true;
-				}
-
-				case Keys.PageDown: {
-					if ((Control.ModifierKeys & Keys.Control) != 0) {
-						document.MoveCaret(CaretDirection.CtrlPgDn);
-					} else {
-						document.MoveCaret(CaretDirection.PgDn);
-					}
-					document.DisplayCaret ();
-					return true;
-				}
 			}
 
 			return false;
 		}
+*/
+		internal virtual bool PerformScrollToTheBeginningOfTheDocument()
+		{
+			// FIXME: macOS specific
+			return true;
+		}
 
-		internal virtual void RaiseSelectionChanged ()
+		internal virtual bool PerformScrollToTheEndOfTheDocument()
+		{
+			// FIXME: macOS specific
+			return true;
+		}
+
+		internal virtual bool PerformScrollPageUp()
+		{
+			// FIXME: macOS specific
+			return true;
+		}
+
+		internal virtual bool PerformScrollPageDown()
+		{
+			// FIXME: macOS specific
+			return true;
+		}
+
+		internal virtual bool PerformGoToTheBeginningOfTheWord()
+		{
+			document.MoveCaret(CaretDirection.WordBack);
+			document.SetSelectionToCaret((Control.ModifierKeys & Keys.Shift) == 0);
+			CaretMoved(this, null);
+			return true;
+		}
+
+		internal virtual bool PerformGoToTheBeginningOfTheNextWord()
+		{
+			document.MoveCaret(CaretDirection.WordForward);
+			document.SetSelectionToCaret((Control.ModifierKeys & Keys.Shift) == 0);
+			CaretMoved(this, null);
+			return true;
+		}
+
+		internal virtual bool PerformGoToTheEndOfTheWord()
+		{
+			//FIXME:
+			return PerformGoToTheBeginningOfTheNextWord();
+		}
+
+		internal virtual bool PerformGoToTheLeft()
+		{
+			bool shift = (Control.ModifierKeys & Keys.Shift) != 0;
+			CaretDirection direction = !document.selection_visible || shift ? CaretDirection.CharBack : CaretDirection.SelectionStart;
+			document.MoveCaret(direction);
+			document.SetSelectionToCaret(!shift);
+			CaretMoved(this, null);
+			return true;
+		}
+
+		internal virtual bool PerformGoToTheRight()
+		{
+			bool shift = (Control.ModifierKeys & Keys.Shift) != 0;
+			CaretDirection direction = !document.selection_visible || shift ? CaretDirection.CharForward : CaretDirection.SelectionEnd;
+			document.MoveCaret(direction);
+			document.SetSelectionToCaret(!shift);
+			CaretMoved(this, null);
+			return true;
+		}
+
+		internal virtual bool PerformGoUp()
+		{
+			document.MoveCaret(CaretDirection.LineUp);
+			document.SetSelectionToCaret((Control.ModifierKeys & Keys.Shift) == 0);
+			CaretMoved(this, null);
+			return true;
+		}
+
+		internal virtual bool PerformGoDown()
+		{
+			document.MoveCaret(CaretDirection.LineDown);
+			document.SetSelectionToCaret((Control.ModifierKeys & Keys.Shift) == 0);
+			CaretMoved(this, null);
+			return true;
+		}
+
+		internal virtual bool PerformGoToThePreviousParagraph()
+		{
+			//FIXME:
+			CaretDirection direction = document.CaretPosition == 0 ? CaretDirection.LineUp : CaretDirection.Home;
+			document.MoveCaret(direction);
+			document.SetSelectionToCaret((Control.ModifierKeys & Keys.Shift) == 0);
+			CaretMoved(this, null);
+			return true;
+		}
+
+		internal virtual bool PerformGoToTheNextParagraph()
+		{
+			//FIXME:
+			CaretDirection direction = document.CaretPosition == document.CaretLine.Text.Length ? CaretDirection.LineDown : CaretDirection.End;
+			document.MoveCaret(direction);
+			document.SetSelectionToCaret((Control.ModifierKeys & Keys.Shift) == 0);
+			CaretMoved(this, null);
+			return true;
+		}
+
+		internal virtual bool PerformGoToTheBeginningOfTheLine()
+		{
+			document.MoveCaret(CaretDirection.Home);
+			document.SetSelectionToCaret((Control.ModifierKeys & Keys.Shift) == 0);
+			CaretMoved(this, null);
+			return true;
+		}
+
+		internal virtual bool PerformGoToTheBeginningOfTheDocument()
+		{
+			document.MoveCaret(CaretDirection.CtrlHome);
+			document.SetSelectionToCaret((Control.ModifierKeys & Keys.Shift) == 0);
+			CaretMoved(this, null);
+			return true;
+		}
+
+		internal virtual bool PerformGoToTheEndOfTheDocument()
+		{
+			document.MoveCaret(CaretDirection.CtrlEnd);
+			document.SetSelectionToCaret((Control.ModifierKeys & Keys.Shift) == 0);
+			CaretMoved(this, null);
+			return true;
+		}
+
+		internal virtual bool PerformGoToTheEndOfTheLine()
+		{
+			document.MoveCaret(CaretDirection.End);
+			document.SetSelectionToCaret((Control.ModifierKeys & Keys.Shift) == 0);
+			CaretMoved(this, null);
+			return true;
+		}
+
+		internal virtual bool PerformTabAction()
+		{
+			if (!read_only && accepts_tab && document.multiline)
+			{
+				document.InsertCharAtCaret('\t', true);
+
+				CaretMoved(this, null);
+				Modified = true;
+				OnTextChanged(EventArgs.Empty);
+				return true;
+			}
+			return false;
+		}
+
+		internal virtual bool PerformGoToTheTopOfTheViewport()
+		{
+			document.MoveCaret(CaretDirection.CtrlPgUp);
+			document.DisplayCaret();
+			return true;
+		}
+
+		internal virtual bool PerformGoToTheBottomOfTheViewport()
+		{
+			document.MoveCaret(CaretDirection.CtrlPgDn);
+			document.DisplayCaret();
+			return true;
+		}
+
+		internal virtual bool PerformPageUp()
+		{
+			document.MoveCaret(CaretDirection.PgUp);
+			document.DisplayCaret();
+			return true;
+		}
+
+		internal virtual bool PerformPageDown()
+		{
+			document.MoveCaret(CaretDirection.PgDn);
+			document.DisplayCaret();
+			return true;
+		}
+
+		#endregion //Key Handlers
+
+		internal virtual void RaiseSelectionChanged()
 		{
 			// Do nothing, overridden in RTB
 		}
-		
-		private void HandleBackspace (bool control)
+
+		private void HandleBackspace(bool control)
 		{
-			bool	fire_changed;
-
-			fire_changed = false;
-
+			bool fire_changed = false;
 			// delete only deletes on the line, doesn't do the combine
 			if (document.selection_visible) {
 				document.undo.BeginUserAction (Locale.GetText ("Delete"));
@@ -2470,20 +2529,89 @@ namespace System.Windows.Forms
 			base.OnTextChanged (e);
 		}
 
-		public virtual int GetLineFromCharIndex (int index)
+		public virtual int GetLineFromCharIndex(int index)
 		{
 			Line line_out;
 			LineTag tag_out;
 			int pos;
-			
-			document.CharIndexToLineTag (index, out line_out, out tag_out, out pos);
+
+			document.CharIndexToLineTag(index, out line_out, out tag_out, out pos);
 
 			return line_out.LineNo;
 		}
 
-		protected override void OnMouseUp (MouseEventArgs mevent)
+		protected override void OnMouseUp(MouseEventArgs mevent)
+		{
+			base.OnMouseUp(mevent);
+		}
+
+		#region Key Binding
+
+#if MONOMAC || XAMARINMAC
+
+		internal Dictionary<Keys, Func<bool>> LoadKeyHandlers()
+		{
+			return new Dictionary<Keys, Func<bool>>
+			{
+				{ Keys.X | Keys.Cmd,                         PerformCut },
+				{ Keys.C | Keys.Cmd,                         PerformCopy },
+				{ Keys.V | Keys.Cmd,                         PerformPaste },
+				{ Keys.A | Keys.Cmd,                         PerformSelectAll },
+				{ Keys.Z | Keys.Cmd,                         PerformUndo },
+				{ Keys.Z | Keys.Cmd | Keys.Shift,            PerformRedo },
+
+				{ Keys.Delete,                               PerformForwardDelete },
+				{ Keys.Delete | Keys.Alt,                    PerformForwardDeleteWord },
+				{ Keys.Back,                                 PerformDelete },
+				{ Keys.Back | Keys.Alt,                      PerformDeleteWord },
+
+				{ Keys.Left,                                 PerformGoToTheLeft },
+				{ Keys.Left | Keys.Shift,                    PerformGoToTheLeft },
+				{ Keys.Left | Keys.Alt,                      PerformGoToTheBeginningOfTheWord },
+				{ Keys.Left | Keys.Alt | Keys.Shift,         PerformGoToTheBeginningOfTheWord },
+				{ Keys.Right,                                PerformGoToTheRight },
+				{ Keys.Right | Keys.Shift,                   PerformGoToTheRight },
+				{ Keys.Right | Keys.Alt,                     PerformGoToTheEndOfTheWord },
+				{ Keys.Right | Keys.Alt | Keys.Shift,        PerformGoToTheEndOfTheWord },
+				{ Keys.Up,                                   PerformGoUp },
+				{ Keys.Up | Keys.Shift,                      PerformGoUp },
+				{ Keys.Up | Keys.Cmd,                        PerformGoToTheBeginningOfTheDocument },
+				{ Keys.Up | Keys.Cmd | Keys.Shift,           PerformGoToTheBeginningOfTheDocument },
+				{ Keys.Down,                                 PerformGoDown },
+				{ Keys.Down | Keys.Shift,                    PerformGoDown },
+				{ Keys.Down | Keys.Cmd,                      PerformGoToTheEndOfTheDocument },
+				{ Keys.Down | Keys.Cmd | Keys.Shift,         PerformGoToTheEndOfTheDocument },
+				{ Keys.Home,                                 PerformScrollToTheBeginningOfTheDocument },
+				{ Keys.Home | Keys.Shift,                    PerformGoToTheBeginningOfTheDocument },
+				{ Keys.End,                                  PerformScrollToTheEndOfTheDocument },
+				{ Keys.End | Keys.Shift,                     PerformGoToTheEndOfTheDocument },
+				{ Keys.PageUp,                               PerformScrollPageUp },
+				{ Keys.PageUp | Keys.Shift,                  PerformPageUp },
+				{ Keys.PageUp | Keys.Alt,                    PerformPageUp },
+				{ Keys.PageUp | Keys.Alt | Keys.Shift,       PerformPageUp },
+				{ Keys.PageDown,                             PerformScrollPageDown },
+				{ Keys.PageDown | Keys.Shift,                PerformPageDown },
+				{ Keys.PageDown | Keys.Alt,                  PerformPageDown },
+				{ Keys.PageDown | Keys.Alt | Keys.Shift,     PerformPageDown },
+				{ Keys.V | Keys.Control,                     PerformPageDown },
+				{ Keys.Left | Keys.Cmd,                      PerformGoToTheBeginningOfTheLine },
+				{ Keys.Left | Keys.Cmd | Keys.Shift,         PerformGoToTheBeginningOfTheLine },
+				{ Keys.Left | Keys.Control | Keys.Shift,     PerformGoToTheBeginningOfTheLine },
+				{ Keys.Right | Keys.Cmd,                     PerformGoToTheEndOfTheLine },
+				{ Keys.Right | Keys.Cmd | Keys.Shift,        PerformGoToTheEndOfTheLine },
+				{ Keys.Right | Keys.Control | Keys.Shift,    PerformGoToTheEndOfTheLine },
+				{ Keys.Tab,                                  PerformTabAction },
+				//{ Keys.Escape,                               PerformCancelEditing },
+			};
+		}
+
+#else
+		internal Dictionary<Keys, Func<bool>> LoadKeyHanders()
 		{
 			base.OnMouseUp (mevent);
 		}
+#endif
+
+		#endregion
 	}
 }
