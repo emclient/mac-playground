@@ -373,6 +373,8 @@ namespace System.Windows.Forms
 		// Our "private" ones
 		WM_MOUSE_ENTER            = 0x0401,
 		WM_ASYNC_MESSAGE          = 0x0403,
+		WM_SELECT_ALL             = 0x0404, // eM Client, to support macOS
+
 		WM_REFLECT                = WM_USER + 0x1c00,
 		WM_CLOSE_INTERNAL         = WM_USER + 0x1c01,
 
