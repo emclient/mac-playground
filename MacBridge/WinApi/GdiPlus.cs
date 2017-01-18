@@ -4,6 +4,14 @@ using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
+#if MONOMAC
+using MonoMac.AppKit;
+using MonoMac.CoreGraphics;
+#elif XAMARINMAC
+using AppKit
+using CoreGraphics;
+#endif
+
 namespace WinApi
 {
     public static partial class Win32
@@ -152,6 +160,24 @@ namespace WinApi
 
 			NotImplemented(MethodBase.GetCurrentMethod());
 			return (uint)size;
+		}
+
+		public static int GetDeviceCaps(IntPtr hdc, int nIndex)
+		{
+			// FIXME: How to getscreen from Graphics/NSGraphicsContext/hdc?
+			//var g = Graphics.FromHdc(hdc);
+			//var o = g.nativeObject;
+			var screen = NSScreen.MainScreen;
+
+			var cap = (DeviceCap)nIndex;
+			switch (cap)
+			{
+				case DeviceCap.VERTRES: // Logical screen height
+					return (int)screen.Frame.Height;
+				case DeviceCap.DESKTOPVERTRES: // Physical screen height
+					return (int)(screen.Frame.Height * screen.BackingScaleFactor);
+				default: throw new NotImplementedException($"GetDeviceCaps({cap}");
+			}
 		}
 	}
 }

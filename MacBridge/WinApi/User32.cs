@@ -12,9 +12,11 @@ using System.Collections.Generic;
 #if XAMARINMAC
 using AppKit;
 using CoreGraphics;
+using Foundation;
 #else
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
+using MonoMac.Foundation;
 using ObjCRuntime = MonoMac.ObjCRuntime;
 #endif
 
@@ -784,5 +786,15 @@ namespace WinApi
 
 		[DllImport(Constants.CoreFoundationLibrary)]
 		internal static extern void CFRelease(IntPtr obj);
+
+		public static int GetSystemMetrics(SystemMetric smIndex)
+		{
+			switch (smIndex)
+			{
+				case SystemMetric.SM_MAXIMUMTOUCHES: return 5;
+				default: throw new NotImplementedException($"GetSystemMetrics({smIndex})");
+			}
+		}
+
 	}
 }
