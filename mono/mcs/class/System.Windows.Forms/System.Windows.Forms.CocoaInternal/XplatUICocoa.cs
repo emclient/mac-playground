@@ -143,7 +143,6 @@ namespace System.Windows.Forms {
 
 		static readonly object instancelock = new object ();
 
-		static Queue<String> charsQueue = new Queue<string>();
 		internal const int NSEventTypeWindowsMessage = 12345;
 
 #endregion Local Variables
@@ -1938,9 +1937,9 @@ namespace System.Windows.Forms {
 			var nstimer = NSTimer.CreateRepeatingScheduledTimer(TimeSpan.FromMilliseconds(timer.Interval), (t) =>
 			{
 				if (NSThread.IsMain)
-					timer.FireTick();
+					FireTick(timer);
 				else
-					NSApplication.SharedApplication.InvokeOnMainThread(timer.FireTick);
+					NSApplication.SharedApplication.InvokeOnMainThread(() => { FireTick(timer); });
 			});
 			//nstimer.Retain();
 			timer.window = nstimer.Handle;
@@ -1952,14 +1951,26 @@ namespace System.Windows.Forms {
 
 			var nstimer = NSTimer.CreateRepeatingScheduledTimer(TimeSpan.FromMilliseconds(timer.Interval), () => {
 				if (NSThread.IsMain)
-					timer.FireTick();
+					FireTick(timer);
 				else 
-					NSApplication.SharedApplication.InvokeOnMainThread(timer.FireTick);
+					NSApplication.SharedApplication.InvokeOnMainThread(() => { FireTick(timer); });
 			});
 			nstimer.Retain();
 			timer.window = nstimer.Handle;
 		}
-		#endif
+#endif
+
+		internal void FireTick(Timer timer)
+		{
+			try
+			{
+				timer.FireTick();
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine("Unhadled exception in Timer.FireTick(): " + e.ToString()); 
+			}
+		}
 
 		internal override bool SetTopmost (IntPtr hWnd, bool Enabled)
 		{
