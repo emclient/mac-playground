@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 #elif XAMARINMAC
-using AppKit
+using AppKit;
 using CoreGraphics;
 #endif
 
