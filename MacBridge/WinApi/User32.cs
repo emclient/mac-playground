@@ -134,10 +134,9 @@ namespace WinApi
             return true;
         }
 
-        public static bool SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam)
+        public static IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam)
         {
-            XplatUI.SendMessage(hWnd, (Msg)msg, wParam, lParam);
-            return true;
+            return XplatUI.SendMessage(hWnd, (Msg)msg, wParam, lParam);
         }
 
         public static IntPtr SetFocus(IntPtr hWnd)

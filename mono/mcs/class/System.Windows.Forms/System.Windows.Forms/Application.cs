@@ -843,7 +843,7 @@ namespace System.Windows.Forms
 			MSG msg = new MSG();
 			while (!quit && XplatUI.GetMessage(queue_id, ref msg, IntPtr.Zero, 0, 0)) {
 
-				Application.SendMessage(ref msg, out drop, out quit, true);
+				Application.SendMessage(ref msg, out drop, out quit);
 				if (drop)
 					continue;
 
@@ -903,24 +903,23 @@ namespace System.Windows.Forms
 		{
 			bool drop, quit;
 			MSG msg = new MSG { hwnd = hwnd, message = message, wParam = wParam, lParam = lParam };
-			return Application.SendMessage(ref msg, out drop, out quit, false);
+			return Application.SendMessage(ref msg, out drop, out quit);
 		}
 
 		// Convenience wrapper
-		internal static IntPtr SendMessage(ref MSG msg, bool filter = true)
+		internal static IntPtr SendMessage(ref MSG msg)
 		{
 			bool drop, quit;
-			return Application.SendMessage(ref msg, out drop, out quit, filter);
+			return Application.SendMessage(ref msg, out drop, out quit);
 		}
 
 		// Returns true if the message should be dropped.
-		internal static IntPtr SendMessage(ref MSG msg, out bool drop, out bool quit, bool filter)
+		internal static IntPtr SendMessage(ref MSG msg, out bool drop, out bool quit)
 		{
 			drop = false;
 			quit = false;
-
 			Message m = Message.Create(msg.hwnd, (int)msg.message, msg.wParam, msg.lParam);
-			if (filter && Application.FilterMessage(ref m))
+			if (Application.FilterMessage(ref m))
 			{
 				drop = true;
 				return IntPtr.Zero;
@@ -934,8 +933,7 @@ namespace System.Windows.Forms
 				case Msg.WM_SYSCHAR:
 				case Msg.WM_KEYUP:
 				case Msg.WM_SYSKEYUP:
-					Control c;
-					c = Control.FromHandle(msg.hwnd);
+					Control c = Control.FromHandle(msg.hwnd);
 
 					// If we have a control with keyboard capture (usually a *Strip)
 					// give it the message, and then drop the message
