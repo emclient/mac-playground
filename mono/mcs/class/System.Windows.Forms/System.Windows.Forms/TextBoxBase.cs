@@ -759,29 +759,12 @@ namespace System.Windows.Forms
 
 		public void Copy ()
 		{
-			DataObject o;
-
-			o = new DataObject(DataFormats.Text, SelectedText);
-			if (this is RichTextBox)
-				o.SetData(DataFormats.Rtf, ((RichTextBox)this).SelectedRtf);
-			Clipboard.SetDataObject(o);
+			XplatUI.SendMessage(Handle, Msg.WM_COPY, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		public void Cut ()
 		{
-			DataObject	o;
-
-			o = new DataObject(DataFormats.Text, SelectedText);
-			if (this is RichTextBox)
-				o.SetData(DataFormats.Rtf, ((RichTextBox)this).SelectedRtf);
-			Clipboard.SetDataObject (o);
-
-			document.undo.BeginUserAction (Locale.GetText ("Cut"));
-			document.ReplaceSelection (String.Empty, false);
-			document.undo.EndUserAction ();
-
-			Modified = true;
-			OnTextChanged (EventArgs.Empty);
+			XplatUI.SendMessage(Handle, Msg.WM_CUT, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		public void Paste ()
@@ -803,9 +786,7 @@ namespace System.Windows.Forms
 
 		public void SelectAll ()
 		{
-			Line	last;
-
-			last = document.GetLine(document.Lines);
+			Line last = document.GetLine(document.Lines);
 			document.SetSelectionStart(document.GetLine(1), 0, false);
 			document.SetSelectionEnd(last, last.text.Length, true);
 			document.PositionCaret (document.selection_end.line, document.selection_end.pos);
@@ -1093,9 +1074,7 @@ namespace System.Windows.Forms
 
 		internal virtual bool PerformPaste()
 		{
-			if (!read_only)
-				return Paste(Clipboard.GetDataObject(), null, true);
-			return false;
+			return IntPtr.Zero == XplatUI.SendMessage(Handle, Msg.WM_PASTE, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		internal virtual bool PerformSelectAll()
@@ -1540,9 +1519,130 @@ namespace System.Windows.Forms
 			base.SetBoundsCore (x, y, width, height, specified);
 		}
 
+		internal virtual void WmCut(ref Message m)
+		{
+			if (!read_only)
+			{
+				DataObject o = new DataObject(DataFormats.Text, SelectedText);
+				if (this is RichTextBox)
+					o.SetData(DataFormats.Rtf, ((RichTextBox)this).SelectedRtf);
+				Clipboard.SetDataObject(o);
+
+				document.undo.BeginUserAction(Locale.GetText("Cut"));
+				document.ReplaceSelection(String.Empty, false);
+				document.undo.EndUserAction();
+
+				Modified = true;
+				OnTextChanged(EventArgs.Empty);
+
+				m.Result = IntPtr.Zero;
+			}
+		}
+
+		internal virtual void WmCopy(ref Message m)
+		{
+			DataObject o = new DataObject(DataFormats.Text, SelectedText);
+			if (this is RichTextBox)
+				o.SetData(DataFormats.Rtf, ((RichTextBox)this).SelectedRtf);
+			Clipboard.SetDataObject(o);
+			m.Result = IntPtr.Zero;
+		}
+
+		internal virtual void WmPaste(ref Message m)
+		{
+			if (!read_only && Paste(Clipboard.GetDataObject(), null, true))
+				m.Result = IntPtr.Zero;
+		}
+
+		internal virtual void WmClear(ref Message m)
+		{
+			if (!read_only)
+			{
+				Clear();
+				m.Result = IntPtr.Zero;
+			}
+		}
+
+		internal virtual void WmChar(ref Message m)
+		{
+			if (ProcessKeyMessage(ref m))
+			{
+				m.Result = IntPtr.Zero;
+				return;
+			}
+
+			if (read_only)
+				return;
+
+			m.Result = IntPtr.Zero;
+
+			int ch = m.WParam.ToInt32();
+			if (ch == 127)
+			{
+				HandleBackspace(true);
+			}
+			else if (ch >= 32)
+			{
+				if (document.selection_visible)
+				{
+					document.ReplaceSelection("", false);
+				}
+
+				char c = (char)m.WParam;
+				switch (character_casing)
+				{
+					case CharacterCasing.Upper:
+						c = Char.ToUpper((char)m.WParam);
+						break;
+					case CharacterCasing.Lower:
+						c = Char.ToLower((char)m.WParam);
+						break;
+				}
+
+				if (document.Length < max_length)
+				{
+					document.InsertCharAtCaret(c, true);
+					OnTextUpdate();
+					CaretMoved(this, null);
+					Modified = true;
+					OnTextChanged(EventArgs.Empty);
+
+				}
+				else
+				{
+					XplatUI.AudibleAlert(AlertType.Default);
+				}
+				return;
+			}
+			else if (ch == 8)
+			{
+				HandleBackspace(false);
+			}
+			else if (ch == 13)
+				HandleEnter();
+		}
+
 		protected override void WndProc (ref Message m)
 		{
 			switch ((Msg)m.Msg) {
+
+			case Msg.WM_CUT:
+				WmCut(ref m);
+				break;
+
+			case Msg.WM_COPY:
+				WmCopy(ref m);
+				break;
+					
+			case Msg.WM_PASTE:
+				WmPaste(ref m);
+				break;
+
+			case Msg.WM_SELECT_ALL:
+				SelectAll();
+				m.Result = IntPtr.Zero;
+				break;
+
 			case Msg.WM_KEYDOWN: {
 				if (ProcessKeyMessage(ref m) || ProcessKey((Keys)m.WParam.ToInt32() | XplatUI.State.ModifierKeys)) {
 					m.Result = IntPtr.Zero;
@@ -1552,57 +1652,9 @@ namespace System.Windows.Forms
 				return;
 			}
 
-			case Msg.WM_CHAR: {
-				int	ch;
-
-				if (ProcessKeyMessage(ref m)) {
-					m.Result = IntPtr.Zero;
-					return;
-				}
-
-				if (read_only) {
-					return;
-				}
-
-				m.Result = IntPtr.Zero;
-
-				ch = m.WParam.ToInt32();
-
-				if (ch == 127) {
-					HandleBackspace(true);
-				} else if (ch >= 32) {
-					if (document.selection_visible) {
-						document.ReplaceSelection("", false);
-					}
-
-					char c = (char)m.WParam;
-					switch (character_casing) {
-					case CharacterCasing.Upper:
-						c = Char.ToUpper((char) m.WParam);
-						break;
-					case CharacterCasing.Lower:
-						c = Char.ToLower((char) m.WParam);
-						break;
-					}
-
-					if (document.Length < max_length) {
-						document.InsertCharAtCaret(c, true);
-						OnTextUpdate ();
-						CaretMoved (this, null);
-						Modified = true;
-						OnTextChanged(EventArgs.Empty);
-
-					} else {
-						XplatUI.AudibleAlert(AlertType.Default);
-					}
-					return;
-				} else if (ch == 8) {
-					HandleBackspace(false);
-				} else if (ch == 13)
-					HandleEnter ();
-
-				return;
-			}
+			case Msg.WM_CHAR:
+				WmChar(ref m);
+				break;
 
 			case Msg.WM_SETFOCUS:
 				base.WndProc(ref m);
