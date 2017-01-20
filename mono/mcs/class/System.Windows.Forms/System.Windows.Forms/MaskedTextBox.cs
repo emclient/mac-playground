@@ -382,6 +382,17 @@ namespace System.Windows.Forms
 			throw new NotImplementedException ();
 		}
 
+		internal override void WmCopy(ref Message m)
+		{
+			if (provider.IsPassword)
+			{
+				m.Result = IntPtr.Zero;
+				return;
+			}
+
+			base.WmCopy(ref m);
+		}
+
 		//[SecurityPermission (SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
 		protected override void WndProc (ref Message m)
 		{
