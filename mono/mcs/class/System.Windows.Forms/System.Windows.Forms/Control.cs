@@ -4526,7 +4526,7 @@ namespace System.Windows.Forms
 			switch (m.Msg) {
 				case (int)Msg.WM_SYSKEYDOWN:
 				case (int)Msg.WM_KEYDOWN: {
-					Console.WriteLine("Control.ProcessKeyEventArgs(WM_KEYDOWN,wparam={0})", m.WParam);
+					//Console.WriteLine("Control.ProcessKeyEventArgs(WM_KEYDOWN,wparam={0})", m.WParam);
 					key_event = new KeyEventArgs (((Keys) m.WParam.ToInt32 ()) | XplatUI.State.ModifierKeys);
 					OnKeyDown (key_event);
 					suppressing_key_press = key_event.SuppressKeyPress;
@@ -4542,7 +4542,7 @@ namespace System.Windows.Forms
 
 				case (int)Msg.WM_SYSCHAR:
 				case (int)Msg.WM_CHAR: {
-					Console.WriteLine("Control.ProcessKeyEventArgs(WM_CHAR,wparam={0})", m.WParam);
+					//Console.WriteLine("Control.ProcessKeyEventArgs(WM_CHAR,wparam={0})", m.WParam);
 					if (suppressing_key_press)
 						return true;
 					KeyPressEventArgs key_press_event;
