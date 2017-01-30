@@ -246,17 +246,15 @@ namespace System.Windows.Forms.CocoaInternal
 		public static IntPtr ToWParam(NSEvent e)
 		{
 			int wParam = 0;
-			var mouseButtons = NSEvent.CurrentPressedMouseButtons;
-			if ((mouseButtons & 1) != 0)
-				wParam |= (int)MsgButtons.MK_LBUTTON;
-			if ((mouseButtons & 2) != 0)
-				wParam |= (int)MsgButtons.MK_RBUTTON;
-			if ((mouseButtons & 4) != 0)
-				wParam |= (int)MsgButtons.MK_MBUTTON;
-			if ((mouseButtons & 8) != 0)
-				wParam |= (int)MsgButtons.MK_XBUTTON1;
-			if ((mouseButtons & 16) != 0)
-				wParam |= (int)MsgButtons.MK_XBUTTON2;
+			switch (e.ButtonNumber)
+			{
+				case 0: wParam = (int)MsgButtons.MK_LBUTTON; break;
+				case 1: wParam = (int)MsgButtons.MK_RBUTTON; break;
+				case 2: wParam = (int)MsgButtons.MK_MBUTTON; break;
+				case 3: wParam = (int)MsgButtons.MK_XBUTTON1; break;
+				case 4: wParam = (int)MsgButtons.MK_XBUTTON2; break;
+			}
+
 			var modifierFlags = e.ModifierFlags;
 			if ((modifierFlags & NSEventModifierMask.ControlKeyMask) != 0)
 				wParam |= (int)MsgButtons.MK_CONTROL;
