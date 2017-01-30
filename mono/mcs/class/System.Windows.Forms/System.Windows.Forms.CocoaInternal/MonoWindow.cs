@@ -168,7 +168,10 @@ namespace System.Windows.Forms.CocoaInternal
 			base.OrderWindow(place, relativeTo);
 
 			if (place == NSWindowOrderingMode.Out && IsKeyWindow)
-				NSApplication.SharedApplication.BeginInvokeOnMainThread(() => { ActivateNextWindow(); });
+				NSApplication.SharedApplication.BeginInvokeOnMainThread(() => {
+					try { ActivateNextWindow(); }
+					catch (Exception e) { Debug.WriteLine("Failed async call ActivateNextWindow(: " + e); }
+				});
 		}
 
 		[Export ("windowWillResize:toSize:")]
