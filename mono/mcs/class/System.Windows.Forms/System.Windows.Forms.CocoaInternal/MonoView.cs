@@ -245,23 +245,61 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public static IntPtr ToWParam(NSEvent e)
 		{
-			int wParam = 0;
-			switch (e.ButtonNumber)
+			switch (e.Type)
 			{
-				case 0: wParam = (int)MsgButtons.MK_LBUTTON; break;
-				case 1: wParam = (int)MsgButtons.MK_RBUTTON; break;
-				case 2: wParam = (int)MsgButtons.MK_MBUTTON; break;
-				case 3: wParam = (int)MsgButtons.MK_XBUTTON1; break;
-				case 4: wParam = (int)MsgButtons.MK_XBUTTON2; break;
+				case NSEventType.LeftMouseDown:
+				case NSEventType.LeftMouseUp:
+				case NSEventType.RightMouseDown:
+				case NSEventType.RightMouseUp:
+				case NSEventType.OtherMouseDown:
+				case NSEventType.OtherMouseUp:
+					return (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonNumberToWParam(e.ButtonNumber));
+				default:
+					return (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
 			}
+		}
 
-			var modifierFlags = e.ModifierFlags;
+		public static uint ButtonMaskToWParam(uint mouseButtons)
+		{
+			uint wParam = 0;
+
+			if ((mouseButtons & 1) != 0)
+				wParam |= (uint)MsgButtons.MK_LBUTTON;
+			if ((mouseButtons & 2) != 0)
+				wParam |= (uint)MsgButtons.MK_RBUTTON;
+			if ((mouseButtons & 4) != 0)
+				wParam |= (uint)MsgButtons.MK_MBUTTON;
+			if ((mouseButtons & 8) != 0)
+				wParam |= (uint)MsgButtons.MK_XBUTTON1;
+			if ((mouseButtons & 16) != 0)
+				wParam |= (uint)MsgButtons.MK_XBUTTON2;
+
+			return wParam;
+		}
+
+		public static uint ButtonNumberToWParam(int buttonNumber)
+		{
+			switch (buttonNumber)
+			{
+				case 0: return (uint)MsgButtons.MK_LBUTTON;
+				case 1: return (uint)MsgButtons.MK_RBUTTON;
+				case 2: return (uint)MsgButtons.MK_MBUTTON;
+				case 3: return (uint)MsgButtons.MK_XBUTTON1;
+				case 4: return (uint)MsgButtons.MK_XBUTTON2;
+			}
+			return 0;
+		}
+
+		public static uint ModifiersToWParam(NSEventModifierMask modifierFlags)
+		{
+			uint wParam = 0;
+
 			if ((modifierFlags & NSEventModifierMask.ControlKeyMask) != 0)
 				wParam |= (int)MsgButtons.MK_CONTROL;
 			if ((modifierFlags & NSEventModifierMask.ShiftKeyMask) != 0)
 				wParam |= (int)MsgButtons.MK_SHIFT;
 
-			return (IntPtr)wParam;
+			return wParam;
 		}
 	}
 }
