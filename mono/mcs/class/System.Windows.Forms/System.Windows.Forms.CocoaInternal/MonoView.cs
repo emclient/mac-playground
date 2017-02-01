@@ -46,9 +46,13 @@ using NSPoint = System.Drawing.PointF;
 #if XAMARINMAC
 using NSRect = CoreGraphics.CGRect;
 using NSPoint = CoreGraphics.CGPoint;
+using nuint = System.UInt64;
+using nint = System.Int64;
 #elif MONOMAC
 using NSRect = MonoMac.CoreGraphics.CGRect;
 using NSPoint = MonoMac.CoreGraphics.CGPoint;
+using nuint = System.UInt32;
+using nint = System.Int32;
 #endif
 #endif
 using System.Drawing;
@@ -259,7 +263,7 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		public static uint ButtonMaskToWParam(uint mouseButtons)
+		public static nuint ButtonMaskToWParam(nuint mouseButtons)
 		{
 			uint wParam = 0;
 
@@ -277,7 +281,7 @@ namespace System.Windows.Forms.CocoaInternal
 			return wParam;
 		}
 
-		public static uint ButtonNumberToWParam(int buttonNumber)
+		public static nuint ButtonNumberToWParam(nint buttonNumber)
 		{
 			switch (buttonNumber)
 			{
