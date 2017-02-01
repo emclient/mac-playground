@@ -67,6 +67,7 @@ namespace System.Windows.Forms.CocoaInternal
 		internal static bool shiftDown;
 		internal static bool ctrlDown;
 		internal NSView hitTestResult; //Helper for detecting clicks in the title bar & perf. optimisation
+		internal IntPtr scrollWheelHwndHandle; // Handle of the window where scrollWheel events started
 
 		public MonoContentView (IntPtr instance) : base (instance)
 		{
@@ -361,10 +362,14 @@ namespace System.Windows.Forms.CocoaInternal
 
 				case NSEventType.ScrollWheel:
 
+					if (eventref.Phase == NSEventPhase.Began)
+						scrollWheelHwndHandle = currentHwnd.Handle;
+
 					int delta = ScaleAndQuantizeDelta((float)eventref.ScrollingDeltaY, eventref.HasPreciseScrollingDeltas);
 					if (delta == 0)
 						return;
 
+					msg.hwnd = scrollWheelHwndHandle;
 					msg.message = Msg.WM_MOUSEWHEEL;
 					msg.wParam = (IntPtr)(ModifiersToWParam(eventref.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
 					msg.wParam = (IntPtr)(((int)msg.wParam & 0xFFFF) | (delta << 16));
