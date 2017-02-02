@@ -362,7 +362,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 				case NSEventType.ScrollWheel:
 
-					if (eventref.Phase == NSEventPhase.Began)
+					if (e.Phase == NSEventPhase.Began || e.Phase == NSEventPhase.None && e.MomentumPhase == NSEventPhase.None)
 						scrollWheelHwndHandle = currentHwnd.Handle;
 
 					int delta = ScaleAndQuantizeDelta((float)e.ScrollingDeltaY, e.HasPreciseScrollingDeltas);
