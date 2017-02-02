@@ -37,6 +37,7 @@ using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MonoMac.ObjCRuntime;
 using NMath = System.Math;
+using System.Drawing.Mac;
 #endif
 
 #if SDCOMPAT
@@ -205,11 +206,9 @@ namespace System.Windows.Forms.CocoaInternal
 
 		private void DrawBorders ()
 		{
-			Graphics g;
-
 			switch (hwnd.BorderStyle) {
 			case FormBorderStyle.Fixed3D:
-				using (g = Graphics.FromHwnd (Handle, false)) {
+				using (var g = Graphics.FromHwnd (Handle, false)) {
 					if (hwnd.border_static)
 						ControlPaint.DrawBorder3D (g, new Rectangle (0, 0, hwnd.Width, hwnd.Height), Border3DStyle.SunkenOuter);
 					else
@@ -218,8 +217,9 @@ namespace System.Windows.Forms.CocoaInternal
 				break;
 
 			case FormBorderStyle.FixedSingle:
-				using (g = Graphics.FromHwnd (Handle, false))
-					ControlPaint.DrawBorder (g, new Rectangle (0, 0, hwnd.Width, hwnd.Height), Color.Black, ButtonBorderStyle.Solid);
+				Color color = NSColor.Grid.ToSDColor(); // Color.Black
+				using (var g = Graphics.FromHwnd (Handle, false))
+					ControlPaint.DrawBorder (g, new Rectangle (0, 0, hwnd.Width, hwnd.Height), color, ButtonBorderStyle.Solid);
 				break;
 			}
 		}
