@@ -252,11 +252,11 @@ namespace System.Windows.Forms.CocoaInternal
 			return hit;
 		}
 
-		public void ProcessMouseEvent (NSEvent eventref)
+		public void ProcessMouseEvent (NSEvent e)
 		{
-			ProcessModifiers(eventref);
+			ProcessModifiers(e);
 
-			NSPoint nspoint = eventref.LocationInWindow;
+			NSPoint nspoint = e.LocationInWindow;
 			Point localMonoPoint;
 			Hwnd currentHwnd;
 			bool client = false;
@@ -305,7 +305,7 @@ namespace System.Windows.Forms.CocoaInternal
 				}
 			}
 
-			int button = (int) eventref.ButtonNumber;
+			int button = (int) e.ButtonNumber;
 			if (button >= (int) NSMouseButtons.Excessive)
 				button = (int) NSMouseButtons.X;
 			else if (button == (int) NSMouseButtons.Left && ((driver.ModifierKeys & Keys.Control) != 0))
@@ -317,26 +317,26 @@ namespace System.Windows.Forms.CocoaInternal
 			MSG msg = new MSG ();
 			msg.hwnd = currentHwnd.Handle;
 			msg.lParam = (IntPtr)(localMonoPoint.Y << 16 | (localMonoPoint.X & 0xFFFF));
-			msg.pt = driver.NativeToMonoScreen(Window.ConvertBaseToScreen(eventref.LocationInWindow)).ToPOINT();
+			msg.pt = driver.NativeToMonoScreen(Window.ConvertBaseToScreen(e.LocationInWindow)).ToPOINT();
 			msg.refobject = hwnd;
 
-			switch (eventref.Type) {
+			switch (e.Type) {
 				case NSEventType.LeftMouseDown:
 				case NSEventType.RightMouseDown:
 				case NSEventType.OtherMouseDown:
 					// FIXME: Should be elsewhere
-					if (eventref.ClickCount > 1)
+					if (e.ClickCount > 1)
 						msg.message = (client ? Msg.WM_LBUTTONDBLCLK : Msg.WM_NCLBUTTONDBLCLK) + msgOffset4Button;
 					else
 						msg.message = (client ? Msg.WM_LBUTTONDOWN : Msg.WM_NCLBUTTONDOWN) + msgOffset4Button;
-					msg.wParam = (IntPtr)(ModifiersToWParam(eventref.ModifierFlags) | ButtonNumberToWParam(eventref.ButtonNumber));
+					msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonNumberToWParam(e.ButtonNumber));
 					break;
 
 				case NSEventType.LeftMouseUp:
 				case NSEventType.RightMouseUp:
 				case NSEventType.OtherMouseUp:
 					msg.message = (client ? Msg.WM_LBUTTONUP : Msg.WM_NCLBUTTONUP) + msgOffset4Button;
-					msg.wParam = (IntPtr)(ModifiersToWParam(eventref.ModifierFlags) | ButtonNumberToWParam(eventref.ButtonNumber));
+					msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonNumberToWParam(e.ButtonNumber));
 					break;
 
 				case NSEventType.MouseMoved:
@@ -357,7 +357,7 @@ namespace System.Windows.Forms.CocoaInternal
 					}
 
 					msg.message = (client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE);
-					msg.wParam = (IntPtr)(ModifiersToWParam(eventref.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
+					msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
 					break;
 
 				case NSEventType.ScrollWheel:
@@ -365,13 +365,13 @@ namespace System.Windows.Forms.CocoaInternal
 					if (eventref.Phase == NSEventPhase.Began)
 						scrollWheelHwndHandle = currentHwnd.Handle;
 
-					int delta = ScaleAndQuantizeDelta((float)eventref.ScrollingDeltaY, eventref.HasPreciseScrollingDeltas);
+					int delta = ScaleAndQuantizeDelta((float)e.ScrollingDeltaY, e.HasPreciseScrollingDeltas);
 					if (delta == 0)
 						return;
 
 					msg.hwnd = scrollWheelHwndHandle;
 					msg.message = Msg.WM_MOUSEWHEEL;
-					msg.wParam = (IntPtr)(ModifiersToWParam(eventref.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
+					msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
 					msg.wParam = (IntPtr)(((int)msg.wParam & 0xFFFF) | (delta << 16));
 					msg.lParam = (IntPtr)((msg.pt.x & 0xFFFF)| (msg.pt.y << 16));
 					break;
