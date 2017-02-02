@@ -1714,6 +1714,7 @@ namespace System.Windows.Forms
 			
 			text_format = new StringFormat();
 			text_format.HotkeyPrefix = HotkeyPrefix.Show;
+			text_format.Alignment = StringAlignment.Center;
 
 			size = dc.MeasureString (box.Text, box.Font);
 			width = 0;
@@ -1725,22 +1726,25 @@ namespace System.Windows.Forms
 					width = box.Width - 16;
 			}
 			
-			y = box.Font.Height / 2;
+			y = box.Font.Height / 2 + 1;
 
-			// Clip the are that the text will be in
-			Region prev_clip = dc.Clip;
-			dc.SetClip (new Rectangle (10, 0, width, box.Font.Height), CombineMode.Exclude);
-			/* Draw group box*/
-			CPDrawBorder3D (dc, new Rectangle (0, y, box.Width, box.Height - y), Border3DStyle.Etched, Border3DSide.Left | Border3DSide.Right | Border3DSide.Top | Border3DSide.Bottom, box.BackColor);
-			dc.Clip = prev_clip;
+			Pen pen = ResPool.GetPen(NSColor.Grid.ToSDColor());
 
-			/* Text */
+			// Draw group box
+			Rectangle rText = new Rectangle(10, 0, width, box.Font.Height);
+			Rectangle r = new Rectangle(0, y, box.Width, box.Height - y);
+			dc.DrawLine(pen, r.Left, r.Top, 0, r.Bottom - 1); // left
+			dc.DrawLine(pen, r.Left, r.Bottom - 1, r.Right-1, r.Bottom - 1); // bottom
+			dc.DrawLine(pen, r.Left, r.Top, rText.Left, r.Top); // top-left
+			dc.DrawLine(pen, rText.Right, r.Top, r.Right - 1, r.Top); // top-right
+			dc.DrawLine(pen, r.Right - 1, r.Top, r.Right - 1, r.Bottom - 1); // right
+
+			// Text
 			if (box.Text.Length != 0) {
 				if (box.Enabled) {
-					dc.DrawString (box.Text, box.Font, ResPool.GetSolidBrush (box.ForeColor), 10, 0, text_format);
+					dc.DrawString(box.Text, box.Font, ResPool.GetSolidBrush(box.ForeColor), rText, text_format);
 				} else {
-					CPDrawStringDisabled (dc, box.Text, box.Font, box.BackColor, 
-							      new RectangleF (10, 0, width,  box.Font.Height), text_format);
+					CPDrawStringDisabled(dc, box.Text, box.Font, box.BackColor, rText, text_format);
 				}
 			}
 			
