@@ -272,6 +272,7 @@ namespace System.Drawing
 				// First we need to calculate the offset for Vertical Alignment if we are using anything but Top
 				//if (layoutAvailable && format.LineAlignment != StringAlignment.Near)
 				// Calculate offset and number of lines that can fit bounds
+				if (layoutAvailable)
 				{
 					double y = insetBounds.Y + .5f;
 					while (start < length && y < insetBounds.Bottom) {
@@ -279,7 +280,8 @@ namespace System.Drawing
 						var lineHeight = NMath.Ceiling(1 + GetLineHeight(typesetter, start, count));
 						if (format.LineAlignment == StringAlignment.Far && baselineOffset + lineHeight > layoutRectangle.Height)
 							break;
-						baselineOffset += (float)lineHeight;
+						if (format.LineAlignment != StringAlignment.Near)
+							baselineOffset += (float)lineHeight;
 						start += (int)count;
 						++lines;
 						y += lineHeight;
