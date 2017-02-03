@@ -27,6 +27,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.Drawing.Mac;
 
 #if XAMARINMAC
 using Foundation;
@@ -37,7 +38,6 @@ using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MonoMac.ObjCRuntime;
 using NMath = System.Math;
-using System.Drawing.Mac;
 #endif
 
 #if SDCOMPAT
