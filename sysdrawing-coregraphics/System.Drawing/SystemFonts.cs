@@ -2,8 +2,10 @@ using System;
 
 #if XAMARINMAC
 using AppKit;
+using Foundation;
 #elif MONOMAC
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 #else
 using MonoTouch.UIKit;
 #endif
@@ -44,36 +46,82 @@ namespace System.Drawing {
 			return null;
 		}
 
+		static Font captionFont;
 		public static Font CaptionFont { 
-			get { return new Font (NSFont.TitleBarFontOfSize(NSFont.SystemFontSize)); }
+			get {
+				if (captionFont == null)
+					NSApplication.SharedApplication.InvokeOnMainThread(() => { captionFont = new Font(NSFont.TitleBarFontOfSize(NSFont.SystemFontSize)); });
+				return captionFont;
+			}
 		}
 
+		static Font defaultFont;
 		public static Font DefaultFont  { 
-			get { return new Font (NSFont.LabelFontOfSize(NSFont.LabelFontSize)); }
+			get {
+				if (defaultFont == null)
+					NSApplication.SharedApplication.InvokeOnMainThread(() => { defaultFont = new Font(NSFont.LabelFontOfSize(NSFont.LabelFontSize)); });
+				return defaultFont;
+			}
 		}
 
+		static Font dialogFont;
 		public static Font DialogFont  { 
-			get { return new Font (NSFont.LabelFontOfSize(NSFont.LabelFontSize)); }
+			get
+			{
+				if (dialogFont == null)
+					NSApplication.SharedApplication.InvokeOnMainThread(() => { dialogFont = new Font(NSFont.LabelFontOfSize(NSFont.LabelFontSize)); });
+				return dialogFont;
+			}
 		}
 
+		static Font iconTitleFont;
 		public static Font IconTitleFont  { 
-			get { return new Font (NSFont.LabelFontOfSize(NSFont.LabelFontSize)); }
+			get
+			{
+				if (iconTitleFont == null)
+					NSApplication.SharedApplication.InvokeOnMainThread(() => { iconTitleFont = new Font(NSFont.LabelFontOfSize(NSFont.LabelFontSize)); });
+				return iconTitleFont;
+			}
 		}
 
-		public static Font MenuFont  { 
-			get { return new Font (NSFont.MenuFontOfSize(NSFont.SystemFontSize)); }
+		static Font menuFont;
+		public static Font MenuFont { 
+			get
+			{
+				if (menuFont == null)
+					NSApplication.SharedApplication.InvokeOnMainThread(() => { menuFont = new Font(NSFont.MenuFontOfSize(NSFont.SystemFontSize)); });
+				return menuFont;
+			}
 		}
 
+		static Font messageBoxFont;
 		public static Font MessageBoxFont  { 
-			get { return new Font (NSFont.SystemFontOfSize(NSFont.SmallSystemFontSize)); }
+			get
+			{
+				if (messageBoxFont == null)
+					NSApplication.SharedApplication.InvokeOnMainThread(() => { messageBoxFont = new Font(NSFont.SystemFontOfSize(NSFont.SmallSystemFontSize)); });
+				return messageBoxFont;
+			}
 		}
 
+		static Font smallCaptionFont;
 		public static Font SmallCaptionFont  { 
-			get { return new Font (NSFont.TitleBarFontOfSize(NSFont.SmallSystemFontSize)); }
+			get
+			{
+				if (smallCaptionFont == null)
+					NSApplication.SharedApplication.InvokeOnMainThread(() => { smallCaptionFont = new Font(NSFont.TitleBarFontOfSize(NSFont.SmallSystemFontSize)); });
+				return smallCaptionFont;
+			}
 		}
 
+		static Font statusFont;
 		public static Font StatusFont  { 
-			get { return new Font (NSFont.LabelFontOfSize(NSFont.LabelFontSize)); }
+			get
+			{
+				if (statusFont == null)
+					NSApplication.SharedApplication.InvokeOnMainThread(() => { statusFont = new Font(NSFont.LabelFontOfSize(NSFont.LabelFontSize)); });
+				return statusFont;
+			}
 		}
 	}
 }
