@@ -2126,7 +2126,8 @@ namespace System.Windows.Forms
 			set {
 				if (maximum_size != value) {
 					maximum_size = value;
-					Size = PreferredSize;
+					if (parent != null)
+						parent.PerformLayout(this, "MaximumSize");
 				}
 			}
 		}
@@ -2144,7 +2145,8 @@ namespace System.Windows.Forms
 			set {
 				if (minimum_size != value) {
 					minimum_size = value;
-					Size = PreferredSize;
+					if (parent != null)
+						parent.PerformLayout(this, "MinimumSize");
 				}
 			}
 		}
