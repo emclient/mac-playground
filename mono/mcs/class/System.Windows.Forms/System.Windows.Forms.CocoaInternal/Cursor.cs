@@ -253,16 +253,16 @@ namespace System.Windows.Forms.CocoaInternal {
 					NSCursor.ArrowCursor.Set();
 					break;
 				case StdCursor.SizeNS:
-					NSCursor.ArrowCursor.Set();
+					NSCursor.ResizeUpDownCursor.Set();
 					break;
 				case StdCursor.SizeNWSE:
 					NSCursor.ArrowCursor.Set();
 					break;
 				case StdCursor.SizeWE:
-					NSCursor.ArrowCursor.Set();
+					NSCursor.ResizeLeftRightCursor.Set();
 					break;
 				case StdCursor.UpArrow:
-					NSCursor.ArrowCursor.Set();
+					NSCursor.ResizeUpCursor.Set();
 					break;
 				case StdCursor.VSplit:
 					NSCursor.ResizeLeftRightCursor.Set();
