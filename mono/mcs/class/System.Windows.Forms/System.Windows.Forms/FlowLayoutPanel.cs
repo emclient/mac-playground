@@ -132,32 +132,7 @@ namespace System.Windows.Forms
 			int width = 0;
 			int height = 0;
 			bool horizontal = FlowDirection == FlowDirection.LeftToRight || FlowDirection == FlowDirection.RightToLeft;
-			if (!WrapContents || (horizontal && proposedSize.Width == 0) || (!horizontal && proposedSize.Height == 0)) {
-				int flow_break_add = 0;
-				foreach (Control control in Controls) {
-					if (!control.Visible)
-						continue;
-					Size control_preferred_size;
-					if (control.AutoSize)
-						control_preferred_size = control.GetPreferredSize(proposedSize);
-					else
-						control_preferred_size = control.Size;
-					Padding control_margin = control.Margin;
-					if (horizontal) {
-						width += control_preferred_size.Width + control_margin.Horizontal;
-						height = Math.Max (height, control_preferred_size.Height + control_margin.Vertical);
-					} else {
-						height += control_preferred_size.Height + control_margin.Vertical;
-						width = Math.Max (width, control_preferred_size.Width + control_margin.Horizontal);
-					}
-				}
-				if (horizontal) {
-					height += flow_break_add;
-					height += this.Padding.Vertical;
-				} else {
-					width += this.Padding.Horizontal;
-				}
-			} else {
+
 				int size_in_flow_direction = 0;
 				int size_in_other_direction = 0;
 				int increase;
@@ -175,7 +150,7 @@ namespace System.Windows.Forms
 					Padding control_margin = control.Margin;
 					if (horizontal) {
 						increase = control_preferred_size.Width + control_margin.Horizontal;
-						if (size_in_flow_direction != 0 && size_in_flow_direction + increase >= proposedSize.Width || forceFlowBreak) {
+						if (WrapContents && proposedSize.Width != 0 && size_in_flow_direction != 0 && size_in_flow_direction + increase >= proposedSize.Width || forceFlowBreak) {
 							width = Math.Max (width, size_in_flow_direction);
 							size_in_flow_direction = 0;
 							height += size_in_other_direction;
@@ -186,7 +161,7 @@ namespace System.Windows.Forms
 						margin.Height = Math.Max(margin.Height, control_margin.Vertical);
 					} else {
 						increase = control_preferred_size.Height + control_margin.Vertical;
-						if (size_in_flow_direction != 0 && size_in_flow_direction + increase >= proposedSize.Height || forceFlowBreak) {
+						if (WrapContents && proposedSize.Height != 0 && size_in_flow_direction != 0 && size_in_flow_direction + increase >= proposedSize.Height || forceFlowBreak) {
 							height = Math.Max (height, size_in_flow_direction);
 							size_in_flow_direction = 0;
 							width += size_in_other_direction;
@@ -216,7 +191,6 @@ namespace System.Windows.Forms
 						width += this.Padding.Horizontal;
 					}
 				}
-			}
 			return new Size (width, height);
 		}
 		#endregion
