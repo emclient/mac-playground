@@ -594,12 +594,6 @@ namespace System.Windows.Forms
 
 			int border_width = GetCellBorderWidth (CellBorderStyle);
 			int needed_width = non_percent_total_width + percent_total_width + (border_width * (actual_cols + 1)) + Padding.Horizontal;
-			#if USE_INITIAL_ANCHOR_VALUES
-			if (proposedSize.Width != 0 && needed_width > proposedSize.Width) {
-				needed_width = Math.Max (needed_width - percent_total_width, proposedSize.Width);
-			}
-			#endif // USE_INITIAL_ANCHOR_VALUES
-				
 
 			// Figure out how tall the owner needs to be
 			int[] row_heights = new int[actual_rows];
@@ -663,12 +657,6 @@ namespace System.Windows.Forms
 			}
 
 			int needed_height = non_percent_total_height + percent_total_height + (border_width * (actual_rows + 1)) + Padding.Vertical;
-			#if USE_INITIAL_ANCHOR_VALUES
-			if (proposedSize.Height != 0 && needed_height > proposedSize.Height) {
-				needed_width = Math.Max (needed_height - percent_total_height, proposedSize.Width);
-			}
-			#endif // USE_INITIAL_ANCHOR_VALUES
-
 			return new Size (needed_width, needed_height);
 		}
 

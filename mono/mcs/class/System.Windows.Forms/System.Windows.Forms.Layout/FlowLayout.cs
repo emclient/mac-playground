@@ -84,7 +84,7 @@ namespace System.Windows.Forms.Layout
 			}
 
 			bool forceFlowBreak = false;
-
+			bool wrap = settings.WrapContents;
 			List<Control> rowControls = new List<Control> ();
 
 			foreach (Control c in parent.Controls) {
@@ -102,8 +102,7 @@ namespace System.Windows.Forms.Layout
 					case FlowDirection.BottomUp:
 						// Decide if it's time to start a new column
 						// - Our settings must be WrapContents, and we ran out of room or the previous control's FlowBreak == true
-						if (settings.WrapContents)
-							if ((currentLocation.Y) < (c.Height + c.Margin.Top + c.Margin.Bottom) || forceFlowBreak) {
+							if (wrap && (currentLocation.Y) < (c.Height + c.Margin.Top + c.Margin.Bottom) || forceFlowBreak) {
 
 								currentLocation.X = FinishColumn (rowControls);
 								currentLocation.Y = parentDisplayRectangle.Bottom;
@@ -123,8 +122,8 @@ namespace System.Windows.Forms.Layout
 					default:
 						// Decide if it's time to start a new row
 						// - Our settings must be WrapContents, and we ran out of room or the previous control's FlowBreak == true
-						if (settings.WrapContents  && !(parent is ToolStripPanel))
-							if ((parentDisplayRectangle.Width + parentDisplayRectangle.Left - currentLocation.X) < (c.Width + c.Margin.Left + c.Margin.Right) || forceFlowBreak) {
+						if ((wrap || forceFlowBreak) && !(parent is ToolStripPanel))
+							if (wrap && (parentDisplayRectangle.Width + parentDisplayRectangle.Left - currentLocation.X) < (c.Width + c.Margin.Left + c.Margin.Right) || forceFlowBreak) {
 
 								currentLocation.Y = FinishRow (rowControls);
 								currentLocation.X = parentDisplayRectangle.Left;
@@ -143,8 +142,7 @@ namespace System.Windows.Forms.Layout
 					case FlowDirection.RightToLeft:
 						// Decide if it's time to start a new row
 						// - Our settings must be WrapContents, and we ran out of room or the previous control's FlowBreak == true
-						if (settings.WrapContents)
-							if ((currentLocation.X) < (c.Width + c.Margin.Left + c.Margin.Right) || forceFlowBreak) {
+							if (wrap && (currentLocation.X) < (c.Width + c.Margin.Left + c.Margin.Right) || forceFlowBreak) {
 
 								currentLocation.Y = FinishRow (rowControls);
 								currentLocation.X = parentDisplayRectangle.Right;
@@ -163,8 +161,7 @@ namespace System.Windows.Forms.Layout
 					case FlowDirection.TopDown:
 						// Decide if it's time to start a new column
 						// - Our settings must be WrapContents, and we ran out of room or the previous control's FlowBreak == true
-						if (settings.WrapContents)
-							if ((parentDisplayRectangle.Height + parentDisplayRectangle.Top - currentLocation.Y) < (c.Height + c.Margin.Top + c.Margin.Bottom) || forceFlowBreak) {
+							if (wrap && (parentDisplayRectangle.Height + parentDisplayRectangle.Top - currentLocation.Y) < (c.Height + c.Margin.Top + c.Margin.Bottom) || forceFlowBreak) {
 
 								currentLocation.X = FinishColumn (rowControls);
 								currentLocation.Y = parentDisplayRectangle.Top;
@@ -351,7 +348,7 @@ namespace System.Windows.Forms.Layout
 			}
 
 			bool forceFlowBreak = false;
-
+			bool wrap = settings.WrapContents;
 			List<ToolStripItem> rowControls = new List<ToolStripItem> ();
 
 			foreach (ToolStripItem c in parent.Items) {
@@ -366,8 +363,7 @@ namespace System.Windows.Forms.Layout
 					case FlowDirection.BottomUp:
 						// Decide if it's time to start a new column
 						// - Our settings must be WrapContents, and we ran out of room or the previous control's FlowBreak == true
-						if (settings.WrapContents)
-							if ((currentLocation.Y) < (c.Height + c.Margin.Top + c.Margin.Bottom) || forceFlowBreak) {
+						if (wrap && currentLocation.Y < (c.Height + c.Margin.Top + c.Margin.Bottom) || forceFlowBreak) {
 
 								currentLocation.X = FinishColumn (rowControls);
 								currentLocation.Y = parentDisplayRectangle.Bottom;
@@ -387,8 +383,7 @@ namespace System.Windows.Forms.Layout
 					default:
 						// Decide if it's time to start a new row
 						// - Our settings must be WrapContents, and we ran out of room or the previous control's FlowBreak == true
-						if (settings.WrapContents)
-							if ((parentDisplayRectangle.Width - currentLocation.X) < (c.Width + c.Margin.Left + c.Margin.Right) || forceFlowBreak) {
+							if (wrap && (parentDisplayRectangle.Width - currentLocation.X) < (c.Width + c.Margin.Left + c.Margin.Right) || forceFlowBreak) {
 
 								currentLocation.Y = FinishRow (rowControls);
 								currentLocation.X = parentDisplayRectangle.Left;
@@ -407,8 +402,7 @@ namespace System.Windows.Forms.Layout
 					case FlowDirection.RightToLeft:
 						// Decide if it's time to start a new row
 						// - Our settings must be WrapContents, and we ran out of room or the previous control's FlowBreak == true
-						if (settings.WrapContents)
-							if ((currentLocation.X) < (c.Width + c.Margin.Left + c.Margin.Right) || forceFlowBreak) {
+							if (wrap && (currentLocation.X) < (c.Width + c.Margin.Left + c.Margin.Right) || forceFlowBreak) {
 
 								currentLocation.Y = FinishRow (rowControls);
 								currentLocation.X = parentDisplayRectangle.Right;
@@ -427,8 +421,7 @@ namespace System.Windows.Forms.Layout
 					case FlowDirection.TopDown:
 						// Decide if it's time to start a new column
 						// - Our settings must be WrapContents, and we ran out of room or the previous control's FlowBreak == true
-						if (settings.WrapContents)
-							if ((parentDisplayRectangle.Height - currentLocation.Y) < (c.Height + c.Margin.Top + c.Margin.Bottom) || forceFlowBreak) {
+							if (wrap && (parentDisplayRectangle.Height - currentLocation.Y) < (c.Height + c.Margin.Top + c.Margin.Bottom) || forceFlowBreak) {
 
 								currentLocation.X = FinishColumn (rowControls);
 								currentLocation.Y = parentDisplayRectangle.Top;
