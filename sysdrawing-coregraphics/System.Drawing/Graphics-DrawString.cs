@@ -241,6 +241,7 @@ namespace System.Drawing
 			int length = (int)attributedString.Length;
 			float baselineOffset = 0;
 			bool noWrap = (format.FormatFlags & StringFormatFlags.NoWrap) != 0;
+			bool wholeLines = (format.FormatFlags & StringFormatFlags.LineLimit) != 0;
 
 			var typesetter = new CTTypesetter(attributedString);
 			int lines = 0;
@@ -251,7 +252,8 @@ namespace System.Drawing
 				while (start < length)
 				{
 					var count = noWrap ? length : (int)typesetter.SuggestLineBreak (start, insetBounds.Height);
-					var lineHeight = NMath.Ceiling(1 + GetLineHeight(typesetter, start, count)); // +1 matches best to CTFramesetter's behavior
+					var line = typesetter.GetLine(new NSRange(start, count));
+					var lineHeight  = NMath.Ceiling(1 + GetLineHeight(typesetter, start, count)); // +1 matches best to CTFramesetter's behavior
 					//if (format.LineAlignment == StringAlignment.Far && baselineOffset + lineHeight > layoutRectangle.Height)
 					//	break;
 					baselineOffset += (float)lineHeight;
@@ -277,7 +279,14 @@ namespace System.Drawing
 					double y = insetBounds.Y + .5f;
 					while (start < length && y < insetBounds.Bottom) {
 						var count = noWrap ? length : (int)typesetter.SuggestLineBreak (start, insetBounds.Width);
-						var lineHeight = NMath.Ceiling(1 + GetLineHeight(typesetter, start, count));
+						nfloat ascent, descent, leading;
+						var line = typesetter.GetLine(new NSRange(start, count));
+						line.GetTypographicBounds(out ascent, out descent, out leading);
+						var lineHeight = NMath.Ceiling(ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior  
+
+						if (wholeLines && y + lineHeight > insetBounds.Bottom + 0.5f) // LineLimit flag
+							break;
+
 						if (format.LineAlignment == StringAlignment.Far && baselineOffset + lineHeight > layoutRectangle.Height)
 							break;
 						if (format.LineAlignment != StringAlignment.Near)
@@ -308,6 +317,9 @@ namespace System.Drawing
 				nfloat ascent, descent, leading;
 				var lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
 				var lineHeight = NMath.Ceiling(ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior  
+
+				if (wholeLines && textPosition.Y + lineHeight > insetBounds.Bottom + 0.5f) // LineLimit flag
+					break;
 
 				// Calculate the string format if need be
 				var penFlushness = 0.0f;
