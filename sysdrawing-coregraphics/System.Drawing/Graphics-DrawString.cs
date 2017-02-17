@@ -180,10 +180,7 @@ namespace System.Drawing
 			var saveMatrix = context.TextMatrix;
 			bool layoutAvailable = true;
 
-			//			context.SelectFont ( font.nativeFont.PostScriptName,
-			//			                    font.SizeInPoints,
-			//			                    CGTextEncoding.MacRoman);
-			//
+			//			context.SelectFont(font.nativeFont.PostScriptName, font.SizeInPoints, CGTextEncoding.MacRoman);
 			//			context.SetCharacterSpacing(1);
 			//			context.SetTextDrawingMode(CGTextDrawingMode.Fill); // 5
 			//			
@@ -192,13 +189,9 @@ namespace System.Drawing
 			//			brush.Setup(this, false);
 			//
 			//			var textMatrix = font.nativeFont.Matrix;
-			//
 			//			textMatrix.Scale(1,-1);
 			//			context.TextMatrix = textMatrix;
-			//
-			//			context.ShowTextAtPoint(layoutRectangle.X, 
-			//			                        layoutRectangle.Y + font.nativeFont.CapHeightMetric, s); 
-			//
+			//			context.ShowTextAtPoint(layoutRectangle.X, layoutRectangle.Y + font.nativeFont.CapHeightMetric, s); 
 			//
 			// First we call the brush with a fill of false so the brush can setup the stroke color
 			// that the text will be using.
@@ -252,7 +245,7 @@ namespace System.Drawing
 				while (start < length)
 				{
 					var count = noWrap ? length : (int)typesetter.SuggestLineBreak (start, insetBounds.Height);
-					var line = typesetter.GetLine(new NSRange(start, count));
+					typesetter.GetLine(new NSRange(start, count));
 					var lineHeight  = NMath.Ceiling(1 + GetLineHeight(typesetter, start, count)); // +1 matches best to CTFramesetter's behavior
 					//if (format.LineAlignment == StringAlignment.Far && baselineOffset + lineHeight > layoutRectangle.Height)
 					//	break;
@@ -363,33 +356,36 @@ namespace System.Drawing
 				}
 
 				// initialize our Text Matrix or we could get trash in here
-				var textMatrix = new CGAffineTransform (
-					1, 0, 0, -1, 0, ascent);
-
-				if (format.LineAlignment == StringAlignment.Near)
-					textMatrix.Translate (penFlushness + textPosition.X, textPosition.Y); 
-				if (format.LineAlignment == StringAlignment.Center) 
+				nfloat x = textPosition.X + penFlushness;
+				nfloat y = textPosition.Y;
+				switch (format.LineAlignment)
 				{
-					if (layoutAvailable)
-						textMatrix.Translate (penFlushness + textPosition.X, textPosition.Y + ((boundsHeight / 2) - (baselineOffset / 2)));
-					else
-						textMatrix.Translate (penFlushness + textPosition.X, textPosition.Y - ((boundsHeight / 2) - (baselineOffset / 2)));
+					case StringAlignment.Center:
+						y += (layoutAvailable ? 1 : -1) * ((boundsHeight / 2) - (baselineOffset / 2));
+						break;
+					case StringAlignment.Far:
+						y += (layoutAvailable ? 1 : -1) * ((boundsHeight) - (baselineOffset));
+						break;
 				}
-
-				if (format.LineAlignment == StringAlignment.Far) 
-				{
-					if (layoutAvailable)
-						textMatrix.Translate (penFlushness + textPosition.X, textPosition.Y + ((boundsHeight) - (baselineOffset)));
-					else
-						textMatrix.Translate (penFlushness + textPosition.X, textPosition.Y - ((boundsHeight) - (baselineOffset)));
-				}
-
+				var textMatrix = new CGAffineTransform(1, 0, 0, -1, 0, ascent);
+				textMatrix.Translate(x, y);
 				context.TextMatrix = textMatrix;
 
 				// Make sure that the line still exists, it may be null if it's too small to render any text and wants StringTrimming
 				if (null != line) {
 					line.Draw (context);
 					line.Dispose ();
+
+					// Currently we support strikethrough only at the font level (for a whole text, not for ranges). It seems CoreText does not handle it for us.
+					if (font.Strikeout)
+					{
+						var sy = y + ascent - font.nativeFont.XHeightMetric / (nfloat)2.0;
+						context.MoveTo(x, sy);
+						context.AddLineToPoint(x + (nfloat)lineWidth, sy);
+						context.SetStrokeColor(lastBrushColor.ToCGColor());
+						context.SetLineWidth(1);
+						context.StrokePath();
+					}
 				}
 
 				// Move the index beyond the line break.
@@ -419,9 +415,7 @@ namespace System.Drawing
 
 			if (fontColor.HasValue)
 			{
-				var fc = fontColor.Value;
-				var cgColor = new CGColor(fc.R / 255f, fc.G / 255f, fc.B / 255f, fc.A / 255f);
-				ctAttributes.ForegroundColor = cgColor;
+				ctAttributes.ForegroundColor = fontColor.Value.ToCGColor();
 				ctAttributes.ForegroundColorFromContext = false;
 			}
 
@@ -430,17 +424,12 @@ namespace System.Drawing
 				ctAttributes.UnderlineStyle = CTUnderlineStyle.Single;
 			}
 
-			if (font.Strikeout)
-			{
-#if MONOMAC
-				int single = (int)MonoMac.AppKit.NSUnderlineStyle.Single;
-				int solid = (int)MonoMac.AppKit.NSUnderlinePattern.Solid;
-				var attss = single | solid;
-				ctAttributes.UnderlineStyleValue = attss;
-#else
-				ctAttributes.UnderlineStyleValue = 1;
-#endif
-			}
+			//if (font.Strikeout)
+			//{
+			//	// Not used by CoreText, we have to process it ourselves
+			//	ctAttributes.Dictionary.SetValueForKey(NSNumber.FromInt32(1), NSAttributedString.StrikethroughStyleAttributeName);
+			//	ctAttributes.Dictionary.SetValueForKey(new NSObject(new CGColor(0.0f, 1.0f).Handle), NSAttributedString.StrikethroughColorAttributeName);
+			//}
 
 			var alignment = CTTextAlignment.Left;
 			var alignmentSettings = new CTParagraphStyleSettings();
@@ -489,6 +478,14 @@ namespace System.Drawing
 					}
 				}
 			}
+
+			//if (font.Strikeout)
+			//{
+			//	// Not used by CoreText, we have to process it ourselves
+			//	atts.AddAttribute(NSAttributedString.StrikethroughStyleAttributeName, new NSNumber(1), new NSRange(0, atts.Length));
+			//	if (fontColor.HasValue)
+			//		atts.AddAttribute(NSAttributedString.StrikethroughColorAttributeName, new NSObject(fontColor.Value.ToCGColor().Handle), new NSRange(0, atts.Length));
+			//}
 
 			return atts;
 		}
