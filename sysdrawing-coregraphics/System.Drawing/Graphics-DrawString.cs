@@ -314,25 +314,8 @@ namespace System.Drawing
 				if (wholeLines && textPosition.Y + lineHeight > insetBounds.Bottom + 0.5f) // LineLimit flag
 					break;
 
-				// Calculate the string format if need be
-				var penFlushness = 0.0f;
-				if (layoutAvailable) 
-				{
-					if (format.Alignment == StringAlignment.Far)
-						penFlushness = (float)line.GetPenOffsetForFlush(1.0f, boundsWidth);
-					else if (format.Alignment == StringAlignment.Center)
-						penFlushness = (float)line.GetPenOffsetForFlush(0.5f, boundsWidth);
-				}
-				else 
-				{
-					// We were only passed in a point so we need to format based on the point.
-					if (format.Alignment == StringAlignment.Far)
-						penFlushness -= (float)lineWidth;
-					else if (format.Alignment == StringAlignment.Center)
-						penFlushness -= (float)lineWidth / 2.0f;
-				}
-
 				// Note: trimming may return a null line i.e. not enough space for any characters
+				bool ellipsisApplied = true;
 				switch (format.Trimming)
 				{
 					case StringTrimming.Character:
@@ -351,8 +334,31 @@ namespace System.Drawing
 							line = line.GetTruncatedLine (boundsWidth, CTLineTruncation.Middle, ellipsisToken);
 						break;
 					default:
+						ellipsisApplied = false;
 						//Console.WriteLine ("Graphics-DrawString.cs unimplemented StringTrimming " + format.Trimming);
 						break;
+				}
+
+				// Applying ellipsis changes line width and that affects horizontal alignment and strikeout, if any.
+				if (ellipsisApplied && line != null)
+					lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
+
+				// Calculate the string format if need be
+				var penFlushness = 0.0f;
+				if (layoutAvailable)
+				{
+					if (format.Alignment == StringAlignment.Far)
+						penFlushness = (float)line.GetPenOffsetForFlush(1.0f, boundsWidth);
+					else if (format.Alignment == StringAlignment.Center)
+						penFlushness = (float)line.GetPenOffsetForFlush(0.5f, boundsWidth);
+				}
+				else
+				{
+					// We were only passed in a point so we need to format based on the point.
+					if (format.Alignment == StringAlignment.Far)
+						penFlushness -= (float)lineWidth;
+					else if (format.Alignment == StringAlignment.Center)
+						penFlushness -= (float)lineWidth / 2.0f;
 				}
 
 				// initialize our Text Matrix or we could get trash in here
