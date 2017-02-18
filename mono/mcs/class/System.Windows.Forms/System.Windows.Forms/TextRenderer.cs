@@ -215,6 +215,11 @@ namespace System.Windows.Forms
 
 				if (text != null && text.Length > 0) {
 					StringFormat sf = FlagsToStringFormat(flags);
+
+					// It seems that Win32 TextRenderer behaves likes this
+					if ((flags & TextFormatFlags.WordBreak) == 0)
+						sf.FormatFlags |= StringFormatFlags.LineLimit; 
+					
 					Rectangle new_bounds = PadDrawStringRectangle(bounds, flags);
 					g.DrawString(text, font, ThemeEngine.Current.ResPool.GetSolidBrush(foreColor), new_bounds, sf);
 				}
