@@ -244,7 +244,7 @@ namespace System.Drawing
 				//var verticalOffset = 0.0f;
 				while (start < length)
 				{
-					var count = noWrap ? length : (int)typesetter.SuggestLineBreak (start, insetBounds.Height);
+					var count = (int)typesetter.SuggestLineBreak (start, noWrap ? double.MaxValue : insetBounds.Height);
 					typesetter.GetLine(new NSRange(start, count));
 					var lineHeight  = NMath.Ceiling(1 + GetLineHeight(typesetter, start, count)); // +1 matches best to CTFramesetter's behavior
 					//if (format.LineAlignment == StringAlignment.Far && baselineOffset + lineHeight > layoutRectangle.Height)
@@ -271,7 +271,7 @@ namespace System.Drawing
 				{
 					double y = insetBounds.Y + .5f;
 					while (start < length && y < insetBounds.Bottom) {
-						var count = noWrap ? length : (int)typesetter.SuggestLineBreak (start, insetBounds.Width);
+						var count = (int)typesetter.SuggestLineBreak(start, noWrap ? double.MaxValue : insetBounds.Width);
 						nfloat ascent, descent, leading;
 						var line = typesetter.GetLine(new NSRange(start, count));
 						line.GetTypographicBounds(out ascent, out descent, out leading);
@@ -303,7 +303,7 @@ namespace System.Drawing
 				// This also will take into account line feeds embedded in the text.
 				//  Example: "This is text \n with a line feed embedded inside it"
 				var trimmingLastLineNow = currentLine == lines - 1 && format.Trimming != StringTrimming.None;
-				var count = noWrap || trimmingLastLineNow ? (length - start) : typesetter.SuggestLineBreak(start, boundsWidth);
+				var count = (int)typesetter.SuggestLineBreak(start, noWrap || trimmingLastLineNow ? double.MaxValue : boundsWidth);
 				var line = typesetter.GetLine(new NSRange(start, count));
 
 				// Create and initialize some values from the bounds.

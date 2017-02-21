@@ -218,7 +218,7 @@ namespace System.Windows.Forms
 
 					// It seems that Win32 TextRenderer behaves likes this
 					if ((flags & TextFormatFlags.WordBreak) == 0)
-						sf.FormatFlags |= StringFormatFlags.LineLimit; 
+						sf.FormatFlags |= StringFormatFlags.NoWrap;
 					
 					Rectangle new_bounds = PadDrawStringRectangle(bounds, flags);
 					g.DrawString(text, font, ThemeEngine.Current.ResPool.GetSolidBrush(foreColor), new_bounds, sf);
