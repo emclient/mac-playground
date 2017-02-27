@@ -658,6 +658,15 @@ namespace System.Windows.Forms
 
 			int needed_height = non_percent_total_height + percent_total_height + (border_width * (actual_rows + 1)) + Padding.Vertical;
 
+			// When both autosized and anchored to left AND right or top AND bottom, yield anchoring,
+			// but use calculated autosize value for the other direction.
+			var mask = AnchorStyles.Left | AnchorStyles.Right;
+			if (AutoSize && proposedSize.Width != 0 && (this.Anchor & mask) == mask)
+				needed_width = proposedSize.Width - Bounds.Left - DistanceRight;
+			mask = AnchorStyles.Top | AnchorStyles.Bottom;
+			if (AutoSize && proposedSize.Height != 0 && (this.Anchor & mask) == mask)
+				needed_height = proposedSize.Height - Bounds.Top - DistanceBottom;
+
 			return new Size (needed_width, needed_height);
 		}
 
