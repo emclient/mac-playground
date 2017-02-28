@@ -795,5 +795,14 @@ namespace WinApi
 			}
 		}
 
+		public static bool ShutdownBlockReasonCreate(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)] string pwszReason)
+		{
+			return true;
+		}
+
+		public static bool ShutdownBlockReasonDestroy(IntPtr hWnd)
+		{
+			return true;
+		}
 	}
 }

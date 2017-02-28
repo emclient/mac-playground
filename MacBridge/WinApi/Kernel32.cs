@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace WinApi
 {
@@ -62,6 +63,12 @@ namespace WinApi
 		{
 			NotImplemented(MethodBase.GetCurrentMethod());
 			return 0;
+		}
+
+		public static int GetLongPathName(string path, StringBuilder pszPath, int cchPath)
+		{
+			pszPath.Append(path);
+			return path.Length;
 		}
 	}
 }
