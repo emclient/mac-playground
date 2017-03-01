@@ -39,7 +39,13 @@ namespace System.Drawing
 			if (stringFormat == null)
 				throw new ArgumentException ("stringFormat");
 
-			throw new NotImplementedException ();
+			// FIXME
+			int n = stringFormat.measurableCharacterRanges != null ? stringFormat.measurableCharacterRanges.Length : 0;
+			Region[] regions = new Region[n];
+			for (int i = 0; i < n; ++i)
+				regions[i] = new Region(); //layoutRect);
+
+			return regions;
 		}
 
 		public SizeF MeasureString (string text, Font font)
