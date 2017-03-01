@@ -678,7 +678,7 @@ namespace WinApi
 
 		internal static void SendInput(INPUT input)
 		{
-			switch (input.type)
+			switch (input.Type)
 			{
 				case InputType.MOUSE: SendMouse(input); break;
 				case InputType.KEYBOARD: SendKey(input); break;
@@ -694,11 +694,11 @@ namespace WinApi
 				var q = CGEventGetLocation(e);
 				CFRelease(e);
 
-				var p = new CGPoint(q.X + input.U.mi.dx, q.Y + input.U.mi.dy);
+				var p = new CGPoint(q.X + input.Data.Mouse.X, q.Y + input.Data.Mouse.Y);
 
 				CGEventType type;
 				CGMouseButton button;
-				ToTypeAndButton(input.U.mi.dwFlags, out type, out button);
+				ToTypeAndButton(input.Data.Mouse.Flags, out type, out button);
 				e = CGEventCreateMouseEvent(IntPtr.Zero, type, p, button);
 				CGEventPost(CGEventTapLocation.HID, e);
 				CFRelease(e);
