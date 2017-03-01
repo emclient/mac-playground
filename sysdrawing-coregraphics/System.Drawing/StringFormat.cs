@@ -39,6 +39,7 @@ namespace System.Drawing {
 
 		StringFormatFlags formatFlags = 0;
 		HotkeyPrefix hotkeyPrefix;
+		internal CharacterRange[] measurableCharacterRanges;
 
 		public StringFormat ()
 		{
@@ -130,8 +131,8 @@ namespace System.Drawing {
 		}
 		
   		public void SetMeasurableCharacterRanges (CharacterRange [] ranges)
-		{					
-			throw new NotImplementedException ();
+		{
+			this.measurableCharacterRanges = ranges;
 		}
 		
 		public void SetTabStops(float firstTabOffset, float[] tabStops)

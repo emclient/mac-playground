@@ -53,6 +53,7 @@ using nfloat = System.Single;
 
 namespace System.Drawing 
 {
+	using Reflection;
 
 	// Clipper lib definitions
 	using Path = List<IntPoint>;
@@ -204,14 +205,14 @@ namespace System.Drawing
 
 		public IntPtr GetHrgn(Graphics g)
 		{
+			NotImplemented(MethodBase.GetCurrentMethod());
 			return IntPtr.Zero;
-			throw new NotSupportedException ();
 		}
 
 		public static Region FromHrgn(IntPtr hrgn)
 		{
+			NotImplemented(MethodBase.GetCurrentMethod());
 			return null;
-			throw new NotSupportedException ();
 		}
 
 		internal static Path PointFArrayToIntArray(PointF[] points, float scale)
@@ -298,13 +299,13 @@ namespace System.Drawing
 			if (g == null)
 				throw new ArgumentNullException ("g");
 
-			throw new NotImplementedException ();
+			//FIXME
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return ReferenceEquals(this, region);
 		}
 		
 		public Region Clone ()
 		{
-
-
 			var region = new Region ();
 			region.solution = this.solution;
 			region.regionPath = this.regionPath;
@@ -329,7 +330,10 @@ namespace System.Drawing
 		{
 			if (g == null)
 				throw new ArgumentNullException ();
-			throw new NotImplementedException ();
+
+			// FIXME
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return GetBounds();
 		}
 
 //		public bool IsInfinite(Graphics g)
@@ -556,7 +560,6 @@ namespace System.Drawing
 
 		internal RectangleF GetBounds()
 		{
-
 			return new RectangleF((float)regionBounds.X, (float)regionBounds.Y, (float)regionBounds.Width, (float)regionBounds.Height);
 		}
 
@@ -636,10 +639,16 @@ namespace System.Drawing
 		public RectangleF[] GetRegionScans(Matrix matrix)
 		{
 			if (matrix == null)
-				throw new ArgumentNullException ("matrix");
+				throw new ArgumentNullException("matrix");
 
 			// FIXME
-			throw new NotImplementedException();
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return new RectangleF[] { this.GetBounds() };
 		}		
+
+		static void NotImplemented(MethodBase methodBase)
+		{
+			System.Diagnostics.Debug.WriteLine("Not implemented:" + methodBase.Name);
+		}
 	}
 }
