@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B4EC0CE4-2761-4BB7-B1EF-02186EA9A05F}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ResGen</RootNamespace>
+    <AssemblyName>ResGen</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="monoresgen.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Xml" />
+    <Reference Include="System" />
+    <Reference Include="Microsoft.Build" />
+    <Reference Include="Microsoft.Build.Utilities.v4.0" />
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj">
+      <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
+      <Name>System.Windows.Forms-net_4_5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing %28CoreGraphics%29.csproj">
+      <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
+      <Name>System.Drawing (CoreGraphics)</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
