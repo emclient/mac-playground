@@ -284,6 +284,9 @@ namespace System.Windows.Forms.Layout
 				index++;
 			}
 
+			// Support for shrinking table horizontally (if it has both AutoSize and Dock.Fill styles and if it exceeds given width).
+			int[] col_reserves = new int[panel.column_widths.Length];
+
 			// Next, assign all the AutoSize columns to the width of their widest
 			// control.  If the table-layout is auto-sized, then make sure that
 			// no column with Percent styling clips its contents.
@@ -297,6 +300,7 @@ namespace System.Windows.Forms.Layout
 					|| (panel.AutoSize && cs.SizeType == SizeType.Percent))
 					{
 						int max_width = panel.column_widths[index];
+						int min_reserve = int.MaxValue;
 
 						// Find the widest control in the column
 						for (int i = 0; i < rows; i ++)
@@ -317,6 +321,10 @@ namespace System.Windows.Forms.Layout
 								else
 									max_width = Math.Max (max_width, c.ExplicitBounds.Width + c.Margin.Horizontal);
 								//max_width = Math.Max (max_width, c.Width + c.Margin.Left + c.Margin.Right);
+
+								// How much can we shrink this column if necessary
+								if (c.Dock == DockStyle.Fill)
+									min_reserve = Math.Min(min_reserve, c.ExplicitBounds.Width - c.MinimumSize.Width + c.Margin.Horizontal);
 							}
 						}
 
@@ -331,10 +339,18 @@ namespace System.Windows.Forms.Layout
 							panel.column_widths[index] += max_width;
 							total_width -= max_width;
 						}
+
+						// If necessary, decrease the col's reserve
+						if (min_reserve < col_reserves[index] || 0 == col_reserves[index])
+							col_reserves[index] = min_reserve;
 					}
 				}
 			}
-			
+
+			// Shrink the table horizontally by shrinking it's columns, if necessary.
+			if (panel.Dock == DockStyle.Fill)
+				total_width -= Shrink(panel.column_widths, col_reserves, parentDisplayRectangle.Width - (border_width * (columns + 1)), max_colspan, col_styles.Count);
+
 			index = 0;
 			float total_percent = 0;
 			
@@ -399,6 +415,9 @@ namespace System.Windows.Forms.Layout
 
 			index = 0;
 
+			// Support for shrinking table vertically (if it has both AutoSize and Dock.Fill styles and if it exceeds parent's height).
+			int[] row_reserves = new int[panel.row_heights.Length];
+
 			// Next, assign all the AutoSize rows to the height of their tallest
 			// control.  If the table-layout is auto-sized, then make sure that
 			// no row with Percent styling clips its contents.
@@ -412,6 +431,7 @@ namespace System.Windows.Forms.Layout
 					|| (panel.AutoSize && rs.SizeType == SizeType.Percent))
 					{
 						int max_height = panel.row_heights[index];
+						int min_reserve = int.MaxValue;
 
 						// Find the tallest control in the row
 						for (int i = 0; i < columns; i++) {
@@ -431,6 +451,10 @@ namespace System.Windows.Forms.Layout
 								else
 									max_height = Math.Max (max_height, c.ExplicitBounds.Height + c.Margin.Vertical);
 								//max_height = Math.Max (max_height, c.Height + c.Margin.Top + c.Margin.Bottom);
+
+								// How much can we shrink this row if necessary
+								if (c.Dock == DockStyle.Fill)
+									min_reserve = Math.Min(min_reserve, c.ExplicitBounds.Height - c.MinimumSize.Height + c.Margin.Vertical);
 							}
 						}
 
@@ -445,9 +469,17 @@ namespace System.Windows.Forms.Layout
 							panel.row_heights[index] += max_height;
 							total_height -= max_height;
 						}
+
+						// If necessary, decrease the row's reserve
+						if (min_reserve < row_reserves[index] || 0 == row_reserves[index])
+							row_reserves[index] = min_reserve;
 					}
 				}
 			}
+
+			// Shrink the table vertically by shrinking it's rows, if necessary
+			if (panel.Dock == DockStyle.Fill)
+				total_height -= Shrink(panel.row_heights, row_reserves, parentDisplayRectangle.Height - (border_width * (rows + 1)), max_rowspan, row_styles.Count);
 
 			index = 0;
 			total_percent = 0;
@@ -493,7 +525,58 @@ namespace System.Windows.Forms.Layout
 				panel.row_heights[row] += total_height;
 			}
 		}
-		
+
+		// Shrinks values in 'sizes' array using values in 'reserves' array, so that the sum of 'sizes' does not exceed the 'max'.
+		// The max_span and styles_count represent max_colspan, max_rowspan and row_styles.Count, column_styles.Count values. 
+		// The 'reserves' array tells how much can be appropriate values in 'sizes' decreased. The 'int.Max' or '0'
+		// values mean the size can not be decreased.
+		internal static int Shrink(int[] sizes, int[] reserves, int max, int max_span, int styles_count)
+		{
+			int saved = 0;
+			int sum = (int)Sum(sizes);
+			if (sum > max)
+			{
+				int overlap = sum - max;
+				int n = CountNonZeroNonMax(reserves);
+				if (n != 0)
+				{
+					int step = overlap < n ? 1 : overlap / n;
+					for (int span = 0; span < max_span && overlap > 0; ++span)
+					{
+						for (int index = span; index < styles_count - span && overlap > 0; ++index)
+						{
+							int reserve = reserves[index];
+							if (reserve > 0 && reserve != int.MaxValue)
+							{
+								int d = step > reserve ? reserve : step;
+								sizes[index] -= d;
+								overlap -= d;
+								saved += d;
+							}
+						}
+					}
+				}
+			}
+			return saved;
+		}
+
+		internal static long Sum(int[] array)
+		{
+			long sum = 0;
+			foreach (int val in array)
+				sum += val;
+			return sum;
+		}
+
+		internal static int CountNonZeroNonMax(int[] array)
+		{
+			int n = 0;
+			foreach (int val in array)
+				if (val != 0 && val != int.MaxValue)
+					++n;				
+			return n;
+		}
+
 		private void LayoutControls (TableLayoutPanel panel)
 		{
 			TableLayoutSettings settings = panel.LayoutSettings;
