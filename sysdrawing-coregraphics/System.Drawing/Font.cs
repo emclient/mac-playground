@@ -109,10 +109,22 @@ namespace System.Drawing
 		{
 		}
 
-		#region ISerializable implementation
-		public void GetObjectData (SerializationInfo info, StreamingContext context)
+		private Font(SerializationInfo info, StreamingContext context)
+			: this(
+				(string)info.GetValue("Name", typeof(string)),
+				(float)info.GetValue("Size", typeof(float)),
+				(FontStyle)info.GetValue("Style", typeof(FontStyle)),
+				(GraphicsUnit)info.GetValue("Unit", typeof(GraphicsUnit)))
 		{
-			throw new NotImplementedException ();
+		}
+
+		#region ISerializable implementation
+		void ISerializable.GetObjectData (SerializationInfo info, StreamingContext context)
+		{
+			info.AddValue("Name", Name);
+			info.AddValue("Size", Size);
+			info.AddValue("Style", Style);
+			info.AddValue("Unit", Unit);
 		}
 		#endregion
 
