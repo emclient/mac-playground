@@ -217,7 +217,7 @@ namespace System.Windows.Forms
 					StringFormat sf = FlagsToStringFormat(flags);
 
 					// It seems that Win32 TextRenderer behaves likes this
-					if ((flags & TextFormatFlags.WordBreak) == 0)
+					if ((flags & TextFormatFlags.WordBreak) == 0 && (flags & TextFormatFlags.TextBoxControl) == 0)
 						sf.FormatFlags |= StringFormatFlags.NoWrap;
 					
 					Rectangle new_bounds = PadDrawStringRectangle(bounds, flags);
@@ -454,7 +454,10 @@ namespace System.Windows.Forms
 			if ((flags & TextFormatFlags.SingleLine) == TextFormatFlags.SingleLine)
 				sf.FormatFlags |= StringFormatFlags.NoWrap;
 			else if ((flags & TextFormatFlags.TextBoxControl) == TextFormatFlags.TextBoxControl)
+			{
 				sf.FormatFlags |= StringFormatFlags.LineLimit;
+				sf.FormatFlags &= ~StringFormatFlags.NoWrap;
+			}
 
 			// Other Flags
 			//if ((flags & TextFormatFlags.RightToLeft) == TextFormatFlags.RightToLeft)
