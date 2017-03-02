@@ -67,6 +67,7 @@ namespace System.Drawing {
 
 		// we will default this to one for now until we get some tests for other image types
 		internal int frameCount = 1;
+		internal int currentFrame = 0;
 
 		internal PixelFormat pixelFormat;
 		internal float dpiWidth = 0;
@@ -77,8 +78,9 @@ namespace System.Drawing {
 
 		// For in-memory bitmaps
 		private IntPtr bitmapBlock;
-		// For images created from PNG, JPEG or other data
 		private CGDataProvider dataProvider;
+		// For images created from PNG, JPEG or other data
+		private CGImageSource imageSource;
 
 		public Bitmap (string filename)
 		{
@@ -87,9 +89,8 @@ namespace System.Drawing {
 
 			try 
 			{
-				// Use Image IO
-				dataProvider = new CGDataProvider(filename);
-				if (dataProvider == null)
+				imageSource = CGImageSource.FromUrl(NSUrl.FromFilename(filename));
+				if (imageSource == null)
 					throw new FileNotFoundException ("File {0} not found.", filename);
 
 				InitializeImageFrame (0);
@@ -105,28 +106,13 @@ namespace System.Drawing {
 		{
 		}
 
-		public Bitmap (Stream stream, bool useIcm)
+		public Bitmap(Stream stream, bool useIcm)
 		{
 			if (stream == null)
-				throw new ArgumentNullException ("Value can not be null");
+				throw new ArgumentNullException("Value can not be null");
 
-			// false: stream is owned by user code
-			//nativeObject = InitFromStream (stream);
-			// TODO
-			// Use Image IO
-			byte[] buffer;
-			using(var memoryStream = new MemoryStream())
-			{
-				stream.CopyTo(memoryStream);
-				buffer = memoryStream.ToArray();
-			}
-
-			unsafe {
-				fixed (byte* b = &buffer[0]) {
-					dataProvider = new CGDataProvider (buffer, 0, buffer.Length);
-					InitializeImageFrame (0);
-				}
-			}
+			imageSource = CGImageSource.FromData(NSData.FromStream(stream));
+			InitializeImageFrame(0);
 		}
 
 		public Bitmap (Type type, string resource)
@@ -140,21 +126,8 @@ namespace System.Drawing {
 				throw new FileNotFoundException (msg);
 			}
 
-			// TODO
-			// Use Image IO
-			byte[] buffer;
-			using(var memoryStream = new MemoryStream())
-			{
-				s.CopyTo(memoryStream);
-				buffer = memoryStream.ToArray();
-			}
-
-			unsafe {
-				fixed (byte* b = &buffer[0]) {
-					dataProvider = new CGDataProvider (buffer, 0, buffer.Length);
-					InitializeImageFrame (0);
-				}
-			}
+			imageSource = CGImageSource.FromData(NSData.FromStream(s));
+			InitializeImageFrame(0);
 		}
 
 		public Bitmap (int width, int height) : 
@@ -314,14 +287,10 @@ namespace System.Drawing {
 			foreach (SerializationEntry serEnum in info) {
 				if (String.Compare(serEnum.Name, "Data", true) == 0) {
 					byte[] bytes = (byte[]) serEnum.Value;
-
-					if (bytes != null) {
-						unsafe {
-							fixed (byte* b = &bytes[0]) {
-								dataProvider = new CGDataProvider (bytes, 0, bytes.Length);
-								InitializeImageFrame (0);
-							}
-						}
+					if (bytes != null && bytes.Length > 0)
+					{
+						imageSource = CGImageSource.FromData(NSData.FromArray(bytes));
+						InitializeImageFrame(0);
 					}
 				}
 			}
@@ -356,13 +325,18 @@ namespace System.Drawing {
 			
 		private void InitializeImageFrame(int frame)
 		{
+			if (NativeCGImage != null)
+				NativeCGImage.Dispose();
+
 			imageTransform = CGAffineTransform.MakeIdentity();
 
 			SetImageInformation (frame);
-			var cg = CGImageSource.FromDataProvider(dataProvider).CreateImage(frame, null);
+			var cg = imageSource.CreateImage(frame, null);
 			imageTransform = new CGAffineTransform(1, 0, 0, -1, 0, cg.Height);
 			InitWithCGImage (cg);
 			GuessPixelFormat ();
+
+			currentFrame = frame;
 		}
 
 		private void GuessPixelFormat()
@@ -448,8 +422,6 @@ namespace System.Drawing {
 
 		private void SetImageInformation(int frame)
 		{
-			var imageSource = CGImageSource.FromDataProvider (dataProvider);
-
 			frameCount = (int)imageSource.ImageCount;
 			if (frameCount == 0)
 				throw new ArgumentException("Invalid image");
@@ -592,9 +564,6 @@ namespace System.Drawing {
 
 			bitmap.ClearRect (new CGRect (0, 0, width, height));
 			bitmap.DrawImage (new CGRect (0, 0, image.Width, image.Height), image);
-
-			if (this.dataProvider != null)
-				this.dataProvider.Dispose ();
 
 			this.bitmapBlock = bitmapBlock;
 			this.dataProvider = new CGDataProvider (bitmapBlock, size);
@@ -755,6 +724,11 @@ namespace System.Drawing {
 					dataProvider.Dispose ();
 					dataProvider = null;
 				}
+				if (imageSource != null)
+				{
+					imageSource.Dispose();
+					imageSource = null;
+				}
 			}
 			base.Dispose (disposing);
 		}
@@ -883,6 +857,47 @@ namespace System.Drawing {
 			UnlockBits(bmpData);
 		}
 
+		private string GetTypeIdentifier(ImageFormat format)
+		{
+			if (format == ImageFormat.Bmp)
+				return "com.microsoft.bmp";
+			if (format == ImageFormat.Gif)
+				return "com.compuserve.gif";
+			if (format == ImageFormat.Icon)
+				return "com.microsoft.ico";
+			if (format == ImageFormat.Jpeg)
+				return "public.jpeg";
+			if (format == ImageFormat.Png)
+				return "public.png";
+			if (format == ImageFormat.Tiff)
+				return "public.tiff";
+			if (format == ImageFormat.Wmf)
+				return "com.adobe.pdf"; // FIXME
+			if (format == ImageFormat.MemoryBmp)
+				throw new NotImplementedException("ImageFormat.MemoryBmp not supported");
+			// ImageFormat.Emf: // FIXME
+			// ImageFormat.Exif: // FIXME
+			return "public.png";
+		}
+
+		private void Save(CGImageDestination dest)
+		{
+			if (NativeCGImage == null)
+				throw new ObjectDisposedException("cgimage");
+
+			int savedFrame = currentFrame;
+			for (int frame = 0; frame < frameCount; frame++)
+			{
+				if (frame != currentFrame && imageSource != null)
+					InitializeImageFrame(frame);
+				dest.AddImage(NativeCGImage, (NSDictionary)null);
+			}
+			if (currentFrame != savedFrame)
+				InitializeImageFrame(savedFrame);
+
+			dest.Close();
+		}
+
 		public new void Save(string path, ImageCodecInfo encoder, EncoderParameters parameters)
 		{
 			// Workaround
@@ -893,66 +908,17 @@ namespace System.Drawing {
 		{
 			if (path == null)
 				throw new ArgumentNullException ("path");
-			
-			if (NativeCGImage == null)
-				throw new ObjectDisposedException ("cgimage");
-
-			// With MonoTouch we can use UTType from CoreMobileServices but since
-			// MonoMac does not have that yet (or at least can not find it) I will 
-			// use the string version of those for now.  I did not want to add another
-			// #if #else in here.
-
-			// for now we will just default this to png
-			var typeIdentifier = "public.png";
-
-			// Get the correct type identifier
-			if (format == ImageFormat.Bmp)
-				typeIdentifier = "com.microsoft.bmp";
-//			else if (format == ImageFormat.Emf)
-//				typeIdentifier = "image/emf";
-//			else if (format == ImageFormat.Exif)
-//				typeIdentifier = "image/exif";
-			else if (format == ImageFormat.Gif)
-				typeIdentifier = "com.compuserve.gif";
-			else if (format == ImageFormat.Icon)
-				typeIdentifier = "com.microsoft.ico";
-			else if (format == ImageFormat.Jpeg)
-				typeIdentifier = "public.jpeg";
-			else if (format == ImageFormat.Png)
-				typeIdentifier = "public.png";
-			else if (format == ImageFormat.Tiff)
-				typeIdentifier = "public.tiff";
-			else if (format == ImageFormat.Wmf)
-				typeIdentifier = "com.adobe.pdf";
-			// Not sure what this is yet
-			else if (format == ImageFormat.MemoryBmp)
-				throw new NotImplementedException("ImageFormat.MemoryBmp not supported");
 
 			// Obtain a URL file path to be passed
 			NSUrl url = NSUrl.FromFilename(path);
 
-			// * NOTE * we only support one image for right now.
-
 			// Create an image destination that saves into the path that is passed in
-			#if !XAMARINMAC
-			CGImageDestination dest = CGImageDestination.FromUrl (url, typeIdentifier, frameCount, null); 
-			#else
-			CGImageDestination dest = CGImageDestination.Create(url, typeIdentifier, frameCount);
-			#endif
-
-			// Add an image to the destination
-			dest.AddImage(NativeCGImage, (NSDictionary)null);
-
-			// Finish the export
-			bool success = dest.Close ();
-			if (success == false) {
-				//Console.WriteLine("did not work");
-			} else {
-				//Console.WriteLine("did work: " + path);
-			}
-			dest.Dispose();
-			dest = null;
-
+#if !XAMARINMAC
+			using (var dest = CGImageDestination.FromUrl(url, GetTypeIdentifier(format), frameCount, null))
+#else
+			using (var dest = CGImageDestination.Create(url, GetTypeIdentifier(format), frameCount))
+#endif
+				Save(dest);
 		}
 
 		public new void Save (string path)
@@ -962,9 +928,10 @@ namespace System.Drawing {
 
 			var format = ImageFormat.Png;
 			switch (Path.GetExtension (path)) {
-			case ".jpg": format = ImageFormat.Jpeg; break;
-			case ".tiff": format = ImageFormat.Tiff; break;
-			case ".bmp": format = ImageFormat.Bmp; break;
+				case ".jpg": format = ImageFormat.Jpeg; break;
+				case ".tiff": format = ImageFormat.Tiff; break;
+				case ".bmp": format = ImageFormat.Bmp; break;
+				case ".gif": format = ImageFormat.Gif; break;
 			}
 			Save (path, format);
 		}
@@ -973,48 +940,15 @@ namespace System.Drawing {
 		{
 			if (stream == null)
 				throw new ArgumentNullException("stream");
-
-			if (NativeCGImage == null)
-				throw new ObjectDisposedException("cgimage");
-
-			// for now we will just default this to png
-			var typeIdentifier = "public.png";
-
-			// Get the correct type identifier
-			if (format == ImageFormat.Bmp)
-				typeIdentifier = "com.microsoft.bmp";
-			//			else if (format == ImageFormat.Emf)
-			//				typeIdentifier = "image/emf";
-			//			else if (format == ImageFormat.Exif)
-			//				typeIdentifier = "image/exif";
-			else if (format == ImageFormat.Gif)
-				typeIdentifier = "com.compuserve.gif";
-			else if (format == ImageFormat.Icon)
-				typeIdentifier = "com.microsoft.ico";
-			else if (format == ImageFormat.Jpeg)
-				typeIdentifier = "public.jpeg";
-			else if (format == ImageFormat.Png)
-				typeIdentifier = "public.png";
-			else if (format == ImageFormat.Tiff)
-				typeIdentifier = "public.tiff";
-			else if (format == ImageFormat.Wmf)
-				typeIdentifier = "com.adobe.pdf";
-
-			// Not sure what this is yet
-			else if (format == ImageFormat.MemoryBmp)
-				throw new NotImplementedException("ImageFormat.MemoryBmp not supported");
-
+			
 			using (var imageData = new NSMutableData())
 			{
-				#if XAMARINMAC
-				using (var dest = CGImageDestination.Create(imageData, typeIdentifier, frameCount))
+				#if !XAMARINMAC
+				using (var dest = CGImageDestination.FromData(imageData, GetTypeIdentifier(format), frameCount))
 				#else
-				using (var dest = CGImageDestination.FromData(imageData, typeIdentifier, frameCount))
+				using (var dest = CGImageDestination.Create(imageData, GetTypeIdentifier(format), frameCount))
 				#endif
-				{
-					dest.AddImage(NativeCGImage, (NSDictionary)null);
-					dest.Close();
-				}
+					Save(dest);
 
 				using (var ms = imageData.AsStream())
 					ms.CopyTo(stream);
