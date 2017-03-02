@@ -140,6 +140,13 @@ MacBridge/WinApi/Win32.cs -text
 /OSXPlayground[!!-~](Unified).sln -text
 /OSXPlayground.mdw -text
 /OSXPlayground.sln -text
+ResGen/ResGen.csproj -text
+ResGen/bin/Debug/Mono.WebBrowser.dll -text
+ResGen/bin/Debug/MonoMac.dll -text
+ResGen/bin/Debug/ResGen.exe -text
+ResGen/bin/Debug/System.Drawing.dll -text
+ResGen/bin/Debug/System.Windows.Forms.dll -text
+ResGen/monoresgen.cs -text
 /WinMac.targets -text
 XibLessApp/Info.plist -text
 XibLessApp/Main.cs -text
