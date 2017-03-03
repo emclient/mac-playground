@@ -92,6 +92,10 @@ namespace System.Windows.Forms.Layout
 
 			// First place all controls that have an explicit col/row
 			foreach (Control c in panel.Controls) {
+
+				if (!c.VisibleInternal || c == dummy_control )
+					continue;
+
 				int col = settings.GetColumn (c);
 				int row = settings.GetRow (c);
 				if (col >= 0 && row >= 0) {
@@ -140,6 +144,10 @@ namespace System.Windows.Forms.Layout
 
 			// Fill in gaps with controls that do not have an explicit col/row
 			foreach (Control c in panel.Controls) {
+
+				if (!c.VisibleInternal || c == dummy_control )
+					continue;
+
 				int col = settings.GetColumn (c);
 				int row = settings.GetRow (c);
 
@@ -265,9 +273,13 @@ namespace System.Windows.Forms.Layout
 				
 			// Find the largest column-span/row-span values.
 			int max_colspan = 0, max_rowspan = 0;
-			foreach (Control c in panel.Controls) {
-				max_colspan = Math.Max (max_colspan, settings.GetColumnSpan (c));
-				max_rowspan = Math.Max (max_rowspan, settings.GetRowSpan (c));
+			foreach (Control c in panel.Controls)
+			{
+				if (c.VisibleInternal && c != dummy_control)
+				{
+					max_colspan = Math.Max(max_colspan, settings.GetColumnSpan(c));
+					max_rowspan = Math.Max(max_rowspan, settings.GetRowSpan(c));
+				}
 			}
 
 			// Figure up all the column widths
@@ -593,8 +605,7 @@ namespace System.Windows.Forms.Layout
 				for (int x = 0; x < columns; x++)
 				{
 					Control c = panel.actual_positions[x,y];
-					
-					if(c != null && c != dummy_control) {
+					if(c != null && c != dummy_control && c.VisibleInternal) {
 						Size preferred;
 						
 						if (c.AutoSize)
