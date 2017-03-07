@@ -645,6 +645,13 @@ namespace System.Windows.Forms
 
 		protected override void SetBoundsCore (int x, int y, int width, int height, BoundsSpecified specified)
 		{
+			if (AutoSize) // && SelfSizing)
+			{
+                Size preferredSize = PreferredSize;
+				width = preferredSize.Width;
+                height = preferredSize.Height;
+            }
+
 			base.SetBoundsCore (x, y, width, height, specified);
 		}
 
