@@ -645,7 +645,7 @@ namespace System.Windows.Forms
 
 		protected override void SetBoundsCore (int x, int y, int width, int height, BoundsSpecified specified)
 		{
-			if (AutoSize) // && SelfSizing)
+			if (SelfSizing)
 			{
                 Size preferredSize = PreferredSize;
 				width = preferredSize.Width;
@@ -653,6 +653,14 @@ namespace System.Windows.Forms
             }
 
 			base.SetBoundsCore (x, y, width, height, specified);
+		}
+
+		bool SelfSizing
+		{
+			get
+			{
+				return AutoSize && Parent != null && Parent.LayoutEngine is Layout.DefaultLayout;
+			}
 		}
 
 		public override string ToString()
