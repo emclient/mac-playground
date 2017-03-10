@@ -49,7 +49,7 @@ namespace System.Windows.Forms.Layout
 				Size child_size = child.Size;
 
 				if (child.AutoSize)
-					child_size = GetPreferredControlSize (child);
+					child_size = GetPreferredControlSize(child, new Size(parent.ClientSize.Width - parent.Padding.Horizontal, 0));
 
 				// MdiClient never fills the whole area like other controls, have to do it later
 				if (child is MdiClient) {
@@ -161,9 +161,8 @@ namespace System.Windows.Forms.Layout
 				int left = child.Left;
 				int top = child.Top;
 
-				Size preferredsize = GetPreferredControlSize (child);
+				Size preferredsize = GetPreferredControlSize(child, new Size(parent.ClientSize.Width, 0));
 
-				// RGS TODO: This has to be wrong? Setting the values with an add?
 				if (((anchor & AnchorStyles.Left) != 0) || ((anchor & AnchorStyles.Right) == 0)) {
 					child.DistanceRight += child.Width - preferredsize.Width;
 				}
@@ -227,9 +226,8 @@ namespace System.Windows.Forms.Layout
 			return false;
 		}
 
-		private Size GetPreferredControlSize(Control child)
+		private Size GetPreferredControlSize(Control child, Size proposed)
 		{
-			var proposed = new Size(child.Parent.ClientSize.Width, Int32.MaxValue);
 			var preferredsize = child.GetPreferredSize(proposed);
 
 			int width, height;

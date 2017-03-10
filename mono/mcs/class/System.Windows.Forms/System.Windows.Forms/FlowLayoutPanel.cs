@@ -136,7 +136,6 @@ namespace System.Windows.Forms
 				int size_in_flow_direction = 0;
 				int size_in_other_direction = 0;
 				int increase;
-				Size margin = new Size(0,0);
 				bool forceFlowBreak = false;
 
 				foreach (Control control in Controls) {
@@ -144,7 +143,7 @@ namespace System.Windows.Forms
 						continue;
 					Size control_preferred_size;
 					if (control.AutoSize)
-						control_preferred_size = control.PreferredSize;
+						control_preferred_size = control.GetPreferredSize(proposedSize);
 					else
 						control_preferred_size = control.ExplicitBounds.Size;
 					Padding control_margin = control.Margin;
@@ -158,7 +157,6 @@ namespace System.Windows.Forms
 						}
 						size_in_flow_direction += increase;
 						size_in_other_direction = Math.Max (size_in_other_direction, control_preferred_size.Height + control_margin.Vertical);
-						margin.Height = Math.Max(margin.Height, control_margin.Vertical);
 					} else {
 						increase = control_preferred_size.Height + control_margin.Vertical;
 						if (WrapContents && proposedSize.Height != 0 && size_in_flow_direction != 0 && size_in_flow_direction + increase >= proposedSize.Height || forceFlowBreak) {
@@ -169,7 +167,6 @@ namespace System.Windows.Forms
 						}
 						size_in_flow_direction += increase;
 						size_in_other_direction = Math.Max (size_in_other_direction, control_preferred_size.Width + control_margin.Horizontal);
-						margin.Width = Math.Max(margin.Width, control_margin.Horizontal);
 					}
 
 					forceFlowBreak = settings.GetFlowBreak(control);
@@ -178,18 +175,12 @@ namespace System.Windows.Forms
 					width = Math.Max (width, size_in_flow_direction);
 					height += size_in_other_direction;
 					if (height != 0)
-					{
-						height += margin.Height;
 						height += this.Padding.Vertical;
-					}
 				} else {
 					height = Math.Max (height, size_in_flow_direction);
 					width += size_in_other_direction;
 					if (width != 0)
-					{
-						width += margin.Width;
 						width += this.Padding.Horizontal;
-					}
 				}
 			return new Size (width, height);
 		}
