@@ -119,6 +119,7 @@ namespace System.Windows.Forms
 		internal DockStyle dock_style; // docking requirements for our control
 		LayoutType layout_type;
 		private bool recalculate_distances = true;  // Delay anchor calculations
+		internal int performing_layout; // > 0 when the layout operation is in progress for this control.
 
 		// Please leave the next 2 as internal until DefaultLayout (2.0) is rewritten
 		internal int			dist_right; // distance to the right border of the parent
@@ -3911,6 +3912,7 @@ namespace System.Windows.Forms
 
 			// Prevent us from getting messed up
 			layout_suspended++;
+			performing_layout++;
 
 			// Perform all Dock and Anchor calculations
 			try {
@@ -3920,6 +3922,7 @@ namespace System.Windows.Forms
 				// Need to make sure we decremend layout_suspended
 			finally {
 				layout_suspended--;
+				performing_layout--;
 			}
 		}
 
@@ -4254,6 +4257,10 @@ namespace System.Windows.Forms
 			else if (bounds.Height != height || (explicit_bounds.Height != height && (specified & BoundsSpecified.Height) == BoundsSpecified.Height))
 				SetBoundsCore (x, y, width, height, specified);
 			else
+				return;
+
+			// Let's not consider changing bounds as explicit while performing layout. It would break anchoring to the right and bottom.
+			if (performing_layout > 0)
 				return;
 			
 			// If the user explicitly moved or resized us, recalculate our anchor distances
