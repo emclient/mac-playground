@@ -203,14 +203,6 @@ namespace System.Windows.Forms {
 			// Initialize the Cocoa Specific stuff
 			UtilityWindows = new ArrayList ();
 
-			// Transform to foreground process
-			if (NSApplication.SharedApplication.ActivationPolicy != NSApplicationActivationPolicy.Regular)
-			{
-				NSApplication.SharedApplication.ActivationPolicy = NSApplicationActivationPolicy.Regular;
-				NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
-				NSProcessInfo.ProcessInfo.ProcessName = Application.ProductName;
-			}
-
 			ReverseWindow = new NSWindow(NSRect.Empty, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
 			CaretView = new NSView(NSRect.Empty);
 			CaretView.WantsLayer = true;
@@ -2366,6 +2358,14 @@ namespace System.Windows.Forms {
 		}
 
 		internal override object StartLoop (Thread thread) {
+			// Transform to foreground process
+			if (NSApplication.SharedApplication.ActivationPolicy != NSApplicationActivationPolicy.Regular)
+			{
+				NSApplication.SharedApplication.ActivationPolicy = NSApplicationActivationPolicy.Regular;
+				NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
+				NSProcessInfo.ProcessInfo.ProcessName = Application.ProductName;
+			}
+
 			Stack<NSAutoreleasePool> stack;
 			if (!pools.TryGetValue(thread, out stack))
 				pools.Add(thread, stack = new Stack<NSAutoreleasePool>());
