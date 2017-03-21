@@ -135,8 +135,12 @@ namespace System.Drawing {
 
 		public static Graphics FromHwnd (IntPtr hwnd, bool client)
 		{
-			if (hwnd == IntPtr.Zero)
-				return Graphics.FromImage (new Bitmap (1, 1));
+			if (hwnd == IntPtr.Zero) {
+				var scaleFactor = NSScreen.MainScreen.BackingScaleFactor;
+				var context = new CGBitmapContext(IntPtr.Zero, 1, 1, 8, 4, CGColorSpace.CreateDeviceRGB(), CGImageAlphaInfo.PremultipliedFirst);
+				context.ScaleCTM(scaleFactor, -scaleFactor);
+				return new Graphics(context);
+			}
 
 			Graphics g;
 			NSView view = (NSView)NSRuntime.GetNSObject (hwnd);
