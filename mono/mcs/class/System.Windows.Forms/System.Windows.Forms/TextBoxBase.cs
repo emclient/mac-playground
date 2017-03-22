@@ -945,6 +945,9 @@ namespace System.Windows.Forms
 					return false;
 				}
 
+				case Keys.Back:
+					return !ReadOnly;
+
 				case Keys.Left:
 				case Keys.Right:
 				case Keys.Up:
@@ -2614,7 +2617,7 @@ namespace System.Windows.Forms
 
 				{ Keys.Delete,                               PerformForwardDelete },
 				{ Keys.Delete | Keys.Alt,                    PerformForwardDeleteWord },
-				{ Keys.Back,                                 PerformDelete },
+				//{ Keys.Back,                                 PerformDelete }, //Handled in WmChar() - is that OK?
 				{ Keys.Back | Keys.Alt,                      PerformDeleteWord },
 
 				{ Keys.Left,                                 PerformGoToTheLeft },
