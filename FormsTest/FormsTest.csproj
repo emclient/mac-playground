@@ -109,10 +109,10 @@
     <Compile Include="LayoutIssues\ImapOptions\ImapOptionsForm.cs" />
     <Compile Include="LayoutIssues\ImapOptions\ImapOptionsControl.cs" />
     <Compile Include="LayoutIssues\ImapOptions\ImapOptionsControl.Designer.cs" />
-    <Compile Include="..\..\..\UI\Controls\WrappingCheckBox.cs">
+    <Compile Include="..\..\..\MailClient\UI\Controls\WrappingCheckBox.cs">
       <Link>WrappingCheckBox.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\UI\Controls\WrappingCheckBox.Mac.cs">
+    <Compile Include="..\..\..\MailClient\UI\Controls\WrappingCheckBox.Mac.cs">
       <Link>WrappingCheckBox.Mac.cs</Link>
     </Compile>
     <Compile Include="LayoutIssues\ImapOptions\ImapOptionsForm.Designer.cs" />
