@@ -3,10 +3,13 @@ using System.Diagnostics;
 using System.Reflection;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Drawing;
 
 #if XAMARINMAC
+using CoreGraphics;
 using AppKit;
 #elif MONOMAC
+using MonoMac.CoreGraphics;
 using MonoMac.AppKit;
 using ObjCRuntime = MonoMac.ObjCRuntime;
 #endif
@@ -130,6 +133,47 @@ namespace System.Windows.Forms
 			}
 
 			return null;
+		}
+
+		public static bool IsDerivedFrom(Control control, string className, bool fullName = true)
+		{
+			if (control != null)
+			{
+				Type t = control.GetType();
+				while (t != null)
+				{
+					if (fullName && t.FullName == className || !fullName && t.Name == className)
+						return true;
+					t = t.BaseType;
+				}
+			}
+			return false;
+		}
+
+		public static bool IsDerivedFrom(NSView view, string className, bool fullName = true)
+		{
+			return IsDerivedFrom(ControlFromView(view), className, fullName);
+		}
+
+		public static Control GetControlIfIsDerifedFrom(NSView view, string className, bool fullName = true)
+		{
+			if (view != null)
+			{
+				var c = ControlFromView(view);
+				if (IsDerivedFrom(c, className, fullName))
+					return c;
+			}
+			return null;
+		}
+
+		public static Rectangle Move(this Rectangle r, int x, int y)
+		{
+			return new Rectangle(r.X + x, r.Y + y, r.Width, r.Height);
+		}
+
+		public static CGPoint Move(this CGPoint p, float x, float y)
+		{
+			return new CGPoint(p.X + x, p.Y + y);
 		}
 
 		private static string logPath;
