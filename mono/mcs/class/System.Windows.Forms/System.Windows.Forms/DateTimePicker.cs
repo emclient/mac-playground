@@ -327,9 +327,7 @@ namespace System.Windows.Forms {
 			set {
 				if (custom_format != value) {
 					custom_format = value;
-					if (this.Format == DateTimePickerFormat.Custom) {
-						CalculateFormats ();
-					}
+					CalculateFormats();
 				}
 			}
 			get {
