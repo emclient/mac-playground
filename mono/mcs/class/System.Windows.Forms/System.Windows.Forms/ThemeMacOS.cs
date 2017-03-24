@@ -5449,9 +5449,71 @@ namespace System.Windows.Forms
 			}
 		}
 
+		class LocalGraphicsContext : IDisposable
+		{
+			NSGraphicsContext savedContext;
+			CGContext cgContext;
+
+			public LocalGraphicsContext(Graphics dc)
+			{
+				savedContext = NSGraphicsContext.CurrentContext;
+				cgContext = new CGContext(dc.GetHdc());
+				NSGraphicsContext.CurrentContext = NSGraphicsContext.FromGraphicsPort(cgContext, true);
+				cgContext.SaveState();
+			}
+
+			public void Dispose()
+			{
+				cgContext.RestoreState();
+				if (savedContext != null)
+					NSGraphicsContext.CurrentContext = savedContext;
+			}
+		}
+
+		class NSFlippedView : NSView
+		{
+			public NSFlippedView(CGRect frame)
+				: base(frame)
+			{
+			}
+
+			public override bool IsFlipped
+			{
+				get
+				{
+					return true;
+				}
+			}
+		}
+
 		public override void CPDrawCheckBox (Graphics dc, Rectangle rectangle, ButtonState state)
 		{
-			CPDrawCheckBoxInternal (dc, rectangle, state, false /* mixed */);
+			if ((state & ButtonState.Flat) != 0) {
+				CPDrawCheckBoxInternal(dc, rectangle, state, false /* mixed */);
+				return;
+			}
+			
+			using (var cell = new NSButtonCell()) {
+				cell.SetButtonType(NSButtonType.Switch);
+				cell.AttributedTitle = new NSAttributedString();
+				cell.Alignment = NSTextAlignment.Left;
+				cell.Highlighted = (state & ButtonState.Pushed) != 0;
+				cell.Bezeled = false;
+				cell.Bordered = false;
+				cell.State = (state & ButtonState.Checked) != 0 ? NSCellStateValue.On : NSCellStateValue.Off;
+				cell.Enabled = (state & ButtonState.Inactive) == 0;
+
+				var frame = rectangle.ToCGRect();
+
+				// Move to the top if necessary
+				//var s = cell.CellSizeForBounds(frame);
+				//if (s.Height < frame.Height)
+				//	frame.Height = (int)Math.Round(s.Height);
+
+				using (var view = new NSFlippedView(frame))
+				using (new LocalGraphicsContext(dc))
+					cell.DrawWithFrame(frame, view);
+			}
 		}
 
 		private void CPDrawCheckBoxInternal (Graphics dc, Rectangle rectangle, ButtonState state, bool mixed)
