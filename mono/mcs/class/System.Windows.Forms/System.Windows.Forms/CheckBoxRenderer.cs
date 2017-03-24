@@ -34,6 +34,7 @@ namespace System.Windows.Forms
 	public sealed class CheckBoxRenderer
 	{
 		private static bool always_use_visual_styles = false;
+		private static Size cached_size;
 
 		#region Private Constructor
 		private CheckBoxRenderer () {}
@@ -141,8 +142,14 @@ namespace System.Windows.Forms
 
 		public static Size GetGlyphSize (Graphics g, CheckBoxState state)
 		{
-			if (!VisualStyleRenderer.IsSupported)
-				return new Size (13, 13);
+			if (!VisualStyleRenderer.IsSupported) {
+				if (cached_size == default(Size)) {
+					cached_size = ThemeEngine.Current.CalculateCheckBoxAutoSize(new CheckBox());
+					cached_size.Width = cached_size.Height;
+				}
+				return cached_size;
+			}
+				//return new Size (13, 13);
 
 			VisualStyleRenderer vsr = GetCheckBoxRenderer (state);
 
