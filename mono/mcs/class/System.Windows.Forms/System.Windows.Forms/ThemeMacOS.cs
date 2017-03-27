@@ -233,6 +233,14 @@ namespace System.Windows.Forms
 
 		#region Button
 
+		NSImage ToNSImage(Image i)
+		{
+			var stream = new IO.MemoryStream();
+			i.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+			var data = NSData.FromArray(stream.ToArray());
+			return new NSImage(data);
+		}
+
 		NSButtonCell GetButtonCell(ButtonBase b)
 		{
 			var cell = new SWFCell();
@@ -244,6 +252,8 @@ namespace System.Windows.Forms
 			cell.BezelStyle = NSBezelStyle.Rounded; // When Rounded is set, the button border gets its own dimensions (smaller than we want)
 			cell.Enabled = b.Enabled;
 			cell.isFocused = b.Focused;
+			if (b.Image != null)
+				cell.Image = ToNSImage(b.Image);
 			return cell;
 		}
 
