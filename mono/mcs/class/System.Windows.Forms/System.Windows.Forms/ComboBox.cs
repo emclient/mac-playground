@@ -2279,11 +2279,6 @@ namespace System.Windows.Forms
 				owner.Select (false, true);
 			}
 
-			protected override void OnLostFocus (EventArgs e)
-			{
-				owner.Select (false, true);
-			}
-
 			// We have to pass these events to our owner - MouseMove is not, however.
 
 			protected override void OnMouseDown (MouseEventArgs e)
