@@ -67,7 +67,9 @@ namespace System.Windows.Forms.CocoaInternal
 		internal static bool shiftDown;
 		internal static bool ctrlDown;
 		internal NSView hitTestResult; //Helper for detecting clicks in the title bar & perf. optimisation
-		internal IntPtr scrollWheelHwndHandle; // Handle of the window where scrollWheel events started
+		internal IntPtr momentumHandle; // Where momentum scrolling started
+		internal NSView momentumView;
+		internal POINT momentumLocation;
 
 		public MonoContentView (IntPtr instance) : base (instance)
 		{
@@ -285,7 +287,10 @@ namespace System.Windows.Forms.CocoaInternal
 				client = true;
 			}
 			else {
-				vuWrap = HitTest(nspoint, false, false);
+				if (e.Type == NSEventType.ScrollWheel && (e.MomentumPhase == NSEventPhase.Changed || e.MomentumPhase == NSEventPhase.Ended))
+					vuWrap = momentumView;
+				else
+					vuWrap = HitTest(nspoint, false, false);
 				//DebugUtility.WriteInfoIfChanged(vuWrap);
 
 				// Embedded native control? => Find MonoView parent
@@ -362,19 +367,39 @@ namespace System.Windows.Forms.CocoaInternal
 
 				case NSEventType.ScrollWheel:
 
-					if (e.Phase == NSEventPhase.Began || e.Phase == NSEventPhase.None && e.MomentumPhase == NSEventPhase.None)
-						scrollWheelHwndHandle = currentHwnd.Handle;
+					if (e.MomentumPhase == NSEventPhase.Began)
+					{
+						momentumHandle = currentHwnd.Handle;
+						momentumLocation = msg.pt;
+						momentumView = vuWrap;
+					}
 
+					if (e.MomentumPhase == NSEventPhase.Ended)
+					{
+						momentumHandle = IntPtr.Zero;
+						momentumView = null;
+						return;
+					}
+					    
 					int delta = ScaleAndQuantizeDelta((float)e.ScrollingDeltaY, e.HasPreciseScrollingDeltas);
 					if (delta == 0)
 						return;
 
-					msg.hwnd = scrollWheelHwndHandle;
-					msg.message = Msg.WM_MOUSEWHEEL;
-					msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
-					msg.wParam = (IntPtr)(((int)msg.wParam & 0xFFFF) | (delta << 16));
-					msg.lParam = (IntPtr)((msg.pt.x & 0xFFFF)| (msg.pt.y << 16));
-					break;
+					if (e.MomentumPhase == NSEventPhase.Changed)
+					{
+						msg.hwnd = momentumHandle;
+						msg.pt = momentumLocation;
+					}
+
+					if (e.Phase == NSEventPhase.None && e.MomentumPhase == NSEventPhase.None || e.Phase == NSEventPhase.Changed || e.MomentumPhase == NSEventPhase.Changed)
+					{
+						msg.message = Msg.WM_MOUSEWHEEL;
+						msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
+						msg.wParam = (IntPtr)(((int)msg.wParam & 0xFFFF) | (delta << 16));
+						msg.lParam = (IntPtr)((msg.pt.x & 0xFFFF) | (msg.pt.y << 16));
+						break;
+					}
+					return;
 
 				//case NSEventType.TabletPoint:
 				//case NSEventType.TabletProximity:
