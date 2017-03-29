@@ -85,6 +85,7 @@ namespace System.Windows.Forms {
 		Snapshot	= 0x0000002C,
 		Insert		= 0x0000002D,
 		Delete		= 0x0000002E,
+		Del			= 0x0000002E,
 		Help		= 0x0000002F,
 		D0		= 0x00000030,
 		D1		= 0x00000031,
