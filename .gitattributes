@@ -158,6 +158,12 @@ Relauncher.app/Contents/PkgInfo -text
 Relauncher.app/Contents/Resources/Base.lproj/MainMenu.nib -text
 Relauncher.app/Contents/Resources/libswiftRemoteMirror.dylib -text
 Relauncher.app/Contents/_CodeSignature/CodeResources -text
+Relauncher/Relauncher.xcodeproj/project.pbxproj -text
+Relauncher/Relauncher.xcodeproj/project.xcworkspace/contents.xcworkspacedata -text
+Relauncher/Relauncher.xcodeproj/project.xcworkspace/xcshareddata/Relauncher.xcscmblueprint -text
+Relauncher/Relauncher/AppDelegate.swift -text
+Relauncher/Relauncher/Base.lproj/MainMenu.xib -text
+Relauncher/Relauncher/Info.plist -text
 ResGen/ResGen.csproj -text
 ResGen/bin/Debug/Mono.WebBrowser.dll -text
 ResGen/bin/Debug/MonoMac.dll -text
