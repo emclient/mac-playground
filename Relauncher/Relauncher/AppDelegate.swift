@@ -30,9 +30,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to initialize your application
         
         // Do nothing if parent process is not "launchd" daemon.
-        if getppid() != 1 {
-            NSApp.terminate(self)
-        }
+//        if getppid() != 1 {
+//            NSApp.terminate(self)
+//        }
         
         var terminate = true
         
