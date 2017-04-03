@@ -1375,7 +1375,7 @@ namespace System.Windows.Forms {
 			var keyWindow = NSApplication.SharedApplication.KeyWindow;
 			if (keyWindow != null) {
 				var responder = keyWindow.FirstResponder;
-				if (responder != null)
+				if (responder is NSView)
 					return responder.Handle;
  			}
 			return IntPtr.Zero;
