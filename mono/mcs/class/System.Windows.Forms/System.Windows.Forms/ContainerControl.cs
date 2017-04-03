@@ -204,9 +204,26 @@ namespace System.Windows.Forms {
 				}
 				
 				// Let the control know it's selected
-				if (ctl.InternalContainsFocus)
+				if (ctl.InternalContainsFocus && active_control != null &&
+					(!(active_control is UserControl) || (active_control is UserControl && !((UserControl)active_control).HasFocusableChild())))
 					SendControlFocus (active_control);
 			}
+		}
+
+		internal bool HasFocusableChild()
+		{
+			Control ctl = null;
+			do
+			{
+				ctl = GetNextControl(ctl, true);
+				if (ctl != null &&
+					ctl.CanSelect &&
+					ctl.TabStop)
+				{
+					break;
+				}
+			} while (ctl != null);
+			return ctl != null;
 		}
 
 		// Return the control where validation failed, and null otherwise

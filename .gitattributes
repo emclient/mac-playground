@@ -606,6 +606,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CarbonInternal/WindowHa
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/ChangeLog -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Cursor.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Enums.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/IMacNativeControl.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/KeysConverter.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/ModalDialogContext.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoApplicationDelegate.cs -text
@@ -617,6 +618,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/NSKeyEx.c
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Pasteboard.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Structs.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Swizzle.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/WindowsEventResponder.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/XplatUICocoa.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Design/ChangeLog -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Design/ComponentEditorForm.cs -text
@@ -806,6 +808,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/Border3DSide.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/Border3DStyle.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/BorderStyle.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/BoundsSpecified.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/Button.Mac.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/Button.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ButtonBase.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ButtonBorderStyle.cs -text

@@ -116,7 +116,6 @@ namespace System.Windows.Forms {
 		private static bool themes_enabled;
 
 		// Internal members available to the event handler sub-system
-		internal static IntPtr ActiveWindow;
 		internal static NSWindow ReverseWindow;
 		internal static NSView CaretView;
 
@@ -355,7 +354,7 @@ namespace System.Windows.Forms {
 
 			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.Handle);
 			NSWindow winWrap = vuWrap.Window;
-			NSRect nsrect = vuWrap.Frame;
+			NSRect nsrect = vuWrap.GetAlignmentRectForFrame(vuWrap.Frame);
 			Rectangle mrect;
 
 			bool top = winWrap != null && winWrap.ContentView == vuWrap;
@@ -640,13 +639,8 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		private void CleanupCachedWindows (Hwnd hwnd)
+		private void CleanupCachedWindows(Hwnd hwnd)
 		{
-			if (ActiveWindow == hwnd.Handle) {
-				SendMessage (hwnd.Handle, Msg.WM_ACTIVATE, (IntPtr) WindowActiveFlags.WA_INACTIVE, IntPtr.Zero);
-				ActiveWindow = IntPtr.Zero;
-			}
-
 			if (GetFocus() == hwnd.Handle) {
 				SendMessage (hwnd.Handle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
 			}
@@ -692,6 +686,7 @@ namespace System.Windows.Forms {
 				} else
 					nsrect = new NSRect(mrect.X, mrect.Y, mrect.Width, mrect.Height);
 
+				nsrect = vuWrap.GetFrameForAlignmentRect(nsrect);
 				if (vuWrap.Frame != nsrect)
 					vuWrap.Frame = nsrect;
 			}
@@ -721,18 +716,12 @@ namespace System.Windows.Forms {
 			themes_enabled = true;
 		}
 
-		internal override void Activate (IntPtr handle)
+		internal override void Activate(IntPtr handle)
 		{
-			if (ActiveWindow != handle && handle != IntPtr.Zero)
-			{
+			if (handle != IntPtr.Zero) {
 				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
-				if (vuWrap != null)
-				{
-					NSWindow winWrap = vuWrap.Window;
-					if (winWrap != null)
-					{
-						winWrap.MakeKeyAndOrderFront (vuWrap);
-					}
+				if (vuWrap != null && vuWrap.Window != null && !vuWrap.Window.IsKeyWindow) {
+					vuWrap.Window.MakeKeyAndOrderFront(vuWrap);
 				}
 			}
 		}
@@ -958,23 +947,35 @@ namespace System.Windows.Forms {
 					windowWrapper.HasShadow = true;
 
 				viewWrapper = new Cocoa.MonoContentView (this, WholeRect, hwnd);
-				wholeHandle = (IntPtr) viewWrapper.Handle;
+				viewWrapper.AutoresizesSubviews = true;
+				wholeHandle = (IntPtr)viewWrapper.Handle;
 				windowWrapper.ContentView = viewWrapper;
 				windowWrapper.InitialFirstResponder = viewWrapper;
 				windowWrapper.SetOneShot(true);
 
-				if (StyleSet (cp.Style, WindowStyles.WS_POPUP))
+				if (ExStyleSet(cp.ExStyle, WindowExStyles.WS_EX_TOPMOST))
+					windowWrapper.Level = NSWindowLevel.Floating;
+				else if (StyleSet(cp.Style, WindowStyles.WS_POPUP))
 					windowWrapper.Level = NSWindowLevel.PopUpMenu;
 				if (ParentWrapper != null)
 					ParentWrapper.Window.AddChildWindow (windowWrapper, NSWindowOrderingMode.Above);
 			} else {
-				viewWrapper = new Cocoa.MonoView (this, WholeRect, hwnd);
-				wholeHandle = (IntPtr) viewWrapper.Handle;
+				if (cp.control is IMacNativeControl) {
+					var nativeView = ((IMacNativeControl)cp.control).CreateView();
+					if (nativeView != null)
+					{
+						viewWrapper = nativeView;
+						nativeView.Frame = nativeView.GetFrameForAlignmentRect(WholeRect);
+					}
+				}
+				if (viewWrapper == null) {
+					viewWrapper = new Cocoa.MonoView(this, WholeRect, hwnd);
+					viewWrapper.AutoresizesSubviews = false;
+				}
+				wholeHandle = (IntPtr)viewWrapper.Handle;
 				if (ParentWrapper != null)
-					ParentWrapper.AddSubview (viewWrapper);
+					ParentWrapper.AddSubview(viewWrapper);
 			}
-
-			viewWrapper.AutoresizesSubviews = false;
 
 			hwnd.ClientWindow = wholeHandle;
 
@@ -1297,9 +1298,10 @@ namespace System.Windows.Forms {
 			GetMessageResult = false;
 			NSApplication.SharedApplication.Delegate = null;
 		}
-		
-		internal override IntPtr GetActive () {
-			return ActiveWindow;
+
+		internal override IntPtr GetActive() {
+			var keyWindow = NSApplication.SharedApplication.KeyWindow;
+			return keyWindow == null ? IntPtr.Zero : keyWindow.ContentView.Handle;
 		}
 
 		internal override Region GetClipRegion (IntPtr handle) {
@@ -1334,13 +1336,13 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		internal override IntPtr GetParent (IntPtr handle)
+		internal override IntPtr GetParent(IntPtr handle)
 		{
-			Hwnd	hwnd = Hwnd.ObjectFromHandle (handle);
-
-			if (null != hwnd && null != hwnd.Parent) {
+			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
+			if (hwnd == null)
+				return IntPtr.Zero;
+			if (hwnd.Parent != null)
 				return hwnd.Parent.Handle;
-			}
 			return IntPtr.Zero;
 		}
 
@@ -1805,46 +1807,48 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		internal override void SetFocus (IntPtr handle)
+		private IntPtr GetSWFFirstResponder(NSWindow window)
 		{
-			if (ActiveWindow != IntPtr.Zero) {
-				var activeWindowWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(ActiveWindow);
-				var activeContentView = activeWindowWrap.Window.FirstResponder as MonoContentView;
-				IntPtr prevFocusHandle = IntPtr.Zero;
-				if (activeContentView != null && activeContentView.FocusHandle != IntPtr.Zero)
-					prevFocusHandle = activeContentView.FocusHandle;
-				if (prevFocusHandle == handle)
-					return;
+			for (var view = window.FirstResponder as NSView; view != null; view = view.Superview)
+			{
+				var wrapperHwnd = Hwnd.GetObjectFromWindow(view.Handle);
+				if (wrapperHwnd != null)
+					return view.Handle;
+			}
+			return IntPtr.Zero;
+		}
 
-				if (prevFocusHandle != IntPtr.Zero)
-					SendMessage(prevFocusHandle, Msg.WM_KILLFOCUS, handle, IntPtr.Zero);
-
+		internal override void SetFocus(IntPtr handle)
+		{
+			var keyWindow = NSApplication.SharedApplication.KeyWindow;
+			if (handle == IntPtr.Zero)
+			{
+				if (keyWindow != null)
+					keyWindow.MakeFirstResponder(keyWindow);
+			}
+			else
+			{
 				var view = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
-				var window = view != null ? view.Window : null;
-				if (window == null)
+				if (view.Window == null)
 					return;
-				
-				var contentView = window.ContentView as MonoContentView;
-				var differentWindows = contentView.Handle != ActiveWindow;
 
-				// ToolStripDropDown and other controls can be placed not in the active window,
-				// but in it's own NSWindow (that cannot become key nor active), so that it can overlap the active window.
-				// In this case, we have to save the original active window's focus handle.
-				// We save it to the unused FocusHandle property of the ContentView of the dropdown's NSWindow.
-				if (differentWindows)
-					contentView.FocusHandle = prevFocusHandle;
+				if (view != null && keyWindow != view.Window)
+					view.Window.MakeKeyAndOrderFront(view.Window);
 
-				activeContentView = (MonoContentView)activeWindowWrap.Window.ContentView;
-				activeContentView.FocusHandle = handle;
-
-				if (activeWindowWrap.Window.FirstResponder != activeContentView && !differentWindows)
+				// Sometimes the FirstResponder is some deeply nested native view (eg. inside WebView). When the
+				// active window is changed to other one and then back, Form.WmActivate tries to restore focus to the
+				// the ActiveControl. That will be the most nested Control that System.Windows.Forms know about, but
+				// usually not the same one as FirstResponder. We tried to check if FirstResponder is one of those
+				// nested views and skip the focus change if it is essentially trying to focus the control that is
+				// already focused.
+				if (GetSWFFirstResponder(view.Window) != view.Handle)
 				{
-					activeWindowWrap.Window.MakeFirstResponder(activeContentView);
-					return;
+					if (view is MonoView)
+						((MonoView)view).inSetFocus = true;
+					view.Window.MakeFirstResponder(view);
+					if (view is MonoView)
+						((MonoView)view).inSetFocus = false;
 				}
-				
-				if (handle != IntPtr.Zero && GetFocus() == handle)
-					SendMessage(handle, Msg.WM_SETFOCUS, prevFocusHandle, IntPtr.Zero);
 			}
 		}
 
@@ -1997,6 +2001,8 @@ namespace System.Windows.Forms {
 				var visible = hwnd != null && hwnd.Visible;
 				if (winOwnerWrap != null && visible)
 					winOwnerWrap.AddChildWindow(winWrap, NSWindowOrderingMode.Above);
+
+				hwnd.Parent = Hwnd.ObjectFromHandle(hWndOwner);
 			}
 
 			return true;
@@ -2004,8 +2010,14 @@ namespace System.Windows.Forms {
 
 		internal override bool SetVisible (IntPtr handle, bool visible, bool activate)
 		{
-			if (!visible && Grab.Hwnd == handle)
-				UngrabWindow(handle);
+			if (!visible && Grab.Hwnd != IntPtr.Zero) {
+				for (var hwndCheck = Grab.Hwnd; hwndCheck != IntPtr.Zero; hwndCheck = GetParent(hwndCheck)) {
+					if (hwndCheck == handle) {
+						UngrabWindow(Grab.Hwnd);
+						break;
+					}
+				}
+			}
 
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			hwnd.Visible = visible;
@@ -2027,25 +2039,9 @@ namespace System.Windows.Forms {
 				}
 				else
 				{
-					MoveFocusOutside(handle, winWrap);
 					winWrap.OrderOut(winWrap);
 				}
 			} else {
-				if (!visible && winWrap != null)
-				{
-					NSView activeWindowWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(ActiveWindow);
-					if (activeWindowWrap != null && activeWindowWrap.Window == winWrap)
-					{
-						MonoContentView contentView = winWrap.FirstResponder as MonoContentView;
-						if (contentView != null)
-						{
-							IntPtr focusHandle = contentView.FocusHandle;
-							if (focusHandle != IntPtr.Zero)
-								SendMessage(focusHandle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
-						}
-					}
-				}
-
 				vuWrap.Hidden = !visible;
 			}
 
@@ -2055,56 +2051,6 @@ namespace System.Windows.Forms {
 			hwnd.visible = visible;
 			hwnd.Mapped = true;
 			return true;
-		}
-
-		internal void MoveFocusOutside(IntPtr handle, NSWindow winWrap)
-		{
-			// Do nothing if focus is not inside the hierarchy.
-			var ctrl = Control.FromHandle(handle);
-			var focused = Control.FromHandle(GetFocus());
-			if (ctrl == null || focused == null || !ctrl.Contains(focused))
-				return;
-			
-			// Find owning NSWindow and it's content view
-			var view = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
-			var window = view != null ? view.Window : null;
-			if (window == null)
-				return;
-			var contentView = window.ContentView as MonoContentView;
-
-			// Find active NSWindow and its content view
-			var activeView = (NSView)ObjCRuntime.Runtime.GetNSObject(ActiveWindow);
-			if (activeView == null)
-				return; // Should not happen
-			var activeContentView = activeView.Window.ContentView as MonoContentView;
-
-			// Check if our control is in a separate NSWindow (ToolStripDropDownd etc)
-			if (contentView != activeContentView)
-			{
-				var savedFocus = contentView.FocusHandle;
-				contentView.FocusHandle = IntPtr.Zero;
-				SetFocus(savedFocus);
-				return;
-			}
-
-			var winParent = winWrap.ParentWindow as MonoWindow;
-			if (winParent != null)
-			{
-				var form = focused.FindForm();
-				if (form == null)
-				{
-					var parent = Control.FromHandle(winParent.ContentView.Handle);
-					if (parent != null)
-						form = parent.FindForm();
-				}
-				if (form != null)
-				{
-					var focus = winParent.FindSuperControl(ctrl);
-					if (focus == null)
-						focus = winParent.FindNextControl(form, ctrl);
-					SetFocus(focus != null ? focus.Handle : IntPtr.Zero);
-				}
-			}
 		}
 
 		internal override void SetAllowDrop (IntPtr handle, bool value)
