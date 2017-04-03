@@ -1257,6 +1257,9 @@
     <Compile Include="System.Windows.Forms.CocoaInternal\KeysConverter.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\NSKeyEx.cs" />
     <Compile Include="System.Windows.Forms\ThemeMacOS.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\IMacNativeControl.cs" />
+    <Compile Include="System.Windows.Forms\Button.Mac.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\WindowsEventResponder.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

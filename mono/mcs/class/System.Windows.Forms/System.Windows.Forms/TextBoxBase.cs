@@ -2617,7 +2617,7 @@ namespace System.Windows.Forms
 
 				{ Keys.Delete,                               PerformForwardDelete },
 				{ Keys.Delete | Keys.Alt,                    PerformForwardDeleteWord },
-				//{ Keys.Back,                                 PerformDelete }, //Handled in WmChar() - is that OK?
+				{ Keys.Back,                                 PerformDelete },
 				{ Keys.Back | Keys.Alt,                      PerformDeleteWord },
 
 				{ Keys.Left,                                 PerformGoToTheLeft },

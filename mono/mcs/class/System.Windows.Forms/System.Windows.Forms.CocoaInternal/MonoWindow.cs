@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,22 +9,19 @@ using AppKit;
 #elif MONOMAC
 using MonoMac.Foundation;
 using MonoMac.AppKit;
+using ObjCRuntime = MonoMac.ObjCRuntime;
 #endif
 
 #if SDCOMPAT
 using NSRect = System.Drawing.RectangleF;
-using NSPoint = System.Drawing.PointF;
 using NSSize = System.Drawing.SizeF;
 using nint = System.Int32;
 #else
 #if XAMARINMAC
 using NSRect = CoreGraphics.CGRect;
-using NSPoint = CoreGraphics.CGPoint;
 using NSSize = CoreGraphics.CGSize;
-using nint = System.Int64;
 #elif MONOMAC
 using NSRect = MonoMac.CoreGraphics.CGRect;
-using NSPoint = MonoMac.CoreGraphics.CGPoint;
 using NSSize = MonoMac.CoreGraphics.CGSize;
 using nint = System.Int32;
 #endif
@@ -37,6 +33,7 @@ namespace System.Windows.Forms.CocoaInternal
 	{
 		internal XplatUICocoa driver;
 		internal NSWindow owner;
+		internal NSResponder savedReponder;
 
 		const int TabKey = 9;
 		const int ShiftTabKey = 25;
@@ -44,100 +41,120 @@ namespace System.Windows.Forms.CocoaInternal
 		public MonoWindow (IntPtr handle) : base(handle)
 		{
 		}
-			
+
 		//[Export ("initWithContentRect:styleMask:backing:defer:"), CompilerGenerated]
-		internal MonoWindow (NSRect contentRect, NSWindowStyle aStyle, NSBackingStore bufferingType, bool deferCreation, XplatUICocoa driver) 
+		internal MonoWindow (NSRect contentRect, NSWindowStyle aStyle, NSBackingStore bufferingType, bool deferCreation, XplatUICocoa driver)
 			: base(contentRect, aStyle, bufferingType, deferCreation)
 		{
 			this.driver = driver;
 		}
 
+		public override bool MakeFirstResponder(NSResponder aResponder)
+		{
+			if (FirstResponder == aResponder)
+				return true;
+			
+			var focusView = FirstResponder as MonoView;
+			var newFocusView = aResponder as MonoView;
+			if (base.MakeFirstResponder(aResponder))
+			{
+				if (focusView != null)
+					driver.SendMessage(focusView.Handle, Msg.WM_KILLFOCUS, newFocusView != null ? newFocusView.Handle : IntPtr.Zero, IntPtr.Zero);
+				if (newFocusView != null && FirstResponder == aResponder)
+					driver.SendMessage(newFocusView.Handle, Msg.WM_SETFOCUS, focusView != null ? focusView.Handle : IntPtr.Zero, IntPtr.Zero);
+
+				// If the newly focused control is not MonoView then it must be some embedded native control. Try
+				// to update the ActiveControl chain in Form to match it using similar approach as in Control.WmSetFocus. 
+				if (newFocusView == null)
+				{
+					for (var view = aResponder as NSView; view != null; view = view.Superview)
+					{
+						var wrapperControl = Control.FromChildHandle(view.Handle);
+						if (wrapperControl != null)
+						{
+							(wrapperControl ?? wrapperControl.Parent).Select(wrapperControl);
+							break;
+						}
+					}
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+
+		public override bool CanBecomeKeyWindow
+		{
+			get
+			{
+				var hwnd = Hwnd.GetObjectFromWindow(this.ContentView.Handle);
+				if (hwnd.zombie)
+					return false;
+				return true;
+			}
+		}
+
 		public override bool CanBecomeMainWindow
 		{
-			get { return CanBecomeKeyWindow; }
+			get
+			{
+				return CanBecomeKeyWindow && owner == null;
+			}
 		}
 
 		public override void SendEvent(NSEvent theEvent)
 		{
 			var monoContentView = (MonoContentView)ContentView;
-			var hitTestView = monoContentView.hitTestResult;
-
-			//Console.WriteLine(hitTestView?.GetType()?.Name);
 
 			switch (theEvent.Type)
 			{
-				// Support for closing menus, dropdowns etc when clicking 'outside'.
 				case NSEventType.LeftMouseDown:
 				case NSEventType.RightMouseDown:
 				case NSEventType.OtherMouseDown:
+				case NSEventType.LeftMouseUp:
+				case NSEventType.RightMouseUp:
+				case NSEventType.OtherMouseUp:
+				case NSEventType.LeftMouseDragged:
+				case NSEventType.RightMouseDragged:
+				case NSEventType.OtherMouseDragged:
+				case NSEventType.ScrollWheel:
 				case NSEventType.BeginGesture:
-					if (hitTestView == null)
-						OnNonClientClick(theEvent);
-					else if (!(hitTestView is MonoView))
-						OnNativeControlClick(theEvent);
-					break;
-
-				// Prevent native controls (webview etc) from eating certain mouse messages for MWF controls
+				case NSEventType.EndGesture:	
 				case NSEventType.MouseMoved:
-				case NSEventType.MouseEntered:
-				case NSEventType.MouseExited:
-					if (FirstResponder is NSControl && hitTestView is MonoView)
-					{
-						monoContentView.ProcessMouseEvent(theEvent);
+					if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero) {
+						var grabView = (NSView) ObjCRuntime.Runtime.GetNSObject(XplatUICocoa.Grab.Hwnd);
+						switch (theEvent.Type) {
+							case NSEventType.LeftMouseDown: grabView.MouseDown(theEvent); break;
+							case NSEventType.RightMouseDown: grabView.RightMouseDown(theEvent); break;
+							case NSEventType.OtherMouseDown: grabView.OtherMouseDown(theEvent); break;
+							case NSEventType.LeftMouseUp: grabView.MouseUp(theEvent); break;
+							case NSEventType.RightMouseUp: grabView.RightMouseUp(theEvent); break;
+							case NSEventType.OtherMouseUp: grabView.OtherMouseUp(theEvent); break;
+							case NSEventType.LeftMouseDragged: grabView.MouseDragged(theEvent); break;
+							case NSEventType.RightMouseDragged: grabView.RightMouseDragged(theEvent); break;
+							case NSEventType.OtherMouseDragged: grabView.OtherMouseDragged(theEvent); break;
+							case NSEventType.ScrollWheel: grabView.ScrollWheel(theEvent); break;
+							case NSEventType.BeginGesture: grabView.BeginGestureWithEvent(theEvent); break;
+							case NSEventType.EndGesture: grabView.EndGestureWithEvent(theEvent); break;
+							case NSEventType.MouseMoved: grabView.MouseMoved(theEvent); break;
+						}
 						return;
 					}
-					break;
-				
-				// Handles tab and shift+tab keys so that switching focus works for both MWF and native controls.
-				// Handles ESC key as well (forwards it to the parent control, so that closing window works)
-				// - Both tasks should handled better, this is a workaround rather than solution.
-				// - This way you can't type TAB char inside web view - it always focuses next control
-				// - NSControl should be asked if it's ready to resign the 1st responder
-				case NSEventType.KeyDown:
-					if (FirstResponder is NSControl && theEvent.Characters.Length > 0)
-					{
-						int c = (int)theEvent.Characters[0];
-						if (c == ShiftTabKey || c == TabKey)
-						{
-							monoContentView.FocusHandle = FindNextControl(FirstResponder as NSView, c == TabKey);
-							MakeFirstResponder(monoContentView);
-							return;
-						}
-
-						if (theEvent.KeyCode == (ushort)NSKey.Escape)
-						{
-							var control = FindContainingControl(FirstResponder as NSView);
-							if (control != null)
-							{
-								var focus = monoContentView.FocusHandle;
-								monoContentView.FocusHandle = control.Handle;
-								monoContentView.ProcessKeyPress(theEvent);
-								monoContentView.FocusHandle = focus;
-								return;
-							}
-						}
+					if (theEvent.Type == NSEventType.LeftMouseDown ||
+						theEvent.Type == NSEventType.RightMouseDown ||
+						theEvent.Type == NSEventType.OtherMouseDown ||
+						theEvent.Type == NSEventType.BeginGesture) {
+						var hitTest = ContentView.HitTest(theEvent.LocationInWindow);
+						if (!(hitTest is MonoView)) {
+							// Make sure any popup menus are closed when clicking on embedded NSView.
+							ToolStripManager.FireAppClicked();
+						} 
 					}
-					break;
-
-				case NSEventType.FlagsChanged:
-					if (FirstResponder is NSControl)
-						monoContentView.ProcessModifiers(theEvent);
 					break;
 			}
 
 			base.SendEvent(theEvent);
-		}
-
-		protected virtual void OnNonClientClick(NSEvent e)
-		{
-			// FIXME - Send WM_NCLBUTTONDOWN etc instead of the following line?
-			ToolStripManager.FireAppClicked();
-		}
-
-		protected virtual void OnNativeControlClick(NSEvent e)
-		{
-			// FIXME
-			ToolStripManager.FireAppClicked();
 		}
 
 		[Export("windowShouldClose:")]
@@ -150,17 +167,6 @@ namespace System.Windows.Forms.CocoaInternal
 			else
 				driver.SendMessage (hwnd.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
 			return false;
-		}
-
-		public override bool CanBecomeKeyWindow
-		{
-			get
-			{
-				var hwnd = Hwnd.GetObjectFromWindow(this.ContentView.Handle);
-				if (hwnd.zombie)
-					return false;
-				return base.CanBecomeKeyWindow;
-			}
 		}
 
 		public override void OrderWindow(NSWindowOrderingMode place, nint relativeTo)
@@ -239,28 +245,15 @@ namespace System.Windows.Forms.CocoaInternal
 			resizeWinForm (hwnd);
 		}
 
-		[Export("windowDidBecomeKey:")]
-		internal virtual void windowDidBecomeKey(NSNotification notification)
+		public override void BecomeKeyWindow()
 		{
-			var hwnd = Hwnd.GetObjectFromWindow(this.ContentView.Handle);
-			XplatUICocoa.ActiveWindow = hwnd.Handle;
+			base.BecomeKeyWindow();
 
-			// Activating the window when the FirstReceiver was a native control would result in selecting next control
-			if (FirstResponder is MonoContentView || FirstResponder is MonoWindow || FirstResponder == null)
-			{
-				driver.SendMessage(hwnd.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
-			}
-			else
-			{
-				// Setting IsActive causes invoking OnActivate, which is necessary for refreshing menus.
-				var form = Control.FromHandle(ContentView.Handle)?.FindForm();
-				if (form != null)
-					form.IsActive = true;
-			}
+			if (CanBecomeMainWindow)
+				MakeMainWindow();
 
-			var cv = (MonoContentView)ContentView;
-			if (cv.FocusHandle != IntPtr.Zero)
-				driver.SendMessage(cv.FocusHandle, Msg.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
+			// FIXME: Set LParam
+			driver.SendMessage(ContentView.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
 
 			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
 			{
@@ -269,21 +262,18 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		[Export ("windowDidResignKey:")]
-		internal virtual void windowDidResignKey(NSNotification notification)
+		public override void ResignKeyWindow()
 		{
-			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
-			driver.SendMessage (hwnd.Handle, Msg.WM_ACTIVATE, (IntPtr) WindowActiveFlags.WA_INACTIVE, IntPtr.Zero);
-			if (XplatUICocoa.ActiveWindow == hwnd.Handle)
-				XplatUICocoa.ActiveWindow = IntPtr.Zero;
+			var newKeyWindow = NSApplication.SharedApplication.KeyWindow;
 
-			var cv = (MonoContentView)ContentView;
-			if (cv.FocusHandle != IntPtr.Zero)
-				driver.SendMessage(cv.FocusHandle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
+			base.ResignKeyWindow();
 
-			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows) {
+			driver.SendMessage(ContentView.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_INACTIVE, newKeyWindow != null ? newKeyWindow.ContentView.Handle : IntPtr.Zero);
+
+			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
+			{
 				if (utility_window != this && utility_window.IsVisible)
-					utility_window.OrderOut (utility_window);
+					utility_window.OrderOut(utility_window);
 			}
 		}
 
@@ -354,109 +344,6 @@ namespace System.Windows.Forms.CocoaInternal
 
 			return sorted;
 		}
-
-		#region Support for focusing native and MWF controls by Tab/ShiftTab
-
-		IntPtr FindNextControl(NSView view, bool forward)
-		{
-			Control control = FindContainingControl(view);
-			Control root = FindRootControl(control);
-
-			if (root != null)
-			{
-				var next = forward ? FindNextControl(root, control) : FindPrevControl(root, control);
-				if (next != null)
-					return next.Handle;
-			}
-
-			return IntPtr.Zero;
-		}
-
-		Control FindContainingControl(NSView view)
-		{
-			while (view != null)
-			{
-				var control = Control.FromHandle(view.Handle);
-				if (control != null)
-					return control;
-				view = view.Superview;
-			}
-			return null;
-		}
-
-		Control FindRootControl(Control control)
-		{
-			Control root;
-			for (root = control; control != null; control = control.Parent)
-				root = control;
-
-			return root;
-		}
-
-		public Control FindSuperControl(Control control)
-		{
-			var next = control;
-			while (next != null)
-			{
-				if (next.CanSelect && next.TabStop)
-					return next;
-
-				next = next.Parent;
-			}
-			return null;
-		}
-
-		public Control FindNextControl(Control top, Control control)
-		{
-			var next = control;
-			bool wrap = true;
-			do
-			{
-				next = top.GetNextControl(next, true);
-				if (next == null)
-				{
-					if (wrap)
-					{
-						wrap = false;
-						continue;
-					}
-					break;
-				}
-
-				if (next.CanSelect && next.TabStop && !next.Contains(control))
-					return next;
-
-			} while (next != control);
-
-			return null;
-		}
-
-		public Control FindPrevControl(Control top, Control ctl)
-		{
-			bool wrap = true;
-			Control next = ctl, prev = null;
-			do
-			{
-				next = top.GetNextControl(next, true);
-				if (next == null)
-				{
-					if (wrap)
-					{
-						wrap = false;
-						continue;
-					}
-					break;
-				}
-
-				if (next.CanSelect && next.TabStop && !next.Contains(ctl))
-					prev = next;
-
-			} while (next != ctl);
-
-			return prev;
-		}
-
-		#endregion
 	}
 }
 
