@@ -233,14 +233,6 @@ namespace System.Windows.Forms
 
 		#region Button
 
-		NSImage ToNSImage(Image i)
-		{
-			var stream = new IO.MemoryStream();
-			i.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-			var data = NSData.FromArray(stream.ToArray());
-			return new NSImage(data);
-		}
-
 		NSButtonCell GetButtonCell(ButtonBase b)
 		{
 			var cell = new SWFCell();
@@ -253,7 +245,7 @@ namespace System.Windows.Forms
 			cell.Enabled = b.Enabled;
 			cell.isFocused = b.Focused;
 			if (b.Image != null)
-				cell.Image = ToNSImage(b.Image);
+				cell.Image = b.Image.ToNSImage();
 			return cell;
 		}
 
@@ -514,7 +506,7 @@ namespace System.Windows.Forms
 		#region CheckBox
 
 
-		NSAttributedString GetAttributedString(string s, char? hotKey = '&', Font font = null, ContentAlignment? alignment = null)
+		public static NSAttributedString GetAttributedString(string s, char? hotKey = '&', Font font = null, ContentAlignment? alignment = null)
 		{
 			var attributes = new NSMutableDictionary();
 
@@ -570,7 +562,7 @@ namespace System.Windows.Forms
 				//	frame.Height = (int)Math.Round(s.Height);
 
 				var view = NSView.FocusView(); //CocoaInternal.MonoView.FocusedView;
-					if (cb.Focused && cb.Enabled && cb.ShowFocusCues)
+				if (cb.Focused && cb.Enabled && cb.ShowFocusCues)
 				{
 					//var fr = cell.GetFocusRingMaskBounds(frame, view);
 					cell.DrawFocusRing(frame, view);
