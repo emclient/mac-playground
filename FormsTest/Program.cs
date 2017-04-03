@@ -3,6 +3,8 @@ using System.Windows.Forms;
 using System.Threading;
 using FormsTest;
 using System.Diagnostics;
+using MailClient.Common.UI;
+using Xilium.CefGlue;
 
 #if MAC
 
@@ -18,8 +20,22 @@ namespace FormsTest
 {
 	public static class Program
 	{
-        //public static Settings Settings { get; private set; }
-        
+		//public static Settings Settings { get; private set; }
+
+		static CefApp a = new MyCefApp();
+
+		class MyCefRenderProcessHandler : CefRenderProcessHandler
+		{
+		}
+
+		class MyCefApp : CefApp
+		{
+			protected override CefRenderProcessHandler GetRenderProcessHandler()
+			{
+				return new MyCefRenderProcessHandler();
+			}
+		}
+
         /// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -34,6 +50,9 @@ namespace FormsTest
 			};
 
             //UrlProtocol.Register();
+
+			Marshalling.Initialize();
+			//CefApp.
 
 			Application.Run(new MainForm());
 
