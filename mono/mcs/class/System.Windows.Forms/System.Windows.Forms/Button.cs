@@ -34,7 +34,7 @@ namespace System.Windows.Forms {
 	[ComVisible (true)]
 	[Designer ("System.Windows.Forms.Design.ButtonBaseDesigner, " + Consts.AssemblySystem_Design,
 		   "System.ComponentModel.Design.IDesigner")]
-	public class Button : ButtonBase, IButtonControl {
+	public partial class Button : ButtonBase, IButtonControl {
 		#region Local variables
 		DialogResult	dialog_result;
 		#endregion	// Local variables

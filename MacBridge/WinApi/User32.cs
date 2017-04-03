@@ -65,8 +65,7 @@ namespace WinApi
 
 		internal static NSView HitTestIgnoringGrab(NSWindow window, CGPoint point)
 		{
-			var view = window.ContentView as MonoContentView;
-			return view != null ? view.HitTest(point, true, false) : window.ContentView.HitTest(point);
+			return window.ContentView.HitTest(point);
 		}
 
 		public static IntPtr GetWindow(IntPtr hWnd, uint uCmd)
