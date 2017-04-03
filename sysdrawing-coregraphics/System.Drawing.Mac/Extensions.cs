@@ -145,6 +145,16 @@ namespace System.Drawing.Mac
 		{
 			return (uint)color.ToSDColor().ToArgb();
 		}
+
+		public static NSImage ToNSImage(this Image image)
+		{
+			if (image.NativeCGImage != null)
+				return new NSImage(image.NativeCGImage, CGSize.Empty);
+			var stream = new IO.MemoryStream();
+			image.Save(stream, Imaging.ImageFormat.Png);
+			var data = NSData.FromArray(stream.ToArray());
+			return new NSImage(data);
+		}
 	}
 
 #if MONOMAC
