@@ -1197,6 +1197,14 @@ namespace System.Windows.Forms {
 					}
 					break;
 				}
+				case Msg.WM_CANCELMODE:
+				{
+					if (Grab.Hwnd != IntPtr.Zero)
+					{
+						UngrabWindow(Grab.Hwnd);
+					}
+					break;
+				}
 			}
 			return IntPtr.Zero;
 		}

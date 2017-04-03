@@ -2553,6 +2553,15 @@ namespace System.Windows.Forms {
 				break;
 			}
 
+			case Msg.WM_CANCELMODE: {
+				if (ActiveTracker != null) {
+					ActiveTracker.Deactivate();
+					ActiveTracker = null;
+				}
+				base.WndProc (ref m);
+				break;
+			}
+
 			default: {
 				base.WndProc (ref m);
 				break;
@@ -2699,6 +2708,17 @@ namespace System.Windows.Forms {
 				base.WndProc (ref m);
 		}
 
+		private bool IsChild (IntPtr hWndParent, IntPtr hWnd)
+		{
+			for (var parent = XplatUI.GetParent(hWnd); parent != IntPtr.Zero; parent = XplatUI.GetParent(parent)) {
+				if (parent == hWndParent) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		private void WmActivate (ref Message m)
 		{
 			if (!this.Enabled && modal_dialogs.Count > 0)
@@ -2711,13 +2731,14 @@ namespace System.Windows.Forms {
 				if (is_loaded) {
 					SelectActiveControl ();
 
-					if (ActiveControl != null && !ActiveControl.Focused)
-						SendControlFocus (ActiveControl);
+					var innermostActiveControl = GetMostDeeplyNestedActiveControl(this);
+					if (innermostActiveControl != null && !innermostActiveControl.Focused)
+						SendControlFocus (innermostActiveControl);
 				}
 
 				IsActive = true;
 			} else {
-				if (XplatUI.IsEnabled (Handle) && XplatUI.GetParent (m.LParam) != Handle)
+				if (XplatUI.IsEnabled (Handle) && !IsChild (Handle, m.LParam))
 					ToolStripManager.FireAppFocusChanged (this);
 				IsActive = false;
 			}
