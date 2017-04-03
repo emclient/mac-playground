@@ -288,7 +288,7 @@ namespace System.Windows.Forms {
 			return true;
 		}
 
-		private Control GetMostDeeplyNestedActiveControl (ContainerControl container)
+		internal Control GetMostDeeplyNestedActiveControl (ContainerControl container)
 		{
 			Control active = container.ActiveControl;
 			while (active is ContainerControl) {
