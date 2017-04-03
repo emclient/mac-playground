@@ -25,6 +25,7 @@ namespace System.Windows.Forms.CocoaInternal
 			this.driver = driver;
 
 			NSWorkspace.SharedWorkspace.NotificationCenter.AddObserver(NSWorkspace.WillPowerOffNotification, WillPowerOff, null);
+			// FIXME: NSMenuDidBeginTrackingNotification should send WM_CANCELMODE
 		}
 
 		protected virtual void WillPowerOff(NSNotification n)
@@ -79,9 +80,10 @@ namespace System.Windows.Forms.CocoaInternal
 				driver.SendMessage (focusWindow, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
 
 			if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero) {
-				driver.SendMessage (Hwnd.ObjectFromHandle (XplatUICocoa.Grab.Hwnd).Handle, 
-					Msg.WM_LBUTTONUP, (IntPtr)MsgButtons.MK_LBUTTON, 
-					(IntPtr) (driver.MousePosition.X << 16 | driver.MousePosition.Y));
+				driver.SendMessage(XplatUICocoa.Grab.Hwnd, Msg.WM_CANCELMODE, IntPtr.Zero, IntPtr.Zero);
+				if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero) {
+					XplatUICocoa.Grab.Hwnd = IntPtr.Zero;
+				}	
 			}
 
 			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
