@@ -1370,15 +1370,14 @@ namespace System.Windows.Forms {
 		}
 
 		internal override IntPtr GetFocus() {
-			if (ActiveWindow != IntPtr.Zero) {
-				NSView activeWindowWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (ActiveWindow);
-				MonoContentView contentView = activeWindowWrap.Window.FirstResponder as MonoContentView;
-				if (contentView != null)
-					return contentView.FocusHandle;
-			}
+			var keyWindow = NSApplication.SharedApplication.KeyWindow;
+			if (keyWindow != null) {
+				var responder = keyWindow.FirstResponder;
+				if (responder != null)
+					return responder.Handle;
+ 			}
 			return IntPtr.Zero;
 		}
-
 		
 		internal override bool GetFontMetrics (Graphics g, Font font, out int ascent, out int descent) {
 			FontFamily ff = font.FontFamily;
