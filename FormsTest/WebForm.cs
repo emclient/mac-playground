@@ -44,6 +44,16 @@ namespace FormsTest
 		{
 		}
 
+		protected override bool ProcessDialogKey(Keys keyData)
+		{
+			if (keyData == Keys.Escape)
+			{
+				Close();
+				return true;
+			}
+			return base.ProcessDialogKey(keyData);
+		}
+
 		protected void InstallWebview()
 		{
 			#if MAC

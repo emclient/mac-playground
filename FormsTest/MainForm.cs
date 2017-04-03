@@ -40,7 +40,7 @@ namespace FormsTest
             new Pair { Name = "MB Quest A/R/I", Action = delegate { MessageBox.Show(loremIpsum, title, MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Question); } },
             new Pair { Name = "MB Error R/C", Action = delegate { MessageBox.Show(loremIpsum, title, MessageBoxButtons.RetryCancel, MessageBoxIcon.Error); } },
 			new Pair { Name = "MB Error C/R", Action = delegate { MessageBox.Show(loremIpsum, title, MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2); } },
-        };
+		};
 
         public delegate void Action();
         public class Pair
@@ -78,6 +78,14 @@ namespace FormsTest
 			AddButton("Layout 2", () => { new DebugLayoutForm2().Show(); });
 			AddButton("Layout 3", () => { new DebugLayoutForm3().Show(); });
 			AddButton("Layout 4", () => { new DebugLayoutForm4().Show(); });
+			AddButton("Editor", () =>
+			{
+				var f = new Form() { Size = new Size(500, 300) };
+
+				f.Controls.Add(new HtmlEditorControl.HtmlEditorBrowser { Dock = DockStyle.Fill });
+				f.Controls.Add(new MailClient.Common.UI.Controls.ControlTextBox.ControlTextBox { Dock = DockStyle.Top });
+				f.Show();
+			});
 		}
 
 		List<Button> buttons = new List<Button>();
@@ -120,22 +128,25 @@ namespace FormsTest
 
         void UpdateList()
         {
-            listBox1.Items.Clear();
             ListFontFamilies(listBox1, filter);
         }
 
-        void ListFontFamilies(ListBox listBox, string filter)
+		FontCollection fonts = new InstalledFontCollection();
+
+		void ListFontFamilies(ListBox listBox, string filter)
         {
-            var fonts = new InstalledFontCollection();
             var families = fonts.Families.Select(x => x.Name).ToArray();
 
             Array.Sort(families);
 
-            foreach (var family in families)
+			listBox.BeginUpdate();
+            listBox1.Items.Clear();
+			foreach (var family in families)
             {
                 if (String.IsNullOrEmpty(filter) || -1 != family.IndexOf(filter, StringComparison.CurrentCultureIgnoreCase))
                     listBox.Items.Add(family);
             }
+			listBox.EndUpdate();
         }
 
         private void listBox1_SelectedIndexChanged(object sender, System.EventArgs e)
