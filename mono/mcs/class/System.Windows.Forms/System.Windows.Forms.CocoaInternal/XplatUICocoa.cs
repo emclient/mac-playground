@@ -947,7 +947,7 @@ namespace System.Windows.Forms {
 					windowWrapper.HasShadow = true;
 
 				viewWrapper = new Cocoa.MonoContentView (this, WholeRect, hwnd);
-				viewWrapper.AutoresizesSubviews = true;
+				viewWrapper.AutoresizesSubviews = false;
 				wholeHandle = (IntPtr)viewWrapper.Handle;
 				windowWrapper.ContentView = viewWrapper;
 				windowWrapper.InitialFirstResponder = viewWrapper;
@@ -1338,11 +1338,13 @@ namespace System.Windows.Forms {
 
 		internal override IntPtr GetParent(IntPtr handle)
 		{
-			Hwnd hwnd = Hwnd.ObjectFromHandle(handle);
-			if (hwnd == null)
+			if (handle == IntPtr.Zero)
 				return IntPtr.Zero;
-			if (hwnd.Parent != null)
-				return hwnd.Parent.Handle;
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			if (vuWrap.Superview != null)
+				return vuWrap.Superview.Handle;
+			if (vuWrap.Window != null && vuWrap.Window.ParentWindow != null)
+				return vuWrap.Window.ParentWindow.ContentView.Handle;
 			return IntPtr.Zero;
 		}
 
@@ -1999,9 +2001,7 @@ namespace System.Windows.Forms {
 				var hwnd = Hwnd.ObjectFromHandle(hWnd);
 				var visible = hwnd != null && hwnd.Visible;
 				if (winOwnerWrap != null && visible)
-					winOwnerWrap.AddChildWindow(winWrap, NSWindowOrderingMode.Above);
-
-				hwnd.Parent = Hwnd.ObjectFromHandle(hWndOwner);
+					winOwnerWrap.AddChildWindow(winWrap, NSWindowOrderingMode.Above);				
 			}
 
 			return true;
