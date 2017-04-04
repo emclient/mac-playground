@@ -302,7 +302,8 @@ namespace System.Windows.Forms.CocoaInternal
 				case NSEventType.MouseExited:
 					if (XplatUICocoa.Grab.Hwnd == IntPtr.Zero && e.Window != null)
 					{
-						var newMouseView = e.Window.ContentView.HitTest(e.LocationInWindow) as MonoView;
+						var contentView = e.Window.ContentView;
+						var newMouseView = (contentView.Superview ?? contentView).HitTest(e.LocationInWindow);
 						if (mouseView != newMouseView)
 						{
 							if (mouseView != null)
