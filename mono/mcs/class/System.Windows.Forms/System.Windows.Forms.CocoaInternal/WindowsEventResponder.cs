@@ -180,7 +180,7 @@ namespace System.Windows.Forms.CocoaInternal
 				nspoint = view.Window.ConvertScreenToBase(e.Window.ConvertBaseToScreen(nspoint));
 
 			nspoint = view.ConvertPointFromView(nspoint, null);
-			localMonoPoint = driver.NativeToMonoFramed(nspoint, view.Frame.Height);
+			localMonoPoint = driver.NativeToMonoFramed(nspoint, view);
 
 			if (hwnd.ClientRect.Contains(localMonoPoint) || XplatUICocoa.Grab.Hwnd != IntPtr.Zero)
 			{
