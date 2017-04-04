@@ -84,11 +84,16 @@ namespace System.Windows.Forms
 			base.OnEnabledChanged(e);
 		}
 
-		/*
+#if XAMARINMAC
 		public override Drawing.Size GetPreferredSize(Drawing.Size proposedSize)
 		{
-			var b = this.button ?? CreateView();
-			return ((NSControl)b).SizeThatFits(proposedSize.ToCGSize()).ToSDSize();
-		}*/
+			if (this.AutoSize)
+			{
+				var b = this.button ?? CreateView();
+				return ((NSControl)b).SizeThatFits(proposedSize.ToCGSize()).ToSDSize();
+			}
+			return base.GetPreferredSize(proposedSize);
+		}
+#endif
 	}
 }
