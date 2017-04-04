@@ -953,9 +953,9 @@ namespace System.Windows.Forms {
 				windowWrapper.InitialFirstResponder = viewWrapper;
 				windowWrapper.SetOneShot(true);
 
-				if (ExStyleSet(cp.ExStyle, WindowExStyles.WS_EX_TOPMOST))
+				/*if (ExStyleSet(cp.ExStyle, WindowExStyles.WS_EX_TOPMOST))
 					windowWrapper.Level = NSWindowLevel.Floating;
-				else if (StyleSet(cp.Style, WindowStyles.WS_POPUP))
+				else*/ if (StyleSet(cp.Style, WindowStyles.WS_POPUP))
 					windowWrapper.Level = NSWindowLevel.PopUpMenu;
 				if (ParentWrapper != null)
 					ParentWrapper.Window.AddChildWindow (windowWrapper, NSWindowOrderingMode.Above);
