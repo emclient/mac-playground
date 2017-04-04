@@ -105,22 +105,36 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UrlProtocol.cs" />
-    <Compile Include="DebugLayoutForm4.cs" />
-    <Compile Include="LayoutIssues\ImapOptions\ImapOptionsForm.cs" />
-    <Compile Include="LayoutIssues\ImapOptions\ImapOptionsControl.cs" />
+    <Compile Include="DebugLayoutForm4.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\ImapOptions\ImapOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\ImapOptions\ImapOptionsControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="LayoutIssues\ImapOptions\ImapOptionsControl.Designer.cs" />
     <Compile Include="..\..\..\MailClient\UI\Controls\WrappingCheckBox.cs">
       <Link>WrappingCheckBox.cs</Link>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="..\..\..\MailClient\UI\Controls\WrappingCheckBox.Mac.cs">
       <Link>WrappingCheckBox.Mac.cs</Link>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="LayoutIssues\ImapOptions\ImapOptionsForm.Designer.cs" />
-    <Compile Include="LayoutIssues\MailOptions\MailOptionsForm.cs" />
+    <Compile Include="LayoutIssues\MailOptions\MailOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LayoutIssues\MailOptions\MailOptionsForm.Designer.cs" />
-    <Compile Include="LayoutIssues\MailOptions\MailOptionsControl.cs" />
+    <Compile Include="LayoutIssues\MailOptions\MailOptionsControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="LayoutIssues\MailOptions\MailOptionsControl.Designer.cs" />
-    <Compile Include="LayoutIssues\FormInputBox\FormInputBox.cs" />
+    <Compile Include="LayoutIssues\FormInputBox\FormInputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LayoutIssues\FormInputBox\FormInputBox.Designer.cs" />
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
@@ -203,10 +217,5 @@
       <Name>CefGlue.Mac</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="LayoutIssues\" />
-    <Folder Include="LayoutIssues\ImapOptions\" />
-    <Folder Include="LayoutIssues\MailOptions\" />
-    <Folder Include="LayoutIssues\FormInputBox\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
