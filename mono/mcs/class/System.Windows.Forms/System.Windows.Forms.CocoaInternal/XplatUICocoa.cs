@@ -58,6 +58,7 @@
 
 using System.Threading;
 using System.Drawing;
+using System.Drawing.Mac;
 using System.Collections.Generic;
 using System.Collections;
 using System.Diagnostics;
@@ -70,43 +71,18 @@ using Cocoa = System.Windows.Forms.CocoaInternal;
 using Foundation;
 using AppKit;
 using System.Windows.Forms.CocoaInternal;
+using CoreGraphics;
 #elif MONOMAC
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using System.Windows.Forms.CocoaInternal;
+using MonoMac.CoreGraphics;
 using ObjCRuntime = MonoMac.ObjCRuntime;
-#endif
-#if SDCOMPAT
-using NSRect = System.Drawing.RectangleF;
-using NSPoint = System.Drawing.PointF;
-using NSSize = System.Drawing.SizeF;
-#else
-#if XAMARINMAC
-using CGPoint = CoreGraphics.CGPoint;
-using NSRect = CoreGraphics.CGRect;
-using NSPoint = CoreGraphics.CGPoint;
-using NSSize = CoreGraphics.CGSize;
-#elif MONOMAC
-using CGPoint = MonoMac.CoreGraphics.CGPoint;
-using NSRect = MonoMac.CoreGraphics.CGRect;
-using NSPoint = MonoMac.CoreGraphics.CGPoint;
-using NSSize = MonoMac.CoreGraphics.CGSize;
-#endif
-#endif
-
-#if MAC64
-using nint = System.Int64;
-using nfloat = System.Double;
-#else
 using nint = System.Int32;
 using nfloat = System.Single;
 #endif
 
 namespace System.Windows.Forms {
-
-	namespace CocoaInternal {
-		internal delegate Rectangle [] HwndDelegate (IntPtr handle);
-	}
 
 	internal class XplatUICocoa : XplatUIDriver {
 #region Local Variables
@@ -202,8 +178,8 @@ namespace System.Windows.Forms {
 			// Initialize the Cocoa Specific stuff
 			UtilityWindows = new ArrayList ();
 
-			ReverseWindow = new NSWindow(NSRect.Empty, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
-			CaretView = new NSView(NSRect.Empty);
+			ReverseWindow = new NSWindow(CGRect.Empty, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
+			CaretView = new NSView(CGRect.Empty);
 			CaretView.WantsLayer = true;
 			CaretView.Layer.BackgroundColor = NSColor.Black.CGColor;
 
@@ -247,7 +223,7 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		internal void ScreenToClientWindow (IntPtr handle, ref NSPoint point)
+		internal void ScreenToClientWindow (IntPtr handle, ref CGPoint point)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			NSView viewWrapper = ObjCRuntime.Runtime.GetNSObject (handle) as NSView;
@@ -256,7 +232,7 @@ namespace System.Windows.Forms {
 
 			NSWindow windowWrapper = viewWrapper.Window;
 			if (windowWrapper == null) {
-				point = new NSPoint (0, 0);
+				point = new CGPoint (0, 0);
 				return;
 			}
 
@@ -266,7 +242,7 @@ namespace System.Windows.Forms {
 			point.Y -= hwnd.ClientRect.Y;
 		}
 
-		internal void ClientWindowToScreen (IntPtr handle, ref NSPoint point)
+		internal void ClientWindowToScreen (IntPtr handle, ref CGPoint point)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			NSView viewWrapper = ObjCRuntime.Runtime.GetNSObject (handle) as NSView;
@@ -293,11 +269,11 @@ namespace System.Windows.Forms {
 			rect.X += hwnd.ClientRect.X;
 			rect.Y += hwnd.ClientRect.Y;
 
-			NSRect nsrect = MonoToNativeFramed (rect, vuWrap.Frame.Size.Height);
+			CGRect nsrect = MonoToNativeFramed (rect, vuWrap);
 
-			NSPoint location = nsrect.Location;
+			CGPoint location = nsrect.Location;
             ClientWindowToScreen (handle, ref location);
-			nsrect = new NSRect(location, nsrect.Size);
+			nsrect = new CGRect(location, nsrect.Size);
 			nsrect = window.FrameRectFor (nsrect);
 			window.SetFrame (nsrect, false);
 #if DriverDebug
@@ -305,46 +281,61 @@ namespace System.Windows.Forms {
 #endif
 		}
 
-		internal NSPoint MonoToNativeScreen (Point monoPoint)
+		internal CGPoint MonoToNativeScreen (Point monoPoint)
 		{
-			return new NSPoint (monoPoint.X, screenHeight - monoPoint.Y);
+			return new CGPoint (monoPoint.X, screenHeight - monoPoint.Y);
 		}
 
-		internal NSPoint MonoToNativeFramed (Point monoPoint, nfloat frameHeight)
+		internal CGPoint MonoToNativeFramed (Point monoPoint, NSView view)
 		{
-			return new NSPoint (monoPoint.X, monoPoint.Y);
+			if (view.IsFlipped) {
+				return new CGPoint(monoPoint.X, monoPoint.Y);
+			} else {
+				return new CGPoint(monoPoint.X, view.Frame.Height - monoPoint.Y);
+			}
 		}
 
-		internal Point NativeToMonoScreen (NSPoint nativePoint)
+		internal Point NativeToMonoScreen (CGPoint nativePoint)
 		{
 			return new Point ((int) nativePoint.X, (int) (screenHeight - nativePoint.Y));
 		}
 
-		internal Point NativeToMonoFramed (NSPoint nativePoint, nfloat frameHeight)
+		internal Point NativeToMonoFramed (CGPoint nativePoint, NSView view)
 		{
-			return new Point ((int) nativePoint.X, (int) (nativePoint.Y));
+			if (view.IsFlipped) {
+				return new Point((int)nativePoint.X, (int)nativePoint.Y);
+			} else {
+				return new Point((int)nativePoint.X, (int)(view.Frame.Height - nativePoint.Y));
+			}
 		}
 
-		internal NSRect MonoToNativeScreen (Rectangle monoRect)
+		internal CGRect MonoToNativeScreen (Rectangle monoRect)
 		{
-			return new NSRect(monoRect.Left, screenHeight - monoRect.Bottom, monoRect.Width, monoRect.Height);
+			return new CGRect(monoRect.Left, screenHeight - monoRect.Bottom, monoRect.Width, monoRect.Height);
 		}
 
-		internal NSRect MonoToNativeFramed (Rectangle monoRect, nfloat frameHeight)
+		internal CGRect MonoToNativeFramed (Rectangle monoRect, NSView view)
 		{
-			return new NSRect(monoRect.Left, monoRect.Top, monoRect.Width, monoRect.Height);
+			if (view.IsFlipped) {
+				return new CGRect(monoRect.X, monoRect.Y, monoRect.Width, monoRect.Height);
+			} else {
+				return new CGRect(monoRect.X, view.Frame.Height - monoRect.Y, monoRect.Width, monoRect.Height);
+			}
 		}
 
-		internal Rectangle NativeToMonoScreen (NSRect nativeRect)
+		internal Rectangle NativeToMonoScreen (CGRect nativeRect)
 		{
 			return new Rectangle ((int) nativeRect.Left, (int) (screenHeight - nativeRect.Bottom), 
 				(int) nativeRect.Size.Width, (int) nativeRect.Size.Height);
 		}
 
-		internal Rectangle NativeToMonoFramed (NSRect nativeRect, nfloat frameHeight)
+		internal Rectangle NativeToMonoFramed (CGRect nativeRect, NSView view)
 		{
-			return new Rectangle ((int) nativeRect.Left, (int) nativeRect.Top, 
-						(int) nativeRect.Size.Width, (int) nativeRect.Size.Height);
+			if (view.IsFlipped) {
+				return new Rectangle((int)nativeRect.X, (int)nativeRect.Y, (int)nativeRect.Width, (int)nativeRect.Height);
+			} else {
+				return new Rectangle((int)nativeRect.X, (int)(view.Frame.Height - nativeRect.Y), (int)nativeRect.Width, (int)nativeRect.Height);
+			}
 		}
 
 		internal void HwndPositionFromNative (Hwnd hwnd)
@@ -354,19 +345,19 @@ namespace System.Windows.Forms {
 
 			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (hwnd.Handle);
 			NSWindow winWrap = vuWrap.Window;
-			NSRect nsrect = vuWrap.GetAlignmentRectForFrame(vuWrap.Frame);
+			CGRect nsrect = vuWrap.GetAlignmentRectForFrame(vuWrap.Frame);
 			Rectangle mrect;
 
 			bool top = winWrap != null && winWrap.ContentView == vuWrap;
 			if (top) {
 				var size = winWrap.Frame.Size;
-				nsrect = new NSRect(
+				nsrect = new CGRect(
 					winWrap.ConvertBaseToScreen (nsrect.Location),
-					new NSSize(size.Width, size.Height));
+					new CGSize(size.Width, size.Height));
 				mrect = NativeToMonoScreen (nsrect);
 			} else {
 				NSView superVuWrap = vuWrap.Superview;
-				mrect = NativeToMonoFramed (nsrect, superVuWrap.Frame.Size.Height);
+				mrect = NativeToMonoFramed (nsrect, superVuWrap);
 			}
 
 			bool moved = hwnd.X != mrect.X || hwnd.Y != mrect.Y;
@@ -402,13 +393,13 @@ namespace System.Windows.Forms {
 #region Private Methods
 		private Point ConvertScreenPointToClient (IntPtr handle, Point point)
 		{
-			NSPoint nspoint = MonoToNativeScreen (point);
+			CGPoint nspoint = MonoToNativeScreen (point);
 
 			ScreenToClientWindow (handle, ref nspoint);
 
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
-			point = NativeToMonoFramed (nspoint, vuWrap.Frame.Size.Height);
+			point = NativeToMonoFramed (nspoint, vuWrap);
 			point.X -= hwnd.ClientRect.X;
 			point.Y -= hwnd.ClientRect.Y;
 			return point;
@@ -423,7 +414,7 @@ namespace System.Windows.Forms {
 			point.X += hwnd.ClientRect.X;
 			point.Y += hwnd.ClientRect.Y;
 
-			NSPoint nspoint = MonoToNativeFramed (point, vuWrap.Frame.Size.Height);
+			CGPoint nspoint = MonoToNativeFramed (point, vuWrap);
 
 			ClientWindowToScreen (handle, ref nspoint);
 			point = NativeToMonoScreen (nspoint);
@@ -437,13 +428,13 @@ namespace System.Windows.Forms {
 			if (viewWrapper == null)
 				throw new ArgumentException ("XplatUICocoa.ConvertScreenPointToNonClient() requires NSView*");
 
-			NSPoint native_point = MonoToNativeScreen (point);
+			CGPoint native_point = MonoToNativeScreen (point);
 			NSWindow windowWrapper = viewWrapper.Window;
 
 			native_point = windowWrapper.ConvertScreenToBase(native_point);
 			native_point = viewWrapper.ConvertPointFromView (native_point, null);
 
-			Point converted_point = NativeToMonoFramed (native_point, viewWrapper.Frame.Size.Height);
+			Point converted_point = NativeToMonoFramed (native_point, viewWrapper);
 
 			return converted_point;
 		}
@@ -454,7 +445,7 @@ namespace System.Windows.Forms {
 			if (viewWrapper == null)
 				throw new ArgumentException ("XplatUICocoa.ConvertScreenPointToNonClient() requires NSView*");
 
-			NSPoint native_point = MonoToNativeFramed (point, viewWrapper.Frame.Size.Height);
+			CGPoint native_point = MonoToNativeFramed (point, viewWrapper);
 			NSWindow windowWrapper = viewWrapper.Window;
 
 			native_point = viewWrapper.ConvertPointToView (native_point, null);
@@ -661,7 +652,7 @@ namespace System.Windows.Forms {
 			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd.Handle);
 			NSWindow winWrap = vuWrap.Window;
 			Rectangle mrect = new Rectangle (hwnd.X, hwnd.Y, hwnd.Width, hwnd.Height);
-			NSRect nsrect;
+			CGRect nsrect;
 
 			if (winWrap != null && winWrap.ContentView == vuWrap)
 			{
@@ -682,9 +673,9 @@ namespace System.Windows.Forms {
 						mrect.Y += (int)clientView.ClientBounds.Top;
 						mrect.X += (int)clientView.ClientBounds.Left;
 					}
-					nsrect = MonoToNativeFramed(mrect, superVuWrap.Frame.Size.Height);
+					nsrect = MonoToNativeFramed(mrect, superVuWrap);
 				} else
-					nsrect = new NSRect(mrect.X, mrect.Y, mrect.Width, mrect.Height);
+					nsrect = new CGRect(mrect.X, mrect.Y, mrect.Width, mrect.Height);
 
 				nsrect = vuWrap.GetFrameForAlignmentRect(nsrect);
 				if (vuWrap.Frame != nsrect)
@@ -761,7 +752,7 @@ namespace System.Windows.Forms {
 			if (StyleSet(cp.Style, WindowStyles.WS_CHILD)) {
 				WindowRect = Hwnd.GetWindowRectangle (cp, menu, ClientRect);
 			} else {				
-				var nsrect = NSWindow.FrameRectFor (MonoToNativeFramed(ClientRect, ClientRect.Height), StyleFromCreateParams (cp));
+				var nsrect = NSWindow.FrameRectFor (MonoToNativeScreen(ClientRect), StyleFromCreateParams (cp));
 				// RGS TEST
 				if (0 != ClientRect.Width && 0 != ClientRect.Height) { // The 0x0 sizes are calculations to update only the content area
 					if (StyleSet (cp.Style, WindowStyles.WS_CAPTION)) {
@@ -778,7 +769,7 @@ namespace System.Windows.Forms {
 				}
 				// RGS TEST
 
-				WindowRect = new Rectangle((int)nsrect.X, (int)nsrect.Y, (int)nsrect.Width, (int)nsrect.Height);
+				WindowRect = NativeToMonoScreen(nsrect);
 			}
 			return true;
 		}
@@ -919,14 +910,14 @@ namespace System.Windows.Forms {
 			}
 
 			Rectangle mWholeRect = new Rectangle (new Point (X, Y), new Size(Width, Height));
-			NSRect WholeRect;
+			CGRect WholeRect;
 			if (!isTopLevel && null != parent_hwnd) {
 				var clientView = ParentWrapper as IClientView;
 				if (clientView != null) {
 					mWholeRect.X += (int)clientView.ClientBounds.Left;
 					mWholeRect.Y += (int)clientView.ClientBounds.Top;
 				}
-				WholeRect = MonoToNativeFramed (mWholeRect, ParentWrapper.Frame.Size.Height);
+				WholeRect = MonoToNativeFramed (mWholeRect, ParentWrapper);
 			} else {
 				WholeRect = MonoToNativeScreen (mWholeRect);
 			}
@@ -1329,7 +1320,7 @@ namespace System.Windows.Forms {
 			var screens = NSScreen.Screens;
 			if (screens != null && 0 < screens.Length) {
 				NSScreen screenWrap = (NSScreen) screens[0];
-				NSRect bounds = screenWrap.Frame;
+				CGRect bounds = screenWrap.Frame;
 				size = new Size ((int) bounds.Size.Width, (int) bounds.Size.Height);
 			} else {
 				size = Size.Empty;
@@ -1365,7 +1356,7 @@ namespace System.Windows.Forms {
 		
 		internal override void GetCursorPos (IntPtr handle, out int x, out int y)
 		{
-			NSPoint nspt = NSEvent.CurrentMouseLocation;
+			CGPoint nspt = NSEvent.CurrentMouseLocation;
 			Point pt = NativeToMonoScreen (nspt);
 			x = (int) pt.X;
 			y = (int) pt.Y;
@@ -1519,7 +1510,7 @@ namespace System.Windows.Forms {
 				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 				rc.X += hwnd.ClientRect.X;
 				rc.Y += hwnd.ClientRect.Y;
-				vuWrap.SetNeedsDisplayInRect(MonoToNativeFramed(rc, vuWrap.Frame.Height));
+				vuWrap.SetNeedsDisplayInRect(MonoToNativeFramed(rc, vuWrap));
 			}
 		}
 
@@ -1758,7 +1749,7 @@ namespace System.Windows.Forms {
 				Caret.X = x;
 				Caret.Y = y;
 
-				CaretView.Frame = new NSRect(Caret.rect.X + (int)CaretView.Superview.AlignmentRectInsets.Left, Caret.rect.Top + (int)CaretView.Superview.AlignmentRectInsets.Top, Caret.rect.Width, Caret.rect.Height);
+				CaretView.Frame = new CGRect(Caret.rect.X + (int)CaretView.Superview.AlignmentRectInsets.Left, Caret.rect.Top + (int)CaretView.Superview.AlignmentRectInsets.Top, Caret.rect.Width, Caret.rect.Height);
 
 				Caret.Timer.Stop ();
 				HideCaret ();
@@ -1804,7 +1795,7 @@ namespace System.Windows.Forms {
 				NSDictionary description = screenWrap.DeviceDescription;
 				NSNumber screenNumber = (NSNumber) description["NSScreenNumber"];
 				// FIXME: Find a Cocoa way to do this.
-				CGDisplayMoveCursorToPoint (screenNumber.UInt32Value, new NSPoint (x, y));
+				CGDisplayMoveCursorToPoint (screenNumber.UInt32Value, new CGPoint (x, y));
 			}
 		}
 
@@ -1919,7 +1910,7 @@ namespace System.Windows.Forms {
 				hwnd.Parent = newParent;
 				if (newParentWrap != null) {
 					newParentWrap.AddSubview (vuWrap);
-					vuWrap.Frame = MonoToNativeFramed (new Rectangle (hwnd.X + newParent.ClientRect.X, hwnd.Y + newParent.ClientRect.Y, hwnd.Width, hwnd.Height), newParentWrap.Frame.Height);
+					vuWrap.Frame = MonoToNativeFramed (new Rectangle (hwnd.X + newParent.ClientRect.X, hwnd.Y + newParent.ClientRect.Y, hwnd.Width, hwnd.Height), newParentWrap);
 					//if (adoption)
 					//	vuWrap.Release ();
 				}
@@ -2594,7 +2585,7 @@ namespace System.Windows.Forms {
 
 				if (screens != null && 0 < screens.Length) {
 					NSScreen screenWrap = (NSScreen) screens[0];
-					NSRect bounds = screenWrap.VisibleFrame;
+					CGRect bounds = screenWrap.VisibleFrame;
 					rect = NativeToMonoScreen (bounds);
 				}
 
@@ -2641,7 +2632,7 @@ namespace System.Windows.Forms {
 #endregion Override properties XplatUIDriver
 
 		[DllImport("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
-		extern static void CGDisplayMoveCursorToPoint (UInt32 display, NSPoint point);
+		extern static void CGDisplayMoveCursorToPoint (UInt32 display, CGPoint point);
 
 	}
 	// Windows / Native messaging support

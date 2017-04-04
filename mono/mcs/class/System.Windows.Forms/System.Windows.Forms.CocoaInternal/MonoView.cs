@@ -86,6 +86,8 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			get
 			{
+				if (!(Superview is MonoView))
+				    return false;
 				if (Superview is MonoContentView)
 					return Superview.IsOpaque;
 				return true;
@@ -134,7 +136,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void DrawRect(NSRect dirtyRect)
 		{
-			Rectangle bounds = driver.NativeToMonoFramed(dirtyRect, Frame.Size.Height);
+			Rectangle bounds = driver.NativeToMonoFramed(dirtyRect, this);
 			MSG msg;
 
 			DrawBorders();
