@@ -35,7 +35,6 @@ namespace System.Drawing {
 
 	public sealed partial class Graphics : MarshalByRefObject, IDisposable, IDeviceContext {
 		internal CGContext context;
-		private Image image;
 		private NSView focusedView;
 		private bool hasClientTransform;
 		internal Pen LastPen;
@@ -77,7 +76,8 @@ namespace System.Drawing {
 #if MONOTOUCH
 		private Graphics() :
 			this (UIGraphics.GetCurrentContext(), UIScreen.MainScreen.Scale)
-		{	}
+		{
+		}
 
 		private Graphics(CGContext context) :
 			this (context, UIScreen.MainScreen.Scale)
@@ -107,7 +107,8 @@ namespace System.Drawing {
 #if MONOMAC || XAMARINMAC
 		private Graphics() :
 			this (NSGraphicsContext.CurrentContext)
-		{	}
+		{
+		}
 
 		private Graphics (NSGraphicsContext context)
 		{
@@ -145,9 +146,10 @@ namespace System.Drawing {
 			Graphics g;
 			NSView view = (NSView)NSRuntime.GetNSObject (hwnd);
 			if (NSView.FocusView () != view && view.LockFocusIfCanDraw ()) {
-				g = new Graphics (view.Window.GraphicsContext) { focusedView = view };
+				g = Graphics.FromCurrentContext();
+				g.focusedView = view;
 			} else if (view.Window != null && view.Window.GraphicsContext != null) {
-				g = new Graphics (view.Window.GraphicsContext);
+				g = Graphics.FromCurrentContext();
 			} else {
 				return Graphics.FromImage (new Bitmap (1, 1));
 			}
@@ -156,11 +158,11 @@ namespace System.Drawing {
 				var clientView = view as IClientView;
 				if (clientView != null) {
 					var clientBounds = clientView.ClientBounds;
-					view.Window.GraphicsContext.GraphicsPort.SaveState();
-					view.Window.GraphicsContext.GraphicsPort.TranslateCTM(
+					g.context.SaveState();
+					g.context.TranslateCTM(
 						clientBounds.Left,
 						clientBounds.Top);
-					view.Window.GraphicsContext.GraphicsPort.ClipToRect(new CGRect(
+					g.context.ClipToRect(new CGRect(
 						0,
 						0,
 						clientBounds.Width,
@@ -254,22 +256,19 @@ namespace System.Drawing {
 
 		internal void Dispose (bool disposing)
 		{
-			if (disposing){
+			if (disposing) {
+				if (context != null)
+				{
+					context.RestoreState();
+					if (hasClientTransform)
+						context.RestoreState();
+					context = null;
+				}
+
 				if (focusedView != null) {
 					focusedView.UnlockFocus ();
 					focusedView = null;
 				}
-
-				if (context != null){
-					context.RestoreState ();
-					if (hasClientTransform)
-						context.RestoreState();
-					// Do not dispose contexts for images, they are cached
-					if (image == null)
-						context.Dispose ();
-					context = null;
-				}
-
 			}
 		}
 
@@ -1035,7 +1034,7 @@ namespace System.Drawing {
 
 			var bitmapContext = b.GetRenderableContext ();
 
-			return new Graphics (bitmapContext, false) { image = b };
+			return new Graphics (bitmapContext, false);
 		}
 		
 		public void SetClip (RectangleF rect)
