@@ -145,11 +145,13 @@ namespace System.Drawing {
 
 			Graphics g;
 			NSView view = (NSView)NSRuntime.GetNSObject (hwnd);
-			if (NSView.FocusView () != view && view.LockFocusIfCanDraw ()) {
+			if (NSView.FocusView () == view) {
+				g = Graphics.FromCurrentContext();
+			} else if (view.LockFocusIfCanDraw ()) {
 				g = Graphics.FromCurrentContext();
 				g.focusedView = view;
 			} else if (view.Window != null && view.Window.GraphicsContext != null) {
-				g = Graphics.FromCurrentContext();
+				g = new Graphics (view.Window.GraphicsContext);
 			} else {
 				return Graphics.FromImage (new Bitmap (1, 1));
 			}
