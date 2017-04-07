@@ -840,7 +840,7 @@ namespace System.Windows.Forms {
 			#if DriverDebug || DriverDebugPaint
 				Console.WriteLine ("PaintEventEnd ({0}, {1}, {2}): Called from thread {3}", msg, Window (handle), client, Thread.CurrentThread.GetHashCode ());
 			#endif
-			driver.PaintEventEnd (ref msg, handle, client);
+			driver.PaintEventEnd (ref msg, handle, client, pevent);
 		}
 
 		internal static PaintEventArgs PaintEventStart (ref Message msg, IntPtr handle, bool client)
