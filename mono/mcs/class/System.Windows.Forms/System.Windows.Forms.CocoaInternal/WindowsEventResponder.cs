@@ -1,14 +1,15 @@
 using System.Drawing;
+using System.Drawing.Mac;
 #if XAMARINMAC
 using Foundation;
 using AppKit;
-using NSPoint = CoreGraphics.CGPoint;
+using CoreGraphics;
 #elif MONOMAC
 using MonoMac.Foundation;
 using MonoMac.AppKit;
+using MonoMac.CoreGraphics;
 using nint = System.Int32;
 using nuint = System.UInt32;
-using NSPoint = MonoMac.CoreGraphics.CGPoint;
 #endif
 
 namespace System.Windows.Forms.CocoaInternal
@@ -19,17 +20,15 @@ namespace System.Windows.Forms.CocoaInternal
 	class WindowsEventResponder : NSResponder
 	{
 		XplatUICocoa driver;
-		Hwnd hwnd;
 		NSView view;
 
 		public WindowsEventResponder(IntPtr instance) : base(instance)
 		{
 		}
 
-		public WindowsEventResponder(XplatUICocoa driver, Hwnd hwnd, NSView view)
+		public WindowsEventResponder(XplatUICocoa driver, NSView view)
 		{
 			this.driver = driver;
-			this.hwnd = hwnd;
 			this.view = view;
 		}
 
@@ -40,7 +39,7 @@ namespace System.Windows.Forms.CocoaInternal
 			// If the view is hosted by MonoWindow then the window is responsible
 			// to send WM_SETFOCUS since it can provide more accurate parameters.
 			if (!(view.Window is MonoWindow))
-				driver.SendMessage(hwnd.Handle, Msg.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
+				driver.SendMessage(view.Handle, Msg.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
 			return base.BecomeFirstResponder();
 		}
 
@@ -49,7 +48,7 @@ namespace System.Windows.Forms.CocoaInternal
 			// If the view is hosted by MonoWindow then the window is responsible
 			// to send WM_KILLFOCUS since it can provide more accurate parameters.
 			if (!(view.Window is MonoWindow))
-				driver.SendMessage(hwnd.Handle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
+				driver.SendMessage(view.Handle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
 			return base.ResignFirstResponder();
 		}
 
@@ -122,7 +121,7 @@ namespace System.Windows.Forms.CocoaInternal
 			TranslateMouseEvent(theEvent);
 		}
 
-		static NSView mouseView; // A view that is currently under the mouse cursor.
+		internal static NSView mouseView; // A view that is currently under the mouse cursor.
 
 		static nuint ButtonMaskToWParam(nuint mouseButtons)
 		{
@@ -169,12 +168,10 @@ namespace System.Windows.Forms.CocoaInternal
 
 		void TranslateMouseEvent(NSEvent e)
 		{
-			NSPoint nspoint = e.LocationInWindow;
+			var clientView = view as IClientView;
+			CGPoint nspoint = e.LocationInWindow;
 			Point localMonoPoint;
-			bool client = false;
-
-			if (hwnd.zombie)
-				return;
+			bool client = clientView == null;
 
 			if (e.Window != null && e.Window != view.Window)
 				nspoint = view.Window.ConvertScreenToBase(e.Window.ConvertBaseToScreen(nspoint));
@@ -182,11 +179,11 @@ namespace System.Windows.Forms.CocoaInternal
 			nspoint = view.ConvertPointFromView(nspoint, null);
 			localMonoPoint = driver.NativeToMonoFramed(nspoint, view);
 
-			if (hwnd.ClientRect.Contains(localMonoPoint) || XplatUICocoa.Grab.Hwnd != IntPtr.Zero)
+			if (clientView != null && clientView.ClientBounds.ToRectangle().Contains(localMonoPoint) || XplatUICocoa.Grab.Hwnd != IntPtr.Zero)
 			{
 				client = true;
-				localMonoPoint.X -= hwnd.ClientRect.X;
-				localMonoPoint.Y -= hwnd.ClientRect.Y;
+				localMonoPoint.X -= (int)clientView.ClientBounds.X;
+				localMonoPoint.Y -= (int)clientView.ClientBounds.Y;
 			}
 
 			int button = (int)e.ButtonNumber;
@@ -199,13 +196,13 @@ namespace System.Windows.Forms.CocoaInternal
 				++msgOffset4Button;
 
 			MSG msg = new MSG();
-			msg.hwnd = hwnd.Handle;
+			msg.hwnd = view.Handle;
 			msg.lParam = (IntPtr)(localMonoPoint.Y << 16 | (localMonoPoint.X & 0xFFFF));
 			if (e.Window == null)
 				msg.pt = driver.NativeToMonoScreen(NSEvent.CurrentMouseLocation).ToPOINT();
 			else
 				msg.pt = driver.NativeToMonoScreen(e.Window.ConvertBaseToScreen(e.LocationInWindow)).ToPOINT();
-			msg.refobject = hwnd;
+			msg.refobject = view;
 
 			switch (e.Type)
 			{
@@ -235,19 +232,18 @@ namespace System.Windows.Forms.CocoaInternal
 
 					if (XplatUICocoa.Grab.Hwnd == IntPtr.Zero)
 					{
-						IntPtr ht = IntPtr.Zero;
+						// We do not sent WM_SETCURSOR for now since we use optimized handling with SetCursor.
+						/*IntPtr ht = IntPtr.Zero;
 						if (client)
 						{
 							ht = (IntPtr)Forms.HitTest.HTCLIENT;
-							NativeWindow.WndProc(msg.hwnd, Msg.WM_SETCURSOR, msg.hwnd,
-								(IntPtr)Forms.HitTest.HTCLIENT);
+							NativeWindow.WndProc(msg.hwnd, Msg.WM_SETCURSOR, msg.hwnd, (IntPtr)Forms.HitTest.HTCLIENT);
 						}
 						else
 						{
-							ht = (IntPtr)NativeWindow.WndProc(hwnd.ClientWindow, Msg.WM_NCHITTEST,
-								IntPtr.Zero, msg.lParam).ToInt32();
-							NativeWindow.WndProc(hwnd.ClientWindow, Msg.WM_SETCURSOR, msg.hwnd, ht);
-						}
+							ht = (IntPtr)NativeWindow.WndProc(view.Handle, Msg.WM_NCHITTEST, IntPtr.Zero, msg.lParam).ToInt32();
+							NativeWindow.WndProc(view.Handle, Msg.WM_SETCURSOR, msg.hwnd, ht);
+						}*/
 
 						// NOTE: Alternative handling of WM_MOUSE_ENTER / WM_MOUSELEAVE, which we
 						// can use for performance reasons.
@@ -400,13 +396,13 @@ namespace System.Windows.Forms.CocoaInternal
 			cmdDown = 0 != (flags & NSEventModifierMask.CommandKeyMask);
 
 			if ((NSEventModifierMask.ShiftKeyMask & diff) != 0)
-				driver.SendMessage(hwnd.Handle, (NSEventModifierMask.ShiftKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_SHIFT, IntPtr.Zero);
+				driver.SendMessage(view.Handle, (NSEventModifierMask.ShiftKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_SHIFT, IntPtr.Zero);
 			if ((NSEventModifierMask.ControlKeyMask & diff) != 0)
-				driver.SendMessage(hwnd.Handle, (NSEventModifierMask.ControlKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_CONTROL, IntPtr.Zero);
+				driver.SendMessage(view.Handle, (NSEventModifierMask.ControlKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_CONTROL, IntPtr.Zero);
 			if ((NSEventModifierMask.AlternateKeyMask & diff) != 0)
-				driver.SendMessage(hwnd.Handle, (NSEventModifierMask.AlternateKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_MENU, IntPtr.Zero);
+				driver.SendMessage(view.Handle, (NSEventModifierMask.AlternateKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_MENU, IntPtr.Zero);
 			if ((NSEventModifierMask.CommandKeyMask & diff) != 0)
-				driver.SendMessage(hwnd.Handle, (NSEventModifierMask.CommandKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_LWIN, IntPtr.Zero);
+				driver.SendMessage(view.Handle, (NSEventModifierMask.CommandKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_LWIN, IntPtr.Zero);
 		}
 
 		void TranslateKeyboardEvent(NSEvent e)
@@ -433,7 +429,7 @@ namespace System.Windows.Forms.CocoaInternal
 				: (e.Type == NSEventType.KeyDown ? Msg.WM_KEYDOWN : Msg.WM_KEYUP);
 
 			//Debug.WriteLine ("keyCode={0}, characters=\"{1}\", key='{2}', chars='{3}'", e.KeyCode, chars, key, chars);
-			driver.PostMessage(hwnd.Handle, msg, wParam, lParam);
+			driver.PostMessage(view.Handle, msg, wParam, lParam);
 
 			// On Windows, this would normally be done in TranslateMessage
 			if (e.Type == NSEventType.KeyDown && !isExtendedKey)
@@ -450,25 +446,25 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("selectAll:")]
 		public virtual void SelectAll(NSObject sender)
 		{
-			driver.SendMessage(hwnd.Handle, Msg.WM_SELECT_ALL, IntPtr.Zero, IntPtr.Zero);
+			driver.SendMessage(view.Handle, Msg.WM_SELECT_ALL, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		[Export("copy:")]
 		public virtual void Copy(NSObject sender)
 		{
-			driver.SendMessage(hwnd.Handle, Msg.WM_COPY, IntPtr.Zero, IntPtr.Zero);
+			driver.SendMessage(view.Handle, Msg.WM_COPY, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		[Export("paste:")]
 		public virtual void Paste(NSObject sender)
 		{
-			driver.SendMessage(hwnd.Handle, Msg.WM_PASTE, IntPtr.Zero, IntPtr.Zero);
+			driver.SendMessage(view.Handle, Msg.WM_PASTE, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		[Export("cut:")]
 		public virtual void Cut(NSObject sender)
 		{
-			driver.SendMessage(hwnd.Handle, Msg.WM_CUT, IntPtr.Zero, IntPtr.Zero);
+			driver.SendMessage(view.Handle, Msg.WM_CUT, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		[Export("insertText:")]
@@ -477,7 +473,7 @@ namespace System.Windows.Forms.CocoaInternal
 			string str = text.ToString();
 			if (!String.IsNullOrEmpty(str))
 				foreach (var c in str)
-					driver.PostMessage(hwnd.Handle, Msg.WM_CHAR, (IntPtr)c, wmCharLParam);
+					driver.PostMessage(view.Handle, Msg.WM_CHAR, (IntPtr)c, wmCharLParam);
 		}
 	}
 }

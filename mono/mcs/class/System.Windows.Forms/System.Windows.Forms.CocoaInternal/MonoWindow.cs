@@ -33,17 +33,13 @@ namespace System.Windows.Forms.CocoaInternal
 	{
 		internal XplatUICocoa driver;
 		internal NSWindow owner;
-		internal NSResponder savedReponder;
 
-		const int TabKey = 9;
-		const int ShiftTabKey = 25;
-
-		public MonoWindow (IntPtr handle) : base(handle)
+		public MonoWindow(IntPtr handle) : base(handle)
 		{
 		}
 
 		//[Export ("initWithContentRect:styleMask:backing:defer:"), CompilerGenerated]
-		internal MonoWindow (NSRect contentRect, NSWindowStyle aStyle, NSBackingStore bufferingType, bool deferCreation, XplatUICocoa driver)
+		internal MonoWindow(NSRect contentRect, NSWindowStyle aStyle, NSBackingStore bufferingType, bool deferCreation, XplatUICocoa driver)
 			: base(contentRect, aStyle, bufferingType, deferCreation)
 		{
 			this.driver = driver;
@@ -53,7 +49,7 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			if (FirstResponder == aResponder)
 				return true;
-			
+
 			var focusView = FirstResponder as MonoView;
 			var newFocusView = aResponder as MonoView;
 			if (base.MakeFirstResponder(aResponder))
@@ -65,17 +61,11 @@ namespace System.Windows.Forms.CocoaInternal
 
 				// If the newly focused control is not MonoView then it must be some embedded native control. Try
 				// to update the ActiveControl chain in Form to match it using similar approach as in Control.WmSetFocus. 
-				if (newFocusView == null)
+				if (newFocusView == null && aResponder is NSView)
 				{
-					for (var view = aResponder as NSView; view != null; view = view.Superview)
-					{
-						var wrapperControl = Control.FromChildHandle(view.Handle);
-						if (wrapperControl != null)
-						{
-							(wrapperControl ?? wrapperControl.Parent).Select(wrapperControl);
-							break;
-						}
-					}
+					var wrapperControl = Control.FromChildHandle(aResponder.Handle);
+					if (wrapperControl != null)
+						(wrapperControl ?? wrapperControl.Parent).Select(wrapperControl);
 				}
 
 				return true;
@@ -88,10 +78,7 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			get
 			{
-				var hwnd = Hwnd.GetObjectFromWindow(this.ContentView.Handle);
-				if (hwnd.zombie)
-					return false;
-				return true;
+				return IsVisible;
 			}
 		}
 
@@ -120,11 +107,13 @@ namespace System.Windows.Forms.CocoaInternal
 				case NSEventType.OtherMouseDragged:
 				case NSEventType.ScrollWheel:
 				case NSEventType.BeginGesture:
-				case NSEventType.EndGesture:	
+				case NSEventType.EndGesture:
 				case NSEventType.MouseMoved:
-					if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero) {
-						var grabView = (NSView) ObjCRuntime.Runtime.GetNSObject(XplatUICocoa.Grab.Hwnd);
-						switch (theEvent.Type) {
+					if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero)
+					{
+						var grabView = (NSView)ObjCRuntime.Runtime.GetNSObject(XplatUICocoa.Grab.Hwnd);
+						switch (theEvent.Type)
+						{
 							case NSEventType.LeftMouseDown: grabView.MouseDown(theEvent); break;
 							case NSEventType.RightMouseDown: grabView.RightMouseDown(theEvent); break;
 							case NSEventType.OtherMouseDown: grabView.OtherMouseDown(theEvent); break;
@@ -144,12 +133,14 @@ namespace System.Windows.Forms.CocoaInternal
 					if (theEvent.Type == NSEventType.LeftMouseDown ||
 						theEvent.Type == NSEventType.RightMouseDown ||
 						theEvent.Type == NSEventType.OtherMouseDown ||
-						theEvent.Type == NSEventType.BeginGesture) {
-						var hitTest = ContentView.HitTest(theEvent.LocationInWindow);
-						if (!(hitTest is MonoView)) {
+						theEvent.Type == NSEventType.BeginGesture)
+					{
+						var hitTest = (ContentView.Superview ?? ContentView).HitTest(theEvent.LocationInWindow);
+						if (!(hitTest is MonoView))
+						{
 							// Make sure any popup menus are closed when clicking on embedded NSView.
 							ToolStripManager.FireAppClicked();
-						} 
+						}
 					}
 					break;
 			}
@@ -158,14 +149,14 @@ namespace System.Windows.Forms.CocoaInternal
 		}
 
 		[Export("windowShouldClose:")]
-		internal virtual bool shouldClose (NSObject sender)
+		internal virtual bool shouldClose(NSObject sender)
 		{
-			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
-			var form = Control.FromHandle(hwnd.Handle) as Form;
+			//var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
+			var form = Control.FromHandle(ContentView.Handle) as Form;
 			if (form != null)
 				form.Close(); // Sets CloseReason, among other things
 			else
-				driver.SendMessage (hwnd.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+				driver.SendMessage(ContentView.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
 			return false;
 		}
 
@@ -174,75 +165,75 @@ namespace System.Windows.Forms.CocoaInternal
 			base.OrderWindow(place, relativeTo);
 
 			if (place == NSWindowOrderingMode.Out && IsKeyWindow)
-				NSApplication.SharedApplication.BeginInvokeOnMainThread(() => {
+				NSApplication.SharedApplication.BeginInvokeOnMainThread(() =>
+				{
 					try { ActivateNextWindow(); }
 					catch (Exception e) { Debug.WriteLine("Failed async call ActivateNextWindow(: " + e); }
 				});
 		}
 
-		[Export ("windowWillResize:toSize:")]
+		[Export("windowWillResize:toSize:")]
 		internal virtual NSSize willResize(NSWindow sender, NSSize toFrameSize)
 		{
 			ToolStripManager.FireAppClicked();
 
-			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
+			//var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
 
-			var rect = new XplatUIWin32.RECT ();
+			var rect = new XplatUIWin32.RECT();
 			rect.left = rect.top = 0;
 			rect.right = (int)toFrameSize.Width;
 			rect.bottom = (int)toFrameSize.Height;
-			IntPtr lpRect = Marshal.AllocHGlobal (Marshal.SizeOf (rect));
+			IntPtr lpRect = Marshal.AllocHGlobal(Marshal.SizeOf(rect));
 			Marshal.StructureToPtr(rect, lpRect, false);
 
 			//FIXME - deduce WMSZ
 			IntPtr wParam = new IntPtr(8); //WMSZ_BOTTOMRIGHT;
 
-			NativeWindow.WndProc (hwnd.Handle, Msg.WM_SIZING, wParam, lpRect);
-			var rect2 = (Rectangle)Marshal.PtrToStructure (lpRect, typeof(Rectangle));
+			NativeWindow.WndProc(ContentView.Handle, Msg.WM_SIZING, wParam, lpRect);
+			var rect2 = (Rectangle)Marshal.PtrToStructure(lpRect, typeof(Rectangle));
 			toFrameSize.Width = rect2.Width;
-			toFrameSize.Height = rect2.Height;	
+			toFrameSize.Height = rect2.Height;
 
-			Marshal.FreeHGlobal (lpRect);
+			Marshal.FreeHGlobal(lpRect);
 
 			return toFrameSize;
 		}
 
-		[Export ("windowDidResize:")]
-		internal virtual void windowDidResize (NSNotification notification)
+		[Export("windowDidResize:")]
+		internal virtual void windowDidResize(NSNotification notification)
 		{
 			// resizeWinForm, invalidate and update?
-			resizeWinForm(Hwnd.GetObjectFromWindow(this.ContentView.Handle));
+			resizeWinForm();
 		}
 
-		[Export ("windowWillStartLiveResize:")]
+		[Export("windowWillStartLiveResize:")]
 		internal virtual void windowWillStartLiveResize(NSNotification notification)
 		{
-			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
-			NativeWindow.WndProc (hwnd.Handle, Msg.WM_ENTERSIZEMOVE, IntPtr.Zero, IntPtr.Zero);
+			//var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
+			NativeWindow.WndProc(ContentView.Handle, Msg.WM_ENTERSIZEMOVE, IntPtr.Zero, IntPtr.Zero);
 		}
 
-		[Export ("windowDidEndLiveResize:")]
+		[Export("windowDidEndLiveResize:")]
 		internal virtual void windowDidEndLiveResize(NSNotification notification)
 		{
-			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
-
-			resizeWinForm (hwnd);
-
-			NativeWindow.WndProc (hwnd.Handle, Msg.WM_EXITSIZEMOVE, IntPtr.Zero, IntPtr.Zero);
+			//var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
+			resizeWinForm();
+			NativeWindow.WndProc(ContentView.Handle, Msg.WM_EXITSIZEMOVE, IntPtr.Zero, IntPtr.Zero);
 		}
 
-		[Export ("windowDidMove:")]
+		[Export("windowDidMove:")]
 		internal virtual void windowDidMove(NSNotification notification)
 		{
-			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
-			resizeWinForm (hwnd);
+			//var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
+			//if (hwnd != null)
+			resizeWinForm();
 		}
 
-		[Export ("windowDidChangeScreen:")]
+		[Export("windowDidChangeScreen:")]
 		internal virtual void windowDidChangeScreen(NSNotification notification)
 		{
-			var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
-			resizeWinForm (hwnd);
+			//var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
+			resizeWinForm();
 		}
 
 		public override void BecomeKeyWindow()
@@ -253,13 +244,14 @@ namespace System.Windows.Forms.CocoaInternal
 				MakeMainWindow();
 
 			// FIXME: Set LParam
+			// FIXME: WM_MOUSEACTIVATE
 			driver.SendMessage(ContentView.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
 
-			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
+			/*foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
 			{
 				if (utility_window != this && !utility_window.IsVisible)
 					utility_window.OrderFront(utility_window);
-			}
+			}*/
 		}
 
 		public override void ResignKeyWindow()
@@ -270,25 +262,25 @@ namespace System.Windows.Forms.CocoaInternal
 
 			driver.SendMessage(ContentView.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_INACTIVE, newKeyWindow != null ? newKeyWindow.ContentView.Handle : IntPtr.Zero);
 
-			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
+			/*foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
 			{
 				if (utility_window != this && utility_window.IsVisible)
 					utility_window.OrderOut(utility_window);
-			}
+			}*/
 		}
 
 		// TODO: expanding, collapsing
 
 		internal virtual void resizeWinForm()
 		{
-			resizeWinForm(Hwnd.GetObjectFromWindow(this.ContentView.Handle));
-		}
+			/*	resizeWinForm(Hwnd.GetObjectFromWindow(this.ContentView.Handle));
+			}
 
-		// Tells win form to update it's content
-		internal virtual void resizeWinForm(Hwnd contentViewHandle)
-		{
-			driver.HwndPositionFromNative(contentViewHandle);
-			driver.SendMessage (contentViewHandle.Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
+			// Tells win form to update it's content
+			internal virtual void resizeWinForm(Hwnd contentViewHandle)
+			{*/
+			//driver.HwndPositionFromNative(ContentView.Handle);
+			driver.RequestNCRecalc(ContentView.Handle);
 		}
 
 		internal virtual void ActivateNextWindow()

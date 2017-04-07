@@ -31,34 +31,35 @@ using System.Drawing.Mac;
 #if XAMARINMAC
 using Foundation;
 using AppKit;
-using NSRect = CoreGraphics.CGRect;
+using CoreGraphics;
 #elif MONOMAC
 using MonoMac.Foundation;
 using MonoMac.AppKit;
+using MonoMac.CoreGraphics;
 using NMath = System.Math;
-using NSRect = MonoMac.CoreGraphics.CGRect;
 #endif
 
 namespace System.Windows.Forms.CocoaInternal
 {
 	//[ExportClass("MonoView", "NSView")]
-	internal partial class MonoView : NSView, System.Drawing.IClientView
+	partial class MonoView : NSView, System.Drawing.IClientView
 	{
 		protected XplatUICocoa driver;
-		protected Hwnd hwnd;
 		protected NSTrackingArea clientArea;
 		protected WindowsEventResponder eventReponder;
+		protected CGRect clientBounds;
 		internal bool inSetFocus;
 
 		public MonoView(IntPtr instance) : base(instance)
 		{
 		}
 
-		public MonoView(XplatUICocoa driver, NSRect frameRect, Hwnd hwnd) : base(frameRect)
+		public MonoView(XplatUICocoa driver, CGRect frameRect, WindowStyles style, WindowExStyles exStyle) : base(frameRect)
 		{
 			this.driver = driver;
-			this.hwnd = hwnd;
-			this.eventReponder = new WindowsEventResponder(driver, hwnd, this);
+			this.Style = style;
+			this.ExStyle = exStyle;
+			this.eventReponder = new WindowsEventResponder(driver, this);
 			base.NextResponder = eventReponder;
 		}
 
@@ -90,6 +91,8 @@ namespace System.Windows.Forms.CocoaInternal
 				    return false;
 				if (Superview is MonoContentView)
 					return Superview.IsOpaque;
+				if (UserClip != null)
+					return false;
 				return true;
 			}
 		}
@@ -98,12 +101,11 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			// Skip the normal processing to bypass setting it as first responder. Our
 			// controls will do that by themselves by calling SetFocus.
-			return hwnd.Enabled && inSetFocus;
+			return Enabled && inSetFocus;
 		}
 
 		public override bool AcceptsFirstMouse(NSEvent theEvent)
 		{
-			System.Diagnostics.Debug.WriteLine("AcceptsFirstMouse");
 			return true;
 		}
 
@@ -126,7 +128,8 @@ namespace System.Windows.Forms.CocoaInternal
 				NSTrackingAreaOptions.ActiveInActiveApp |
 				NSTrackingAreaOptions.MouseEnteredAndExited |
 				NSTrackingAreaOptions.MouseMoved |
-				NSTrackingAreaOptions.InVisibleRect,
+				NSTrackingAreaOptions.InVisibleRect |
+				NSTrackingAreaOptions.CursorUpdate,
 				this,
 				new NSDictionary());
 			AddTrackingArea(clientArea);
@@ -134,58 +137,78 @@ namespace System.Windows.Forms.CocoaInternal
 			base.UpdateTrackingAreas();
 		}
 
-		public override void DrawRect(NSRect dirtyRect)
+		public override void DrawRect(CGRect dirtyRect)
 		{
-			Rectangle bounds = driver.NativeToMonoFramed(dirtyRect, this);
 			MSG msg;
 
-			DrawBorders();
-			hwnd.AddNcInvalidArea(bounds);
-			//driver.SendMessage (hwnd.Handle, Msg.WM_NCPAINT, IntPtr.Zero, IntPtr.Zero);
-			msg = new MSG { hwnd = hwnd.Handle, message = Msg.WM_NCPAINT };
-			driver.DispatchMessage(ref msg);
-			hwnd.ClearNcInvalidArea();
+			this.DirtyRectangle = driver.NativeToMonoFramed(dirtyRect, this);
 
-			bounds.X -= hwnd.ClientRect.X;
-			bounds.Y -= hwnd.ClientRect.Y;
-			hwnd.AddInvalidArea(bounds);
-			//driver.SendMessage (hwnd.Handle, Msg.WM_PAINT, IntPtr.Zero, IntPtr.Zero);
-			msg = new MSG { hwnd = hwnd.Handle, message = Msg.WM_PAINT };
+			DrawBorders();
+
+			msg = new MSG { hwnd = this.Handle, message = Msg.WM_NCPAINT };
 			driver.DispatchMessage(ref msg);
-			hwnd.ClearInvalidArea();
+			msg = new MSG { hwnd = this.Handle, message = Msg.WM_PAINT };
+			driver.DispatchMessage(ref msg);
+
+			this.DirtyRectangle = null;
 		}
 
-		public NSRect ClientBounds
+		public CGRect ClientBounds
 		{
 			get
 			{
-				return new NSRect(
-					NMath.Max(this.hwnd.ClientRect.Left, 0),
-					NMath.Max(this.hwnd.ClientRect.Top, 0),
-					NMath.Max(this.hwnd.ClientRect.Width, 0),
-					NMath.Max(this.hwnd.ClientRect.Height, 0));
+				return new CGRect(
+					NMath.Max(clientBounds.Left, 0),
+					NMath.Max(clientBounds.Top, 0),
+					NMath.Max(clientBounds.Width, 0),
+					NMath.Max(clientBounds.Height, 0));
+			}
+			set
+			{
+				this.clientBounds = value;
 			}
 		}
 
 		private void DrawBorders()
 		{
-			switch (hwnd.BorderStyle)
+			if (ExStyle.HasFlag(WindowExStyles.WS_EX_CLIENTEDGE) || ExStyle.HasFlag(WindowExStyles.WS_EX_STATICEDGE))
 			{
-				case FormBorderStyle.Fixed3D:
-					using (var g = Graphics.FromHwnd(Handle, false))
-					{
-						if (hwnd.border_static)
-							ControlPaint.DrawBorder3D(g, new Rectangle(0, 0, hwnd.Width, hwnd.Height), Border3DStyle.SunkenOuter);
-						else
-							ControlPaint.DrawBorder3D(g, new Rectangle(0, 0, hwnd.Width, hwnd.Height), Border3DStyle.Sunken);
-					}
-					break;
+				using (var g = Graphics.FromHwnd(Handle, false))
+				{
+					if (ExStyle.HasFlag(WindowExStyles.WS_EX_STATICEDGE))
+						ControlPaint.DrawBorder3D(g, new Rectangle(0, 0, (int)Frame.Width, (int)Frame.Height), Border3DStyle.SunkenOuter);
+					else
+						ControlPaint.DrawBorder3D(g, new Rectangle(0, 0, (int)Frame.Width, (int)Frame.Height), Border3DStyle.Sunken);
+				}
+			}
+			else if (Style.HasFlag(WindowStyles.WS_BORDER))
+			{
+				Color color = NSColor.Grid.ToSDColor(); // Color.Black
+				using (var g = Graphics.FromHwnd(Handle, false))
+					ControlPaint.DrawBorder(g, new Rectangle(0, 0, (int)Frame.Width, (int)Frame.Height), color, ButtonBorderStyle.Solid);
+			}
+		}
 
-				case FormBorderStyle.FixedSingle:
-					Color color = NSColor.Grid.ToSDColor(); // Color.Black
-					using (var g = Graphics.FromHwnd(Handle, false))
-						ControlPaint.DrawBorder(g, new Rectangle(0, 0, hwnd.Width, hwnd.Height), color, ButtonBorderStyle.Solid);
-					break;
+		public override void CursorUpdate(NSEvent theEvent)
+		{
+			driver.OverrideCursor(this.Cursor);
+		}
+
+		public Rectangle? DirtyRectangle { get; private set; }
+		public WindowStyles Style { get; set; }
+		public WindowExStyles ExStyle { get; set; }
+		public Region UserClip { get; set; }
+		public IntPtr Cursor { get; set; }
+
+		public bool Enabled
+		{
+			get { return !Style.HasFlag(WindowStyles.WS_DISABLED); }
+			set
+			{
+				if (value)
+					Style &= ~WindowStyles.WS_DISABLED;
+				else
+					Style |= WindowStyles.WS_DISABLED;
 			}
 		}
 	}
