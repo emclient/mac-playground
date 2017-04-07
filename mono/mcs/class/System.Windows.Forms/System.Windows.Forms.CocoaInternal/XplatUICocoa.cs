@@ -2001,7 +2001,7 @@ namespace System.Windows.Forms {
 		internal override bool SetVisible (IntPtr handle, bool visible, bool activate)
 		{
 			if (!visible && Grab.Hwnd != IntPtr.Zero) {
-				for (var hwndCheck = Grab.Hwnd; hwndCheck != IntPtr.Zero; hwndCheck = GetParent(hwndCheck)) {
+				for (var hwndCheck = Grab.Hwnd; hwndCheck != IntPtr.Zero; hwndCheck = GetParent(hwndCheck, false)) {
 					if (hwndCheck == handle) {
 						UngrabWindow(Grab.Hwnd);
 						break;
