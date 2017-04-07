@@ -49,13 +49,14 @@ using NSRect = MonoMac.CoreGraphics.CGRect;
 
 namespace System.Windows.Forms.CocoaInternal
 {
-	internal partial class MonoContentView : MonoView
+	partial class MonoContentView : MonoView
 	{
 		public MonoContentView (IntPtr instance) : base (instance)
 		{
 		}
 
-		public MonoContentView (XplatUICocoa driver, NSRect frameRect, Hwnd hwnd) : base(driver, frameRect, hwnd)
+		public MonoContentView (XplatUICocoa driver, NSRect frameRect, WindowStyles style, WindowExStyles exStyle)
+			: base(driver, frameRect, style, exStyle)
 		{
 		}
 
@@ -70,14 +71,12 @@ namespace System.Windows.Forms.CocoaInternal
 		public override void MouseEntered(NSEvent e)
 		{
 			Window.AcceptsMouseMovedEvents = true;
-			driver.OverrideCursor(hwnd.Cursor);
 			base.MouseEntered(e);
 		}
 
 		public override void MouseExited(NSEvent e)
 		{
 			Window.AcceptsMouseMovedEvents = false;
-			driver.OverrideCursor(IntPtr.Zero);
 			base.MouseExited(e);
 		}
 

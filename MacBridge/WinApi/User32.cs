@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Mac;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using MacBridge.CoreGraphics;
 using System.Windows.Forms.CocoaInternal;
+using MacBridge.CoreGraphics;
 using MacBridge;
-using System.Collections.Generic;
 #if XAMARINMAC
 using AppKit;
 using CoreGraphics;
@@ -53,11 +53,7 @@ namespace WinApi
 					view = view.Superview;
 
 				if (view != null)
-                {
-                    var hwnd = Hwnd.GetHandleFromWindow(view.Handle);
-                    if (hwnd != IntPtr.Zero)
-                        return hwnd;
-                }
+					return view.Handle;
             }
 
             return IntPtr.Zero;
@@ -237,15 +233,21 @@ namespace WinApi
 
         public static int GetClientRect(IntPtr hwnd, ref RECT lpRect)
         {
-            var window = Hwnd.ObjectFromHandle(hwnd);
-            lpRect = new RECT(window.ClientRect);
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd);
+			if (vuWrap is IClientView)
+				lpRect = new RECT(((IClientView)vuWrap).ClientBounds.ToRectangle());
+			else
+				lpRect = new RECT(0, 0, (int)vuWrap.Frame.Width, (int)vuWrap.Frame.Height);
             return 1;
         }
 
         public static int GetClientRect(IntPtr hwnd, [In, Out] ref Rectangle rect)
         {
-            var window = Hwnd.ObjectFromHandle(hwnd);
-            rect = window.ClientRect;
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd);
+			if (vuWrap is IClientView)
+				rect = ((IClientView)vuWrap).ClientBounds.ToRectangle();
+			else
+				rect = new Rectangle(0, 0, (int)vuWrap.Frame.Width, (int)vuWrap.Frame.Height);
             return 1;
         }
 
@@ -442,9 +444,8 @@ namespace WinApi
             if (monoView == null)
                 return false;
 
-            var hwnd = Hwnd.ObjectFromHandle(hWnd);
             var window = monoView.Window;
-			var isTopLevelView = window.ContentView.Handle == hwnd.Handle;
+			var isTopLevelView = window.ContentView.Handle == hWnd;
 
             var rScreen = isTopLevelView
                 ? window.Frame // if it's top level view, then we have to use window's frame, because of the caption
@@ -543,16 +544,13 @@ namespace WinApi
 
 		public static int GetWindowStyle(IntPtr hWnd)
 		{
-			WS style = 0;
-
-			Hwnd hwnd = Hwnd.ObjectFromHandle(hWnd);
 			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hWnd);
 			NSWindow winWrap = vuWrap.Window;
 
-			if ((hwnd.initial_style & WindowStyles.WS_POPUP) != 0)
-				style |= WS.POPUP;
-//			if ((hwnd.initial_style & WindowStyles.WS_OVERLAPPED) != 0)
-//				style |= WS.OVERLAPPED;
+			if (vuWrap is MonoView)
+				return (int)((MonoView)vuWrap).Style;
+
+			WS style = 0;
 			if (vuWrap.Superview != null)
 				style |= WS.CHILD;
 			if (vuWrap is MonoContentView && winWrap.ParentWindow != null)
@@ -563,18 +561,6 @@ namespace WinApi
 				style |= WS.MAXIMIZE;
 			if (!vuWrap.Hidden)
 				style |= WS.VISIBLE;
-			if (!hwnd.Enabled)
-				style |= WS.DISABLED;
-			if ((hwnd.initial_style & WindowStyles.WS_BORDER) != 0)
-				style |= WS.BORDER;
-			if ((hwnd.initial_style & WindowStyles.WS_DLGFRAME) != 0)
-				style |= WS.DLGFRAME;
-			if ((hwnd.initial_style & WindowStyles.WS_CAPTION) != 0)
-				style |= WS.CAPTION;
-			if ((hwnd.initial_style & WindowStyles.WS_HSCROLL) != 0)
-				style |= WS.HSCROLL;
-			if ((hwnd.initial_style & WindowStyles.WS_VSCROLL) != 0)
-				style |= WS.VSCROLL;
 
 			return (int)style;
 		}
