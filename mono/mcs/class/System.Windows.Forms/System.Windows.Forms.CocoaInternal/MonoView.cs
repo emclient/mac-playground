@@ -160,8 +160,8 @@ namespace System.Windows.Forms.CocoaInternal
 			get
 			{
 				return new NSRect(
-					NMath.Max(this.hwnd.ClientRect.Top, 0),
 					NMath.Max(this.hwnd.ClientRect.Left, 0),
+					NMath.Max(this.hwnd.ClientRect.Top, 0),
 					NMath.Max(this.hwnd.ClientRect.Width, 0),
 					NMath.Max(this.hwnd.ClientRect.Height, 0));
 			}
