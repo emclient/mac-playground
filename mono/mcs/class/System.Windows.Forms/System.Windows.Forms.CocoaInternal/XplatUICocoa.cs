@@ -1545,6 +1545,12 @@ namespace System.Windows.Forms {
 			Cocoa.Cursor.SetCursor (cursor);
 		}
 
+		internal override bool UserClipWontExposeParent {
+			get {
+				return false;
+			}
+		}
+
 		internal override PaintEventArgs PaintEventStart (ref Message msg, IntPtr handle, bool client)
 		{
 			Hwnd hwnd = Hwnd.ObjectFromHandle (msg.HWnd);
