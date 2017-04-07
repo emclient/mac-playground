@@ -1403,12 +1403,6 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		internal override bool UserClipWontExposeParent {
-			get {
-				return false;
-			}
-		}
-
 		internal override PaintEventArgs PaintEventStart (ref Message msg, IntPtr handle, bool client)
 		{
 			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
