@@ -1474,7 +1474,8 @@
     <None Include="System.Windows.Forms.CocoaInternal\ChangeLog" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj">
+    <Reference Include="System.Drawing" Condition="'$(Configuration)' != 'Mono - Debug' and '$(Configuration)' != 'Xamarin - Debug'" />
+    <ProjectReference Include="..\..\..\..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug'">
       <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
       <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>
