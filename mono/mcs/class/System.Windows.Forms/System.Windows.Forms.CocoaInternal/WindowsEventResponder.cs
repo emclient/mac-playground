@@ -1,4 +1,4 @@
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Mac;
 #if XAMARINMAC
 using Foundation;
@@ -232,6 +232,8 @@ namespace System.Windows.Forms.CocoaInternal
 
 					if (XplatUICocoa.Grab.Hwnd == IntPtr.Zero)
 					{
+						if (mouseView != view)
+							return;
 						// We do not sent WM_SETCURSOR for now since we use optimized handling with SetCursor.
 						/*IntPtr ht = IntPtr.Zero;
 						if (client)
