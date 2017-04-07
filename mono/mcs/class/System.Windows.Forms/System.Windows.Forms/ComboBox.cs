@@ -2529,9 +2529,8 @@ namespace System.Windows.Forms
 					}
 				}
 
-				var borderWidth = Hwnd.GetBorderWidth (CreateParams);
 				var borderAdjustment = dropdown_style == ComboBoxStyle.Simple ? new Size (0, 0) :
-					new Size (borderWidth.top + borderWidth.bottom, borderWidth.left + borderWidth.right);
+					new Size (Height - ClientSize.Height, Width - ClientSize.Width);
 				Size = new Size (width, height + borderAdjustment.Height);
 				textarea_drawable = new Rectangle (ClientRectangle.Location,
 					new Size (width - borderAdjustment.Width, height));
