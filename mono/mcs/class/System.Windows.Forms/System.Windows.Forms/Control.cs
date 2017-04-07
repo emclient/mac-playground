@@ -4359,6 +4359,8 @@ namespace System.Windows.Forms
 					XplatUI.SetBorderStyle(window.Handle, (FormBorderStyle)border_style);
 				}
 
+				UpdateCursor();
+
 				Rectangle save_bounds = explicit_bounds;
 				UpdateBounds ();
 				explicit_bounds = save_bounds;
