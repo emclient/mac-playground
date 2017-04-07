@@ -1,3 +1,4 @@
+#if !NO_CARBON && !NO_X11
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -90,7 +91,7 @@ namespace System.Windows.Forms {
 		private static Bitmap bmp;
 		[ThreadStatic]
 		private static Graphics bmp_g;
-		#endregion	// Local Variables
+		#endregion  // Local Variables
 
 		// locks for some operations (used in XplatUIX11.cs)
 		internal object configure_lock = new object ();
@@ -398,7 +399,7 @@ namespace System.Windows.Forms {
 //				return bmp_g;
 			}
 		}
-		#endregion	// Static Methods
+		#endregion  // Static Methods
 
 		#region Instance Properties
 		public FormBorderStyle BorderStyle {
@@ -758,7 +759,7 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		#endregion	// Instance properties
+		#endregion  // Instance properties
 
 		#region Methods
 		public void AddInvalidArea(int x, int y, int width, int height) {
@@ -865,7 +866,7 @@ namespace System.Windows.Forms {
 			return new Point (X, Y);
 		}
 
-		#endregion	// Methods
+		#endregion  // Methods
 		
 		internal struct Borders
 		{
@@ -909,3 +910,22 @@ namespace System.Windows.Forms {
 		}
 	}
 }
+#else
+using System.Drawing;
+
+namespace System.Windows.Forms
+{
+	static class Hwnd
+	{
+		public static Graphics GraphicsContext
+		{
+			get
+			{
+				// TODO: Optimize again?
+				// JV: Caching this bitmap was disabled to resolve issues with disposing the graphics context.
+				return Graphics.FromImage(new Bitmap(1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb));
+			}
+		}
+	}
+}
+#endif
