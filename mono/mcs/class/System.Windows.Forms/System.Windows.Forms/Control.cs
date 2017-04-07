@@ -1343,6 +1343,7 @@ namespace System.Windows.Forms
 				}
 			}
 
+#if !NO_X11 && !NO_CARBON
 			if ((clip_region != null) && (XplatUI.UserClipWontExposeParent)) {
 				if (parent != null) {
 					PaintEventArgs	parent_pe;
@@ -1383,6 +1384,7 @@ namespace System.Windows.Forms
 					}
 				}
 			}
+#endif
 
 			if (background_image == null) {
 				if (!tbstyle_flat) {
@@ -2855,10 +2857,6 @@ namespace System.Windows.Forms
 		public bool IsHandleCreated {
 			get {
 				if (window == null || window.Handle == IntPtr.Zero)
-					return false;
-
-				Hwnd hwnd = Hwnd.ObjectFromHandle (window.Handle);
-				if (hwnd != null && hwnd.zombie)
 					return false;
 
 				return true;
@@ -5026,14 +5024,14 @@ namespace System.Windows.Forms
 		}
 
 		private void UpdateZOrderOfChild(Control child) {
-			if (IsHandleCreated && child.IsHandleCreated && (child.parent == this) && Hwnd.ObjectFromHandle(child.Handle).Mapped) {
+			if (IsHandleCreated && child.IsHandleCreated && (child.parent == this)) {
 				// Need to take into account all controls
 				Control [] all_controls = child_controls.GetAllControls ();
 
 				int index = Array.IndexOf (all_controls, child);
 				
 				for (; index > 0; index--) {
-					if (!all_controls [index - 1].IsHandleCreated || !all_controls [index - 1].VisibleInternal || !Hwnd.ObjectFromHandle(all_controls [index - 1].Handle).Mapped)
+					if (!all_controls [index - 1].IsHandleCreated || !all_controls [index - 1].VisibleInternal)
 						continue;
 					break;
 				}
@@ -5089,10 +5087,6 @@ namespace System.Windows.Forms
 
 			for (int i = 0; i < controls.Length; i ++) {
 				if (!controls[i].IsHandleCreated || !controls[i].VisibleInternal)
-					continue;
-
-				Hwnd hwnd = Hwnd.ObjectFromHandle (controls[i].Handle);
-				if (hwnd == null || hwnd.zero_sized)
 					continue;
 
 				children_to_order.Add (controls[i]);
