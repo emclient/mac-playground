@@ -75,10 +75,6 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void WillResignActive (NSNotification notification)
 		{
-			IntPtr focusWindow = driver.GetFocus ();
-			if (focusWindow != IntPtr.Zero)
-				driver.SendMessage (focusWindow, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
-
 			if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero) {
 				driver.SendMessage(XplatUICocoa.Grab.Hwnd, Msg.WM_CANCELMODE, IntPtr.Zero, IntPtr.Zero);
 				if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero) {
