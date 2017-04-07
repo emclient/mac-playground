@@ -1327,15 +1327,15 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		internal override IntPtr GetParent(IntPtr handle)
+		internal override IntPtr GetParent(IntPtr handle, bool with_owner)
 		{
 			if (handle == IntPtr.Zero)
 				return IntPtr.Zero;
 			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			if (vuWrap.Window != null && vuWrap == vuWrap.Window.ContentView)
+				return with_owner && vuWrap.Window.ParentWindow != null ? vuWrap.Window.ParentWindow.ContentView.Handle : IntPtr.Zero;
 			if (vuWrap.Superview != null)
 				return vuWrap.Superview.Handle;
-			if (vuWrap.Window != null && vuWrap.Window.ParentWindow != null)
-				return vuWrap.Window.ParentWindow.ContentView.Handle;
 			return IntPtr.Zero;
 		}
 

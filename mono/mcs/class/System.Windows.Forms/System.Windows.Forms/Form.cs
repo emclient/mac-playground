@@ -2708,17 +2708,6 @@ namespace System.Windows.Forms {
 				base.WndProc (ref m);
 		}
 
-		private bool IsChild (IntPtr hWndParent, IntPtr hWnd)
-		{
-			for (var parent = XplatUI.GetParent(hWnd); parent != IntPtr.Zero; parent = XplatUI.GetParent(parent)) {
-				if (parent == hWndParent) {
-					return true;
-				}
-			}
-
-			return false;
-		}
-
 		private void WmActivate (ref Message m)
 		{
 			if (!this.Enabled && modal_dialogs.Count > 0)
