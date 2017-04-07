@@ -64,7 +64,6 @@ namespace System.Windows.Forms {
 		private static Hashtable	wm_nc_registered;
 		private static RECT		clipped_cursor_rect;
 		private Hashtable		registered_classes;
-		private Hwnd HwndCreating; // the Hwnd we are currently creating (see CreateWindow)
 
 		#endregion	// Local Variables
 
@@ -1321,7 +1320,6 @@ namespace System.Windows.Forms {
 			}
 		}
 
-
 		internal override int VerticalScrollBarWidth {
 			get {
 				return scroll_width;
@@ -1608,9 +1606,6 @@ namespace System.Windows.Forms {
 		internal override IntPtr CreateWindow(CreateParams cp) {
 			IntPtr	WindowHandle;
 			IntPtr	ParentHandle;
-			Hwnd	hwnd;
-
-			hwnd = new Hwnd();
 
 			ParentHandle=cp.Parent;
 
@@ -1626,14 +1621,14 @@ namespace System.Windows.Forms {
 			}
 
 			Point location;
-			if (cp.HasWindowManager) {
+			// FIXME
+			/*if (cp.HasWindowManager) {
 				location = Hwnd.GetNextStackedFormLocation (cp, Hwnd.ObjectFromHandle (cp.Parent));
-			} else {
+			} else*/ {
 				location = new Point (cp.X, cp.Y);
 			}
 
 			string class_name = RegisterWindowClass (cp.ClassStyle);
-			HwndCreating = hwnd;
 
 			// We cannot actually send the WS_EX_MDICHILD flag to Windows because we
 			// are faking MDI, not uses Windows' version.
@@ -1642,16 +1637,12 @@ namespace System.Windows.Forms {
 				
 			WindowHandle = Win32CreateWindow (cp.WindowExStyle, class_name, cp.Caption, cp.WindowStyle, location.X, location.Y, cp.Width, cp.Height, ParentHandle, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
 
-			HwndCreating = null;
-
 			if (WindowHandle==IntPtr.Zero) {
 				int error = Marshal.GetLastWin32Error ();
 
 				Win32MessageBox(IntPtr.Zero, "Error : " + error.ToString(), "Failed to create window, class '"+cp.ClassName+"'", 0);
 			}
 
-			hwnd.ClientWindow = WindowHandle;
-			hwnd.Mapped = true;
 			Win32SetWindowLong(WindowHandle, WindowLong.GWL_USERDATA, (uint)ThemeEngine.Current.DefaultControlBackColor.ToArgb());
 
 			return WindowHandle;
@@ -1676,11 +1667,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override void DestroyWindow(IntPtr handle) {
-			Hwnd	hwnd;
-
-			hwnd = Hwnd.ObjectFromHandle(handle);
 			Win32DestroyWindow(handle);
-			hwnd.Dispose();
 			return;
 		}
 
@@ -1949,8 +1936,6 @@ namespace System.Windows.Forms {
 
 		private IntPtr InternalWndProc (IntPtr hWnd, Msg msg, IntPtr wParam, IntPtr lParam)
 		{
-			if (HwndCreating != null && HwndCreating.ClientWindow == IntPtr.Zero)
-				HwndCreating.ClientWindow = hWnd;
 			return NativeWindow.WndProc (hWnd, msg, wParam, lParam);
 		}
 
