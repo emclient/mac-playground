@@ -147,21 +147,6 @@ namespace System.Windows.Forms {
 			return false;
 		}
 
-		internal bool IsChild(IntPtr parent, IntPtr child)
-		{
-			if (parent == IntPtr.Zero)
-				return false;
-
-			for (IntPtr control = child; control != IntPtr.Zero; )
-			{
-				control = XplatUI.GetParent(control);
-				if (control == parent)
-					return true;
-			}
-
-			return false;
-		}
-
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected override void WndProc(ref Message m) {
 			switch ((Msg) m.Msg) {
