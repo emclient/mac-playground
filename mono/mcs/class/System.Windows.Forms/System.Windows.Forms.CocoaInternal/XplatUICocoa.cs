@@ -1,4 +1,4 @@
-//
+﻿//
 //EventHandler.cs
 // 
 //Author:
@@ -1033,17 +1033,6 @@ namespace System.Windows.Forms {
 					if (IntPtr.Zero != msg.Result && (hWndParent = GetParent(msg.HWnd, false)) != IntPtr.Zero)
 						msg.Result = NativeWindow.WndProc(hWndParent, (Msg)msg.Msg, msg.WParam, msg.LParam);
 					return (IntPtr)msg.Result;
-				}
-				case Msg.WM_LBUTTONDOWN:
-				{
-					// Text boxes and buttons are automatically focused by DefWndProc on Windows..
-					var control = Control.FromHandle(msg.HWnd);
-					if (control.Enabled && control is TextBoxBase || control is ButtonBase)
-					{
-						SetFocus(msg.HWnd);
-						return (IntPtr)1;
-					}
-					break;
 				}
 				case Msg.WM_CANCELMODE:
 				{

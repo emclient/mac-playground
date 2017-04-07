@@ -1,4 +1,4 @@
-/// Permission is hereby granted, free of charge, to any person obtaining
+﻿/// Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
 // without limitation the rights to use, copy, modify, merge, publish,
@@ -1175,6 +1175,11 @@ namespace System.Windows.Forms
 			}
 
 			base.WndProc (ref m);
+
+			if ((Msg)m.Msg == Msg.WM_LBUTTONDOWN) {
+				if (CanSelect)
+					Select();
+			}
 		}
 
 		#endregion Public Methods
@@ -1766,8 +1771,8 @@ namespace System.Windows.Forms
 			// Only do stuff with the left mouse button
 			if ((e.Button & MouseButtons.Left) == 0)
 				return;
-			
-			int index = IndexAtClientPoint (e.X, e.Y);
+
+			int index = IndexAtClientPoint(e.X, e.Y);
 			if (index == -1)
 				return;
 
