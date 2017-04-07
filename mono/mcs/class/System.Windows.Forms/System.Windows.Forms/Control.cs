@@ -1387,7 +1387,7 @@ namespace System.Windows.Forms
 #endif
 
 			if (background_image == null) {
-				if (!tbstyle_flat) {
+				if (!tbstyle_flat && BackColor.A != 0xff) {
 					Rectangle paintRect = pevent.ClipRectangle;
 					Brush pen = ThemeEngine.Current.ResPool.GetSolidBrush(BackColor);
 					pevent.Graphics.FillRectangle(pen, paintRect);
