@@ -1,4 +1,4 @@
-//
+﻿//
 //MonoView.cs
 // 
 //Author:
@@ -65,21 +65,5 @@ namespace System.Windows.Forms.CocoaInternal
 				return Window == null || Window.IsOpaque;
 			}
 		}
-
-		#region Mouse
-
-		public override void MouseEntered(NSEvent e)
-		{
-			Window.AcceptsMouseMovedEvents = true;
-			base.MouseEntered(e);
-		}
-
-		public override void MouseExited(NSEvent e)
-		{
-			Window.AcceptsMouseMovedEvents = false;
-			base.MouseExited(e);
-		}
-
-		#endregion
 	}
 }
