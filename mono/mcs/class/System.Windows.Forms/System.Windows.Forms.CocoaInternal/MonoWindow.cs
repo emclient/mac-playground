@@ -29,10 +29,9 @@ using nint = System.Int32;
 
 namespace System.Windows.Forms.CocoaInternal
 {
-	internal class MonoWindow : NSWindow
+	class MonoWindow : NSWindow
 	{
-		internal XplatUICocoa driver;
-		internal NSWindow owner;
+		private XplatUICocoa driver;
 
 		public MonoWindow(IntPtr handle) : base(handle)
 		{
@@ -86,7 +85,7 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			get
 			{
-				return CanBecomeKeyWindow && owner == null;
+				return CanBecomeKeyWindow && ParentWindow == null;
 			}
 		}
 
@@ -99,49 +98,11 @@ namespace System.Windows.Forms.CocoaInternal
 				case NSEventType.LeftMouseDown:
 				case NSEventType.RightMouseDown:
 				case NSEventType.OtherMouseDown:
-				case NSEventType.LeftMouseUp:
-				case NSEventType.RightMouseUp:
-				case NSEventType.OtherMouseUp:
-				case NSEventType.LeftMouseDragged:
-				case NSEventType.RightMouseDragged:
-				case NSEventType.OtherMouseDragged:
-				case NSEventType.ScrollWheel:
 				case NSEventType.BeginGesture:
-				case NSEventType.EndGesture:
-				case NSEventType.MouseMoved:
-					if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero)
-					{
-						var grabView = (NSView)ObjCRuntime.Runtime.GetNSObject(XplatUICocoa.Grab.Hwnd);
-						switch (theEvent.Type)
-						{
-							case NSEventType.LeftMouseDown: grabView.MouseDown(theEvent); break;
-							case NSEventType.RightMouseDown: grabView.RightMouseDown(theEvent); break;
-							case NSEventType.OtherMouseDown: grabView.OtherMouseDown(theEvent); break;
-							case NSEventType.LeftMouseUp: grabView.MouseUp(theEvent); break;
-							case NSEventType.RightMouseUp: grabView.RightMouseUp(theEvent); break;
-							case NSEventType.OtherMouseUp: grabView.OtherMouseUp(theEvent); break;
-							case NSEventType.LeftMouseDragged: grabView.MouseDragged(theEvent); break;
-							case NSEventType.RightMouseDragged: grabView.RightMouseDragged(theEvent); break;
-							case NSEventType.OtherMouseDragged: grabView.OtherMouseDragged(theEvent); break;
-							case NSEventType.ScrollWheel: grabView.ScrollWheel(theEvent); break;
-							case NSEventType.BeginGesture: grabView.BeginGestureWithEvent(theEvent); break;
-							case NSEventType.EndGesture: grabView.EndGestureWithEvent(theEvent); break;
-							case NSEventType.MouseMoved: grabView.MouseMoved(theEvent); break;
-						}
-						return;
-					}
-					if (theEvent.Type == NSEventType.LeftMouseDown ||
-						theEvent.Type == NSEventType.RightMouseDown ||
-						theEvent.Type == NSEventType.OtherMouseDown ||
-						theEvent.Type == NSEventType.BeginGesture)
-					{
-						var hitTest = (ContentView.Superview ?? ContentView).HitTest(theEvent.LocationInWindow);
-						if (!(hitTest is MonoView))
-						{
-							// Make sure any popup menus are closed when clicking on embedded NSView.
-							ToolStripManager.FireAppClicked();
-						}
-					}
+					var hitTest = (ContentView.Superview ?? ContentView).HitTest(theEvent.LocationInWindow);
+					// Make sure any popup menus are closed when clicking on embedded NSView.
+					if (!(hitTest is MonoView))
+						ToolStripManager.FireAppClicked();
 					break;
 			}
 

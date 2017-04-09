@@ -103,10 +103,9 @@ namespace System.Windows.Forms {
 		private Cocoa.MonoApplicationDelegate applicationDelegate;
 		
 		// Cocoa Specific
-		internal static GrabStruct Grab;
-		internal static Cocoa.Caret Caret;
-		internal static List<NSWindow> UtilityWindows;
-		internal static readonly Stack<IntPtr> ModalSessions = new Stack<IntPtr>();
+		internal GrabStruct Grab;
+		internal Cocoa.Caret Caret;
+		internal readonly Stack<IntPtr> ModalSessions = new Stack<IntPtr>();
 		internal float screenHeight;
 
 		private Dictionary<Thread, Stack<NSAutoreleasePool>> pools = new Dictionary<Thread, Stack<NSAutoreleasePool>>();
@@ -170,6 +169,12 @@ namespace System.Windows.Forms {
 			GetDisplaySize (out size);
 			screenHeight = size.Height;
 
+			// If NSPrincipalClass is not set, set it now. This allows running
+			// the application without a bundle
+			var info = NSBundle.MainBundle.InfoDictionary;
+			if (info.ValueForKey((NSString)"NSPrincipalClass") == null)
+				info.SetValueForKey((NSString)"NSApplication", (NSString)"NSPrincipalClass");
+
 			// Initialize the event handlers
 			applicationDelegate = new Cocoa.MonoApplicationDelegate (this);
 			NSApplication.SharedApplication.Delegate = applicationDelegate;
@@ -180,8 +185,6 @@ namespace System.Windows.Forms {
 			Caret.Timer.Tick += new EventHandler (CaretCallback);
 
 			// Initialize the Cocoa Specific stuff
-			UtilityWindows = new List<NSWindow>();
-
 			ReverseWindow = new NSWindow(CGRect.Empty, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
 			CaretView = new NSView(CGRect.Empty);
 			CaretView.WantsLayer = true;
@@ -440,6 +443,28 @@ namespace System.Windows.Forms {
 			return converted_point;
 		}
 
+		private static bool IsMouseEvent (NSEventType type)
+		{
+			switch (type)
+			{
+				case NSEventType.LeftMouseDown:
+				case NSEventType.RightMouseDown:
+				case NSEventType.OtherMouseDown:
+				case NSEventType.LeftMouseUp:
+				case NSEventType.RightMouseUp:
+				case NSEventType.OtherMouseUp:
+				case NSEventType.LeftMouseDragged:
+				case NSEventType.RightMouseDragged:
+				case NSEventType.OtherMouseDragged:
+				case NSEventType.ScrollWheel:
+				case NSEventType.BeginGesture:
+				case NSEventType.EndGesture:
+				case NSEventType.MouseMoved:
+					return true;
+			}
+			return false;
+		}
+
 		private bool PumpNativeEvent (bool wait, ref MSG msg, bool dequeue = true)
 		{
 			msg.message = Msg.WM_NULL;
@@ -457,7 +482,40 @@ namespace System.Windows.Forms {
 			}
 
 			if (dequeue) {
-				NSApp.SendEvent(evtRef);
+				if (Grab.Hwnd != IntPtr.Zero && IsMouseEvent(evtRef.Type) && evtRef.Window != null) {
+					var grabView = (NSView)ObjCRuntime.Runtime.GetNSObject(Grab.Hwnd);
+					if (grabView.Window.WindowNumber != evtRef.WindowNumber)
+					{
+						evtRef = NSEvent.MouseEvent(
+							evtRef.Type,
+							grabView.Window.ConvertScreenToBase(evtRef.Window.ConvertBaseToScreen(evtRef.LocationInWindow)),
+							evtRef.ModifierFlags,
+							evtRef.Timestamp,
+							grabView.Window.WindowNumber,
+							null,
+							0,
+							evtRef.ClickCount,
+							evtRef.Pressure);
+					}
+					switch (evtRef.Type)
+					{
+						case NSEventType.LeftMouseDown: grabView.MouseDown(evtRef); break;
+						case NSEventType.RightMouseDown: grabView.RightMouseDown(evtRef); break;
+						case NSEventType.OtherMouseDown: grabView.OtherMouseDown(evtRef); break;
+						case NSEventType.LeftMouseUp: grabView.MouseUp(evtRef); break;
+						case NSEventType.RightMouseUp: grabView.RightMouseUp(evtRef); break;
+						case NSEventType.OtherMouseUp: grabView.OtherMouseUp(evtRef); break;
+						case NSEventType.LeftMouseDragged: grabView.MouseDragged(evtRef); break;
+						case NSEventType.RightMouseDragged: grabView.RightMouseDragged(evtRef); break;
+						case NSEventType.OtherMouseDragged: grabView.OtherMouseDragged(evtRef); break;
+						case NSEventType.ScrollWheel: grabView.ScrollWheel(evtRef); break;
+						case NSEventType.BeginGesture: grabView.BeginGestureWithEvent(evtRef); break;
+						case NSEventType.EndGesture: grabView.EndGestureWithEvent(evtRef); break;
+						case NSEventType.MouseMoved: grabView.MouseMoved(evtRef); break;
+					}
+				} else {
+					NSApp.SendEvent(evtRef);
+				}
 				NSApp.UpdateWindows();
 			}
 
@@ -725,7 +783,7 @@ namespace System.Windows.Forms {
 			return attributes;
 		}
 
-		private bool IsUtilityWindow(NSView view)
+		/*private bool IsUtilityWindow(NSView view)
 		{
 			var monoView = view as MonoView;
 			if (monoView == null || view.Window == null || view.Window.ContentView != view)
@@ -737,7 +795,7 @@ namespace System.Windows.Forms {
 			if (monoView.Style.HasFlag(WindowStyles.WS_CAPTION))
 				return true;
 			return false;
-		}
+		}*/
 
 		internal override IntPtr CreateWindow (CreateParams cp)
 		{
@@ -832,10 +890,6 @@ namespace System.Windows.Forms {
 				wholeHandle = (IntPtr)viewWrapper.Handle;
 				if (ParentWrapper != null)
 					ParentWrapper.AddSubview(viewWrapper);
-			}
-
-			if (isTopLevel && IsUtilityWindow(viewWrapper) && StyleSet(cp.Style, WindowStyles.WS_VISIBLE)) {
-				UtilityWindows.Add (windowWrapper);
 			}
 
 			// Assign handle to control's native window before sending messages.
@@ -1081,10 +1135,6 @@ namespace System.Windows.Forms {
 				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(h);
 				NSWindow winWrap = vuWrap.Window;
 				if (winWrap != null && winWrap.ContentView == vuWrap) { 
-					if (IsUtilityWindow(vuWrap)) {
-						UtilityWindows.Remove(winWrap);
-					}
-
 					winWrap.ReleasedWhenClosed = true;
 					winWrap.Close ();
 					NSApplication.SharedApplication.RemoveWindowsItem(winWrap);
@@ -1125,6 +1175,7 @@ namespace System.Windows.Forms {
 		internal void Exit () {
 			GetMessageResult = false;
 			NSApplication.SharedApplication.Delegate = null;
+			// NSApplication.SharedApplication.Terminate(this);
 		}
 
 		internal override IntPtr GetActive() {
@@ -1830,8 +1881,6 @@ namespace System.Windows.Forms {
 
 			if (winWrap != null && winWrap != winOwnerWrap)
 			{
-				winWrap.owner = winOwnerWrap;
-
 				if (winWrap.ParentWindow != null)
 					winWrap.ParentWindow.RemoveChildWindow(winWrap);
 				// If not visible, do not call AddChildWindow now, because it would immediately show the child window.
@@ -1853,9 +1902,6 @@ namespace System.Windows.Forms {
 				}
 			}
 
-			//Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-			//hwnd.Visible = visible;
-
 			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 			NSWindow winWrap = vuWrap.Window;
 			if (winWrap != null && winWrap.ContentView == vuWrap) {
@@ -1864,16 +1910,7 @@ namespace System.Windows.Forms {
 						winWrap.MakeKeyAndOrderFront(winWrap);
 					else
 						winWrap.OrderFront(winWrap);
-
-					// See SetOwner
-					var monoWin = winWrap as MonoWindow;
-					if (monoWin != null && monoWin.owner != null && monoWin.owner != monoWin.ParentWindow)
-						monoWin.owner.AddChildWindow(monoWin, NSWindowOrderingMode.Above);
-					if (IsUtilityWindow(vuWrap))
-						UtilityWindows.Add(winWrap);
 				} else {
-					if (IsUtilityWindow(vuWrap))
-						UtilityWindows.Remove(winWrap);
 					winWrap.OrderOut(winWrap);
 				}
 			} else {
@@ -1883,7 +1920,6 @@ namespace System.Windows.Forms {
 			if (visible)
 				SendMessage(handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 
-			//hwnd.Mapped = true;
 			return true;
 		}
 
