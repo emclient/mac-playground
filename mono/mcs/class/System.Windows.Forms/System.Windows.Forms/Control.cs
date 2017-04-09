@@ -3701,7 +3701,7 @@ namespace System.Windows.Forms
 				CreateHandle ();
 
 			foreach (Control control in child_controls.GetAllControls ()) {
-				if (control.Bounds.Contains (PointToClient (pt))) {
+				if (control.Bounds.Contains (PointToClient (pt)) && control.is_visible) {
 					Control child = control.GetRealChildAtPoint (pt);
 					if (child == null)
 						return control;
