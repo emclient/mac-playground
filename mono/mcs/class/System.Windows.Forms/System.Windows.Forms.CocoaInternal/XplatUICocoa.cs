@@ -492,7 +492,7 @@ namespace System.Windows.Forms {
 							grabView.Window.WindowNumber,
 							null,
 							0,
-							evtRef.ClickCount,
+							evtRef.Type != NSEventType.ScrollWheel ? evtRef.ClickCount : 0,
 							evtRef.Pressure);
 					}
 					switch (evtRef.Type)
