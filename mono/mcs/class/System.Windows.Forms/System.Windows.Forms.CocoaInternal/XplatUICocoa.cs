@@ -457,8 +457,6 @@ namespace System.Windows.Forms {
 				case NSEventType.RightMouseDragged:
 				case NSEventType.OtherMouseDragged:
 				case NSEventType.ScrollWheel:
-				case NSEventType.BeginGesture:
-				case NSEventType.EndGesture:
 				case NSEventType.MouseMoved:
 					return true;
 			}
