@@ -42,19 +42,17 @@ namespace System.Windows.Forms.CocoaInternal
 			{
 				IsGoingToPowerOff = false; // For the case the shutdown is going to be cancelled
 
-				var forms = GetOpenForms();
-				foreach (var form in forms)
-					if (!form.IsDisposed && form.IsHandleCreated)
-						if (IntPtr.Zero == XplatUI.SendMessage(form.Handle, Msg.WM_QUERYENDSESSION, (IntPtr)1, (IntPtr)ENDSESSION_LOGOFF))
+				foreach (var window in NSApplication.SharedApplication.Windows)
+					if (window.ContentView is MonoContentView)
+						if (IntPtr.Zero == XplatUI.SendMessage(window.ContentView.Handle, Msg.WM_QUERYENDSESSION, (IntPtr)1, (IntPtr)ENDSESSION_LOGOFF))
 							shouldTerminate = false;
 			
 				if (!shouldTerminate)
 					return NSApplicationTerminateReply.Cancel;
 
-				forms = GetOpenForms();
-				foreach (var form in forms)
-					if (!form.IsDisposed && form.IsHandleCreated)
-						XplatUI.SendMessage(form.Handle, Msg.WM_ENDSESSION, (IntPtr)1, (IntPtr)ENDSESSION_LOGOFF);
+				foreach (var window in NSApplication.SharedApplication.Windows)
+					if (window.ContentView is MonoContentView)
+						XplatUI.SendMessage(window.ContentView.Handle, Msg.WM_ENDSESSION, (IntPtr)1, (IntPtr)ENDSESSION_LOGOFF);
 			}
 
 			return NSApplicationTerminateReply.Now;
@@ -66,35 +64,16 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void DidBecomeActive (NSNotification notification)
 		{
-			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
-				if (!utility_window.IsVisible)
-					utility_window.OrderFront (utility_window);
-
 			driver.SendMessage (XplatUI.GetActive (), Msg.WM_ACTIVATEAPP, (IntPtr)WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
 		}
 
 		public override void WillResignActive (NSNotification notification)
 		{
-			if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero) {
-				driver.SendMessage(XplatUICocoa.Grab.Hwnd, Msg.WM_CANCELMODE, IntPtr.Zero, IntPtr.Zero);
-				if (XplatUICocoa.Grab.Hwnd != IntPtr.Zero) {
-					XplatUICocoa.Grab.Hwnd = IntPtr.Zero;
-				}	
+			if (driver.Grab.Hwnd != IntPtr.Zero) {
+				driver.SendMessage(driver.Grab.Hwnd, Msg.WM_CANCELMODE, IntPtr.Zero, IntPtr.Zero);
+				driver.Grab.Hwnd = IntPtr.Zero;
 			}
-
-			foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
-				if (utility_window.IsVisible)
-					utility_window.OrderOut (utility_window);
-
 			driver.SendMessage (XplatUI.GetActive (), Msg.WM_ACTIVATEAPP, (IntPtr)WindowActiveFlags.WA_INACTIVE, IntPtr.Zero);
-		}
-
-		public static List<Form> GetOpenForms()
-		{
-			var forms = new List<Form>(Application.OpenForms.Count);
-			foreach (Form f in Application.OpenForms)
-				forms.Add(f);
-			return forms;
 		}
 	}
 }

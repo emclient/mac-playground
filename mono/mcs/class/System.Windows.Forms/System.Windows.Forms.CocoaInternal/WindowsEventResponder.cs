@@ -98,7 +98,8 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void MouseMoved(NSEvent theEvent)
 		{
-			TranslateMouseEvent(theEvent);
+			if (driver.Grab.Hwnd == view.Handle || mouseView == view)
+				TranslateMouseEvent(theEvent);
 		}
 
 		public override void MouseDragged(NSEvent theEvent)
@@ -173,13 +174,11 @@ namespace System.Windows.Forms.CocoaInternal
 			Point localMonoPoint;
 			bool client = clientView == null;
 
-			if (e.Window != null && e.Window != view.Window)
-				nspoint = view.Window.ConvertScreenToBase(e.Window.ConvertBaseToScreen(nspoint));
-
 			nspoint = view.ConvertPointFromView(nspoint, null);
 			localMonoPoint = driver.NativeToMonoFramed(nspoint, view);
 
-			if (clientView != null && clientView.ClientBounds.ToRectangle().Contains(localMonoPoint) || XplatUICocoa.Grab.Hwnd != IntPtr.Zero)
+			if ((clientView != null && clientView.ClientBounds.ToRectangle().Contains(localMonoPoint)) ||
+			    driver.Grab.Hwnd != IntPtr.Zero)
 			{
 				client = true;
 				localMonoPoint.X -= (int)clientView.ClientBounds.X;
@@ -229,55 +228,6 @@ namespace System.Windows.Forms.CocoaInternal
 				case NSEventType.RightMouseDragged:
 				case NSEventType.OtherMouseDragged:
 					msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
-
-					if (XplatUICocoa.Grab.Hwnd == IntPtr.Zero)
-					{
-						if (mouseView != view)
-							return;
-						// We do not sent WM_SETCURSOR for now since we use optimized handling with SetCursor.
-						/*IntPtr ht = IntPtr.Zero;
-						if (client)
-						{
-							ht = (IntPtr)Forms.HitTest.HTCLIENT;
-							NativeWindow.WndProc(msg.hwnd, Msg.WM_SETCURSOR, msg.hwnd, (IntPtr)Forms.HitTest.HTCLIENT);
-						}
-						else
-						{
-							ht = (IntPtr)NativeWindow.WndProc(view.Handle, Msg.WM_NCHITTEST, IntPtr.Zero, msg.lParam).ToInt32();
-							NativeWindow.WndProc(view.Handle, Msg.WM_SETCURSOR, msg.hwnd, ht);
-						}*/
-
-						// NOTE: Alternative handling of WM_MOUSE_ENTER / WM_MOUSELEAVE, which we
-						// can use for performance reasons.
-						/*if (mouseView != view)
-						{
-							if (mouseView != null)
-							{
-								var msgLeave = new MSG();
-								msgLeave.hwnd = mouseView.Handle;
-								msgLeave.lParam = msg.lParam;
-								msgLeave.wParam = msg.wParam;
-								msgLeave.pt = msg.pt;
-								msgLeave.refobject = msg.refobject;
-								msgLeave.message = Msg.WM_MOUSELEAVE;
-								driver.EnqueueMessage(msgLeave);
-								mouseView = null;
-							}
-							if (view != null)
-							{
-								var msgEnter = new MSG();
-								msgEnter.hwnd = view.Handle;
-								msgEnter.lParam = msg.lParam;
-								msgEnter.wParam = msg.wParam;
-								msgEnter.pt = msg.pt;
-								msgEnter.refobject = msg.refobject;
-								msgEnter.message = Msg.WM_MOUSE_ENTER;
-								driver.EnqueueMessage(msgEnter);
-								mouseView = view;
-							}
-						}*/
-					}
-
 					msg.message = (client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE);
 					break;
 
@@ -298,7 +248,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 				case NSEventType.MouseEntered:
 				case NSEventType.MouseExited:
-					if (XplatUICocoa.Grab.Hwnd == IntPtr.Zero && e.Window != null)
+					if (driver.Grab.Hwnd == IntPtr.Zero && e.Window != null)
 					{
 						var contentView = e.Window.ContentView;
 						var newMouseView = (contentView.Superview ?? contentView).HitTest(e.LocationInWindow);
