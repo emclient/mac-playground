@@ -661,37 +661,22 @@ namespace System.Windows.Forms {
 		
 		internal override bool CalculateWindowRect (ref Rectangle ClientRect, CreateParams cp, Menu menu, 
 							    out Rectangle WindowRect) {
-			if (StyleSet(cp.Style, WindowStyles.WS_CHILD)) {
-				if (cp.WindowExStyle.HasFlag(WindowExStyles.WS_EX_CLIENTEDGE) || cp.WindowExStyle.HasFlag(WindowExStyles.WS_EX_STATICEDGE))
-					WindowRect = Rectangle.Inflate(ClientRect, Border3DSize.Width, Border3DSize.Height);
-				else if (cp.WindowStyle.HasFlag(WindowStyles.WS_BORDER))
-					WindowRect = Rectangle.Inflate(ClientRect, BorderSize.Width, BorderSize.Height);
-				else
-					WindowRect = ClientRect;
+			if (cp.WindowStyle.HasFlag(WindowStyles.WS_CHILD)) {
+				WindowRect = ClientRect;
 			} else {
-				var nsrect = NSWindow.FrameRectFor (MonoToNativeScreen(ClientRect), StyleFromCreateParams (cp));
-				// RGS TEST
-				if (0 != ClientRect.Width && 0 != ClientRect.Height) { // The 0x0 sizes are calculations to update only the content area
-					if (StyleSet (cp.Style, WindowStyles.WS_CAPTION)) {
-						Debug.WriteLine ("{0} WxH: {1}x{2} -> {3}x{4}", new object[] {
-							cp.Caption,
-							ClientRect.Width,
-							ClientRect.Height,
-							nsrect.Width,
-							nsrect.Height
-						});
-					} else {
-//						Debug.WriteLine ("CalculateWindowRect untitled window");
-					}
-				}
-				// RGS TEST
-
+				var nsrect = NSWindow.FrameRectFor (MonoToNativeScreen(ClientRect), NSStyleFromStyle (cp.WindowStyle));
 				WindowRect = NativeToMonoScreen(nsrect);
-
 				if (menu != null) {
 					WindowRect.Y -= MenuHeight;
 					WindowRect.Height += MenuHeight;
 				}
+			}
+
+			if (cp.WindowStyle.HasFlag(WindowStyles.WS_CHILD) || !cp.WindowStyle.HasFlag(WindowStyles.WS_CAPTION)) {
+				if (cp.WindowExStyle.HasFlag(WindowExStyles.WS_EX_CLIENTEDGE) || cp.WindowExStyle.HasFlag(WindowExStyles.WS_EX_STATICEDGE))
+					WindowRect = Rectangle.Inflate(ClientRect, Border3DSize.Width, Border3DSize.Height);
+				else if (cp.WindowStyle.HasFlag(WindowStyles.WS_BORDER))
+					WindowRect = Rectangle.Inflate(ClientRect, BorderSize.Width, BorderSize.Height);
 			}
 			return true;
 		}
@@ -766,16 +751,16 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		private NSWindowStyle StyleFromCreateParams(CreateParams cp)
+		private NSWindowStyle NSStyleFromStyle(WindowStyles style)
 		{
 			NSWindowStyle attributes = NSWindowStyle.Borderless;
-			if (StyleSet (cp.Style, WindowStyles.WS_CAPTION)) {
+			if (style.HasFlag(WindowStyles.WS_CAPTION)) {
 				attributes = NSWindowStyle.Titled;
-				if (StyleSet (cp.Style, WindowStyles.WS_MINIMIZEBOX))
+				if (style.HasFlag(WindowStyles.WS_MINIMIZEBOX))
 					attributes |= NSWindowStyle.Miniaturizable;
-				if (StyleSet (cp.Style, WindowStyles.WS_MAXIMIZEBOX))
+				if (style.HasFlag(WindowStyles.WS_MAXIMIZEBOX))
 					attributes |= NSWindowStyle.Resizable;
-				if (StyleSet (cp.Style, WindowStyles.WS_SYSMENU))
+				if (style.HasFlag(WindowStyles.WS_SYSMENU))
 					attributes |= NSWindowStyle.Closable;
 			}
 			return attributes;
@@ -847,7 +832,7 @@ namespace System.Windows.Forms {
 			}
 				
 			if (isTopLevel) {
-				NSWindowStyle attributes = StyleFromCreateParams(cp);
+				NSWindowStyle attributes = NSStyleFromStyle(cp.WindowStyle);
 				//SetAutomaticControlDragTrackingEnabledForWindow (, true);
 				//ParentHandle = WindowView;
 				WholeRect = NSWindow.ContentRectFor(WholeRect, attributes);
@@ -995,27 +980,25 @@ namespace System.Windows.Forms {
 					break;
 				case Msg.WM_NCCALCSIZE: {
 					if (msg.WParam == (IntPtr)1) {
-						// Add all the stuff X is supposed to draw.
-						Control ctrl = Control.FromHandle(msg.HWnd);
-						if (ctrl != null) {
+						MonoView monoView = ObjCRuntime.Runtime.GetNSObject(msg.HWnd) as MonoView;						
+						if (monoView != null) {
 							XplatUIWin32.NCCALCSIZE_PARAMS ncp;
-							ncp = (XplatUIWin32.NCCALCSIZE_PARAMS)
-								Marshal.PtrToStructure (msg.LParam, typeof (XplatUIWin32.NCCALCSIZE_PARAMS));
+							ncp = (XplatUIWin32.NCCALCSIZE_PARAMS)Marshal.PtrToStructure (msg.LParam, typeof (XplatUIWin32.NCCALCSIZE_PARAMS));
 
-							var cp = ctrl.GetCreateParams ();
 							var windowRect = new Rectangle(
 								ncp.rgrc1.left,
 								ncp.rgrc1.top,
 								ncp.rgrc1.right - ncp.rgrc1.left,
 								ncp.rgrc1.bottom - ncp.rgrc1.top);
 							var clientRect = windowRect;
-							if (ctrl is Form) {
+							if (!monoView.Style.HasFlag(WindowStyles.WS_CHILD)) {
 								var frameRect = MonoToNativeScreen (windowRect);
-								clientRect = NativeToMonoScreen (NSWindow.ContentRectFor (frameRect, StyleFromCreateParams (cp)));
-							} else {
-								if (cp.WindowExStyle.HasFlag(WindowExStyles.WS_EX_CLIENTEDGE) || cp.WindowExStyle.HasFlag(WindowExStyles.WS_EX_STATICEDGE))
+								clientRect = NativeToMonoScreen (NSWindow.ContentRectFor (frameRect, NSStyleFromStyle (monoView.Style)));
+							}
+							if (monoView.Style.HasFlag(WindowStyles.WS_CHILD) || !monoView.Style.HasFlag(WindowStyles.WS_CAPTION)) {
+								if (monoView.ExStyle.HasFlag(WindowExStyles.WS_EX_CLIENTEDGE) || monoView.ExStyle.HasFlag(WindowExStyles.WS_EX_STATICEDGE))
 									clientRect.Inflate(-Border3DSize.Width, -Border3DSize.Height);
-								else if (cp.WindowStyle.HasFlag(WindowStyles.WS_BORDER))
+								else if (monoView.Style.HasFlag(WindowStyles.WS_BORDER))
 									clientRect.Inflate(-BorderSize.Width, -BorderSize.Height);
 							}
 							ncp.rgrc1.left = clientRect.Left;
@@ -1088,8 +1071,7 @@ namespace System.Windows.Forms {
 				}
 				case Msg.WM_CANCELMODE:
 				{
-					if (Grab.Hwnd != IntPtr.Zero)
-					{
+					if (Grab.Hwnd != IntPtr.Zero) {
 						UngrabWindow(Grab.Hwnd);
 					}
 					break;
@@ -2076,7 +2058,7 @@ namespace System.Windows.Forms {
 			}
 				
 			if (vuWrap.Window != null && vuWrap.Window.ContentView == vuWrap)
-				vuWrap.Window.StyleMask = StyleFromCreateParams(cp);
+				vuWrap.Window.StyleMask = NSStyleFromStyle(cp.WindowStyle);
 		}
 
 		internal override void SetWindowTransparency (IntPtr handle, double transparency, Color key) {
