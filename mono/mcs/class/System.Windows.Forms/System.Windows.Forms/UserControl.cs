@@ -1,4 +1,4 @@
-// Permission is hereby granted, free of charge, to any person obtaining
+﻿// Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
 // without limitation the rights to use, copy, modify, merge, publish,
@@ -200,69 +200,12 @@ namespace System.Windows.Forms {
 		}
 		#endregion	// Events
 
-		protected override void OnResize (EventArgs e)
-		{
-			base.OnResize (e);
-		}
-
 		[Browsable (true)]
 		[DefaultValue (BorderStyle.None)]
 		[EditorBrowsable (EditorBrowsableState.Always)]
 		public BorderStyle BorderStyle {
 			get { return InternalBorderStyle; }
 			set { InternalBorderStyle = value; }
-		}
-
-		internal override Size GetPreferredSizeCore (Size proposedSize)
-		{
-			Size retsize = Size.Empty;
-
-			// Add up the requested sizes for Docked controls
-			foreach (Control child in Controls) {
-				if (!child.is_visible)
-					continue;
-					
-				var sz = child.GetPreferredSize(new Size(0, 0));
-				//Console.WriteLine(" type=" + child.GetType().Name + ", text=" + (child.Text ?? "") + ", w=" + sz.Width + ", h=" + sz.Height + ", dock=" + child.Dock);
-
-				if (child.Dock == DockStyle.Left || child.Dock == DockStyle.Right)
-				{
-					retsize.Width += sz.Width + child.Margin.Horizontal;
-					retsize.Height = Math.Max(retsize.Height, sz.Height + child.Margin.Vertical);
-				}
-				else if (child.Dock == DockStyle.Top || child.Dock == DockStyle.Bottom)
-				{
-					retsize.Height += sz.Height + child.Margin.Vertical;
-					retsize.Width = Math.Max(retsize.Width, sz.Width + child.Margin.Horizontal);
-				}
-				else if (child.Dock == DockStyle.None)
-				{
-				}
-				else if (child.Dock == DockStyle.Fill)
-				{
-					// Strange, but it works
-					retsize.Width = Math.Max(retsize.Width, sz.Width + child.Margin.Horizontal);
-					retsize.Height = Math.Max(retsize.Height, sz.Height + child.Margin.Vertical);
-				}
-			}
-			
-			// See if any non-Docked control is positioned lower or more right than our size
-			foreach (Control child in Controls) {
-				if (!child.is_visible)
-					continue;
-
-				if (child.Dock != DockStyle.None)
-					continue;
-					
-				// If its anchored to the bottom or right, that doesn't really count
-				if ((child.Anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom || (child.Anchor & AnchorStyles.Right) == AnchorStyles.Right)
-					continue;
-					
-				retsize.Width = Math.Max (retsize.Width, child.Bounds.Right + child.Margin.Right);
-				retsize.Height = Math.Max (retsize.Height, child.Bounds.Bottom + child.Margin.Bottom);
-			}
-
-			return retsize;
 		}
 	}
 }

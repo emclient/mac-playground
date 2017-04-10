@@ -1,4 +1,4 @@
-//
+﻿//
 // FlowLayout.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -193,6 +193,64 @@ namespace System.Windows.Forms.Layout
 				FinishColumn (rowControls);
 
 			return false;
+		}
+
+		internal override Size GetPreferredSize(object container, Size proposedSize)
+		{
+			FlowLayoutPanel parent = container as FlowLayoutPanel;
+
+			int width = 0;
+			int height = 0;
+			bool horizontal = parent.FlowDirection == FlowDirection.LeftToRight || parent.FlowDirection == FlowDirection.RightToLeft;
+
+			int size_in_flow_direction = 0;
+			int size_in_other_direction = 0;
+			int increase;
+			bool forceFlowBreak = false;
+
+			foreach (Control control in parent.Controls) {
+				if (!control.Visible)
+					continue;
+				Size control_preferred_size;
+				if (control.AutoSize)
+					control_preferred_size = control.GetPreferredSize(proposedSize);
+				else
+					control_preferred_size = control.ExplicitBounds.Size;
+				Padding control_margin = control.Margin;
+				if (horizontal) {
+					increase = control_preferred_size.Width + control_margin.Horizontal;
+					if (parent.WrapContents && proposedSize.Width != 0 && size_in_flow_direction != 0 && size_in_flow_direction + increase >= proposedSize.Width || forceFlowBreak) {
+						width = Math.Max(width, size_in_flow_direction);
+						size_in_flow_direction = 0;
+						height += size_in_other_direction;
+						size_in_other_direction = 0;
+					}
+					size_in_flow_direction += increase;
+					size_in_other_direction = Math.Max(size_in_other_direction, control_preferred_size.Height + control_margin.Vertical);
+				} else {
+					increase = control_preferred_size.Height + control_margin.Vertical;
+					if (parent.WrapContents && proposedSize.Height != 0 && size_in_flow_direction != 0 && size_in_flow_direction + increase >= proposedSize.Height || forceFlowBreak) {
+						height = Math.Max(height, size_in_flow_direction);
+						size_in_flow_direction = 0;
+						width += size_in_other_direction;
+						size_in_other_direction = 0;
+					}
+					size_in_flow_direction += increase;
+					size_in_other_direction = Math.Max(size_in_other_direction, control_preferred_size.Width + control_margin.Horizontal);
+				}
+
+				forceFlowBreak = parent.LayoutSettings.GetFlowBreak(control);
+			}
+
+			if (horizontal) {
+				width = Math.Max(width, size_in_flow_direction);
+				height += size_in_other_direction;
+			} else {
+				height = Math.Max(height, size_in_flow_direction);
+				width += size_in_other_direction;
+			}
+
+			return new Size(width, height);
 		}
 
 		// Calculate the heights of the controls, returns the y coordinate of the greatest height it uses

@@ -1,4 +1,4 @@
-//
+﻿//
 // FlowLayoutPanel.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -125,64 +125,6 @@ namespace System.Windows.Forms
 				ClientSize = canvas_size;
 
 			AdjustFormScrollbars (AutoScroll);
-		}
-		
-		internal override Size GetPreferredSizeCore (Size proposedSize)
-		{
-			int width = 0;
-			int height = 0;
-			bool horizontal = FlowDirection == FlowDirection.LeftToRight || FlowDirection == FlowDirection.RightToLeft;
-
-				int size_in_flow_direction = 0;
-				int size_in_other_direction = 0;
-				int increase;
-				bool forceFlowBreak = false;
-
-				foreach (Control control in Controls) {
-					if (!control.Visible)
-						continue;
-					Size control_preferred_size;
-					if (control.AutoSize)
-						control_preferred_size = control.GetPreferredSize(proposedSize);
-					else
-						control_preferred_size = control.ExplicitBounds.Size;
-					Padding control_margin = control.Margin;
-					if (horizontal) {
-						increase = control_preferred_size.Width + control_margin.Horizontal;
-						if (WrapContents && proposedSize.Width != 0 && size_in_flow_direction != 0 && size_in_flow_direction + increase >= proposedSize.Width || forceFlowBreak) {
-							width = Math.Max (width, size_in_flow_direction);
-							size_in_flow_direction = 0;
-							height += size_in_other_direction;
-							size_in_other_direction = 0;
-						}
-						size_in_flow_direction += increase;
-						size_in_other_direction = Math.Max (size_in_other_direction, control_preferred_size.Height + control_margin.Vertical);
-					} else {
-						increase = control_preferred_size.Height + control_margin.Vertical;
-						if (WrapContents && proposedSize.Height != 0 && size_in_flow_direction != 0 && size_in_flow_direction + increase >= proposedSize.Height || forceFlowBreak) {
-							height = Math.Max (height, size_in_flow_direction);
-							size_in_flow_direction = 0;
-							width += size_in_other_direction;
-							size_in_other_direction = 0;
-						}
-						size_in_flow_direction += increase;
-						size_in_other_direction = Math.Max (size_in_other_direction, control_preferred_size.Width + control_margin.Horizontal);
-					}
-
-					forceFlowBreak = settings.GetFlowBreak(control);
-				}
-				if (horizontal) {
-					width = Math.Max (width, size_in_flow_direction);
-					height += size_in_other_direction;
-					if (height != 0)
-						height += this.Padding.Vertical;
-				} else {
-					height = Math.Max (height, size_in_flow_direction);
-					width += size_in_other_direction;
-					if (width != 0)
-						width += this.Padding.Horizontal;
-				}
-			return new Size (width, height);
 		}
 		#endregion
 	}
