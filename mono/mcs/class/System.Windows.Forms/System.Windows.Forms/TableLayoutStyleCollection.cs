@@ -1,4 +1,4 @@
-// Permission is hereby granted, free of charge, to any person obtaining
+﻿// Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
 // without limitation the rights to use, copy, modify, merge, publish,
@@ -38,9 +38,6 @@ namespace System.Windows.Forms {
 		
 		internal TableLayoutStyleCollection (TableLayoutPanel table)
 		{
-			if (table == null)
-				throw new ArgumentNullException("table");
-			
 			this.table = table;
 		}
 		
@@ -54,7 +51,8 @@ namespace System.Windows.Forms {
 			foreach (TableLayoutStyle style in al)
 				style.Owner = null;
 			al.Clear ();
-			table.PerformLayout ();
+			if (table != null)
+				table.PerformLayout();
 		}
 		
 		public int Count {
@@ -65,7 +63,8 @@ namespace System.Windows.Forms {
 		{
 			((TableLayoutStyle)al[index]).Owner = null;
 			al.RemoveAt (index);
-			table.PerformLayout ();
+			if (table != null)
+				table.PerformLayout ();
 		}
 		
 #region IList methods
@@ -103,14 +102,16 @@ namespace System.Windows.Forms {
 				throw new ArgumentException ("Style is already owned");
 			((TableLayoutStyle)style).Owner = table;
 			al.Insert (index, (TableLayoutStyle) style);
-			table.PerformLayout ();
+			if (table != null)
+				table.PerformLayout ();
 		}
 
 		void IList.Remove (object style)
 		{
 			((TableLayoutStyle)style).Owner = null;
 			al.Remove ((TableLayoutStyle) style);
-			table.PerformLayout ();
+			if (table != null)
+				table.PerformLayout ();
 		}
 
 		bool IList.IsFixedSize {
@@ -134,7 +135,8 @@ namespace System.Windows.Forms {
 					throw new ArgumentException ("Style is already owned");
 				((TableLayoutStyle)value).Owner = table;
 				al [index] = value;
-				table.PerformLayout ();
+				if (table != null)
+					table.PerformLayout ();
 			}
 		}
 #endregion
@@ -171,6 +173,20 @@ namespace System.Windows.Forms {
 
 			set {
 				((IList)this)[index] = value;
+			}
+		}
+
+		internal TableLayoutPanel Table
+		{
+			get { return this.table; }
+			set
+			{
+				if (this.table != value) {
+					this.table = value;
+					foreach (TableLayoutStyle style in this.al) {
+						style.Owner = value;
+					}
+				}
 			}
 		}
 	}

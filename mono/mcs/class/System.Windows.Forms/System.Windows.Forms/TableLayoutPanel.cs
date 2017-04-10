@@ -1,4 +1,4 @@
-//
+﻿//
 // TableLayoutPanel.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -132,11 +132,12 @@ namespace System.Windows.Forms
 			set {
 				if (value.isSerialized) {
 					// Serialized version doesn't calculate these.
-					value.panel = null;
 					value.ColumnCount = value.ColumnStyles.Count;
 					value.RowCount = value.RowStyles.Count;
+					value.RowStyles.Table = this;
+					value.ColumnStyles.Table = this;
 					value.panel = this;
-					
+					value.isSerialized = false;
 					this.settings = value;
 				} else
 					throw new NotSupportedException ("LayoutSettings value cannot be set directly.");
