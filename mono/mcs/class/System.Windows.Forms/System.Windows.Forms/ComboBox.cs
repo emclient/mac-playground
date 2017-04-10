@@ -1,4 +1,4 @@
-// Permission is hereby granted, free of charge, to any person obtaining
+﻿// Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
 // without limitation the rights to use, copy, modify, merge, publish,
@@ -2529,8 +2529,7 @@ namespace System.Windows.Forms
 					}
 				}
 
-				var borderAdjustment = dropdown_style == ComboBoxStyle.Simple ? new Size (0, 0) :
-					new Size (Height - ClientSize.Height, Width - ClientSize.Width);
+				var borderAdjustment = dropdown_style == ComboBoxStyle.Simple ? new Size (0, 0) : SizeFromClientSize(Size.Empty);
 				Size = new Size (width, height + borderAdjustment.Height);
 				textarea_drawable = new Rectangle (ClientRectangle.Location,
 					new Size (width - borderAdjustment.Width, height));
