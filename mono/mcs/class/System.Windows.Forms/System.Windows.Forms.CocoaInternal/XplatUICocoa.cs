@@ -493,7 +493,7 @@ namespace System.Windows.Forms {
 							null,
 							0,
 							evtRef.Type != NSEventType.ScrollWheel ? evtRef.ClickCount : 0,
-							evtRef.Pressure);
+							evtRef.Type != NSEventType.ScrollWheel ? evtRef.Pressure : 0);
 					}
 					switch (evtRef.Type)
 					{
