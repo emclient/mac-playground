@@ -1,4 +1,4 @@
-#if !NO_CARBON && !NO_X11
+﻿#if !NO_CARBON && !NO_X11
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -917,13 +917,15 @@ namespace System.Windows.Forms
 {
 	static class Hwnd
 	{
+		static Graphics cachedGraphicsContext;
+
 		public static Graphics GraphicsContext
 		{
 			get
 			{
-				// TODO: Optimize again?
-				// JV: Caching this bitmap was disabled to resolve issues with disposing the graphics context.
-				return Graphics.FromImage(new Bitmap(1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb));
+				if (cachedGraphicsContext != null)
+					return cachedGraphicsContext;
+				return cachedGraphicsContext = Graphics.FromHwnd(IntPtr.Zero);
 			}
 		}
 	}
