@@ -297,6 +297,8 @@ namespace System.Windows.Forms.CocoaInternal
 
 			return sorted;
 		}
+
+		public NSWindow Owner { get; set; }
 	}
 }
 

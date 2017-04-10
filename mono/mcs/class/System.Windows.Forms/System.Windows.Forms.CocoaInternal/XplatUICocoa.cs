@@ -1218,7 +1218,7 @@ namespace System.Windows.Forms {
 				return IntPtr.Zero;
 			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 			if (vuWrap.Window != null && vuWrap == vuWrap.Window.ContentView)
-				return with_owner && vuWrap.Window.ParentWindow != null ? vuWrap.Window.ParentWindow.ContentView.Handle : IntPtr.Zero;
+				return with_owner && vuWrap.Window is MonoWindow monoWindow && monoWindow.Owner != null ? monoWindow.Owner.ContentView.Handle : IntPtr.Zero;
 			if (vuWrap.Superview != null)
 				return vuWrap.Superview.Handle;
 			return IntPtr.Zero;
@@ -1779,15 +1779,7 @@ namespace System.Windows.Forms {
 			NSWindow winWrap = (NSWindow) vuWrap.Window;
 
 			if (winWrap != null && winWrap.ContentView == vuWrap) {
-				NSWindow parentWinWrap = winWrap.ParentWindow;
-				if (parentWinWrap != null)
-					parentWinWrap.RemoveChildWindow (winWrap);
-
-				if (newParentWrap != null) {
-					parentWinWrap = newParentWrap.Window;
-					if (parentWinWrap != null)
-						parentWinWrap.AddChildWindow (winWrap, NSWindowOrderingMode.Above);
-				}
+				// SetParent for windows is not supported
 			} else if (vuWrap.Superview != newParentWrap) {
 				bool adoption = vuWrap.Superview != null;
 				if (adoption) {
@@ -1796,7 +1788,6 @@ namespace System.Windows.Forms {
 							vuWrap.Frame.X - (int)((IClientView)vuWrap.Superview).ClientBounds.X,
 							vuWrap.Frame.Y - (int)((IClientView)vuWrap.Superview).ClientBounds.Y));
 					}
-					//vuWrap.Retain ();
 					vuWrap.RemoveFromSuperview ();
 				}
 
@@ -1807,8 +1798,6 @@ namespace System.Windows.Forms {
 							vuWrap.Frame.Y + (int)((IClientView)newParentWrap).ClientBounds.Y));
 					}
 					newParentWrap.AddSubview (vuWrap);
-					//if (adoption)
-					//	vuWrap.Release ();
 				}
 			}
 
@@ -1881,6 +1870,7 @@ namespace System.Windows.Forms {
 			{
 				if (winWrap.ParentWindow != null)
 					winWrap.ParentWindow.RemoveChildWindow(winWrap);
+				winWrap.Owner = winOwnerWrap;
 				// If not visible, do not call AddChildWindow now, because it would immediately show the child window.
 				if (winOwnerWrap != null && winWrap.IsVisible)
 					winOwnerWrap.AddChildWindow(winWrap, NSWindowOrderingMode.Above);				
@@ -1904,12 +1894,16 @@ namespace System.Windows.Forms {
 			NSWindow winWrap = vuWrap.Window;
 			if (winWrap != null && winWrap.ContentView == vuWrap) {
 				if (visible) {
+					if (winWrap is MonoWindow monoWindow && monoWindow.Owner != null)
+						monoWindow.Owner.AddChildWindow(winWrap, NSWindowOrderingMode.Above);
 					if (Control.FromHandle(handle).ActivateOnShow)
 						winWrap.MakeKeyAndOrderFront(winWrap);
 					else
 						winWrap.OrderFront(winWrap);
 				} else {
 					winWrap.OrderOut(winWrap);
+					if (winWrap is MonoWindow monoWindow && monoWindow.Owner != null)
+						monoWindow.Owner.RemoveChildWindow(winWrap);
 				}
 			} else {
 				vuWrap.Hidden = !visible;
