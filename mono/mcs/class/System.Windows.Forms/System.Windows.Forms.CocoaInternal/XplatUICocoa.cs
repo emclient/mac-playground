@@ -482,7 +482,7 @@ namespace System.Windows.Forms {
 			if (dequeue) {
 				if (Grab.Hwnd != IntPtr.Zero && IsMouseEvent(evtRef.Type) && evtRef.Window != null) {
 					var grabView = (NSView)ObjCRuntime.Runtime.GetNSObject(Grab.Hwnd);
-					if (grabView.Window.WindowNumber != evtRef.WindowNumber)
+					if (grabView.Window.WindowNumber != evtRef.WindowNumber && evtRef.Type != NSEventType.ScrollWheel)
 					{
 						evtRef = NSEvent.MouseEvent(
 							evtRef.Type,
@@ -492,8 +492,8 @@ namespace System.Windows.Forms {
 							grabView.Window.WindowNumber,
 							null,
 							0,
-							evtRef.Type != NSEventType.ScrollWheel ? evtRef.ClickCount : 0,
-							evtRef.Type != NSEventType.ScrollWheel ? evtRef.Pressure : 0);
+							evtRef.ClickCount,
+							evtRef.Pressure);
 					}
 					switch (evtRef.Type)
 					{
