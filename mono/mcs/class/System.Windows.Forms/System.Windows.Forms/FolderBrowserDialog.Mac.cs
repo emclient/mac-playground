@@ -1,10 +1,17 @@
-﻿#if MONOMAC
+﻿#if MACDIALOGS
 
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+
+#if MONOMAC
 using MonoMac.AppKit;
 using MonoMac.Foundation;
+#elif XAMARINMAC
+using AppKit;
+using Foundation;
+#endif
+
 using System.Windows.Forms.CocoaInternal;
 
 namespace System.Windows.Forms
@@ -24,7 +31,7 @@ namespace System.Windows.Forms
 		{
 			using (var context = new ModalDialogContext())
 			{
-				var panel = new MonoMac.AppKit.NSOpenPanel();
+				var panel = new NSOpenPanel();
 				panel.CanChooseFiles = false;
 				panel.CanChooseDirectories = true;
 				panel.AllowsMultipleSelection = false;
@@ -33,7 +40,7 @@ namespace System.Windows.Forms
 				if (!String.IsNullOrWhiteSpace(SelectedPath) && System.IO.Directory.Exists(SelectedPath) && IsSubfolderOf(SelectedPath, RootFolder))
 					panel.DirectoryUrl = NSUrl.FromFilename(SelectedPath);
 
-				if (NSPanelButtonType.Ok != (NSPanelButtonType)panel.RunModal())
+				if (NSPanelButtonType.Ok != (NSPanelButtonType)(int)panel.RunModal())
 					return false;
 
 				SelectedPath = panel.Url.Path;
@@ -62,4 +69,4 @@ namespace System.Windows.Forms
 	}
 }
 
-#endif // MONOMAC
+#endif // MACDIALOGS
