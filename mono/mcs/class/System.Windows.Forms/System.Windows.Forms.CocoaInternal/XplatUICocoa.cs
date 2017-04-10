@@ -1219,7 +1219,7 @@ namespace System.Windows.Forms {
 			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 			MonoWindow monoWindow;
 			if (vuWrap.Window != null && vuWrap == vuWrap.Window.ContentView)
-				return with_owner && (monoWindow = Wrap.Window as MonoWindow) != null && monoWindow.Owner != null ? monoWindow.Owner.ContentView.Handle : IntPtr.Zero;
+				return with_owner && (monoWindow = vuWrap.Window as MonoWindow) != null && monoWindow.Owner != null ? monoWindow.Owner.ContentView.Handle : IntPtr.Zero;
 			if (vuWrap.Superview != null)
 				return vuWrap.Superview.Handle;
 			return IntPtr.Zero;
