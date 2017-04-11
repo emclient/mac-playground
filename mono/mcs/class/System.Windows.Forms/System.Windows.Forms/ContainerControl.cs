@@ -830,7 +830,7 @@ namespace System.Windows.Forms {
 			// is required for the borders.
 			Size borderSize = SizeFromClientSize(Size.Empty);
 			Size totalPadding = borderSize + Padding.Size;
-			return LayoutEngine.GetPreferredSize(this, proposedSize) + totalPadding;
+			return LayoutEngine.GetPreferredSize(this, proposedSize - totalPadding) + totalPadding;
 		}
 
 		AutoValidate auto_validate = AutoValidate.Inherit;
