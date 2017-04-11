@@ -1,4 +1,4 @@
-// Permission is hereby granted, free of charge, to any person obtaining
+﻿// Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
 // without limitation the rights to use, copy, modify, merge, publish,
@@ -385,27 +385,20 @@ namespace System.Windows.Forms
 
 		internal virtual Size InternalGetPreferredSize (Size proposed)
 		{
+			Size bordersAndPaddings = new Size(Padding.Horizontal, Padding.Vertical);
 			Size size;
+
+			if (use_compatible_text_rendering)
+				bordersAndPaddings.Height += border_style == BorderStyle.None ? 3 : 6;
 
 			if (Text == string.Empty) {
 				size = new Size (0, Font.Height);
 			} else {
-				size = Size.Ceiling (TextRenderer.MeasureString (Text, Font, proposed.Width == 0 ? int.MaxValue : proposed.Width, string_format));
+				size = Size.Ceiling (TextRenderer.MeasureString (Text, Font, proposed.Width == 0 ? int.MaxValue : (proposed.Width - bordersAndPaddings.Width), string_format));
 				size.Width += 3;
 			}
 
-			size.Width += Padding.Horizontal;
-			size.Height += Padding.Vertical;
-			
-			if (!use_compatible_text_rendering)
-				return size;
-
-			if (border_style == BorderStyle.None)
-				size.Height += 3;
-			else
-				size.Height += 6;
-			
-			return size;
+			return size + bordersAndPaddings;
 		}
 
 		public override	Size GetPreferredSize (Size proposedSize)
