@@ -1,4 +1,4 @@
-//
+﻿//
 // System.Windows.Forms.GroupBox.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -305,47 +305,12 @@ namespace System.Windows.Forms
 		#region Internal Methods
 		internal override Size GetPreferredSizeCore (Size proposedSize)
 		{
-			Size retsize = new Size (Padding.Left, Padding.Top);
+			// Translating 0,0 from ClientSize to actual Size tells us how much space
+			// is required for the borders.
+			Size borderSize = SizeFromClientSize(Size.Empty);
+			Size totalPadding = borderSize + new Size(0, Font.Height) + Padding.Size;
+			return LayoutEngine.GetPreferredSize(this, proposedSize - totalPadding) + totalPadding;
 
-			int hDocked = 0;
-
-			foreach (Control child in Controls) {
-				if (child.Dock == DockStyle.Fill) {
-					if (child.Bounds.Right > retsize.Width)
-						retsize.Width = child.Bounds.Right;
-				} else if (child.Dock != DockStyle.Top && child.Dock != DockStyle.Bottom && (child.Bounds.Right + child.Margin.Right) > retsize.Width)
-					retsize.Width = child.Bounds.Right + child.Margin.Right;
-
-				if (child.Dock == DockStyle.Fill)
-				{
-					var ps = child.GetPreferredSize(proposedSize);
-					if (child.Location.Y + ps.Height + child.Margin.Vertical > retsize.Height)
-						retsize.Height = child.Location.Y + ps.Height + child.Margin.Vertical;
-				}
-				else if (child.Dock != DockStyle.Left && child.Dock != DockStyle.Right)
-				{
-					if (child.Dock == DockStyle.Bottom)
-					{
-						hDocked += child.Bounds.Height + child.Margin.Bottom;
-					}
-					else if (child.Dock == DockStyle.Top)
-					{
-						hDocked += child.Bounds.Height + child.Margin.Top;
-					} else {
-						if ((child.Bounds.Bottom + child.Margin.Bottom) > retsize.Height)
-							retsize.Height = child.Bounds.Bottom + child.Margin.Bottom;
-					}
-				}
-			}
-
-			retsize.Height += hDocked;
-
-			retsize.Width += Padding.Right;
-			retsize.Height += Padding.Bottom;
-			
-			retsize.Height += this.Font.Height;
-			
-			return retsize;
 		}
 		#endregion
 
