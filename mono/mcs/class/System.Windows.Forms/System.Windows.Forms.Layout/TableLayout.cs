@@ -30,7 +30,6 @@
 
 using System;
 using System.Drawing;
-using System.Collections.Generic;
 
 namespace System.Windows.Forms.Layout
 {
@@ -68,7 +67,7 @@ namespace System.Windows.Forms.Layout
 			// STEP 2:
 			// - Figure out the sizes of each row/column
 			// - Store data in the TableLayoutPanel.widths/heights
-			CalculateColumnRowSizes (panel, panel.actual_positions.GetLength (0), panel.actual_positions.GetLength (1));
+			CalculateColumnRowSizes (panel, panel.actual_positions, out panel.column_widths, out panel.row_heights, panel.DisplayRectangle.Size, false);
 			
 			// STEP 3:
 			// - Size and position each control
@@ -232,16 +231,19 @@ namespace System.Windows.Forms.Layout
 			return grid;
 		}
 
-		private void CalculateColumnRowSizes (TableLayoutPanel panel, int columns, int rows)
+		private void CalculateColumnRowSizes (TableLayoutPanel panel, Control[,] actual_positions, out int[] column_widths, out int[] row_heights, Size size, bool measureOnly)
 		{
 			TableLayoutSettings settings = panel.LayoutSettings;
+			int columns = actual_positions.GetLength(0);
+			int rows = actual_positions.GetLength(1);
+			bool auto_size = panel.AutoSize || measureOnly;
 
-			panel.column_widths = new int[panel.actual_positions.GetLength (0)];
-			panel.row_heights = new int[panel.actual_positions.GetLength (1)];
+			column_widths = new int[actual_positions.GetLength (0)];
+			row_heights = new int[actual_positions.GetLength (1)];
 
 			int border_width = TableLayoutPanel.GetCellBorderWidth (panel.CellBorderStyle);
 				
-			Rectangle parentDisplayRectangle = panel.DisplayRectangle;
+			//Rectangle parentDisplayRectangle = panel.DisplayRectangle;
 
 			TableLayoutColumnStyleCollection col_styles = new TableLayoutColumnStyleCollection (panel);
 			
@@ -284,21 +286,21 @@ namespace System.Windows.Forms.Layout
 			}
 
 			// Figure up all the column widths
-			int total_width = parentDisplayRectangle.Width - (border_width * (columns + 1));
+			int available_width = size.Width - (border_width * (columns + 1));
 			int index = 0;
 
 			// First assign all the Absolute sized columns..
 			foreach (ColumnStyle cs in col_styles) {
 				if (cs.SizeType == SizeType.Absolute) {
-					panel.column_widths[index] = (int)cs.Width;
-					total_width -= (int)cs.Width;
+					column_widths[index] = (int)cs.Width;
+					available_width -= (int)cs.Width;
 				}
 
 				index++;
 			}
 
 			// Support for shrinking table horizontally (if it has both AutoSize and Dock.Fill styles and if it exceeds given width).
-			int[] col_reserves = new int[panel.column_widths.Length];
+			int[] col_reserves = new int[column_widths.Length];
 
 			// Next, assign all the AutoSize columns to the width of their widest
 			// control.  If the table-layout is auto-sized, then make sure that
@@ -309,16 +311,15 @@ namespace System.Windows.Forms.Layout
 				for (index = colspan; index < col_styles.Count - colspan; ++index)
 				{
 					ColumnStyle cs = col_styles[index];
-					if (cs.SizeType == SizeType.AutoSize
-					|| (panel.AutoSize && cs.SizeType == SizeType.Percent))
+					if (cs.SizeType == SizeType.AutoSize || (auto_size && cs.SizeType == SizeType.Percent))
 					{
-						int max_width = panel.column_widths[index];
+						int max_width = column_widths[index];
 						int min_reserve = int.MaxValue;
 
 						// Find the widest control in the column
 						for (int i = 0; i < rows; i ++)
 						{
-							Control c = panel.actual_positions[index - colspan, i];
+							Control c = actual_positions[index - colspan, i];
 
 							if (c != null && c != dummy_control && c.VisibleInternal)
 							{
@@ -327,13 +328,10 @@ namespace System.Windows.Forms.Layout
 									continue;
 
 								// Calculate the maximum control width.
-								if (panel.AutoSize && cs.SizeType == SizeType.Percent)
-									max_width = Math.Max (max_width, c.MinimumSize.Width + c.Margin.Horizontal);
-								else if (c.AutoSize)
-									max_width = Math.Max (max_width, c.PreferredSize.Width + c.Margin.Horizontal);
+								if (auto_size && cs.SizeType == SizeType.Percent)
+									max_width = Math.Max (max_width, GetControlSize(c, new Size(1, 0)).Width + c.Margin.Horizontal);
 								else
-									max_width = Math.Max (max_width, c.ExplicitBounds.Width + c.Margin.Horizontal);
-								//max_width = Math.Max (max_width, c.Width + c.Margin.Left + c.Margin.Right);
+									max_width = Math.Max (max_width, GetControlSize(c, Size.Empty).Width + c.Margin.Horizontal);
 
 								// How much can we shrink this column if necessary
 								if (c.Dock == DockStyle.Fill)
@@ -343,14 +341,14 @@ namespace System.Windows.Forms.Layout
 
 						// Subtract the width of prior columns, if any.
 						for (int i = Math.Max (index - colspan, 0); i < index; ++i)
-							max_width -= panel.column_widths[i];
+							max_width -= column_widths[i];
 
 						// If necessary, increase this column's width.
-						if (max_width > panel.column_widths[index])
+						if (max_width > column_widths[index])
 						{
-							max_width -= panel.column_widths[index];
-							panel.column_widths[index] += max_width;
-							total_width -= max_width;
+							max_width -= column_widths[index];
+							column_widths[index] += max_width;
+							available_width -= max_width;
 						}
 
 						// If necessary, decrease the col's reserve
@@ -361,16 +359,16 @@ namespace System.Windows.Forms.Layout
 			}
 
 			// Shrink the table horizontally by shrinking it's columns, if necessary.
-			if (panel.Dock == DockStyle.Fill)
-				total_width -= Shrink(panel.column_widths, col_reserves, parentDisplayRectangle.Width - (border_width * (columns + 1)), max_colspan, col_styles.Count);
+			if (panel.Dock == DockStyle.Fill && size.Width > 0)
+				available_width -= Shrink(column_widths, col_reserves, size.Width - (border_width * (columns + 1)), max_colspan, col_styles.Count);
 
 			index = 0;
 			float total_percent = 0;
 			
 			// Finally, assign the remaining space to Percent columns, if any.
-			if (total_width > 0)
+			if (available_width > 0 && !measureOnly)
 			{
-				int percent_width = total_width; 
+				int percent_width = available_width; 
 				
 				// Find the total percent (not always 100%)
 				foreach (ColumnStyle cs in col_styles) 
@@ -387,8 +385,8 @@ namespace System.Windows.Forms.Layout
 						int width_change = (int)((cs.Width / total_percent) * percent_width);
 						if (width_change > 0)
 						{
-							panel.column_widths[index] += width_change;
-							total_width -= width_change;
+							column_widths[index] += width_change;
+							available_width -= width_change;
 						}
 					}
 
@@ -396,31 +394,29 @@ namespace System.Windows.Forms.Layout
 				}
 			}
 
-			if (total_width > 0)
-			{
+			if (available_width > 0 && !measureOnly) {
 				// Find the last column that isn't an Absolute SizeType, and give it
 				// all this free space.  (Absolute sized columns need to retain their
 				// absolute width if at all possible!)
 				int col = col_styles.Count - 1;
-				for (; col >= 0; --col)
-				{
+				for (; col >= 0; --col) {
 					if (col_styles[col].SizeType != SizeType.Absolute)
 						break;
 				}
 				if (col < 0)
 					col = col_styles.Count - 1;
-				panel.column_widths[col] += total_width;
+				column_widths[col] += available_width;
 			}
 
 			// Figure up all the row heights
-			int total_height = parentDisplayRectangle.Height - (border_width * (rows + 1));
+			int available_height = size.Height - (border_width * (rows + 1));
 			index = 0;
 
 			// First assign all the Absolute sized rows..
 			foreach (RowStyle rs in row_styles) {
 				if (rs.SizeType == SizeType.Absolute) {
-					panel.row_heights[index] = (int)rs.Height;
-					total_height -= (int)rs.Height;
+					row_heights[index] = (int)rs.Height;
+					available_height -= (int)rs.Height;
 				}
 
 				index++;
@@ -429,7 +425,7 @@ namespace System.Windows.Forms.Layout
 			index = 0;
 
 			// Support for shrinking table vertically (if it has both AutoSize and Dock.Fill styles and if it exceeds parent's height).
-			int[] row_reserves = new int[panel.row_heights.Length];
+			int[] row_reserves = new int[row_heights.Length];
 
 			// Next, assign all the AutoSize rows to the height of their tallest
 			// control.  If the table-layout is auto-sized, then make sure that
@@ -440,15 +436,14 @@ namespace System.Windows.Forms.Layout
 				for (index = rowspan; index < row_styles.Count - rowspan; ++index)
 				{
 					RowStyle rs = row_styles[index];
-					if (rs.SizeType == SizeType.AutoSize
-					|| (panel.AutoSize && rs.SizeType == SizeType.Percent))
+					if (rs.SizeType == SizeType.AutoSize || (auto_size && rs.SizeType == SizeType.Percent))
 					{
-						int max_height = panel.row_heights[index];
+						int max_height = row_heights[index];
 						int min_reserve = int.MaxValue;
 
 						// Find the tallest control in the row
 						for (int i = 0; i < columns; i++) {
-							Control c = panel.actual_positions[i, index - rowspan];
+							Control c = actual_positions[i, index - rowspan];
 
 							if (c != null && c != dummy_control && c.VisibleInternal)
 							{
@@ -456,14 +451,14 @@ namespace System.Windows.Forms.Layout
 								if (settings.GetRowSpan (c) != rowspan + 1)
 									continue;
 
+								int current_width = 0;
+								int column_span = settings.GetColumnSpan(c);
+								for (int j = i; j < i + column_span && j < column_widths.Length; j++) {
+									current_width += column_widths[j];
+								}
+
 								// Calculate the maximum control height.
-								if (panel.AutoSize && rs.SizeType == SizeType.Percent)
-									max_height = Math.Max (max_height, c.MinimumSize.Height + c.Margin.Vertical);
-								else if (c.AutoSize)
-									max_height = Math.Max (max_height, c.PreferredSize.Height + c.Margin.Vertical);
-								else
-									max_height = Math.Max (max_height, c.ExplicitBounds.Height + c.Margin.Vertical);
-								//max_height = Math.Max (max_height, c.Height + c.Margin.Top + c.Margin.Bottom);
+								max_height = Math.Max (max_height, GetControlSize(c, new Size(current_width, 0)).Height + c.Margin.Vertical);
 
 								// How much can we shrink this row if necessary
 								if (c.Dock == DockStyle.Fill)
@@ -473,14 +468,14 @@ namespace System.Windows.Forms.Layout
 
 						// Subtract the height of prior rows, if any.
 						for (int i = Math.Max (index - rowspan, 0); i < index; ++i)
-							max_height -= panel.row_heights[i];
+							max_height -= row_heights[i];
 
 						// If necessary, increase this row's height.
-						if (max_height > panel.row_heights[index])
+						if (max_height > row_heights[index])
 						{
-							max_height -= panel.row_heights[index];
-							panel.row_heights[index] += max_height;
-							total_height -= max_height;
+							max_height -= row_heights[index];
+							row_heights[index] += max_height;
+							available_height -= max_height;
 						}
 
 						// If necessary, decrease the row's reserve
@@ -491,15 +486,15 @@ namespace System.Windows.Forms.Layout
 			}
 
 			// Shrink the table vertically by shrinking it's rows, if necessary
-			if (panel.Dock == DockStyle.Fill)
-				total_height -= Shrink(panel.row_heights, row_reserves, parentDisplayRectangle.Height - (border_width * (rows + 1)), max_rowspan, row_styles.Count);
+			if (panel.Dock == DockStyle.Fill && size.Height > 0)
+				available_height -= Shrink(row_heights, row_reserves, size.Height - (border_width * (rows + 1)), max_rowspan, row_styles.Count);
 
 			index = 0;
 			total_percent = 0;
 
 			// Finally, assign the remaining space to Percent rows, if any.
-			if (total_height > 0) {
-				int percent_height = total_height;
+			if (available_height > 0 && !measureOnly) {
+				int percent_height = available_height;
 				
 				// Find the total percent (not always 100%)
 				foreach (RowStyle rs in row_styles) {
@@ -513,8 +508,8 @@ namespace System.Windows.Forms.Layout
 						int height_change = (int)((rs.Height / total_percent) * percent_height);
 						if (height_change > 0)
 						{
-							panel.row_heights[index] += height_change;
-							total_height -= height_change;
+							row_heights[index] += height_change;
+							available_height -= height_change;
 						}
 					}
 
@@ -522,7 +517,7 @@ namespace System.Windows.Forms.Layout
 				}
 			}
 
-			if (total_height > 0)
+			if (available_height > 0 && !measureOnly)
 			{
 				// Find the last row that isn't an Absolute SizeType, and give it
 				// all this free space.  (Absolute sized rows need to retain their
@@ -535,7 +530,7 @@ namespace System.Windows.Forms.Layout
 				}
 				if (row < 0)
 					row = row_styles.Count - 1;
-				panel.row_heights[row] += total_height;
+				row_heights[row] += available_height;
 			}
 		}
 
@@ -590,6 +585,15 @@ namespace System.Windows.Forms.Layout
 			return n;
 		}
 
+		private static Size GetControlSize (Control c, Size proposedSize)
+		{
+			if (c.AutoSize) {
+				return c.GetPreferredSize (proposedSize);
+			} else {
+				return c.ExplicitBounds.Size;				
+			}
+		}
+
 		private void LayoutControls (TableLayoutPanel panel)
 		{
 			TableLayoutSettings settings = panel.LayoutSettings;
@@ -609,33 +613,28 @@ namespace System.Windows.Forms.Layout
 					if(c != null && c != dummy_control && c.VisibleInternal) {
 						Size preferred;
 						
-						if (c.AutoSize)
-							preferred = c.PreferredSize;
-						else
-							preferred = c.ExplicitBounds.Size;
-						
 						int new_x = 0;
 						int new_y = 0;
 						int new_width = 0;
 						int new_height = 0;
-						
-						// Figure out the width of the control
+
 						int column_width = panel.column_widths[x];
-						
-						for (int i = 1; i < Math.Min (settings.GetColumnSpan(c), panel.column_widths.Length); i++)
+						for (int i = 1; i < Math.Min (settings.GetColumnSpan(c), panel.column_widths.Length - x); i++)
 							column_width += panel.column_widths[x + i];
 
+						int column_height = panel.row_heights[y];
+						for (int i = 1; i < Math.Min (settings.GetRowSpan(c), panel.row_heights.Length - x); i++)
+							column_height += panel.row_heights[y + i];
+
+						preferred = GetControlSize(c, new Size(column_width, column_height));
+
+						// Figure out the width of the control
 						if (c.Dock == DockStyle.Fill || c.Dock == DockStyle.Top || c.Dock == DockStyle.Bottom || ((c.Anchor & AnchorStyles.Left) == AnchorStyles.Left && (c.Anchor & AnchorStyles.Right) == AnchorStyles.Right))
 							new_width = column_width - c.Margin.Left - c.Margin.Right;
 						else
 							new_width = Math.Min (preferred.Width, column_width - c.Margin.Left - c.Margin.Right);
 							
 						// Figure out the height of the control
-						int column_height = panel.row_heights[y];
-
-						for (int i = 1; i < Math.Min (settings.GetRowSpan (c), panel.row_heights.Length); i++)
-							column_height += panel.row_heights[y + i];
-
 						if (c.Dock == DockStyle.Fill || c.Dock == DockStyle.Left || c.Dock == DockStyle.Right || ((c.Anchor & AnchorStyles.Top) == AnchorStyles.Top && (c.Anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom))
 							new_height = column_height - c.Margin.Top - c.Margin.Bottom;
 						else
@@ -674,266 +673,25 @@ namespace System.Windows.Forms.Layout
 			// If the tablelayoutowner is autosize, we have to make sure it is big enough
 			// to hold every non-autosize control
 			var actual_positions = CalculateControlPositions (panel, Math.Max (panel.ColumnCount, 1), Math.Max (panel.RowCount, 1));
-			
-			// Use actual row/column counts, not user set ones
-			int actual_cols = actual_positions.GetLength (0);
-			int actual_rows = actual_positions.GetLength (1);
-			
-			// Find the largest column-span/row-span values.  A table entry that spans more than one
-			// column (row) should not be treated as though it's width (height) all belongs to the
-			// first column (row), but should be spread out across all the columns (rows) that are
-			// spanned.  So we need to keep track of the widths (heights) of spans as well as
-			// individual columns (rows).
-			int max_colspan = 1, max_rowspan = 1;
-			foreach (Control c in panel.Controls)
-			{
-				max_colspan = Math.Max(max_colspan, panel.GetColumnSpan(c));
-				max_rowspan = Math.Max(max_rowspan, panel.GetRowSpan(c));
+
+			int[] column_sizes;
+			int[] row_sizes;
+			int border_width = TableLayoutPanel.GetCellBorderWidth(panel.CellBorderStyle);
+			CalculateColumnRowSizes(panel, actual_positions, out column_sizes, out row_sizes, proposedSize, true);
+
+			int needed_width = (column_sizes.Length + 1) * border_width;
+			for (int i = 0; i < column_sizes.Length; i++) {
+				needed_width += column_sizes[i];
 			}
 
-			// Figure out how wide the owner needs to be
-			int[] column_widths = new int[actual_cols];
-			// Keep track of widths for spans as well as columns. column_span_widths[i,j] stores
-			// the maximum width for items column i than have a span of j+1 (ie, covers columns
-			// i through i+j).
-			int[,] column_span_widths = new int[actual_cols, max_colspan];
-			int[] biggest = new int[max_colspan];
-			float total_column_percentage = 0f;
-			
-			// Figure out how wide each column wants to be
-			for (int i = 0; i < actual_cols; i++) {
-				if (i < panel.ColumnStyles.Count && panel.ColumnStyles[i].SizeType == SizeType.Percent)
-					total_column_percentage += panel.ColumnStyles[i].Width;
-				int absolute_width = -1;
-				if (i < panel.ColumnStyles.Count && panel.ColumnStyles[i].SizeType == SizeType.Absolute)
-					absolute_width = (int)panel.ColumnStyles[i].Width;	// use the absolute width if it's absolute!
-
-				for (int s = 0; s < max_colspan; ++s)
-					biggest[s] = 0;
-
-				for (int j = 0; j < actual_rows; j++) {
-					Control c = actual_positions[i, j];
-
-					if (c != null && c != TableLayout.dummy_control && c.VisibleInternal) {
-						int colspan = panel.GetColumnSpan (c);
-						if (colspan == 0)
-							continue;
-						if (colspan == 1 && absolute_width > -1)
-							biggest[0] = absolute_width;	// use the absolute width if the column has absolute width assigned!
-						else if (!c.AutoSize)
-							biggest[colspan-1] = Math.Max (biggest[colspan-1], c.ExplicitBounds.Width + c.Margin.Horizontal);
-						else
-							biggest[colspan-1] = Math.Max (biggest[colspan-1], c.PreferredSize.Width + c.Margin.Horizontal);
-					}
-					else if (absolute_width > -1) {
-						biggest[0] = absolute_width;
-					}
-				}
-
-				for (int s = 0; s < max_colspan; ++s)
-					column_span_widths[i,s] = biggest[s];
+			int needed_height = (row_sizes.Length + 1) * border_width;
+			for (int i = 0; i < row_sizes.Length; i++) {
+				needed_height += row_sizes[i];
 			}
 
-			for (int i = 0; i < actual_cols; ++i) {
-				for (int s = 1; s < max_colspan; ++s) {
-					if (column_span_widths[i,s] > 0)
-						AdjustWidthsForSpans (panel, column_span_widths, i, s);
-				}
-				column_widths[i] = column_span_widths[i,0];
-			}
-
-			// Because percentage based rows divy up the remaining space,
-			// we have to make the owner big enough so that all the rows
-			// get bigger, even if we only need one to be bigger.
-			int non_percent_total_width = 0;
-			int percent_total_width = 0;
-
-			for (int i = 0; i < actual_cols; i++) {
-				if (i < panel.ColumnStyles.Count && panel.ColumnStyles[i].SizeType == SizeType.Percent)
-					percent_total_width = Math.Max (percent_total_width, (int)(column_widths[i] / ((panel.ColumnStyles[i].Width) / total_column_percentage)));
-				else
-					non_percent_total_width += column_widths[i];
-			}
-
-			int border_width = TableLayoutPanel.GetCellBorderWidth (panel.CellBorderStyle);
-			int needed_width = non_percent_total_width + percent_total_width + (border_width * (actual_cols + 1));
-
-			// Figure out how tall the owner needs to be
-			int[] row_heights = new int[actual_rows];
-			int[,] row_span_heights = new int[actual_rows, max_rowspan];
-			biggest = new int[max_rowspan];
-			float total_row_percentage = 0f;
-		
-			// Figure out how tall each row wants to be
-			for (int j = 0; j < actual_rows; j++) {
-				if (j < panel.RowStyles.Count && panel.RowStyles[j].SizeType == SizeType.Percent)
-					total_row_percentage += panel.RowStyles[j].Height;
-				int absolute_height = -1;
-				if (j < panel.RowStyles.Count && panel.RowStyles[j].SizeType == SizeType.Absolute)
-					absolute_height = (int)panel.RowStyles[j].Height;	// use the absolute height if it's absolute!
-					
-				for (int s = 0; s < max_rowspan; ++s)
-					biggest[s] = 0;
-				
-				for (int i = 0; i < actual_cols; i++) {
-					Control c = actual_positions[i, j];
-
-					if (c != null && c != TableLayout.dummy_control && c.VisibleInternal) {
-						int rowspan = panel.GetRowSpan (c);
-						if (rowspan == 0)
-							continue;
-						if (rowspan == 1 && absolute_height > -1)
-							biggest[0] = absolute_height;    // use the absolute height if the row has absolute height assigned!
-						else if (!c.AutoSize)
-							biggest[rowspan-1] = Math.Max (biggest[rowspan-1], c.ExplicitBounds.Height + c.Margin.Vertical);
-						else
-							biggest[rowspan-1] = Math.Max (biggest[rowspan-1], c.PreferredSize.Height + c.Margin.Vertical);
-					}
-					else if (absolute_height > -1) {
-						biggest[0] = absolute_height;
-					}
-				}
-
-				for (int s = 0; s < max_rowspan; ++s)
-					row_span_heights[j,s] = biggest[s];
-			}
-
-			for (int j = 0; j < actual_rows; ++j) {
-				for (int s = 1; s < max_rowspan; ++s) {
-					if (row_span_heights[j,s] > 0)
-						AdjustHeightsForSpans (panel, row_span_heights, j, s);
-				}
-				row_heights[j] = row_span_heights[j,0];
-			}
-			
-			// Because percentage based rows divy up the remaining space,
-			// we have to make the owner big enough so that all the rows
-			// get bigger, even if we only need one to be bigger.
-			int non_percent_total_height = 0;
-			int percent_total_height = 0;
-
-			for (int j = 0; j < actual_rows; j++) {
-				if (j < panel.RowStyles.Count && panel.RowStyles[j].SizeType == SizeType.Percent)
-					percent_total_height = Math.Max (percent_total_height, (int)(row_heights[j] / ((panel.RowStyles[j].Height) / total_row_percentage)));
-				else
-					non_percent_total_height += row_heights[j];
-			}
-
-			int needed_height = non_percent_total_height + percent_total_height + (border_width * (actual_rows + 1));
-
-			// When both autosized and anchored to left AND right or top AND bottom, yield anchoring,
-			// but use calculated autosize value for the other direction.
-			var mask = AnchorStyles.Left | AnchorStyles.Right;
-			if (panel.AutoSize && proposedSize.Width != 0 && (panel.Anchor & mask) == mask)
-				needed_width = proposedSize.Width - panel.Bounds.Left - panel.DistanceRight;
-			mask = AnchorStyles.Top | AnchorStyles.Bottom;
-			if (panel.AutoSize && proposedSize.Height != 0 && (panel.Anchor & mask) == mask)
-				needed_height = proposedSize.Height - panel.Bounds.Top - panel.DistanceBottom;
-
-			return new Size (needed_width, needed_height);
+			return new Size(needed_width, needed_height);
 		}
 
-		/// <summary>
-		/// Adjust the widths of the columns underlying a span if necessary.
-		/// </summary>
-		private static void AdjustWidthsForSpans (TableLayoutPanel panel, int[,] widths, int col, int span)
-		{
-			// Get the combined width of the columns underlying the span.
-			int existing_width = 0;
-			for (int i = col; i <= col+span; ++i)
-				existing_width += widths[i,0];
-			if (widths[col,span] > existing_width)
-			{
-				// We need to expand one or more of the underlying columns to fit the span,
-				// preferably ones that are not Absolute style.
-				int excess = widths[col,span] - existing_width;
-				int remaining = excess;
-				List<int> adjusting = new List<int>();
-				List<float> adjusting_widths = new List<float>();
-				for (int i = col; i <= col+span; ++i) {
-					if (i < panel.ColumnStyles.Count && panel.ColumnStyles[i].SizeType != SizeType.Absolute) {
-						adjusting.Add(i);
-						adjusting_widths.Add((float)widths[i,0]);
-					}
-				}
-				if (adjusting.Count == 0) {
-					// if every column is Absolute, spread the gain across every column
-					for (int i = col; i <= col+span; ++i) {
-						adjusting.Add(i);
-						adjusting_widths.Add((float)widths[i,0]);
-					}
-				}
-				float original_total = 0f;
-				foreach (var w in adjusting_widths)
-					original_total += w;
-				// Divide up the needed additional width proportionally.
-				for (int i = 0; i < adjusting.Count; ++i) {
-					var idx = adjusting[i];
-					var percent = adjusting_widths[i] / original_total;
-					var adjust = (int)(percent * excess);
-					widths[idx,0] += adjust;
-					remaining -= adjust;
-				}
-				// Any remaining fragment (1 or 2 pixels?) is divided evenly.
-				while (remaining > 0) {
-					for (int i = 0; i < adjusting.Count && remaining > 0; ++i) {
-						++widths[adjusting[i],0];
-						--remaining;
-					}
-				}
-			}
-		}
-
-		/// <summary>
-		/// Adjust the heights of the rows underlying a span if necessary.
-		/// </summary>
-		private static void AdjustHeightsForSpans (TableLayoutPanel panel, int[,] heights, int row, int span)
-		{
-			// Get the combined height of the rows underlying the span.
-			int existing_height = 0;
-			for (int i = row; i <= row+span; ++i)
-				existing_height += heights[i,0];
-			if (heights[row,span] > existing_height)
-			{
-				// We need to expand one or more of the underlying rows to fit the span,
-				// preferably ones that are not Absolute style.
-				int excess = heights[row,span] - existing_height;
-				int remaining = excess;
-				List<int> adjusting = new List<int>();
-				List<float> adjusting_heights = new List<float>();
-				for (int i = row; i <= row+span; ++i) {
-					if (i < panel.RowStyles.Count && panel.RowStyles[i].SizeType != SizeType.Absolute) {
-						adjusting.Add(i);
-						adjusting_heights.Add((float)heights[i,0]);
-					}
-				}
-				if (adjusting.Count == 0) {
-					// if every row is Absolute, spread the gain across every row
-					for (int i = row; i <= row+span; ++i) {
-						adjusting.Add(i);
-						adjusting_heights.Add((float)heights[i,0]);
-					}
-				}
-				float original_total = 0f;
-				foreach (var w in adjusting_heights)
-					original_total += w;
-				// Divide up the needed additional height proportionally.
-				for (int i = 0; i < adjusting.Count; ++i) {
-					var idx = adjusting[i];
-					var percent = adjusting_heights[i] / original_total;
-					var adjust = (int)(percent * excess);
-					heights[idx,0] += adjust;
-					remaining -= adjust;
-				}
-				// Any remaining fragment (1 or 2 pixels?) is divided evenly.
-				while (remaining > 0) {
-					for (int i = 0; i < adjusting.Count && remaining > 0; ++i) {
-						++heights[adjusting[i],0];
-						--remaining;
-					}
-				}
-			}
-		}	
 #if TABLE_DEBUG
 		private void OutputControlGrid (Control[,] grid, TableLayoutPanel panel)
 		{
