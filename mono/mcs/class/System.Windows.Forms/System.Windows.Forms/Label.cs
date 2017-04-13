@@ -138,6 +138,7 @@ namespace System.Windows.Forms
 			image_align = ContentAlignment.MiddleCenter;
 			SetUseMnemonic (UseMnemonic);
 			flat_style = FlatStyle.Standard;
+			can_cache_preferred_size = true;
 
 			SetStyle (ControlStyles.Selectable, false);
 			SetStyle (ControlStyles.ResizeRedraw | 
@@ -394,16 +395,26 @@ namespace System.Windows.Forms
 			if (Text == string.Empty) {
 				size = new Size (0, Font.Height);
 			} else {
-				size = Size.Ceiling (TextRenderer.MeasureString (Text, Font, proposed.Width == 0 ? int.MaxValue : (proposed.Width - bordersAndPaddings.Width), string_format));
+				size = Size.Ceiling (TextRenderer.MeasureString (Text, Font, proposed.Width <= 1 ? int.MaxValue : (proposed.Width - bordersAndPaddings.Width), string_format));
 				size.Width += 3;
 			}
 
 			return size + bordersAndPaddings;
 		}
 
-		public override	Size GetPreferredSize (Size proposedSize)
+		internal override Size GetPreferredSizeCore(Size proposedSize)
 		{
 			return InternalGetPreferredSize (proposedSize);
+		}
+
+		public override Size GetPreferredSize(Size proposedSize)
+		{
+			// This is consistent with InternalGetPreferredSize and enables caching.
+			if (proposedSize.Width == 1)
+				proposedSize.Width = 0;
+			if (proposedSize.Height == 1)
+				proposedSize.Height = 0;
+			return base.GetPreferredSize(proposedSize);
 		}
 
 		[Browsable(false)]
@@ -638,12 +649,11 @@ namespace System.Windows.Forms
 
 		protected override void SetBoundsCore (int x, int y, int width, int height, BoundsSpecified specified)
 		{
-			if (SelfSizing)
-			{
-                Size preferredSize = PreferredSize;
+			if (SelfSizing) {
+				Size preferredSize = PreferredSize;
 				width = preferredSize.Width;
-                height = preferredSize.Height;
-            }
+				height = preferredSize.Height;
+			}
 
 			base.SetBoundsCore (x, y, width, height, specified);
 		}
@@ -682,8 +692,8 @@ namespace System.Windows.Forms
 			if (!AutoSize)
 				return;
 
-			Size s = InternalGetPreferredSize (Size.Empty);
-			
+			cached_preferred_size = Size.Empty;
+			Size s = PreferredSize;			
 			SetBounds (Left, Top, s.Width, s.Height, BoundsSpecified.Size);
 		}
 
