@@ -147,8 +147,6 @@ namespace System.Windows.Forms
 				ControlStyles.SupportsTransparentBackColor |
 				ControlStyles.OptimizedDoubleBuffer
 				, true);
-			
-			HandleCreated += new EventHandler (OnHandleCreatedLB);
 		}
 
 		#region Public Properties
@@ -589,7 +587,7 @@ namespace System.Windows.Forms
 		protected override void OnFontChanged (EventArgs e)
 		{
 			base.OnFontChanged (e);
-			if (autosize)
+			if (SelfSizing)
 				CalcAutoSize();
 			Invalidate ();
 		}
@@ -608,6 +606,8 @@ namespace System.Windows.Forms
 		protected override void OnParentChanged (EventArgs e)
 		{
 			base.OnParentChanged (e);
+			if (SelfSizing)
+				CalcAutoSize();
 		}
 
 		protected override void OnRightToLeftChanged (EventArgs e)
@@ -625,9 +625,11 @@ namespace System.Windows.Forms
 		protected override void OnTextChanged (EventArgs e)
 		{
 			base.OnTextChanged (e);
-			if (autosize)
-				CalcAutoSize ();
-			Invalidate ();
+			if (SelfSizing)
+				CalcAutoSize();
+			else if (Parent != null)
+				Parent.PerformLayout (this, "Text");
+			Invalidate();
 		}
 
 		protected override void OnVisibleChanged (EventArgs e)
@@ -695,12 +697,6 @@ namespace System.Windows.Forms
 			cached_preferred_size = Size.Empty;
 			Size s = PreferredSize;			
 			SetBounds (Left, Top, s.Width, s.Height, BoundsSpecified.Size);
-		}
-
-		private void OnHandleCreatedLB (Object o, EventArgs e)
-		{
-			if (autosize)
-				CalcAutoSize ();
 		}
 
 		private void SetUseMnemonic (bool use)
