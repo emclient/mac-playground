@@ -55,7 +55,7 @@ namespace System.Windows.Forms.Layout
 				Size child_size = child.Size;
 
 				if (child.AutoSizeInternal)
-					child_size = GetPreferredControlSize(child, new Size(parent.ClientSize.Width - parent.Padding.Horizontal, 0));
+					child_size = GetPreferredControlSize(child, new Size(parent.DisplayRectangle.Width, 0));
 
 				// MdiClient never fills the whole area like other controls, have to do it later
 				if (child is MdiClient) {
@@ -167,7 +167,7 @@ namespace System.Windows.Forms.Layout
 				int left = child.Left;
 				int top = child.Top;
 
-				Size preferredsize = GetPreferredControlSize(child, new Size(parent.ClientSize.Width, 0));
+				Size preferredsize = GetPreferredControlSize(child, new Size(parent.DisplayRectangle.Width, 0));
 
 				if (((anchor & AnchorStyles.Left) != 0) || ((anchor & AnchorStyles.Right) == 0))
 					child.DistanceRight += child.Width - preferredsize.Width;
