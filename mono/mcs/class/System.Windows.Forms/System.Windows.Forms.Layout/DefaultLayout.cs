@@ -261,22 +261,22 @@ namespace System.Windows.Forms.Layout
 				if (!child.is_visible || child.Dock == DockStyle.None)
 					continue;
 					
-				var sz = child.AutoSizeInternal ? child.GetPreferredSize(Size.Empty) : child.ExplicitBounds.Size;
-				//Console.WriteLine(" type=" + child.GetType().Name + ", text=" + (child.Text ?? "") + ", w=" + sz.Width + ", h=" + sz.Height + ", dock=" + child.Dock);
-
 				if (child.Dock == DockStyle.Left || child.Dock == DockStyle.Right)
 				{
+					var sz = child.AutoSizeInternal ? child.GetPreferredSize(new Size(0, proposedConstraints.Height)) : child.ExplicitBounds.Size;
 					retsize.Width += sz.Width + child.Margin.Horizontal;
 					retsize.Height = Math.Max(retsize.Height, sz.Height + child.Margin.Vertical);
 				}
 				else if (child.Dock == DockStyle.Top || child.Dock == DockStyle.Bottom)
 				{
+					var sz = child.AutoSizeInternal ? child.GetPreferredSize(new Size(proposedConstraints.Width, 0)) : child.ExplicitBounds.Size;
 					retsize.Height += sz.Height + child.Margin.Vertical;
 					retsize.Width = Math.Max(retsize.Width, sz.Width + child.Margin.Horizontal);
 				}
 				else if (child.Dock == DockStyle.Fill)
 				{
 					// Strange, but it works
+					var sz = child.AutoSizeInternal ? child.GetPreferredSize(new Size(proposedConstraints.Width, proposedConstraints.Height)) : child.ExplicitBounds.Size;
 					retsize.Width = Math.Max(retsize.Width, sz.Width + child.Margin.Horizontal);
 					retsize.Height = Math.Max(retsize.Height, sz.Height + child.Margin.Vertical);
 				}
