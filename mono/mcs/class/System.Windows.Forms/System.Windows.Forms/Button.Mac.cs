@@ -28,6 +28,8 @@ namespace System.Windows.Forms
 			button.Alignment = TextAlign.ToNSTextAlignment();
 			button.Activated += (sender, e) => PerformClick();
 			button.Enabled = Enabled;
+			if (IsDefault)
+				button.KeyEquivalent = "\r";
 
 			return button;
 		}
@@ -95,5 +97,19 @@ namespace System.Windows.Forms
 			return base.GetPreferredSize(proposedSize);
 		}
 #endif
+
+		internal protected override bool IsDefault
+		{
+			get
+			{
+				return base.IsDefault;
+			}
+			set
+			{
+				base.IsDefault = value;
+				if (button != null)
+					button.KeyEquivalent = "\r";
+			}
+		}
 	}
 }

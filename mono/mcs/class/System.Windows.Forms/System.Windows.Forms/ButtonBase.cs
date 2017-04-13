@@ -437,7 +437,7 @@ namespace System.Windows.Forms {
 			get { return ThemeEngine.Current.ButtonBaseDefaultSize; }
 		}
 
-		protected internal bool IsDefault {
+		protected virtual internal bool IsDefault {
 			get { return is_default; }
 			set {
 				if (is_default != value) {
