@@ -155,8 +155,6 @@ namespace System.Windows.Forms
 			
 			SetStyle(ControlStyles.UserPaint | ControlStyles.StandardClick, false);
 			SetStyle(ControlStyles.UseTextForAccessibility, false);
-			
-			base.SetAutoSizeMode (AutoSizeMode.GrowAndShrink);
 
 			canvas_width = ClientSize.Width;
 			canvas_height = ClientSize.Height;
@@ -181,7 +179,20 @@ namespace System.Windows.Forms
 
 		internal override Size GetPreferredSizeCore (Size proposedSize)
 		{
-			return new Size (Width, Height);
+			Size bordersAndPadding = SizeFromClientSize(Size.Empty) + Padding.Size;
+			if (BorderStyle != BorderStyle.None)
+				bordersAndPadding += new Size(0, 7);
+			proposedSize -= bordersAndPadding;
+
+			TextFormatFlags format = TextFormatFlags.NoPrefix;
+			if (!Multiline)
+				format |= TextFormatFlags.SingleLine;
+			else if (WordWrap)
+				format |= TextFormatFlags.WordBreak;
+
+			Size textSize = TextRenderer.MeasureText(this.Text, this.Font, proposedSize, format);
+			textSize.Height = Math.Max(textSize.Height, FontHeight);
+			return textSize + bordersAndPadding;
 		}
 
 		internal override void HandleClick (int clicks, MouseEventArgs me)
