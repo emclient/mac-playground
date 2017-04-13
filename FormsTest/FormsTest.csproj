@@ -212,10 +212,13 @@
       <Project>{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}</Project>
       <Name>CefGlue.WindowsForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\CefGlue.Mac\CefGlue.Mac.csproj">
+    <ProjectReference Include="..\..\..\CefGlue\CefGlue.csproj" Condition="'$(Configuration)' != 'Mono - Debug' and '$(Configuration)' != 'Xamarin - Debug'">
+      <Project>{703FF300-34B9-48D4-A5D6-E741F48D5F95}</Project>
+      <Name>CefGlue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\CefGlue.Mac\CefGlue.Mac.csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug'">
       <Project>{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}</Project>
       <Name>CefGlue.Mac</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
 </Project>
