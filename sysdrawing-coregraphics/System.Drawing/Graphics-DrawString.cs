@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text;
 
 #if XAMARINMAC
@@ -123,6 +123,9 @@ namespace System.Drawing
 
 			if ((stringFormat.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical) {
 				layoutArea = new SizeF(layoutArea.Height, layoutArea.Width);
+			}
+			if ((stringFormat.FormatFlags & StringFormatFlags.NoWrap) != 0) {
+				layoutArea.Width = 0;
 			}
 
 			while (start < length) {
