@@ -841,6 +841,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ColumnWidthChangedEvent
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ColumnWidthChangedEventHandler.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ColumnWidthChangingEventArgs.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ColumnWidthChangingEventHandler.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ComboBox.Mac.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ComboBox.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ComboBoxRenderer.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ComboBoxStyle.cs -text
