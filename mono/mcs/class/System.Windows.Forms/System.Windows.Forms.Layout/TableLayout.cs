@@ -26,7 +26,7 @@
 //	Jonathan Pobst (monkey@jpobst.com)
 //
 
-//#define TABLE_DEBUG
+#define TABLE_DEBUG
 
 using System;
 using System.Drawing;
@@ -35,9 +35,11 @@ namespace System.Windows.Forms.Layout
 {
 	internal class TableLayout : LayoutEngine
 	{
+		internal static readonly TableLayout Instance = new TableLayout();
+
 		internal static Control dummy_control = new Control ("Dummy");	// Used as a placeholder for row/col spans
 
-		public TableLayout () : base ()
+		private TableLayout () : base ()
 		{
 		}
 		
@@ -486,7 +488,7 @@ namespace System.Windows.Forms.Layout
 			}
 
 			// Shrink the table vertically by shrinking it's rows, if necessary
-			if (panel.Dock == DockStyle.Fill && size.Height > 0)
+			if ((panel.Dock == DockStyle.Fill || panel.Dock == DockStyle.Top || panel.Dock == DockStyle.Bottom) && size.Height > 0)
 				available_height -= Shrink(row_heights, row_reserves, size.Height - (border_width * (rows + 1)), max_rowspan, row_styles.Count);
 
 			index = 0;

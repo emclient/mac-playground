@@ -1,4 +1,4 @@
-//
+﻿//
 // ToolStripPanel.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -42,7 +42,6 @@ namespace System.Windows.Forms
 	public class ToolStripPanel : ContainerControl, IComponent, IDisposable, IBindableComponent, IDropTarget
 	{
 		private bool done_first_layout;
-		private LayoutEngine layout_engine;
 		private bool locked;
 		private Orientation orientation;
 		private ToolStripRenderer renderer;
@@ -121,10 +120,7 @@ namespace System.Windows.Forms
 
 		public override LayoutEngine LayoutEngine {
 			get { 
-				if (this.layout_engine == null)
-					this.layout_engine = new FlowLayout ();
-					
-				return this.layout_engine;
+				return FlowLayout.Instance;
 			}
 		}
 
