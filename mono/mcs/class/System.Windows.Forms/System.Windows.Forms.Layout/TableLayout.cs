@@ -233,111 +233,43 @@ namespace System.Windows.Forms.Layout
 			return grid;
 		}
 
-		private void CalculateColumnRowSizes (TableLayoutPanel panel, Control[,] actual_positions, out int[] column_widths, out int[] row_heights, Size size, bool measureOnly)
+		private static void CalculateColumnWidths (TableLayoutSettings settings, Control[,] actual_positions, int max_colspan, TableLayoutColumnStyleCollection col_styles, bool auto_size, int[] column_widths, bool minimum_sizes)
 		{
-			TableLayoutSettings settings = panel.LayoutSettings;
-			int columns = actual_positions.GetLength(0);
+			Size proposedSize = minimum_sizes ? new Size(1, 0) : Size.Empty;
 			int rows = actual_positions.GetLength(1);
-			bool auto_size = panel.AutoSizeInternal || measureOnly;
 
-			column_widths = new int[actual_positions.GetLength (0)];
-			row_heights = new int[actual_positions.GetLength (1)];
-
-			int border_width = TableLayoutPanel.GetCellBorderWidth (panel.CellBorderStyle);
-				
-			//Rectangle parentDisplayRectangle = panel.DisplayRectangle;
-
-			TableLayoutColumnStyleCollection col_styles = new TableLayoutColumnStyleCollection (panel);
-			
-			foreach (ColumnStyle cs in settings.ColumnStyles)
-				col_styles.Add( new ColumnStyle(cs.SizeType, cs.Width));
-
-			TableLayoutRowStyleCollection row_styles = new TableLayoutRowStyleCollection (panel);
-
-			foreach (RowStyle rs in settings.RowStyles)
-				row_styles.Add (new RowStyle (rs.SizeType, rs.Height));
-		
-			// If we have more columns than columnstyles, temporarily add enough columnstyles
-			if (columns > col_styles.Count)
-			{
-				for (int i = col_styles.Count; i < columns; i++)
-					col_styles.Add(new ColumnStyle());			
-			}
-
-			// Same for rows..
-			if (rows > row_styles.Count) 
-			{
-				for (int i = row_styles.Count; i < rows; i++)
-					row_styles.Add (new RowStyle ());
-			}
-
-			while (row_styles.Count > rows)
-				row_styles.RemoveAt (row_styles.Count - 1);
-			while (col_styles.Count > columns)
-				col_styles.RemoveAt (col_styles.Count - 1);
-				
-			// Find the largest column-span/row-span values.
-			int max_colspan = 0, max_rowspan = 0;
-			foreach (Control c in panel.Controls)
-			{
-				if (c.VisibleInternal && c != dummy_control)
-				{
-					max_colspan = Math.Max(max_colspan, settings.GetColumnSpan(c));
-					max_rowspan = Math.Max(max_rowspan, settings.GetRowSpan(c));
-				}
-			}
-
-			// Figure up all the column widths
-			int available_width = size.Width - (border_width * (columns + 1));
+			// First assign all the Absolute sized columns
 			int index = 0;
-
-			// First assign all the Absolute sized columns..
 			foreach (ColumnStyle cs in col_styles) {
-				if (cs.SizeType == SizeType.Absolute) {
+				if (index >= column_widths.Length)
+					break;
+				if (cs.SizeType == SizeType.Absolute)
 					column_widths[index] = (int)cs.Width;
-					available_width -= (int)cs.Width;
-				}
-
 				index++;
 			}
-
-			// Support for shrinking table horizontally (if it has both AutoSize and Dock.Fill styles and if it exceeds given width).
-			int[] col_reserves = new int[column_widths.Length];
+			while (index < column_widths.Length) {
+				column_widths[index] = 0;
+				index++;
+			}
 
 			// Next, assign all the AutoSize columns to the width of their widest
 			// control.  If the table-layout is auto-sized, then make sure that
 			// no column with Percent styling clips its contents.
 			// (per http://msdn.microsoft.com/en-us/library/ms171690.aspx)
-			for (int colspan = 0; colspan < max_colspan; ++colspan)
-			{
-				for (index = colspan; index < col_styles.Count - colspan; ++index)
-				{
+			for (int colspan = 0; colspan < max_colspan; ++colspan) {
+				for (index = colspan; index < col_styles.Count - colspan && index < column_widths.Length - colspan; ++index) {
 					ColumnStyle cs = col_styles[index];
-					if (cs.SizeType == SizeType.AutoSize || (auto_size && cs.SizeType == SizeType.Percent))
-					{
+					if (cs.SizeType == SizeType.AutoSize || (auto_size && cs.SizeType == SizeType.Percent)) {
 						int max_width = column_widths[index];
-						int min_reserve = int.MaxValue;
-
 						// Find the widest control in the column
-						for (int i = 0; i < rows; i ++)
-						{
+						for (int i = 0; i < rows; i ++) {
 							Control c = actual_positions[index - colspan, i];
-
-							if (c != null && c != dummy_control && c.VisibleInternal)
-							{
+							if (c != null && c != dummy_control && c.VisibleInternal) {
 								// Skip any controls not being sized in this pass.
 								if (settings.GetColumnSpan (c) != colspan + 1)
 									continue;
-
 								// Calculate the maximum control width.
-								if (auto_size && cs.SizeType == SizeType.Percent)
-									max_width = Math.Max (max_width, GetControlSize(c, new Size(1, 0)).Width + c.Margin.Horizontal);
-								else
-									max_width = Math.Max (max_width, GetControlSize(c, Size.Empty).Width + c.Margin.Horizontal);
-
-								// How much can we shrink this column if necessary
-								if (c.Dock == DockStyle.Fill)
-									min_reserve = Math.Min(min_reserve, c.ExplicitBounds.Width - c.MinimumSize.Width + c.Margin.Horizontal);
+								max_width = Math.Max (max_width, GetControlSize(c, proposedSize).Width + c.Margin.Horizontal);
 							}
 						}
 
@@ -346,109 +278,46 @@ namespace System.Windows.Forms.Layout
 							max_width -= column_widths[i];
 
 						// If necessary, increase this column's width.
-						if (max_width > column_widths[index])
-						{
+						if (max_width > column_widths[index]) {
 							max_width -= column_widths[index];
 							column_widths[index] += max_width;
-							available_width -= max_width;
-						}
-
-						// If necessary, decrease the col's reserve
-						if (min_reserve < col_reserves[index] || 0 == col_reserves[index])
-							col_reserves[index] = min_reserve;
-					}
-				}
-			}
-
-			// Shrink the table horizontally by shrinking it's columns, if necessary.
-			if (panel.Dock == DockStyle.Fill && size.Width > 0)
-				available_width -= Shrink(column_widths, col_reserves, size.Width - (border_width * (columns + 1)), max_colspan, col_styles.Count);
-
-			index = 0;
-			float total_percent = 0;
-			
-			// Finally, assign the remaining space to Percent columns, if any.
-			if (available_width > 0 && !measureOnly)
-			{
-				int percent_width = available_width; 
-				
-				// Find the total percent (not always 100%)
-				foreach (ColumnStyle cs in col_styles) 
-				{
-					if (cs.SizeType == SizeType.Percent)
-						total_percent += cs.Width;
-				}
-
-				// Divvy up the space..
-				foreach (ColumnStyle cs in col_styles) 
-				{
-					if (cs.SizeType == SizeType.Percent) 
-					{
-						int width_change = (int)((cs.Width / total_percent) * percent_width);
-						if (width_change > 0)
-						{
-							column_widths[index] += width_change;
-							available_width -= width_change;
 						}
 					}
-
-					index++;
 				}
 			}
+		}
 
-			if (available_width > 0 && !measureOnly) {
-				// Find the last column that isn't an Absolute SizeType, and give it
-				// all this free space.  (Absolute sized columns need to retain their
-				// absolute width if at all possible!)
-				int col = col_styles.Count - 1;
-				for (; col >= 0; --col) {
-					if (col_styles[col].SizeType != SizeType.Absolute)
-						break;
-				}
-				if (col < 0)
-					col = col_styles.Count - 1;
-				column_widths[col] += available_width;
-			}
-
-			// Figure up all the row heights
-			int available_height = size.Height - (border_width * (rows + 1));
-			index = 0;
+		private static void CalculateRowHeights (TableLayoutSettings settings, Control[,] actual_positions, int max_rowspan, TableLayoutRowStyleCollection row_styles, bool auto_size, int[] column_widths, int[] row_heights, bool minimum_sizes)
+		{
+			int columns = actual_positions.GetLength(0);
 
 			// First assign all the Absolute sized rows..
+			int index = 0;
 			foreach (RowStyle rs in row_styles) {
-				if (rs.SizeType == SizeType.Absolute) {
+				if (index >= row_heights.Length)
+					break;
+				if (rs.SizeType == SizeType.Absolute)
 					row_heights[index] = (int)rs.Height;
-					available_height -= (int)rs.Height;
-				}
-
 				index++;
 			}
-
-			index = 0;
-
-			// Support for shrinking table vertically (if it has both AutoSize and Dock.Fill styles and if it exceeds parent's height).
-			int[] row_reserves = new int[row_heights.Length];
+			while (index < row_heights.Length) {
+				row_heights[index] = 0;
+				index++;
+			}
 
 			// Next, assign all the AutoSize rows to the height of their tallest
 			// control.  If the table-layout is auto-sized, then make sure that
 			// no row with Percent styling clips its contents.
 			// (per http://msdn.microsoft.com/en-us/library/ms171690.aspx)
-			for (int rowspan = 0; rowspan < max_rowspan; ++rowspan)
-			{
-				for (index = rowspan; index < row_styles.Count - rowspan; ++index)
-				{
-					RowStyle rs = row_styles[index];
-					if (rs.SizeType == SizeType.AutoSize || (auto_size && rs.SizeType == SizeType.Percent))
-					{
+			for (int rowspan = 0; rowspan < max_rowspan; ++rowspan) {
+				for (index = rowspan; index < settings.RowStyles.Count - rowspan && index < row_heights.Length - rowspan; ++index) {
+					RowStyle rs = settings.RowStyles[index];
+					if (rs.SizeType == SizeType.AutoSize || (auto_size && rs.SizeType == SizeType.Percent)) {
 						int max_height = row_heights[index];
-						int min_reserve = int.MaxValue;
-
 						// Find the tallest control in the row
 						for (int i = 0; i < columns; i++) {
 							Control c = actual_positions[i, index - rowspan];
-
-							if (c != null && c != dummy_control && c.VisibleInternal)
-							{
+							if (c != null && c != dummy_control && c.VisibleInternal) {
 								// Skip any controls not being sized in this pass.
 								if (settings.GetRowSpan (c) != rowspan + 1)
 									continue;
@@ -460,12 +329,11 @@ namespace System.Windows.Forms.Layout
 								}
 
 								// Calculate the maximum control height.
-								max_height = Math.Max (max_height, GetControlSize(c, new Size(current_width, 0)).Height + c.Margin.Vertical);
-
-								// How much can we shrink this row if necessary
-								if (c.Dock == DockStyle.Fill)
-									min_reserve = Math.Min(min_reserve, c.ExplicitBounds.Height - c.MinimumSize.Height + c.Margin.Vertical);
-							}
+								if (!minimum_sizes || c.AutoSizeInternal)
+									max_height = Math.Max (max_height, GetControlSize(c, new Size(current_width, 0)).Height + c.Margin.Vertical);
+								else
+									max_height = c.MinimumSize.Height;
+;							}
 						}
 
 						// Subtract the height of prior rows, if any.
@@ -477,114 +345,194 @@ namespace System.Windows.Forms.Layout
 						{
 							max_height -= row_heights[index];
 							row_heights[index] += max_height;
-							available_height -= max_height;
 						}
-
-						// If necessary, decrease the row's reserve
-						if (min_reserve < row_reserves[index] || 0 == row_reserves[index])
-							row_reserves[index] = min_reserve;
 					}
 				}
 			}
+		}
 
-			// Shrink the table vertically by shrinking it's rows, if necessary
-			if ((panel.Dock == DockStyle.Fill || panel.Dock == DockStyle.Top || panel.Dock == DockStyle.Bottom) && size.Height > 0)
-				available_height -= Shrink(row_heights, row_reserves, size.Height - (border_width * (rows + 1)), max_rowspan, row_styles.Count);
+		private static int RedistributePercents (int overlap, TableLayoutColumnStyleCollection styles, int[] column_widths)
+		{
+			int saved = 0;
 
-			index = 0;
-			total_percent = 0;
-
-			// Finally, assign the remaining space to Percent rows, if any.
-			if (available_height > 0 && !measureOnly) {
-				int percent_height = available_height;
-				
+			if (overlap > 0) {
 				// Find the total percent (not always 100%)
-				foreach (RowStyle rs in row_styles) {
+				float total_percent = 0;
+				foreach (ColumnStyle cs in styles) {
+					if (cs.SizeType == SizeType.Percent)
+						total_percent += cs.Width;
+				}
+
+				// Divvy up the space..
+				int index = 0;
+				foreach (ColumnStyle cs in styles) {
+					if (cs.SizeType == SizeType.Percent) {
+						int width_change = (int)((cs.Width / total_percent) * overlap);
+						if (width_change > 0) {
+							column_widths[index] += width_change;
+							saved += width_change;
+						}
+					}
+					index++;
+				}
+			}
+
+			return saved;
+		}
+
+		private static int RedistributePercents (int overlap, TableLayoutRowStyleCollection styles, int[] row_heights)
+		{
+			int saved = 0;
+
+			if (overlap > 0) {
+				// Find the total percent (not always 100%)
+				float total_percent = 0;
+				foreach (RowStyle rs in styles) {
 					if (rs.SizeType == SizeType.Percent)
 						total_percent += rs.Height;
 				}
 
 				// Divvy up the space..
-				foreach (RowStyle rs in row_styles) {
+				int index = 0;
+				foreach (RowStyle rs in styles) {
 					if (rs.SizeType == SizeType.Percent) {
-						int height_change = (int)((rs.Height / total_percent) * percent_height);
-						if (height_change > 0)
-						{
+						int height_change = (int)((rs.Height / total_percent) * overlap);
+						if (height_change > 0) {
 							row_heights[index] += height_change;
-							available_height -= height_change;
+							saved += height_change;
 						}
 					}
-
 					index++;
 				}
 			}
 
+			return saved;
+		}
+		private static void CalculateColumnRowSizes (TableLayoutPanel panel, Control[,] actual_positions, out int[] column_widths, out int[] row_heights, Size size, bool measureOnly)
+		{
+			TableLayoutSettings settings = panel.LayoutSettings;
+			int columns = actual_positions.GetLength(0);
+			int rows = actual_positions.GetLength(1);
+			bool auto_size = panel.AutoSizeInternal || measureOnly;
+			bool boundBySize = !measureOnly;
+
+			column_widths = new int[actual_positions.GetLength (0)];
+			row_heights = new int[actual_positions.GetLength (1)];
+
+			// Calculate the bounded size only if we are in default layout and docked, otherwise calculate unbounded.
+			if (measureOnly && size.Width > 0) {
+				if (panel.Parent != null && panel.Parent.LayoutEngine is DefaultLayout) {
+					boundBySize |= panel.Dock == DockStyle.Top || panel.Dock == DockStyle.Bottom || panel.Dock == DockStyle.Fill;
+					boundBySize |= (panel.Anchor & (AnchorStyles.Left | AnchorStyles.Right)) == (AnchorStyles.Left | AnchorStyles.Right);
+				}			
+			}
+
+			int border_width = TableLayoutPanel.GetCellBorderWidth (panel.CellBorderStyle);
+				
+			// Find the largest column-span/row-span values.
+			int max_colspan = 0, max_rowspan = 0;
+			foreach (Control c in panel.Controls) {
+				if (c.VisibleInternal && c != dummy_control) {
+					max_colspan = Math.Max(max_colspan, settings.GetColumnSpan(c));
+					max_rowspan = Math.Max(max_rowspan, settings.GetRowSpan(c));
+				}
+			}
+
+			// Figure up all the column widths
+			CalculateColumnWidths (settings, actual_positions, max_colspan, settings.ColumnStyles, auto_size, column_widths, false);
+
+			// Calculate available width
+			int available_width = size.Width - (border_width * (columns + 1));
+			foreach (int width in column_widths)
+				available_width -= width;
+
+			// Shrink the table horizontally by shrinking it's columns, if necessary
+			if (boundBySize && size.Width > 0 && available_width < 0) {
+				// Calculate the minimum widths for each column
+				int[] col_min_widths = new int[column_widths.Length];
+				CalculateColumnWidths (settings, actual_positions, max_colspan, settings.ColumnStyles, auto_size, col_min_widths, true);
+				available_width += Shrink(column_widths, col_min_widths, -available_width, max_colspan);
+			}
+
+			// Finally, assign the remaining space to Percent columns, if any.
+			if (available_width > 0 && !measureOnly)
+				available_width -= RedistributePercents(available_width, settings.ColumnStyles, column_widths);
+
+			if (available_width > 0 && !measureOnly && column_widths.Length > 0) {
+				// Find the last column that isn't an Absolute SizeType, and give it
+				// all this free space.  (Absolute sized columns need to retain their
+				// absolute width if at all possible!)
+				int col = Math.Min(settings.ColumnStyles.Count, column_widths.Length) - 1;
+				for (; col >= 0; --col)
+					if (settings.ColumnStyles[col].SizeType != SizeType.Absolute)
+						break;
+				if (col < 0)
+					col = column_widths.Length - 1;
+				column_widths[col] += available_width;
+			}
+
+			// Figure up all the row heights
+			CalculateRowHeights (settings, actual_positions, max_rowspan, settings.RowStyles, auto_size, column_widths, row_heights, false);
+
+			// Calculate available height
+			int available_height = size.Height - (border_width * (rows + 1));
+			foreach (int height in row_heights)
+				available_height -= height;
+
+			// Shrink the table vertically by shrinking it's rows, if necessary
+			if (boundBySize && size.Height > 0 && available_height < 0) {
+				// Calculate the minimum heights for each column
+				int[] row_min_heights = new int[row_heights.Length];
+				CalculateRowHeights (settings, actual_positions, max_rowspan, settings.RowStyles, auto_size, column_widths, row_heights, true);
+				available_height += Shrink(row_heights, row_min_heights, -available_height, max_rowspan);
+			}
+
+			// Finally, assign the remaining space to Percent rows, if any.
 			if (available_height > 0 && !measureOnly)
+				available_height -= RedistributePercents(available_height, settings.RowStyles, row_heights);
+
+			if (available_height > 0 && !measureOnly && row_heights.Length > 0)
 			{
 				// Find the last row that isn't an Absolute SizeType, and give it
 				// all this free space.  (Absolute sized rows need to retain their
 				// absolute height if at all possible!)
-				int row = row_styles.Count - 1;
+				int row = Math.Min(settings.RowStyles.Count, row_heights.Length) - 1;
 				for (; row >= 0; --row)
-				{
-					if (row_styles[row].SizeType != SizeType.Absolute)
+					if (settings.RowStyles[row].SizeType != SizeType.Absolute)
 						break;
-				}
 				if (row < 0)
-					row = row_styles.Count - 1;
+					row = row_heights.Length - 1;
 				row_heights[row] += available_height;
 			}
 		}
 
 		// Shrinks values in 'sizes' array using values in 'reserves' array, so that the sum of 'sizes' does not exceed the 'max'.
-		// The max_span and styles_count represent max_colspan, max_rowspan and row_styles.Count, column_styles.Count values. 
-		// The 'reserves' array tells how much can be appropriate values in 'sizes' decreased. The 'int.Max' or '0'
-		// values mean the size can not be decreased.
-		internal static int Shrink(int[] sizes, int[] reserves, int max, int max_span, int styles_count)
+		// The max_span represent max_colspan, max_rowspan values. 
+		// The 'min_sizes' array tells the smalles appropriate values for column sizes. 
+		static int Shrink(int[] sizes, int[] min_sizes, int overlap, int max_span)
 		{
+			int n = 0;
+			for (int index = 0; index < sizes.Length; ++index)
+				if (sizes[index] > min_sizes[index])
+					n++;
+
 			int saved = 0;
-			int sum = (int)Sum(sizes);
-			if (sum > max)
-			{
-				int overlap = sum - max;
-				int n = CountNonZeroNonMax(reserves);
-				if (n != 0)
-				{
-					int step = overlap < n ? 1 : overlap / n;
-					for (int span = 0; span < max_span && overlap > 0; ++span)
-					{
-						for (int index = span; index < styles_count - span && overlap > 0; ++index)
-						{
-							int reserve = reserves[index];
-							if (reserve > 0 && reserve != int.MaxValue)
-							{
-								int d = step > reserve ? reserve : step;
-								sizes[index] -= d;
-								overlap -= d;
-								saved += d;
-							}
+			if (n != 0) {
+				int step = overlap < n ? 1 : overlap / n;
+				for (int span = 0; span < max_span && overlap > 0; ++span) {
+					for (int index = span; index < sizes.Length - span && overlap > 0; ++index) {
+						int reserve = sizes[index] - min_sizes[index];
+						if (reserve > 0 && reserve != int.MaxValue) {
+							int d = step > reserve ? reserve : step;
+							sizes[index] -= d;
+							overlap -= d;
+							saved += d;
 						}
 					}
 				}
 			}
+
 			return saved;
-		}
-
-		internal static long Sum(int[] array)
-		{
-			long sum = 0;
-			foreach (int val in array)
-				sum += val;
-			return sum;
-		}
-
-		internal static int CountNonZeroNonMax(int[] array)
-		{
-			int n = 0;
-			foreach (int val in array)
-				if (val != 0 && val != int.MaxValue)
-					++n;				
-			return n;
 		}
 
 		private static Size GetControlSize (Control c, Size proposedSize)
@@ -592,6 +540,8 @@ namespace System.Windows.Forms.Layout
 			if (c.AutoSizeInternal) {
 				return c.GetPreferredSize (proposedSize);
 			} else {
+				if (proposedSize.Width == 1)
+					return c.MinimumSize;
 				return c.ExplicitBounds.Size;				
 			}
 		}
