@@ -446,7 +446,7 @@ namespace System.Windows.Forms
 				if (value != document.multiline) {
 					document.multiline = value;
 
-					if (this is TextBox)
+					if (!richtext)
 						SetStyle (ControlStyles.FixedHeight, !value);
 
 					// SetBoundsCore overrides the Height for multiline if it needs to,
@@ -1514,19 +1514,8 @@ namespace System.Windows.Forms
 			// Make sure we don't get sized bigger than we want to be
 
 			if (!richtext) {
-				if (!document.multiline) {
-					if (height != PreferredHeight) {
-						// If the specified has Height, we need to store that in the
-						// ExplicitBounds because we are going to override it
-						if ((specified & BoundsSpecified.Height) != 0) {
-							Rectangle r = ExplicitBounds;
-							r.Height = height;
-							ExplicitBounds = r;
-							specified &= ~BoundsSpecified.Height;
-						}
-						
-						height = PreferredHeight;
-					}
+				if (!document.multiline && AutoSize) {
+					height = PreferredHeight;
 				}
 			}
 
