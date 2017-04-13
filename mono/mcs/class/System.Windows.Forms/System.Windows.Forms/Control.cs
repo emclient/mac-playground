@@ -33,6 +33,7 @@
 #undef DebugRecreate
 #undef DebugFocus
 #undef DebugMessages
+#undef DebugPreferredSizeCache
 
 //#define USE_INITIAL_ANCHOR_VALUES
 
@@ -120,6 +121,8 @@ namespace System.Windows.Forms
 		LayoutType layout_type;
 		private bool recalculate_distances = true;  // Delay anchor calculations
 		internal int performing_layout; // > 0 when the layout operation is in progress for this control.
+		internal bool can_cache_preferred_size;
+		internal Size cached_preferred_size;
 
 		// Please leave the next 2 as internal until DefaultLayout (2.0) is rewritten
 		internal int			dist_right; // distance to the right border of the parent
@@ -934,11 +937,12 @@ namespace System.Windows.Forms
 			window_target = new ControlWindowTarget(this);
 			window = new ControlNativeWindow(this);
 			child_controls = CreateControlsInstance();
-			
+
 			bounds.Size = DefaultSize;
 			client_size = ClientSizeFromSize (bounds.Size);
 			client_rect = new Rectangle (Point.Empty, client_size);
 			explicit_bounds = bounds;
+			cached_preferred_size = Size.Empty;
 		}
 
 		public Control (Control parent, string text) : this()
@@ -3804,6 +3808,11 @@ namespace System.Windows.Forms
 
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		public virtual Size GetPreferredSize (Size proposedSize) {
+#if !DebugPreferredSizeCache
+			if (can_cache_preferred_size && proposedSize == Size.Empty && !cached_preferred_size.IsEmpty)
+				return cached_preferred_size;
+#endif
+
 			Size retsize = GetPreferredSizeCore (proposedSize);
 			
 			// If we're bigger than the MaximumSize, fix that
@@ -3817,7 +3826,12 @@ namespace System.Windows.Forms
 				retsize.Width = this.minimum_size.Width;
 			if (this.minimum_size.Height != 0 && retsize.Height < this.minimum_size.Height)
 				retsize.Height = this.minimum_size.Height;
-				
+
+			if (can_cache_preferred_size && proposedSize == Size.Empty) {
+				Debug.Assert(cached_preferred_size.IsEmpty || cached_preferred_size == retsize, "Invalid preferred size cache");
+				cached_preferred_size = retsize;
+			}
+
 			return retsize;
 		}
 
@@ -3912,9 +3926,11 @@ namespace System.Windows.Forms
 		public void PerformLayout(Control affectedControl, string affectedProperty) {
 			LayoutEventArgs levent = new LayoutEventArgs(affectedControl, affectedProperty);
 
-			foreach (Control c in Controls.GetAllControls ())
+			cached_preferred_size = Size.Empty;
+			foreach (Control c in Controls.GetAllControls ()) {
 				if (c.recalculate_distances)
 					c.UpdateDistances ();
+			}
 
 			if (layout_suspended > 0) {
 				layout_pending = true;
@@ -3932,7 +3948,7 @@ namespace System.Windows.Forms
 				OnLayout(levent);
 			}
 
-				// Need to make sure we decremend layout_suspended
+			// Need to make sure we decremend layout_suspended
 			finally {
 				layout_suspended--;
 				performing_layout--;
@@ -4099,15 +4115,18 @@ namespace System.Windows.Forms
 				if (this is ContainerControl)
 					(this as ContainerControl).PerformDelayedAutoScale();
 
-				if (!performLayout)
+				if (!performLayout) {
+					cached_preferred_size = Size.Empty;
 					foreach (Control c in Controls.GetAllControls ())
 						c.UpdateDistances ();
+				}
 
 				if (performLayout && layout_pending) {
 					PerformLayout();
 				}
 			}
 		}
+
 		[EditorBrowsable (EditorBrowsableState.Never)]
 		[Obsolete ()]
 		public void Scale(float ratio) {
@@ -4865,6 +4884,12 @@ namespace System.Windows.Forms
 
 			if (explicit_bounds.Height == height)
 				explicit_bounds.Height = stored_explicit_bounds.Height;
+
+			if (parent != null) {
+				// DefaultLayout calculates preferred size based on the control boundaries,
+				// so reset its cache.
+				parent.cached_preferred_size = Size.Empty;
+			}
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -4947,6 +4972,10 @@ namespace System.Windows.Forms
 				else {
 					OnVisibleChanged(EventArgs.Empty);
 				}
+
+				if (parent != null) {
+					parent.cached_preferred_size = Size.Empty;
+				}
 			}
 		}
 
@@ -5014,6 +5043,7 @@ namespace System.Windows.Forms
 				OnSizeInitializedOrChanged ();
 				OnSizeChanged(EventArgs.Empty);
 				OnClientSizeChanged (EventArgs.Empty);
+				this.cached_preferred_size = Size.Empty;
 			}
 		}
 

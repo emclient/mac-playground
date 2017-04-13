@@ -1,4 +1,4 @@
-// Permission is hereby granted, free of charge, to any person obtaining
+﻿// Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
 // without limitation the rights to use, copy, modify, merge, publish,
@@ -111,6 +111,7 @@ namespace System.Windows.Forms {
 			TextAlign = ContentAlignment.MiddleLeft;
 			SetStyle(ControlStyles.StandardDoubleClick, false);
 			SetAutoSizeMode (AutoSizeMode.GrowAndShrink);
+			can_cache_preferred_size = true;
 		}
 		#endregion	// Public Constructors
 
