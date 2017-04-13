@@ -3203,8 +3203,8 @@ namespace System.Windows.Forms {
 			if (AutoSize) {
 				Size new_size = GetPreferredSizeCore (Size.Empty);
 				if (AutoSizeMode == AutoSizeMode.GrowOnly) {
-					new_size.Width = Math.Max (new_size.Width, Width);
-					new_size.Height = Math.Max (new_size.Height, Height);
+					new_size.Width = Math.Max (new_size.Width, ExplicitBounds.Width);
+					new_size.Height = Math.Max (new_size.Height, ExplicitBounds.Height);
 				}
 				if (new_size == Size)
 					return;
