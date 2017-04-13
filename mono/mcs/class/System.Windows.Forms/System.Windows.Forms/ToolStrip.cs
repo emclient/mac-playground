@@ -1,4 +1,4 @@
-//
+﻿//
 // ToolStrip.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -425,7 +425,7 @@ namespace System.Windows.Forms
 					this.layout_style = value;
 
 					if (this.layout_style == ToolStripLayoutStyle.Flow)
-						this.layout_engine = new FlowLayout ();
+						this.layout_engine = FlowLayout.Instance;
 					else
 						this.layout_engine = new ToolStripSplitStackLayout ();
 
