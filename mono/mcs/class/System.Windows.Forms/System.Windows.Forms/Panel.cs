@@ -43,7 +43,8 @@ namespace System.Windows.Forms {
 		public Panel () {
 			base.TabStop = false;
 			SetStyle(ControlStyles.Selectable, false);
-			SetStyle (ControlStyles.SupportsTransparentBackColor, true);
+			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+			can_cache_preferred_size = true;
 		}
 		#endregion	// Constructors & Destructors
 
