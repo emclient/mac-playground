@@ -2105,6 +2105,10 @@ namespace System.Windows.Forms
 			
 		// XXX: Implement me!
 		bool auto_size;
+
+		internal bool AutoSizeInternal {
+			get { return auto_size; }
+		}
 		
 		[RefreshProperties (RefreshProperties.All)]
 		[Localizable (true)]

@@ -92,7 +92,7 @@ namespace System.Windows.Forms.Layout
 				if (!c.VisibleInternal) { continue; }
 
 				// Resize any AutoSize controls to their preferred size
-				if (c.AutoSize == true) {
+				if (c.AutoSizeInternal == true) {
 					Size cSize = new Size (parentDisplayRectangle.Width, Int32.MaxValue);
 					Size new_size = c.GetPreferredSize (cSize);
 					c.SetBoundsInternal (c.Left, c.Top, new_size.Width, new_size.Height, BoundsSpecified.None);
@@ -212,7 +212,7 @@ namespace System.Windows.Forms.Layout
 				if (!control.VisibleInternal)
 					continue;
 				Size control_preferred_size;
-				if (control.AutoSize)
+				if (control.AutoSizeInternal)
 					control_preferred_size = control.GetPreferredSize(proposedSize);
 				else
 					control_preferred_size = control.ExplicitBounds.Size;
@@ -268,13 +268,13 @@ namespace System.Windows.Forms.Layout
 			foreach (Control c in row) {
 				if (c.Dock != DockStyle.Fill && !((c.Anchor & AnchorStyles.Top) == AnchorStyles.Top && (c.Anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom))
 					allDockFill = false;
-				if (c.AutoSize == true)
+				if (c.AutoSizeInternal == true)
 					noAuto = false;
 			}
 
 			// Find the tallest control with a concrete height
 			foreach (Control c in row) {
-				if (c.Bottom + c.Margin.Bottom > rowBottom && (c.Dock != DockStyle.Fill) && ((c.Anchor & AnchorStyles.Top) != AnchorStyles.Top || (c.Anchor & AnchorStyles.Bottom) != AnchorStyles.Bottom || c.AutoSize == true))
+				if (c.Bottom + c.Margin.Bottom > rowBottom && (c.Dock != DockStyle.Fill) && ((c.Anchor & AnchorStyles.Top) != AnchorStyles.Top || (c.Anchor & AnchorStyles.Bottom) != AnchorStyles.Bottom || c.AutoSizeInternal == true))
 					rowBottom = c.Bottom + c.Margin.Bottom;
 				if (c.Top - c.Margin.Top < rowTop)
 					rowTop = c.Top - c.Margin.Top;
@@ -283,7 +283,7 @@ namespace System.Windows.Forms.Layout
 			// Find the tallest control that is AutoSize = true
 			if (rowBottom == 0)
 				foreach (Control c in row)
-					if (c.Bottom + c.Margin.Bottom > rowBottom && (c.Dock != DockStyle.Fill && c.AutoSize == true))
+					if (c.Bottom + c.Margin.Bottom > rowBottom && (c.Dock != DockStyle.Fill && c.AutoSizeInternal == true))
 						rowBottom = c.Bottom + c.Margin.Bottom;
 
 			// Find the tallest control that is Dock = Fill
@@ -327,13 +327,13 @@ namespace System.Windows.Forms.Layout
 			foreach (Control c in col) {
 				if (c.Dock != DockStyle.Fill && !((c.Anchor & AnchorStyles.Left) == AnchorStyles.Left && (c.Anchor & AnchorStyles.Right) == AnchorStyles.Right))
 					allDockFill = false;
-				if (c.AutoSize == true)
+				if (c.AutoSizeInternal == true)
 					noAuto = false;
 			}
 
 			// Find the widest control with a concrete width
 			foreach (Control c in col) {
-				if (c.Right + c.Margin.Right > rowRight && (c.Dock != DockStyle.Fill) && ((c.Anchor & AnchorStyles.Left) != AnchorStyles.Left || (c.Anchor & AnchorStyles.Right) != AnchorStyles.Right || c.AutoSize == true))
+				if (c.Right + c.Margin.Right > rowRight && (c.Dock != DockStyle.Fill) && ((c.Anchor & AnchorStyles.Left) != AnchorStyles.Left || (c.Anchor & AnchorStyles.Right) != AnchorStyles.Right || c.AutoSizeInternal == true))
 					rowRight = c.Right + c.Margin.Right;
 				if (c.Left - c.Margin.Left < rowLeft)
 					rowLeft = c.Left - c.Margin.Left;
@@ -342,7 +342,7 @@ namespace System.Windows.Forms.Layout
 			// Find the widest control that is AutoSize = true
 			if (rowRight == 0)
 				foreach (Control c in col)
-					if (c.Right + c.Margin.Right > rowRight && (c.Dock != DockStyle.Fill && c.AutoSize == true))
+					if (c.Right + c.Margin.Right > rowRight && (c.Dock != DockStyle.Fill && c.AutoSizeInternal == true))
 						rowRight = c.Right + c.Margin.Right;
 
 			// Find the widest control that is Dock = Fill
