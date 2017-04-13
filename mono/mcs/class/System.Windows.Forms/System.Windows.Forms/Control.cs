@@ -6041,7 +6041,7 @@ namespace System.Windows.Forms
 			if (eh != null)
 				eh (this, e);
 			for (int i=0; i<child_controls.Count; i++) child_controls[i].OnParentFontChanged(e);
-			PerformLayout ();
+			PerformLayout (this, "Font");
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -6149,17 +6149,16 @@ namespace System.Windows.Forms
 				eh (this, levent);
 
 			Size s = Size;
-			
+
 			// If our layout changed our PreferredSize, our parent
 			// needs to re-lay us out.  However, it's not always possible to
 			// be our preferred size, so only try once so we don't loop forever.
-			if (Parent != null && AutoSize && !nested_layout && PreferredSize != s) {
+			bool needs_parent_layout = LayoutEngine.Layout(this, levent);
+			if (Parent != null && needs_parent_layout && !nested_layout) {
 				nested_layout = true;
 				Parent.PerformLayout ();
 				nested_layout = false;
 			}
-			
-			LayoutEngine.Layout (this, levent);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]

@@ -83,7 +83,7 @@ namespace System.Windows.Forms.Layout
 			Console.WriteLine ();
 #endif
 
-			return false;
+			return panel.AutoSizeInternal;
 		}
 
 		internal Control[,] CalculateControlPositions (TableLayoutPanel panel, int columns, int rows)
@@ -269,7 +269,10 @@ namespace System.Windows.Forms.Layout
 								if (settings.GetColumnSpan (c) != colspan + 1)
 									continue;
 								// Calculate the maximum control width.
-								max_width = Math.Max (max_width, GetControlSize(c, proposedSize).Width + c.Margin.Horizontal);
+								if (cs.SizeType == SizeType.Percent && minimum_sizes)
+									max_width = Math.Max(max_width, c.MinimumSize.Width + c.Margin.Horizontal);
+								else
+									max_width = Math.Max(max_width, GetControlSize (c, proposedSize).Width + c.Margin.Horizontal);
 							}
 						}
 
@@ -278,10 +281,8 @@ namespace System.Windows.Forms.Layout
 							max_width -= column_widths[i];
 
 						// If necessary, increase this column's width.
-						if (max_width > column_widths[index]) {
-							max_width -= column_widths[index];
-							column_widths[index] += max_width;
-						}
+						if (max_width > column_widths[index])
+							column_widths[index] = max_width;
 					}
 				}
 			}
@@ -342,10 +343,7 @@ namespace System.Windows.Forms.Layout
 
 						// If necessary, increase this row's height.
 						if (max_height > row_heights[index])
-						{
-							max_height -= row_heights[index];
-							row_heights[index] += max_height;
-						}
+							row_heights[index] = max_height;
 					}
 				}
 			}
