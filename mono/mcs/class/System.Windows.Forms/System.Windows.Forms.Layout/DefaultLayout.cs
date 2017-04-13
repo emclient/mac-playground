@@ -54,9 +54,6 @@ namespace System.Windows.Forms.Layout
 				
 				Size child_size = child.Size;
 
-				if (child.AutoSizeInternal)
-					child_size = GetPreferredControlSize(child, new Size(parent.DisplayRectangle.Width, 0));
-
 				// MdiClient never fills the whole area like other controls, have to do it later
 				if (child is MdiClient) {
 					mdi = (MdiClient)child;
@@ -69,23 +66,31 @@ namespace System.Windows.Forms.Layout
 					break;
 
 				case DockStyle.Left:
+					if (child.AutoSizeInternal)
+						child_size = GetPreferredControlSize(child, new Size(0, space.Height));
 					child.SetBoundsInternal (space.Left, space.Y, child_size.Width, space.Height, BoundsSpecified.None);
 					space.X += child.Width;
 					space.Width -= child.Width;
 					break;
 
 				case DockStyle.Top:
+					if (child.AutoSizeInternal)
+						child_size = GetPreferredControlSize(child, new Size(space.Width, 0));
 					child.SetBoundsInternal (space.Left, space.Y, space.Width, child_size.Height, BoundsSpecified.None);
 					space.Y += child.Height;
 					space.Height -= child.Height;
 					break;
 
 				case DockStyle.Right:
+					if (child.AutoSizeInternal)
+						child_size = GetPreferredControlSize(child, new Size(0, space.Height));
 					child.SetBoundsInternal (space.Right - child_size.Width, space.Y, child_size.Width, space.Height, BoundsSpecified.None);
 					space.Width -= child.Width;
 					break;
 
 				case DockStyle.Bottom:
+					if (child.AutoSizeInternal)
+						child_size = GetPreferredControlSize(child, new Size(space.Width, 0));
 					child.SetBoundsInternal (space.Left, space.Bottom - child_size.Height, space.Width, child_size.Height, BoundsSpecified.None);
 					space.Height -= child.Height;
 					break;
