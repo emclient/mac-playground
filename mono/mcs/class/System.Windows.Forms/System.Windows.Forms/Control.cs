@@ -113,7 +113,6 @@ namespace System.Windows.Forms
 			Anchor,
 			Dock
 		}
-		Layout.LayoutEngine layout_engine;
 		internal int layout_suspended;
 		bool layout_pending; // true if our parent needs to re-layout us
 		internal AnchorStyles anchor_style; // anchoring requirements for our control
@@ -2883,9 +2882,7 @@ namespace System.Windows.Forms
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		public virtual Layout.LayoutEngine LayoutEngine {
 			get {
-				if (layout_engine == null)
-					layout_engine = new Layout.DefaultLayout ();
-				return layout_engine;
+				return System.Windows.Forms.Layout.DefaultLayout.Instance;
 			}
 		}
 
