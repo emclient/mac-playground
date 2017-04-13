@@ -455,10 +455,10 @@ namespace System.Windows.Forms.Layout
 			}
 
 			// Finally, assign the remaining space to Percent columns, if any.
-			if (available_width > 0 && !measureOnly)
+			if (available_width > 0)
 				available_width -= RedistributePercents(available_width, settings.ColumnStyles, column_widths);
 
-			if (available_width > 0 && !measureOnly && column_widths.Length > 0) {
+			if (available_width > 0  && column_widths.Length > 0) {
 				// Find the last column that isn't an Absolute SizeType, and give it
 				// all this free space.  (Absolute sized columns need to retain their
 				// absolute width if at all possible!)
@@ -488,11 +488,10 @@ namespace System.Windows.Forms.Layout
 			}
 
 			// Finally, assign the remaining space to Percent rows, if any.
-			if (available_height > 0 && !measureOnly)
+			if (available_height > 0)
 				available_height -= RedistributePercents(available_height, settings.RowStyles, row_heights);
 
-			if (available_height > 0 && !measureOnly && row_heights.Length > 0)
-			{
+			if (available_height > 0 && row_heights.Length > 0) {
 				// Find the last row that isn't an Absolute SizeType, and give it
 				// all this free space.  (Absolute sized rows need to retain their
 				// absolute height if at all possible!)
