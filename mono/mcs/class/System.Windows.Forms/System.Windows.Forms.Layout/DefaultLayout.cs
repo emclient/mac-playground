@@ -248,7 +248,7 @@ namespace System.Windows.Forms.Layout
 			LayoutAnchoredChildren (parent, controls);
 			LayoutAutoSizedChildren (parent, controls);
 
-			return parent.AutoSize;
+			return parent.AutoSizeInternal;
 		}
 
 		internal override Size GetPreferredSize(object container, Size proposedConstraints)
