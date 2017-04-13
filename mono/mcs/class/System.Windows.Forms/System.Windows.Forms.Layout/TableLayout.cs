@@ -236,7 +236,7 @@ namespace System.Windows.Forms.Layout
 			TableLayoutSettings settings = panel.LayoutSettings;
 			int columns = actual_positions.GetLength(0);
 			int rows = actual_positions.GetLength(1);
-			bool auto_size = panel.AutoSize || measureOnly;
+			bool auto_size = panel.AutoSizeInternal || measureOnly;
 
 			column_widths = new int[actual_positions.GetLength (0)];
 			row_heights = new int[actual_positions.GetLength (1)];
@@ -587,7 +587,7 @@ namespace System.Windows.Forms.Layout
 
 		private static Size GetControlSize (Control c, Size proposedSize)
 		{
-			if (c.AutoSize) {
+			if (c.AutoSizeInternal) {
 				return c.GetPreferredSize (proposedSize);
 			} else {
 				return c.ExplicitBounds.Size;				
