@@ -211,5 +211,20 @@ namespace System.Windows.Forms.CocoaInternal
 					Style |= WindowStyles.WS_DISABLED;
 			}
 		}
+
+		// Experimental
+		public override void DrawFocusRingMask()
+		{
+			var control = Control.FromHandle(Handle);
+			if (control != null && control.Enabled && control.Focused && control.ShowFocusCues)
+			{
+				NSBezierPath.FillRect(Bounds);
+			}
+		}
+
+		public override CGRect FocusRingMaskBounds
+		{
+			get { return Bounds; }
+		}
 	}
 }
