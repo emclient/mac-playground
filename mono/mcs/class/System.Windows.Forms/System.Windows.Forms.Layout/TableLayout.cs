@@ -572,7 +572,7 @@ namespace System.Windows.Forms.Layout
 							column_width += panel.column_widths[x + i];
 
 						int column_height = panel.row_heights[y];
-						for (int i = 1; i < Math.Min (settings.GetRowSpan(c), panel.row_heights.Length - x); i++)
+						for (int i = 1; i < Math.Min (settings.GetRowSpan(c), panel.row_heights.Length - y); i++)
 							column_height += panel.row_heights[y + i];
 
 						preferred = GetControlSize(c, new Size(column_width, column_height));
