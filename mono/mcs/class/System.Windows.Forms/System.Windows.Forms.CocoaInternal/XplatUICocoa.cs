@@ -1927,6 +1927,12 @@ namespace System.Windows.Forms {
 		}
 		
 		internal override void SetWindowMinMax (IntPtr handle, Rectangle maximized, Size min, Size max) {
+			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			vuWrap.Window.MinSize = min.ToCGSize();
+			if (max.IsEmpty)
+				vuWrap.Window.MaxSize = new CGSize(float.MaxValue, float.MaxValue);
+			else
+				vuWrap.Window.MaxSize = max.ToCGSize();
 		}
 
 		internal override void SetWindowPos (IntPtr handle, int x, int y, int width, int height)
