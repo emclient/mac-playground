@@ -113,7 +113,7 @@ namespace System.Windows.Forms.Layout
 			for (int i = 0; i < controls.Length; i++) {
 				Control child = controls[i];
 
-				if (!child.VisibleInternal || child.Dock != DockStyle.None || child.AutoSizeInternal)
+				if (!child.VisibleInternal || child.Dock != DockStyle.None)
 					continue;
 
 				AnchorStyles anchor = child.Anchor;
@@ -162,8 +162,6 @@ namespace System.Windows.Forms.Layout
 		
 		static void LayoutAutoSizedChildren (Control parent, Control[] controls)
 		{
-			Rectangle space = parent.DisplayRectangle;
-
 			for (int i = 0; i < controls.Length; i++) {
 
 				Control child = controls[i];
@@ -176,27 +174,18 @@ namespace System.Windows.Forms.Layout
 
 				Size proposedSize = Size.Empty;
 				if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == (AnchorStyles.Left | AnchorStyles.Right)) {
-					proposedSize.Width = space.Right - child.DistanceRight - left;
+					proposedSize.Width = child.Width;
 				}
 				if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == (AnchorStyles.Top | AnchorStyles.Bottom)) {
-					proposedSize.Height = space.Bottom - child.DistanceBottom - top;
+					proposedSize.Height = child.Height;
 				}
 
 				Size preferredsize = GetPreferredControlSize(child, proposedSize);
 
 				if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == AnchorStyles.Left)
 					child.DistanceRight += child.Width - preferredsize.Width;
-				else if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == AnchorStyles.Right)
-					left = parent.DisplayRectangle.Right - preferredsize.Width - child.DistanceRight;
-				else if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == (AnchorStyles.Left | AnchorStyles.Right))
-					preferredsize.Width = proposedSize.Width;
-				
 				if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == AnchorStyles.Top)
 					child.DistanceBottom += child.Height - preferredsize.Height;
-				else if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == AnchorStyles.Bottom)
-					top = parent.DisplayRectangle.Bottom - preferredsize.Height - child.DistanceBottom;
-				else if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == (AnchorStyles.Top | AnchorStyles.Bottom))
-					preferredsize.Height = proposedSize.Height;
 
 				child.SetBoundsInternal(left, top, preferredsize.Width, preferredsize.Height, BoundsSpecified.None);
 			}
