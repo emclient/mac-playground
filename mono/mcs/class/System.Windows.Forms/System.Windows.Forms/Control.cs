@@ -1859,9 +1859,9 @@ namespace System.Windows.Forms
 			if (parent != null)
 			{
 				if (bounds.Width >= 0 && (specified & (BoundsSpecified.Width | BoundsSpecified.X)) != BoundsSpecified.None)
-					this.DistanceRight = parent.DisplayRectangle.Width - bounds.X - bounds.Width;
+					this.DistanceRight = parent.DisplayRectangle.Right - bounds.X - bounds.Width;
 				if (bounds.Height >= 0 && (specified & (BoundsSpecified.Height | BoundsSpecified.Y)) != BoundsSpecified.None)
-					this.DistanceBottom = parent.DisplayRectangle.Height - bounds.Y - bounds.Height;
+					this.DistanceBottom = parent.DisplayRectangle.Bottom - bounds.Y - bounds.Height;
 
 				recalculate_distances = false;
 			}
