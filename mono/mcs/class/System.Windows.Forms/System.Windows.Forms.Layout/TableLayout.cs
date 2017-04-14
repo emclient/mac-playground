@@ -43,11 +43,6 @@ namespace System.Windows.Forms.Layout
 		{
 		}
 		
-		public override void InitLayout (object child, BoundsSpecified specified)
-		{
-			base.InitLayout (child, specified);
-		}
-
 		// There are 3 steps to doing a table layout:
 		// 1) Figure out which row/column each control goes into
 		// 2) Figure out the sizes of each row/column
