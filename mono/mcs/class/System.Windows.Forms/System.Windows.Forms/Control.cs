@@ -115,6 +115,7 @@ namespace System.Windows.Forms
 		}
 		internal int layout_suspended;
 		bool layout_pending; // true if our parent needs to re-layout us
+		bool layout_dirty;
 		internal AnchorStyles anchor_style; // anchoring requirements for our control
 		internal DockStyle dock_style; // docking requirements for our control
 		LayoutType layout_type;
@@ -163,7 +164,6 @@ namespace System.Windows.Forms
 		Size minimum_size;
 		Padding margin;
 		private ContextMenuStrip context_menu_strip;
-		private bool nested_layout = false;
 		Point auto_scroll_offset;
 		private AutoSizeMode auto_size_mode;
 		private bool suppressing_key_press;
@@ -3954,6 +3954,10 @@ namespace System.Windows.Forms
 			finally {
 				layout_suspended--;
 				performing_layout--;
+				layout_dirty = false;
+
+				if (parent != null && parent.layout_dirty)
+					parent.PerformLayout(this, "PreferredSize");
 			}
 		}
 
@@ -6148,16 +6152,11 @@ namespace System.Windows.Forms
 			if (eh != null)
 				eh (this, levent);
 
-			Size s = Size;
-
 			// If our layout changed our PreferredSize, our parent
-			// needs to re-lay us out.  However, it's not always possible to
-			// be our preferred size, so only try once so we don't loop forever.
+			// needs to re-lay us out.
 			bool needs_parent_layout = LayoutEngine.Layout(this, levent);
-			if (Parent != null && needs_parent_layout && !nested_layout) {
-				nested_layout = true;
-				Parent.PerformLayout ();
-				nested_layout = false;
+			if (parent != null && needs_parent_layout) {
+				parent.layout_dirty = true;
 			}
 		}
 
