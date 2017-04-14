@@ -246,13 +246,13 @@ namespace System.Windows.Forms.Layout
 					continue;
 
 				if (child.Dock == DockStyle.Left || child.Dock == DockStyle.Right) {
-					Size sz = child.AutoSizeInternal ? child.GetPreferredSize(new Size(0, proposedConstraints.Height)) : child.Size;
+					Size sz = child.AutoSizeInternal ? GetPreferredControlSize(child, new Size(0, proposedConstraints.Height)) : child.Size;
 					retsize.Width += sz.Width;
 				} else if (child.Dock == DockStyle.Top || child.Dock == DockStyle.Bottom) {
-					Size sz = child.AutoSizeInternal ? child.GetPreferredSize(new Size(proposedConstraints.Width, 0)) : child.Size;
+					Size sz = child.AutoSizeInternal ? GetPreferredControlSize(child, new Size(proposedConstraints.Width, 0)) : child.Size;
 					retsize.Height += sz.Height;
 				} else if (child.Dock == DockStyle.Fill && child.AutoSizeInternal) {
-					Size sz = child.AutoSizeInternal ? child.GetPreferredSize(Size.Empty) : child.Size;
+					Size sz = child.AutoSizeInternal ? GetPreferredControlSize(child, Size.Empty) : child.Size;
 					retsize += sz;
 				}
 			}
@@ -266,11 +266,25 @@ namespace System.Windows.Forms.Layout
 					continue;
 					
 				// If its anchored to the bottom or right, that doesn't really count
-				if ((child.Anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom || (child.Anchor & AnchorStyles.Right) == AnchorStyles.Right)
+				if ((child.Anchor & (AnchorStyles.Bottom | AnchorStyles.Top)) == AnchorStyles.Bottom &&
+				    (child.Anchor & (AnchorStyles.Right | AnchorStyles.Left)) == AnchorStyles.Right)
 					continue;
 
-				retsize.Width = Math.Max(retsize.Width, child.Bounds.Right - parent.DisplayRectangle.Left + child.Margin.Right);
-				retsize.Height = Math.Max(retsize.Height, child.Bounds.Bottom - parent.DisplayRectangle.Top + child.Margin.Bottom);
+				Rectangle childBounds = child.Bounds;
+				if (child.AutoSizeInternal) {
+					Size proposedChildSize = Size.Empty;
+					if ((child.Anchor & (AnchorStyles.Left | AnchorStyles.Right)) == (AnchorStyles.Left | AnchorStyles.Right)) {
+						proposedChildSize.Width = proposedConstraints.Width - child.DistanceRight;
+					}
+					if ((child.Anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == (AnchorStyles.Top | AnchorStyles.Bottom)) {
+						proposedChildSize.Height = proposedConstraints.Height - child.DistanceBottom;
+					}
+					Size preferredsize = GetPreferredControlSize(child, proposedChildSize);
+					childBounds = new Rectangle(child.Location, preferredsize);
+				}
+
+				retsize.Width = Math.Max(retsize.Width, childBounds.Right - parent.DisplayRectangle.Left + child.Margin.Right);
+				retsize.Height = Math.Max(retsize.Height, childBounds.Bottom - parent.DisplayRectangle.Top + child.Margin.Bottom);
 			}
 
 			return retsize;
