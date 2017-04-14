@@ -184,14 +184,19 @@ namespace System.Windows.Forms.Layout
 
 				Size preferredsize = GetPreferredControlSize(child, proposedSize);
 
-				if (((anchor & AnchorStyles.Left) != 0) && ((anchor & AnchorStyles.Right) == 0))
+				if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == AnchorStyles.Left)
 					child.DistanceRight += child.Width - preferredsize.Width;
-				else if ((anchor & AnchorStyles.Right) != 0)
+				else if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == AnchorStyles.Right)
 					left = parent.DisplayRectangle.Right - preferredsize.Width - child.DistanceRight;
-				if (((anchor & AnchorStyles.Top) != 0) && ((anchor & AnchorStyles.Bottom) == 0))
+				else if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == (AnchorStyles.Left | AnchorStyles.Right))
+					preferredsize.Width = proposedSize.Width;
+				
+				if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == AnchorStyles.Top)
 					child.DistanceBottom += child.Height - preferredsize.Height;
-				else if ((anchor & AnchorStyles.Bottom) != 0)
+				else if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == AnchorStyles.Bottom)
 					top = parent.DisplayRectangle.Bottom - preferredsize.Height - child.DistanceBottom;
+				else if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == (AnchorStyles.Top | AnchorStyles.Bottom))
+					preferredsize.Height = proposedSize.Height;
 
 				child.SetBoundsInternal(left, top, preferredsize.Width, preferredsize.Height, BoundsSpecified.None);
 			}
