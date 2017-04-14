@@ -40,6 +40,19 @@ namespace System.Windows.Forms.Layout
 		{
 		}
 
+		public override void InitLayout (object child, BoundsSpecified specified)
+		{
+			Control control = child as Control;
+			Control parent = control.Parent;
+			if (parent != null) {
+				Rectangle bounds = control.Bounds;
+				if ((specified & (BoundsSpecified.Width | BoundsSpecified.X)) != BoundsSpecified.None)
+					control.DistanceRight = parent.DisplayRectangle.Right - bounds.X - bounds.Width;
+				if ((specified & (BoundsSpecified.Height | BoundsSpecified.Y)) != BoundsSpecified.None)
+					control.DistanceBottom = parent.DisplayRectangle.Bottom - bounds.Y - bounds.Height;
+			}		
+		}
+
 		static void LayoutDockedChildren (Control parent, Control[] controls)
 		{
 			Rectangle space = parent.DisplayRectangle;
@@ -187,7 +200,7 @@ namespace System.Windows.Forms.Layout
 				if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == AnchorStyles.Top)
 					child.DistanceBottom += child.Height - preferredsize.Height;
 
-				child.SetBoundsInternal(left, top, Math.Min(preferredsize.Width, parent.DisplayRectangle.Width), preferredsize.Height, BoundsSpecified.None);
+				child.SetBoundsInternal(left, top, preferredsize.Width, preferredsize.Height, BoundsSpecified.None);
 			}
 		}
 
