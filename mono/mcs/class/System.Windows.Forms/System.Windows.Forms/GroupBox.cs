@@ -275,10 +275,6 @@ namespace System.Windows.Forms
 		{
 			return GetType ().FullName + ", Text: " + Text;
 		}
-
-		protected override void WndProc(ref Message m) {
-			base.WndProc (ref m);
-		}
 				
 		#endregion Public Methods
 
