@@ -529,9 +529,15 @@ namespace System.Windows.Forms
 				all_controls = null;
 				list.Add (value);
 
-				value.ChangeParent(owner);
-
-				value.InitLayout();
+				// Avoid triggering layout with changes in ChangeParent
+				owner.SuspendLayout();
+				try {
+					value.ChangeParent(owner);
+					value.InitLayout();
+				}
+				finally {
+					owner.ResumeLayout(false);
+				}
 
 				if (owner.Visible)
 					owner.UpdateChildrenZOrder();
@@ -3205,8 +3211,11 @@ namespace System.Windows.Forms
 					OnTextChanged (EventArgs.Empty);
 
 					// Label has its own AutoSize implementation
-					if (AutoSize && Parent != null && (!(this is Label)))
+					// FIXME: Should be elsewhere (eg. ButtonBase)
+					if (AutoSizeInternal && Parent != null && (!(this is Label))) {
+						cached_preferred_size = Size.Empty;
 						Parent.PerformLayout (this, "Text");
+					}
 				}
 			}
 		}
@@ -6031,7 +6040,9 @@ namespace System.Windows.Forms
 			EventHandler eh = (EventHandler)(Events [FontChangedEvent]);
 			if (eh != null)
 				eh (this, e);
+			SuspendLayout ();
 			for (int i=0; i<child_controls.Count; i++) child_controls[i].OnParentFontChanged(e);
+			ResumeLayout (false);
 			PerformLayout (this, "Font");
 		}
 
