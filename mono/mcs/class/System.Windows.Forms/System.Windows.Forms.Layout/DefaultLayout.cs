@@ -254,31 +254,24 @@ namespace System.Windows.Forms.Layout
 		internal override Size GetPreferredSize(object container, Size proposedConstraints)
 		{
 			Control parent = container as Control;
+			Control[] controls = parent.Controls.GetAllControls();
 			Size retsize = Size.Empty;
 
 			// Add up the requested sizes for Docked controls
-			foreach (Control child in parent.Controls) {
+			for (int i = controls.Length - 1; i >= 0; i--) {
+				Control child = controls[i];
 				if (!child.is_visible || child.Dock == DockStyle.None)
 					continue;
-					
-				if (child.Dock == DockStyle.Left || child.Dock == DockStyle.Right)
-				{
-					var sz = child.AutoSizeInternal ? child.GetPreferredSize(new Size(0, proposedConstraints.Height)) : child.ExplicitBounds.Size;
-					retsize.Width += sz.Width + child.Margin.Horizontal;
-					retsize.Height = Math.Max(retsize.Height, sz.Height + child.Margin.Vertical);
-				}
-				else if (child.Dock == DockStyle.Top || child.Dock == DockStyle.Bottom)
-				{
-					var sz = child.AutoSizeInternal ? child.GetPreferredSize(new Size(proposedConstraints.Width, 0)) : child.ExplicitBounds.Size;
-					retsize.Height += sz.Height + child.Margin.Vertical;
-					retsize.Width = Math.Max(retsize.Width, sz.Width + child.Margin.Horizontal);
-				}
-				else if (child.Dock == DockStyle.Fill)
-				{
-					// Strange, but it works
-					var sz = child.AutoSizeInternal ? child.GetPreferredSize(new Size(proposedConstraints.Width, proposedConstraints.Height)) : child.ExplicitBounds.Size;
-					retsize.Width = Math.Max(retsize.Width, sz.Width + child.Margin.Horizontal);
-					retsize.Height = Math.Max(retsize.Height, sz.Height + child.Margin.Vertical);
+
+				if (child.Dock == DockStyle.Left || child.Dock == DockStyle.Right) {
+					Size sz = child.AutoSizeInternal ? child.GetPreferredSize(new Size(0, proposedConstraints.Height)) : child.Size;
+					retsize.Width += sz.Width;
+				} else if (child.Dock == DockStyle.Top || child.Dock == DockStyle.Bottom) {
+					Size sz = child.AutoSizeInternal ? child.GetPreferredSize(new Size(proposedConstraints.Width, 0)) : child.Size;
+					retsize.Height += sz.Height;
+				} else if (child.Dock == DockStyle.Fill && child.AutoSizeInternal) {
+					Size sz = child.AutoSizeInternal ? child.GetPreferredSize(Size.Empty) : child.Size;
+					retsize += sz;
 				}
 			}
 			
@@ -293,9 +286,9 @@ namespace System.Windows.Forms.Layout
 				// If its anchored to the bottom or right, that doesn't really count
 				if ((child.Anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom || (child.Anchor & AnchorStyles.Right) == AnchorStyles.Right)
 					continue;
-					
-				retsize.Width = Math.Max (retsize.Width, child.Bounds.Right + child.Margin.Right);
-				retsize.Height = Math.Max (retsize.Height, child.Bounds.Bottom + child.Margin.Bottom);
+
+				retsize.Width = Math.Max(retsize.Width, child.Bounds.Right - parent.DisplayRectangle.Left + child.Margin.Right);
+				retsize.Height = Math.Max(retsize.Height, child.Bounds.Bottom - parent.DisplayRectangle.Top + child.Margin.Bottom);
 			}
 
 			return retsize;
