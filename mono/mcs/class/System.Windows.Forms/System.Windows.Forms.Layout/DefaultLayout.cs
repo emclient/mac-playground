@@ -67,7 +67,7 @@ namespace System.Windows.Forms.Layout
 
 				case DockStyle.Left:
 					if (child.AutoSizeInternal)
-						child_size = GetPreferredControlSize(child, new Size(0, space.Height));
+						child_size = child.GetPreferredSize(new Size(0, space.Height));
 					child.SetBoundsInternal (space.Left, space.Y, child_size.Width, space.Height, BoundsSpecified.None);
 					space.X += child.Width;
 					space.Width -= child.Width;
@@ -75,7 +75,7 @@ namespace System.Windows.Forms.Layout
 
 				case DockStyle.Top:
 					if (child.AutoSizeInternal)
-						child_size = GetPreferredControlSize(child, new Size(space.Width, 0));
+						child_size = child.GetPreferredSize(new Size(space.Width, 0));
 					child.SetBoundsInternal (space.Left, space.Y, space.Width, child_size.Height, BoundsSpecified.None);
 					space.Y += child.Height;
 					space.Height -= child.Height;
@@ -83,14 +83,14 @@ namespace System.Windows.Forms.Layout
 
 				case DockStyle.Right:
 					if (child.AutoSizeInternal)
-						child_size = GetPreferredControlSize(child, new Size(0, space.Height));
+						child_size = child.GetPreferredSize(new Size(0, space.Height));
 					child.SetBoundsInternal (space.Right - child_size.Width, space.Y, child_size.Width, space.Height, BoundsSpecified.None);
 					space.Width -= child.Width;
 					break;
 
 				case DockStyle.Bottom:
 					if (child.AutoSizeInternal)
-						child_size = GetPreferredControlSize(child, new Size(space.Width, 0));
+						child_size = child.GetPreferredSize(new Size(space.Width, 0));
 					child.SetBoundsInternal (space.Left, space.Bottom - child_size.Height, space.Width, child_size.Height, BoundsSpecified.None);
 					space.Height -= child.Height;
 					break;
@@ -240,13 +240,13 @@ namespace System.Windows.Forms.Layout
 					continue;
 
 				if (child.Dock == DockStyle.Left || child.Dock == DockStyle.Right) {
-					Size sz = child.AutoSizeInternal ? GetPreferredControlSize(child, new Size(0, proposedConstraints.Height)) : child.Size;
+					Size sz = child.AutoSizeInternal ? child.GetPreferredSize(new Size(0, proposedConstraints.Height)) : child.Size;
 					retsize.Width += sz.Width;
 				} else if (child.Dock == DockStyle.Top || child.Dock == DockStyle.Bottom) {
-					Size sz = child.AutoSizeInternal ? GetPreferredControlSize(child, new Size(proposedConstraints.Width, 0)) : child.Size;
+					Size sz = child.AutoSizeInternal ? child.GetPreferredSize(new Size(proposedConstraints.Width, 0)) : child.Size;
 					retsize.Height += sz.Height;
 				} else if (child.Dock == DockStyle.Fill && child.AutoSizeInternal) {
-					Size sz = child.AutoSizeInternal ? GetPreferredControlSize(child, Size.Empty) : child.Size;
+					Size sz = child.AutoSizeInternal ? child.GetPreferredSize(Size.Empty) : child.Size;
 					retsize += sz;
 				}
 			}
