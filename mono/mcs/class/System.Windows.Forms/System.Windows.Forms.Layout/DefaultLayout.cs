@@ -187,7 +187,7 @@ namespace System.Windows.Forms.Layout
 				if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == AnchorStyles.Top)
 					child.DistanceBottom += child.Height - preferredsize.Height;
 
-				child.SetBoundsInternal(left, top, preferredsize.Width, preferredsize.Height, BoundsSpecified.None);
+				child.SetBoundsInternal(left, top, Math.Min(preferredsize.Width, parent.DisplayRectangle.Width), preferredsize.Height, BoundsSpecified.None);
 			}
 		}
 
