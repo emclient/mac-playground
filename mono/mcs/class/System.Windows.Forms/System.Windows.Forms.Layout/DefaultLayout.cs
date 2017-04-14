@@ -49,7 +49,7 @@ namespace System.Windows.Forms.Layout
 			for (int i = controls.Length - 1; i >= 0; i--) {
 				Control child = controls[i];
 
-				if (!child.VisibleInternal || child.ControlLayoutType == Control.LayoutType.Anchor)
+				if (!child.VisibleInternal || child.Dock == DockStyle.None)
 					continue;
 				
 				Size child_size = child.Size;
@@ -108,12 +108,12 @@ namespace System.Windows.Forms.Layout
 
 		static void LayoutAnchoredChildren (Control parent, Control[] controls)
 		{
-			Rectangle space = parent.ClientRectangle;
+			Rectangle space = parent.DisplayRectangle;
 
 			for (int i = 0; i < controls.Length; i++) {
 				Control child = controls[i];
 
-				if (!child.VisibleInternal || child.ControlLayoutType == Control.LayoutType.Dock)
+				if (!child.VisibleInternal || child.Dock != DockStyle.None || child.AutoSizeInternal)
 					continue;
 
 				AnchorStyles anchor = child.Anchor;
@@ -165,22 +165,31 @@ namespace System.Windows.Forms.Layout
 			for (int i = 0; i < controls.Length; i++) {
 
 				Control child = controls[i];
-				if (!child.VisibleInternal || child.ControlLayoutType == Control.LayoutType.Dock || !child.AutoSizeInternal)
+				if (!child.VisibleInternal || child.Dock != DockStyle.None || !child.AutoSizeInternal)
 					continue;
 
 				AnchorStyles anchor = child.Anchor;
 				int left = child.Left;
 				int top = child.Top;
 
-				Size preferredsize = GetPreferredControlSize(child, new Size(parent.DisplayRectangle.Width, 0));
+				Size proposedSize = Size.Empty;
+				if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == (AnchorStyles.Left | AnchorStyles.Right)) {
+					proposedSize.Width = child.Width;
+				}
+				if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == (AnchorStyles.Top | AnchorStyles.Bottom)) {
+					proposedSize.Height = child.Height;
+				}
+
+				Size preferredsize = GetPreferredControlSize(child, proposedSize);
 
 				if (((anchor & AnchorStyles.Left) != 0) || ((anchor & AnchorStyles.Right) == 0))
 					child.DistanceRight += child.Width - preferredsize.Width;
+				else if ((anchor & AnchorStyles.Right) != 0)
+					left = parent.DisplayRectangle.Width - preferredsize.Width - child.DistanceRight;
 				if (((anchor & AnchorStyles.Top) != 0) || ((anchor & AnchorStyles.Bottom) == 0))
 					child.DistanceBottom += child.Height - preferredsize.Height;
-
-				if (child.GetAutoSizeMode() == AutoSizeMode.GrowOnly)
-					preferredsize = new Size(Math.Max(child.ExplicitBounds.Width, preferredsize.Width), Math.Max(child.ExplicitBounds.Height, preferredsize.Height));
+				else if ((anchor & AnchorStyles.Bottom) != 0)
+					top = parent.DisplayRectangle.Height - preferredsize.Height - child.DistanceBottom;
 
 				child.SetBoundsInternal(left, top, preferredsize.Width, preferredsize.Height, BoundsSpecified.None);
 			}
@@ -192,7 +201,7 @@ namespace System.Windows.Forms.Layout
 			var preferredsize = child.GetPreferredSize(proposed);
 
 			int width, height;
-			if (child.GetAutoSizeMode() == AutoSizeMode.GrowAndShrink || (child.Dock != DockStyle.None && !(child is Button) && !(child is FlowLayoutPanel)))
+			if (child.GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
 			{
 				width = preferredsize.Width;
 				height = preferredsize.Height;
@@ -206,35 +215,6 @@ namespace System.Windows.Forms.Layout
 				if (preferredsize.Height > height)
 					height = preferredsize.Height;
 			}
-			if (child.AutoSizeInternal && child is FlowLayoutPanel && child.Dock != DockStyle.None)
-			{
-				switch (child.Dock)
-				{
-					case DockStyle.Left:
-					case DockStyle.Right:
-						if (preferredsize.Width < child.ExplicitBounds.Width && preferredsize.Height < child.Parent.PaddingClientRectangle.Height)
-							width = preferredsize.Width;
-						break;
-					case DockStyle.Top:
-					case DockStyle.Bottom:
-						if (preferredsize.Height < child.ExplicitBounds.Height && preferredsize.Width < child.Parent.PaddingClientRectangle.Width)
-							height = preferredsize.Height;
-						break;
-				}
-			}
-			// Sanity
-			if (width < child.MinimumSize.Width)
-				width = child.MinimumSize.Width;
-
-			if (height < child.MinimumSize.Height)
-				height = child.MinimumSize.Height;
-
-			if (child.MaximumSize.Width != 0 && width > child.MaximumSize.Width)
-				width = child.MaximumSize.Width;
-
-			if (child.MaximumSize.Height != 0 && height > child.MaximumSize.Height)
-				height = child.MaximumSize.Height;
-
 			return new Size(width, height);
 		}
 

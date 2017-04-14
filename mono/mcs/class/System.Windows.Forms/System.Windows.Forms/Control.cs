@@ -118,7 +118,6 @@ namespace System.Windows.Forms
 		bool layout_dirty;
 		internal AnchorStyles anchor_style; // anchoring requirements for our control
 		internal DockStyle dock_style; // docking requirements for our control
-		LayoutType layout_type;
 		private bool recalculate_distances = true;  // Delay anchor calculations
 		internal int performing_layout; // > 0 when the layout operation is in progress for this control.
 		internal bool can_cache_preferred_size;
@@ -887,7 +886,6 @@ namespace System.Windows.Forms
 				if (!(SynchronizationContext.Current is WindowsFormsSynchronizationContext))
 					SynchronizationContext.SetSynchronizationContext (new WindowsFormsSynchronizationContext ());
 
-			layout_type = LayoutType.Anchor;
 			anchor_style = AnchorStyles.Top | AnchorStyles.Left;
 
 			is_created = false;
@@ -1068,10 +1066,6 @@ namespace System.Windows.Forms
 
 		internal bool VisibleInternal {
 			get { return is_visible; }
-		}
-
-		internal LayoutType ControlLayoutType {
-			get { return layout_type; }
 		}
 
 		internal BorderStyle InternalBorderStyle {
@@ -1865,9 +1859,9 @@ namespace System.Windows.Forms
 			if (parent != null)
 			{
 				if (bounds.Width >= 0 && (specified & (BoundsSpecified.Width | BoundsSpecified.X)) != BoundsSpecified.None)
-					this.DistanceRight = parent.ClientSize.Width - bounds.X - bounds.Width;
+					this.DistanceRight = parent.DisplayRectangle.Width - bounds.X - bounds.Width;
 				if (bounds.Height >= 0 && (specified & (BoundsSpecified.Height | BoundsSpecified.Y)) != BoundsSpecified.None)
-					this.DistanceBottom = parent.ClientSize.Height - bounds.Y - bounds.Height;
+					this.DistanceBottom = parent.DisplayRectangle.Height - bounds.Y - bounds.Height;
 
 				recalculate_distances = false;
 			}
@@ -2078,8 +2072,6 @@ namespace System.Windows.Forms
 			}
 
 			set {
-				layout_type = LayoutType.Anchor;
-
 				if (anchor_style == value)
 					return;
 					
@@ -2574,10 +2566,6 @@ namespace System.Windows.Forms
 			}
 
 			set {
-				// If the user sets this to None, we need to still use Anchor layout
-				if (value != DockStyle.None)
-					layout_type = LayoutType.Dock;
-
 				if (dock_style == value) {
 					return;
 				}
@@ -2592,7 +2580,6 @@ namespace System.Windows.Forms
 
 				if (dock_style == DockStyle.None) {
 					bounds = explicit_bounds;
-					layout_type = LayoutType.Anchor;
 				} else {
 					bounds = explicit_bounds;
 				}
