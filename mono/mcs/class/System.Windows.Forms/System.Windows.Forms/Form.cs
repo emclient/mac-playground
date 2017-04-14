@@ -3210,10 +3210,8 @@ namespace System.Windows.Forms {
 
 		protected override void OnLayout (LayoutEventArgs levent)
 		{
-			base.OnLayout(levent);
-
 			if (AutoSize) {
-				Size new_size = PreferredSize;
+				Size new_size = GetPreferredSizeCore(Size.Empty);
 				if (new_size != minimum_auto_size) {
 					minimum_auto_size = new_size;
 					UpdateMinMax();
@@ -3227,6 +3225,8 @@ namespace System.Windows.Forms {
 
 				SetBoundsInternal (bounds.X, bounds.Y, new_size.Width, new_size.Height, BoundsSpecified.None);
 			}
+
+			base.OnLayout(levent);
 		}
 
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
