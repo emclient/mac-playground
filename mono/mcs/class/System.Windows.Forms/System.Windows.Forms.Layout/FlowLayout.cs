@@ -42,11 +42,6 @@ namespace System.Windows.Forms.Layout
 		{
 		}
 
-		public override void InitLayout (object child, BoundsSpecified specified)
-		{
-			base.InitLayout (child, specified);
-		}
-
 		public override bool Layout (object container, LayoutEventArgs args)
 		{
 			if (container is ToolStripPanel)
