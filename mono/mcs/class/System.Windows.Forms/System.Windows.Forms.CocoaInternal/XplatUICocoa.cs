@@ -758,7 +758,7 @@ namespace System.Windows.Forms {
 				attributes = NSWindowStyle.Titled;
 				if (style.HasFlag(WindowStyles.WS_MINIMIZEBOX))
 					attributes |= NSWindowStyle.Miniaturizable;
-				if (style.HasFlag(WindowStyles.WS_MAXIMIZEBOX))
+				if (style.HasFlag(WindowStyles.WS_THICKFRAME))
 					attributes |= NSWindowStyle.Resizable;
 				if (style.HasFlag(WindowStyles.WS_SYSMENU))
 					attributes |= NSWindowStyle.Closable;
