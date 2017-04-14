@@ -125,9 +125,9 @@ namespace System.Windows.Forms.Layout
 
 				if ((anchor & AnchorStyles.Right) != 0) {
 					if ((anchor & AnchorStyles.Left) != 0)
-						width = space.Width - child.DistanceRight - left;
+						width = space.Right - child.DistanceRight - left;
 					else
-						left = space.Width - child.DistanceRight - width;
+						left = space.Right - child.DistanceRight - width;
 				}
 				else if ((anchor & AnchorStyles.Left) == 0) {
 					// left+=diff_width/2 will introduce rounding errors (diff_width removed from svn after r51780)
@@ -138,9 +138,9 @@ namespace System.Windows.Forms.Layout
 
 				if ((anchor & AnchorStyles.Bottom) != 0) {
 					if ((anchor & AnchorStyles.Top) != 0)
-						height = space.Height - child.DistanceBottom - top;
+						height = space.Bottom - child.DistanceBottom - top;
 					else
-						top = space.Height - child.DistanceBottom - height;
+						top = space.Bottom - child.DistanceBottom - height;
 				}
 				else if ((anchor & AnchorStyles.Top) == 0) {
 					// top += diff_height/2 will introduce rounding errors (diff_height removed from after r51780)
@@ -162,6 +162,8 @@ namespace System.Windows.Forms.Layout
 		
 		static void LayoutAutoSizedChildren (Control parent, Control[] controls)
 		{
+			Rectangle space = parent.DisplayRectangle;
+
 			for (int i = 0; i < controls.Length; i++) {
 
 				Control child = controls[i];
@@ -174,22 +176,22 @@ namespace System.Windows.Forms.Layout
 
 				Size proposedSize = Size.Empty;
 				if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == (AnchorStyles.Left | AnchorStyles.Right)) {
-					proposedSize.Width = child.Width;
+					proposedSize.Width = space.Right - child.DistanceRight - left;
 				}
 				if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == (AnchorStyles.Top | AnchorStyles.Bottom)) {
-					proposedSize.Height = child.Height;
+					proposedSize.Height = space.Bottom - child.DistanceBottom - top;
 				}
 
 				Size preferredsize = GetPreferredControlSize(child, proposedSize);
 
-				if (((anchor & AnchorStyles.Left) != 0) || ((anchor & AnchorStyles.Right) == 0))
+				if (((anchor & AnchorStyles.Left) != 0) && ((anchor & AnchorStyles.Right) == 0))
 					child.DistanceRight += child.Width - preferredsize.Width;
 				else if ((anchor & AnchorStyles.Right) != 0)
-					left = parent.DisplayRectangle.Width - preferredsize.Width - child.DistanceRight;
-				if (((anchor & AnchorStyles.Top) != 0) || ((anchor & AnchorStyles.Bottom) == 0))
+					left = parent.DisplayRectangle.Right - preferredsize.Width - child.DistanceRight;
+				if (((anchor & AnchorStyles.Top) != 0) && ((anchor & AnchorStyles.Bottom) == 0))
 					child.DistanceBottom += child.Height - preferredsize.Height;
 				else if ((anchor & AnchorStyles.Bottom) != 0)
-					top = parent.DisplayRectangle.Height - preferredsize.Height - child.DistanceBottom;
+					top = parent.DisplayRectangle.Bottom - preferredsize.Height - child.DistanceBottom;
 
 				child.SetBoundsInternal(left, top, preferredsize.Width, preferredsize.Height, BoundsSpecified.None);
 			}
