@@ -16,7 +16,6 @@
     <OutputPath>bin\Debug\</OutputPath>
     <PlatformTarget>anycpu</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
   </PropertyGroup>
@@ -33,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>DEBUG; NET_4_5; NET_4_0; MAC;XAMARINMAC;__UNIFIED__</DefineConstants>
+    <PlatformTarget>anycpu</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>false</Optimize>
@@ -136,6 +136,30 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LayoutIssues\FormInputBox\FormInputBox.Designer.cs" />
+    <Compile Include="LayoutIssues\ControlRecurrence.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\ControlRecurrence.Designer.cs">
+      <DependentUpon>ControlRecurrence.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LayoutIssues\ControlSettingsConfirmations.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\ControlSettingsConfirmations.Designer.cs">
+      <DependentUpon>ControlSettingsConfirmations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LayoutIssues\ControlSettingsSpellChecker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\ControlSettingsSpellChecker.Designer.cs">
+      <DependentUpon>ControlSettingsSpellChecker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LayoutIssues\FormLinkMessageBox\FormLinkMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\FormLinkMessageBox\FormLinkMessageBox.Designer.cs">
+      <DependentUpon>FormLinkMessageBox.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
@@ -168,6 +192,20 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LayoutIssues\FormInputBox\FormInputBox.resx">
       <LogicalName>MailClient.UI.Forms.FormInputBox.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayoutIssues\ControlRecurrence.resx">
+      <DependentUpon>ControlRecurrence.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayoutIssues\ControlSettingsConfirmations.resx">
+      <DependentUpon>ControlSettingsConfirmations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayoutIssues\ControlSettingsSpellChecker.resx">
+      <DependentUpon>ControlSettingsSpellChecker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayoutIssues\FormLinkMessageBox\FormLinkMessageBox.resx">
+      <DependentUpon>FormLinkMessageBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -220,5 +258,8 @@
       <Project>{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}</Project>
       <Name>CefGlue.Mac</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LayoutIssues\FormLinkMessageBox\" />
   </ItemGroup>
 </Project>

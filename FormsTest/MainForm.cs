@@ -77,13 +77,39 @@ namespace FormsTest
 			AddButton("Layout 1", () => { new DebugLayoutForm().Show(); });
 			AddButton("Layout 2", () => { new DebugLayoutForm2().Show(); });
 			AddButton("Layout 3", () => { new DebugLayoutForm3().Show(); });
-			AddButton("Layout 4", () => { new DebugLayoutForm4().Show(); });
+			//AddButton("Layout 4", () => { new DebugLayoutForm4().Show(); });
 			AddButton("Editor", () =>
 			{
-				var f = new Form() { Size = new Size(500, 300) };
+				var f = new Form() { Size = new Size(500, 300), Text = "Editor" };
 
 				f.Controls.Add(new HtmlEditorControl.HtmlEditorBrowser { Dock = DockStyle.Fill });
 				f.Controls.Add(new MailClient.Common.UI.Controls.ControlTextBox.ControlTextBox { Dock = DockStyle.Top });
+				var toolStrip = new MailClient.Common.UI.Controls.ControlToolStrip.ControlToolStrip { Dock = DockStyle.Top, AutoSize = true, Height = 40 };
+				f.Controls.Add(toolStrip);
+				toolStrip.Items.Add(new MailClient.Common.UI.Controls.ToolStripControls.ControlToolStripButtonFontSelector());
+				f.Show();
+			});
+			AddButton("FormLinkMessageBox", () =>
+			{
+				new FormLinkMessageBox("Hello", "Zkušební doba vypršela. Platnou licenci pro eM Client můžete získat na http://cz.emclient.com/prehled-cenovych-moznosti\r\nNyní budete mít ke svým datům přístup pouze v režimu off-line. Synchronizace a odesílání jakýchkoliv zpráv bude nyní zablokována. Jakmile bude zadána validní licence, všechny funkce aplikace budou okamžitě obnoveny.").Show();
+			});
+			AddButton("Recurrence", () =>
+			{
+				var f = new Form() { Size = new Size(500, 300), Text = "Recurrence" };
+				f.Controls.Add(new MailClient.UI.Controls.ControlRecurrence());
+				f.Show();
+			});
+			AddButton("Confirmations", () =>
+			{
+				var f = new Form() { Size = new Size(400, 500), Text = "Confirmations" };
+				f.Controls.Add(new MailClient.UI.Controls.SettingsControls.ControlSettingsConfirmations() { Dock = DockStyle.Top, AutoSize = true });
+				f.DebugAllControls();
+				f.Show();
+			});
+			AddButton("Spell checker", () =>
+			{
+				var f = new Form() { Size = new Size(400, 500), Text = "Spell checker" };
+				f.Controls.Add(new MailClient.UI.Controls.SettingsControls.ControlSettingsSpellChecker() { Dock = DockStyle.Top, AutoSize = true });
 				f.Show();
 			});
 		}
@@ -98,7 +124,7 @@ namespace FormsTest
 			b.Anchor = AnchorStyles.Right;
 			b.Click += (sender, e) => { a(); };
 			b.Text = text;
-			b.SetBounds(panel1.Width - b.Width - gap, gap + buttons.Count * 30, 0, 0, BoundsSpecified.Y | BoundsSpecified.X);
+			b.SetBounds(panel1.Width - b.Width - gap, gap + buttons.Count * 28, 0, 0, BoundsSpecified.Y | BoundsSpecified.X);
 
 			buttons.Add(b);
 			panel1.Controls.Add(b);
