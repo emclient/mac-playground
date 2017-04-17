@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace FormsTest
 {
-	public partial class ImapOptionsForm : Form
+	public partial class ImapOptionsForm : MailClient.Common.UI.Forms.ThemeForm
 	{
 		private MailClient.Protocols.Imap.ImapOptionsControl imapOptionsControl;
 
