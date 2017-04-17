@@ -565,8 +565,16 @@ namespace System.Windows.Forms
 				all_controls = null;
 				impl_list.Add (control);
 
-				control.ChangeParent (owner);
-				control.InitLayout ();
+				// Avoid triggering layout with changes in ChangeParent
+				owner.SuspendLayout();
+				try {
+					control.ChangeParent(owner);
+					control.InitLayout();
+				}
+				finally {
+					owner.ResumeLayout(false);
+				}
+
 				if (owner.Visible)
 					owner.UpdateChildrenZOrder ();
 				
@@ -737,6 +745,10 @@ namespace System.Windows.Forms
 				all_controls = null;
 				list.Remove(value);
 
+				value.ChangeParent(null);
+
+				owner.UpdateChildrenZOrder();
+
 				owner.PerformLayout(value, "Parent");
 				owner.OnControlRemoved(new ControlEventArgs(value));
 
@@ -746,10 +758,6 @@ namespace System.Windows.Forms
 					// so that they can update their active control
 					container.ChildControlRemoved (value);
 				}
-
-				value.ChangeParent(null);
-
-				owner.UpdateChildrenZOrder();
 			}
 
 			internal virtual void RemoveImplicit (Control control)
@@ -1735,7 +1743,10 @@ namespace System.Windows.Forms
 				OnEnabledChanged(EventArgs.Empty);
 			}
 
-			if (pre_visible != Visible) {
+			// When a control seems to be going from invisible -> visible,
+			// yet its parent is being set to null and it's not top level, do not raise OnVisibleChanged.
+			bool newVisible = Visible;
+			if (pre_visible != newVisible && !(!pre_visible && newVisible && parent == null && !GetTopLevel())) {
 				OnVisibleChanged(EventArgs.Empty);
 			}
 
@@ -3917,6 +3928,8 @@ namespace System.Windows.Forms
 			LayoutEventArgs levent = new LayoutEventArgs(affectedControl, affectedProperty);
 
 			cached_preferred_size = Size.Empty;
+			if (affectedControl != null)
+				affectedControl.cached_preferred_size = Size.Empty;
 
 			if (layout_suspended > 0) {
 				layout_pending = true;
@@ -4910,7 +4923,6 @@ namespace System.Windows.Forms
 
 		protected virtual void SetVisibleCore(bool value) {
 			if (value != is_visible) {
-
 				if (!value)
 					SelectNextIfFocused();
 
@@ -4947,17 +4959,16 @@ namespace System.Windows.Forms
 						if (parent != null)
 							parent.UpdateZOrderOfChild (this);
 					}
-					
-					if (!(this is Form))
-						OnVisibleChanged (EventArgs.Empty);
-				}
-				else {
-					OnVisibleChanged(EventArgs.Empty);
+
+					if (this is Form)
+						return;
 				}
 
+				this.cached_preferred_size = Size.Empty;
 				if (parent != null) {
 					parent.cached_preferred_size = Size.Empty;
 				}
+				OnVisibleChanged(EventArgs.Empty);
 			}
 		}
 
