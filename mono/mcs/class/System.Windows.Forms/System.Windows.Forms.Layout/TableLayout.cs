@@ -326,7 +326,7 @@ namespace System.Windows.Forms.Layout
 
 								// Calculate the maximum control height.
 								if (!minimum_sizes || c.AutoSizeInternal)
-									max_height = Math.Max (max_height, GetControlSize(c, new Size(current_width, 0)).Height + c.Margin.Vertical);
+									max_height = Math.Max (max_height, GetControlSize(c, new Size(current_width - c.Margin.Horizontal, 0)).Height + c.Margin.Vertical);
 								else
 									max_height = c.MinimumSize.Height;
 ;							}
@@ -401,6 +401,7 @@ namespace System.Windows.Forms.Layout
 
 			return saved;
 		}
+
 		private static void CalculateColumnRowSizes (TableLayoutPanel panel, Control[,] actual_positions, out int[] column_widths, out int[] row_heights, Size size, bool measureOnly)
 		{
 			TableLayoutSettings settings = panel.LayoutSettings;
@@ -484,7 +485,7 @@ namespace System.Windows.Forms.Layout
 			if (available_height > 0)
 				available_height -= RedistributePercents(available_height, settings.RowStyles, row_heights);
 
-			if (available_height > 0 && row_heights.Length > 0) {
+			if (available_height > 0 && row_heights.Length > 0 && !measureOnly) {
 				// Find the last row that isn't an Absolute SizeType, and give it
 				// all this free space.  (Absolute sized rows need to retain their
 				// absolute height if at all possible!)
@@ -570,7 +571,7 @@ namespace System.Windows.Forms.Layout
 						for (int i = 1; i < Math.Min (settings.GetRowSpan(c), panel.row_heights.Length - y); i++)
 							column_height += panel.row_heights[y + i];
 
-						preferred = GetControlSize(c, new Size(column_width, column_height));
+						preferred = GetControlSize(c, new Size(column_width - c.Margin.Horizontal, column_height - c.Margin.Vertical));
 
 						// Figure out the width of the control
 						if (c.Dock == DockStyle.Fill || c.Dock == DockStyle.Top || c.Dock == DockStyle.Bottom || ((c.Anchor & AnchorStyles.Left) == AnchorStyles.Left && (c.Anchor & AnchorStyles.Right) == AnchorStyles.Right))
