@@ -780,6 +780,36 @@ namespace System.Windows.Forms {
 			return false;
 		}*/
 
+		private CGRect GetAlignmentRectForFrame(NSView view, CGRect rect)
+		{
+			if (view.Superview != null)
+				return view.GetAlignmentRectForFrame(rect);
+
+			// GetAlignmentRectForFrame on non-parented view always works on non-flipped coordinates
+			var insets = view.AlignmentRectInsets;
+			rect.X += insets.Left;
+			rect.Y += insets.Top;
+			rect.Width -= insets.Left + insets.Right;
+			rect.Height -= insets.Top + insets.Bottom;
+
+			return rect;
+		}
+
+		private CGRect GetFrameForAlignmentRect(NSView view, CGRect rect)
+		{
+			if (view.Superview != null)
+				return view.GetFrameForAlignmentRect(rect);
+
+			// GetFrameForAlignmentRect on non-parented view always works on non-flipped coordinates
+			var insets = view.AlignmentRectInsets;
+			rect.X -= insets.Left;
+			rect.Y -= insets.Top;
+			rect.Width += insets.Left + insets.Right;
+			rect.Height += insets.Top + insets.Bottom;
+
+			return rect;
+		}
+
 		internal override IntPtr CreateWindow (CreateParams cp)
 		{
 			int X = cp.X;
@@ -863,7 +893,7 @@ namespace System.Windows.Forms {
 					if (nativeView != null)
 					{
 						viewWrapper = nativeView;
-						nativeView.Frame = nativeView.GetFrameForAlignmentRect(WholeRect);
+						nativeView.Frame = GetFrameForAlignmentRect(nativeView, WholeRect);
 					}
 				}
 				if (viewWrapper == null) {
@@ -1285,7 +1315,7 @@ namespace System.Windows.Forms {
 				width = frame.Width;
 				height = frame.Height;
 			} else {
-				var viewFrame = view.GetAlignmentRectForFrame(view.Frame);
+				var viewFrame = GetAlignmentRectForFrame(view, view.Frame);
 				var frame = view.Superview != null ? NativeToMonoFramed(viewFrame, view.Superview) : viewFrame.ToRectangle();
 				x = frame.X;
 				y = frame.Y;
@@ -1979,7 +2009,7 @@ namespace System.Windows.Forms {
 					nsrect = MonoToNativeFramed(mrect, superVuWrap);
 				} else
 					nsrect = new CGRect(mrect.X, mrect.Y, mrect.Width, mrect.Height);
-				nsrect = vuWrap.GetFrameForAlignmentRect(nsrect);
+				nsrect = GetFrameForAlignmentRect(vuWrap, nsrect);
 				if (vuWrap.Frame != nsrect)
 					vuWrap.Frame = nsrect;
 			}
