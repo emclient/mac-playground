@@ -90,7 +90,7 @@ namespace System.Windows.Forms.Layout
 
 				// Resize any AutoSize controls to their preferred size
 				if (c.AutoSizeInternal == true) {
-					Size cSize = new Size (parentDisplayRectangle.Width, Int32.MaxValue);
+					Size cSize = new Size (parentDisplayRectangle.Width - c.Margin.Horizontal, 0);
 					Size new_size = c.GetPreferredSize (cSize);
 					c.SetBoundsInternal (c.Left, c.Top, new_size.Width, new_size.Height, BoundsSpecified.None);
 				}
@@ -210,13 +210,13 @@ namespace System.Windows.Forms.Layout
 					continue;
 				Size control_preferred_size;
 				if (control.AutoSizeInternal)
-					control_preferred_size = control.GetPreferredSize(proposedSize);
+					control_preferred_size = control.GetPreferredSize(new Size(proposedSize.Width - control.Margin.Horizontal, 0));
 				else
 					control_preferred_size = control.ExplicitBounds.Size;
 				Padding control_margin = control.Margin;
 				if (horizontal) {
 					increase = control_preferred_size.Width + control_margin.Horizontal;
-					if (parent.WrapContents && proposedSize.Width != 0 && size_in_flow_direction != 0 && size_in_flow_direction + increase >= proposedSize.Width || forceFlowBreak) {
+					if (parent.WrapContents && proposedSize.Width != 0 && size_in_flow_direction != 0 && size_in_flow_direction + increase > proposedSize.Width || forceFlowBreak) {
 						width = Math.Max(width, size_in_flow_direction);
 						size_in_flow_direction = 0;
 						height += size_in_other_direction;
@@ -226,7 +226,7 @@ namespace System.Windows.Forms.Layout
 					size_in_other_direction = Math.Max(size_in_other_direction, control_preferred_size.Height + control_margin.Vertical);
 				} else {
 					increase = control_preferred_size.Height + control_margin.Vertical;
-					if (parent.WrapContents && proposedSize.Height != 0 && size_in_flow_direction != 0 && size_in_flow_direction + increase >= proposedSize.Height || forceFlowBreak) {
+					if (parent.WrapContents && proposedSize.Height != 0 && size_in_flow_direction != 0 && size_in_flow_direction + increase > proposedSize.Height || forceFlowBreak) {
 						height = Math.Max(height, size_in_flow_direction);
 						size_in_flow_direction = 0;
 						width += size_in_other_direction;
