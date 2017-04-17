@@ -28,6 +28,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Drawing;
 
 namespace System.Windows.Forms.Layout
@@ -53,14 +54,14 @@ namespace System.Windows.Forms.Layout
 			}		
 		}
 
-		static void LayoutDockedChildren (Control parent, Control[] controls)
+		static void LayoutDockedChildren (Control parent, IList controls)
 		{
 			Rectangle space = parent.DisplayRectangle;
 			MdiClient mdi = null;
 			
 			// Deal with docking; go through in reverse, MS docs say that lowest Z-order is closest to edge
-			for (int i = controls.Length - 1; i >= 0; i--) {
-				Control child = controls[i];
+			for (int i = controls.Count - 1; i >= 0; i--) {
+				Control child = (Control)controls[i];
 
 				if (!child.VisibleInternal || child.Dock == DockStyle.None)
 					continue;
@@ -119,13 +120,11 @@ namespace System.Windows.Forms.Layout
 				mdi.SetBoundsInternal (space.Left, space.Top, space.Width, space.Height, BoundsSpecified.None);
 		}
 
-		static void LayoutAnchoredChildren (Control parent, Control[] controls)
+		static void LayoutAnchoredChildren (Control parent, IList controls)
 		{
 			Rectangle space = parent.DisplayRectangle;
 
-			for (int i = 0; i < controls.Length; i++) {
-				Control child = controls[i];
-
+			foreach (Control child in controls) {
 				if (!child.VisibleInternal || child.Dock != DockStyle.None)
 					continue;
 
@@ -173,11 +172,9 @@ namespace System.Windows.Forms.Layout
 			}
 		}
 		
-		static void LayoutAutoSizedChildren (Control parent, Control[] controls)
+		static void LayoutAutoSizedChildren (Control parent, IList controls)
 		{
-			for (int i = 0; i < controls.Length; i++) {
-
-				Control child = controls[i];
+			foreach (Control child in controls) {
 				if (!child.VisibleInternal || child.Dock != DockStyle.None || !child.AutoSizeInternal)
 					continue;
 
@@ -231,11 +228,9 @@ namespace System.Windows.Forms.Layout
 		{
 			Control parent = container as Control;
 
-			Control[] controls = parent.Controls.GetAllControls ();
-
-			LayoutDockedChildren (parent, controls);
-			LayoutAnchoredChildren (parent, controls);
-			LayoutAutoSizedChildren (parent, controls);
+			LayoutDockedChildren (parent, parent.Controls);
+			LayoutAnchoredChildren (parent, parent.Controls);
+			LayoutAutoSizedChildren (parent, parent.Controls);
 
 			return parent.AutoSizeInternal;
 		}
@@ -243,12 +238,12 @@ namespace System.Windows.Forms.Layout
 		internal override Size GetPreferredSize(object container, Size proposedConstraints)
 		{
 			Control parent = container as Control;
-			Control[] controls = parent.Controls.GetAllControls();
+			IList controls = parent.Controls;
 			Size retsize = Size.Empty;
 
 			// Add up the requested sizes for Docked controls
-			for (int i = controls.Length - 1; i >= 0; i--) {
-				Control child = controls[i];
+			for (int i = controls.Count - 1; i >= 0; i--) {
+				Control child = (Control)controls[i];
 				if (!child.is_visible || child.Dock == DockStyle.None)
 					continue;
 
@@ -259,11 +254,11 @@ namespace System.Windows.Forms.Layout
 					Size sz = child.AutoSizeInternal ? child.GetPreferredSize(new Size(proposedConstraints.Width, 0)) : child.Size;
 					retsize.Height += sz.Height;
 				} else if (child.Dock == DockStyle.Fill && child.AutoSizeInternal) {
-					Size sz = child.AutoSizeInternal ? child.GetPreferredSize(Size.Empty) : child.Size;
+					Size sz = child.GetPreferredSize(proposedConstraints);
 					retsize += sz;
 				}
 			}
-			
+
 			// See if any non-Docked control is positioned lower or more right than our size
 			foreach (Control child in parent.Controls) {
 				if (!child.is_visible)
@@ -281,10 +276,10 @@ namespace System.Windows.Forms.Layout
 				if (child.AutoSizeInternal) {
 					Size proposedChildSize = Size.Empty;
 					if ((child.Anchor & (AnchorStyles.Left | AnchorStyles.Right)) == (AnchorStyles.Left | AnchorStyles.Right)) {
-						proposedChildSize.Width = proposedConstraints.Width - child.DistanceRight;
+						proposedChildSize.Width = proposedConstraints.Width - child.DistanceRight - (child.Left - parent.DisplayRectangle.Left);
 					}
 					if ((child.Anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == (AnchorStyles.Top | AnchorStyles.Bottom)) {
-						proposedChildSize.Height = proposedConstraints.Height - child.DistanceBottom;
+						proposedChildSize.Height = proposedConstraints.Height - child.DistanceBottom - (child.Top - parent.DisplayRectangle.Top);
 					}
 					Size preferredsize = GetPreferredControlSize(child, proposedChildSize);
 					childBounds = new Rectangle(child.Location, preferredsize);
