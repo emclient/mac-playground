@@ -1,4 +1,4 @@
-// Permission is hereby granted, free of charge, to any person obtaining
+﻿// Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
 // without limitation the rights to use, copy, modify, merge, publish,
@@ -544,7 +544,7 @@ namespace System.Windows.Forms {
 			// so we could re-layout everything according to the flow.
 			// This time we want to actually calculate the canvas.
 			// If a child is autosized, we need to rethink scrollbars as well. (Xamarin bug 18874)
-			if (this is FlowLayoutPanel || autosized_child) {
+			if (autosized_child) {
 				CalculateCanvasSize (false);
 				AdjustFormScrollbars (AutoScroll);
 			}
