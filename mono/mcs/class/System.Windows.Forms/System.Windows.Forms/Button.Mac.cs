@@ -14,6 +14,8 @@ namespace System.Windows.Forms
 
 		public NSView CreateView()
 		{
+			var i = Image;
+
 			button = new NSButton();
 			/*button.AttributedTitle = GetAttributedString(Text, '&', b.font, b.TextAlign);
 			button.Alignment = TextAlign.ToNSTextAlignment();
@@ -28,6 +30,7 @@ namespace System.Windows.Forms
 			button.Alignment = TextAlign.ToNSTextAlignment();
 			button.Activated += (sender, e) => PerformClick();
 			button.Enabled = Enabled;
+			button.Image = i == null ? null : i.ToNSImage();
 			if (IsDefault)
 				button.KeyEquivalent = "\r";
 
@@ -110,6 +113,16 @@ namespace System.Windows.Forms
 				if (button != null)
 					button.KeyEquivalent = "\r";
 			}
+		}
+
+		internal override void OnImageChanged()
+		{
+			if (button != null)
+			{
+				var i = Image;
+				button.Image = i == null ? null : i.ToNSImage();
+			}
+			base.OnImageChanged();
 		}
 	}
 }
