@@ -204,11 +204,7 @@ namespace System.Windows.Forms {
 			XplatUIWin32.NCCALCSIZE_PARAMS ncp = new XplatUIWin32.NCCALCSIZE_PARAMS ();
 			IntPtr ptr = Marshal.AllocHGlobal (Marshal.SizeOf (ncp));
 
-			Rectangle rect;
-			if (view.Window != null && view.Window.ContentView == view)
-				rect = NativeToMonoScreen(view.Window.Frame);
-			else
-				rect = new Rectangle(0, 0, (int)view.Frame.Width, (int)view.Frame.Height);
+			Rectangle rect = new Rectangle(0, 0, (int)view.Frame.Width, (int)view.Frame.Height);
 			ncp.rgrc1.left = rect.Left;
 			ncp.rgrc1.top = rect.Top;
 			ncp.rgrc1.right = rect.Right;
@@ -221,13 +217,7 @@ namespace System.Windows.Forms {
 
 			var clientRect = new Rectangle(ncp.rgrc1.left, ncp.rgrc1.top, ncp.rgrc1.right - ncp.rgrc1.left, ncp.rgrc1.bottom - ncp.rgrc1.top);
 			var savedBounds = view.ClientBounds;
-			// For top-level windows the client area position is calculated with the window title, but the actual view is already
-			// adjusted for that.
-			if (view.Window != null && view.Window.ContentView == view) {
-				var contentRect = NativeToMonoScreen(NSWindow.ContentRectFor(view.Window.Frame, view.Window.StyleMask));
-				view.ClientBounds = new Rectangle(clientRect.X - contentRect.X, clientRect.Y - contentRect.Y, clientRect.Width, clientRect.Height).ToCGRect();
-			} else
-				view.ClientBounds = clientRect.ToCGRect();
+			view.ClientBounds = clientRect.ToCGRect();
 
 			// Update subview locations
 			var offset = new CGPoint(view.ClientBounds.X - savedBounds.X, view.ClientBounds.Y - savedBounds.Y);
@@ -1021,15 +1011,6 @@ namespace System.Windows.Forms {
 								ncp.rgrc1.right - ncp.rgrc1.left,
 								ncp.rgrc1.bottom - ncp.rgrc1.top);
 							var clientRect = windowRect;
-							if (!monoView.Style.HasFlag(WindowStyles.WS_CHILD)) {
-								//var frameRect = MonoToNativeScreen (windowRect);
-								//clientRect = NativeToMonoScreen (NSWindow.ContentRectFor (frameRect, NSStyleFromStyle (monoView.Style)));
-
-								// Use actual content view size to account for titlebar extensions
-								var contentViewFrame = monoView.Window.ContentView.Frame;
-								clientRect.Y = windowRect.Height - (int)contentViewFrame.Height;
-								clientRect.Height = (int)contentViewFrame.Height;
-							}
 							if (monoView.Style.HasFlag(WindowStyles.WS_CHILD) || !monoView.Style.HasFlag(WindowStyles.WS_CAPTION)) {
 								if (monoView.ExStyle.HasFlag(WindowExStyles.WS_EX_CLIENTEDGE) || monoView.ExStyle.HasFlag(WindowExStyles.WS_EX_STATICEDGE))
 									clientRect.Inflate(-Border3DSize.Width, -Border3DSize.Height);
