@@ -420,7 +420,7 @@ namespace System.Windows.Forms.CocoaInternal
 		}
 
 		[Export("insertTab:")]
-		public virtual void InsertTab(NSObject text)
+		public virtual void InsertTab(NSObject sender)
 		{
 			driver.PostMessage(view.Handle, Msg.WM_CHAR, (IntPtr)'\t', wmCharLParam);
 		}

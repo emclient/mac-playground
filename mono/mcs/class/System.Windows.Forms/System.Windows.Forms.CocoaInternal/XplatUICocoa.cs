@@ -1022,8 +1022,13 @@ namespace System.Windows.Forms {
 								ncp.rgrc1.bottom - ncp.rgrc1.top);
 							var clientRect = windowRect;
 							if (!monoView.Style.HasFlag(WindowStyles.WS_CHILD)) {
-								var frameRect = MonoToNativeScreen (windowRect);
-								clientRect = NativeToMonoScreen (NSWindow.ContentRectFor (frameRect, NSStyleFromStyle (monoView.Style)));
+								//var frameRect = MonoToNativeScreen (windowRect);
+								//clientRect = NativeToMonoScreen (NSWindow.ContentRectFor (frameRect, NSStyleFromStyle (monoView.Style)));
+
+								// Use actual content view size to account for titlebar extensions
+								var contentViewFrame = monoView.Window.ContentView.Frame;
+								clientRect.Y = windowRect.Height - (int)contentViewFrame.Height;
+								clientRect.Height = (int)contentViewFrame.Height;
 							}
 							if (monoView.Style.HasFlag(WindowStyles.WS_CHILD) || !monoView.Style.HasFlag(WindowStyles.WS_CAPTION)) {
 								if (monoView.ExStyle.HasFlag(WindowExStyles.WS_EX_CLIENTEDGE) || monoView.ExStyle.HasFlag(WindowExStyles.WS_EX_STATICEDGE))
