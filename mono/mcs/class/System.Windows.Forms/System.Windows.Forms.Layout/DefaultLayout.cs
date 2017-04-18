@@ -285,8 +285,11 @@ namespace System.Windows.Forms.Layout
 					childBounds = new Rectangle(child.Location, preferredsize);
 				}
 
-				retsize.Width = Math.Max(retsize.Width, childBounds.Right - parent.DisplayRectangle.Left + child.Margin.Right);
-				retsize.Height = Math.Max(retsize.Height, childBounds.Bottom - parent.DisplayRectangle.Top + child.Margin.Bottom);
+				// This is the non-sense Microsoft uses (Padding vs DisplayRectangle)
+				retsize.Width = Math.Max(retsize.Width, childBounds.Right - parent.Padding.Left + child.Margin.Right);
+				retsize.Height = Math.Max(retsize.Height, childBounds.Bottom - parent.Padding.Top + child.Margin.Bottom);
+				//retsize.Width = Math.Max(retsize.Width, childBounds.Right - parent.DisplayRectangle.Left + child.Margin.Right);
+				//retsize.Height = Math.Max(retsize.Height, childBounds.Bottom - parent.DisplayRectangle.Top + child.Margin.Bottom);
 			}
 
 			return retsize;
