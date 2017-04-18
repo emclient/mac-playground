@@ -189,8 +189,13 @@ namespace System.Windows.Forms {
 						this.Parent.PerformLayout (this, "Image");
 
 					Invalidate ();
+					OnImageChanged ();
 				}
 			}
+		}
+
+		internal virtual void OnImageChanged ()
+		{			
 		}
 
 		internal bool ShouldSerializeImage ()
@@ -230,6 +235,7 @@ namespace System.Windows.Forms {
 					this.image = null;
 					this.image_key = string.Empty;
 					Invalidate ();
+					OnImageChanged ();
 				}
 			}
 		}
@@ -248,6 +254,7 @@ namespace System.Windows.Forms {
 					this.image_index = -1;
 					this.image_key = value;
 					this.Invalidate ();
+					OnImageChanged ();
 				}
 			}
 		}
@@ -265,6 +272,7 @@ namespace System.Windows.Forms {
 						image = null;
 				
 					Invalidate ();
+					OnImageChanged ();
 				}
 			}
 		}
