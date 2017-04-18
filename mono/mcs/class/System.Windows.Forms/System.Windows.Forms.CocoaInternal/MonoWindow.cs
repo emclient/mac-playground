@@ -197,6 +197,20 @@ namespace System.Windows.Forms.CocoaInternal
 			resizeWinForm();
 		}
 
+#if XAMARINMAC
+		public override void AddTitlebarAccessoryViewController(NSTitlebarAccessoryViewController childViewController)
+		{
+			base.AddTitlebarAccessoryViewController(childViewController);
+			resizeWinForm();
+		}
+
+		public override void RemoveTitlebarAccessoryViewControllerAtIndex(nint index)
+		{
+			base.RemoveTitlebarAccessoryViewControllerAtIndex(index);
+			resizeWinForm();
+		}
+#endif
+
 		public override void BecomeKeyWindow()
 		{
 			base.BecomeKeyWindow();

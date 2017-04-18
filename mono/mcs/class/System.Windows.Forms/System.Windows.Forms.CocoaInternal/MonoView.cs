@@ -1,4 +1,4 @@
-//
+﻿//
 //MonoView.cs
 // 
 //Author:
@@ -88,8 +88,8 @@ namespace System.Windows.Forms.CocoaInternal
 			get
 			{
 				if (!(Superview is MonoView))
-				    return false;
-				if (Superview is MonoContentView)
+					return false;
+				if (Superview != null)
 					return Superview.IsOpaque;
 				if (UserClip != null)
 					return false;
