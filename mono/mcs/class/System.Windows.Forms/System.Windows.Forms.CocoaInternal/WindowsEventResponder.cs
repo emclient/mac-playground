@@ -419,6 +419,12 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.SendMessage(view.Handle, Msg.WM_CUT, IntPtr.Zero, IntPtr.Zero);
 		}
 
+		[Export("insertTab:")]
+		public virtual void InsertTab(NSObject text)
+		{
+			driver.PostMessage(view.Handle, Msg.WM_CHAR, (IntPtr)'\t', wmCharLParam);
+		}
+
 		[Export("insertText:")]
 		public virtual void InsertText(NSObject text)
 		{
