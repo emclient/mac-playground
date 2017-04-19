@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Collections.Generic;
 
 #if XAMARINMAC
 using CoreGraphics;
@@ -27,6 +28,7 @@ namespace System.Drawing
 {
 	public partial class Graphics 
 	{
+		static SizeF maxSize = new SizeF(float.MaxValue, float.MaxValue);
 
 		public Region[] MeasureCharacterRanges (string text, Font font, RectangleF layoutRect, StringFormat stringFormat)
 		{
@@ -50,12 +52,12 @@ namespace System.Drawing
 
 		public SizeF MeasureString (string text, Font font)
 		{
-			return MeasureString (text, font, SizeF.Empty);
+			return MeasureString (text, font, maxSize);
 		}
 
 		public SizeF MeasureString (string textg, Font font, int width)
 		{
-			return MeasureString (textg, font, new SizeF (width, Int32.MaxValue));
+			return MeasureString (textg, font, new SizeF (width, float.MaxValue));
 		}
 
 		public SizeF MeasureString (string textg, Font font, SizeF layoutArea)
@@ -76,7 +78,7 @@ namespace System.Drawing
 
 		public SizeF MeasureString (string text, Font font, int width, StringFormat stringFormat)
 		{
-			return MeasureString(text, font, new SizeF(width, 0), stringFormat);
+			return MeasureString(text, font, new SizeF(width, float.MaxValue), stringFormat);
 		}
 
 		public SizeF MeasureString (string text, Font font, SizeF layoutArea, StringFormat stringFormat, 
@@ -85,63 +87,32 @@ namespace System.Drawing
 			charactersFitted = 0;
 			linesFilled = 0;
 
-			if (String.IsNullOrEmpty(text) || font == null)
+			if (font == null)
+				throw new ArgumentNullException("font");
+			if (String.IsNullOrEmpty(text))
 				return SizeF.Empty;
 
-			if (font == null)
-				throw new ArgumentNullException ("font");
-
-			// As per documentation 
-			// https://developer.apple.com/library/mac/#documentation/GraphicsImaging/Conceptual/drawingwithquartz2d/dq_text/dq_text.html#//apple_ref/doc/uid/TP30001066-CH213-TPXREF101
-			// 
-			// * Note * Not sure if we should save off the graphic state, set context transform to identity
-			//  and restore state to do the measurement.  Something to be looked into.
-			//			context.TextPosition = rect.Location;
-			//			var startPos = context.TextPosition;
-			//			context.SelectFont ( font.nativeFont.PostScriptName,
-			//			                    font.SizeInPoints,
-			//			                    CGTextEncoding.MacRoman);
-			//			context.SetTextDrawingMode(CGTextDrawingMode.Invisible); 
-			//			
-			//			context.SetCharacterSpacing(1); 
-			//			var textMatrix = CGAffineTransform.MakeScale(1f,-1f);
-			//			context.TextMatrix = textMatrix;
-			//
-			//			context.ShowTextAtPoint(rect.X, rect.Y, textg, textg.Length); 
-			//			var endPos = context.TextPosition;
-			//
-			//			var measure = new SizeF(endPos.X - startPos.X, font.nativeFont.CapHeightMetric);
-
 			var atts = buildAttributedString(text, font, stringFormat);
-
 			var measure = SizeF.Empty;
-			// Calculate the lines
-			int start = 0;
-			int length = (int)atts.Length;
-
-			var typesetter = new CTTypesetter(atts);
 
 			if ((stringFormat.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical) {
 				layoutArea = new SizeF(layoutArea.Height, layoutArea.Width);
 			}
-			if ((stringFormat.FormatFlags & StringFormatFlags.NoWrap) != 0) {
-				layoutArea.Width = 0;
-			}
 
-			while (start < length) {
-				int count = (int)typesetter.SuggestLineBreak (start, layoutArea.Width == 0 ? 8388608 : layoutArea.Width);
-				var line = typesetter.GetLine (new NSRange(start, count));
-
-				// Create and initialize some values from the bounds.
-				nfloat ascent, descent, leading;
-				var lineWidth = line.GetTypographicBounds (out ascent, out descent, out leading);
-
-				measure.Height += (float)NMath.Ceiling (ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior  
-				if (lineWidth > measure.Width)
-					measure.Width = (float)NMath.Ceiling ((float)lineWidth);
-
-				line.Dispose ();
-				start += count;
+			float baselineOffset = (float)NMath.Ceiling(font.nativeFont.AscentMetric + font.nativeFont.DescentMetric + 1);
+			float lineHeight = (float)NMath.Ceiling(font.nativeFont.AscentMetric + font.nativeFont.DescentMetric + font.nativeFont.LeadingMetric + 1);
+			var lines = CreateLines(font, atts, layoutArea, stringFormat, baselineOffset, lineHeight);
+			foreach (var line in lines)
+			{
+				if (line != null)
+				{
+					nfloat ascent, descent, leading;
+					var lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
+					measure.Width = Math.Max(measure.Width, (float)NMath.Ceiling((float)lineWidth));
+					charactersFitted += (int)line.StringRange.Length;
+					line.Dispose();
+				}
+				measure.Height += lineHeight;
 				linesFilled++;
 			}
 
@@ -162,10 +133,68 @@ namespace System.Drawing
 			DrawString (s, font, brush, new RectangleF(x, y, 0, 0), format);
 		}
 
-		private CTLine EllipsisToken(Font font, StringFormat format)
+		private static CTLine EllipsisToken(Font font, StringFormat format)
 		{
-			var attrStr = buildAttributedString("\u2026", font, format, lastBrushColor);
+			var attrStr = buildAttributedString("\u2026", font, format, null);
 			return new CTLine (attrStr);
+		}
+
+		private static List<CTLine> CreateLines (Font font, NSAttributedString attributedString, SizeF layoutBox, StringFormat format, float baselineOffset, float lineHeight)
+		{
+			bool noWrap = (format.FormatFlags & StringFormatFlags.NoWrap) != 0;
+			bool wholeLines = (format.FormatFlags & StringFormatFlags.LineLimit) != 0;
+			using (var typesetter = new CTTypesetter(attributedString))
+			{
+				var lines = new List<CTLine>();
+				int start = 0;
+				int length = (int)attributedString.Length;
+				float y = 0;
+				while (start < length && y < layoutBox.Height && (!wholeLines || y + baselineOffset <= layoutBox.Height))
+				{
+					if (format.Trimming != StringTrimming.None)
+					{
+						// Keep the last line in full when trimming is enabled
+						bool lastLine;
+						if (!wholeLines)
+							lastLine = y + lineHeight >= layoutBox.Height;
+						else
+							lastLine = y + lineHeight + baselineOffset > layoutBox.Height;
+						if (lastLine)
+							noWrap = true;
+					}
+
+					// Now we ask the typesetter to break off a line for us.
+					// This also will take into account line feeds embedded in the text.
+					//  Example: "This is text \n with a line feed embedded inside it"
+					var count = (int)typesetter.SuggestLineBreak(start, noWrap ? double.MaxValue : layoutBox.Width);
+
+					// Note: trimming may return a null line i.e. not enough space for any characters
+					var line = typesetter.GetLine(new NSRange(start, count));
+					switch (format.Trimming)
+					{
+						case StringTrimming.Character:
+							using (var oldLine = line)
+								line = line.GetTruncatedLine(layoutBox.Width, CTLineTruncation.End, null);
+							break;
+						case StringTrimming.EllipsisWord: // Fall thru for now
+						case StringTrimming.EllipsisCharacter:
+							using (var oldLine = line)
+							using (CTLine ellipsisToken = EllipsisToken(font, format))
+								line = line.GetTruncatedLine(layoutBox.Width, CTLineTruncation.End, ellipsisToken);
+							break;
+						case StringTrimming.EllipsisPath:
+							using (var oldLine = line)
+							using (CTLine ellipsisToken = EllipsisToken(font, format))
+								line = line.GetTruncatedLine(layoutBox.Width, CTLineTruncation.Middle, ellipsisToken);
+							break;
+					}
+
+					lines.Add(line);
+					start += (int)count;
+					y += (float)lineHeight;
+				}
+				return lines;
+			}
 		}
 
 		public void DrawString (string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format = null)
@@ -189,19 +218,6 @@ namespace System.Drawing
 			var saveMatrix = context.TextMatrix;
 			bool layoutAvailable = true;
 
-			//			context.SelectFont(font.nativeFont.PostScriptName, font.SizeInPoints, CGTextEncoding.MacRoman);
-			//			context.SetCharacterSpacing(1);
-			//			context.SetTextDrawingMode(CGTextDrawingMode.Fill); // 5
-			//			
-			//			// Setup both the stroke and the fill ?
-			//			brush.Setup(this, true);
-			//			brush.Setup(this, false);
-			//
-			//			var textMatrix = font.nativeFont.Matrix;
-			//			textMatrix.Scale(1,-1);
-			//			context.TextMatrix = textMatrix;
-			//			context.ShowTextAtPoint(layoutRectangle.X, layoutRectangle.Y + font.nativeFont.CapHeightMetric, s); 
-			//
 			// First we call the brush with a fill of false so the brush can setup the stroke color
 			// that the text will be using.
 			// For LinearGradientBrush this will setup a TransparentLayer so the gradient can
@@ -230,38 +246,21 @@ namespace System.Drawing
 				insetBounds.Width = (float)boundingBox.Width;
 				insetBounds.Height = (float)boundingBox.Height;
 				layoutAvailable = false;
-
-				if (format.LineAlignment != StringAlignment.Near) 
-					insetBounds.Size = MeasureString(s, font);
 			}
 
 			float boundsWidth;
 			float boundsHeight;
 
-			// Calculate the lines
-			int start = 0;
-			int length = (int)attributedString.Length;
-			float baselineOffset = 0;
-			bool noWrap = (format.FormatFlags & StringFormatFlags.NoWrap) != 0;
-			bool wholeLines = (format.FormatFlags & StringFormatFlags.LineLimit) != 0;
+			float baselineOffset = (float)NMath.Ceiling(font.nativeFont.AscentMetric + font.nativeFont.DescentMetric + 1);
+			float lineHeight = (float)NMath.Ceiling(font.nativeFont.AscentMetric + font.nativeFont.DescentMetric + font.nativeFont.LeadingMetric + 1);
+			List<CTLine> lines = new List<CTLine>();
 
-			var typesetter = new CTTypesetter(attributedString);
-			int lines = 0;
+			// Calculate the lines
 			// If we are drawing vertical direction then we need to rotate our context transform by 90 degrees
 			if ((format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical) {
+				// Swap out the width and height and calculate the lines
+				lines = CreateLines(font, attributedString, new SizeF(insetBounds.Height, insetBounds.Width), format, baselineOffset, lineHeight);
 				//textMatrix.Rotate (ConversionHelpers.DegreesToRadians (90));
-				//var verticalOffset = 0.0f;
-				while (start < length)
-				{
-					var count = (int)typesetter.SuggestLineBreak (start, noWrap ? double.MaxValue : insetBounds.Height);
-					typesetter.GetLine(new NSRange(start, count));
-					var lineHeight  = NMath.Ceiling(1 + GetLineHeight(typesetter, start, count)); // +1 matches best to CTFramesetter's behavior
-					//if (format.LineAlignment == StringAlignment.Far && baselineOffset + lineHeight > layoutRectangle.Height)
-					//	break;
-					baselineOffset += (float)lineHeight;
-					start += (int)count;
-					++lines;
-				}
 				context.TranslateCTM (layoutRectangle.X, layoutRectangle.Y);
 				context.RotateCTM (ConversionHelpers.DegreesToRadians (90));
 				context.TranslateCTM (-layoutRectangle.X, -layoutRectangle.Y);
@@ -272,122 +271,67 @@ namespace System.Drawing
 				boundsWidth = insetBounds.Height;
 				boundsHeight = insetBounds.Width;
 			} else {
-
-				// First we need to calculate the offset for Vertical Alignment if we are using anything but Top
-				//if (layoutAvailable && format.LineAlignment != StringAlignment.Near)
-				// Calculate offset and number of lines that can fit bounds
-				if (layoutAvailable)
-				{
-					double y = insetBounds.Y + .5f;
-					while (start < length && y < insetBounds.Bottom) {
-						var count = (int)typesetter.SuggestLineBreak(start, noWrap ? double.MaxValue : insetBounds.Width);
-						nfloat ascent, descent, leading;
-						var line = typesetter.GetLine(new NSRange(start, count));
-						line.GetTypographicBounds(out ascent, out descent, out leading);
-						var lineHeight = NMath.Ceiling(ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior  
-
-						if (wholeLines && y + lineHeight > insetBounds.Bottom + 0.5f) // LineLimit flag
-							break;
-
-						if (format.LineAlignment == StringAlignment.Far && baselineOffset + lineHeight > layoutRectangle.Height)
-							break;
-						if (format.LineAlignment != StringAlignment.Near)
-							baselineOffset += (float)lineHeight;
-						start += (int)count;
-						++lines;
-						y += lineHeight;
-					}
-				}
-
+				lines = CreateLines(font, attributedString, insetBounds.Size, format, baselineOffset, lineHeight);
 				boundsWidth = insetBounds.Width;
 				boundsHeight = insetBounds.Height;
 			}
 
-			start = 0;
+			if (format.LineAlignment != StringAlignment.Near && !layoutAvailable) {
+				float maxLineWidth = 0;
+				foreach (var line in lines) {
+					if (line != null) {
+						nfloat ascent, descent, leading;
+						maxLineWidth = Math.Max(maxLineWidth, (float)NMath.Ceiling((float)line.GetTypographicBounds(out ascent, out descent, out leading)));
+					}
+				}
+				boundsWidth = maxLineWidth;
+			}
+
 			int currentLine = 0;
 			PointF textPosition = new PointF(insetBounds.X + .5f, insetBounds.Y + .5f);
-			while (start < length && textPosition.Y < insetBounds.Bottom)
+			foreach (var line in lines)
 			{
-				// Now we ask the typesetter to break off a line for us.
-				// This also will take into account line feeds embedded in the text.
-				//  Example: "This is text \n with a line feed embedded inside it"
-				var trimmingLastLineNow = currentLine == lines - 1 && format.Trimming != StringTrimming.None;
-				var count = (int)typesetter.SuggestLineBreak(start, noWrap || trimmingLastLineNow ? double.MaxValue : boundsWidth);
-				var line = typesetter.GetLine(new NSRange(start, count));
-
-				// Create and initialize some values from the bounds.
-				nfloat ascent, descent, leading;
-				var lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
-				var lineHeight = NMath.Ceiling(ascent + descent + leading + 1); // +1 matches best to CTFramesetter's behavior  
-
-				if (wholeLines && textPosition.Y + lineHeight > insetBounds.Bottom + 0.5f) // LineLimit flag
-					break;
-
-				// Note: trimming may return a null line i.e. not enough space for any characters
-				bool ellipsisApplied = true;
-				switch (format.Trimming)
-				{
-					case StringTrimming.Character:
-						using (CTLine oldLine = line)
-							line = line.GetTruncatedLine (boundsWidth, CTLineTruncation.End, null);
-						break;
-					case StringTrimming.EllipsisWord: // Fall thru for now
-					case StringTrimming.EllipsisCharacter:
-						using (CTLine oldLine = line)
-						using (CTLine ellipsisToken = EllipsisToken (font, format))
-							line = line.GetTruncatedLine (boundsWidth, CTLineTruncation.End, ellipsisToken);
-						break;
-					case StringTrimming.EllipsisPath:
-						using (CTLine oldLine = line)
-						using (CTLine ellipsisToken = EllipsisToken (font, format))
-							line = line.GetTruncatedLine (boundsWidth, CTLineTruncation.Middle, ellipsisToken);
-						break;
-					default:
-						ellipsisApplied = false;
-						//Console.WriteLine ("Graphics-DrawString.cs unimplemented StringTrimming " + format.Trimming);
-						break;
-				}
-
-				// Applying ellipsis changes line width and that affects horizontal alignment and strikeout, if any.
-				if (ellipsisApplied && line != null)
-					lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
-
-				// Calculate the string format if need be
-				var penFlushness = 0.0f;
-				if (layoutAvailable)
-				{
-					if (format.Alignment == StringAlignment.Far)
-						penFlushness = (float)line.GetPenOffsetForFlush(1.0f, boundsWidth);
-					else if (format.Alignment == StringAlignment.Center)
-						penFlushness = (float)line.GetPenOffsetForFlush(0.5f, boundsWidth);
-				}
-				else
-				{
-					// We were only passed in a point so we need to format based on the point.
-					if (format.Alignment == StringAlignment.Far)
-						penFlushness -= (float)lineWidth;
-					else if (format.Alignment == StringAlignment.Center)
-						penFlushness -= (float)lineWidth / 2.0f;
-				}
-
-				// initialize our Text Matrix or we could get trash in here
-				nfloat x = textPosition.X + penFlushness;
-				nfloat y = textPosition.Y;
-				switch (format.LineAlignment)
-				{
-					case StringAlignment.Center:
-						y += (layoutAvailable ? 1 : -1) * ((boundsHeight / 2) - (baselineOffset / 2));
-						break;
-					case StringAlignment.Far:
-						y += (layoutAvailable ? 1 : -1) * ((boundsHeight) - (baselineOffset));
-						break;
-				}
-				var textMatrix = new CGAffineTransform(1, 0, 0, -1, 0, ascent);
-				textMatrix.Translate(x, y);
-				context.TextMatrix = textMatrix;
-
 				// Make sure that the line still exists, it may be null if it's too small to render any text and wants StringTrimming
-				if (null != line) {
+				if (line != null)
+				{
+					nfloat ascent, descent, leading;
+					var lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
+
+					// Calculate the string format if need be
+					var penFlushness = 0.0f;
+					if (layoutAvailable)
+					{
+						if (format.Alignment == StringAlignment.Far)
+							penFlushness = (float)line.GetPenOffsetForFlush(1.0f, boundsWidth);
+						else if (format.Alignment == StringAlignment.Center)
+							penFlushness = (float)line.GetPenOffsetForFlush(0.5f, boundsWidth);
+					}
+					else
+					{
+						// We were only passed in a point so we need to format based on the point.
+						if (format.Alignment == StringAlignment.Far)
+							penFlushness -= (float)lineWidth;
+						else if (format.Alignment == StringAlignment.Center)
+							penFlushness -= (float)lineWidth / 2.0f;
+					}
+
+					// initialize our Text Matrix or we could get trash in here
+					nfloat x = textPosition.X + penFlushness;
+					nfloat y = textPosition.Y;
+					switch (format.LineAlignment)
+					{
+						case StringAlignment.Center:
+							y += (layoutAvailable ? 1 : -1) * ((boundsHeight / 2) - (baselineOffset / 2));
+							break;
+						case StringAlignment.Far:
+							y += (layoutAvailable ? 1 : -1) * ((boundsHeight) - (baselineOffset));
+							break;
+					}
+
+					var textMatrix = new CGAffineTransform(1, 0, 0, -1, 0, ascent);
+					textMatrix.Translate(x, y);
+					context.TextMatrix = textMatrix;
+
 					line.Draw (context);
 					line.Dispose ();
 
@@ -404,8 +348,7 @@ namespace System.Drawing
 				}
 
 				// Move the index beyond the line break.
-				start += (int)count;
-				textPosition.Y += (float)lineHeight;
+				textPosition.Y += lineHeight;
 				++currentLine;
 			}
 
@@ -418,7 +361,7 @@ namespace System.Drawing
 			context.RestoreState();
 		}	
 
-		private NSMutableAttributedString buildAttributedString(string text, Font font, StringFormat format = null, Color? fontColor = null) 
+		private static NSMutableAttributedString buildAttributedString(string text, Font font, StringFormat format = null, Color? fontColor = null) 
 		{
 			var ctAttributes = new CTStringAttributes ();
 			ctAttributes.Font = font.nativeFont;
@@ -503,19 +446,6 @@ namespace System.Drawing
 			//}
 
 			return atts;
-		}
-
-		internal static nfloat GetLineHeight(CTTypesetter typesetter, int start, int count)
-		{
-			using (var line = typesetter.GetLine(new NSRange(start, count)))
-				return GetLineHeight(line);
-		}
-
-		internal static nfloat GetLineHeight(CTLine line)
-		{
-			nfloat ascent, descent, leading;
-			line.GetTypographicBounds(out ascent, out descent, out leading);
-			return ascent + descent + leading;
 		}
 	}
 }
