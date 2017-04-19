@@ -1022,6 +1022,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DateBoldEventArgs.cs -t
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DateBoldEventHandler.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DateRangeEventArgs.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DateRangeEventHandler.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DateTimePicker.Mac.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DateTimePicker.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DateTimePickerFormat.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/Day.cs -text
