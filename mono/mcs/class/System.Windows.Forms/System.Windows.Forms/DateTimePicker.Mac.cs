@@ -23,9 +23,6 @@
 // Authors:
 //	John BouAntoun	jba-mono@optusnet.com.au
 //	Rolf Bjarne Kvinge	rolfkvinge@ya.com
-//
-// TODO:
-//		- wire in all events from monthcalendar
 
 
 using System;
@@ -35,6 +32,21 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Windows.Forms.Mac;
+
+#if MONOMAC
+using MonoMac.AppKit;
+using MonoMac.Foundation;
+using MonoMac.CoreGraphics;
+using NSRectEdge = MonoMac.AppKit.NSRectEdge;
+using nfloat = System.Single;
+using ObjCRuntime = MonoMac.ObjCRuntime;
+#elif XAMARINMAC
+using Foundation;
+using AppKit;
+using CoreGraphics;
+using NSRectEdge = AppKit.NSRectEdge;
+#endif
 
 namespace System.Windows.Forms
 {
@@ -46,7 +58,6 @@ namespace System.Windows.Forms
 	[Designer("System.Windows.Forms.Design.DateTimePickerDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
 	public class DateTimePicker : Control
 	{
-
 		#region Public variables
 
 		// this class has to have the specified hour, minute and second, as it says in msdn
@@ -70,7 +81,6 @@ namespace System.Windows.Forms
 		protected static readonly Color DefaultTitleForeColor = ThemeEngine.Current.ColorActiveCaptionText;
 		protected static readonly Color DefaultTrailingForeColor = SystemColors.GrayText;
 
-		internal MonthCalendar month_calendar;
 		bool is_checked;
 		string custom_format;
 		LeftRightAlignment drop_down_align;
@@ -166,17 +176,6 @@ namespace System.Windows.Forms
 		// only public constructor
 		public DateTimePicker()
 		{
-
-			// initialise the month calendar
-			month_calendar = new MonthCalendar(this);
-			month_calendar.CalendarDimensions = new Size(1, 1);
-			month_calendar.MaxSelectionCount = 1;
-			month_calendar.ForeColor = Control.DefaultForeColor;
-			month_calendar.BackColor = DefaultMonthBackColor;
-			month_calendar.TitleBackColor = DefaultTitleBackColor;
-			month_calendar.TitleForeColor = DefaultTitleForeColor;
-			month_calendar.TrailingForeColor = DefaultTrailingForeColor;
-			month_calendar.Visible = false;
 			// initialize the timer
 			updown_timer = new Timer();
 			updown_timer.Interval = initial_timer_delay;
@@ -197,9 +196,9 @@ namespace System.Windows.Forms
 			BackColor = SystemColors.Window;
 			ForeColor = SystemColors.WindowText;
 
-			month_calendar.DateChanged += new DateRangeEventHandler(MonthCalendarDateChangedHandler);
-			month_calendar.DateSelected += new DateRangeEventHandler(MonthCalendarDateSelectedHandler);
-			month_calendar.LostFocus += new EventHandler(MonthCalendarLostFocusHandler);
+			//month_calendar.DateChanged += new DateRangeEventHandler(MonthCalendarDateChangedHandler);
+			//month_calendar.DateSelected += new DateRangeEventHandler(MonthCalendarDateSelectedHandler);
+			//month_calendar.LostFocus += new EventHandler(MonthCalendarLostFocusHandler);
 			updown_timer.Tick += new EventHandler(UpDownTimerTick);
 			KeyPress += new KeyPressEventHandler(KeyPressHandler);
 			KeyDown += new KeyEventHandler(KeyDownHandler);
@@ -269,74 +268,32 @@ namespace System.Windows.Forms
 		[Localizable(true)]
 		public Font CalendarFont
 		{
-			set
-			{
-				month_calendar.Font = value;
-			}
-			get
-			{
-				return month_calendar.Font;
-			}
+			get; set;
 		}
 
 		public Color CalendarForeColor
 		{
-			set
-			{
-				month_calendar.ForeColor = value;
-			}
-			get
-			{
-				return month_calendar.ForeColor;
-			}
+			get; set;
 		}
 
 		public Color CalendarMonthBackground
 		{
-			set
-			{
-				month_calendar.BackColor = value;
-			}
-			get
-			{
-				return month_calendar.BackColor;
-			}
+			get; set;
 		}
 
 		public Color CalendarTitleBackColor
 		{
-			set
-			{
-				month_calendar.TitleBackColor = value;
-			}
-			get
-			{
-				return month_calendar.TitleBackColor;
-			}
+			get; set;
 		}
 
 		public Color CalendarTitleForeColor
 		{
-			set
-			{
-				month_calendar.TitleForeColor = value;
-			}
-			get
-			{
-				return month_calendar.TitleForeColor;
-			}
+			get; set;
 		}
 
 		public Color CalendarTrailingForeColor
 		{
-			set
-			{
-				month_calendar.TrailingForeColor = value;
-			}
-			get
-			{
-				return month_calendar.TrailingForeColor;
-			}
+			get; set;
 		}
 
 		// when checked the value is grayed out
@@ -385,6 +342,21 @@ namespace System.Windows.Forms
 				return custom_format;
 			}
 		}
+
+		[Localizable(true)]
+		[DefaultValue("Today")]
+		public string PickerTodayButtonTitle
+		{
+			get; set;
+		}
+
+		[Localizable(true)]
+		[DefaultValue("Clear")]
+		public string PickerClearButtonTitle
+		{
+			get; set;
+		}
+
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		protected override bool DoubleBuffered
@@ -1000,10 +972,7 @@ namespace System.Windows.Forms
 
 		protected override void OnFontChanged(EventArgs e)
 		{
-			// FIXME - do we need to update/invalidate/recalc our stuff?
-			month_calendar.Font = Font;
 			Size = new Size(Size.Width, PreferredHeight);
-
 			base.OnFontChanged(e);
 		}
 
@@ -1338,12 +1307,6 @@ namespace System.Windows.Forms
 				screen_location.Y -= (parent_control_rect.Height + child_size.Height);
 			}
 
-			// since the parent of the month calendar is the form, adjust accordingly.
-			if (month_calendar.Parent != null)
-			{
-				screen_location = month_calendar.Parent.PointToClient(screen_location);
-			}
-
 			return screen_location;
 		}
 
@@ -1358,21 +1321,8 @@ namespace System.Windows.Forms
 		{
 			EndDateEdit(true);
 			// ensure the right date is set for the month_calendar
-			month_calendar.SetDate(this.date_value);
-			// get a rectangle that has the dimensions of the text area,
-			// but the height of the dtp control.
-			Rectangle align_area = this.date_area_rect;
-			align_area.Y = this.ClientRectangle.Y;
-			align_area.Height = this.ClientRectangle.Height;
 
-			// establish the month calendar's location
-			month_calendar.Location = CalculateDropDownLocation(
-				align_area,
-				month_calendar.Size,
-				(this.DropDownAlign == LeftRightAlignment.Left));
-			month_calendar.Show();
-			month_calendar.Focus();
-			month_calendar.Capture = true;
+			ShowDatePickerPopover();
 
 			// fire any registered events
 			// XXX should this just call OnDropDown?
@@ -1386,11 +1336,15 @@ namespace System.Windows.Forms
 		{
 			this.is_drop_down_visible = false;
 			Invalidate(drop_down_arrow_rect);
-			month_calendar.Capture = false;
-			if (month_calendar.Visible)
-			{
-				month_calendar.Hide();
-			}
+			//month_calendar.Capture = false;
+			//if (month_calendar.Visible)
+			//{
+			//	month_calendar.Hide();
+			//}
+
+			if (popover != null)
+				popover.Close();
+
 			Focus();
 		}
 
@@ -1843,19 +1797,18 @@ namespace System.Windows.Forms
 		// if month calendar looses focus and the drop down is up, then close it
 		private void MonthCalendarLostFocusHandler(object sender, EventArgs e)
 		{
-			if (is_drop_down_visible && !month_calendar.Focused)
-			{
+			//if (is_drop_down_visible && !month_calendar.Focused)
+			//{
 				//this.HideMonthCalendar(); 
 				//This is handled from the monthcalender itself, 
 				//it may loose focus, but still has to be visible,
 				//for instance when the context menu is displayed.
-			}
-
+			//}
 		}
 
 		private void MonthCalendarDateChangedHandler(object sender, DateRangeEventArgs e)
 		{
-			if (month_calendar.Visible)
+			//if (month_calendar.Visible)
 				this.Value = e.Start.Date.Add(this.Value.TimeOfDay);
 		}
 
@@ -2258,8 +2211,183 @@ namespace System.Windows.Forms
 		}
 
 		#endregion
+
+		NSPopover popover;
+		PopoverDelegate popoverDelegate;
+
+		internal virtual void ShowDatePickerPopover()
+		{
+			if (popoverDelegate == null)
+			{
+				popoverDelegate = new PopoverDelegate();
+				popoverDelegate.PopoverWillClose += DatePickerPopoverClosed;
+			}
+
+			var controller = new DatePickerPopoverController(this.date_value);
+			controller.DateChanged += MonthCalendarDateChangedHandler;
+			controller.TodayButtonTitle = PickerTodayButtonTitle;
+			controller.ClearButtonTitle = PickerClearButtonTitle;
+
+			popover = new NSPopover();
+			popover.WeakDelegate = popoverDelegate;
+			popover.Behavior = NSPopoverBehavior.Transient;
+			popover.ContentViewController = controller;
+
+			var self = (NSView)ObjCRuntime.Runtime.GetNSObject(Handle);
+			popover.Show(self.Bounds, self, NSRectEdge.MaxXEdge);
+		}
+
+		internal void DatePickerPopoverClosed(object sender, EventArgs e)
+		{
+			popover.WeakDelegate = null;
+			popover = null;
+
+			is_drop_down_visible = false;
+			Invalidate(drop_down_arrow_rect);
+
+			Focus();
+		}
 	}
 
+	internal class PopoverDelegate : NSPopoverDelegate
+	{
+		public event EventHandler PopoverWillClose;
+
+		public override void WillClose(NSNotification notification)
+		{
+			PopoverWillClose(notification.Object, new EventArgs());
+		}
+	}
+
+	internal class DatePickerPopoverController : NSViewController
+	{
+		protected NSDatePicker graphicalDatePicker;
+		protected NSDatePicker numericDatePicker;
+		protected NSButton todayButton;
+		protected NSButton clearButton;
+
+		protected NSDate initialDate;
+		protected NSDate date;
+		protected bool isSettingDate;
+
+		public event DateRangeEventHandler DateChanged;
+
+		public DatePickerPopoverController(DateTime initialDate) : base(null, null)
+		{
+			this.initialDate = initialDate.ToNSDate();
+			this.date = this.initialDate;
+		}
+
+		public DatePickerPopoverController(IntPtr handle) : base(handle)
+		{
+		}
+
+		public string TodayButtonTitle { get; set; }
+		public string ClearButtonTitle { get; set; }
+
+		public override void LoadView()
+		{
+			View = new NSView();
+
+			clearButton = new NSButton();
+			clearButton.BezelStyle = NSBezelStyle.Rounded;
+			clearButton.Title = ClearButtonTitle ?? "Clear";
+			clearButton.SizeToFit();
+			clearButton.Activated += (sender, e) => { SetDate(initialDate); };
+			View.AddSubview(clearButton);
+
+			todayButton = new NSButton();
+			todayButton.Title = TodayButtonTitle ?? "Today";
+			todayButton.BezelStyle = NSBezelStyle.Rounded;
+			todayButton.SizeToFit();
+			todayButton.Activated += (sender, e) => { SetDate(new NSDate()); };
+			View.AddSubview(todayButton);
+
+			var line = new NSBox();
+			line.BoxType = NSBoxType.NSBoxSeparator;
+			line.SetFrameSize(new CGSize(0, 1));
+			View.AddSubview(line);
+
+			numericDatePicker = new NSDatePicker();
+			numericDatePicker.DateValue = date;
+			numericDatePicker.Bezeled = false;
+			numericDatePicker.DatePickerStyle = NSDatePickerStyle.TextFieldAndStepper;
+			numericDatePicker.DatePickerMode = NSDatePickerMode.Single;
+			numericDatePicker.DatePickerElements = NSDatePickerElementFlags.YearMonthDateDay;
+			numericDatePicker.SizeToFit();
+			numericDatePicker.Activated += (sender, e) => { SetDate(numericDatePicker.DateValue); };
+			View.AddSubview(numericDatePicker);
+
+			line = new NSBox();
+			line.BoxType = NSBoxType.NSBoxSeparator;
+			line.SetFrameSize(new CGSize(0, 1));
+			View.AddSubview(line);
+
+			graphicalDatePicker = new NSDatePicker();
+			graphicalDatePicker.DateValue = date;
+			graphicalDatePicker.Bezeled = false;
+			graphicalDatePicker.DatePickerStyle = NSDatePickerStyle.ClockAndCalendar;
+			graphicalDatePicker.DatePickerMode = NSDatePickerMode.Single;
+			graphicalDatePicker.DatePickerElements = NSDatePickerElementFlags.YearMonthDateDay;
+			graphicalDatePicker.SizeToFit();
+			graphicalDatePicker.Activated += (sender, e) => { SetDate(graphicalDatePicker.DateValue); };
+			View.AddSubview(graphicalDatePicker);
+
+			//graphicalDatePicker.Locale = new NSLocale()
+
+			if (initialDate == null)
+			{
+				clearButton.RemoveFromSuperview();
+			}
+
+			PerformLayout();
+		}
+
+		private void PerformLayout()
+		{
+			nfloat maxWidth = 0;
+			foreach (var subview in View.Subviews)
+				maxWidth = (nfloat)Math.Max(maxWidth, subview.Frame.Width);
+
+			nfloat d = 4;
+			var x = d;
+			var y = d;
+
+			foreach (var subview in View.Subviews)
+			{
+				var h = subview.Frame.Height;
+				subview.SetFrameOrigin(new CGPoint(x, y));
+				subview.SetFrameSize(new CGSize(maxWidth, h));
+				nfloat dy = subview == clearButton ? -4 : d;
+				y += h + dy;
+			}
+
+			View.SetFrameSize(new CGSize(maxWidth + 2 * d, y));
+		}
+
+		protected void SetDate(NSDate value)
+		{
+			isSettingDate = true;
+			graphicalDatePicker.DateValue = value;
+			numericDatePicker.DateValue = value;
+
+			var oldValue = date;
+			date = value;
+
+			OnDateChanged(oldValue);
+
+			isSettingDate = false;
+		}
+
+		internal virtual void OnDateChanged(NSDate oldValue)
+		{
+			if (DateChanged != null)
+			{
+				try { DateChanged(this, new DateRangeEventArgs(date.ToDateTime(), date.ToDateTime())); } 
+				catch (Exception e) { Diagnostics.Debug.Assert(false, $"Exception in DateChanged user handler: {e}");}
+			}
+		}
+	}
 
 }
 #endif
