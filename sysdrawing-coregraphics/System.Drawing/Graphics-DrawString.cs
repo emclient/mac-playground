@@ -108,6 +108,8 @@ namespace System.Drawing
 				{
 					nfloat ascent, descent, leading;
 					var lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
+					if ((stringFormat.FormatFlags & StringFormatFlags.MeasureTrailingSpaces) != 0)
+						lineWidth += line.TrailingWhitespaceWidth;
 					measure.Width = Math.Max(measure.Width, (float)NMath.Ceiling((float)lineWidth));
 					charactersFitted += (int)line.StringRange.Length;
 					line.Dispose();
@@ -281,7 +283,10 @@ namespace System.Drawing
 				foreach (var line in lines) {
 					if (line != null) {
 						nfloat ascent, descent, leading;
-						maxLineWidth = Math.Max(maxLineWidth, (float)NMath.Ceiling((float)line.GetTypographicBounds(out ascent, out descent, out leading)));
+						var lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
+						if ((format.FormatFlags & StringFormatFlags.MeasureTrailingSpaces) != 0)
+							lineWidth += line.TrailingWhitespaceWidth;
+						maxLineWidth = Math.Max(maxLineWidth, (float)NMath.Ceiling((float)lineWidth));
 					}
 				}
 				boundsWidth = maxLineWidth;
@@ -305,10 +310,19 @@ namespace System.Drawing
 							penFlushness = (float)line.GetPenOffsetForFlush(1.0f, boundsWidth);
 						else if (format.Alignment == StringAlignment.Center)
 							penFlushness = (float)line.GetPenOffsetForFlush(0.5f, boundsWidth);
+						if ((format.FormatFlags & StringFormatFlags.MeasureTrailingSpaces) != 0)
+						{
+							if (format.Alignment == StringAlignment.Far)
+								penFlushness -= (float)line.TrailingWhitespaceWidth;
+							else if (format.Alignment == StringAlignment.Center)
+								penFlushness -= (float)line.TrailingWhitespaceWidth * 0.5f;
+						}
 					}
 					else
 					{
 						// We were only passed in a point so we need to format based on the point.
+						if ((format.FormatFlags & StringFormatFlags.MeasureTrailingSpaces) != 0)
+							lineWidth += line.TrailingWhitespaceWidth;
 						if (format.Alignment == StringAlignment.Far)
 							penFlushness -= (float)lineWidth;
 						else if (format.Alignment == StringAlignment.Center)
