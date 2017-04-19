@@ -146,8 +146,12 @@ namespace System.Drawing {
 			Graphics g;
 			NSView view = (NSView)NSRuntime.GetNSObject (hwnd);
 			if (NSView.FocusView () == view) {
+				if (NSGraphicsContext.CurrentContext == null)
+					return FromHwnd(IntPtr.Zero, false);
 				g = Graphics.FromCurrentContext();
 			} else if (view.LockFocusIfCanDraw ()) {
+				if (NSGraphicsContext.CurrentContext == null)
+					return FromHwnd(IntPtr.Zero, false);
 				g = Graphics.FromCurrentContext();
 				g.focusedView = view;
 			} else if (view.Window != null && view.Window.GraphicsContext != null) {
