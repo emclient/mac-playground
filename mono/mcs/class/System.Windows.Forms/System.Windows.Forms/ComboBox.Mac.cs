@@ -1,4 +1,4 @@
-﻿#if MACOS_THEME
+﻿﻿#if MACOS_THEME
 
 using System.Collections;
 using System.ComponentModel;
@@ -373,7 +373,7 @@ namespace System.Windows.Forms
 		[Browsable(false)]
 		public int PreferredHeight
 		{
-			get { return (int)PopUp.Frame.Height; }
+            get { return (int)PopUp.FittingSize.Height - (int)PopUp.AlignmentRectInsets.Bottom - (int)PopUp.AlignmentRectInsets.Top; }
 			//get { return Font.Height + 8; }
 		}
 
