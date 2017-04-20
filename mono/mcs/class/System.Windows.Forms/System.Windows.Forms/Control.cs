@@ -985,24 +985,31 @@ namespace System.Windows.Forms
 				is_disposing = true;
 				Capture = false;
 
-				DisposeBackBuffer ();
+                SuspendLayout();
+                try {
+					DisposeBackBuffer ();
 
-				if (this.InvokeRequired) {
-					if (Application.MessageLoop && IsHandleCreated) {
-						this.BeginInvokeInternal(new MethodInvoker(DestroyHandle), null);
+					if (this.InvokeRequired) {
+						if (Application.MessageLoop && IsHandleCreated) {
+							this.BeginInvokeInternal(new MethodInvoker(DestroyHandle), null);
+						}
+					} else {
+						DestroyHandle();
 					}
-				} else {
-					DestroyHandle();
-				}
 
-				if (parent != null)
-					parent.Controls.Remove(this);
+					if (parent != null)
+						parent.Controls.Remove(this);
 
-				Control [] children = child_controls.GetAllControls ();
-				for (int i=0; i<children.Length; i++) {
-					children[i].parent = null;	// Need to set to null or our child will try and remove from ourselves and crash
-					children[i].Dispose();
-				}
+					Control [] children = child_controls.GetAllControls ();
+					for (int i=0; i<children.Length; i++) {
+						children[i].parent = null;	// Need to set to null or our child will try and remove from ourselves and crash
+						children[i].Dispose();
+					}
+                }
+                finally {
+                    ResumeLayout(false);
+                    is_disposing = false;
+                }
 			}
 			is_disposed = true;
 			base.Dispose(disposing);
@@ -1738,6 +1745,10 @@ namespace System.Windows.Forms
 			}
 			
 			OnParentChanged(EventArgs.Empty);
+
+            if (Disposing) {
+                return;
+            }
 
 			if (pre_enabled != Enabled) {
 				OnEnabledChanged(EventArgs.Empty);
@@ -5341,7 +5352,6 @@ namespace System.Windows.Forms
 			}
 
 			if (is_disposing) {
-				is_disposing = false;
 				is_visible = false;
 			}
 		}
