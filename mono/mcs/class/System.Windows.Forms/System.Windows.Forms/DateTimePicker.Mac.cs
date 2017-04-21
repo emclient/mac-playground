@@ -2367,6 +2367,9 @@ namespace System.Windows.Forms
 
 		protected void SetDate(NSDate value)
 		{
+			if (isSettingDate)
+				return;
+
 			isSettingDate = true;
 			graphicalDatePicker.DateValue = value;
 			numericDatePicker.DateValue = value;
