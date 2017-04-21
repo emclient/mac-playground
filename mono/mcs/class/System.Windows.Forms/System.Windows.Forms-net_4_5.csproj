@@ -68,6 +68,19 @@
     <NoStdLib>false</NoStdLib>
     <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin-Release|AnyCPU' ">
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\Xamarin-Release\</OutputPath>
+    <DefineConstants>NO_CARBON;NO_GTK;NO_X11; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5;XAMARINMAC;__UNIFIED__;MACOS_THEME</DefineConstants>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>true</Optimize>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
+  </PropertyGroup>
   <Import Project="..\..\..\..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
     <Compile Include="..\..\build\common\Consts.cs" />
@@ -1477,8 +1490,8 @@
     <None Include="System.Windows.Forms.CocoaInternal\ChangeLog" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Drawing" Condition="'$(Configuration)' != 'Mono - Debug' and '$(Configuration)' != 'Xamarin - Debug'" />
-    <ProjectReference Include="..\..\..\..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug'">
+    <Reference Include="System.Drawing" Condition="'$(Configuration)' != 'Mono - Debug' and '$(Configuration)' != 'Xamarin - Debug' and '$(Configuration)' != 'Xamarin-Release'" />
+    <ProjectReference Include="..\..\..\..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'">
       <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
       <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>

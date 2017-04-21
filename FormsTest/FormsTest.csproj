@@ -34,6 +34,14 @@
     <DefineConstants>DEBUG; NET_4_5; NET_4_0; MAC;XAMARINMAC;__UNIFIED__</DefineConstants>
     <PlatformTarget>anycpu</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin-Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Xamarin-Release</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>false</DebugSymbols>
+    <DefineConstants>NET_4_5; NET_4_0; MAC;XAMARINMAC;__UNIFIED__</DefineConstants>
+    <PlatformTarget>anycpu</PlatformTarget>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\Release</OutputPath>
@@ -222,11 +230,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj" Condition=" '$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' ">
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj" Condition=" '$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release' ">
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MacBridge\MacBridge.csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug'">
+    <ProjectReference Include="..\MacBridge\MacBridge.csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'">
       <Project>{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}</Project>
       <Name>MacBridge</Name>
     </ProjectReference>
@@ -234,7 +242,7 @@
       <Project>{C69A5715-2180-4C49-8AD0-150697A81790}</Project>
       <Name>MailClient.Collections</Name>
     </ProjectReference>
-    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug'">
+    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'">
       <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
       <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>
@@ -242,19 +250,15 @@
       <Project>{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}</Project>
       <Name>MailClient.Common.UI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\MailClient\UI\htmlcontrol\HtmlEditorControl\HTMLEditorControl.csproj">
-      <Project>{5873DE0F-6853-4C8E-91A4-7A6861069A9A}</Project>
-      <Name>HTMLEditorControl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\CefGlue.WindowsForms\CefGlue.WindowsForms.csproj">
       <Project>{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}</Project>
       <Name>CefGlue.WindowsForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\CefGlue\CefGlue.csproj" Condition="'$(Configuration)' != 'Mono - Debug' and '$(Configuration)' != 'Xamarin - Debug'">
+    <ProjectReference Include="..\..\..\CefGlue\CefGlue.csproj" Condition="'$(Configuration)' != 'Mono - Debug' and '$(Configuration)' != 'Xamarin - Debug' and '$(Configuration)' != 'Xamarin-Release'">
       <Project>{703FF300-34B9-48D4-A5D6-E741F48D5F95}</Project>
       <Name>CefGlue</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\CefGlue.Mac\CefGlue.Mac.csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug'">
+    <ProjectReference Include="..\..\..\CefGlue.Mac\CefGlue.Mac.csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'">
       <Project>{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}</Project>
       <Name>CefGlue.Mac</Name>
     </ProjectReference>
