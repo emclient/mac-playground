@@ -1402,8 +1402,8 @@ namespace System.Windows.Forms {
 
 		internal override void InvalidateNC(IntPtr handle)
 		{
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
-			if (!vuWrap.Hidden)
+            MonoView vuWrap = ObjCRuntime.Runtime.GetNSObject(handle) as MonoView;
+            if (vuWrap != null && !vuWrap.Hidden && vuWrap.ClientBounds != vuWrap.Bounds)
 				vuWrap.NeedsDisplay = true;
 		}
 		
@@ -2080,7 +2080,7 @@ namespace System.Windows.Forms {
 			}
 				
 			if (vuWrap.Window != null && vuWrap.Window.ContentView == vuWrap)
-				vuWrap.Window.StyleMask = NSStyleFromStyle(cp.WindowStyle);
+                vuWrap.Window.StyleMask = NSStyleFromStyle(cp.WindowStyle) | (vuWrap.Window.StyleMask & NSWindowStyle.FullScreenWindow);
 		}
 
 		internal override void SetWindowTransparency (IntPtr handle, double transparency, Color key) {
