@@ -34,6 +34,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SgmlReader", "..\..\SgmlRea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefGlue", "..\..\CefGlue\CefGlue.csproj", "{703FF300-34B9-48D4-A5D6-E741F48D5F95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTMLEditorControl", "..\..\MailClient\UI\htmlcontrol\HtmlEditorControl\HTMLEditorControl.csproj", "{5873DE0F-6853-4C8E-91A4-7A6861069A9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailClient.HtmlConversion", "..\..\MailClient.HtmlConversion\MailClient.HtmlConversion.csproj", "{816EFD70-BF98-4578-B0BC-1C8F92EB92D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +45,7 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Xamarin - Debug|Any CPU = Xamarin - Debug|Any CPU
 		Xamarin - Release|Any CPU = Xamarin - Release|Any CPU
+		Xamarin-Release|Any CPU = Xamarin-Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DBFDDBD7-E236-444C-98E5-736A4F22C8A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -51,21 +56,21 @@ Global
 		{DBFDDBD7-E236-444C-98E5-736A4F22C8A5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DBFDDBD7-E236-444C-98E5-736A4F22C8A5}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
 		{DBFDDBD7-E236-444C-98E5-736A4F22C8A5}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
-		{DBFDDBD7-E236-444C-98E5-736A4F22C8A5}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
-		{DBFDDBD7-E236-444C-98E5-736A4F22C8A5}.Xamarin - Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
+		{DBFDDBD7-E236-444C-98E5-736A4F22C8A5}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{DBFDDBD7-E236-444C-98E5-736A4F22C8A5}.Xamarin-Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
 		{CB1CB976-AA54-4553-B0E7-05665B199EC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CB1CB976-AA54-4553-B0E7-05665B199EC4}.Mono - Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CB1CB976-AA54-4553-B0E7-05665B199EC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB1CB976-AA54-4553-B0E7-05665B199EC4}.Xamarin - Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CB1CB976-AA54-4553-B0E7-05665B199EC4}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{CB1CB976-AA54-4553-B0E7-05665B199EC4}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
 		{B102F27C-1A07-487F-BA5B-D5155D201112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B102F27C-1A07-487F-BA5B-D5155D201112}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
 		{B102F27C-1A07-487F-BA5B-D5155D201112}.Mono - Debug|Any CPU.Build.0 = Mono - Debug|Any CPU
 		{B102F27C-1A07-487F-BA5B-D5155D201112}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B102F27C-1A07-487F-BA5B-D5155D201112}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
 		{B102F27C-1A07-487F-BA5B-D5155D201112}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
-		{B102F27C-1A07-487F-BA5B-D5155D201112}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
-		{B102F27C-1A07-487F-BA5B-D5155D201112}.Xamarin - Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
+		{B102F27C-1A07-487F-BA5B-D5155D201112}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{B102F27C-1A07-487F-BA5B-D5155D201112}.Xamarin-Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
 		{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
 		{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}.Mono - Debug|Any CPU.Build.0 = Mono - Debug|Any CPU
@@ -73,15 +78,15 @@ Global
 		{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}.Release|Any CPU.Build.0 = Release|Any CPU
 		{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
 		{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
-		{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
-		{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}.Xamarin - Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
+		{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}.Xamarin-Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
 		{8652B30E-2AB4-4D41-8795-31B68DB84B74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8652B30E-2AB4-4D41-8795-31B68DB84B74}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
 		{8652B30E-2AB4-4D41-8795-31B68DB84B74}.Mono - Debug|Any CPU.Build.0 = Mono - Debug|Any CPU
 		{8652B30E-2AB4-4D41-8795-31B68DB84B74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8652B30E-2AB4-4D41-8795-31B68DB84B74}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8652B30E-2AB4-4D41-8795-31B68DB84B74}.Xamarin - Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8652B30E-2AB4-4D41-8795-31B68DB84B74}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{8652B30E-2AB4-4D41-8795-31B68DB84B74}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
 		{C69A5715-2180-4C49-8AD0-150697A81790}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C69A5715-2180-4C49-8AD0-150697A81790}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C69A5715-2180-4C49-8AD0-150697A81790}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
@@ -90,8 +95,8 @@ Global
 		{C69A5715-2180-4C49-8AD0-150697A81790}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C69A5715-2180-4C49-8AD0-150697A81790}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
 		{C69A5715-2180-4C49-8AD0-150697A81790}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
-		{C69A5715-2180-4C49-8AD0-150697A81790}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
-		{C69A5715-2180-4C49-8AD0-150697A81790}.Xamarin - Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
+		{C69A5715-2180-4C49-8AD0-150697A81790}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{C69A5715-2180-4C49-8AD0-150697A81790}.Xamarin-Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
 		{597BC926-1CF3-4EC0-85C5-C55CC11D4BC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{597BC926-1CF3-4EC0-85C5-C55CC11D4BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{597BC926-1CF3-4EC0-85C5-C55CC11D4BC8}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
@@ -99,7 +104,7 @@ Global
 		{597BC926-1CF3-4EC0-85C5-C55CC11D4BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{597BC926-1CF3-4EC0-85C5-C55CC11D4BC8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{597BC926-1CF3-4EC0-85C5-C55CC11D4BC8}.Xamarin - Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{597BC926-1CF3-4EC0-85C5-C55CC11D4BC8}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{597BC926-1CF3-4EC0-85C5-C55CC11D4BC8}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
 		{B4C57B5E-4BA4-4133-8558-A81B2D2DD084}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B4C57B5E-4BA4-4133-8558-A81B2D2DD084}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4C57B5E-4BA4-4133-8558-A81B2D2DD084}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
@@ -107,15 +112,15 @@ Global
 		{B4C57B5E-4BA4-4133-8558-A81B2D2DD084}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4C57B5E-4BA4-4133-8558-A81B2D2DD084}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B4C57B5E-4BA4-4133-8558-A81B2D2DD084}.Xamarin - Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4C57B5E-4BA4-4133-8558-A81B2D2DD084}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{B4C57B5E-4BA4-4133-8558-A81B2D2DD084}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
 		{C675FE3F-497D-4CE7-B441-3C0299B30C10}.Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
 		{C675FE3F-497D-4CE7-B441-3C0299B30C10}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
 		{C675FE3F-497D-4CE7-B441-3C0299B30C10}.Mono - Debug|Any CPU.Build.0 = Mono - Debug|Any CPU
 		{C675FE3F-497D-4CE7-B441-3C0299B30C10}.Release|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
 		{C675FE3F-497D-4CE7-B441-3C0299B30C10}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
 		{C675FE3F-497D-4CE7-B441-3C0299B30C10}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
-		{C675FE3F-497D-4CE7-B441-3C0299B30C10}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
-		{C675FE3F-497D-4CE7-B441-3C0299B30C10}.Xamarin - Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
+		{C675FE3F-497D-4CE7-B441-3C0299B30C10}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{C675FE3F-497D-4CE7-B441-3C0299B30C10}.Xamarin-Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
 		{1D660912-8164-4499-A2D7-A3B2FE742E17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1D660912-8164-4499-A2D7-A3B2FE742E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D660912-8164-4499-A2D7-A3B2FE742E17}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
@@ -124,8 +129,8 @@ Global
 		{1D660912-8164-4499-A2D7-A3B2FE742E17}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1D660912-8164-4499-A2D7-A3B2FE742E17}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
 		{1D660912-8164-4499-A2D7-A3B2FE742E17}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
-		{1D660912-8164-4499-A2D7-A3B2FE742E17}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
-		{1D660912-8164-4499-A2D7-A3B2FE742E17}.Xamarin - Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
+		{1D660912-8164-4499-A2D7-A3B2FE742E17}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{1D660912-8164-4499-A2D7-A3B2FE742E17}.Xamarin-Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
 		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
@@ -134,8 +139,8 @@ Global
 		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
 		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
-		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
-		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Xamarin - Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
+		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}.Xamarin-Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
 		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
@@ -144,8 +149,8 @@ Global
 		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
 		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
-		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
-		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Xamarin - Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
+		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}.Xamarin-Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
 		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
@@ -154,8 +159,8 @@ Global
 		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
 		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
-		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
-		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Xamarin - Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
+		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}.Xamarin-Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
 		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
@@ -164,8 +169,8 @@ Global
 		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
 		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
-		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
-		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Xamarin - Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
+		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{148D8A8D-5675-4333-9523-B6EB14BA4FFE}.Xamarin-Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
 		{B25921E6-096D-477E-B7BC-780B38F9016B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B25921E6-096D-477E-B7BC-780B38F9016B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B25921E6-096D-477E-B7BC-780B38F9016B}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
@@ -174,8 +179,8 @@ Global
 		{B25921E6-096D-477E-B7BC-780B38F9016B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B25921E6-096D-477E-B7BC-780B38F9016B}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
 		{B25921E6-096D-477E-B7BC-780B38F9016B}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
-		{B25921E6-096D-477E-B7BC-780B38F9016B}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
-		{B25921E6-096D-477E-B7BC-780B38F9016B}.Xamarin - Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
+		{B25921E6-096D-477E-B7BC-780B38F9016B}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{B25921E6-096D-477E-B7BC-780B38F9016B}.Xamarin-Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
 		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Mono - Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -183,7 +188,27 @@ Global
 		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Release|Any CPU.Build.0 = Release|Any CPU
 		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Xamarin - Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Xamarin - Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{703FF300-34B9-48D4-A5D6-E741F48D5F95}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{5873DE0F-6853-4C8E-91A4-7A6861069A9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5873DE0F-6853-4C8E-91A4-7A6861069A9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5873DE0F-6853-4C8E-91A4-7A6861069A9A}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
+		{5873DE0F-6853-4C8E-91A4-7A6861069A9A}.Mono - Debug|Any CPU.Build.0 = Mono - Debug|Any CPU
+		{5873DE0F-6853-4C8E-91A4-7A6861069A9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5873DE0F-6853-4C8E-91A4-7A6861069A9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5873DE0F-6853-4C8E-91A4-7A6861069A9A}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
+		{5873DE0F-6853-4C8E-91A4-7A6861069A9A}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
+		{5873DE0F-6853-4C8E-91A4-7A6861069A9A}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{5873DE0F-6853-4C8E-91A4-7A6861069A9A}.Xamarin-Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
+		{816EFD70-BF98-4578-B0BC-1C8F92EB92D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{816EFD70-BF98-4578-B0BC-1C8F92EB92D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{816EFD70-BF98-4578-B0BC-1C8F92EB92D2}.Mono - Debug|Any CPU.ActiveCfg = Mono - Debug|Any CPU
+		{816EFD70-BF98-4578-B0BC-1C8F92EB92D2}.Mono - Debug|Any CPU.Build.0 = Mono - Debug|Any CPU
+		{816EFD70-BF98-4578-B0BC-1C8F92EB92D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{816EFD70-BF98-4578-B0BC-1C8F92EB92D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{816EFD70-BF98-4578-B0BC-1C8F92EB92D2}.Xamarin - Debug|Any CPU.ActiveCfg = Xamarin - Debug|Any CPU
+		{816EFD70-BF98-4578-B0BC-1C8F92EB92D2}.Xamarin - Debug|Any CPU.Build.0 = Xamarin - Debug|Any CPU
+		{816EFD70-BF98-4578-B0BC-1C8F92EB92D2}.Xamarin-Release|Any CPU.ActiveCfg = Xamarin-Release|Any CPU
+		{816EFD70-BF98-4578-B0BC-1C8F92EB92D2}.Xamarin-Release|Any CPU.Build.0 = Xamarin-Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
