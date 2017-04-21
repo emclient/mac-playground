@@ -99,9 +99,8 @@ namespace System.Drawing
 				layoutArea = new SizeF(layoutArea.Height, layoutArea.Width);
 			}
 
-			float baselineOffset = (float)NMath.Ceiling(font.nativeFont.AscentMetric + font.nativeFont.DescentMetric + 1);
 			float lineHeight = (float)NMath.Ceiling(font.nativeFont.AscentMetric + font.nativeFont.DescentMetric + font.nativeFont.LeadingMetric + 1);
-			var lines = CreateLines(font, atts, layoutArea, stringFormat, baselineOffset, lineHeight);
+			var lines = CreateLines(font, atts, layoutArea, stringFormat, lineHeight);
 			foreach (var line in lines)
 			{
 				if (line != null)
@@ -141,7 +140,7 @@ namespace System.Drawing
 			return new CTLine (attrStr);
 		}
 
-		private static List<CTLine> CreateLines (Font font, NSAttributedString attributedString, SizeF layoutBox, StringFormat format, float baselineOffset, float lineHeight)
+		private static List<CTLine> CreateLines (Font font, NSAttributedString attributedString, SizeF layoutBox, StringFormat format, float lineHeight)
 		{
 			bool noWrap = (format.FormatFlags & StringFormatFlags.NoWrap) != 0;
 			bool wholeLines = (format.FormatFlags & StringFormatFlags.LineLimit) != 0;
@@ -151,7 +150,7 @@ namespace System.Drawing
 				int start = 0;
 				int length = (int)attributedString.Length;
 				float y = 0;
-				while (start < length && y < layoutBox.Height && (!wholeLines || y + baselineOffset <= layoutBox.Height))
+				while (start < length && y < layoutBox.Height && (!wholeLines || y + lineHeight <= layoutBox.Height))
 				{
 					if (format.Trimming != StringTrimming.None)
 					{
@@ -160,7 +159,7 @@ namespace System.Drawing
 						if (!wholeLines)
 							lastLine = y + lineHeight >= layoutBox.Height;
 						else
-							lastLine = y + lineHeight + baselineOffset > layoutBox.Height;
+							lastLine = y + lineHeight + lineHeight > layoutBox.Height;
 						if (lastLine)
 							noWrap = true;
 					}
@@ -253,7 +252,6 @@ namespace System.Drawing
 			float boundsWidth;
 			float boundsHeight;
 
-			float baselineOffset = (float)NMath.Ceiling(font.nativeFont.AscentMetric + font.nativeFont.DescentMetric + 1);
 			float lineHeight = (float)NMath.Ceiling(font.nativeFont.AscentMetric + font.nativeFont.DescentMetric + font.nativeFont.LeadingMetric + 1);
 			List<CTLine> lines = new List<CTLine>();
 
@@ -261,7 +259,7 @@ namespace System.Drawing
 			// If we are drawing vertical direction then we need to rotate our context transform by 90 degrees
 			if ((format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical) {
 				// Swap out the width and height and calculate the lines
-				lines = CreateLines(font, attributedString, new SizeF(insetBounds.Height, insetBounds.Width), format, baselineOffset, lineHeight);
+				lines = CreateLines(font, attributedString, new SizeF(insetBounds.Height, insetBounds.Width), format, lineHeight);
 				//textMatrix.Rotate (ConversionHelpers.DegreesToRadians (90));
 				context.TranslateCTM (layoutRectangle.X, layoutRectangle.Y);
 				context.RotateCTM (ConversionHelpers.DegreesToRadians (90));
@@ -269,28 +267,33 @@ namespace System.Drawing
 				if (layoutAvailable)
 					context.TranslateCTM (0, -layoutRectangle.Width);
 				else
-					context.TranslateCTM (0, -baselineOffset);
+                    context.TranslateCTM (0, -lineHeight);
 				boundsWidth = insetBounds.Height;
 				boundsHeight = insetBounds.Width;
 			} else {
-				lines = CreateLines(font, attributedString, insetBounds.Size, format, baselineOffset, lineHeight);
+				lines = CreateLines(font, attributedString, insetBounds.Size, format, lineHeight);
 				boundsWidth = insetBounds.Width;
 				boundsHeight = insetBounds.Height;
 			}
 
-			if (format.LineAlignment != StringAlignment.Near && !layoutAvailable) {
-				float maxLineWidth = 0;
-				foreach (var line in lines) {
-					if (line != null) {
-						nfloat ascent, descent, leading;
-						var lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
-						if ((format.FormatFlags & StringFormatFlags.MeasureTrailingSpaces) != 0)
-							lineWidth += line.TrailingWhitespaceWidth;
-						maxLineWidth = Math.Max(maxLineWidth, (float)NMath.Ceiling((float)lineWidth));
+            if (!layoutAvailable) {
+				if (format.Alignment != StringAlignment.Near) {
+					float maxLineWidth = 0;
+					foreach (var line in lines) {
+						if (line != null) {
+							nfloat ascent, descent, leading;
+							var lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
+							if ((format.FormatFlags & StringFormatFlags.MeasureTrailingSpaces) != 0)
+								lineWidth += line.TrailingWhitespaceWidth;
+							maxLineWidth = Math.Max(maxLineWidth, (float)NMath.Ceiling((float)lineWidth));
+						}
 					}
+					boundsWidth = maxLineWidth;
 				}
-				boundsWidth = maxLineWidth;
-			}
+                if (format.LineAlignment != StringAlignment.Near) {
+                    boundsHeight = lineHeight * lines.Count;
+                }
+            }
 
 			int currentLine = 0;
 			PointF textPosition = new PointF(insetBounds.X + .5f, insetBounds.Y + .5f);
@@ -303,20 +306,25 @@ namespace System.Drawing
 					var lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
 
 					// Calculate the string format if need be
-					var penFlushness = 0.0f;
+					nfloat x = textPosition.X;
+					nfloat y = textPosition.Y;
 					if (layoutAvailable)
 					{
 						if (format.Alignment == StringAlignment.Far)
-							penFlushness = (float)line.GetPenOffsetForFlush(1.0f, boundsWidth);
+							x += (float)line.GetPenOffsetForFlush(1.0f, boundsWidth);
 						else if (format.Alignment == StringAlignment.Center)
-							penFlushness = (float)line.GetPenOffsetForFlush(0.5f, boundsWidth);
+							x += (float)line.GetPenOffsetForFlush(0.5f, boundsWidth);
 						if ((format.FormatFlags & StringFormatFlags.MeasureTrailingSpaces) != 0)
 						{
 							if (format.Alignment == StringAlignment.Far)
-								penFlushness -= (float)line.TrailingWhitespaceWidth;
+								x -= (float)line.TrailingWhitespaceWidth;
 							else if (format.Alignment == StringAlignment.Center)
-								penFlushness -= (float)line.TrailingWhitespaceWidth * 0.5f;
+								x -= (float)line.TrailingWhitespaceWidth * 0.5f;
 						}
+                        if (format.LineAlignment == StringAlignment.Far)
+                            y += boundsHeight - (lines.Count * lineHeight);
+                        else if (format.LineAlignment == StringAlignment.Center)
+                            y += (boundsHeight / 2) - (lines.Count * lineHeight) + (lineHeight / 2);
 					}
 					else
 					{
@@ -324,24 +332,16 @@ namespace System.Drawing
 						if ((format.FormatFlags & StringFormatFlags.MeasureTrailingSpaces) != 0)
 							lineWidth += line.TrailingWhitespaceWidth;
 						if (format.Alignment == StringAlignment.Far)
-							penFlushness -= (float)lineWidth;
+							x -= (float)lineWidth;
 						else if (format.Alignment == StringAlignment.Center)
-							penFlushness -= (float)lineWidth / 2.0f;
+							x -= (float)lineWidth / 2.0f;
+						if (format.LineAlignment == StringAlignment.Far)
+							y -= boundsHeight;
+						else if (format.LineAlignment == StringAlignment.Center)
+							y -= (boundsHeight / 2);
 					}
 
 					// initialize our Text Matrix or we could get trash in here
-					nfloat x = textPosition.X + penFlushness;
-					nfloat y = textPosition.Y;
-					switch (format.LineAlignment)
-					{
-						case StringAlignment.Center:
-							y += (layoutAvailable ? 1 : -1) * ((boundsHeight / 2) - (baselineOffset / 2));
-							break;
-						case StringAlignment.Far:
-							y += (layoutAvailable ? 1 : -1) * ((boundsHeight) - (baselineOffset));
-							break;
-					}
-
 					var textMatrix = new CGAffineTransform(1, 0, 0, -1, 0, ascent);
 					textMatrix.Translate(x, y);
 					context.TextMatrix = textMatrix;
