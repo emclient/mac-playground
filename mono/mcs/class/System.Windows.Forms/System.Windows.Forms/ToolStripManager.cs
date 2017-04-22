@@ -1,4 +1,4 @@
-//
+﻿//
 // ToolStripManager.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -41,7 +41,8 @@ namespace System.Windows.Forms
 		private static List<WeakReference> toolstrips = new List<WeakReference> ();
 		private static List<ToolStripMenuItem> menu_items = new List<ToolStripMenuItem> ();
 		private static bool activated_by_keyboard;
-		
+		private static Font default_font = new Font("Tahoma", 8.25f);
+
 		#region Private Constructor
 		private ToolStripManager ()
 		{
@@ -420,6 +421,10 @@ namespace System.Windows.Forms
 		#endregion
 
 		#region Private/Internal Methods
+        internal static Font DefaultFont {
+            get { return default_font; }
+        }
+
 		internal static bool ActivatedByKeyboard {
 			get { return activated_by_keyboard; }
 			set { activated_by_keyboard = value; }
