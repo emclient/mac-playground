@@ -750,11 +750,14 @@ namespace System.Windows.Forms
 			//textbox_ctrl.ForeColor = ForeColor;
 		}
 
+        internal override int OverrideHeight(int height)
+        {
+            return PreferredHeight;
+        }
+
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
-
-			SetBoundsInternal(Left, Top, Width, PreferredHeight, BoundsSpecified.None);
 
 			//if (textbox_ctrl != null)
 			//Controls.AddImplicit(textbox_ctrl);

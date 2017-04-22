@@ -2127,10 +2127,15 @@ namespace System.Windows.Forms
 			}
 		}
 
+        internal override int OverrideHeight(int height)
+        {
+            return IntegralHeight ? SnapHeightToIntegral(height) : height;
+        }
+
 		private void UpdateListBoxBounds ()
 		{
 			if (IsHandleCreated)
-				SetBoundsInternal (bounds.X, bounds.Y, bounds.Width, IntegralHeight ? SnapHeightToIntegral (requested_height) : requested_height, BoundsSpecified.None);
+                SetBounds (bounds.X, bounds.Y, bounds.Width, bounds.Height, BoundsSpecified.None);
 		}
 
 		private void UpdateScrollBars ()
