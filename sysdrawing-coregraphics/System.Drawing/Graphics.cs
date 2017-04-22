@@ -1163,21 +1163,31 @@ namespace System.Drawing {
 			get { return smoothingMode; } 
 			set 
 			{
-				// Quartz performs antialiasing for a graphics context if both the allowsAntialiasing parameter 
-				// and the graphics state parameter shouldAntialias are true.
-				smoothingMode = value;
-				switch (value) 
-				{
-				case SmoothingMode.AntiAlias:
-				case SmoothingMode.HighQuality:
-				case SmoothingMode.Default:
-					context.SetAllowsAntialiasing(true);  // This parameter is not part of the graphics state.
-					context.SetShouldAntialias(true);
-					break;
-				default:
-					context.SetAllowsAntialiasing(false); // This parameter is not part of the graphics state.
-					context.SetShouldAntialias(false);
-					break;
+                if (smoothingMode != value) {
+	                // Quartz performs antialiasing for a graphics context if both the allowsAntialiasing parameter 
+	                // and the graphics state parameter shouldAntialias are true.
+					switch (value)
+					{
+					case SmoothingMode.AntiAlias:
+					case SmoothingMode.HighQuality:
+					case SmoothingMode.Default:
+                        if (smoothingMode != SmoothingMode.AntiAlias &&
+                            smoothingMode != SmoothingMode.HighQuality &&
+                            smoothingMode != SmoothingMode.Default) {
+						    //context.SetAllowsAntialiasing(true);  // This parameter is not part of the graphics state.
+						    context.SetShouldAntialias(true);
+                        }
+						break;
+					default:
+                        if (smoothingMode == SmoothingMode.AntiAlias &&
+                            smoothingMode == SmoothingMode.HighQuality &&
+                            smoothingMode == SmoothingMode.Default) {
+    						//context.SetAllowsAntialiasing(false); // This parameter is not part of the graphics state.
+	    					context.SetShouldAntialias(false);
+                        }
+						break;
+					}
+					smoothingMode = value;
 				}
 			}
 		}

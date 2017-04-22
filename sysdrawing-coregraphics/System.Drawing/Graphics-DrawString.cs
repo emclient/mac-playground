@@ -134,13 +134,13 @@ namespace System.Drawing
 			DrawString (s, font, brush, new RectangleF(x, y, 0, 0), format);
 		}
 
-		private static CTLine EllipsisToken(Font font, StringFormat format)
+		private CTLine EllipsisToken(Font font, StringFormat format)
 		{
-			var attrStr = buildAttributedString("\u2026", font, format, null);
+            var attrStr = buildAttributedString("\u2026", font, format, lastBrushColor);
 			return new CTLine (attrStr);
 		}
 
-		private static List<CTLine> CreateLines (Font font, NSAttributedString attributedString, SizeF layoutBox, StringFormat format, float lineHeight)
+		private List<CTLine> CreateLines (Font font, NSAttributedString attributedString, SizeF layoutBox, StringFormat format, float lineHeight)
 		{
 			bool noWrap = (format.FormatFlags & StringFormatFlags.NoWrap) != 0;
 			bool wholeLines = (format.FormatFlags & StringFormatFlags.LineLimit) != 0;
@@ -212,35 +212,19 @@ namespace System.Drawing
 
 			// TODO: Take into consideration units
 
-			// Not sure we need the Save and Restore around this yet.
-			context.SaveState();
-
-			// TextMatrix is not part of the Graphics State and Restore 
-			var saveMatrix = context.TextMatrix;
-			bool layoutAvailable = true;
-
 			// First we call the brush with a fill of false so the brush can setup the stroke color
 			// that the text will be using.
 			// For LinearGradientBrush this will setup a TransparentLayer so the gradient can
 			// be filled at the end.  See comments.
 			brush.Setup(this, false); // Stroke
 
-			// I think we only Fill the text with no Stroke surrounding
-			context.SetTextDrawingMode(CGTextDrawingMode.Fill);
+            var savedSmoothingMode = SmoothingMode;
+            SmoothingMode = Drawing2D.SmoothingMode.Default;
 
-			context.SetAllowsAntialiasing (true);
-			context.SetAllowsFontSmoothing (true);
-			context.SetAllowsSubpixelPositioning (true);
-			context.SetAllowsFontSubpixelQuantization (true);
-
-			context.SetShouldAntialias (true);
-			context.SetShouldSmoothFonts (true);
-			context.SetShouldSubpixelPositionFonts (true);
-			context.ShouldSubpixelQuantizeFonts(true);
-
-			var attributedString = buildAttributedString(s, font, format, lastBrushColor);
+            var attributedString = buildAttributedString(s, font, format, lastBrushColor);
 
 			// Work out the geometry
+			bool layoutAvailable = true;
 			RectangleF insetBounds = layoutRectangle;
 			if (insetBounds.Size == SizeF.Empty)
 			{
@@ -254,20 +238,21 @@ namespace System.Drawing
 
 			float lineHeight = (float)NMath.Ceiling(font.nativeFont.AscentMetric + font.nativeFont.DescentMetric + font.nativeFont.LeadingMetric + 1);
 			List<CTLine> lines = new List<CTLine>();
+            CGAffineTransform verticalMatrix = default(CGAffineTransform);
 
 			// Calculate the lines
 			// If we are drawing vertical direction then we need to rotate our context transform by 90 degrees
 			if ((format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical) {
 				// Swap out the width and height and calculate the lines
 				lines = CreateLines(font, attributedString, new SizeF(insetBounds.Height, insetBounds.Width), format, lineHeight);
-				//textMatrix.Rotate (ConversionHelpers.DegreesToRadians (90));
-				context.TranslateCTM (layoutRectangle.X, layoutRectangle.Y);
-				context.RotateCTM (ConversionHelpers.DegreesToRadians (90));
-				context.TranslateCTM (-layoutRectangle.X, -layoutRectangle.Y);
+				verticalMatrix = CGAffineTransform.MakeTranslation(-layoutRectangle.X, -layoutRectangle.Y);
+                verticalMatrix.Rotate((float)NMath.PI * 0.5f);
+				verticalMatrix.Translate(layoutRectangle.X, layoutRectangle.Y);
 				if (layoutAvailable)
-					context.TranslateCTM (0, -layoutRectangle.Width);
+					verticalMatrix.Translate(layoutRectangle.Width, 0);
 				else
-                    context.TranslateCTM (0, -lineHeight);
+                    verticalMatrix.Translate((lines.Count * lineHeight), 0);
+                context.ConcatCTM(verticalMatrix);
 				boundsWidth = insetBounds.Height;
 				boundsHeight = insetBounds.Width;
 			} else {
@@ -276,27 +261,36 @@ namespace System.Drawing
 				boundsHeight = insetBounds.Height;
 			}
 
-            if (!layoutAvailable) {
-				if (format.Alignment != StringAlignment.Near) {
-					float maxLineWidth = 0;
-					foreach (var line in lines) {
-						if (line != null) {
-							nfloat ascent, descent, leading;
-							var lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
-							if ((format.FormatFlags & StringFormatFlags.MeasureTrailingSpaces) != 0)
-								lineWidth += line.TrailingWhitespaceWidth;
-							maxLineWidth = Math.Max(maxLineWidth, (float)NMath.Ceiling((float)lineWidth));
-						}
-					}
-					boundsWidth = maxLineWidth;
-				}
-                if (format.LineAlignment != StringAlignment.Near) {
-                    boundsHeight = lineHeight * lines.Count;
-                }
-            }
-
-			int currentLine = 0;
 			PointF textPosition = new PointF(insetBounds.X + .5f, insetBounds.Y + .5f);
+			if (layoutAvailable)
+			{
+				if (format.LineAlignment == StringAlignment.Far)
+					textPosition.Y += boundsHeight - (lines.Count * lineHeight);
+				else if (format.LineAlignment == StringAlignment.Center)
+                    textPosition.Y += (boundsHeight - (lines.Count * lineHeight)) / 2;
+			}
+			else
+			{
+                // Precalculate maximum width to allow for aligning lines
+                if (format.Alignment != StringAlignment.Near) {
+                    float maxLineWidth = 0;
+                    foreach (var line in lines) {
+                        if (line != null) {
+                            nfloat ascent, descent, leading;
+                            var lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
+                            if ((format.FormatFlags & StringFormatFlags.MeasureTrailingSpaces) != 0)
+                                lineWidth += line.TrailingWhitespaceWidth;
+                            maxLineWidth = Math.Max(maxLineWidth, (float)NMath.Ceiling((float)lineWidth));
+                        }
+                    }
+                    boundsWidth = maxLineWidth;
+                }
+				if (format.LineAlignment == StringAlignment.Far)
+					textPosition.Y -= lineHeight * lines.Count;
+				else if (format.LineAlignment == StringAlignment.Center)
+					textPosition.Y -= (lineHeight * lines.Count) / 2;
+			}
+
 			foreach (var line in lines)
 			{
 				// Make sure that the line still exists, it may be null if it's too small to render any text and wants StringTrimming
@@ -307,7 +301,6 @@ namespace System.Drawing
 
 					// Calculate the string format if need be
 					nfloat x = textPosition.X;
-					nfloat y = textPosition.Y;
 					if (layoutAvailable)
 					{
 						if (format.Alignment == StringAlignment.Far)
@@ -321,10 +314,6 @@ namespace System.Drawing
 							else if (format.Alignment == StringAlignment.Center)
 								x -= (float)line.TrailingWhitespaceWidth * 0.5f;
 						}
-                        if (format.LineAlignment == StringAlignment.Far)
-                            y += boundsHeight - (lines.Count * lineHeight);
-                        else if (format.LineAlignment == StringAlignment.Center)
-                            y += (boundsHeight / 2) - (lines.Count * lineHeight) + (lineHeight / 2);
 					}
 					else
 					{
@@ -335,24 +324,17 @@ namespace System.Drawing
 							x -= (float)lineWidth;
 						else if (format.Alignment == StringAlignment.Center)
 							x -= (float)lineWidth / 2.0f;
-						if (format.LineAlignment == StringAlignment.Far)
-							y -= boundsHeight;
-						else if (format.LineAlignment == StringAlignment.Center)
-							y -= (boundsHeight / 2);
 					}
 
-					// initialize our Text Matrix or we could get trash in here
-					var textMatrix = new CGAffineTransform(1, 0, 0, -1, 0, ascent);
-					textMatrix.Translate(x, y);
-					context.TextMatrix = textMatrix;
-
+                    // initialize our Text Matrix or we could get trash in here
+                    context.TextMatrix = new CGAffineTransform(1, 0, 0, -1, x, textPosition.Y + font.nativeFont.AscentMetric);
 					line.Draw (context);
 					line.Dispose ();
 
 					// Currently we support strikethrough only at the font level (for a whole text, not for ranges). It seems CoreText does not handle it for us.
 					if (font.Strikeout)
 					{
-						var sy = y + ascent - font.nativeFont.XHeightMetric / (nfloat)2.0;
+						var sy = textPosition.Y + ascent - font.nativeFont.XHeightMetric / (nfloat)2.0;
 						context.MoveTo(x, sy);
 						context.AddLineToPoint(x + (nfloat)lineWidth, sy);
 						context.SetStrokeColor(lastBrushColor.ToCGColor());
@@ -363,7 +345,6 @@ namespace System.Drawing
 
 				// Move the index beyond the line break.
 				textPosition.Y += lineHeight;
-				++currentLine;
 			}
 
 			// Now we call the brush with a fill of true so the brush can do the fill if need be 
@@ -371,49 +352,30 @@ namespace System.Drawing
 			// See comments.
 			brush.Setup(this, true); // Fill
 
-			context.TextMatrix = saveMatrix;
-			context.RestoreState();
+            if ((format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
+                context.ConcatCTM(verticalMatrix.Invert());
+			SmoothingMode = savedSmoothingMode;
 		}	
 
-		private static NSMutableAttributedString buildAttributedString(string text, Font font, StringFormat format = null, Color? fontColor = null) 
+        private static NSAttributedString buildAttributedString(string text, Font font, StringFormat format = null, Color? fontColor = null) 
 		{
 			var ctAttributes = new CTStringAttributes ();
 			ctAttributes.Font = font.nativeFont;
-
-			if (format != null && (format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical) 
-			{
-				//ctAttributes.VerticalForms = true;
-			}
-
 			if (fontColor.HasValue)
 			{
 				ctAttributes.ForegroundColor = fontColor.Value.ToCGColor();
 				ctAttributes.ForegroundColorFromContext = false;
 			}
-
 			if (font.Underline)
 			{
 				ctAttributes.UnderlineStyle = CTUnderlineStyle.Single;
 			}
+            // font.Strikeout - Not used by CoreText, we have to process it ourselves
 
-			//if (font.Strikeout)
-			//{
-			//	// Not used by CoreText, we have to process it ourselves
-			//	ctAttributes.Dictionary.SetValueForKey(NSNumber.FromInt32(1), NSAttributedString.StrikethroughStyleAttributeName);
-			//	ctAttributes.Dictionary.SetValueForKey(new NSObject(new CGColor(0.0f, 1.0f).Handle), NSAttributedString.StrikethroughColorAttributeName);
-			//}
-
-			var alignment = CTTextAlignment.Left;
-			var alignmentSettings = new CTParagraphStyleSettings();
-			alignmentSettings.Alignment = alignment;
-			var paragraphStyle = new CTParagraphStyle(alignmentSettings);
-
-			ctAttributes.ParagraphStyle = paragraphStyle;
-			// end text alignment
-
-			text = text.Replace("\0", "");
+            if (text.IndexOf('\0') >= 0)
+                text = text.Replace("\0", "");
 			if (format == null || format.HotkeyPrefix == System.Drawing.Text.HotkeyPrefix.None)
-				return new NSMutableAttributedString (text, ctAttributes.Dictionary);
+				return new NSAttributedString (text, ctAttributes.Dictionary);
 			
 			var sb = new StringBuilder ();
 			bool wasHotkey = false;
@@ -450,14 +412,6 @@ namespace System.Drawing
 					}
 				}
 			}
-
-			//if (font.Strikeout)
-			//{
-			//	// Not used by CoreText, we have to process it ourselves
-			//	atts.AddAttribute(NSAttributedString.StrikethroughStyleAttributeName, new NSNumber(1), new NSRange(0, atts.Length));
-			//	if (fontColor.HasValue)
-			//		atts.AddAttribute(NSAttributedString.StrikethroughColorAttributeName, new NSObject(fontColor.Value.ToCGColor().Handle), new NSRange(0, atts.Length));
-			//}
 
 			return atts;
 		}
