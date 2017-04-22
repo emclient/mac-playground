@@ -168,39 +168,26 @@ namespace System.Windows.Forms.Layout
 				if (height < 0)
 					height = 0;
 
-				child.SetBoundsInternal (left, top, width, height, BoundsSpecified.None);
+                if (child.AutoSize) {
+					Size proposedSize = Size.Empty;
+					if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == (AnchorStyles.Left | AnchorStyles.Right))
+						proposedSize.Width = width;
+					if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == (AnchorStyles.Top | AnchorStyles.Bottom))
+						proposedSize.Height = height;
+
+					Size preferredsize = GetPreferredControlSize(child, proposedSize);
+
+					if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == AnchorStyles.Left)
+						child.DistanceRight += child.Width - preferredsize.Width;
+					if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == AnchorStyles.Top)
+						child.DistanceBottom += child.Height - preferredsize.Height;
+
+					child.SetBoundsInternal(left, top, preferredsize.Width, preferredsize.Height, BoundsSpecified.None);
+                } else {
+                    child.SetBoundsInternal(left, top, width, height, BoundsSpecified.None);
+                }
 			}
 		}
-		
-		static void LayoutAutoSizedChildren (Control parent, IList controls)
-		{
-			foreach (Control child in controls) {
-				if (!child.VisibleInternal || child.Dock != DockStyle.None || !child.AutoSizeInternal)
-					continue;
-
-				AnchorStyles anchor = child.Anchor;
-				int left = child.Left;
-				int top = child.Top;
-
-				Size proposedSize = Size.Empty;
-				if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == (AnchorStyles.Left | AnchorStyles.Right)) {
-					proposedSize.Width = child.Width;
-				}
-				if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == (AnchorStyles.Top | AnchorStyles.Bottom)) {
-					proposedSize.Height = child.Height;
-				}
-
-				Size preferredsize = GetPreferredControlSize(child, proposedSize);
-
-				if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == AnchorStyles.Left)
-					child.DistanceRight += child.Width - preferredsize.Width;
-				if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == AnchorStyles.Top)
-					child.DistanceBottom += child.Height - preferredsize.Height;
-
-				child.SetBoundsInternal(left, top, preferredsize.Width, preferredsize.Height, BoundsSpecified.None);
-			}
-		}
-
 
 		private static Size GetPreferredControlSize(Control child, Size proposed)
 		{
@@ -230,7 +217,6 @@ namespace System.Windows.Forms.Layout
 
 			LayoutDockedChildren (parent, parent.Controls);
 			LayoutAnchoredChildren (parent, parent.Controls);
-			LayoutAutoSizedChildren (parent, parent.Controls);
 
 			return parent.AutoSizeInternal;
 		}
