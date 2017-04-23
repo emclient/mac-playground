@@ -198,40 +198,6 @@ namespace System.Windows.Forms {
 			nextWindowLocation = CGPoint.Empty;
 		}
 
-		internal void PerformNCCalc (MonoView view)
-		{
-			//FIXME! Should not reference Win32 variant here or NEED to do so.
-			XplatUIWin32.NCCALCSIZE_PARAMS ncp = new XplatUIWin32.NCCALCSIZE_PARAMS ();
-			IntPtr ptr = Marshal.AllocHGlobal (Marshal.SizeOf (ncp));
-
-			Rectangle rect = new Rectangle(0, 0, (int)view.Frame.Width, (int)view.Frame.Height);
-			ncp.rgrc1.left = rect.Left;
-			ncp.rgrc1.top = rect.Top;
-			ncp.rgrc1.right = rect.Right;
-			ncp.rgrc1.bottom = rect.Bottom;
-
-			Marshal.StructureToPtr (ncp, ptr, true);
-			NativeWindow.WndProc(view.Handle, Msg.WM_NCCALCSIZE, (IntPtr) 1, ptr);
-			ncp = (XplatUIWin32.NCCALCSIZE_PARAMS) Marshal.PtrToStructure (ptr, typeof (XplatUIWin32.NCCALCSIZE_PARAMS));
-			Marshal.FreeHGlobal(ptr);
-
-			var clientRect = new Rectangle(ncp.rgrc1.left, ncp.rgrc1.top, ncp.rgrc1.right - ncp.rgrc1.left, ncp.rgrc1.bottom - ncp.rgrc1.top);
-			var savedBounds = view.ClientBounds;
-			view.ClientBounds = clientRect.ToCGRect();
-
-			// Update subview locations
-			var offset = new CGPoint(view.ClientBounds.X - savedBounds.X, view.ClientBounds.Y - savedBounds.Y);
-			if (offset.X != 0 || offset.Y != 0) {				
-				var vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(view.Handle);
-				foreach (var subView in vuWrap.Subviews) {
-					var frameOrigin = subView.Frame.Location;
-					frameOrigin.X += offset.X;
-					frameOrigin.Y += offset.Y;
-					subView.SetFrameOrigin(frameOrigin);
-				}
-			}
-		}
-
 		internal void ScreenToClientWindow (IntPtr handle, ref CGPoint point)
 		{
 			NSView viewWrapper = ObjCRuntime.Runtime.GetNSObject (handle) as NSView;
@@ -911,7 +877,7 @@ namespace System.Windows.Forms {
 			
 			SendMessage (viewWrapper.Handle, Msg.WM_NCCREATE, (IntPtr)1, IntPtr.Zero /* XXX unused */);
 			if (viewWrapper is MonoView)
-				PerformNCCalc ((MonoView)viewWrapper);
+				((MonoView)viewWrapper).PerformNCCalc(viewWrapper.Frame.Size);
 
 			SendMessage (viewWrapper.Handle, Msg.WM_CREATE, (IntPtr)1, IntPtr.Zero /* XXX unused */);
 			SendParentNotify (viewWrapper.Handle, Msg.WM_CREATE, int.MaxValue, int.MaxValue);
@@ -1525,7 +1491,7 @@ namespace System.Windows.Forms {
 		internal override void RequestNCRecalc (IntPtr handle) {
 			var view = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 			if (view is MonoView)
-				PerformNCCalc ((MonoView)view);
+				((MonoView)view).PerformNCCalc(view.Frame.Size);
 			SendMessage (handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 			InvalidateNC (handle);
 		}
@@ -2005,9 +1971,6 @@ namespace System.Windows.Forms {
 				Console.WriteLine ("{0} SetWindowPos( {1}, {2}, WxH: {3} x {4} )", winWrap.Title, x, y, width, height);
 #endif
 
-			if (vuWrap is MonoView)
-				PerformNCCalc( (MonoView)vuWrap);
-
             var wp = new WINDOWPOS
                 {
                     hwnd = handle,
@@ -2076,7 +2039,7 @@ namespace System.Windows.Forms {
 			if (monoView != null) {
 				monoView.Style = cp.WindowStyle;
 				monoView.ExStyle = cp.WindowExStyle;
-				PerformNCCalc(monoView);
+				monoView.PerformNCCalc(monoView.Frame.Size);
 			}
 				
 			if (vuWrap.Window != null && vuWrap.Window.ContentView == vuWrap)
