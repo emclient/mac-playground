@@ -27,6 +27,7 @@
 
 using System.Drawing;
 using System.Drawing.Mac;
+using System.Runtime.InteropServices;
 
 #if XAMARINMAC
 using Foundation;
@@ -151,6 +152,62 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.DispatchMessage(ref msg);
 
 			this.DirtyRectangle = null;
+		}
+
+        public override CGRect Frame
+        {
+            get
+            {
+                return base.Frame;
+            }
+            set
+            {
+                var oldFrame = base.Frame;
+                base.Frame = value;
+				if (oldFrame.Size != value.Size)
+					PerformNCCalc(value.Size);
+            }
+        }
+
+        public override void SetFrameSize(CGSize newSize)
+        {
+			base.SetFrameSize(newSize);
+			PerformNCCalc(newSize);
+		}
+
+		public void PerformNCCalc(CGSize newSize)
+		{
+			//FIXME! Should not reference Win32 variant here or NEED to do so.
+			XplatUIWin32.NCCALCSIZE_PARAMS ncp = new XplatUIWin32.NCCALCSIZE_PARAMS ();
+			IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(ncp));
+
+			Rectangle rect = new Rectangle(0, 0, (int)newSize.Width, (int)newSize.Height);
+			ncp.rgrc1.left = rect.Left;
+			ncp.rgrc1.top = rect.Top;
+			ncp.rgrc1.right = rect.Right;
+			ncp.rgrc1.bottom = rect.Bottom;
+
+			Marshal.StructureToPtr(ncp, ptr, true);
+			NativeWindow.WndProc(Handle, Msg.WM_NCCALCSIZE, (IntPtr) 1, ptr);
+			ncp = (XplatUIWin32.NCCALCSIZE_PARAMS) Marshal.PtrToStructure (ptr, typeof (XplatUIWin32.NCCALCSIZE_PARAMS));
+			Marshal.FreeHGlobal(ptr);
+
+			var clientRect = new Rectangle(ncp.rgrc1.left, ncp.rgrc1.top, ncp.rgrc1.right - ncp.rgrc1.left, ncp.rgrc1.bottom - ncp.rgrc1.top);
+			var savedBounds = ClientBounds;
+			ClientBounds = clientRect.ToCGRect();
+
+			// Update subview locations
+			var offset = new CGPoint(ClientBounds.X - savedBounds.X, ClientBounds.Y - savedBounds.Y);
+			if (offset.X != 0 || offset.Y != 0)
+			{
+				foreach (var subView in Subviews)
+				{
+					var frameOrigin = subView.Frame.Location;
+					frameOrigin.X += offset.X;
+					frameOrigin.Y += offset.Y;
+					subView.SetFrameOrigin(frameOrigin);
+				}
+			}
 		}
 
 		public CGRect ClientBounds
