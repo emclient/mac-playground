@@ -40,7 +40,7 @@
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing %28CoreGraphics%29.csproj">
+    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj">
       <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
       <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>
