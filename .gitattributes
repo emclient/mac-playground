@@ -127,7 +127,6 @@ FormsTestApp/InfoTemplate.plist -text
 FormsTestApp/Main.cs -text
 FormsTestApp/Main.storyboard -text
 FormsTestApp/Program.cs -text
-FormsTestApp/Properties/AssemblyInfo.cs -text
 FormsTestApp/Properties/AssemblyInfoTemplate.cs -text
 FormsTestApp/ViewController.cs -text
 FormsTestApp/ViewController.designer.cs -text
