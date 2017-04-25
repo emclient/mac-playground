@@ -122,7 +122,6 @@ FormsTest/car.png -text
 FormsTestApp/Entitlements.plist -text
 FormsTestApp/FixMacBundle.targets -text
 FormsTestApp/FormsTest.app.csproj -text
-FormsTestApp/Info.plist -text
 FormsTestApp/InfoTemplate.plist -text
 FormsTestApp/Main.cs -text
 FormsTestApp/Main.storyboard -text
