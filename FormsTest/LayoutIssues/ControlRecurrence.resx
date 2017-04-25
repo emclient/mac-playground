@@ -2190,6 +2190,12 @@
   <data name="date_Recurrence_RangeDay.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
+  <data name="date_Recurrence_RangeDay.PickerTodayButtonTitle" xml:space="preserve">
+    <value>Dnešek</value>
+  </data>
+  <data name="date_Recurrence_RangeDay.PickerClearButtonTitle" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
   <data name="&gt;&gt;date_Recurrence_RangeDay.Name" xml:space="preserve">
     <value>date_Recurrence_RangeDay</value>
   </data>
