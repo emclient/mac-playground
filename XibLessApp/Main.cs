@@ -8,6 +8,15 @@ namespace XibLessApp
 {
 	class AppDelegate : NSApplicationDelegate
 	{
+		public override void WillFinishLaunching(NSNotification notification)
+		{
+			Console.WriteLine("WillFinishLaunching");
+		}
+
+		public override void DidFinishLaunching(NSNotification notification)
+		{
+			Console.WriteLine("DidFinishLaunching");
+		}
 	}
 
 	class Program
@@ -21,9 +30,9 @@ namespace XibLessApp
 			app = NSApplication.SharedApplication;
 			app.Delegate = new AppDelegate();
 			app.ActivationPolicy = NSApplicationActivationPolicy.Regular;
-			app.FinishLaunching();
 			app.Menu = Program.CreateMenu();
 
+            app.FinishLaunching();
 			//app.Run()
 
 			var dialog = Program.WindowWithTitle("Modal");
