@@ -26,8 +26,6 @@
 	<string>NSApplication</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
-	<key>XSAppIconAssets</key>
-	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
