@@ -44,7 +44,6 @@ Global
 		Mono - Debug|Any CPU = Mono - Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 		Xamarin - Debug|Any CPU = Xamarin - Debug|Any CPU
-		Xamarin - Release|Any CPU = Xamarin - Release|Any CPU
 		Xamarin-Release|Any CPU = Xamarin-Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
