@@ -112,7 +112,9 @@ namespace System.Windows.Forms {
 
 		// Message loop
 		private static bool GetMessageResult;
-
+#if XAMARINMAC
+		System.Reflection.MethodInfo NextEventMethod;
+#endif
 		private static bool ReverseWindowMapped;
 
 		static readonly object instancelock = new object ();
@@ -164,20 +166,18 @@ namespace System.Windows.Forms {
 
 		internal void Initialize ()
 		{
-			// Cache main screen height for flipping screen coordinates.
-			Size size;
-			GetDisplaySize (out size);
-			screenHeight = size.Height;
-
-			// If NSPrincipalClass is not set, set it now. This allows running
-			// the application without a bundle
-			var info = NSBundle.MainBundle.InfoDictionary;
-			if (info.ValueForKey((NSString)"NSPrincipalClass") == null)
-				info.SetValueForKey((NSString)"NSApplication", (NSString)"NSPrincipalClass");
-
 			// Initialize the event handlers
 			applicationDelegate = new Cocoa.MonoApplicationDelegate (this);
 			NSApplication.SharedApplication.Delegate = applicationDelegate;
+
+			// Make sure the Apple event handlers get registered
+			using (new NSAutoreleasePool())
+				NSApplication.SharedApplication.FinishLaunching();
+
+			// Cache main screen height for flipping screen coordinates.
+			Size size;
+			GetDisplaySize(out size);
+			screenHeight = size.Height;
 
 			// Initialize the Caret
 			Caret.Timer = new Timer ();
@@ -425,7 +425,13 @@ namespace System.Windows.Forms {
 
 			NSDate timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
 			NSApplication NSApp = NSApplication.SharedApplication;
-			NSEvent evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, dequeue);
+
+			NSEvent evtRef;
+#if XAMARINMAC
+			evtRef = (NSEvent) this.NextEventMethod.Invoke (NSApp, new object[] { (nuint)0xffffffffffffffff, timeout, (string)NSRunLoop.NSDefaultRunLoopMode, dequeue });
+#else
+			evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, dequeue);
+#endif
 			if (evtRef == null)
 				return false;
 
@@ -555,7 +561,7 @@ namespace System.Windows.Forms {
 
 #endregion Private Methods
 
-#region Override Methods XplatUIDriver
+			#region Override Methods XplatUIDriver
 		internal override void RaiseIdle (EventArgs e)
 		{
 			if (Idle != null)
@@ -1702,7 +1708,7 @@ namespace System.Windows.Forms {
 
 		internal override void SetIcon (IntPtr handle, Icon icon)
 		{
-			#if MONOMAC // The native mac application package already contains the app icon.
+#if MONOMAC // The native mac application package already contains the app icon.
 			ApplicationContext context = Application.MWFThread.Current.Context;
 			if ( context != null && context.MainForm != null && context.MainForm.Handle == handle) {
 				if (icon == null) { 
@@ -1721,7 +1727,7 @@ namespace System.Windows.Forms {
 					NSApplication.SharedApplication.ApplicationIconImage = image;
 				}
 			}
-			#endif
+#endif
 		}
 		
 		internal override void SetModal (IntPtr handle, bool Modal)
@@ -1769,7 +1775,7 @@ namespace System.Windows.Forms {
 			return IntPtr.Zero;
 		}
 
-		#if XAMARINMAC
+#if XAMARINMAC
 		internal override void SetTimer(Timer timer)
 		{
 			if (timer.window != IntPtr.Zero)
@@ -1785,7 +1791,7 @@ namespace System.Windows.Forms {
 			//nstimer.Retain();
 			timer.window = nstimer.Handle;
 		}
-		#elif MONOMAC
+#elif MONOMAC
 		internal override void SetTimer (Timer timer) {
 			if (timer.window != IntPtr.Zero)
 				KillTimer(timer);
@@ -1799,7 +1805,7 @@ namespace System.Windows.Forms {
 			nstimer.Retain();
 			timer.window = nstimer.Handle;
 		}
-		#endif
+#endif
 
 		internal void FireTick(Timer timer)
 		{
@@ -2153,6 +2159,11 @@ namespace System.Windows.Forms {
 			if (!pools.TryGetValue(thread, out stack))
 				pools.Add(thread, stack = new Stack<NSAutoreleasePool>());
 			stack.Push(new NSAutoreleasePool());
+
+#if XAMARINMAC
+			this.NextEventMethod = typeof(NSApplication).GetMethod("NextEvent", Reflection.BindingFlags.Instance | Reflection.BindingFlags.NonPublic);
+#endif
+
 			return new object ();
 		}
 
@@ -2232,7 +2243,7 @@ namespace System.Windows.Forms {
 			return false;
 		}
 
-#region Reversible regions
+			#region Reversible regions
 		/* 
 		 * Quartz has no concept of XOR drawing due to its compositing nature
 		 * We fake this by mapping a overlay window on the first draw and mapping it on the second.
@@ -2287,7 +2298,7 @@ namespace System.Windows.Forms {
 			}
 		}
 
-#endregion Reversible regions
+			#endregion Reversible regions
 
 		internal override SizeF GetAutoScaleSize (Font font) {
 			Graphics        g;
@@ -2309,7 +2320,7 @@ namespace System.Windows.Forms {
 #endregion Override Methods XplatUIDriver
 
 
-#region Override Properties XplatUIDriver
+			#region Override Properties XplatUIDriver
 
 		// MSDN: The keyboard repeat-speed setting, from 0 (approximately 2.5 repetitions per second) through 31 (approximately 30 repetitions per second).
 		internal override int KeyboardSpeed
@@ -2469,7 +2480,7 @@ namespace System.Windows.Forms {
 
 		// Event Handlers
 		internal override event EventHandler Idle;
-#endregion Override properties XplatUIDriver
+			#endregion Override properties XplatUIDriver
 
 		[DllImport("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
 		extern static void CGDisplayMoveCursorToPoint (UInt32 display, CGPoint point);
