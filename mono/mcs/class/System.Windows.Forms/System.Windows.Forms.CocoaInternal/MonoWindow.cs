@@ -82,7 +82,7 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			get
 			{
-				return IsVisible;
+				return true;
 			}
 		}
 
