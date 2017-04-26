@@ -50,10 +50,12 @@
 
 		<Copy SourceFiles="@(Relauncher)" DestinationFolder="$(MonoBundle)/Relauncher.app/%(RecursiveDir)" />
 
+<!--
 		<Copy SourceFiles="$([System.IO.Path]::Combine($(OutputPath),'providers.xml'))" DestinationFolder="$(MonoBundle)" />
 		<Copy SourceFiles="$([System.IO.Path]::Combine($(OutputPath),'lang_detect.dat'))" DestinationFolder="$(MonoBundle)" />
 		<Copy SourceFiles="$([System.IO.Path]::Combine($(OutputPath),'libhunspell.dylib'))" DestinationFolder="$(MonoBundle)" />
 		<Copy SourceFiles="$([System.IO.Path]::Combine($(OutputPath),'libsqlite3.0.dylib'))" DestinationFolder="$(MonoBundle)" />
+-->
 
 		<Copy SourceFiles="@(cs)" DestinationFolder="$(MonoBundle)/cs/%(RecursiveDir)" />
 		<Copy SourceFiles="@(da)" DestinationFolder="$(MonoBundle)/da/%(RecursiveDir)" />
