@@ -834,6 +834,7 @@ namespace System.Windows.Forms {
 
 				if ((cp.ClassStyle & 0x20000) != 0) // CS_DROPSHADOW
 					windowWrapper.HasShadow = true;
+				windowWrapper.CollectionBehavior = !cp.WindowStyle.HasFlag(WindowStyles.WS_MAXIMIZEBOX) ? NSWindowCollectionBehavior.FullScreenAuxiliary : NSWindowCollectionBehavior.Default;
 
 				viewWrapper = new Cocoa.MonoContentView(this, WholeRect, cp.WindowStyle, cp.WindowExStyle);
 				viewWrapper.AutoresizesSubviews = false;
@@ -2048,8 +2049,10 @@ namespace System.Windows.Forms {
 				monoView.PerformNCCalc(monoView.Frame.Size);
 			}
 				
-			if (vuWrap.Window != null && vuWrap.Window.ContentView == vuWrap)
-                vuWrap.Window.StyleMask = NSStyleFromStyle(cp.WindowStyle) | (vuWrap.Window.StyleMask & NSWindowStyle.FullScreenWindow);
+			if (vuWrap.Window != null && vuWrap.Window.ContentView == vuWrap) {
+				vuWrap.Window.StyleMask = NSStyleFromStyle(cp.WindowStyle) | (vuWrap.Window.StyleMask & NSWindowStyle.FullScreenWindow);
+				vuWrap.Window.CollectionBehavior = !cp.WindowStyle.HasFlag(WindowStyles.WS_MAXIMIZEBOX) ? NSWindowCollectionBehavior.FullScreenAuxiliary : NSWindowCollectionBehavior.Default;
+			}
 		}
 
 		internal override void SetWindowTransparency (IntPtr handle, double transparency, Color key) {
