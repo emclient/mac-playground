@@ -1535,6 +1535,8 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/UICues.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/UICuesEventArgs.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/UICuesEventHandler.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/UnhandledExceptionMode.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/UpDownBase.Mac.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/UpDownBase.Mono.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/UpDownBase.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/UpDownEventArgs.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/UpDownEventHandler.cs -text
