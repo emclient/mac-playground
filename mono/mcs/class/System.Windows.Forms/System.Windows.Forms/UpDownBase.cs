@@ -130,6 +130,11 @@ namespace System.Windows.Forms
 			Controls.Add (txtView);	
 			ResumeLayout ();
 
+			SuspendLayout();
+			txtView.Anchor = AnchorStyles.Left | AnchorStyles.Right;// | AnchorStyles.Top | AnchorStyles.Bottom;
+			txtView.Size = new Size(txtView.Width - spnSpinner.Width, txtView.Height);
+			ResumeLayout();
+
 			Height = PreferredHeight;
 			base.BackColor = txtView.BackColor;
 
