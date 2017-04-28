@@ -1065,6 +1065,13 @@ namespace System.Windows.Forms {
 					}
 					break;
 				}
+				case Msg.WM_NCPAINT:
+				{
+					var monoView = ObjCRuntime.Runtime.GetNSObject(msg.HWnd) as MonoView;
+					if (monoView != null)
+						monoView.DrawBorders();	
+					break;
+				}
 			}
 			return IntPtr.Zero;
 		}
