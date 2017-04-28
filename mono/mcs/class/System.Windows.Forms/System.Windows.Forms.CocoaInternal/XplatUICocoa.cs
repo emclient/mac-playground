@@ -1879,7 +1879,13 @@ namespace System.Windows.Forms {
 						monoWindow.Owner.RemoveChildWindow(winWrap);
 				}
 			} else {
+				// AppKit sets the FirstResponder to null when hiding a view that is
+				// first responder or contains a subview that is first responder. We
+				// want to override the behavior to set the parent as first responder.
+				bool fixFocus = winWrap != null && winWrap.FirstResponder is NSView;
 				vuWrap.Hidden = !visible;
+				if (fixFocus && !(winWrap.FirstResponder is NSView))
+					winWrap.MakeFirstResponder(vuWrap.Superview ?? winWrap.ContentView);
 			}
 
 			if (visible)
