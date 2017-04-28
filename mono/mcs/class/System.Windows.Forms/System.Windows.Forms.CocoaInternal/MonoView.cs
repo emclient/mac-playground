@@ -140,13 +140,9 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void DrawRect(CGRect dirtyRect)
 		{
-			MSG msg;
-
 			this.DirtyRectangle = driver.NativeToMonoFramed(dirtyRect, this);
 
-			DrawBorders();
-
-			msg = new MSG { hwnd = this.Handle, message = Msg.WM_NCPAINT };
+			var msg = new MSG { hwnd = this.Handle, message = Msg.WM_NCPAINT };
 			driver.DispatchMessage(ref msg);
 			msg = new MSG { hwnd = this.Handle, message = Msg.WM_PAINT };
 			driver.DispatchMessage(ref msg);
@@ -226,7 +222,7 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		private void DrawBorders()
+		internal virtual void DrawBorders()
 		{
 			if (ExStyle.HasFlag(WindowExStyles.WS_EX_CLIENTEDGE) || ExStyle.HasFlag(WindowExStyles.WS_EX_STATICEDGE))
 			{
