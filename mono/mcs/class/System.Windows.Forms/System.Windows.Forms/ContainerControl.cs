@@ -205,7 +205,7 @@ namespace System.Windows.Forms {
 				}
 				
 				// Let the control know it's selected
-				if (ctl.InternalContainsFocus && active_control != null &&
+				if (ctl.ContainsFocus && active_control != null &&
 					(!(active_control is UserControl) || (active_control is UserControl && !((UserControl)active_control).HasFocusableChild())))
 					SendControlFocus (active_control);
 			}

@@ -1056,26 +1056,6 @@ namespace System.Windows.Forms
 			}
 		}
 
-		// Looks for focus in child controls
-		// and also in the implicit ones
-		internal bool InternalContainsFocus {
-			get {
-				IntPtr focused_window;
-
-				focused_window = XplatUI.GetFocus();
-				if (IsHandleCreated) {
-					if (focused_window == Handle)
-						return true;
-
-					foreach (Control child_control in child_controls.GetAllControls ())
-						if (child_control.InternalContainsFocus)
-							return true;
-				}
-
-				return false;
-			}
-		}
-		
 		// Mouse is currently within the control's bounds
 		internal bool Entered {
 			get { return this.is_entered; }
@@ -2429,23 +2409,20 @@ namespace System.Windows.Forms
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool ContainsFocus {
 			get {
-				IntPtr focused_window;
+				if (!IsHandleCreated)
+					return false;
 
-				focused_window = XplatUI.GetFocus();
-				if (IsHandleCreated) {
-					if (focused_window == Handle) {
-						return true;
-					}
-
-					for (int i=0; i < child_controls.Count; i++) {
-						if (child_controls[i].ContainsFocus) {
-							return true;
-						}
-					}
-				}
+				IntPtr focused_window = XplatUI.GetFocus();
+				if (focused_window == IntPtr.Zero)
+					return false;
+				if (focused_window == Handle)
+					return true;
+				if (IsChild (Handle, focused_window))
+					return true;
 				return false;
 			}
 		}
+
 		[Browsable (false)]
 		[DefaultValue(null)]
 		[MWFCategory("Behavior")]
