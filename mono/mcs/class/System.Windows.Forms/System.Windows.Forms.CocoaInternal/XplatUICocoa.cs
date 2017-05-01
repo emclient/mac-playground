@@ -1,4 +1,4 @@
-﻿//
+﻿﻿//
 //EventHandler.cs
 // 
 //Author:
@@ -1253,9 +1253,7 @@ namespace System.Windows.Forms {
 
 			while (GetMessageResult) {
 				while (PumpNativeEvent(wait, ref msg)) {
-					if (msg.message != Msg.WM_NULL)
-						return true;
-					wait = false;
+					return true;
 				}
 			
 				RaiseIdle(EventArgs.Empty);
