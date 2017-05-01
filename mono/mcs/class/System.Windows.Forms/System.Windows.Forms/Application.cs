@@ -839,11 +839,12 @@ namespace System.Windows.Forms
 			Object queue_id = XplatUI.StartLoop(Thread.CurrentThread);
 			thread.MessageLoop = true;
 
-			bool quit = false, drop;
+			bool quit = false, drop = false;
 			MSG msg = new MSG();
 			while (!quit && XplatUI.GetMessage(queue_id, ref msg, IntPtr.Zero, 0, 0)) {
 
-				Application.SendMessage(ref msg, out drop, out quit);
+				if (msg.message != Msg.WM_NULL)
+					Application.SendMessage(ref msg, out drop, out quit);
 				if (drop)
 					continue;
 
