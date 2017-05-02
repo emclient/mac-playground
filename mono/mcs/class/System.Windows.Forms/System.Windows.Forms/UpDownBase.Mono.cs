@@ -1,15 +1,91 @@
 ﻿#if !MACOS_THEME
 
+using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms
 {
 	public abstract partial class UpDownBase
 	{
-		#region UpDownSpinner Sub-class
+		public UpDownBase()
+		{
+			_UpDownAlign = LeftRightAlignment.Right;
+			InternalBorderStyle = BorderStyle.Fixed3D;
+
+			spnSpinner = new UpDownSpinner(this);
+
+			txtView = new UpDownTextBox (this);
+			txtView.ModifiedChanged += new EventHandler(OnChanged);
+			txtView.AcceptsReturn = true;
+			txtView.AutoSize = false;
+			txtView.BorderStyle = BorderStyle.None;
+			txtView.Location = new System.Drawing.Point(17, 17);
+			txtView.TabIndex = TabIndex;
+
+			spnSpinner.Width = 16;
+			spnSpinner.Dock = DockStyle.Right;
+			
+			txtView.Dock = DockStyle.Fill;
+			
+			SuspendLayout ();
+			Controls.Add (spnSpinner);
+			Controls.Add (txtView);	
+			ResumeLayout ();
+
+			SuspendLayout();
+			txtView.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
+			txtView.Size = new Size(txtView.Width - spnSpinner.Width, txtView.Height);
+			ResumeLayout();
+
+			Height = PreferredHeight;
+			base.BackColor = txtView.BackColor;
+
+			TabIndexChanged += new EventHandler (TabIndexChangedHandler);
+			
+			txtView.KeyDown += new KeyEventHandler(OnTextBoxKeyDown);
+			txtView.KeyPress += new KeyPressEventHandler(OnTextBoxKeyPress);
+//			txtView.LostFocus += new EventHandler(OnTextBoxLostFocus);
+			txtView.Resize += new EventHandler(OnTextBoxResize);
+			txtView.TextChanged += new EventHandler(OnTextBoxTextChanged);
+
+			// So the child controls don't get auto selected when the updown is selected
+			auto_select_child = false;
+			SetStyle(ControlStyles.FixedHeight, true);
+			SetStyle(ControlStyles.Selectable, true);
+			SetStyle(ControlStyles.Opaque | ControlStyles.ResizeRedraw, true);
+			SetStyle(ControlStyles.StandardClick | ControlStyles.UseTextForAccessibility, false);
+		}
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		public int PreferredHeight {
+			get {
+				// For some reason, the TextBox's PreferredHeight does not
+				// change when the Font property is assigned. Without a
+				// border, it will always be Font.Height anyway.
+				//int text_box_preferred_height = (txtView != null) ? txtView.PreferredHeight : Font.Height;
+				int text_box_preferred_height = Font.Height;
+
+				switch (border_style) {
+					case BorderStyle.FixedSingle:
+					case BorderStyle.Fixed3D:
+						text_box_preferred_height += 3; // magic number? :-)
+
+						return text_box_preferred_height + 4;
+
+					case BorderStyle.None:
+					default:
+						return text_box_preferred_height;
+				}
+			}
+		}
+
+
+#region UpDownSpinner Sub-class
 		internal sealed class UpDownSpinner : Control
 		{
-			#region	Local Variables
+#region	Local Variables
 			private const int InitialRepeatDelay = 50;
 			private UpDownBase owner;
 			private Timer tmrRepeat;
@@ -22,9 +98,9 @@ namespace System.Windows.Forms
 			private int repeat_counter;
 			bool top_button_entered;
 			bool bottom_button_entered;
-			#endregion   // Local Variables
+#endregion   // Local Variables
 
-			#region Constructors
+#region Constructors
 			public UpDownSpinner(UpDownBase owner)
 			{
 				this.owner = owner;
@@ -47,9 +123,9 @@ namespace System.Windows.Forms
 
 				compute_rects();
 			}
-			#endregion // Constructors
+#endregion // Constructors
 
-			#region Private & Internal Methods
+#region Private & Internal Methods
 			private void compute_rects()
 			{
 				int top_button_height;
@@ -124,9 +200,9 @@ namespace System.Windows.Forms
 					owner.DownButton();
 				}
 			}
-			#endregion // Private & Internal Methods
+#endregion // Private & Internal Methods
 
-			#region Protected Instance Methods
+#region Protected Instance Methods
 			protected override void OnMouseDown(MouseEventArgs e)
 			{
 				if (e.Button != MouseButtons.Left)
@@ -281,9 +357,9 @@ namespace System.Windows.Forms
 				base.OnResize(e);
 				compute_rects();
 			}
-			#endregion // Protected Instance Methods
+#endregion // Protected Instance Methods
 		}
-		#endregion // UpDownSpinner Sub-class
+#endregion // UpDownSpinner Sub-class
 	}
 }
 
