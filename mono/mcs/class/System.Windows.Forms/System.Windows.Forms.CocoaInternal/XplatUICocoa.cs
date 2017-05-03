@@ -186,6 +186,12 @@ namespace System.Windows.Forms {
 
 			// Initialize the Cocoa Specific stuff
 			ReverseWindow = new NSWindow(CGRect.Empty, NSWindowStyle.Borderless, NSBackingStore.Buffered, true);
+			ReverseWindow.Level = NSWindowLevel.PopUpMenu;
+			ReverseWindow.BackgroundColor = NSColor.Gray;
+			ReverseWindow.IgnoresMouseEvents = true;
+			ReverseWindow.AlphaValue = 0.7f;
+			ReverseWindow.HasShadow = false;
+
 			CaretView = new NSView(CGRect.Empty);
 			CaretView.WantsLayer = true;
 			CaretView.Layer.BackgroundColor = NSColor.Black.CGColor;
@@ -442,6 +448,12 @@ namespace System.Windows.Forms {
 			}
 
 			if (dequeue) {
+				if (ReverseWindowMapped && NSEvent.CurrentPressedMouseButtons == 0)
+				{
+					ReverseWindow.OrderOut(ReverseWindow);
+					ReverseWindowMapped = false;
+				}
+
 				if (Grab.Hwnd != IntPtr.Zero && IsMouseEvent(evtRef.Type) && evtRef.Window != null) {
 					var grabView = (NSView)ObjCRuntime.Runtime.GetNSObject(Grab.Hwnd);
 					if (grabView.Window.WindowNumber != evtRef.WindowNumber && evtRef.Type != NSEventType.ScrollWheel)
@@ -2281,33 +2293,14 @@ namespace System.Windows.Forms {
 
 		internal override void DrawReversibleRectangle (IntPtr handle, Rectangle rect, int line_width)
 		{
+			var p = ConvertClientPointToScreen(handle, rect.Location);
+			var r = new Rectangle(p, rect.Size);
+			var f = MonoToNativeScreen(r);
+			ReverseWindow.SetFrame(f, true);
 
-			if (ReverseWindowMapped) {
-				ReverseWindow.OrderOut (ReverseWindow);
-				ReverseWindowMapped = false;
-			} else {
-//				Rectangle size_rect = rect;
-//				ClientToScreen (handle, ref rect.Location);
-				PositionWindowInClient (rect, ReverseWindow, handle);
-
-//				ReverseWindow.setFrame_display (size_rect, false);
-//				ReverseWindow.orderFront (ReverseWindow);
-
-				rect.Location = Point.Empty;
-
-				Graphics g = Graphics.FromHwnd ((IntPtr) ReverseWindow.Handle);
-
-				for (int i = 0; i < line_width; i++) {
-					rect.Width -= 1;
-					rect.Height -= 1;
-					g.DrawRectangle (ThemeEngine.Current.ResPool.GetPen (Color.Black), rect);
-					rect.X += 1;
-					rect.Y += 1;
-				}
-
-				g.Flush ();
-				g.Dispose ();
-				
+			if (!ReverseWindowMapped)
+			{
+				ReverseWindow.OrderFront(ReverseWindow);
 				ReverseWindowMapped = true;
 			}
 		}
