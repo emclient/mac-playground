@@ -3,14 +3,12 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Mac;
-using System.Windows.Forms.CocoaInternal;
+using System.Windows.Forms.Mac;
 
 #if XAMARINMAC
 using AppKit;
-using CoreGraphics;
 #elif MONOMAC
 using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
 #endif
 
 namespace System.Windows.Forms
@@ -25,16 +23,16 @@ namespace System.Windows.Forms
 			spnSpinner = new UpDownSpinner(this);
 
 			txtView = new UpDownTextBox(this);
-			txtView.ModifiedChanged += new EventHandler(OnChanged);
+			txtView.ModifiedChanged += OnChanged;
 			txtView.AcceptsReturn = true;
 			txtView.AutoSize = false;
 			txtView.BorderStyle = BorderStyle.Fixed3D;
 			txtView.TabIndex = TabIndex;
 
-			spnSpinner.Width = spnSpinner.PreferredSize.Width;
+			spnSpinner.Size = spnSpinner.PreferredSize;
 			spnSpinner.Dock = DockStyle.Right;
 
-			txtView.Dock = DockStyle.Fill;
+			txtView.Dock = DockStyle.Left; 
 
 			SuspendLayout();
 			Controls.Add(spnSpinner);
@@ -42,19 +40,21 @@ namespace System.Windows.Forms
 			ResumeLayout();
 
 			SuspendLayout();
-			txtView.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
-			txtView.Size = new Size(txtView.Width - spnSpinner.Width - 4, txtView.Height);
+			txtView.Size = new Size(Width - spnSpinner.Width - 4, txtView.PreferredHeight);
+			txtView.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			spnSpinner.Size = spnSpinner.PreferredSize;
+			spnSpinner.Anchor = AnchorStyles.Right;
 			ResumeLayout();
 
 			Height = PreferredHeight;
 
-			TabIndexChanged += new EventHandler(TabIndexChangedHandler);
+			TabIndexChanged += TabIndexChangedHandler;
 
-			txtView.KeyDown += new KeyEventHandler(OnTextBoxKeyDown);
-			txtView.KeyPress += new KeyPressEventHandler(OnTextBoxKeyPress);
-//			txtView.LostFocus += new EventHandler(OnTextBoxLostFocus);
-			txtView.Resize += new EventHandler(OnTextBoxResize);
-			txtView.TextChanged += new EventHandler(OnTextBoxTextChanged);
+			txtView.KeyDown += OnTextBoxKeyDown;
+			txtView.KeyPress += OnTextBoxKeyPress;
+//			txtView.LostFocus += OnTextBoxLostFocus;
+			txtView.Resize += OnTextBoxResize;
+			txtView.TextChanged += OnTextBoxTextChanged;
 
 			// So the child controls don't get auto selected when the updown is selected
 			auto_select_child = false;
@@ -63,6 +63,13 @@ namespace System.Windows.Forms
 
 			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 			base.BackColor = Color.Transparent;
+		}
+
+		protected virtual void OnTextBoxResize(object source, EventArgs e)
+		{
+			Height = PreferredHeight;
+			txtView.Top = (ClientSize.Height - txtView.Height) / 2;
+			spnSpinner.Top = -1 + (ClientSize.Height - spnSpinner.Height) / 2;
 		}
 
 		[Browsable(false)]
@@ -78,21 +85,27 @@ namespace System.Windows.Forms
 			}
 		}
 
+		protected override void OnEnabledChanged(EventArgs e)
+		{
+			spnSpinner.Enabled = Enabled;
+			base.OnEnabledChanged(e);
+		}
+
 		internal sealed class UpDownSpinner : Control, IMacNativeControl
 		{
-			private UpDownBase owner;
+			UpDownBase owner;
 			NSStepper stepper;
 
 			public UpDownSpinner(UpDownBase owner)
 			{
 				this.owner = owner;
 
-				SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-				SetStyle(ControlStyles.DoubleBuffer, true);
-				SetStyle(ControlStyles.Opaque, true);
-				SetStyle(ControlStyles.ResizeRedraw, true);
-				SetStyle(ControlStyles.UserPaint, true);
-				//SetStyle(ControlStyles.FixedHeight, true);
+				SetStyle(ControlStyles.AllPaintingInWmPaint
+					   | ControlStyles.DoubleBuffer
+					   | ControlStyles.Opaque
+					   | ControlStyles.ResizeRedraw
+					   | ControlStyles.UserPaint, true);
+					 //| ControlStyles.FixedHeight, true);
 				SetStyle(ControlStyles.Selectable, false);
 
 				stepper = new NSStepper();
@@ -102,11 +115,7 @@ namespace System.Windows.Forms
 			public override Size GetPreferredSize(Size proposedSize)
 			{
 				if (stepper != null)
-				{
-					var s = stepper.FittingSize;
-					var i = stepper.AlignmentRectInsets;
-					return new Size((int)(s.Width - i.Left - i.Right), (int)(s.Height - i.Top - i.Bottom));
-				}
+					return stepper.SizeThatFits(proposedSize.ToCGSize()).ToSDSize();
 				
 				return base.GetPreferredSize(proposedSize);
 			}
@@ -130,6 +139,12 @@ namespace System.Windows.Forms
 					owner.UpButton();
 				else if (value < 0)
 					owner.DownButton();
+			}
+
+			protected override void OnEnabledChanged(EventArgs e)
+			{
+				stepper.Enabled = Enabled;
+				base.OnEnabledChanged(e);
 			}
 		}
 	}
