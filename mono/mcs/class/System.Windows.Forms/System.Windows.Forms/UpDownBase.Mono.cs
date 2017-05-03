@@ -81,8 +81,13 @@ namespace System.Windows.Forms
 			}
 		}
 
+		protected virtual void OnTextBoxResize(object source, EventArgs e)
+		{
+			Height = PreferredHeight;
+			txtView.Top = (ClientSize.Height - txtView.Height) / 2;
+		}
 
-#region UpDownSpinner Sub-class
+		#region UpDownSpinner Sub-class
 		internal sealed class UpDownSpinner : Control
 		{
 #region	Local Variables

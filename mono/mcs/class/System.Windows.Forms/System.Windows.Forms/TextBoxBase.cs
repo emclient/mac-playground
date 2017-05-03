@@ -484,13 +484,11 @@ namespace System.Windows.Forms
 		// This returns the preferred outer height, not the client height.
 		public int PreferredHeight {
 			get {
-				int clientDelta = Height - ClientSize.Height;
+				int height = FontHeight;
 				if (BorderStyle != BorderStyle.None)
-					return Font.Height + 7 + clientDelta;
+					height += 7;
 
-				// usually in borderless mode the top margin is 0, but
-				// try to access it, in case it was set manually, as ToolStrip* controls do
-				return Font.Height + TopMargin + clientDelta;
+				return height;
 			}
 		}
 
