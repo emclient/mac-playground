@@ -433,6 +433,9 @@ namespace System.Windows.Forms
 				hme.Handled = true;
 			}
 
+			if (!Enabled)
+				return;
+			
 			if (e.Delta > 0)
 				UpButton();
 			else if (e.Delta < 0)
@@ -474,14 +477,6 @@ namespace System.Windows.Forms
 			if (UserEdit) {
 				ValidateEditText();
 			}
-		}
-
-		protected virtual void OnTextBoxResize (object source, EventArgs e)
-		{
-			// compute the new height, taking the border into account
-			Height = PreferredHeight;
-
-			// let anchoring reposition the controls
 		}
 
 		protected virtual void OnTextBoxTextChanged (object source, EventArgs e)

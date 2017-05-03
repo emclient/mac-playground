@@ -1,4 +1,7 @@
 ﻿#if MONOMAC
+using ObjCRuntime = MonoMac.ObjCRuntime;
+using MonoMac.AppKit;
+using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 #elif XAMARINMAC
 using Foundation;
@@ -20,5 +23,13 @@ namespace System.Windows.Forms.Mac
 			return reference.AddSeconds(date.SecondsSinceReferenceDate).ToLocalTime();
 		}
 
+#if MONOMAC
+		public static CGSize SizeThatFits(this NSControl self, CGSize proposedSize)
+		{
+			var selector = new ObjCRuntime.Selector("sizeThatFits:");
+			var size = ObjCRuntime.Messaging.CGSize_objc_msgSend_CGSize(self.Handle, selector.Handle, proposedSize);
+			return size;
+		}
+#endif
 	}
 }

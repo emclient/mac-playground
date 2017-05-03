@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Drawing.Mac;
+using System.Windows.Forms.Mac;
 
 #if XAMARINMAC
 using AppKit;
@@ -99,14 +100,12 @@ namespace System.Windows.Forms
 			base.OnEnabledChanged(e);
 		}
 
-#if XAMARINMAC
 		public override Drawing.Size GetPreferredSize(Drawing.Size proposedSize)
 		{
 			if (this.AutoSize)
 				return PopUp.SizeThatFits(proposedSize.ToCGSize()).ToSDSize();
 			return base.GetPreferredSize(proposedSize);
 		}
-#endif
 
 		#region events
 

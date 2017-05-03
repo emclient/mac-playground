@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Drawing.Mac;
+using System.Windows.Forms.Mac;
 #if XAMARINMAC
 using AppKit;
 #else
 using MonoMac.AppKit;
+using MonoMac.CoreGraphics;
 #endif
 
 namespace System.Windows.Forms
@@ -89,17 +91,23 @@ namespace System.Windows.Forms
 			base.OnEnabledChanged(e);
 		}
 
-#if XAMARINMAC
 		public override Drawing.Size GetPreferredSize(Drawing.Size proposedSize)
 		{
 			if (this.AutoSize)
-			{
-				var b = this.button ?? CreateView();
-				return ((NSControl)b).SizeThatFits(proposedSize.ToCGSize()).ToSDSize();
-			}
+				return NativeButton.SizeThatFits(proposedSize.ToCGSize()).ToSDSize();
+
 			return base.GetPreferredSize(proposedSize);
 		}
-#endif
+
+		internal virtual NSButton NativeButton
+		{
+			get
+			{
+				if (button == null)
+					CreateView();
+				return button;
+			}
+		}
 
 		internal protected override bool IsDefault
 		{
