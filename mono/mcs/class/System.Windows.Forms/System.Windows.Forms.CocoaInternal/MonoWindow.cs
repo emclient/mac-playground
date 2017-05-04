@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿﻿using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,10 +20,12 @@ using nint = System.Int32;
 #if XAMARINMAC
 using NSRect = CoreGraphics.CGRect;
 using NSSize = CoreGraphics.CGSize;
+using System.Windows.Forms.Mac;
 #elif MONOMAC
 using NSRect = MonoMac.CoreGraphics.CGRect;
 using NSSize = MonoMac.CoreGraphics.CGSize;
 using nint = System.Int32;
+using System.Windows.Forms.Mac;
 #endif
 #endif
 
@@ -265,12 +267,12 @@ namespace System.Windows.Forms.CocoaInternal
 
 		internal virtual void ActivateNextWindow()
 		{
-			var windows = GetOrderedWindowList();
+			var windows = NSApplication.SharedApplication.OrderedWindows();
 			foreach (var window in windows)
 			{
-				if (window is MonoWindow && window != this && window.IsVisible && !window.IsMiniaturized && !window.IsSheet && window.CanBecomeKeyWindow && !window.IsKeyWindow)
+				if (window is MonoWindow && window != this && window.IsVisible && !window.IsMiniaturized && !window.IsSheet && window.CanBecomeKeyWindow)
 				{
-					window.MakeKeyAndOrderFront(this);
+					window.MakeKeyWindow();
 					break;
 				}
 			}
@@ -278,6 +280,14 @@ namespace System.Windows.Forms.CocoaInternal
 
 		static internal List<NSWindow> GetOrderedWindowList()
 		{
+#if XAMARINMAC
+			var list = new List<NSWindow>();
+			NSApplication.SharedApplication.EnumerateWindows(NSWindowListOptions.OrderedFrontToBack, (NSWindow window, ref bool stop) =>
+			{
+				list.Add(window);
+			});
+			return list;
+#else
 			var numbers = WindowNumbersWithOptions(NSWindowNumberListOptions.AllApplication | NSWindowNumberListOptions.AllSpaces);
 			var windows = NSApplication.SharedApplication.Windows;
 			var winByNum = new Dictionary<long, NSWindow>(windows.Length);
@@ -287,22 +297,6 @@ namespace System.Windows.Forms.CocoaInternal
 
 			var sorted = new List<NSWindow>(windows.Length);
 
-#if XAMARINMAC
-			for (nuint i = 0; i < numbers.Count; ++i)
-			{
-				var handle = numbers.ValueAt(i);
-				var number = (NSNumber)Activator.CreateInstance(
-					typeof(NSNumber),
-					Reflection.BindingFlags.NonPublic | Reflection.BindingFlags.Instance,
-					null,
-					new object[] { handle },
-					null);
-
-				NSWindow window;
-				if (number != null && winByNum.TryGetValue(number.Int64Value, out window))
-					sorted.Add(window);
-			}
-#else
 			for (int i = 0; i < numbers.Count; ++i)
 			{
 				var handle = numbers.ValueAt((uint)i);
@@ -312,9 +306,8 @@ namespace System.Windows.Forms.CocoaInternal
 				if (number != null && winByNum.TryGetValue(number.Int64Value, out window))
 					sorted.Add(window);
 			}
-#endif
-
 			return sorted;
+#endif
 		}
 
 		public NSWindow Owner { get; set; }
