@@ -1278,7 +1278,9 @@
     <Compile Include="System.Windows.Forms\ComboBox.Mac.cs" />
     <Compile Include="System.Windows.Forms\DateTimePicker.Mac.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Extensions.cs" />
-    <Compile Include="System.Windows.Forms\UpDownBase.Mono.cs" />
+    <Compile Include="System.Windows.Forms\UpDownBase.Mono.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="System.Windows.Forms\UpDownBase.Mac.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
