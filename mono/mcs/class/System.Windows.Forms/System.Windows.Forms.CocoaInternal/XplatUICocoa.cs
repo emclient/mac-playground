@@ -1889,7 +1889,7 @@ namespace System.Windows.Forms {
 					if (Control.FromHandle(handle).ActivateOnShow)
 						winWrap.MakeKeyAndOrderFront(winWrap);
 					else
-						winWrap.OrderFront(winWrap);
+						winWrap.IsVisible = true;
 				} else {
 					winWrap.OrderOut(winWrap);
 					if ((monoWindow = winWrap as MonoWindow) != null && monoWindow.Owner != null)
