@@ -4,6 +4,9 @@ using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 #elif XAMARINMAC
+using System;
+using System.Runtime.InteropServices;
+using AppKit;
 using Foundation;
 #endif
 
@@ -23,6 +26,14 @@ namespace System.Windows.Forms.Mac
 			return reference.AddSeconds(date.SecondsSinceReferenceDate).ToLocalTime();
 		}
 
+		public static NSWindow[] OrderedWindows(this NSApplication self)
+		{
+			var selector = new ObjCRuntime.Selector("orderedWindows");
+			var ptr = ObjCRuntime.Messaging.IntPtr_objc_msgSend(self.Handle, selector.Handle);
+			var array = NSArray.ArrayFromHandle<NSWindow>(ptr);
+			return array;
+		}
+
 #if MONOMAC
 		public static CGSize SizeThatFits(this NSControl self, CGSize proposedSize)
 		{
@@ -33,3 +44,16 @@ namespace System.Windows.Forms.Mac
 #endif
 	}
 }
+
+#if XAMARINMAC
+
+namespace ObjCRuntime {
+	public static class Messaging {
+
+		[DllImport(Constants.ObjectiveCLibrary, EntryPoint = "objc_msgSend")]
+		public static extern IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector);
+
+	}
+}
+
+#endif
