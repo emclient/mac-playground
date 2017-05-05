@@ -1339,6 +1339,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/SaveFileDialog.Mac.cs -
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/SaveFileDialog.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/Screen.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ScreenOrientation.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ScrollBar.Mac.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ScrollBar.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ScrollBarRenderer.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ScrollBars.cs -text
