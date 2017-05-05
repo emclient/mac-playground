@@ -4724,6 +4724,7 @@ namespace System.Windows.Forms
 		#region ScrollBar
 		public override void DrawScrollBar (Graphics dc, Rectangle clip, ScrollBar bar)
 		{
+#if !MACOS_THEME
 			int		scrollbutton_width = bar.scrollbutton_width;
 			int		scrollbutton_height = bar.scrollbutton_height;
 			Rectangle	first_arrow_area;
@@ -4804,6 +4805,7 @@ namespace System.Windows.Forms
 
 			/* Thumb */
 			ScrollBar_DrawThumb(bar, thumb_pos, clip, dc);				
+#endif
 		}
 
 		protected virtual void ScrollBar_DrawThumb(ScrollBar bar, Rectangle thumb_pos, Rectangle clip, Graphics dc)

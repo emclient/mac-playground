@@ -1218,6 +1218,7 @@ namespace System.Windows.Forms
 		#region ScrollBar
 		public override void DrawScrollBar (Graphics dc, Rectangle clip, ScrollBar bar)
 		{
+#if !MACOS_THEME
 			if (!RenderClientAreas ||
 				!ScrollBarAreElementsDefined) {
 				base.DrawScrollBar (dc, clip, bar);
@@ -1412,6 +1413,7 @@ namespace System.Windows.Forms
 				}
 				#endregion
 			}
+#endif
 		}
 		public override bool ScrollBarHasHotElementStyles {
 			get {
