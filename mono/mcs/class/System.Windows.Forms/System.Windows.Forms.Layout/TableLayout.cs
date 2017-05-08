@@ -407,7 +407,7 @@ namespace System.Windows.Forms.Layout
 			TableLayoutSettings settings = panel.LayoutSettings;
 			int columns = actual_positions.GetLength(0);
 			int rows = actual_positions.GetLength(1);
-			bool auto_size = panel.AutoSizeInternal || measureOnly;
+			bool auto_size = panel.AutoSizeInternal && measureOnly;
 			bool boundBySize = !measureOnly;
 
 			column_widths = new int[actual_positions.GetLength (0)];
