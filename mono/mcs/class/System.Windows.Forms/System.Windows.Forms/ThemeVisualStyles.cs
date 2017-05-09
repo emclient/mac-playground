@@ -1124,6 +1124,7 @@ namespace System.Windows.Forms
 		#region ProgressBar
 		public override void DrawProgressBar (Graphics dc, Rectangle clip_rect, ProgressBar ctrl)
 		{
+			#if !MACOS_THEME
 			if (!RenderClientAreas ||
 				!VisualStyleRenderer.IsElementDefined (VisualStyleElement.ProgressBar.Bar.Normal) ||
 				!VisualStyleRenderer.IsElementDefined (VisualStyleElement.ProgressBar.Chunk.Normal)) {
@@ -1180,6 +1181,7 @@ namespace System.Windows.Forms
 				}
 				break;
 			}
+			#endif //!MACOS_THEME
 		}
 		#endregion
 		#region RadioButton
