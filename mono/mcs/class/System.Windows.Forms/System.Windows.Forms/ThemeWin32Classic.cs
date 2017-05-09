@@ -4236,6 +4236,7 @@ namespace System.Windows.Forms
 		#region ProgressBar
 		public override void DrawProgressBar (Graphics dc, Rectangle clip_rect, ProgressBar ctrl) 
 		{
+			#if !MACOS_THEME
 			Rectangle client_area = ctrl.client_area;
 			
 			/* Draw border */
@@ -4298,8 +4299,8 @@ namespace System.Windows.Forms
 					block_count++;
 				}
 				break;
-			
 			}
+			#endif //!MACOS_THEME
 		}
 		
 		public const int ProgressBarChunkSpacing = 2;

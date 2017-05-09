@@ -1283,6 +1283,7 @@
     </Compile>
     <Compile Include="System.Windows.Forms\UpDownBase.Mac.cs" />
     <Compile Include="System.Windows.Forms\ScrollBar.Mac.cs" />
+    <Compile Include="System.Windows.Forms\ProgressBar.Mac.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
