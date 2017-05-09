@@ -1298,6 +1298,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/PrintPreviewControl.cs 
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/PrintPreviewDialog.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ProfessionalColorTable.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ProfessionalColors.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ProgressBar.Mac.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ProgressBar.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ProgressBarRenderer.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ProgressBarStyle.cs -text
