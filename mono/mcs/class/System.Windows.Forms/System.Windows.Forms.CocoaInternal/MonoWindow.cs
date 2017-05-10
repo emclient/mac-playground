@@ -227,7 +227,12 @@ namespace System.Windows.Forms.CocoaInternal
 
 			// FIXME: Set LParam
 			// FIXME: WM_MOUSEACTIVATE
+			//driver.SendMessage(ContentView.Handle, Msg.WM_NCACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, (IntPtr)(-1));
 			driver.SendMessage(ContentView.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
+
+			var ctrl = Control.FromHandle((IntPtr)FirstResponder?.Handle);
+			if (ctrl != null)
+				driver.SendMessage(ctrl.Handle, Msg.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
 
 			/*foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
 			{
@@ -242,7 +247,12 @@ namespace System.Windows.Forms.CocoaInternal
 
 			base.ResignKeyWindow();
 
+			//driver.SendMessage(ContentView.Handle, Msg.WM_NCACTIVATE, (IntPtr)WindowActiveFlags.WA_INACTIVE, (IntPtr)(-1));
 			driver.SendMessage(ContentView.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_INACTIVE, newKeyWindow != null ? newKeyWindow.ContentView.Handle : IntPtr.Zero);
+
+			var ctrl = Control.FromHandle((IntPtr)FirstResponder?.Handle);
+			if (ctrl != null)
+				driver.SendMessage(ctrl.Handle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
 
 			/*foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
 			{
