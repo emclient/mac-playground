@@ -108,7 +108,7 @@ namespace System.Windows.Forms.CocoaInternal
 				case NSEventType.BeginGesture:
 					var hitTest = (ContentView.Superview ?? ContentView).HitTest(theEvent.LocationInWindow);
 					// Make sure any popup menus are closed when clicking on embedded NSView.
-					if (!(hitTest is MonoView))
+					if (null == Control.FromHandle((IntPtr)hitTest?.Handle))
 						ToolStripManager.FireAppClicked();
 					break;
 			}
