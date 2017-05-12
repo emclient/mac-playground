@@ -86,7 +86,6 @@
     <Compile Include="WinApi\Shell32.cs" />
     <Compile Include="WinApi\ShlWapi.cs" />
     <Compile Include="WinApi\User32.cs" />
-    <Compile Include="MacApi\CGImageExtensions.cs" />
     <Compile Include="MacApi\LaunchServices.cs" />
     <Compile Include="MacApi\QuickLook.cs" />
     <Compile Include="WinApi\Secur32.cs" />
