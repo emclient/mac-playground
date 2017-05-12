@@ -7,16 +7,13 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.CocoaInternal;
-using MacBridge.CoreGraphics;
 using MacBridge;
 #if XAMARINMAC
 using AppKit;
 using CoreGraphics;
-using Foundation;
 #else
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
 using ObjCRuntime = MonoMac.ObjCRuntime;
 #endif
 
@@ -39,7 +36,7 @@ namespace WinApi
         public static IntPtr WindowFromPoint(POINT p)
         {
             p.Y = screenSize.Height - p.Y;
-            var screenLocation = p.ToCGPoint();
+            var screenLocation = new CGPoint(p.X, p.Y);
 
 			var wnum = NSWindow.WindowNumberAtPoint(screenLocation, 0);
             var window = NSApplication.SharedApplication.WindowWithWindowNumber(wnum);
