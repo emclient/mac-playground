@@ -54,24 +54,21 @@ namespace System.Windows.Forms.CocoaInternal
 		public override bool MakeFirstResponder(NSResponder aResponder)
 		{
 			var prevFirstResponder = FirstResponder;
-			if (base.MakeFirstResponder(aResponder))
+			if (base.MakeFirstResponder(aResponder) && IsKeyWindow)
 			{
-				var prev = Control.FromHandle(prevFirstResponder?.Handle ?? IntPtr.Zero)?.Handle ?? IntPtr.Zero;
-				var next = Control.FromHandle(aResponder?.Handle ?? IntPtr.Zero)?.Handle ?? IntPtr.Zero;
+				var prev = (prevFirstResponder as NSView)?.Handle ?? IntPtr.Zero;
+				var next = (aResponder as NSView)?.Handle ?? IntPtr.Zero;
 
 				if (prev != IntPtr.Zero)
 					driver.SendMessage(prev, Msg.WM_KILLFOCUS, next, IntPtr.Zero);
-				if (next != null && FirstResponder == aResponder)
+				if (next != IntPtr.Zero && FirstResponder == aResponder)
 					driver.SendMessage(next, Msg.WM_SETFOCUS, prev, IntPtr.Zero);
 
 				// If the newly focused control is not a MWF control's view, then it must be some embedded native control. Try
 				// to update the ActiveControl chain in Form to match it using similar approach as in Control.WmSetFocus. 
-				if (next == IntPtr.Zero && aResponder is NSView)
-				{
-					var wrapperControl = Control.FromChildHandle(aResponder.Handle);
-					if (wrapperControl != null)
-						(wrapperControl ?? wrapperControl.Parent).Select(wrapperControl);
-				}
+				var wrapperControl = Control.FromChildHandle(next);
+				if (wrapperControl != null && wrapperControl.Handle != next)
+					(wrapperControl ?? wrapperControl.Parent).Select(wrapperControl);
 
 				return true;
 			}
@@ -229,9 +226,8 @@ namespace System.Windows.Forms.CocoaInternal
 			//driver.SendMessage(ContentView.Handle, Msg.WM_NCACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, (IntPtr)(-1));
 			driver.SendMessage(ContentView.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
 
-			var ctrl = Control.FromHandle((IntPtr)FirstResponder?.Handle);
-			if (ctrl != null)
-				driver.SendMessage(ctrl.Handle, Msg.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
+			if (IsKeyWindow && FirstResponder != null) // For the case that previous WM_ACTIVATE in fact did not activate this window.
+				driver.SendMessage(FirstResponder.Handle, Msg.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
 
 			/*foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
 			{
@@ -249,9 +245,8 @@ namespace System.Windows.Forms.CocoaInternal
 			//driver.SendMessage(ContentView.Handle, Msg.WM_NCACTIVATE, (IntPtr)WindowActiveFlags.WA_INACTIVE, (IntPtr)(-1));
 			driver.SendMessage(ContentView.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_INACTIVE, newKeyWindow != null ? newKeyWindow.ContentView.Handle : IntPtr.Zero);
 
-			var ctrl = Control.FromHandle((IntPtr)FirstResponder?.Handle);
-			if (ctrl != null)
-				driver.SendMessage(ctrl.Handle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
+			if (!IsKeyWindow && FirstResponder != null) // For the case that previous WM_ACTIVATE in fact did not deactivate this window.
+				driver.SendMessage(FirstResponder.Handle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
 
 			/*foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
 			{
