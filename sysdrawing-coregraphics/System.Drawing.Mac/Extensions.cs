@@ -155,6 +155,11 @@ namespace System.Drawing.Mac
 			var data = NSData.FromArray(stream.ToArray());
 			return new NSImage(data);
 		}
+
+		public static Bitmap ToBitmap(this CGImage cgImage)
+		{
+			return new Bitmap(cgImage);
+		}
 	}
 
 #if MONOMAC

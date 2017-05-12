@@ -1,6 +1,6 @@
 ﻿namespace MacBridge
 {
-	public class Constants
+	static class Constants
 	{
 		public const string AddressBookLibrary = "/System/Library/Frameworks/AddressBook.framework/AddressBook";
 		public const string AppKitLibrary = "/System/Library/Frameworks/AppKit.framework/AppKit";
