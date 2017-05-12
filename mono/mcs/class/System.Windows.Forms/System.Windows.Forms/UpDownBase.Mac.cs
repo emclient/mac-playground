@@ -28,6 +28,7 @@ namespace System.Windows.Forms
 			txtView.AutoSize = false;
 			txtView.BorderStyle = BorderStyle.Fixed3D;
 			txtView.TabIndex = TabIndex;
+			txtView.SetStyle(ControlStyles.Selectable, true);
 
 			spnSpinner.Size = spnSpinner.PreferredSize;
 			spnSpinner.Dock = DockStyle.Right;
@@ -58,7 +59,7 @@ namespace System.Windows.Forms
 
 			// So the child controls don't get auto selected when the updown is selected
 			auto_select_child = false;
-			SetStyle(ControlStyles.FixedHeight | ControlStyles.Selectable | ControlStyles.ResizeRedraw, true);
+			SetStyle(ControlStyles.FixedHeight | ControlStyles.ResizeRedraw, true);
 			SetStyle(ControlStyles.StandardClick | ControlStyles.UseTextForAccessibility, false);
 
 			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
