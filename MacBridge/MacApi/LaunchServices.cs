@@ -46,18 +46,16 @@ namespace MacBridge.LaunchServices
 
         #region Native API
 
-        internal const string LaunchServicesDll = "/system/Library/frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices";
-
-        [DllImport(LaunchServicesDll)]
+		[DllImport(Constants.CoreServicesLibrary)]
         internal extern static IntPtr LSCopyDefaultHandlerForURLScheme(IntPtr cfStringUrlScheme);
 
-        [DllImport(LaunchServicesDll)]
+        [DllImport(Constants.CoreServicesLibrary)]
         internal extern static int LSSetDefaultHandlerForURLScheme(IntPtr urlScheme, IntPtr handlerBundleID);
 
-        [DllImport(LaunchServicesDll)]
+        [DllImport(Constants.CoreServicesLibrary)]
         internal extern static IntPtr LSCopyDefaultApplicationURLForURL(IntPtr cfUrl, int lsRolesMask, ref IntPtr cfError);
 
-        [DllImport(LaunchServicesDll)]
+        [DllImport(Constants.CoreServicesLibrary)]
         internal extern static int LSRegisterURL(IntPtr CFUrl, bool update);
 
         #endregion //Native API
@@ -77,7 +75,7 @@ namespace MacBridge.LaunchServices
 
         const string kUTTagClassFilenameExtension = "public.filename-extension";
 
-        [DllImport(LS.LaunchServicesDll)]
+        [DllImport(Constants.CoreServicesLibrary)]
         extern static IntPtr UTTypeCreatePreferredIdentifierForTag(IntPtr tagClass, IntPtr tag, IntPtr uti);
 
         #endregion // Native API
