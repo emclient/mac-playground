@@ -53,21 +53,20 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override bool MakeFirstResponder(NSResponder aResponder)
 		{
-			if (FirstResponder == aResponder)
-				return true;
-
-			var focusView = FirstResponder as MonoView;
-			var newFocusView = aResponder as MonoView;
+			var prevFirstResponder = FirstResponder;
 			if (base.MakeFirstResponder(aResponder))
 			{
-				if (focusView != null)
-					driver.SendMessage(focusView.Handle, Msg.WM_KILLFOCUS, newFocusView != null ? newFocusView.Handle : IntPtr.Zero, IntPtr.Zero);
-				if (newFocusView != null && FirstResponder == aResponder)
-					driver.SendMessage(newFocusView.Handle, Msg.WM_SETFOCUS, focusView != null ? focusView.Handle : IntPtr.Zero, IntPtr.Zero);
+				var prev = Control.FromHandle(prevFirstResponder?.Handle ?? IntPtr.Zero)?.Handle ?? IntPtr.Zero;
+				var next = Control.FromHandle(aResponder?.Handle ?? IntPtr.Zero)?.Handle ?? IntPtr.Zero;
 
-				// If the newly focused control is not MonoView then it must be some embedded native control. Try
+				if (prev != IntPtr.Zero)
+					driver.SendMessage(prev, Msg.WM_KILLFOCUS, next, IntPtr.Zero);
+				if (next != null && FirstResponder == aResponder)
+					driver.SendMessage(next, Msg.WM_SETFOCUS, prev, IntPtr.Zero);
+
+				// If the newly focused control is not a MWF control's view, then it must be some embedded native control. Try
 				// to update the ActiveControl chain in Form to match it using similar approach as in Control.WmSetFocus. 
-				if (newFocusView == null && aResponder is NSView)
+				if (next == IntPtr.Zero && aResponder is NSView)
 				{
 					var wrapperControl = Control.FromChildHandle(aResponder.Handle);
 					if (wrapperControl != null)
