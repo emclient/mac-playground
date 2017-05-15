@@ -1713,7 +1713,7 @@ namespace System.Windows.Forms {
 				// usually not the same one as FirstResponder. We tried to check if FirstResponder is one of those
 				// nested views and skip the focus change if it is essentially trying to focus the control that is
 				// already focused.
-				if (GetSWFFirstResponder(view.Window) != view.Handle)
+				if (view.Window != null && GetSWFFirstResponder(view.Window) != view.Handle)
 				{
 					if (view is MonoView)
 						((MonoView)view).inSetFocus = true;

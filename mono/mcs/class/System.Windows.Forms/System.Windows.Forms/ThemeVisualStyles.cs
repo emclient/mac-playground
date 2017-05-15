@@ -1124,6 +1124,7 @@ namespace System.Windows.Forms
 		#region ProgressBar
 		public override void DrawProgressBar (Graphics dc, Rectangle clip_rect, ProgressBar ctrl)
 		{
+			#if !MACOS_THEME
 			if (!RenderClientAreas ||
 				!VisualStyleRenderer.IsElementDefined (VisualStyleElement.ProgressBar.Bar.Normal) ||
 				!VisualStyleRenderer.IsElementDefined (VisualStyleElement.ProgressBar.Chunk.Normal)) {
@@ -1180,6 +1181,7 @@ namespace System.Windows.Forms
 				}
 				break;
 			}
+			#endif //!MACOS_THEME
 		}
 		#endregion
 		#region RadioButton
@@ -1218,6 +1220,7 @@ namespace System.Windows.Forms
 		#region ScrollBar
 		public override void DrawScrollBar (Graphics dc, Rectangle clip, ScrollBar bar)
 		{
+#if !MACOS_THEME
 			if (!RenderClientAreas ||
 				!ScrollBarAreElementsDefined) {
 				base.DrawScrollBar (dc, clip, bar);
@@ -1412,6 +1415,7 @@ namespace System.Windows.Forms
 				}
 				#endregion
 			}
+#endif
 		}
 		public override bool ScrollBarHasHotElementStyles {
 			get {

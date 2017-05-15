@@ -232,6 +232,8 @@ namespace System.Windows.Forms.Layout
 		{
 			Size proposedSize = minimum_sizes ? new Size(1, 0) : Size.Empty;
 			int rows = actual_positions.GetLength(1);
+			float total_percent = 0;
+			float max_percent_size = 0;
 
 			// First assign all the Absolute sized columns
 			int index = 0;
@@ -240,6 +242,8 @@ namespace System.Windows.Forms.Layout
 					break;
 				if (cs.SizeType == SizeType.Absolute)
 					column_widths[index] = (int)cs.Width;
+				else if (cs.SizeType == SizeType.Percent)
+					total_percent += cs.Width;
 				index++;
 			}
 			while (index < column_widths.Length) {
@@ -271,9 +275,12 @@ namespace System.Windows.Forms.Layout
 							}
 						}
 
+						if (cs.SizeType == SizeType.Percent)
+							max_percent_size = Math.Max(max_percent_size, max_width / cs.Width);
+
 						// Subtract the width of prior columns, if any.
 						for (int i = Math.Max (index - colspan, 0); i < index; ++i)
-							max_width -= column_widths[i];
+							max_width -= column_widths[i];						
 
 						// If necessary, increase this column's width.
 						if (max_width > column_widths[index])
@@ -281,11 +288,19 @@ namespace System.Windows.Forms.Layout
 					}
 				}
 			}
+
+			for (index = 0; index < col_styles.Count && index < column_widths.Length; ++index) {
+				ColumnStyle cs = col_styles[index];
+				if (cs.SizeType == SizeType.Percent)
+					column_widths[index] = Math.Max(column_widths[index], (int)Math.Ceiling(max_percent_size * cs.Width * (100f / total_percent)));
+			}
 		}
 
 		private static void CalculateRowHeights (TableLayoutSettings settings, Control[,] actual_positions, int max_rowspan, TableLayoutRowStyleCollection row_styles, bool auto_size, int[] column_widths, int[] row_heights, bool minimum_sizes)
 		{
 			int columns = actual_positions.GetLength(0);
+			float total_percent = 0;
+			float max_percent_size = 0;
 
 			// First assign all the Absolute sized rows..
 			int index = 0;
@@ -294,6 +309,8 @@ namespace System.Windows.Forms.Layout
 					break;
 				if (rs.SizeType == SizeType.Absolute)
 					row_heights[index] = (int)rs.Height;
+				else if (rs.SizeType == SizeType.Percent)
+					total_percent += rs.Height;
 				index++;
 			}
 			while (index < row_heights.Length) {
@@ -306,8 +323,8 @@ namespace System.Windows.Forms.Layout
 			// no row with Percent styling clips its contents.
 			// (per http://msdn.microsoft.com/en-us/library/ms171690.aspx)
 			for (int rowspan = 0; rowspan < max_rowspan; ++rowspan) {
-				for (index = rowspan; index < settings.RowStyles.Count - rowspan && index < row_heights.Length - rowspan; ++index) {
-					RowStyle rs = settings.RowStyles[index];
+				for (index = rowspan; index < row_styles.Count - rowspan && index < row_heights.Length - rowspan; ++index) {
+					RowStyle rs = row_styles[index];
 					if (rs.SizeType == SizeType.AutoSize || (auto_size && rs.SizeType == SizeType.Percent)) {
 						int max_height = row_heights[index];
 						// Find the tallest control in the row
@@ -329,8 +346,11 @@ namespace System.Windows.Forms.Layout
 									max_height = Math.Max (max_height, GetControlSize(c, new Size(current_width - c.Margin.Horizontal, 0)).Height + c.Margin.Vertical);
 								else
 									max_height = c.MinimumSize.Height;
-;							}
+							}
 						}
+
+						if (rs.SizeType == SizeType.Percent)
+							max_percent_size = Math.Max(max_percent_size, max_height / rs.Height);
 
 						// Subtract the height of prior rows, if any.
 						for (int i = Math.Max (index - rowspan, 0); i < index; ++i)
@@ -341,6 +361,12 @@ namespace System.Windows.Forms.Layout
 							row_heights[index] = max_height;
 					}
 				}
+			}
+
+			for (index = 0; index < row_styles.Count && index < column_widths.Length; ++index) {
+				RowStyle rs = row_styles[index];
+				if (rs.SizeType == SizeType.Percent)
+					row_heights[index] = Math.Max(row_heights[index], (int)Math.Ceiling(max_percent_size * rs.Height * (100f / total_percent)));
 			}
 		}
 
@@ -407,7 +433,7 @@ namespace System.Windows.Forms.Layout
 			TableLayoutSettings settings = panel.LayoutSettings;
 			int columns = actual_positions.GetLength(0);
 			int rows = actual_positions.GetLength(1);
-			bool auto_size = panel.AutoSizeInternal || measureOnly;
+			bool auto_size = panel.AutoSizeInternal && measureOnly;
 			bool boundBySize = !measureOnly;
 
 			column_widths = new int[actual_positions.GetLength (0)];

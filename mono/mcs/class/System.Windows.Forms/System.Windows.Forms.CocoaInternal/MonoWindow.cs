@@ -53,26 +53,22 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override bool MakeFirstResponder(NSResponder aResponder)
 		{
-			if (FirstResponder == aResponder)
-				return true;
-
-			var focusView = FirstResponder as MonoView;
-			var newFocusView = aResponder as MonoView;
-			if (base.MakeFirstResponder(aResponder))
+			var prevFirstResponder = FirstResponder;
+			if (base.MakeFirstResponder(aResponder) && IsKeyWindow)
 			{
-				if (focusView != null)
-					driver.SendMessage(focusView.Handle, Msg.WM_KILLFOCUS, newFocusView != null ? newFocusView.Handle : IntPtr.Zero, IntPtr.Zero);
-				if (newFocusView != null && FirstResponder == aResponder)
-					driver.SendMessage(newFocusView.Handle, Msg.WM_SETFOCUS, focusView != null ? focusView.Handle : IntPtr.Zero, IntPtr.Zero);
+				var prev = (prevFirstResponder as NSView)?.Handle ?? IntPtr.Zero;
+				var next = (aResponder as NSView)?.Handle ?? IntPtr.Zero;
 
-				// If the newly focused control is not MonoView then it must be some embedded native control. Try
+				if (prev != IntPtr.Zero)
+					driver.SendMessage(prev, Msg.WM_KILLFOCUS, next, IntPtr.Zero);
+				if (next != IntPtr.Zero && FirstResponder == aResponder)
+					driver.SendMessage(next, Msg.WM_SETFOCUS, prev, IntPtr.Zero);
+
+				// If the newly focused control is not a MWF control's view, then it must be some embedded native control. Try
 				// to update the ActiveControl chain in Form to match it using similar approach as in Control.WmSetFocus. 
-				if (newFocusView == null && aResponder is NSView)
-				{
-					var wrapperControl = Control.FromChildHandle(aResponder.Handle);
-					if (wrapperControl != null)
-						(wrapperControl ?? wrapperControl.Parent).Select(wrapperControl);
-				}
+				var wrapperControl = Control.FromChildHandle(next);
+				if (wrapperControl != null && wrapperControl.Handle != next)
+					(wrapperControl ?? wrapperControl.Parent).Select(wrapperControl);
 
 				return true;
 			}
@@ -108,7 +104,7 @@ namespace System.Windows.Forms.CocoaInternal
 				case NSEventType.BeginGesture:
 					var hitTest = (ContentView.Superview ?? ContentView).HitTest(theEvent.LocationInWindow);
 					// Make sure any popup menus are closed when clicking on embedded NSView.
-					if (!(hitTest is MonoView))
+					if (null == Control.FromHandle((IntPtr)hitTest?.Handle))
 						ToolStripManager.FireAppClicked();
 					break;
 			}
@@ -227,7 +223,11 @@ namespace System.Windows.Forms.CocoaInternal
 
 			// FIXME: Set LParam
 			// FIXME: WM_MOUSEACTIVATE
+			//driver.SendMessage(ContentView.Handle, Msg.WM_NCACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, (IntPtr)(-1));
 			driver.SendMessage(ContentView.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
+
+			if (IsKeyWindow && FirstResponder != null) // For the case that previous WM_ACTIVATE in fact did not activate this window.
+				driver.SendMessage(FirstResponder.Handle, Msg.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
 
 			/*foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
 			{
@@ -242,7 +242,11 @@ namespace System.Windows.Forms.CocoaInternal
 
 			base.ResignKeyWindow();
 
+			//driver.SendMessage(ContentView.Handle, Msg.WM_NCACTIVATE, (IntPtr)WindowActiveFlags.WA_INACTIVE, (IntPtr)(-1));
 			driver.SendMessage(ContentView.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_INACTIVE, newKeyWindow != null ? newKeyWindow.ContentView.Handle : IntPtr.Zero);
+
+			if (!IsKeyWindow && FirstResponder != null) // For the case that previous WM_ACTIVATE in fact did not deactivate this window.
+				driver.SendMessage(FirstResponder.Handle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
 
 			/*foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
 			{
