@@ -157,7 +157,7 @@ namespace System.Windows.Forms.Layout
 				else if ((anchor & AnchorStyles.Top) == 0) {
 					// top += diff_height/2 will introduce rounding errors (diff_height removed from after r51780)
 					// This calculates from scratch every time:
-					top = top + (space.Height - (top + height + child.dist_bottom)) / 2;
+					top = top + (space.Height - (top + height + child.DistanceBottom)) / 2;
 					child.DistanceBottom = space.Height - (top + height);
 				}
 
@@ -168,7 +168,7 @@ namespace System.Windows.Forms.Layout
 				if (height < 0)
 					height = 0;
 
-                if (child.AutoSize) {
+				if (child.AutoSize) {
 					Size proposedSize = Size.Empty;
 					if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == (AnchorStyles.Left | AnchorStyles.Right))
 						proposedSize.Width = width;
@@ -178,14 +178,28 @@ namespace System.Windows.Forms.Layout
 					Size preferredsize = GetPreferredControlSize(child, proposedSize);
 
 					if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == AnchorStyles.Left)
-						child.DistanceRight += child.Width - preferredsize.Width;
+						child.DistanceRight += width - preferredsize.Width;
+					else if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == AnchorStyles.Right)
+						left += width - preferredsize.Width;
+					else if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == 0) {
+						int adjust = (preferredsize.Width - width) / 2;
+						left -= adjust;
+						child.DistanceRight -= preferredsize.Width - width - adjust;
+					}
 					if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == AnchorStyles.Top)
-						child.DistanceBottom += child.Height - preferredsize.Height;
+						child.DistanceBottom += height - preferredsize.Height;
+					else if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == AnchorStyles.Bottom)
+						top += height - preferredsize.Height;
+					else if ((anchor & (AnchorStyles.Top | AnchorStyles.Bottom)) == 0) {
+						int adjust = (preferredsize.Height - height) / 2;
+						top -= adjust;
+						child.DistanceBottom -= preferredsize.Height - height - adjust;
+					}
 
 					child.SetBoundsInternal(left, top, preferredsize.Width, preferredsize.Height, BoundsSpecified.None);
-                } else {
-                    child.SetBoundsInternal(left, top, width, height, BoundsSpecified.None);
-                }
+				} else {
+					child.SetBoundsInternal(left, top, width, height, BoundsSpecified.None);
+				}
 			}
 		}
 

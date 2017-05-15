@@ -1,16 +1,12 @@
-﻿using System;
+﻿#if !XAMARINMAC
+using System;
 using System.Runtime.InteropServices;
-#if XAMARINMAC
-using Foundation;
-using CoreFoundation;
-#else
 using MonoMac.Foundation;
 using MonoMac.CoreFoundation;
-#endif
 
 namespace MacBridge.LaunchServices
 {
-    public partial class LS {
+    public partial class LaunchServices {
 
 		class NSUrlHelper : NSUrl
 		{
@@ -19,67 +15,59 @@ namespace MacBridge.LaunchServices
 			}
 		}
 
-        public static NSUrl CopyDefaultApplicationUrlForUrl(NSUrl url, int lsRolesMask)
-		{
-            var cfErrorHandle = IntPtr.Zero;
-            var hAppUrl = LSCopyDefaultApplicationURLForURL(url.Handle, lsRolesMask, ref cfErrorHandle);
-            if (cfErrorHandle != IntPtr.Zero)
-                throw CFException.FromCFError(cfErrorHandle);
-            return new NSUrlHelper(hAppUrl);
-        }
-
-        public static string CopyDefaultHandlerForURLScheme(string urlScheme)
+        public static string GetDefaultHandlerForUrlScheme(string urlScheme)
         {
             var cfHandler = LSCopyDefaultHandlerForURLScheme(new NSString(urlScheme).Handle);
             return NSString.FromHandle(cfHandler);
         }
 
-        public static int SetDefaultHandlerForURLScheme(string urlScheme, string handlerBundleID)
+        public static int SetDefaultHandlerForUrlScheme(string urlScheme, string handlerBundleID)
         {
             return LSSetDefaultHandlerForURLScheme(new NSString(urlScheme).Handle, new NSString(handlerBundleID).Handle);
         }
 
-        public static int RegisterURL(NSUrl url, bool update)
-        {
-            return LSRegisterURL(url.Handle, update);
-        }
-
-        #region Native API
-
-        internal const string LaunchServicesDll = "/system/Library/frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices";
-
-        [DllImport(LaunchServicesDll)]
+		[DllImport(Constants.CoreServicesLibrary)]
         internal extern static IntPtr LSCopyDefaultHandlerForURLScheme(IntPtr cfStringUrlScheme);
 
-        [DllImport(LaunchServicesDll)]
+        [DllImport(Constants.CoreServicesLibrary)]
         internal extern static int LSSetDefaultHandlerForURLScheme(IntPtr urlScheme, IntPtr handlerBundleID);
-
-        [DllImport(LaunchServicesDll)]
-        internal extern static IntPtr LSCopyDefaultApplicationURLForURL(IntPtr cfUrl, int lsRolesMask, ref IntPtr cfError);
-
-        [DllImport(LaunchServicesDll)]
-        internal extern static int LSRegisterURL(IntPtr CFUrl, bool update);
-
-        #endregion //Native API
     }
 
     public partial class UTType
     {
-        public static string CreatePreferredIdentifierForTag(string path)
+        public static string CreatePreferredIdentifier(string tagClass, string tag, string conformingToUti)
         {
-            var ext = new NSString(path).PathExtension;
-            var tagname = new NSString(kUTTagClassFilenameExtension);
-            var huti = UTTypeCreatePreferredIdentifierForTag(tagname.Handle, ext.Handle, IntPtr.Zero);
-            return NSString.FromHandle(huti);
+			var a = NSString.CreateNative(tagClass);
+			var b = NSString.CreateNative(tag);
+			var c = NSString.CreateNative(conformingToUti);
+			var ret = NSString.FromHandle(UTTypeCreatePreferredIdentifierForTag(a, b, c));
+			NSString.ReleaseNative(a);
+			NSString.ReleaseNative(b);
+			NSString.ReleaseNative(c);
+			return ret;
         }
 
-        #region Native API
+		public static string GetPreferredTag(string uti, string tagClass)
+		{
+			if (uti == null)
+				throw new ArgumentNullException("uti");
+			if (tagClass == null)
+				throw new ArgumentNullException("tagClass");
 
-        const string kUTTagClassFilenameExtension = "public.filename-extension";
+			var a = NSString.CreateNative(uti);
+			var b = NSString.CreateNative(tagClass);
+			var ret = NSString.FromHandle(UTTypeCopyPreferredTagWithClass(a, b));
+			NSString.ReleaseNative(a);
+			NSString.ReleaseNative(b);
+			return ret;
+		}
 
-        [DllImport(LS.LaunchServicesDll)]
+		public const string TagClassFilenameExtension = "public.filename-extension";
+
+		[DllImport(Constants.CoreServicesLibrary)]
         extern static IntPtr UTTypeCreatePreferredIdentifierForTag(IntPtr tagClass, IntPtr tag, IntPtr uti);
-
-        #endregion // Native API
+		[DllImport(Constants.CoreServicesLibrary)]
+		extern static IntPtr UTTypeCopyPreferredTagWithClass(IntPtr uti, IntPtr tagClass);
     }
 }
+#endif
