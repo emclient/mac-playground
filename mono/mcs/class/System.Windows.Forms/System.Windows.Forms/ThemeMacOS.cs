@@ -678,7 +678,7 @@ namespace System.Windows.Forms
 		public virtual void DrawCheckBoxGlyph (Graphics g, CheckBox cb, Rectangle glyphArea)
 		{
 			var cell = SharedCheckBoxCell(cb);
-			var frame = cb.ClientRectangle.ToCGRect();
+			var frame = glyphArea.ToCGRect(); // cb.ClientRectangle.ToCGRect();
 			var view = NSView.FocusView(); //CocoaInternal.MonoView.FocusedView;
 
 			if (cb.Focused && cb.Enabled && cb.ShowFocusCues)
@@ -713,10 +713,14 @@ namespace System.Windows.Forms
 			get { return SharedCheckBoxCell().CellSize.ToSDSize().Height; }
 		}
 
+		internal int RBSize
+		{
+			get { return GetSharedRadioButtonCell().CellSize.ToSDSize().Height; }
+		}
+
 		public override void CalculateCheckBoxTextAndImageLayout (ButtonBase button, Point p, out Rectangle glyphArea, out Rectangle textRectangle, out Rectangle imageRectangle)
 		{
-			//NotImplemented(Reflection.MethodBase.GetCurrentMethod());
-			int check_size = CheckSize;
+			int check_size = button is RadioButton ? RBSize : CheckSize;
 
 			if (button is CheckBox)
 				check_size = (button as CheckBox).Appearance == Appearance.Normal ? check_size : 0;
@@ -889,7 +893,8 @@ namespace System.Windows.Forms
 				text_size.Width += 4;
 			}
 
-			text_size.Height = Math.Max(text_size.Height, CheckSize);
+			int rbsize = SharedCheckBoxCell().CellSize.ToSDSize().Height;
+			text_size.Height = Math.Max(text_size.Height, rbsize);
 
 			switch (checkBox.TextImageRelation)
 			{
@@ -911,11 +916,11 @@ namespace System.Windows.Forms
 
 			// Pad the result
 			ret_size.Height += (checkBox.Padding.Vertical);
-			ret_size.Width += (checkBox.Padding.Horizontal) + CheckSize + 2;
+			ret_size.Width += (checkBox.Padding.Horizontal) + CheckSize;
 
 			// There seems to be a minimum height
 			if (ret_size.Height == checkBox.Padding.Vertical)
-				ret_size.Height += 14;
+				ret_size.Height += CheckSize;
 
 			return ret_size;
 		}
@@ -3780,17 +3785,17 @@ namespace System.Windows.Forms
 		#endregion	// ProgressBar
 
 		#region RadioButton
-		public override void DrawRadioButton (Graphics dc, Rectangle clip_rectangle, RadioButton radio_button) {
+		public override void DrawRadioButton (Graphics dc, Rectangle clip_rectangle, RadioButton rb) {
 
-			if (radio_button.Focused && radio_button.Enabled && radio_button.appearance != Appearance.Button && radio_button.Text != String.Empty && radio_button.ShowFocusCues) {
-				//SizeF text_size = dc.MeasureString (radio_button.Text, radio_button.Font);
+			if (rb.Focused && rb.Enabled && rb.appearance != Appearance.Button && rb.Text != String.Empty && rb.ShowFocusCues) {
+				//SizeF text_size = dc.MeasureString (rb.Text, rb.Font);
 				
 				//Rectangle focus_rect = Rectangle.Empty;
 				//focus_rect.X = text_rectangle.X;
 				//focus_rect.Y = (int)((text_rectangle.Height - text_size.Height) / 2);
 				//focus_rect.Size = text_size.ToSize ();
 
-				//RadioButton_DrawFocus (radio_button, dc, focus_rect);
+				//RadioButton_DrawFocus (rb, dc, focus_rect);
 			}
 			
 		}
@@ -3801,39 +3806,110 @@ namespace System.Windows.Forms
 			}
 		}
 
-		internal virtual NSButtonCell GetRadioButtonCell(RadioButton rb)
-		{
-			var cell = new NSButtonCell(rb.Text);
-			cell.SetButtonType(NSButtonType.Radio);
-			cell.AttributedTitle = GetAttributedString(rb.Text, '&', rb.Font, rb.TextAlign);
-			//cell.Font = rb.Font.ToNSFont();
-			cell.Alignment = rb.TextAlign.ToNSTextAlignment();
-			cell.Highlighted = rb.Pressed;
-			cell.Bezeled = false;
-			cell.Bordered = false;
-			cell.State = rb.Checked ? NSCellStateValue.On : NSCellStateValue.Off;
-			cell.Enabled = rb.Enabled;
-			cell.LineBreakMode = NSLineBreakMode.ByWordWrapping;
+		NSButtonCell sharedRBCell;
+		NSButtonCell SharedRadioButtonCell { get { return GetSharedRadioButtonCell(); } }
 
-			return cell;
+		internal virtual NSButtonCell GetSharedRadioButtonCell(RadioButton rb = null)
+		{
+			if (sharedRBCell == null)
+			{
+				sharedRBCell = new NSButtonCell();
+				sharedRBCell.SetButtonType(NSButtonType.Radio);
+				sharedRBCell.Title = string.Empty;
+				sharedRBCell.Bezeled = false;
+				sharedRBCell.Bordered = false;
+			}
+
+			if (rb != null)
+			{
+				sharedRBCell.Alignment = rb.TextAlign.ToNSTextAlignment();
+				sharedRBCell.Highlighted = rb.Pressed;
+				sharedRBCell.State = rb.Checked ? NSCellStateValue.On : NSCellStateValue.Off;
+				sharedRBCell.Enabled = rb.Enabled;
+			}
+			return sharedRBCell;
 		}
 
 		public override Size CalculateRadioButtonAutoSize(RadioButton rb)
 		{
-			using (var cell = GetRadioButtonCell(rb))
-				return cell.CellSize.Inflate(0, 0).ToSDSize(); // -2 is a temporary hack. We nedd to adjust Draw() instead.
+			Size ret_size = Size.Empty;
+			Size text_size = TextRenderer.MeasureTextInternal(rb.Text, rb.Font, rb.UseCompatibleTextRendering);
+			Size image_size = rb.Image == null ? Size.Empty : rb.Image.Size;
+
+			// Pad the text size
+			if (rb.Text.Length != 0)
+			{
+				text_size.Height += 4;
+				text_size.Width += 4;
+			}
+
+			text_size.Height = Math.Max(text_size.Height, RBSize);
+
+			switch (rb.TextImageRelation)
+			{
+				case TextImageRelation.Overlay:
+					ret_size.Height = Math.Max(rb.Text.Length == 0 ? 0 : text_size.Height, image_size.Height);
+					ret_size.Width = Math.Max(text_size.Width, image_size.Width);
+					break;
+				case TextImageRelation.ImageAboveText:
+				case TextImageRelation.TextAboveImage:
+					ret_size.Height = text_size.Height + image_size.Height;
+					ret_size.Width = Math.Max(text_size.Width, image_size.Width);
+					break;
+				case TextImageRelation.ImageBeforeText:
+				case TextImageRelation.TextBeforeImage:
+					ret_size.Height = Math.Max(text_size.Height, image_size.Height);
+					ret_size.Width = text_size.Width + image_size.Width;
+					break;
+			}
+
+			// Pad the result
+			ret_size.Height += (rb.Padding.Vertical);
+			ret_size.Width += (rb.Padding.Horizontal) + RBSize;
+
+			// There seems to be a minimum height
+			if (ret_size.Height == rb.Padding.Vertical)
+				ret_size.Height += RBSize;
+
+			return ret_size;
 		}
 
 		public override void DrawRadioButton (Graphics g, RadioButton rb, Rectangle glyphArea, Rectangle textBounds, Rectangle imageBounds, Rectangle clipRectangle)
 		{
-			using (var cell = GetRadioButtonCell(rb))
+			// Draw Button Background
+			if (rb.FlatStyle == FlatStyle.Flat || rb.FlatStyle == FlatStyle.Popup)
 			{
-				cell.DrawWithFrame(rb.ClientRectangle.ToCGRect(), NSView.FocusView());
+				glyphArea.Height -= 2;
+				glyphArea.Width -= 2;
 			}
+
+			DrawRadioButtonGlyph(g, rb, glyphArea);
+
+			// If we have an image, draw it
+			if (imageBounds.Size != Size.Empty)
+				DrawRadioButtonImage(g, rb, imageBounds);
+
+			//if (rb.Focused && rb.Enabled && rb.ShowFocusCues && textBounds.Size != Size.Empty)
+				//DrawRadioButtonFocus(g, rb, textBounds);
+
+			// If we have text, draw it
+			if (textBounds != Rectangle.Empty)
+				DrawRadioButtonText(g, rb, textBounds);
+
+			//var cell = GetSharedRadioButtonCell(rb);
+			//cell.DrawWithFrame(rb.ClientRectangle.ToCGRect(), NSView.FocusView());
 		}
 
 		public virtual void DrawRadioButtonGlyph (Graphics g, RadioButton rb, Rectangle glyphArea)
 		{
+			var cell = GetSharedRadioButtonCell(rb);
+			var frame = glyphArea.ToCGRect();// rb.ClientRectangle.ToCGRect();
+			var view = NSView.FocusView(); //CocoaInternal.MonoView.FocusedView;
+
+			if (rb.Focused && rb.Enabled && rb.ShowFocusCues)
+				cell.DrawFocusRing(frame, view);
+
+			cell.DrawWithFrame(frame, view);
 		}
 
 		public virtual void DrawRadioButtonFocus (Graphics g, RadioButton rb, Rectangle focusArea)
@@ -3843,10 +3919,18 @@ namespace System.Windows.Forms
 
 		public virtual void DrawRadioButtonImage (Graphics g, RadioButton rb, Rectangle imageBounds)
 		{
+			if (rb.Enabled)
+				g.DrawImage(rb.Image, imageBounds);
+			else
+				CPDrawImageDisabled(g, rb.Image, imageBounds.Left, imageBounds.Top, ColorControl);
 		}
 
 		public virtual void DrawRadioButtonText (Graphics g, RadioButton rb, Rectangle textBounds)
 		{
+			if (rb.Enabled)
+				TextRenderer.DrawTextInternal(g, rb.Text, rb.Font, textBounds, rb.ForeColor, rb.TextFormatFlags, rb.UseCompatibleTextRendering);
+			else
+				DrawStringDisabled20(g, rb.Text, rb.Font, textBounds, rb.BackColor, rb.TextFormatFlags, rb.UseCompatibleTextRendering);
 		}
 
 		public override void CalculateRadioButtonTextAndImageLayout (ButtonBase b, Point offset, out Rectangle glyphArea, out Rectangle textRectangle, out Rectangle imageRectangle)
