@@ -137,7 +137,6 @@ namespace System.Windows.Forms
 		const int SM_CYBORDER = 1;		
 		const int MENU_TAB_SPACE = 8;		// Pixels added to the width of an item because of a tabd
 		const int MENU_BAR_ITEMS_SPACE = 8;	// Space between menu bar items
-		const int CheckSize = 13;
 
 		#region	Principal Theme Methods
 		public ThemeMacOS()
@@ -398,14 +397,117 @@ namespace System.Windows.Forms
 
 		private void LayoutTextBeforeOrAfterImage (Rectangle totalArea, bool textFirst, Size textSize, Size imageSize, ContentAlignment textAlign, ContentAlignment imageAlign, out Rectangle textRect, out Rectangle imageRect)
 		{
-			textRect = Rectangle.Empty;
-			imageRect = Rectangle.Empty;
+			int element_spacing = 0;    // Spacing between the Text and the Image
+			int total_width = textSize.Width + element_spacing + imageSize.Width;
+
+			if (!textFirst)
+				element_spacing += 2;
+
+			// If the text is too big, chop it down to the size we have available to it
+			if (total_width > totalArea.Width)
+			{
+				textSize.Width = totalArea.Width - element_spacing - imageSize.Width;
+				total_width = totalArea.Width;
+			}
+
+			int excess_width = totalArea.Width - total_width;
+			int offset = 0;
+
+			Rectangle final_text_rect;
+			Rectangle final_image_rect;
+
+			HorizontalAlignment h_text = GetHorizontalAlignment(textAlign);
+			HorizontalAlignment h_image = GetHorizontalAlignment(imageAlign);
+
+			if (h_image == HorizontalAlignment.Left)
+				offset = 0;
+			else if (h_image == HorizontalAlignment.Right && h_text == HorizontalAlignment.Right)
+				offset = excess_width;
+			else if (h_image == HorizontalAlignment.Center && (h_text == HorizontalAlignment.Left || h_text == HorizontalAlignment.Center))
+				offset += (int)(excess_width / 3);
+			else
+				offset += (int)(2 * (excess_width / 3));
+
+			if (textFirst)
+			{
+				final_text_rect = new Rectangle(totalArea.Left + offset, AlignInRectangle(totalArea, textSize, textAlign).Top, textSize.Width, textSize.Height);
+				final_image_rect = new Rectangle(final_text_rect.Right + element_spacing, AlignInRectangle(totalArea, imageSize, imageAlign).Top, imageSize.Width, imageSize.Height);
+			}
+			else
+			{
+				final_image_rect = new Rectangle(totalArea.Left + offset, AlignInRectangle(totalArea, imageSize, imageAlign).Top, imageSize.Width, imageSize.Height);
+				final_text_rect = new Rectangle(final_image_rect.Right + element_spacing, AlignInRectangle(totalArea, textSize, textAlign).Top, textSize.Width, textSize.Height);
+			}
+
+			textRect = final_text_rect;
+			imageRect = final_image_rect;
 		}
 
 		private void LayoutTextAboveOrBelowImage (Rectangle totalArea, bool textFirst, Size textSize, Size imageSize, ContentAlignment textAlign, ContentAlignment imageAlign, bool displayEllipsis, out Rectangle textRect, out Rectangle imageRect)
 		{
-			textRect = Rectangle.Empty;
-			imageRect = Rectangle.Empty;
+			int element_spacing = 0;    // Spacing between the Text and the Image
+			int total_height = textSize.Height + element_spacing + imageSize.Height;
+
+			if (textFirst)
+				element_spacing += 2;
+
+			if (textSize.Width > totalArea.Width)
+				textSize.Width = totalArea.Width;
+
+			// If the there isn't enough room and we're text first, cut out the image
+			if (total_height > totalArea.Height && textFirst)
+			{
+				imageSize = Size.Empty;
+				total_height = totalArea.Height;
+			}
+
+			int excess_height = totalArea.Height - total_height;
+			int offset = 0;
+
+			Rectangle final_text_rect;
+			Rectangle final_image_rect;
+
+			VerticalAlignment v_text = GetVerticalAlignment(textAlign);
+			VerticalAlignment v_image = GetVerticalAlignment(imageAlign);
+
+			if (v_image == VerticalAlignment.Top)
+				offset = 0;
+			else if (v_image == VerticalAlignment.Bottom && v_text == VerticalAlignment.Bottom)
+				offset = excess_height;
+			else if (v_image == VerticalAlignment.Center && (v_text == VerticalAlignment.Top || v_text == VerticalAlignment.Center))
+				offset += (int)(excess_height / 3);
+			else
+				offset += (int)(2 * (excess_height / 3));
+
+			if (textFirst)
+			{
+				var textHeight = excess_height >= 0 ? totalArea.Height - imageSize.Height - element_spacing : textSize.Height;
+				final_text_rect = new Rectangle(AlignInRectangle(totalArea, textSize, textAlign).Left, totalArea.Top + offset, textSize.Width, textHeight);
+				final_image_rect = new Rectangle(AlignInRectangle(totalArea, imageSize, imageAlign).Left, final_text_rect.Bottom + element_spacing, imageSize.Width, imageSize.Height);
+			}
+			else
+			{
+				final_image_rect = new Rectangle(AlignInRectangle(totalArea, imageSize, imageAlign).Left, totalArea.Top + offset, imageSize.Width, imageSize.Height);
+				var textHeight = excess_height >= 0 ? totalArea.Height - final_image_rect.Height : textSize.Height;
+				final_text_rect = new Rectangle(AlignInRectangle(totalArea, textSize, textAlign).Left, final_image_rect.Bottom + element_spacing, textSize.Width, textHeight);
+
+				if (final_text_rect.Bottom > totalArea.Bottom)
+				{
+					final_text_rect.Y -= (final_text_rect.Bottom - totalArea.Bottom);
+					if (final_text_rect.Y < totalArea.Top)
+						final_text_rect.Y = totalArea.Top;
+				}
+			}
+
+			if (displayEllipsis)
+			{
+				// Don't use more space than is available otherwise ellipsis won't show
+				if (final_text_rect.Height > totalArea.Bottom)
+					final_text_rect.Height = totalArea.Bottom - final_text_rect.Top;
+			}
+
+			textRect = final_text_rect;
+			imageRect = final_image_rect;
 		}
 		
 		private HorizontalAlignment GetHorizontalAlignment (ContentAlignment align)
@@ -536,45 +638,53 @@ namespace System.Windows.Forms
 			return astr;
 		}
 
-		NSButtonCell GetCheckBoxCell(CheckBox cb)
+		NSButtonCell sharedCheckBoxCell;
+		NSButtonCell SharedCheckBoxCell(CheckBox cb = null)
 		{
-			var cell = new NSButtonCell();
-			cell.SetButtonType(NSButtonType.Switch);
-			cell.AttributedTitle = GetAttributedString(cb.Text, '&', cb.Font, cb.TextAlign);
-			cell.Alignment = cb.TextAlign.ToNSTextAlignment();
-			cell.Highlighted = cb.Pressed;
-			cell.Bezeled = false;
-			cell.Bordered = false;
-			cell.State = (cb.CheckState == CheckState.Checked ? NSCellStateValue.On : NSCellStateValue.Off);
-			cell.Enabled = cb.Enabled;
-			return cell;
+			if (sharedCheckBoxCell == null)
+			{
+				sharedCheckBoxCell = new NSButtonCell();
+				sharedCheckBoxCell.SetButtonType(NSButtonType.Switch);
+				sharedCheckBoxCell.Title = String.Empty;
+				sharedCheckBoxCell.Bezeled = false;
+				sharedCheckBoxCell.Bordered = false;
+			}
+
+			if (cb != null)
+			{
+				sharedCheckBoxCell.Highlighted = cb.Pressed;
+				sharedCheckBoxCell.Bezeled = false;
+				sharedCheckBoxCell.Bordered = false;
+				sharedCheckBoxCell.State = (cb.CheckState == CheckState.Checked ? NSCellStateValue.On : NSCellStateValue.Off);
+				sharedCheckBoxCell.Enabled = cb.Enabled;
+			}
+
+			return sharedCheckBoxCell;
 		}
 
 		public override void DrawCheckBox (Graphics g, CheckBox cb, Rectangle glyphArea, Rectangle textBounds, Rectangle imageBounds, Rectangle clipRectangle)
 		{
-			using (var cell = GetCheckBoxCell(cb))
-			{
-				var frame = cb.ClientRectangle.ToCGRect();
+			DrawCheckBoxGlyph(g, cb, glyphArea);
 
-				// Move to the top if necessary
-				//var s = cell.CellSizeForBounds(frame);
-				//if (s.Height < frame.Height)
-				//	frame.Height = (int)Math.Round(s.Height);
+			// If we have an image, draw it
+			if (imageBounds.Size != Size.Empty)
+				DrawCheckBoxImage(g, cb, imageBounds);
 
-				var view = NSView.FocusView(); //CocoaInternal.MonoView.FocusedView;
-				if (cb.Focused && cb.Enabled && cb.ShowFocusCues)
-				{
-					//var fr = cell.GetFocusRingMaskBounds(frame, view);
-					cell.DrawFocusRing(frame, view);
-				}
-
-				cell.DrawWithFrame(frame, view);
-			}
+			// If we have text, draw it
+			if (textBounds != Rectangle.Empty)
+				DrawCheckBoxText(g, cb, textBounds);
 		}
 
 		public virtual void DrawCheckBoxGlyph (Graphics g, CheckBox cb, Rectangle glyphArea)
 		{
-				ThemeElements.CurrentTheme.CheckBoxPainter.PaintCheckBox (g, glyphArea, cb.BackColor, cb.ForeColor, ElementState.Normal, cb.FlatStyle, cb.CheckState);
+			var cell = SharedCheckBoxCell(cb);
+			var frame = cb.ClientRectangle.ToCGRect();
+			var view = NSView.FocusView(); //CocoaInternal.MonoView.FocusedView;
+
+			if (cb.Focused && cb.Enabled && cb.ShowFocusCues)
+				cell.DrawFocusRing(frame, view);
+
+			cell.DrawWithFrame(frame, view);
 		}
 
 		public virtual void DrawCheckBoxFocus (Graphics g, CheckBox cb, Rectangle focusArea)
@@ -592,33 +702,230 @@ namespace System.Windows.Forms
 
 		public virtual void DrawCheckBoxText (Graphics g, CheckBox cb, Rectangle textBounds)
 		{
+			if (cb.Enabled)
+				TextRenderer.DrawTextInternal(g, cb.Text, cb.Font, textBounds, cb.ForeColor, cb.TextFormatFlags, cb.UseCompatibleTextRendering);
+			else
+				DrawStringDisabled20(g, cb.Text, cb.Font, textBounds, cb.BackColor, cb.TextFormatFlags, cb.UseCompatibleTextRendering);
 		}
 
-		public override void CalculateCheckBoxTextAndImageLayout (ButtonBase button, Point p, out Rectangle glyphArea, out Rectangle textRect, out Rectangle imageRect)
+		internal int CheckSize
+		{
+			get { return SharedCheckBoxCell().CellSize.ToSDSize().Height; }
+		}
+
+		public override void CalculateCheckBoxTextAndImageLayout (ButtonBase button, Point p, out Rectangle glyphArea, out Rectangle textRectangle, out Rectangle imageRectangle)
 		{
 			//NotImplemented(Reflection.MethodBase.GetCurrentMethod());
-			textRect = Rectangle.Empty;
-			imageRect = Rectangle.Empty;
-			glyphArea = Rectangle.Empty;
+			int check_size = CheckSize;
+
+			if (button is CheckBox)
+				check_size = (button as CheckBox).Appearance == Appearance.Normal ? check_size : 0;
+
+			glyphArea = new Rectangle(button.Padding.Left, button.Padding.Top, check_size, check_size);
+
+			Rectangle content_rect = button.PaddingClientRectangle;
+			ContentAlignment align = ContentAlignment.TopLeft;
+
+			if (button is CheckBox)
+				align = (button as CheckBox).CheckAlign;
+			else if (button is RadioButton)
+				align = (button as RadioButton).CheckAlign;
+
+			switch (align)
+			{
+				case ContentAlignment.BottomCenter:
+					glyphArea.Y += content_rect.Height - check_size - 2;
+					glyphArea.X += (content_rect.Width - check_size) / 2;
+					break;
+				case ContentAlignment.BottomLeft:
+					glyphArea.Y += content_rect.Height - check_size - 2;
+					content_rect.Width -= check_size;
+					content_rect.Offset(check_size, 0);
+					break;
+				case ContentAlignment.BottomRight:
+					glyphArea.Y += content_rect.Height - check_size - 2;
+					glyphArea.X += content_rect.Width - check_size;
+					content_rect.Width -= check_size;
+					break;
+				case ContentAlignment.MiddleCenter:
+					glyphArea.Y += (content_rect.Height - check_size) / 2;
+					glyphArea.X += (content_rect.Width - check_size) / 2;
+					break;
+				case ContentAlignment.MiddleLeft:
+					glyphArea.Y += (content_rect.Height - check_size) / 2;
+					content_rect.Width -= check_size;
+					content_rect.Offset(check_size, 0);
+					break;
+				case ContentAlignment.MiddleRight:
+					glyphArea.Y += (content_rect.Height - check_size) / 2;
+					glyphArea.X += content_rect.Width - check_size;
+					content_rect.Width -= check_size;
+					break;
+				case ContentAlignment.TopCenter:
+					glyphArea.X += (content_rect.Width - check_size) / 2;
+					break;
+				case ContentAlignment.TopLeft:
+					content_rect.Width -= check_size;
+					content_rect.Offset(check_size, 0);
+					break;
+				case ContentAlignment.TopRight:
+					glyphArea.X += content_rect.Width - check_size;
+					content_rect.Width -= check_size;
+					break;
+			}
+
+			Image image = button.Image;
+			string text = button.Text;
+
+			Size proposed = Size.Empty;
+
+			// Force wrapping if we aren't AutoSize and our text is too long
+			//if (!button.AutoSize) // JV:Condition disabled to fix drawing checkboxes and radiobuttons that need wrapping
+			proposed.Width = button.PaddingClientRectangle.Width - glyphArea.Width - 2;
+
+			Size text_size = TextRenderer.MeasureTextInternal(text, button.Font, proposed, button.TextFormatFlags, button.UseCompatibleTextRendering);
+
+			// Text can't be bigger than the content rectangle
+			text_size.Height = Math.Min(text_size.Height, content_rect.Height);
+			text_size.Width = Math.Min(text_size.Width, content_rect.Width);
+
+			Size image_size = image == null ? Size.Empty : image.Size;
+
+			textRectangle = Rectangle.Empty;
+			imageRectangle = Rectangle.Empty;
+
+			switch (button.TextImageRelation)
+			{
+				case TextImageRelation.Overlay:
+					// Text is centered vertically, and 2 pixels to the right
+					textRectangle.X = content_rect.Left + 2;
+					textRectangle.Y = button.PaddingClientRectangle.Top + ((content_rect.Height - text_size.Height) / 2);// - 1;
+					textRectangle.Size = text_size;
+
+					// Image is dependent on ImageAlign
+					if (image == null)
+						return;
+
+					int image_x = button.PaddingClientRectangle.Left;
+					int image_y = button.PaddingClientRectangle.Top;
+					int image_height = image.Height;
+					int image_width = image.Width;
+
+					switch (button.ImageAlign)
+					{
+						case System.Drawing.ContentAlignment.TopLeft:
+							image_x += 5;
+							image_y += 5;
+							break;
+						case System.Drawing.ContentAlignment.TopCenter:
+							image_x += (content_rect.Width - image_width) / 2;
+							image_y += 5;
+							break;
+						case System.Drawing.ContentAlignment.TopRight:
+							image_x += content_rect.Width - image_width - 5;
+							image_y += 5;
+							break;
+						case System.Drawing.ContentAlignment.MiddleLeft:
+							image_x += 5;
+							image_y += (content_rect.Height - image_height) / 2;
+							break;
+						case System.Drawing.ContentAlignment.MiddleCenter:
+							image_x += (content_rect.Width - image_width) / 2;
+							image_y += (content_rect.Height - image_height) / 2;
+							break;
+						case System.Drawing.ContentAlignment.MiddleRight:
+							image_x += content_rect.Width - image_width - 4;
+							image_y += (content_rect.Height - image_height) / 2;
+							break;
+						case System.Drawing.ContentAlignment.BottomLeft:
+							image_x += 5;
+							image_y += content_rect.Height - image_height - 4;
+							break;
+						case System.Drawing.ContentAlignment.BottomCenter:
+							image_x += (content_rect.Width - image_width) / 2;
+							image_y += content_rect.Height - image_height - 4;
+							break;
+						case System.Drawing.ContentAlignment.BottomRight:
+							image_x += content_rect.Width - image_width - 4;
+							image_y += content_rect.Height - image_height - 4;
+							break;
+						default:
+							image_x += 5;
+							image_y += 5;
+							break;
+					}
+
+					imageRectangle = new Rectangle(image_x + check_size, image_y, image_width, image_height);
+					break;
+				case TextImageRelation.ImageAboveText:
+					content_rect.Inflate(-4, -4);
+					LayoutTextAboveOrBelowImage(content_rect, false, text_size, image_size, button.TextAlign, button.ImageAlign, false, out textRectangle, out imageRectangle);
+					break;
+				case TextImageRelation.TextAboveImage:
+					content_rect.Inflate(-4, -4);
+					LayoutTextAboveOrBelowImage(content_rect, true, text_size, image_size, button.TextAlign, button.ImageAlign, false, out textRectangle, out imageRectangle);
+					break;
+				case TextImageRelation.ImageBeforeText:
+					content_rect.Inflate(-4, -4);
+					LayoutTextBeforeOrAfterImage(content_rect, false, text_size, image_size, button.TextAlign, button.ImageAlign, out textRectangle, out imageRectangle);
+					break;
+				case TextImageRelation.TextBeforeImage:
+					content_rect.Inflate(-4, -4);
+					LayoutTextBeforeOrAfterImage(content_rect, true, text_size, image_size, button.TextAlign, button.ImageAlign, out textRectangle, out imageRectangle);
+					break;
+			}
 		}
 
 		public override Size CalculateCheckBoxAutoSize (CheckBox checkBox)
 		{
-			using (var cell = GetCheckBoxCell(checkBox))
-				return cell.CellSize.ToSDSize();
+			Size ret_size = Size.Empty;
+			Size text_size = TextRenderer.MeasureTextInternal(checkBox.Text, checkBox.Font, checkBox.UseCompatibleTextRendering);
+			Size image_size = checkBox.Image == null ? Size.Empty : checkBox.Image.Size;
+
+			// Pad the text size
+			if (checkBox.Text.Length != 0)
+			{
+				text_size.Height += 4;
+				text_size.Width += 4;
+			}
+
+			text_size.Height = Math.Max(text_size.Height, CheckSize);
+
+			switch (checkBox.TextImageRelation)
+			{
+				case TextImageRelation.Overlay:
+					ret_size.Height = Math.Max(checkBox.Text.Length == 0 ? 0 : text_size.Height, image_size.Height);
+					ret_size.Width = Math.Max(text_size.Width, image_size.Width);
+					break;
+				case TextImageRelation.ImageAboveText:
+				case TextImageRelation.TextAboveImage:
+					ret_size.Height = text_size.Height + image_size.Height;
+					ret_size.Width = Math.Max(text_size.Width, image_size.Width);
+					break;
+				case TextImageRelation.ImageBeforeText:
+				case TextImageRelation.TextBeforeImage:
+					ret_size.Height = Math.Max(text_size.Height, image_size.Height);
+					ret_size.Width = text_size.Width + image_size.Width;
+					break;
+			}
+
+			// Pad the result
+			ret_size.Height += (checkBox.Padding.Vertical);
+			ret_size.Width += (checkBox.Padding.Horizontal) + CheckSize + 2;
+
+			// There seems to be a minimum height
+			if (ret_size.Height == checkBox.Padding.Vertical)
+				ret_size.Height += 14;
+
+			return ret_size;
 		}
 
-		public override void DrawCheckBox(Graphics dc, Rectangle clip_area, CheckBox checkbox) {
-
-			//if (checkbox.Focused && checkbox.Enabled && checkbox.appearance != Appearance.Button && checkbox.Text != String.Empty && checkbox.ShowFocusCues) {
-			//}
-
-			using (var cell = GetCheckBoxCell(checkbox))
-			{
-				if (checkbox.Focused && checkbox.Enabled && checkbox.appearance != Appearance.Button && checkbox.Text != String.Empty && checkbox.ShowFocusCues)
-					cell.FocusRingType = NSFocusRingType.Default;
-				cell.DrawWithFrame(checkbox.ClientRectangle.ToCGRect(), NSView.FocusView());
-			}
+		public override void DrawCheckBox(Graphics dc, Rectangle clip_area, CheckBox checkbox)
+		{
+			var cell = SharedCheckBoxCell(checkbox);
+			if (checkbox.Focused && checkbox.Enabled && checkbox.appearance != Appearance.Button && checkbox.Text != String.Empty && checkbox.ShowFocusCues)
+				cell.FocusRingType = NSFocusRingType.Default;
+			cell.DrawWithFrame(checkbox.ClientRectangle.ToCGRect(), NSView.FocusView());
 		}
 
 		#endregion	// CheckBox
@@ -631,7 +938,7 @@ namespace System.Windows.Forms
 			Rectangle item_rect = e.Bounds;
 			ButtonState state;
 
-			/* Draw checkbox */		
+			// Draw checkbox
 
 			if ((e.State & DrawItemState.Checked) == DrawItemState.Checked) {
 				state = ButtonState.Checked;
