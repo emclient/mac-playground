@@ -15,6 +15,7 @@ using CoreGraphics;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using ObjCRuntime = MonoMac.ObjCRuntime;
+using MacBridge.CoreGraphics;
 #endif
 
 namespace WinApi
