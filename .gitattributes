@@ -144,6 +144,7 @@ MacBridge/MacApi/QuickLook.cs -text
 MacBridge/MacBridge.csproj -text
 MacBridge/MacBridge.snk -text
 MacBridge/Properties/AssemblyInfo.cs -text
+MacBridge/WinApi/AdvApi32.cs -text
 MacBridge/WinApi/ComDlg32.cs -text
 MacBridge/WinApi/DwMapi.cs -text
 MacBridge/WinApi/GdiPlus.cs -text

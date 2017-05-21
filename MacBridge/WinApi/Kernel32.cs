@@ -70,5 +70,11 @@ namespace WinApi
 			pszPath.Append(path);
 			return path.Length;
 		}
+
+		public static UInt32 LocalFree(IntPtr hMem)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
+		}
 	}
 }
