@@ -82,6 +82,7 @@
     <Compile Include="WinApi\ComDlg32.cs" />
     <Compile Include="WinApi\GdiPlus.cs" />
     <Compile Include="WinApi\Kernel32.cs" />
+    <Compile Include="WinApi\NetApi32.cs" />
     <Compile Include="WinApi\Ole32.cs" />
     <Compile Include="WinApi\Shell32.cs" />
     <Compile Include="WinApi\ShlWapi.cs" />
@@ -150,10 +151,5 @@
       <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="WinApi\" />
-    <Folder Include="MacApi\" />
-    <Folder Include="MacApi\Foundation\" />
-    <Folder Include="MacApi\CoreGraphics\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
