@@ -150,6 +150,7 @@ MacBridge/WinApi/DwMapi.cs -text
 MacBridge/WinApi/GdiPlus.cs -text
 MacBridge/WinApi/Imm32.cs -text
 MacBridge/WinApi/Kernel32.cs -text
+MacBridge/WinApi/NetApi32.cs -text
 MacBridge/WinApi/Ole32.cs -text
 MacBridge/WinApi/Secur32.cs -text
 MacBridge/WinApi/Shell32.Wrappers.cs -text
