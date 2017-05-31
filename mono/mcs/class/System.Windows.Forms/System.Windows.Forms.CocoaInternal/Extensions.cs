@@ -3,6 +3,7 @@ using ObjCRuntime = MonoMac.ObjCRuntime;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
+using System.Drawing;
 #elif XAMARINMAC
 using System;
 using System.Runtime.InteropServices;
@@ -40,6 +41,26 @@ namespace System.Windows.Forms.Mac
 			var selector = new ObjCRuntime.Selector("sizeThatFits:");
 			var size = ObjCRuntime.Messaging.CGSize_objc_msgSend_CGSize(self.Handle, selector.Handle, proposedSize);
 			return size;
+		}
+
+		public static NSPasteboardWriting AsPasteboardWriting(this NSString self)
+		{
+			return new NSPasteboardWriting(self.Handle);
+		}
+
+		public static NSPasteboardWriting AsPasteboardWriting(this String self)
+		{
+			return new NSPasteboardWriting(((NSString)self).Handle);
+		}
+#elif XAMARINMAC
+		public static INSPasteboardWriting AsPasteboardWriting(this NSString self)
+		{
+			return (INSPasteboardWriting)self;
+		}
+
+		public static INSPasteboardWriting AsPasteboardWriting(this String self)
+		{
+			return (INSPasteboardWriting)(NSString)self;
 		}
 #endif
 	}
