@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace WinApi
 {
-    public static partial class Win32
-    {
-        public static void GetStartupInfo([In, Out] STARTUPINFO lpStartupInfo)
+	public static partial class Win32
+	{
+		static Dictionary<IntPtr, UIntPtr> localHeap = new Dictionary<IntPtr, UIntPtr>();
+		static Dictionary<IntPtr, UIntPtr> globalHeap = new Dictionary<IntPtr, UIntPtr>();
+
+		public static void GetStartupInfo([In, Out] STARTUPINFO lpStartupInfo)
         {
             // TODO
             NotImplemented(MethodBase.GetCurrentMethod());
@@ -35,30 +39,6 @@ namespace WinApi
 			return false;
 		}
 
-		public static IntPtr GlobalReAlloc(HandleRef handle, IntPtr bytes, int flags)
-		{
-			NotImplemented(MethodBase.GetCurrentMethod());
-			return IntPtr.Zero;
-		}
-
-		public static IntPtr GlobalLock(IntPtr hMem)
-		{
-			NotImplemented(MethodBase.GetCurrentMethod());
-			return IntPtr.Zero;
-		}
-
-		public static bool GlobalUnlock(IntPtr hMem)
-		{
-			NotImplemented(MethodBase.GetCurrentMethod());
-			return true;
-		}
-
-		public static IntPtr GlobalSize(IntPtr handle)
-		{
-			NotImplemented(MethodBase.GetCurrentMethod());
-			return IntPtr.Zero;
-		}
-
 		public static int GetCurrentThreadId()
 		{
 			NotImplemented(MethodBase.GetCurrentMethod());
@@ -71,10 +51,82 @@ namespace WinApi
 			return path.Length;
 		}
 
-		public static UInt32 LocalFree(IntPtr hMem)
+		public static IntPtr LocalAlloc(uint uFlags, UIntPtr uBytes)
 		{
-			NotImplemented(MethodBase.GetCurrentMethod());
-			return 0;
+			IntPtr ptr = Marshal.AllocHGlobal((int)uBytes.ToUInt32());
+			localHeap[ptr] = uBytes;
+			return ptr;
+		}
+
+		public static IntPtr LocalReAlloc(IntPtr hMem, IntPtr bytes, int flags)
+		{
+			if (localHeap.ContainsKey(hMem))
+			{
+				localHeap.Remove((hMem));
+				hMem = Marshal.ReAllocHGlobal(hMem, bytes);
+				localHeap[hMem] = new UIntPtr((ulong)bytes);
+
+				if (0 != (flags & Win32.GMEM_ZEROINIT))
+				{
+					//FIXME
+				}
+				return hMem;
+			}
+			return IntPtr.Zero;
+		}
+
+		public static IntPtr LocalFree(IntPtr hMem)
+		{
+			return localHeap.ContainsKey(hMem) ? IntPtr.Zero : hMem;
+		}
+
+		public static UIntPtr LocalSize(IntPtr hMem)
+		{
+			return localHeap.TryGetValue(hMem, out UIntPtr length) ? length : UIntPtr.Zero;
+		}
+
+		public static IntPtr GlobalAlloc(uint uFlags, UIntPtr dwBytes)
+		{
+			IntPtr ptr = Marshal.AllocHGlobal((int)dwBytes.ToUInt32());
+			globalHeap[ptr] = dwBytes;
+			return ptr;
+		}
+
+		public static IntPtr GlobalReAlloc(IntPtr hMem, IntPtr bytes, int flags)
+		{
+			if (globalHeap.ContainsKey(hMem))
+			{
+				globalHeap.Remove((hMem));
+				hMem = Marshal.ReAllocHGlobal(hMem, bytes);
+				globalHeap[hMem] = new UIntPtr((ulong)bytes);
+
+				if (0 != (flags & Win32.GMEM_ZEROINIT))
+				{
+					//FIXME
+				}
+				return hMem;
+			}
+			return IntPtr.Zero;
+		}
+
+		public static IntPtr GlobalFree(IntPtr hMem)
+		{
+			return globalHeap.ContainsKey(hMem) ? IntPtr.Zero : hMem;
+		}
+
+		public static UIntPtr GlobalSize(IntPtr hMem)
+		{
+			return globalHeap.TryGetValue(hMem, out UIntPtr length) ? length : UIntPtr.Zero;
+		}
+
+		public static IntPtr GlobalLock(IntPtr hMem)
+		{
+			return hMem;
+		}
+
+		public static bool GlobalUnlock(IntPtr hMem)
+		{
+			return true;
 		}
 	}
 }
