@@ -84,7 +84,7 @@ using nfloat = System.Single;
 
 namespace System.Windows.Forms {
 
-	internal class XplatUICocoa : XplatUIDriver {
+	internal partial class XplatUICocoa : XplatUIDriver {
 #region Local Variables
 		// General driver variables
 		private static XplatUICocoa Instance;
@@ -432,12 +432,7 @@ namespace System.Windows.Forms {
 			NSDate timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
 			NSApplication NSApp = NSApplication.SharedApplication;
 
-			NSEvent evtRef;
-#if XAMARINMAC
-			evtRef = (NSEvent) this.NextEventMethod.Invoke (NSApp, new object[] { (nuint)0xffffffffffffffff, timeout, (string)NSRunLoop.NSDefaultRunLoopMode, dequeue });
-#else
-			evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, dequeue);
-#endif
+			NSEvent evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, dequeue);
 			if (evtRef == null)
 				return false;
 
@@ -454,7 +449,10 @@ namespace System.Windows.Forms {
 					ReverseWindowMapped = false;
 				}
 
-				if (Grab.Hwnd != IntPtr.Zero && IsMouseEvent(evtRef.Type) && evtRef.Window != null) {
+				bool isMouseEvent = IsMouseEvent(evtRef.Type);
+				if (isMouseEvent)
+					lastMouseEvent = evtRef; // Drag'n'Drop support
+				if (Grab.Hwnd != IntPtr.Zero && isMouseEvent && evtRef.Window != null) {
 					var grabView = (NSView)ObjCRuntime.Runtime.GetNSObject(Grab.Hwnd);
 					if (grabView.Window.WindowNumber != evtRef.WindowNumber && evtRef.Type != NSEventType.ScrollWheel)
 					{
@@ -1909,18 +1907,6 @@ namespace System.Windows.Forms {
 				SendMessage(handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 
 			return true;
-		}
-
-		internal override void SetAllowDrop (IntPtr handle, bool value)
-		{
-			if (value)
-				Debug.WriteLine("SetAllowDrop not implemented");
-		}
-
-		internal override DragDropEffects StartDrag (IntPtr handle, object data, DragDropEffects allowed_effects)
-		{
-			Debug.WriteLine("StartDrag not implemented");
-			return DragDropEffects.None;
 		}
 
 		internal override void SetBorderStyle (IntPtr handle, FormBorderStyle border_style) {
