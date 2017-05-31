@@ -279,5 +279,148 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			get { return Bounds; }
 		}
+
+		public override NSDragOperation DraggingEntered(NSDraggingInfo sender)
+		{
+			var control = Control.FromHandle(Handle);
+			if (null != control && control.AllowDrop)
+			{
+				var q = ToMonoScreen(sender.DraggingLocation, null);
+				var allowed = XplatUICocoa.DraggingAllowedEffects;
+				var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, 0, q.X, q.Y, allowed, 0);
+				control.DndEnter(e);
+				//XplatUICocoa.DraggingEffects = e.Effect;
+				return ToDragOperation(e.Effect);
+			}
+			return NSDragOperation.Generic;
+		}
+
+		public override NSDragOperation DraggingUpdated(NSDraggingInfo sender)
+		{
+			var control = Control.FromHandle(Handle);
+			if (null != control && control.AllowDrop)
+			{
+				var q = ToMonoScreen(sender.DraggingLocation, null);
+				var allowed = XplatUICocoa.DraggingAllowedEffects;
+				var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, 0, q.X, q.Y, allowed, 0);
+				control.DndOver(e);
+				XplatUICocoa.DraggingEffects = e.Effect;
+				return ToDragOperation(e.Effect);
+			}
+			return NSDragOperation.None;
+		}
+
+		public override void DraggingExited(NSDraggingInfo sender)
+		{
+			var control = Control.FromHandle(Handle);
+			if (null != control && control.AllowDrop)
+			{
+				var q = ToMonoScreen(sender.DraggingLocation, null);
+				var allowed = XplatUICocoa.DraggingAllowedEffects;
+				var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, 0, q.X, q.Y, allowed, 0);
+				control.DndLeave(e);
+			}
+		}
+
+		public override void DraggingEnded(NSDraggingInfo sender)
+		{
+		}
+
+		public override bool PrepareForDragOperation(NSDraggingInfo sender)
+		{
+			foreach(var type in sender.DraggingPasteboard.Types)
+			{
+				switch(type)
+				{
+					case XplatUICocoa.PublicUtf8PlainText:
+					case XplatUICocoa.NSStringPboardType:
+					case XplatUICocoa.SwfDragPasteboardType:
+						return true;
+				}
+			}
+			return false;
+		}
+
+		public Point ToMonoScreen(CGPoint p, NSView view)
+		{
+			if (view != null)
+				p = ConvertPointToView(p, null);
+			var r = Window.ConvertRectToScreen( new CGRect(p, CGSize.Empty));
+			return driver.NativeToMonoScreen(r.Location);
+		}
+
+		public override bool PerformDragOperation(NSDraggingInfo sender)
+		{
+			var c = Control.FromHandle(Handle);
+			if (c is IDropTarget dt)
+			{
+				var effects = XplatUICocoa.DraggingEffects;//ToDragDropEffects(sender.DraggingSourceOperationMask);
+				var types = sender.DraggingPasteboard.Types;
+				var allowed = XplatUICocoa.DraggingAllowedEffects;
+				foreach (var type in types)
+				{
+					switch (type)
+					{
+						case XplatUICocoa.PublicUtf8PlainText:
+						case XplatUICocoa.NSStringPboardType:
+						{
+							var str = sender.DraggingPasteboard.GetStringForType(type);
+							if (str == XplatUICocoa.SwfDragPasteboardType)
+							{
+								var q = ToMonoScreen(sender.DraggingLocation, null);
+								var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, 0, q.X, q.Y, allowed, effects);
+								dt.OnDragDrop(e);
+								return true;
+							}
+							else
+							{
+								var data = new DataObject(DataFormats.Text, str);
+								var q = ToMonoScreen(sender.DraggingLocation, null);
+								var e = new DragEventArgs(data, 0, q.X, q.Y, allowed, effects);
+								dt.OnDragDrop(e);
+								return true;
+							}
+						}
+						case XplatUICocoa.SwfDragPasteboardType:
+						{
+							if (XplatUICocoa.DraggedData is IDataObject idata)
+							{
+								var q = ToMonoScreen(sender.DraggingLocation, null);
+									var e = new DragEventArgs(idata, 0, q.X, q.Y, allowed, effects);
+								dt.OnDragDrop(e);
+								return true;
+							}
+							break;
+						}
+					}
+				}
+			}
+			return false;
+		}
+
+		public static NSDragOperation ToDragOperation(DragDropEffects e)
+		{
+			var o = NSDragOperation.None;
+			if ((e & DragDropEffects.Copy) != 0)
+				o |= NSDragOperation.Copy;
+			if ((e & DragDropEffects.Link) != 0)
+				o |= NSDragOperation.Link;
+			if ((e & DragDropEffects.Move) != 0)
+				o |= NSDragOperation.Move;
+			return o;
+		}
+
+		public static DragDropEffects ToDragDropEffects(NSDragOperation o)
+		{
+			var e = DragDropEffects.None;
+			if ((o & NSDragOperation.Copy) != 0)
+				e |= DragDropEffects.Copy;
+			if ((o & NSDragOperation.Link) != 0)
+				e |= DragDropEffects.Link;
+			if ((o & NSDragOperation.Move) != 0)
+				e |= DragDropEffects.Move;
+			return e;
+		}
+
 	}
 }

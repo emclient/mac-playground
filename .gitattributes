@@ -645,6 +645,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Pasteboar
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Structs.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Swizzle.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/WindowsEventResponder.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/XplatUICocoa.Dnd.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/XplatUICocoa.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Design/ChangeLog -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Design/ComponentEditorForm.cs -text
