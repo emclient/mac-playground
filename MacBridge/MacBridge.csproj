@@ -102,6 +102,8 @@
     <Compile Include="..\..\..\WinApi\Uxtheme.Structs.cs">
       <Link>WinApi\Uxtheme.Structs.cs</Link>
     </Compile>
+    <Compile Include="WinApi\Usp10.cs" />
+    <Compile Include="WinApi\Usp10.Structs.cs" />
     <Compile Include="WinApi\Uxtheme.cs" />
     <Compile Include="..\..\..\WinApi\WinGdi.Structs.cs">
       <Link>WinApi\WinGdi.Structs.cs</Link>
