@@ -17,14 +17,13 @@ namespace System.Windows.Forms
 {
 	internal partial class XplatUICocoa
 	{
-		internal const string SwfDragPasteboardType = "mono.dragging.pboard";
+		internal const string IDataObjectPboardType = "mwf.idataobject";
 		internal const string PublicUtf8PlainText = "public.utf8-plain-text";
 		internal const string NSStringPboardType = "NSStringPboardType";
 
 		internal static object DraggedData = null; // TODO: Use pboard. Currently there is a problem with adopting 2 ObjC protocols by a single class.
 		internal static DragDropEffects DraggingAllowedEffects = DragDropEffects.None;
 		internal static DragDropEffects DraggingEffects = DragDropEffects.None;
-		internal static NSDraggingSession DraggingSession = null;
 
 		MonoDraggingSource draggingSource = new MonoDraggingSource();
 		internal NSEvent lastMouseEvent = null;
@@ -34,7 +33,7 @@ namespace System.Windows.Forms
 			if (ObjCRuntime.Runtime.GetNSObject(handle) is MonoView view)
 			{
 				if (value)
-					view.RegisterForDraggedTypes(new string[] { SwfDragPasteboardType, NSPasteboard.NSStringType });
+					view.RegisterForDraggedTypes(new string[] { IDataObjectPboardType, NSPasteboard.NSStringType });
 				else
 					view.UnregisterDraggedTypes();
 			}
@@ -50,7 +49,7 @@ namespace System.Windows.Forms
 				var items = CreateDraggingItems(view, DraggedData = data);
 				if (items != null && items.Length != 0)
 				{
-					DraggingSession = view.BeginDraggingSession(items, lastMouseEvent, draggingSource);
+					view.BeginDraggingSession(items, lastMouseEvent, draggingSource);
 					DraggingAllowedEffects = allowedEffects;
 					DraggingEffects = DragDropEffects.None;
 				}
@@ -74,7 +73,9 @@ namespace System.Windows.Forms
 					item.SetDraggingFrame(bounds, TakeSnapshot(view));
 					break;
 				default:
-					item = new NSDraggingItem(SwfDragPasteboardType.AsPasteboardWriting());
+					var pbitem = new NSPasteboardItem();
+					pbitem.SetDataForType(new NSData(), IDataObjectPboardType);
+					item = new NSDraggingItem(pbitem.AsPasteboardWriting());
 					item.SetDraggingFrame(bounds, TakeSnapshot(view));
 					DraggedData = data;
 					break;
@@ -128,8 +129,7 @@ namespace System.Windows.Forms
 			//Console.WriteLine($"MonoDraggingSource.DraggedImageEndedAtOperation({screenPoint.X},{screenPoint.Y},{operation}");
 
 			XplatUICocoa.DraggedData = null;
-			XplatUICocoa.DraggingSession = null;
-			XplatUICocoa.DraggingEffects = MonoView.ToDragDropEffects(operation);
+			XplatUICocoa.DraggingEffects = operation.ToDragDropEffects();
 		}
 
 		public override void DraggedImageMovedTo(NSImage image, CGPoint screenPoint)
@@ -141,7 +141,7 @@ namespace System.Windows.Forms
 		public override NSDragOperation DraggingSourceOperationMaskForLocal(bool flag)
 		{
 			//Console.WriteLine("MonoDraggingSource.DraggingSourceOperationMaskForLocal");
-			return MonoView.ToDragOperation(XplatUICocoa.DraggingEffects);
+			return XplatUICocoa.DraggingEffects.ToDragOperation();
 		}
 
 		public override string[] NamesOfPromisedFilesDroppedAtDestination(NSUrl dropDestination)
@@ -150,6 +150,4 @@ namespace System.Windows.Forms
 			return new string[] { };
 		}
 	}
-
-
 }
