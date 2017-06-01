@@ -28,6 +28,7 @@
 using System.Drawing;
 using System.Drawing.Mac;
 using System.Runtime.InteropServices;
+using System.Windows.Forms.Mac;
 
 #if XAMARINMAC
 using Foundation;
@@ -287,10 +288,10 @@ namespace System.Windows.Forms.CocoaInternal
 			{
 				var q = ToMonoScreen(sender.DraggingLocation, null);
 				var allowed = XplatUICocoa.DraggingAllowedEffects;
-				var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, 0, q.X, q.Y, allowed, 0);
+				var modifiers = NSEvent.CurrentModifierFlags.ToModifierMask();
+				var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, (int)modifiers, q.X, q.Y, allowed, 0);
 				control.DndEnter(e);
 				//XplatUICocoa.DraggingEffects = e.Effect;
-				return ToDragOperation(e.Effect);
 			}
 			return NSDragOperation.Generic;
 		}
@@ -302,10 +303,11 @@ namespace System.Windows.Forms.CocoaInternal
 			{
 				var q = ToMonoScreen(sender.DraggingLocation, null);
 				var allowed = XplatUICocoa.DraggingAllowedEffects;
-				var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, 0, q.X, q.Y, allowed, 0);
+				var modifiers = NSEvent.CurrentModifierFlags.ToModifierMask();
+				var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, (int)modifiers, q.X, q.Y, allowed, 0);
 				control.DndOver(e);
 				XplatUICocoa.DraggingEffects = e.Effect;
-				return ToDragOperation(e.Effect);
+				return e.Effect.ToDragOperation();
 			}
 			return NSDragOperation.None;
 		}
@@ -317,7 +319,8 @@ namespace System.Windows.Forms.CocoaInternal
 			{
 				var q = ToMonoScreen(sender.DraggingLocation, null);
 				var allowed = XplatUICocoa.DraggingAllowedEffects;
-				var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, 0, q.X, q.Y, allowed, 0);
+				var modifiers = NSEvent.CurrentModifierFlags.ToModifierMask();
+				var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, (int)modifiers, q.X, q.Y, allowed, 0);
 				control.DndLeave(e);
 			}
 		}
@@ -334,7 +337,7 @@ namespace System.Windows.Forms.CocoaInternal
 				{
 					case XplatUICocoa.PublicUtf8PlainText:
 					case XplatUICocoa.NSStringPboardType:
-					case XplatUICocoa.SwfDragPasteboardType:
+					case XplatUICocoa.IDataObjectPboardType:
 						return true;
 				}
 			}
@@ -357,6 +360,7 @@ namespace System.Windows.Forms.CocoaInternal
 				var effects = XplatUICocoa.DraggingEffects;//ToDragDropEffects(sender.DraggingSourceOperationMask);
 				var types = sender.DraggingPasteboard.Types;
 				var allowed = XplatUICocoa.DraggingAllowedEffects;
+
 				foreach (var type in types)
 				{
 					switch (type)
@@ -365,28 +369,18 @@ namespace System.Windows.Forms.CocoaInternal
 						case XplatUICocoa.NSStringPboardType:
 						{
 							var str = sender.DraggingPasteboard.GetStringForType(type);
-							if (str == XplatUICocoa.SwfDragPasteboardType)
-							{
-								var q = ToMonoScreen(sender.DraggingLocation, null);
-								var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, 0, q.X, q.Y, allowed, effects);
-								dt.OnDragDrop(e);
-								return true;
-							}
-							else
-							{
-								var data = new DataObject(DataFormats.Text, str);
-								var q = ToMonoScreen(sender.DraggingLocation, null);
-								var e = new DragEventArgs(data, 0, q.X, q.Y, allowed, effects);
-								dt.OnDragDrop(e);
-								return true;
-							}
+							var data = new DataObject(DataFormats.Text, str);
+							var q = ToMonoScreen(sender.DraggingLocation, null);
+							var e = new DragEventArgs(data, 0, q.X, q.Y, allowed, effects);
+							dt.OnDragDrop(e);
+							return true;
 						}
-						case XplatUICocoa.SwfDragPasteboardType:
+						case XplatUICocoa.IDataObjectPboardType:
 						{
 							if (XplatUICocoa.DraggedData is IDataObject idata)
 							{
 								var q = ToMonoScreen(sender.DraggingLocation, null);
-									var e = new DragEventArgs(idata, 0, q.X, q.Y, allowed, effects);
+								var e = new DragEventArgs(idata, 0, q.X, q.Y, allowed, effects);
 								dt.OnDragDrop(e);
 								return true;
 							}
@@ -397,30 +391,5 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 			return false;
 		}
-
-		public static NSDragOperation ToDragOperation(DragDropEffects e)
-		{
-			var o = NSDragOperation.None;
-			if ((e & DragDropEffects.Copy) != 0)
-				o |= NSDragOperation.Copy;
-			if ((e & DragDropEffects.Link) != 0)
-				o |= NSDragOperation.Link;
-			if ((e & DragDropEffects.Move) != 0)
-				o |= NSDragOperation.Move;
-			return o;
-		}
-
-		public static DragDropEffects ToDragDropEffects(NSDragOperation o)
-		{
-			var e = DragDropEffects.None;
-			if ((o & NSDragOperation.Copy) != 0)
-				e |= DragDropEffects.Copy;
-			if ((o & NSDragOperation.Link) != 0)
-				e |= DragDropEffects.Link;
-			if ((o & NSDragOperation.Move) != 0)
-				e |= DragDropEffects.Move;
-			return e;
-		}
-
 	}
 }

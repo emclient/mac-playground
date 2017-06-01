@@ -65,7 +65,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 using Cocoa = System.Windows.Forms.CocoaInternal;
-
+using System.Windows.Forms.Mac;
 /// Cocoa Version
 #if XAMARINMAC
 using Foundation;
@@ -2383,12 +2383,7 @@ namespace System.Windows.Forms {
 
 		internal override Keys ModifierKeys {
 			get {
-				Keys keys = Keys.None;
-				if ((NSEventModifierMask.ShiftKeyMask & key_modifiers) != 0)        { keys |= Keys.Shift; }
-				if ((NSEventModifierMask.CommandKeyMask & key_modifiers) != 0)      { keys |= Keys.Cmd; }
-				if ((NSEventModifierMask.AlternateKeyMask & key_modifiers) != 0)	{ keys |= Keys.Alt; }
-				if ((NSEventModifierMask.ControlKeyMask & key_modifiers) != 0)      { keys |= Keys.Control; }
-				return keys;
+				return key_modifiers.ToModifierMask();
 			}
 		}
 		internal override Size SmallIconSize { get{ return new Size(16, 16); } }
