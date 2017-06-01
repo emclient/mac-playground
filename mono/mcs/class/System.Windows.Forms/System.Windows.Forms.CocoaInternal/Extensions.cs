@@ -35,6 +35,40 @@ namespace System.Windows.Forms.Mac
 			return array;
 		}
 
+		public static NSDragOperation ToDragOperation(this DragDropEffects e)
+		{
+			var o = NSDragOperation.None;
+			if ((e & DragDropEffects.Copy) != 0)
+				o |= NSDragOperation.Copy;
+			if ((e & DragDropEffects.Link) != 0)
+				o |= NSDragOperation.Link;
+			if ((e & DragDropEffects.Move) != 0)
+				o |= NSDragOperation.Move;
+			return o;
+		}
+
+		public static DragDropEffects ToDragDropEffects(this NSDragOperation o)
+		{
+			var e = DragDropEffects.None;
+			if ((o & NSDragOperation.Copy) != 0)
+				e |= DragDropEffects.Copy;
+			if ((o & NSDragOperation.Link) != 0)
+				e |= DragDropEffects.Link;
+			if ((o & NSDragOperation.Move) != 0)
+				e |= DragDropEffects.Move;
+			return e;
+		}
+
+		public static Keys ToModifierMask(this NSEventModifierMask modifiers)
+		{
+			Keys keys = Keys.None;
+			if ((NSEventModifierMask.ShiftKeyMask & modifiers) != 0) { keys |= Keys.Shift; }
+			if ((NSEventModifierMask.CommandKeyMask & modifiers) != 0) { keys |= Keys.Cmd; }
+			if ((NSEventModifierMask.AlternateKeyMask & modifiers) != 0) { keys |= Keys.Alt; }
+			if ((NSEventModifierMask.ControlKeyMask & modifiers) != 0) { keys |= Keys.Control; }
+			return keys;
+		}
+
 #if MONOMAC
 		public static CGSize SizeThatFits(this NSControl self, CGSize proposedSize)
 		{
@@ -43,7 +77,7 @@ namespace System.Windows.Forms.Mac
 			return size;
 		}
 
-		public static NSPasteboardWriting AsPasteboardWriting(this NSString self)
+		public static NSPasteboardWriting AsPasteboardWriting(this NSObject self)
 		{
 			return new NSPasteboardWriting(self.Handle);
 		}
@@ -53,7 +87,7 @@ namespace System.Windows.Forms.Mac
 			return new NSPasteboardWriting(((NSString)self).Handle);
 		}
 #elif XAMARINMAC
-		public static INSPasteboardWriting AsPasteboardWriting(this NSString self)
+		public static INSPasteboardWriting AsPasteboardWriting(this NSObject self)
 		{
 			return (INSPasteboardWriting)self;
 		}
