@@ -135,6 +135,7 @@
     <Compile Include="..\..\..\WinApi\AdvApi32.Structs.cs">
       <Link>WinApi\AdvApi32.Structs.cs</Link>
     </Compile>
+    <Compile Include="MacApi\AppKit\NSTitlebarAccessoryViewController.cs" />
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
@@ -153,5 +154,11 @@
       <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="WinApi\" />
+    <Folder Include="MacApi\" />
+    <Folder Include="MacApi\Foundation\" />
+    <Folder Include="MacApi\CoreGraphics\" />
+    <Folder Include="MacApi\AppKit\" />
+  </ItemGroup>
 </Project>
