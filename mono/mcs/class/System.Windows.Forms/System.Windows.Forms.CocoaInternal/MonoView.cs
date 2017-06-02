@@ -288,7 +288,7 @@ namespace System.Windows.Forms.CocoaInternal
 			{
 				var q = ToMonoScreen(sender.DraggingLocation, null);
 				var allowed = XplatUICocoa.DraggingAllowedEffects;
-				var modifiers = NSEvent.CurrentModifierFlags.ToModifierMask();
+				var modifiers = NSEvent.CurrentModifierFlags.ToKeys();
 				var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, (int)modifiers, q.X, q.Y, allowed, 0);
 				control.DndEnter(e);
 				//XplatUICocoa.DraggingEffects = e.Effect;
@@ -303,9 +303,10 @@ namespace System.Windows.Forms.CocoaInternal
 			{
 				var q = ToMonoScreen(sender.DraggingLocation, null);
 				var allowed = XplatUICocoa.DraggingAllowedEffects;
-				var modifiers = NSEvent.CurrentModifierFlags.ToModifierMask();
+				var modifiers = NSEvent.CurrentModifierFlags.ToKeys();
 				var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, (int)modifiers, q.X, q.Y, allowed, 0);
 				control.DndOver(e);
+
 				XplatUICocoa.DraggingEffects = e.Effect;
 				return e.Effect.ToDragOperation();
 			}
@@ -319,7 +320,7 @@ namespace System.Windows.Forms.CocoaInternal
 			{
 				var q = ToMonoScreen(sender.DraggingLocation, null);
 				var allowed = XplatUICocoa.DraggingAllowedEffects;
-				var modifiers = NSEvent.CurrentModifierFlags.ToModifierMask();
+				var modifiers = NSEvent.CurrentModifierFlags.ToKeys();
 				var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, (int)modifiers, q.X, q.Y, allowed, 0);
 				control.DndLeave(e);
 			}
@@ -357,7 +358,7 @@ namespace System.Windows.Forms.CocoaInternal
 			var c = Control.FromHandle(Handle);
 			if (c is IDropTarget dt)
 			{
-				var effects = XplatUICocoa.DraggingEffects;//ToDragDropEffects(sender.DraggingSourceOperationMask);
+				var effects = XplatUICocoa.DraggingEffects; //ToDragDropEffects(sender.DraggingSourceOperationMask);
 				var types = sender.DraggingPasteboard.Types;
 				var allowed = XplatUICocoa.DraggingAllowedEffects;
 
@@ -371,7 +372,8 @@ namespace System.Windows.Forms.CocoaInternal
 							var str = sender.DraggingPasteboard.GetStringForType(type);
 							var data = new DataObject(DataFormats.Text, str);
 							var q = ToMonoScreen(sender.DraggingLocation, null);
-							var e = new DragEventArgs(data, 0, q.X, q.Y, allowed, effects);
+							var modifiers = (int)NSEvent.CurrentModifierFlags.ToKeys();
+							var e = new DragEventArgs(data, modifiers, q.X, q.Y, allowed, effects);
 							dt.OnDragDrop(e);
 							return true;
 						}
@@ -380,7 +382,8 @@ namespace System.Windows.Forms.CocoaInternal
 							if (XplatUICocoa.DraggedData is IDataObject idata)
 							{
 								var q = ToMonoScreen(sender.DraggingLocation, null);
-								var e = new DragEventArgs(idata, 0, q.X, q.Y, allowed, effects);
+								var modifiers = (int)NSEvent.CurrentModifierFlags.ToKeys();
+								var e = new DragEventArgs(idata, modifiers, q.X, q.Y, allowed, effects);
 								dt.OnDragDrop(e);
 								return true;
 							}

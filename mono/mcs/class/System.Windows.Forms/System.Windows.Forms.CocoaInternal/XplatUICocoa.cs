@@ -112,9 +112,7 @@ namespace System.Windows.Forms {
 
 		// Message loop
 		private static bool GetMessageResult;
-#if XAMARINMAC
-		System.Reflection.MethodInfo NextEventMethod;
-#endif
+
 		private static bool ReverseWindowMapped;
 
 		static readonly object instancelock = new object ();
@@ -2172,10 +2170,6 @@ namespace System.Windows.Forms {
 				pools.Add(thread, stack = new Stack<NSAutoreleasePool>());
 			stack.Push(new NSAutoreleasePool());
 
-#if XAMARINMAC
-			this.NextEventMethod = typeof(NSApplication).GetMethod("NextEvent", Reflection.BindingFlags.Instance | Reflection.BindingFlags.NonPublic);
-#endif
-
 			return new object ();
 		}
 
@@ -2383,7 +2377,7 @@ namespace System.Windows.Forms {
 
 		internal override Keys ModifierKeys {
 			get {
-				return key_modifiers.ToModifierMask();
+				return key_modifiers.ToKeys();
 			}
 		}
 		internal override Size SmallIconSize { get{ return new Size(16, 16); } }
