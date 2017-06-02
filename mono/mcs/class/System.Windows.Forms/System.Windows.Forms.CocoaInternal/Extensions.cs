@@ -59,7 +59,7 @@ namespace System.Windows.Forms.Mac
 			return e;
 		}
 
-		public static Keys ToModifierMask(this NSEventModifierMask modifiers)
+		public static Keys ToKeys(this NSEventModifierMask modifiers)
 		{
 			Keys keys = Keys.None;
 			if ((NSEventModifierMask.ShiftKeyMask & modifiers) != 0) { keys |= Keys.Shift; }
@@ -70,6 +70,7 @@ namespace System.Windows.Forms.Mac
 		}
 
 #if MONOMAC
+
 		public static CGSize SizeThatFits(this NSControl self, CGSize proposedSize)
 		{
 			var selector = new ObjCRuntime.Selector("sizeThatFits:");
