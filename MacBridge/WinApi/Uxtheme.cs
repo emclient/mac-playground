@@ -24,18 +24,18 @@ namespace WinApi
 			return (IntPtr)0;
 		}
 
-		public static IntPtr GetThemeEnumValue(IntPtr hTheme, int iPartId, int iStateId, int iPropId, out int piVal)
+		public static Int32 GetThemeEnumValue(IntPtr hTheme, int iPartId, int iStateId, int iPropId, out int piVal)
 		{
 			NotImplemented(MethodBase.GetCurrentMethod());
 			piVal = 0;
-			return (IntPtr)0;
+			return 0;
 		}
 
-		public static IntPtr GetThemeBitmap(IntPtr hTheme, int iPartId, int iStateId, int iPropId, uint dwFlags, out IntPtr phBitmap)
+		public static Int32 GetThemeBitmap(IntPtr hTheme, int iPartId, int iStateId, int iPropId, uint dwFlags, out IntPtr phBitmap)
 		{
 			NotImplemented(MethodBase.GetCurrentMethod());
 			phBitmap = IntPtr.Zero;
-			return (IntPtr)0;
+			return 0;
 		}
 
 		public static Int32 CloseThemeData(IntPtr hTheme)
