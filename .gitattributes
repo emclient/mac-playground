@@ -138,9 +138,10 @@ MacBridge.Test/packages.config -text
 MacBridge/MacApi/AppKit/NSTitlebarAccessoryViewController.cs -text
 MacBridge/MacApi/Constants.cs -text
 MacBridge/MacApi/CoreGraphics/CGEventTypes.cs -text
+MacBridge/MacApi/CoreServices/LaunchServices.cs -text
+MacBridge/MacApi/CoreServices/UTType.cs -text
 MacBridge/MacApi/Foundation/Foundation.cs -text
 MacBridge/MacApi/Foundation/PathUtilities.cs -text
-MacBridge/MacApi/LaunchServices.cs -text
 MacBridge/MacApi/QuickLook.cs -text
 MacBridge/MacBridge.csproj -text
 MacBridge/MacBridge.snk -text
