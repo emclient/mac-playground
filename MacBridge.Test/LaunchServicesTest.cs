@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System.Diagnostics;
 using MonoMac.CoreGraphics;
-using MacBridge.LaunchServices;
+using MacBridge.CoreServices;
 using MonoMac.Foundation;
 
 namespace MacBridge.Test
@@ -20,14 +20,14 @@ namespace MacBridge.Test
         public void TestDefaultApplicationUrlForUrl()
         {
             var mailToUrl = new NSUrl("mailto:");
-            var appUrl = LS.CopyDefaultApplicationUrlForUrl(mailToUrl, 0);
+            var appUrl = LaunchServices.CopyDefaultApplicationUrlForUrl(mailToUrl, 0);
             Debug.WriteLine("url: {0}, appUrl:{1}", new object[] { mailToUrl, appUrl });
         }
 
         [Test]
         public void TestSetDefaultHandlerForURLScheme()
         {
-            var status = LS.SetDefaultHandlerForURLScheme("mailto", "com.apple.mail");
+            var status = LaunchServices.SetDefaultHandlerForURLScheme("mailto", "com.apple.mail");
             Assert.AreEqual(0, status, "Failed setting default handler for mailto:");
         }
     }

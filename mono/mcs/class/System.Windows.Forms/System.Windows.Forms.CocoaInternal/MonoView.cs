@@ -286,12 +286,12 @@ namespace System.Windows.Forms.CocoaInternal
 			var control = Control.FromHandle(Handle);
 			if (null != control && control.AllowDrop)
 			{
-				var q = ToMonoScreen(sender.DraggingLocation, null);
-				var allowed = XplatUICocoa.DraggingAllowedEffects;
-				var modifiers = NSEvent.CurrentModifierFlags.ToKeys();
-				var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, (int)modifiers, q.X, q.Y, allowed, 0);
+				var e = ToDragEventArgs(sender);
 				control.DndEnter(e);
-				//XplatUICocoa.DraggingEffects = e.Effect;
+				if (e.Effect != UnusedDndEffect)
+					return (XplatUICocoa.DraggingEffects = e.Effect).ToDragOperation();
+
+				XplatUICocoa.DraggingEffects = DragDropEffects.None;
 			}
 			return NSDragOperation.Generic;
 		}
@@ -301,16 +301,14 @@ namespace System.Windows.Forms.CocoaInternal
 			var control = Control.FromHandle(Handle);
 			if (null != control && control.AllowDrop)
 			{
-				var q = ToMonoScreen(sender.DraggingLocation, null);
-				var allowed = XplatUICocoa.DraggingAllowedEffects;
-				var modifiers = NSEvent.CurrentModifierFlags.ToKeys();
-				var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, (int)modifiers, q.X, q.Y, allowed, 0);
+				var e = ToDragEventArgs(sender);
 				control.DndOver(e);
+				if (e.Effect != UnusedDndEffect)
+					XplatUICocoa.DraggingEffects = e.Effect;
 
-				XplatUICocoa.DraggingEffects = e.Effect;
-				return e.Effect.ToDragOperation();
+				return XplatUICocoa.DraggingEffects.ToDragOperation();
 			}
-			return NSDragOperation.None;
+			return NSDragOperation.Generic;
 		}
 
 		public override void DraggingExited(NSDraggingInfo sender)
@@ -318,16 +316,25 @@ namespace System.Windows.Forms.CocoaInternal
 			var control = Control.FromHandle(Handle);
 			if (null != control && control.AllowDrop)
 			{
-				var q = ToMonoScreen(sender.DraggingLocation, null);
-				var allowed = XplatUICocoa.DraggingAllowedEffects;
-				var modifiers = NSEvent.CurrentModifierFlags.ToKeys();
-				var e = new DragEventArgs(XplatUICocoa.DraggedData as IDataObject, (int)modifiers, q.X, q.Y, allowed, 0);
+				var e = ToDragEventArgs(sender);
 				control.DndLeave(e);
 			}
 		}
 
+		const DragDropEffects UnusedDndEffect = unchecked((DragDropEffects)0xffffffff);
+
+		DragEventArgs ToDragEventArgs(NSDraggingInfo sender)
+		{
+			var q = ToMonoScreen(sender.DraggingLocation, null);
+			var allowed = XplatUICocoa.DraggingAllowedEffects;
+			var modifiers = NSEvent.CurrentModifierFlags.ToKeys();
+			var idata = XplatUICocoa.DraggedData as IDataObject ?? (IDataObject)(XplatUICocoa.DraggedData = ToIDataObject(sender.DraggingPasteboard));
+			return new DragEventArgs(idata, (int)modifiers, q.X, q.Y, allowed, UnusedDndEffect);
+		}
+
 		public override void DraggingEnded(NSDraggingInfo sender)
 		{
+			XplatUICocoa.DraggedData = null; // Clear data box for next dragging session
 		}
 
 		public override bool PrepareForDragOperation(NSDraggingInfo sender)
@@ -393,6 +400,17 @@ namespace System.Windows.Forms.CocoaInternal
 				}
 			}
 			return false;
+		}
+
+		private IDataObject ToIDataObject(NSPasteboard pboard)
+		{
+			var s = pboard.GetStringForType(XplatUICocoa.NSStringPboardType);
+			if (s != null)
+				return new DataObject(s);
+
+			// TODO: Add more conversions/wrappers - for files, images etc.
+
+			return null;
 		}
 	}
 }
