@@ -3,6 +3,7 @@ using NUnit.Framework;
 using MonoMac.CoreGraphics;
 using MacBridge.CoreGraphics;
 using System.Diagnostics;
+using System.Drawing.Mac;
 
 namespace MacBridge.Test
 {

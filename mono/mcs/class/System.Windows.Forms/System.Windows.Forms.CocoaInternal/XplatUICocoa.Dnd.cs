@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms.CocoaInternal;
 using System.Windows.Forms.Mac;
+using System.Collections.Generic;
 
 #if XAMARINMAC
 using AppKit;
@@ -18,6 +19,7 @@ namespace System.Windows.Forms
 	internal partial class XplatUICocoa
 	{
 		internal const string IDataObjectPboardType = "mwf.idataobject";
+		internal const string UTTypeItem = "public.item";
 		internal const string PublicUtf8PlainText = "public.utf8-plain-text";
 		internal const string NSStringPboardType = "NSStringPboardType";
 
@@ -33,7 +35,7 @@ namespace System.Windows.Forms
 			if (ObjCRuntime.Runtime.GetNSObject(handle) is MonoView view)
 			{
 				if (value)
-					view.RegisterForDraggedTypes(new string[] { IDataObjectPboardType, NSPasteboard.NSStringType });
+					view.RegisterForDraggedTypes(new string[] { IDataObjectPboardType, UTTypeItem });//, NSPasteboard.NSStringType });
 				else
 					view.UnregisterDraggedTypes();
 			}
@@ -65,23 +67,26 @@ namespace System.Windows.Forms
 			var location = view.ConvertPointFromView(lastMouseEvent.LocationInWindow, null);
 			var bounds = new CGRect(location.Move(-4, -4), size);
 
-			NSDraggingItem item = null;
-			switch (data)
+			var items = new List<NSDraggingItem>();
+
+			DraggedData = (data is IDataObject) ? data : new DataObject(data);
+
+			// if (DraggedData != null)
 			{
-				case String s:
-					item = new NSDraggingItem(s.AsPasteboardWriting());
-					item.SetDraggingFrame(bounds, TakeSnapshot(view));
-					break;
-				default:
-					var pbitem = new NSPasteboardItem();
-					pbitem.SetDataForType(new NSData(), IDataObjectPboardType);
-					item = new NSDraggingItem(pbitem.AsPasteboardWriting());
-					item.SetDraggingFrame(bounds, TakeSnapshot(view));
-					DraggedData = data;
-					break;
+				var pbitem = new NSPasteboardItem();
+				pbitem.SetDataForType(new NSData(), IDataObjectPboardType);
+
+				if (data is String s)
+					pbitem.SetStringForType(new NSString(s), PublicUtf8PlainText);
+
+				// TODO: Add more data converters/wrappers
+
+				var item = new NSDraggingItem(pbitem.AsPasteboardWriting());
+				item.SetDraggingFrame(bounds, TakeSnapshot(view));
+				items.Add(item);
 			}
 
-			return new NSDraggingItem[] { item };
+			return items.ToArray();
 		}
 
 		internal static NSImage TakeSnapshot(NSView view)
@@ -136,12 +141,6 @@ namespace System.Windows.Forms
 		{
 			// Jde pouzit napr. k vypoctu polohy v textu pro vlozeni
 			//Console.WriteLine("DraggedImageMovedTo");
-		}
-
-		public override NSDragOperation DraggingSourceOperationMaskForLocal(bool flag)
-		{
-			//Console.WriteLine("MonoDraggingSource.DraggingSourceOperationMaskForLocal");
-			return XplatUICocoa.DraggingEffects.ToDragOperation();
 		}
 
 		public override string[] NamesOfPromisedFilesDroppedAtDestination(NSUrl dropDestination)
