@@ -48,5 +48,11 @@ namespace WinApi
 		{
 			return false;
 		}
+
+
+		public static void SetWindowTheme(IntPtr hwnd, String pszSubAppName, String pszSubIdList)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+		}
 	}
 }
