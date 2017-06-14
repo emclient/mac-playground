@@ -1,6 +1,10 @@
-﻿using System.Windows.Forms.CocoaInternal;
+﻿﻿using System.Windows.Forms.CocoaInternal;
 using System.Windows.Forms.Mac;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.InteropServices;
 
 #if XAMARINMAC
 using AppKit;
@@ -19,15 +23,34 @@ namespace System.Windows.Forms
 	internal partial class XplatUICocoa
 	{
 		internal const string IDataObjectPboardType = "mwf.idataobject";
+		internal const string UTTypeData = "public.data";
+		internal const string UTTypeFileUrl = "public.file-url";
 		internal const string UTTypeItem = "public.item";
-		internal const string PublicUtf8PlainText = "public.utf8-plain-text";
-		internal const string NSStringPboardType = "NSStringPboardType";
+		internal const string UTTypeImage = "public.image";
+		internal const string UTTypeAudio = "public.audio";
+		internal const string UTTypeVideo = "public.video";
+		internal const string UTTypeUTF8PlainText = "public.utf8-plain-text";
+		internal const string UTTypeEmailMessage = "public.email-message";
 
-		internal static object DraggedData = null; // TODO: Use pboard. Currently there is a problem with adopting 2 ObjC protocols by a single class.
+		internal const string PasteboardTypeFileURLPromise = "com.apple.pasteboard.promised-file-url";
+		internal const string PasteboardTypeFilePromiseContent = "com.apple.pasteboard.promised-file-content-type";
+
+		internal const string NSStringPboardType = "NSStringPboardType";
+		internal const string NSFilenamesPboardType = "NSFilenamesPboardType";
+		internal const string NSFilesPromisePboardType = "NSFilesPromisePboardType";
+
+		internal const string FileGroupDescriptorKey = "FileGroupDescriptorW"; //CFSTR_FILEDESCRIPTORW
+		internal const string CFSTR_FILECONTENTS = "FileContents";
+
+		internal static object DraggedData = null;
 		internal static DragDropEffects DraggingAllowedEffects = DragDropEffects.None;
 		internal static DragDropEffects DraggingEffects = DragDropEffects.None;
 
-		MonoDraggingSource draggingSource = new MonoDraggingSource();
+		internal DraggingSource draggingSource = new DraggingSource();
+		internal FileProvider dndFileProvider = null;
+		internal string[] dndFilenames;
+		internal int dndCurrentFileIndex;
+
 		internal NSEvent lastMouseEvent = null;
 
 		internal override void SetAllowDrop(IntPtr handle, bool value)
@@ -51,7 +74,7 @@ namespace System.Windows.Forms
 				var items = CreateDraggingItems(view, DraggedData = data);
 				if (items != null && items.Length != 0)
 				{
-					view.BeginDraggingSession(items, lastMouseEvent, draggingSource);
+					view.BeginDraggingSession(items, lastMouseEvent, draggingSource = new DraggingSource());
 					DraggingAllowedEffects = allowedEffects;
 					DraggingEffects = DragDropEffects.None;
 				}
@@ -71,22 +94,172 @@ namespace System.Windows.Forms
 
 			DraggedData = (data is IDataObject) ? data : new DataObject(data);
 
-			// if (DraggedData != null)
+			if (data is IDataObject idata)
 			{
-				var pbitem = new NSPasteboardItem();
-				pbitem.SetDataForType(new NSData(), IDataObjectPboardType);
+				if (idata.GetDataPresent(FileGroupDescriptorKey))
+				{
+					foreach (var promise in CreateFilePromises(idata))
+					{
+						var item = new NSDraggingItem(promise.AsPasteboardWriting());
+						item.SetDraggingFrame(bounds, TakeSnapshot(view));
+						items.Add(item);
+					}
+				}
+			}
 
-				if (data is String s)
-					pbitem.SetStringForType(new NSString(s), PublicUtf8PlainText);
-
-				// TODO: Add more data converters/wrappers
-
+			if (data is String text)
+			{
+				var pbitem = NewPasteboardItem();
+				pbitem.SetStringForType(text, UTTypeUTF8PlainText);
 				var item = new NSDraggingItem(pbitem.AsPasteboardWriting());
-				item.SetDraggingFrame(bounds, TakeSnapshot(view));
 				items.Add(item);
 			}
 
+			var snapshot = TakeSnapshot(view); // FIXME
+			foreach (var item in items)
+				item.SetDraggingFrame(bounds, snapshot);
+
 			return items.ToArray();
+		}
+
+		internal NSPasteboardItem NewPasteboardItem()
+		{
+			var item = new NSPasteboardItem();
+			item.SetDataForType(new NSData(), IDataObjectPboardType); // Tells NSMonoView to look for XplatIUCocoa.DraggedData
+			return item;
+		}
+
+		internal List<NSPasteboardItem> CreateFilePromises(IDataObject idata)
+		{
+			dndFileProvider = new FileProvider(this);
+			dndFilenames = GetFilenames(idata);
+
+			var items = new List<NSPasteboardItem>();
+			foreach (var filename in dndFilenames)
+			{
+				var item = NewPasteboardItem();
+				item.SetDataProviderForTypes(dndFileProvider, new string[] { PasteboardTypeFileURLPromise });
+				item.SetStringForType(ContentTypeFromFilename(filename), PasteboardTypeFilePromiseContent);
+				items.Add(item);
+			}
+			return items;
+		}
+
+		private string ContentTypeFromFilename(string filename)
+		{
+			var extension = IO.Path.GetExtension(filename).Replace(".", "").ToLower();
+			switch (extension)
+			{
+				case "eml": return UTTypeEmailMessage;
+				case "bmp": case "gif": case "ico": case "jpg": case "jpeg":
+				case "png": case "tiff": case "raw": return UTTypeImage;
+				case "mpg": case "mpeg": case "mp4": case "mkv": case "avi": case "wmv": return UTTypeVideo;
+				case "mp3": case "wma": return UTTypeAudio;
+				default: return UTTypeData;
+			}
+		}
+
+		// Reads filenames from Win32.FILEGROUPDESCRIPTORW structure
+		internal string[] GetFilenames(IDataObject idata)
+		{
+			if (idata != null && idata.GetData(FileGroupDescriptorKey) is Stream stream)
+			{
+				using (var reader = new BinaryReader(stream))
+				{
+					var count = reader.ReadInt32();
+					var firstItemOffset = stream.Position;
+					var itemSize = (stream.Length - firstItemOffset) / count;
+					const int filenameOffset = 72;
+					const int filenameFieldLength = 520;
+
+					var filenames = new string[count];
+					for (int i = 0; i < count; ++i)
+					{
+						stream.Position = firstItemOffset + i * itemSize + filenameOffset;
+						var bytes = reader.ReadBytes(filenameFieldLength);
+						var filename = Encoding.Unicode.GetString(bytes, 0, bytes.GetUnicodeStringLength());
+						filenames[i] = filename;
+					}
+
+					return filenames;
+				}
+			}
+			return new string[] { };
+		}
+
+		internal void ProvideDataForType(NSPasteboard pasteboard, NSPasteboardItem item, string type)
+		{
+			if (type == PasteboardTypeFileURLPromise && DraggedData is IDataObject idata)
+			{
+				var location = pasteboard.GetStringForType("com.apple.pastelocation");
+				var folder = new NSUrl(location).Path;
+
+				if (DraggedData is Runtime.InteropServices.ComTypes.IDataObject cdata)
+				{
+					var filename = dndFilenames[dndCurrentFileIndex];
+					var unique = GenerateUniqueFilename(folder, filename);
+					var path = Path.Combine(folder, unique);
+					var stream = GetStream(cdata, dndCurrentFileIndex);
+					using (var outputStream = File.Create(path))
+						Copy(stream, outputStream);
+				}
+			}
+		}
+
+		unsafe internal void Copy(Runtime.InteropServices.ComTypes.IStream input, System.IO.Stream output)
+		{
+			const int bufferSize = 32768;
+			byte[] buffer = new byte[bufferSize];
+			ulong read;
+			while (true)
+			{
+				input.Read(buffer, bufferSize, (IntPtr)(&read));
+				if (read == 0)
+					return;
+				output.Write(buffer, 0, (int)read);
+			}
+		}
+
+		internal IStream GetStream(System.Runtime.InteropServices.ComTypes.IDataObject cdata, int index)
+		{
+			var format = new FORMATETC
+			{
+				cfFormat = (short)DataFormats.GetFormat(CFSTR_FILECONTENTS).Id,
+				dwAspect = DVASPECT.DVASPECT_CONTENT,
+				tymed = TYMED.TYMED_ISTREAM,
+				lindex = index
+			};
+
+			STGMEDIUM medium;
+			cdata.GetData(ref format, out medium);
+
+			if (medium.tymed == format.tymed)
+				if (Marshal.GetObjectForIUnknown(medium.unionmember) is IStream stream)
+					return stream;
+
+			return null;
+		}
+
+		internal static string GenerateUniqueFilename(string folder, string filename)
+		{
+			string name = Path.GetFileNameWithoutExtension(filename);
+			string ext = Path.GetExtension(filename);
+			string suffix = "";
+			for (int i = 1; i < int.MaxValue; ++i)
+			{
+				var unique = name + suffix + ext;
+				if (!File.Exists(Path.Combine(folder, unique)))
+					return unique;
+				suffix = $" {i}";
+			}
+
+			throw new ApplicationException("Failed to create unique filename");
+		}
+
+		internal void FinishedWithDataProvider(NSPasteboard pasteboard)
+		{
+			//dndFileProvider = null;
+			//dndFilenames = null;
 		}
 
 		internal static NSImage TakeSnapshot(NSView view)
@@ -116,37 +289,108 @@ namespace System.Windows.Forms
 			var resized = new NSImage(size);
 			resized.LockFocus();
 			NSGraphicsContext.CurrentContext.ImageInterpolation = NSImageInterpolation.High;
-			image.DrawInRect(new CGRect(0, 0, size.Width, size.Height),new CGRect(CGPoint.Empty, image.Size), NSCompositingOperation.Copy,1.0f);
+			image.DrawInRect(new CGRect(0, 0, size.Width, size.Height), new CGRect(CGPoint.Empty, image.Size), NSCompositingOperation.Copy, 1.0f);
 			resized.UnlockFocus();
-	        return resized;			
+			return resized;
 		}
-	}
 
-	internal class MonoDraggingSource : NSDraggingSource
-	{
-		public override void DraggedImageBeganAt(NSImage image, CGPoint screenPoint)
+		internal class DraggingSource : NSDraggingSource
 		{
-			//Console.WriteLine("MonoDraggingSource.DraggedImageBeganAt");
+			public override void DraggedImageBeganAt(NSImage image, CGPoint screenPoint)
+			{
+				//Console.WriteLine("DraggingSource.DraggedImageBeganAt");
+			}
+
+			public override void DraggedImageEndedAtOperation(NSImage image, CGPoint screenPoint, NSDragOperation operation)
+			{
+				//Console.WriteLine($"MonoDraggingSource.DraggedImageEndedAtOperation({screenPoint.X},{screenPoint.Y},{operation}");
+
+				XplatUICocoa.DraggedData = null;
+				XplatUICocoa.DraggingEffects = operation.ToDragDropEffects();
+			}
+
+			public override void DraggedImageMovedTo(NSImage image, CGPoint screenPoint)
+			{
+				// Jde pouzit napr. k vypoctu polohy v textu pro vlozeni
+				//Console.WriteLine("DraggedImageMovedTo");
+			}
+
+			// This would be called only if we started dragging with DragPromisedFilesOfTypes() or if we called it ourselves
+			public override string[] NamesOfPromisedFilesDroppedAtDestination(NSUrl dropDestination)
+			{
+				//Console.WriteLine("MonoDraggingSource.NamesOfPromisedFilesDroppedAtDestination");
+				return new string[] { };
+			}
 		}
 
-		public override void DraggedImageEndedAtOperation(NSImage image, CGPoint screenPoint, NSDragOperation operation)
+#if XAMARINMAC
+
+		internal class FileProvider : NSPasteboardItemDataProvider
 		{
-			//Console.WriteLine($"MonoDraggingSource.DraggedImageEndedAtOperation({screenPoint.X},{screenPoint.Y},{operation}");
+			XplatUICocoa driver;
 
-			XplatUICocoa.DraggedData = null;
-			XplatUICocoa.DraggingEffects = operation.ToDragDropEffects();
+			public FileProvider(XplatUICocoa driver)
+			{
+				this.driver = driver;
+				driver.dndCurrentFileIndex = 0;
+			}
+
+			public override void FinishedWithDataProvider(NSPasteboard pasteboard)
+			{
+				//Console.WriteLine("FileProvider.FinishedWithDataProvider");
+				driver.FinishedWithDataProvider(pasteboard);
+			}
+
+			public override void ProvideDataForType(NSPasteboard pasteboard, NSPasteboardItem item, string type)
+			{
+				driver.ProvideDataForType(pasteboard, item, type);
+				driver.dndCurrentFileIndex += 1;
+			}
 		}
 
-		public override void DraggedImageMovedTo(NSImage image, CGPoint screenPoint)
+#elif MONOMAC
+
+		internal class FileProvider : NSObject
 		{
-			// Jde pouzit napr. k vypoctu polohy v textu pro vlozeni
-			//Console.WriteLine("DraggedImageMovedTo");
-		}
+			XplatUICocoa driver;
 
-		public override string[] NamesOfPromisedFilesDroppedAtDestination(NSUrl dropDestination)
-		{
-			//Console.WriteLine("MonoDraggingSource.NamesOfPromisedFilesDroppedAtDestination");
-			return new string[] { };
+			public string[] Filenames;
+			public int CurrentIndex;
+
+			public FileProvider(XplatUICocoa driver)
+			{
+				this.driver = driver;
+				driver.dndCurrentFileIndex = 0;
+			}
+
+			public override bool ConformsToProtocol(IntPtr protocol)
+			{
+				//Console.WriteLine(NSString.FromHandle(Extensions.NSStringFromProtocol(protocol)));
+				if ("NSPasteboardItemDataProvider" == NSString.FromHandle(Extensions.NSStringFromProtocol(protocol)))
+					return true;
+
+				return base.ConformsToProtocol(protocol);
+			}
+
+			[Export("pasteboardFinishedWithDataProvider:")]
+			public virtual void FinishedWithDataProvider(NSPasteboard pasteboard)
+			{
+				//Console.WriteLine("FileProvider.FinishedWithDataProvider");
+				driver.FinishedWithDataProvider(pasteboard);
+			}
+
+			// Using IntPtr instead of NSPasteboardItem prevents crashes in Marshaller under MonoMac.
+			[Export("pasteboard:item:provideDataForType:")]
+			public virtual void ProvideDataForType(NSPasteboard pasteboard, IntPtr hItem, string type)
+			{
+				var obj = ObjCRuntime.Runtime.GetNSObject(hItem);
+				var item = obj is NSPasteboardItem ? (NSPasteboardItem)obj : new NSPasteboardItem(hItem);
+
+				//Console.WriteLine($"FileProvider.ProvideDataForType({pasteboard.GetType().Name},{item.GetType().Name},{type.GetType().Name}/{type})");
+				driver.ProvideDataForType(pasteboard, item, type);
+				driver.dndCurrentFileIndex += 1;
+			}
 		}
+#endif
 	}
 }
