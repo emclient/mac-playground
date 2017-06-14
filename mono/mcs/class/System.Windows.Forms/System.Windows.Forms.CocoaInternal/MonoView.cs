@@ -343,7 +343,7 @@ namespace System.Windows.Forms.CocoaInternal
 			{
 				switch(type)
 				{
-					case XplatUICocoa.PublicUtf8PlainText:
+					case XplatUICocoa.UTTypeUTF8PlainText:
 					case XplatUICocoa.NSStringPboardType:
 					case XplatUICocoa.IDataObjectPboardType:
 						return true;
@@ -373,7 +373,7 @@ namespace System.Windows.Forms.CocoaInternal
 				{
 					switch (type)
 					{
-						case XplatUICocoa.PublicUtf8PlainText:
+						case XplatUICocoa.UTTypeUTF8PlainText:
 						case XplatUICocoa.NSStringPboardType:
 						{
 							var str = sender.DraggingPasteboard.GetStringForType(type);

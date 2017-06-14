@@ -1,4 +1,6 @@
-﻿#if MONOMAC
+﻿using System.Runtime.InteropServices;
+
+#if MONOMAC
 using ObjCRuntime = MonoMac.ObjCRuntime;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
@@ -6,7 +8,6 @@ using MonoMac.Foundation;
 using System.Drawing;
 #elif XAMARINMAC
 using System;
-using System.Runtime.InteropServices;
 using AppKit;
 using Foundation;
 #endif
@@ -69,6 +70,31 @@ namespace System.Windows.Forms.Mac
 			return keys;
 		}
 
+		public static int GetUnicodeStringLength(this byte[] self, int max = -1)
+		{
+			max = max < 0 ? self.Length : Math.Min(max, self.Length);
+			for (int n = 0; n < max; n += 2)
+				if (self[n] == 0 && self[1 + n] == 0)
+					return n;
+			return max;
+		}
+
+		internal const string LibObjcDll = "/usr/lib/libobjc.dylib";
+		internal const string FoundationDll = "/System/Library/Frameworks/Foundation.framework/Foundation";
+
+		[DllImport(FoundationDll)]
+		public static extern IntPtr NSStringFromClass(IntPtr handle);
+
+		[DllImport(FoundationDll)]
+		public static extern IntPtr NSStringFromProtocol(IntPtr handle);
+
+		[DllImport(FoundationDll)]
+		public static extern IntPtr NSStringFromSelector(IntPtr handle);
+
+		//NSClassFromString
+		//NSSelectorFromString
+		//NSProtocolFromString
+
 #if MONOMAC
 
 		public static CGSize SizeThatFits(this NSControl self, CGSize proposedSize)
@@ -87,6 +113,18 @@ namespace System.Windows.Forms.Mac
 		{
 			return new NSPasteboardWriting(((NSString)self).Handle);
 		}
+
+		[DllImport(LibObjcDll, EntryPoint = "objc_msgSend")]
+		public extern static bool bool_objc_msgSend_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2);
+
+		// provider must implement NSPasteboardItemDataProvider
+		public static void SetDataProviderForTypes(this NSPasteboardItem item, NSObject provider, string[] types)
+		{
+			var sel = new ObjCRuntime.Selector("setDataProvider:forTypes:");
+			var array = NSArray.FromStrings(types);
+			var ok = bool_objc_msgSend_IntPtr_IntPtr(item.Handle, sel.Handle, provider.Handle, array.Handle);
+		}
+
 #elif XAMARINMAC
 		public static INSPasteboardWriting AsPasteboardWriting(this NSObject self)
 		{
@@ -103,12 +141,12 @@ namespace System.Windows.Forms.Mac
 
 #if XAMARINMAC
 
-namespace ObjCRuntime {
-	public static class Messaging {
-
+namespace ObjCRuntime
+{
+	public static partial class Messaging
+	{
 		[DllImport(Constants.ObjectiveCLibrary, EntryPoint = "objc_msgSend")]
 		public static extern IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector);
-
 	}
 }
 
