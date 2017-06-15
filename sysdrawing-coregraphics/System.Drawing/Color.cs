@@ -50,6 +50,10 @@ namespace System.Drawing
 	public struct Color {
 		int value;
 
+		internal Color(int value) {
+			this.value = value;
+		}
+
 #region Unimplemented bloated properties
 	//
 	// These properties were implemented very poorly on Mono, this
@@ -61,13 +65,13 @@ namespace System.Drawing
 	//
 		public string Name {
 			get {
-				throw new NotImplementedException ();
+				return KnownColors.NameByArgb.TryGetValue((uint)value, out string name) ? name : String.Empty;
 			}
 		}
 
 		public bool IsKnownColor {
-			get{
-				throw new NotImplementedException ();
+			get {
+				return KnownColors.NameByArgb.ContainsKey((uint)value);
 			}
 		}
 
@@ -102,9 +106,7 @@ namespace System.Drawing
 			if((alpha > 255) || (alpha < 0))
 				throw CreateColorArgumentException (alpha, "alpha");
 
-			Color color = new Color ();
-			color.value = (int)((uint) alpha << 24) + (red << 16) + (green << 8) + blue;
-			return color;
+			return new Color { value = (int)((uint)alpha << 24) + (red << 16) + (green << 8) + blue };
 		}
 
 		public int ToArgb()
@@ -119,7 +121,7 @@ namespace System.Drawing
 
 		public static Color FromArgb (int argb)
 		{
-			return FromArgb ((argb >> 24) & 0x0FF, (argb >> 16) & 0x0FF, (argb >> 8) & 0x0FF, argb & 0x0FF);
+			return new Color { value = argb };
 		}
 
 		public static Color FromKnownColor (KnownColor color)
@@ -127,17 +129,12 @@ namespace System.Drawing
 			return KnownColors.FromKnownColor (color);
 		}
 
-		public static Color FromName (string name)
+		public static Color FromName(string name)
 		{
-			try {
-				KnownColor kc = (KnownColor) Enum.Parse (typeof (KnownColor), name, true);
-				return KnownColors.FromKnownColor (kc);
-			}
-			catch {
-				// This is what it returns! 	 
-				Color d = FromArgb (0, 0, 0, 0);
-				return d;
-			}
+			if (KnownColors.ArgbByName.TryGetValue(name, out uint argb))
+				return new Color { value = (int)argb };
+		
+			return new Color();
 		}
 
 	
@@ -262,567 +259,567 @@ namespace System.Drawing
 		}
 
 		static public Color Transparent {
-			get { return KnownColors.FromKnownColor (KnownColor.Transparent); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Transparent]); }
 		}
 
 		static public Color AliceBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.AliceBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.AliceBlue]); }
 		}
 
 		static public Color AntiqueWhite {
-			get { return KnownColors.FromKnownColor (KnownColor.AntiqueWhite); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.AntiqueWhite]); }
 		}
 
 		static public Color Aqua {
-			get { return KnownColors.FromKnownColor (KnownColor.Aqua); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Aqua]); }
 		}
 
 		static public Color Aquamarine {
-			get { return KnownColors.FromKnownColor (KnownColor.Aquamarine); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Aquamarine]); }
 		}
 
 		static public Color Azure {
-			get { return KnownColors.FromKnownColor (KnownColor.Azure); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Azure]); }
 		}
 
 		static public Color Beige {
-			get { return KnownColors.FromKnownColor (KnownColor.Beige); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Beige]); }
 		}
 
 		static public Color Bisque {
-			get { return KnownColors.FromKnownColor (KnownColor.Bisque); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Bisque]); }
 		}
 
 		static public Color Black {
-			get { return KnownColors.FromKnownColor (KnownColor.Black); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Black]); }
 		}
 
 		static public Color BlanchedAlmond {
-			get { return KnownColors.FromKnownColor (KnownColor.BlanchedAlmond); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.BlanchedAlmond]); }
 		}
 
 		static public Color Blue {
-			get { return KnownColors.FromKnownColor (KnownColor.Blue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Blue]); }
 		}
 
 		static public Color BlueViolet {
-			get { return KnownColors.FromKnownColor (KnownColor.BlueViolet); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.BlueViolet]); }
 		}
 
 		static public Color Brown {
-			get { return KnownColors.FromKnownColor (KnownColor.Brown); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Brown]); }
 		}
 
 		static public Color BurlyWood {
-			get { return KnownColors.FromKnownColor (KnownColor.BurlyWood); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.BurlyWood]); }
 		}
 
 		static public Color CadetBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.CadetBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.CadetBlue]); }
 		}
 
 		static public Color Chartreuse {
-			get { return KnownColors.FromKnownColor (KnownColor.Chartreuse); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Chartreuse]); }
 		}
 
 		static public Color Chocolate {
-			get { return KnownColors.FromKnownColor (KnownColor.Chocolate); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Chocolate]); }
 		}
 
 		static public Color Coral {
-			get { return KnownColors.FromKnownColor (KnownColor.Coral); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Coral]); }
 		}
 
 		static public Color CornflowerBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.CornflowerBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.CornflowerBlue]); }
 		}
 
 		static public Color Cornsilk {
-			get { return KnownColors.FromKnownColor (KnownColor.Cornsilk); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Cornsilk]); }
 		}
 
 		static public Color Crimson {
-			get { return KnownColors.FromKnownColor (KnownColor.Crimson); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Crimson]); }
 		}
 
 		static public Color Cyan {
-			get { return KnownColors.FromKnownColor (KnownColor.Cyan); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Cyan]); }
 		}
 
 		static public Color DarkBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkBlue]); }
 		}
 
 		static public Color DarkCyan {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkCyan); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkCyan]); }
 		}
 
 		static public Color DarkGoldenrod {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkGoldenrod); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkGoldenrod]); }
 		}
 
 		static public Color DarkGray {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkGray); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkGray]); }
 		}
 
 		static public Color DarkGreen {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkGreen); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkGreen]); }
 		}
 
 		static public Color DarkKhaki {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkKhaki); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkKhaki]); }
 		}
 
 		static public Color DarkMagenta {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkMagenta); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkMagenta]); }
 		}
 
 		static public Color DarkOliveGreen {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkOliveGreen); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkOliveGreen]); }
 		}
 
 		static public Color DarkOrange {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkOrange); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkOrange]); }
 		}
 
 		static public Color DarkOrchid {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkOrchid); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkOrchid]); }
 		}
 
 		static public Color DarkRed {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkRed); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkRed]); }
 		}
 
 		static public Color DarkSalmon {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkSalmon); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkSalmon]); }
 		}
 
 		static public Color DarkSeaGreen {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkSeaGreen); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkSeaGreen]); }
 		}
 
 		static public Color DarkSlateBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkSlateBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkSlateBlue]); }
 		}
 
 		static public Color DarkSlateGray {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkSlateGray); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkSlateGray]); }
 		}
 
 		static public Color DarkTurquoise {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkTurquoise); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkTurquoise]); }
 		}
 
 		static public Color DarkViolet {
-			get { return KnownColors.FromKnownColor (KnownColor.DarkViolet); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DarkViolet]); }
 		}
 
 		static public Color DeepPink {
-			get { return KnownColors.FromKnownColor (KnownColor.DeepPink); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DeepPink]); }
 		}
 
 		static public Color DeepSkyBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.DeepSkyBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DeepSkyBlue]); }
 		}
 
 		static public Color DimGray {
-			get { return KnownColors.FromKnownColor (KnownColor.DimGray); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DimGray]); }
 		}
 
 		static public Color DodgerBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.DodgerBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.DodgerBlue]); }
 		}
 
 		static public Color Firebrick {
-			get { return KnownColors.FromKnownColor (KnownColor.Firebrick); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Firebrick]); }
 		}
 
 		static public Color FloralWhite {
-			get { return KnownColors.FromKnownColor (KnownColor.FloralWhite); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.FloralWhite]); }
 		}
 
 		static public Color ForestGreen {
-			get { return KnownColors.FromKnownColor (KnownColor.ForestGreen); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.ForestGreen]); }
 		}
 
 		static public Color Fuchsia {
-			get { return KnownColors.FromKnownColor (KnownColor.Fuchsia); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Fuchsia]); }
 		}
 
 		static public Color Gainsboro {
-			get { return KnownColors.FromKnownColor (KnownColor.Gainsboro); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Gainsboro]); }
 		}
 
 		static public Color GhostWhite {
-			get { return KnownColors.FromKnownColor (KnownColor.GhostWhite); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.GhostWhite]); }
 		}
 
 		static public Color Gold {
-			get { return KnownColors.FromKnownColor (KnownColor.Gold); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Gold]); }
 		}
 
 		static public Color Goldenrod {
-			get { return KnownColors.FromKnownColor (KnownColor.Goldenrod); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Goldenrod]); }
 		}
 
 		static public Color Gray {
-			get { return KnownColors.FromKnownColor (KnownColor.Gray); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Gray]); }
 		}
 
 		static public Color Green {
-			get { return KnownColors.FromKnownColor (KnownColor.Green); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Green]); }
 		}
 
 		static public Color GreenYellow {
-			get { return KnownColors.FromKnownColor (KnownColor.GreenYellow); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.GreenYellow]); }
 		}
 
 		static public Color Honeydew {
-			get { return KnownColors.FromKnownColor (KnownColor.Honeydew); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Honeydew]); }
 		}
 
 		static public Color HotPink {
-			get { return KnownColors.FromKnownColor (KnownColor.HotPink); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.HotPink]); }
 		}
 
 		static public Color IndianRed {
-			get { return KnownColors.FromKnownColor (KnownColor.IndianRed); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.IndianRed]); }
 		}
 
 		static public Color Indigo {
-			get { return KnownColors.FromKnownColor (KnownColor.Indigo); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Indigo]); }
 		}
 
 		static public Color Ivory {
-			get { return KnownColors.FromKnownColor (KnownColor.Ivory); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Ivory]); }
 		}
 
 		static public Color Khaki {
-			get { return KnownColors.FromKnownColor (KnownColor.Khaki); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Khaki]); }
 		}
 
 		static public Color Lavender {
-			get { return KnownColors.FromKnownColor (KnownColor.Lavender); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Lavender]); }
 		}
 
 		static public Color LavenderBlush {
-			get { return KnownColors.FromKnownColor (KnownColor.LavenderBlush); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LavenderBlush]); }
 		}
 
 		static public Color LawnGreen {
-			get { return KnownColors.FromKnownColor (KnownColor.LawnGreen); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LawnGreen]); }
 		}
 
 		static public Color LemonChiffon {
-			get { return KnownColors.FromKnownColor (KnownColor.LemonChiffon); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LemonChiffon]); }
 		}
 
 		static public Color LightBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.LightBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LightBlue]); }
 		}
 
 		static public Color LightCoral {
-			get { return KnownColors.FromKnownColor (KnownColor.LightCoral); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LightCoral]); }
 		}
 
 		static public Color LightCyan {
-			get { return KnownColors.FromKnownColor (KnownColor.LightCyan); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LightCyan]); }
 		}
 
 		static public Color LightGoldenrodYellow {
-			get { return KnownColors.FromKnownColor (KnownColor.LightGoldenrodYellow); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LightGoldenrodYellow]); }
 		}
 
 		static public Color LightGreen {
-			get { return KnownColors.FromKnownColor (KnownColor.LightGreen); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LightGreen]); }
 		}
 
 		static public Color LightGray {
-			get { return KnownColors.FromKnownColor (KnownColor.LightGray); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LightGray]); }
 		}
 
 		static public Color LightPink {
-			get { return KnownColors.FromKnownColor (KnownColor.LightPink); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LightPink]); }
 		}
 
 		static public Color LightSalmon {
-			get { return KnownColors.FromKnownColor (KnownColor.LightSalmon); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LightSalmon]); }
 		}
 
 		static public Color LightSeaGreen {
-			get { return KnownColors.FromKnownColor (KnownColor.LightSeaGreen); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LightSeaGreen]); }
 		}
 
 		static public Color LightSkyBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.LightSkyBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LightSkyBlue]); }
 		}
 
 		static public Color LightSlateGray {
-			get { return KnownColors.FromKnownColor (KnownColor.LightSlateGray); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LightSlateGray]); }
 		}
 
 		static public Color LightSteelBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.LightSteelBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LightSteelBlue]); }
 		}
 
 		static public Color LightYellow {
-			get { return KnownColors.FromKnownColor (KnownColor.LightYellow); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LightYellow]); }
 		}
 
 		static public Color Lime {
-			get { return KnownColors.FromKnownColor (KnownColor.Lime); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Lime]); }
 		}
 
 		static public Color LimeGreen {
-			get { return KnownColors.FromKnownColor (KnownColor.LimeGreen); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.LimeGreen]); }
 		}
 
 		static public Color Linen {
-			get { return KnownColors.FromKnownColor (KnownColor.Linen); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Linen]); }
 		}
 
 		static public Color Magenta {
-			get { return KnownColors.FromKnownColor (KnownColor.Magenta); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Magenta]); }
 		}
 
 		static public Color Maroon {
-			get { return KnownColors.FromKnownColor (KnownColor.Maroon); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Maroon]); }
 		}
 
 		static public Color MediumAquamarine {
-			get { return KnownColors.FromKnownColor (KnownColor.MediumAquamarine); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.MediumAquamarine]); }
 		}
 
 		static public Color MediumBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.MediumBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.MediumBlue]); }
 		}
 
 		static public Color MediumOrchid {
-			get { return KnownColors.FromKnownColor (KnownColor.MediumOrchid); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.MediumOrchid]); }
 		}
 
 		static public Color MediumPurple {
-			get { return KnownColors.FromKnownColor (KnownColor.MediumPurple); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.MediumPurple]); }
 		}
 
 		static public Color MediumSeaGreen {
-			get { return KnownColors.FromKnownColor (KnownColor.MediumSeaGreen); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.MediumSeaGreen]); }
 		}
 
 		static public Color MediumSlateBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.MediumSlateBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.MediumSlateBlue]); }
 		}
 
 		static public Color MediumSpringGreen {
-			get { return KnownColors.FromKnownColor (KnownColor.MediumSpringGreen); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.MediumSpringGreen]); }
 		}
 
 		static public Color MediumTurquoise {
-			get { return KnownColors.FromKnownColor (KnownColor.MediumTurquoise); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.MediumTurquoise]); }
 		}
 
 		static public Color MediumVioletRed {
-			get { return KnownColors.FromKnownColor (KnownColor.MediumVioletRed); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.MediumVioletRed]); }
 		}
 
 		static public Color MidnightBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.MidnightBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.MidnightBlue]); }
 		}
 
 		static public Color MintCream {
-			get { return KnownColors.FromKnownColor (KnownColor.MintCream); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.MintCream]); }
 		}
 
 		static public Color MistyRose {
-			get { return KnownColors.FromKnownColor (KnownColor.MistyRose); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.MistyRose]); }
 		}
 
 		static public Color Moccasin {
-			get { return KnownColors.FromKnownColor (KnownColor.Moccasin); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Moccasin]); }
 		}
 
 		static public Color NavajoWhite {
-			get { return KnownColors.FromKnownColor (KnownColor.NavajoWhite); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.NavajoWhite]); }
 		}
 
 		static public Color Navy {
-			get { return KnownColors.FromKnownColor (KnownColor.Navy); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Navy]); }
 		}
 
 		static public Color OldLace {
-			get { return KnownColors.FromKnownColor (KnownColor.OldLace); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.OldLace]); }
 		}
 
 		static public Color Olive {
-			get { return KnownColors.FromKnownColor (KnownColor.Olive); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Olive]); }
 		}
 
 		static public Color OliveDrab {
-			get { return KnownColors.FromKnownColor (KnownColor.OliveDrab); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.OliveDrab]); }
 		}
 
 		static public Color Orange {
-			get { return KnownColors.FromKnownColor (KnownColor.Orange); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Orange]); }
 		}
 
 		static public Color OrangeRed {
-			get { return KnownColors.FromKnownColor (KnownColor.OrangeRed); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.OrangeRed]); }
 		}
 
 		static public Color Orchid {
-			get { return KnownColors.FromKnownColor (KnownColor.Orchid); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Orchid]); }
 		}
 
 		static public Color PaleGoldenrod {
-			get { return KnownColors.FromKnownColor (KnownColor.PaleGoldenrod); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.PaleGoldenrod]); }
 		}
 
 		static public Color PaleGreen {
-			get { return KnownColors.FromKnownColor (KnownColor.PaleGreen); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.PaleGreen]); }
 		}
 
 		static public Color PaleTurquoise {
-			get { return KnownColors.FromKnownColor (KnownColor.PaleTurquoise); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.PaleTurquoise]); }
 		}
 
 		static public Color PaleVioletRed {
-			get { return KnownColors.FromKnownColor (KnownColor.PaleVioletRed); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.PaleVioletRed]); }
 		}
 
 		static public Color PapayaWhip {
-			get { return KnownColors.FromKnownColor (KnownColor.PapayaWhip); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.PapayaWhip]); }
 		}
 
 		static public Color PeachPuff {
-			get { return KnownColors.FromKnownColor (KnownColor.PeachPuff); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.PeachPuff]); }
 		}
 
 		static public Color Peru {
-			get { return KnownColors.FromKnownColor (KnownColor.Peru); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Peru]); }
 		}
 
 		static public Color Pink {
-			get { return KnownColors.FromKnownColor (KnownColor.Pink); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Pink]); }
 		}
 
 		static public Color Plum {
-			get { return KnownColors.FromKnownColor (KnownColor.Plum); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Plum]); }
 		}
 
 		static public Color PowderBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.PowderBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.PowderBlue]); }
 		}
 
 		static public Color Purple {
-			get { return KnownColors.FromKnownColor (KnownColor.Purple); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Purple]); }
 		}
 
 		static public Color Red {
-			get { return KnownColors.FromKnownColor (KnownColor.Red); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Red]); }
 		}
 
 		static public Color RosyBrown {
-			get { return KnownColors.FromKnownColor (KnownColor.RosyBrown); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.RosyBrown]); }
 		}
 
 		static public Color RoyalBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.RoyalBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.RoyalBlue]); }
 		}
 
 		static public Color SaddleBrown {
-			get { return KnownColors.FromKnownColor (KnownColor.SaddleBrown); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.SaddleBrown]); }
 		}
 
 		static public Color Salmon {
-			get { return KnownColors.FromKnownColor (KnownColor.Salmon); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Salmon]); }
 		}
 
 		static public Color SandyBrown {
-			get { return KnownColors.FromKnownColor (KnownColor.SandyBrown); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.SandyBrown]); }
 		}
 
 		static public Color SeaGreen {
-			get { return KnownColors.FromKnownColor (KnownColor.SeaGreen); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.SeaGreen]); }
 		}
 
 		static public Color SeaShell {
-			get { return KnownColors.FromKnownColor (KnownColor.SeaShell); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.SeaShell]); }
 		}
 
 		static public Color Sienna {
-			get { return KnownColors.FromKnownColor (KnownColor.Sienna); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Sienna]); }
 		}
 
 		static public Color Silver {
-			get { return KnownColors.FromKnownColor (KnownColor.Silver); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Silver]); }
 		}
 
 		static public Color SkyBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.SkyBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.SkyBlue]); }
 		}
 
 		static public Color SlateBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.SlateBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.SlateBlue]); }
 		}
 
 		static public Color SlateGray {
-			get { return KnownColors.FromKnownColor (KnownColor.SlateGray); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.SlateGray]); }
 		}
 
 		static public Color Snow {
-			get { return KnownColors.FromKnownColor (KnownColor.Snow); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Snow]); }
 		}
 
 		static public Color SpringGreen {
-			get { return KnownColors.FromKnownColor (KnownColor.SpringGreen); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.SpringGreen]); }
 		}
 
 		static public Color SteelBlue {
-			get { return KnownColors.FromKnownColor (KnownColor.SteelBlue); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.SteelBlue]); }
 		}
 
 		static public Color Tan {
-			get { return KnownColors.FromKnownColor (KnownColor.Tan); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Tan]); }
 		}
 
 		static public Color Teal {
-			get { return KnownColors.FromKnownColor (KnownColor.Teal); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Teal]); }
 		}
 
 		static public Color Thistle {
-			get { return KnownColors.FromKnownColor (KnownColor.Thistle); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Thistle]); }
 		}
 
 		static public Color Tomato {
-			get { return KnownColors.FromKnownColor (KnownColor.Tomato); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Tomato]); }
 		}
 
 		static public Color Turquoise {
-			get { return KnownColors.FromKnownColor (KnownColor.Turquoise); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Turquoise]); }
 		}
 
 		static public Color Violet {
-			get { return KnownColors.FromKnownColor (KnownColor.Violet); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Violet]); }
 		}
 
 		static public Color Wheat {
-			get { return KnownColors.FromKnownColor (KnownColor.Wheat); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Wheat]); }
 		}
 
 		static public Color White {
-			get { return KnownColors.FromKnownColor (KnownColor.White); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.White]); }
 		}
 
 		static public Color WhiteSmoke {
-			get { return KnownColors.FromKnownColor (KnownColor.WhiteSmoke); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.WhiteSmoke]); }
 		}
 
 		static public Color Yellow {
-			get { return KnownColors.FromKnownColor (KnownColor.Yellow); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.Yellow]); }
 		}
 
 		static public Color YellowGreen {
-			get { return KnownColors.FromKnownColor (KnownColor.YellowGreen); }
+			get { return new Color((int)KnownColors.ArgbValues[(int)KnownColor.YellowGreen]); }
 		}
 	}
 }
