@@ -79,6 +79,19 @@ namespace System.Windows.Forms.Mac
 			return max;
 		}
 
+		unsafe internal static void CopyTo(this Runtime.InteropServices.ComTypes.IStream input, System.IO.Stream output, int bufferSize = 32768)
+		{
+			byte[] buffer = new byte[bufferSize];
+			while (true)
+			{
+				ulong read;
+				input.Read(buffer, bufferSize, (IntPtr)(&read));
+				if (read == 0)
+					return;
+				output.Write(buffer, 0, (int)read);
+			}
+		}
+
 		internal const string LibObjcDll = "/usr/lib/libobjc.dylib";
 		internal const string FoundationDll = "/System/Library/Frameworks/Foundation.framework/Foundation";
 
