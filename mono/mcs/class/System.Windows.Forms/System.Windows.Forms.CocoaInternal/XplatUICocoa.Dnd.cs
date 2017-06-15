@@ -23,6 +23,7 @@ namespace System.Windows.Forms
 	internal partial class XplatUICocoa
 	{
 		internal const string IDataObjectPboardType = "mwf.idataobject";
+
 		internal const string UTTypeData = "public.data";
 		internal const string UTTypeFileUrl = "public.file-url";
 		internal const string UTTypeItem = "public.item";
@@ -31,6 +32,11 @@ namespace System.Windows.Forms
 		internal const string UTTypeVideo = "public.video";
 		internal const string UTTypeUTF8PlainText = "public.utf8-plain-text";
 		internal const string UTTypeEmailMessage = "public.email-message";
+		internal const string UTTypeVCard = "public.vcard";
+		internal const string UTTypeContact = "public.contact";
+		internal const string UTTypeToDoItem = "public.to-do-item";
+		internal const string UTTypeCalendarEvent = "public.calendar-event";
+		internal const string UTTypePDF = "com.adobe.pdf";
 
 		internal const string PasteboardTypeFileURLPromise = "com.apple.pasteboard.promised-file-url";
 		internal const string PasteboardTypeFilePromiseContent = "com.apple.pasteboard.promised-file-content-type";
@@ -39,15 +45,16 @@ namespace System.Windows.Forms
 		internal const string NSFilenamesPboardType = "NSFilenamesPboardType";
 		internal const string NSFilesPromisePboardType = "NSFilesPromisePboardType";
 
-		internal const string FileGroupDescriptorKey = "FileGroupDescriptorW"; //CFSTR_FILEDESCRIPTORW
+		internal const string CFSTR_FILEDESCRIPTORW = "FileGroupDescriptorW";
 		internal const string CFSTR_FILECONTENTS = "FileContents";
 
 		internal static object DraggedData = null;
 		internal static DragDropEffects DraggingAllowedEffects = DragDropEffects.None;
 		internal static DragDropEffects DraggingEffects = DragDropEffects.None;
+		internal static event EventHandler DraggingEnded;
 
 		internal DraggingSource draggingSource = new DraggingSource();
-		internal FileProvider dndFileProvider = null;
+		internal FileProvider dndFileProvider;
 		internal string[] dndFilenames;
 		internal int dndCurrentFileIndex;
 
@@ -74,7 +81,7 @@ namespace System.Windows.Forms
 				var items = CreateDraggingItems(view, DraggedData = data);
 				if (items != null && items.Length != 0)
 				{
-					view.BeginDraggingSession(items, lastMouseEvent, draggingSource = new DraggingSource());
+					view.BeginDraggingSession(items, lastMouseEvent, draggingSource);
 					DraggingAllowedEffects = allowedEffects;
 					DraggingEffects = DragDropEffects.None;
 				}
@@ -96,15 +103,9 @@ namespace System.Windows.Forms
 
 			if (data is IDataObject idata)
 			{
-				if (idata.GetDataPresent(FileGroupDescriptorKey))
-				{
+				if (idata.GetDataPresent(CFSTR_FILEDESCRIPTORW))
 					foreach (var promise in CreateFilePromises(idata))
-					{
-						var item = new NSDraggingItem(promise.AsPasteboardWriting());
-						item.SetDraggingFrame(bounds, TakeSnapshot(view));
-						items.Add(item);
-					}
-				}
+						items.Add(new NSDraggingItem(promise.AsPasteboardWriting()));
 			}
 
 			if (data is String text)
@@ -131,16 +132,18 @@ namespace System.Windows.Forms
 
 		internal List<NSPasteboardItem> CreateFilePromises(IDataObject idata)
 		{
-			dndFileProvider = new FileProvider(this);
+			var items = new List<NSPasteboardItem>();
 			dndFilenames = GetFilenames(idata);
 
-			var items = new List<NSPasteboardItem>();
-			foreach (var filename in dndFilenames)
+			if (dndFilenames.Length > 0)
 			{
-				var item = NewPasteboardItem();
-				item.SetDataProviderForTypes(dndFileProvider, new string[] { PasteboardTypeFileURLPromise });
-				item.SetStringForType(ContentTypeFromFilename(filename), PasteboardTypeFilePromiseContent);
-				items.Add(item);
+				dndFileProvider = new FileProvider(this);
+				foreach (var filename in dndFilenames)
+				{
+					var item = NewPasteboardItem();
+					item.SetDataProviderForTypes(dndFileProvider, new string[] { PasteboardTypeFileURLPromise });
+					items.Add(item);
+				}
 			}
 			return items;
 		}
@@ -151,10 +154,13 @@ namespace System.Windows.Forms
 			switch (extension)
 			{
 				case "eml": return UTTypeEmailMessage;
-				case "bmp": case "gif": case "ico": case "jpg": case "jpeg":
+				case "vcf": return UTTypeContact;
+				case "ics": return UTTypeCalendarEvent;
+				case "bmp": case "gif": case "ico": case "jpg": case "jpeg": case "pict":
 				case "png": case "tiff": case "raw": return UTTypeImage;
-				case "mpg": case "mpeg": case "mp4": case "mkv": case "avi": case "wmv": return UTTypeVideo;
+				case "mpg": case "mpeg": case "mp4": case "mkv": case "avi": case "wmv": case "3gp": return UTTypeVideo;
 				case "mp3": case "wma": return UTTypeAudio;
+				case "pdf": return UTTypePDF;
 				default: return UTTypeData;
 			}
 		}
@@ -162,7 +168,7 @@ namespace System.Windows.Forms
 		// Reads filenames from Win32.FILEGROUPDESCRIPTORW structure
 		internal string[] GetFilenames(IDataObject idata)
 		{
-			if (idata != null && idata.GetData(FileGroupDescriptorKey) is Stream stream)
+			if (idata != null && idata.GetData(CFSTR_FILEDESCRIPTORW) is Stream stream)
 			{
 				using (var reader = new BinaryReader(stream))
 				{
@@ -201,22 +207,8 @@ namespace System.Windows.Forms
 					var path = Path.Combine(folder, unique);
 					var stream = GetStream(cdata, dndCurrentFileIndex);
 					using (var outputStream = File.Create(path))
-						Copy(stream, outputStream);
+						stream.CopyTo(outputStream);
 				}
-			}
-		}
-
-		unsafe internal void Copy(Runtime.InteropServices.ComTypes.IStream input, System.IO.Stream output)
-		{
-			const int bufferSize = 32768;
-			byte[] buffer = new byte[bufferSize];
-			ulong read;
-			while (true)
-			{
-				input.Read(buffer, bufferSize, (IntPtr)(&read));
-				if (read == 0)
-					return;
-				output.Write(buffer, 0, (int)read);
 			}
 		}
 
@@ -230,8 +222,7 @@ namespace System.Windows.Forms
 				lindex = index
 			};
 
-			STGMEDIUM medium;
-			cdata.GetData(ref format, out medium);
+			cdata.GetData(ref format, out STGMEDIUM medium);
 
 			if (medium.tymed == format.tymed)
 				if (Marshal.GetObjectForIUnknown(medium.unionmember) is IStream stream)
@@ -307,6 +298,7 @@ namespace System.Windows.Forms
 
 				XplatUICocoa.DraggedData = null;
 				XplatUICocoa.DraggingEffects = operation.ToDragDropEffects();
+				XplatUICocoa.DraggingEnded(this, new EventArgs());
 			}
 
 			public override void DraggedImageMovedTo(NSImage image, CGPoint screenPoint)
@@ -321,6 +313,12 @@ namespace System.Windows.Forms
 				//Console.WriteLine("MonoDraggingSource.NamesOfPromisedFilesDroppedAtDestination");
 				return new string[] { };
 			}
+
+			public override NSDragOperation DraggingSourceOperationMaskForLocal(bool flag)
+			{
+				return NSDragOperation.Copy;
+			}
+
 		}
 
 #if XAMARINMAC
