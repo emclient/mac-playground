@@ -31,7 +31,7 @@ namespace System.Windows.Forms.Mac
 		public static NSWindow[] OrderedWindows(this NSApplication self)
 		{
 			var selector = new ObjCRuntime.Selector("orderedWindows");
-			var ptr = ObjCRuntime.Messaging.IntPtr_objc_msgSend(self.Handle, selector.Handle);
+			var ptr = LibObjc.IntPtr_objc_msgSend(self.Handle, selector.Handle);
 			var array = NSArray.ArrayFromHandle<NSWindow>(ptr);
 			return array;
 		}
@@ -92,7 +92,6 @@ namespace System.Windows.Forms.Mac
 			}
 		}
 
-		internal const string LibObjcDll = "/usr/lib/libobjc.dylib";
 		internal const string FoundationDll = "/System/Library/Frameworks/Foundation.framework/Foundation";
 
 		[DllImport(FoundationDll)]
@@ -127,15 +126,12 @@ namespace System.Windows.Forms.Mac
 			return new NSPasteboardWriting(((NSString)self).Handle);
 		}
 
-		[DllImport(LibObjcDll, EntryPoint = "objc_msgSend")]
-		public extern static bool bool_objc_msgSend_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2);
-
 		// provider must implement NSPasteboardItemDataProvider
 		public static void SetDataProviderForTypes(this NSPasteboardItem item, NSObject provider, string[] types)
 		{
 			var sel = new ObjCRuntime.Selector("setDataProvider:forTypes:");
 			var array = NSArray.FromStrings(types);
-			var ok = bool_objc_msgSend_IntPtr_IntPtr(item.Handle, sel.Handle, provider.Handle, array.Handle);
+			var ok = LibObjc.bool_objc_msgSend_IntPtr_IntPtr(item.Handle, sel.Handle, provider.Handle, array.Handle);
 		}
 
 #elif XAMARINMAC
@@ -151,16 +147,3 @@ namespace System.Windows.Forms.Mac
 #endif
 	}
 }
-
-#if XAMARINMAC
-
-namespace ObjCRuntime
-{
-	public static partial class Messaging
-	{
-		[DllImport(Constants.ObjectiveCLibrary, EntryPoint = "objc_msgSend")]
-		public static extern IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector);
-	}
-}
-
-#endif
