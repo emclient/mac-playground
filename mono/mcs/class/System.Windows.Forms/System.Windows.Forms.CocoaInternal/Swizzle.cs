@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Windows.Forms.Mac;
 
 
 #if XAMARINMAC
@@ -92,25 +93,6 @@ namespace System.Windows.Forms
 				swizzle = null;
 			}
 		}
-	}
-
-	internal class LibObjc
-	{
-		const string libobjc = "/usr/lib/libobjc.dylib";
-		[DllImport(libobjc)]
-		extern internal static IntPtr class_getInstanceMethod(IntPtr classHandle, IntPtr Selector);
-
-		[DllImport(libobjc)]
-		extern internal static IntPtr method_getImplementation(IntPtr method);
-
-		[DllImport(libobjc)]
-		extern internal static IntPtr imp_implementationWithBlock(ref BlockLiteral block);
-
-		[DllImport(libobjc)]
-		extern internal static void method_setImplementation(IntPtr method, IntPtr imp);
-
-		[DllImport(libobjc)]
-		extern internal static void method_exchangeImplementations(IntPtr originalMethod, IntPtr swizzledMethod);
 	}
 }
 
