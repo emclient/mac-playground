@@ -27,23 +27,13 @@ namespace System.Windows.Forms
 		internal const string UTTypeData = "public.data";
 		internal const string UTTypeFileUrl = "public.file-url";
 		internal const string UTTypeItem = "public.item";
-		internal const string UTTypeImage = "public.image";
-		internal const string UTTypeAudio = "public.audio";
-		internal const string UTTypeVideo = "public.video";
 		internal const string UTTypeUTF8PlainText = "public.utf8-plain-text";
-		internal const string UTTypeEmailMessage = "public.email-message";
-		internal const string UTTypeVCard = "public.vcard";
-		internal const string UTTypeContact = "public.contact";
-		internal const string UTTypeToDoItem = "public.to-do-item";
-		internal const string UTTypeCalendarEvent = "public.calendar-event";
-		internal const string UTTypePDF = "com.adobe.pdf";
 
 		internal const string PasteboardTypeFileURLPromise = "com.apple.pasteboard.promised-file-url";
 		internal const string PasteboardTypeFilePromiseContent = "com.apple.pasteboard.promised-file-content-type";
 
 		internal const string NSStringPboardType = "NSStringPboardType";
 		internal const string NSFilenamesPboardType = "NSFilenamesPboardType";
-		internal const string NSFilesPromisePboardType = "NSFilesPromisePboardType";
 
 		internal const string CFSTR_FILEDESCRIPTORW = "FileGroupDescriptorW";
 		internal const string CFSTR_FILECONTENTS = "FileContents";
@@ -146,23 +136,6 @@ namespace System.Windows.Forms
 				}
 			}
 			return items;
-		}
-
-		private string ContentTypeFromFilename(string filename)
-		{
-			var extension = IO.Path.GetExtension(filename).Replace(".", "").ToLower();
-			switch (extension)
-			{
-				case "eml": return UTTypeEmailMessage;
-				case "vcf": return UTTypeContact;
-				case "ics": return UTTypeCalendarEvent;
-				case "bmp": case "gif": case "ico": case "jpg": case "jpeg": case "pict":
-				case "png": case "tiff": case "raw": return UTTypeImage;
-				case "mpg": case "mpeg": case "mp4": case "mkv": case "avi": case "wmv": case "3gp": return UTTypeVideo;
-				case "mp3": case "wma": return UTTypeAudio;
-				case "pdf": return UTTypePDF;
-				default: return UTTypeData;
-			}
 		}
 
 		// Reads filenames from Win32.FILEGROUPDESCRIPTORW structure
