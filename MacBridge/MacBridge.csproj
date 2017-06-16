@@ -102,7 +102,6 @@
       <Link>WinApi\Uxtheme.Structs.cs</Link>
     </Compile>
     <Compile Include="WinApi\Usp10.cs" />
-    <Compile Include="WinApi\Usp10.Structs.cs" />
     <Compile Include="WinApi\Uxtheme.cs" />
     <Compile Include="..\..\..\WinApi\WinGdi.Structs.cs">
       <Link>WinApi\WinGdi.Structs.cs</Link>
@@ -137,6 +136,9 @@
     <Compile Include="MacApi\AppKit\NSTitlebarAccessoryViewController.cs" />
     <Compile Include="MacApi\CoreServices\UTType.cs" />
     <Compile Include="MacApi\CoreServices\LaunchServices.cs" />
+    <Compile Include="..\..\..\WinApi\Usp10.Structs.cs">
+      <Link>WinApi\Usp10.Structs.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
