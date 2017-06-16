@@ -29,6 +29,8 @@ using System.Drawing;
 using System.Drawing.Mac;
 using System.Runtime.InteropServices;
 using System.Windows.Forms.Mac;
+using System.Collections.Specialized;
+using System.Collections.Generic;
 
 #if XAMARINMAC
 using Foundation;
@@ -326,7 +328,7 @@ namespace System.Windows.Forms.CocoaInternal
 		DragEventArgs ToDragEventArgs(NSDraggingInfo sender)
 		{
 			var q = ToMonoScreen(sender.DraggingLocation, null);
-			var allowed = XplatUICocoa.DraggingAllowedEffects;
+			var allowed = DragDropEffects.All;
 			var modifiers = NSEvent.CurrentModifierFlags.ToKeys();
 			var idata = XplatUICocoa.DraggedData as IDataObject ?? (IDataObject)(XplatUICocoa.DraggedData = ToIDataObject(sender.DraggingPasteboard));
 			return new DragEventArgs(idata, (int)modifiers, q.X, q.Y, allowed, UnusedDndEffect);
@@ -346,7 +348,23 @@ namespace System.Windows.Forms.CocoaInternal
 					case XplatUICocoa.UTTypeUTF8PlainText:
 					case XplatUICocoa.NSStringPboardType:
 					case XplatUICocoa.IDataObjectPboardType:
+					case XplatUICocoa.UTTypeFileUrl:
 						return true;
+				}
+			}
+			return false;
+		}
+
+		public override bool PerformDragOperation(NSDraggingInfo sender)
+		{
+			var c = Control.FromHandle(Handle);
+			if (c is IDropTarget dt)
+			{
+				var e = ToDragEventArgs(sender);
+				if (e != null)
+				{
+					dt.OnDragDrop(e);
+					return true;
 				}
 			}
 			return false;
@@ -356,57 +374,34 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			if (view != null)
 				p = ConvertPointToView(p, null);
-			var r = Window.ConvertRectToScreen( new CGRect(p, CGSize.Empty));
+			var r = Window.ConvertRectToScreen(new CGRect(p, CGSize.Empty));
 			return driver.NativeToMonoScreen(r.Location);
-		}
-
-		public override bool PerformDragOperation(NSDraggingInfo sender)
-		{
-			var c = Control.FromHandle(Handle);
-			if (c is IDropTarget dt)
-			{
-				var effects = XplatUICocoa.DraggingEffects; //ToDragDropEffects(sender.DraggingSourceOperationMask);
-				var types = sender.DraggingPasteboard.Types;
-				var allowed = XplatUICocoa.DraggingAllowedEffects;
-
-				foreach (var type in types)
-				{
-					switch (type)
-					{
-						case XplatUICocoa.UTTypeUTF8PlainText:
-						case XplatUICocoa.NSStringPboardType:
-						{
-							var str = sender.DraggingPasteboard.GetStringForType(type);
-							var data = new DataObject(DataFormats.Text, str);
-							var q = ToMonoScreen(sender.DraggingLocation, null);
-							var modifiers = (int)NSEvent.CurrentModifierFlags.ToKeys();
-							var e = new DragEventArgs(data, modifiers, q.X, q.Y, allowed, effects);
-							dt.OnDragDrop(e);
-							return true;
-						}
-						case XplatUICocoa.IDataObjectPboardType:
-						{
-							if (XplatUICocoa.DraggedData is IDataObject idata)
-							{
-								var q = ToMonoScreen(sender.DraggingLocation, null);
-								var modifiers = (int)NSEvent.CurrentModifierFlags.ToKeys();
-								var e = new DragEventArgs(idata, modifiers, q.X, q.Y, allowed, effects);
-								dt.OnDragDrop(e);
-								return true;
-							}
-							break;
-						}
-					}
-				}
-			}
-			return false;
 		}
 
 		private IDataObject ToIDataObject(NSPasteboard pboard)
 		{
+			var types = pboard.Types;
+			if (Array.IndexOf(types, XplatUICocoa.IDataObjectPboardType) != -1)
+				if (XplatUICocoa.DraggedData is IDataObject idata)
+					return idata;
+
 			var s = pboard.GetStringForType(XplatUICocoa.NSStringPboardType);
 			if (s != null)
 				return new DataObject(s);
+
+			s = pboard.GetStringForType(XplatUICocoa.UTTypeFileUrl);
+			if (s != null)
+			{
+				var paths = new List<string>();
+				foreach (var item in pboard.PasteboardItems)
+				{
+					var url = item.GetStringForType(XplatUICocoa.UTTypeFileUrl);
+					paths.Add(NSUrl.FromString(url).Path);
+				}
+
+				if (paths.Count != 0)
+					return new DataObject(DataFormats.FileDrop, paths.ToArray());
+			}
 
 			// TODO: Add more conversions/wrappers - for files, images etc.
 
