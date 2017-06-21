@@ -325,13 +325,13 @@ namespace System.Windows.Forms.CocoaInternal
 
 		const DragDropEffects UnusedDndEffect = unchecked((DragDropEffects)0xffffffff);
 
-		DragEventArgs ToDragEventArgs(NSDraggingInfo sender)
+		DragEventArgs ToDragEventArgs(NSDraggingInfo sender, DragDropEffects effect = UnusedDndEffect)
 		{
 			var q = ToMonoScreen(sender.DraggingLocation, null);
-			var allowed = DragDropEffects.All;
+			var allowed = XplatUICocoa.DraggingAllowedEffects;
 			var modifiers = NSEvent.CurrentModifierFlags.ToKeys();
 			var idata = XplatUICocoa.DraggedData as IDataObject ?? (IDataObject)(XplatUICocoa.DraggedData = ToIDataObject(sender.DraggingPasteboard));
-			return new DragEventArgs(idata, (int)modifiers, q.X, q.Y, allowed, UnusedDndEffect);
+			return new DragEventArgs(idata, (int)modifiers, q.X, q.Y, allowed, effect);
 		}
 
 		public override void DraggingEnded(NSDraggingInfo sender)
@@ -360,7 +360,7 @@ namespace System.Windows.Forms.CocoaInternal
 			var c = Control.FromHandle(Handle);
 			if (c is IDropTarget dt)
 			{
-				var e = ToDragEventArgs(sender);
+				var e = ToDragEventArgs(sender, XplatUICocoa.DraggingEffects);
 				if (e != null)
 				{
 					dt.OnDragDrop(e);

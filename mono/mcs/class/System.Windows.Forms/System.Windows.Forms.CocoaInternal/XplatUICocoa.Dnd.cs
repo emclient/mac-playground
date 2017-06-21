@@ -71,9 +71,9 @@ namespace System.Windows.Forms
 				var items = CreateDraggingItems(view, DraggedData = data);
 				if (items != null && items.Length != 0)
 				{
-					view.BeginDraggingSession(items, lastMouseEvent, draggingSource);
 					DraggingAllowedEffects = allowedEffects;
 					DraggingEffects = DragDropEffects.None;
+					view.BeginDraggingSession(items, lastMouseEvent, draggingSource);
 				}
 			}
 
