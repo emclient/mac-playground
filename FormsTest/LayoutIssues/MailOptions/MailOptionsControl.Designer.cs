@@ -382,7 +382,7 @@ namespace MailClient.Accounts.Mail
 			this.controlPanelTabSwitcher1.TabDisplayStyle = MailClient.Common.UI.Controls.ControlPanelSwitcher.TabDisplayStyle.Text;
 			this.controlPanelTabSwitcher1.TabPadding = new System.Windows.Forms.Padding(12, 8, 12, 8);
 			this.controlPanelTabSwitcher1.TabSize = new System.Drawing.Size(0, 0);
-			this.controlPanelTabSwitcher1.BeforePanelActivated += new System.EventHandler<MailClient.Common.UI.Controls.ControlPanelSwitcher.PanelEventArgs>(this.ControlPanelTabSwitcher1_BeforePanelActivated);
+			this.controlPanelTabSwitcher1.BeforePanelActivated += new System.EventHandler<MailClient.Common.UI.Controls.ControlPanelSwitcher.PanelActivatingEventArgs>(this.ControlPanelTabSwitcher1_BeforePanelActivated);
 			// 
 			// tab_General
 			// 
