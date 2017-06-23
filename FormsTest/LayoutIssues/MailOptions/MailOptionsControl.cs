@@ -690,7 +690,7 @@ namespace MailClient.Accounts.Mail
 			//}
 		}
 
-		private void ControlPanelTabSwitcher1_BeforePanelActivated(object sender, Common.UI.Controls.ControlPanelSwitcher.PanelEventArgs e)
+		private void ControlPanelTabSwitcher1_BeforePanelActivated(object sender, Common.UI.Controls.ControlPanelSwitcher.PanelActivatingEventArgs e)
 		{
 			//if (e.Panel == testerPage)
 			//{
