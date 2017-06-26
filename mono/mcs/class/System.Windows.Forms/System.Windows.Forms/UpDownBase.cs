@@ -97,7 +97,7 @@ namespace System.Windows.Forms
 
 		#region Local Variables
 		internal UpDownTextBox		txtView;
-		private UpDownSpinner		spnSpinner;
+		private UpDownStepper		spnSpinner;
 		private bool			_InterceptArrowKeys = true;
 		private LeftRightAlignment	_UpDownAlign;
 		private bool			changing_text;
