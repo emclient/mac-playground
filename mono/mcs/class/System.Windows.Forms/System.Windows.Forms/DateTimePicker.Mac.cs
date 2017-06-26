@@ -109,6 +109,9 @@ namespace System.Windows.Forms
 		internal string editing_text;
 
 		bool drop_down_button_entered;
+
+		internal UpDownStepper stepper;
+
 		#endregion    // Local variables
 
 		#region DateTimePickerAccessibleObject Subclass
@@ -180,6 +183,13 @@ namespace System.Windows.Forms
 			updown_timer = new Timer();
 			updown_timer.Interval = initial_timer_delay;
 
+			stepper = new UpDownStepper();
+			stepper.UpButton += Stepper_UpButton;
+			stepper.DownButton += Stepper_DownButton;
+			stepper.Size = stepper.PreferredSize;
+			stepper.Dock = DockStyle.Right;
+			stepper.Visible = false;
+			Controls.Add(stepper);
 
 			// initialise other variables
 			is_checked = true;
@@ -216,6 +226,23 @@ namespace System.Windows.Forms
 			SetStyle(ControlStyles.Selectable, true);
 
 			CalculateFormats();
+
+			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+			base.BackColor = Color.Transparent;
+		}
+
+		internal virtual void Stepper_UpButton(object sender, EventArgs e)
+		{
+			IncrementSelectedPart(1);
+			updown_timer.Interval = initial_timer_delay;
+			updown_timer.Enabled = true;
+		}
+
+		internal virtual void Stepper_DownButton(object sender, EventArgs e)
+		{
+			IncrementSelectedPart(-1);
+			updown_timer.Interval = initial_timer_delay;
+			updown_timer.Enabled = true;
 		}
 
 		#endregion
@@ -537,7 +564,7 @@ namespace System.Windows.Forms
 			get
 			{
 				// Make it proportional
-				return (int)Math.Ceiling(Font.Height * 1.5);
+				return Math.Max((int)Math.Ceiling(Font.Height * 1.5), stepper?.Height ?? 23);
 			}
 		}
 
@@ -588,6 +615,7 @@ namespace System.Windows.Forms
 				if (show_up_down != value)
 				{
 					show_up_down = value;
+					stepper.Visible = show_up_down;
 					// need to invalidate the whole control
 					this.Invalidate();
 					OnUIAShowUpDownChanged();
@@ -1855,28 +1883,7 @@ namespace System.Windows.Forms
 				OnUIASelectionChanged();
 			}
 
-			if (ShowUpDown && drop_down_arrow_rect.Contains(e.X, e.Y))
-			{
-				if (!(ShowCheckBox && Checked == false))
-				{
-					if (e.Y < this.Height / 2)
-					{
-						is_up_pressed = true;
-						is_down_pressed = false;
-						IncrementSelectedPart(1);
-					}
-					else
-					{
-						is_up_pressed = false;
-						is_down_pressed = true;
-						IncrementSelectedPart(-1);
-					}
-					Invalidate(drop_down_arrow_rect);
-					updown_timer.Interval = initial_timer_delay;
-					updown_timer.Enabled = true;
-				}
-			}
-			else if (is_drop_down_visible == false && drop_down_arrow_rect.Contains(e.X, e.Y))
+			if (!is_drop_down_visible && drop_down_arrow_rect.Contains(e.X, e.Y))
 			{
 				DropDownButtonClicked();
 			}

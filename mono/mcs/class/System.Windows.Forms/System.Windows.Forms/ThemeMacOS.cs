@@ -1814,9 +1814,18 @@ namespace System.Windows.Forms
 		#endregion
 
 		#region DateTimePicker
-		protected virtual void DateTimePickerDrawBorder (DateTimePicker dateTimePicker, Graphics g, Rectangle clippingArea)
+
+		internal Rectangle DateTimePickerClientWithoutStepper(DateTimePicker picker)
 		{
-			this.CPDrawBorder3D (g, dateTimePicker.ClientRectangle, Border3DStyle.Sunken, Border3DSide.Left | Border3DSide.Right | Border3DSide.Top | Border3DSide.Bottom, SystemColors.Control);
+			var r = picker.ClientRectangle;
+			if (picker.ShowUpDown)
+				r.Size = new Size(r.Width - DateTimePicker.up_down_width - 4, r.Height);
+			return r;
+		}
+
+		protected virtual void DateTimePickerDrawBorder (DateTimePicker picker, Graphics g, Rectangle clippingArea)
+		{
+			this.CPDrawBorder3D (g, DateTimePickerClientWithoutStepper(picker), Border3DStyle.Sunken, Border3DSide.Left | Border3DSide.Right | Border3DSide.Top | Border3DSide.Bottom, SystemColors.Control);
 		}
 
 		protected virtual void DateTimePickerDrawDropDownButton (DateTimePicker dateTimePicker, Graphics g, Rectangle clippingArea)
@@ -1831,39 +1840,18 @@ namespace System.Windows.Forms
 
 		public override void DrawDateTimePicker(Graphics dc, Rectangle clip_rectangle, DateTimePicker dtp)
 		{
-
 			if (!clip_rectangle.IntersectsWith (dtp.ClientRectangle))
 				return;
 
 			// draw the outer border
-			Rectangle button_bounds = dtp.ClientRectangle;
 			DateTimePickerDrawBorder (dtp, dc, clip_rectangle);
 
+			Rectangle button_bounds = DateTimePickerClientWithoutStepper(dtp);
 			// deflate by the border width
 			if (clip_rectangle.IntersectsWith (dtp.drop_down_arrow_rect)) {
 				button_bounds.Inflate (-2,-2);
 				if (!dtp.ShowUpDown) {
 					DateTimePickerDrawDropDownButton (dtp, dc, clip_rectangle);
-				} else {
-					ButtonState up_state = dtp.is_up_pressed ? ButtonState.Pushed : ButtonState.Normal;
-					ButtonState down_state = dtp.is_down_pressed ? ButtonState.Pushed : ButtonState.Normal;
-					Rectangle up_bounds = dtp.drop_down_arrow_rect;
-					Rectangle down_bounds = dtp.drop_down_arrow_rect;
-
-					up_bounds.Height = up_bounds.Height / 2;
-					down_bounds.Y = up_bounds.Height;
-					down_bounds.Height = dtp.Height - up_bounds.Height;
-					if (down_bounds.Height > up_bounds.Height)
-					{
-						down_bounds.Y += 1;
-						down_bounds.Height -= 1;
-					}
-
-					up_bounds.Inflate (-1, -1);
-					down_bounds.Inflate (-1, -1);
-
-					ControlPaint.DrawScrollButton (dc, up_bounds, ScrollButton.Up, up_state);
-					ControlPaint.DrawScrollButton (dc, down_bounds, ScrollButton.Down, down_state);
 				}
 			}
 
@@ -1893,8 +1881,9 @@ namespace System.Windows.Forms
 			{
 				text_format.LineAlignment = StringAlignment.Near;
 				text_format.Alignment = StringAlignment.Near;
-				text_format.FormatFlags = text_format.FormatFlags | StringFormatFlags.MeasureTrailingSpaces | StringFormatFlags.NoWrap | StringFormatFlags.FitBlackBox;
-				text_format.FormatFlags &= ~StringFormatFlags.NoClip;
+				text_format.FormatFlags = text_format.FormatFlags | StringFormatFlags.NoWrap;
+				text_format.FormatFlags &= ~(StringFormatFlags.NoClip | StringFormatFlags.NoWrap);
+				text_format.Trimming = StringTrimming.Character;
 
 				// Calculate the rectangles for each part 
 				if (dtp.part_data.Length > 0 && dtp.part_data[0].drawing_rectangle.IsEmpty)

@@ -20,7 +20,9 @@ namespace System.Windows.Forms
 			_UpDownAlign = LeftRightAlignment.Right;
 			InternalBorderStyle = BorderStyle.None;
 
-			spnSpinner = new UpDownSpinner(this);
+			spnSpinner = new UpDownStepper();
+			spnSpinner.UpButton += (sender, e) => { UpButton(); };
+			spnSpinner.DownButton += (sender, e) => { DownButton(); };
 
 			txtView = new UpDownTextBox(this);
 			txtView.ModifiedChanged += OnChanged;
@@ -91,62 +93,62 @@ namespace System.Windows.Forms
 			spnSpinner.Enabled = Enabled;
 			base.OnEnabledChanged(e);
 		}
+	}
 
-		internal sealed class UpDownSpinner : Control, IMacNativeControl
+	internal class UpDownStepper : Control, IMacNativeControl
+	{
+		NSStepper stepper;
+
+		public event EventHandler UpButton;
+		public event EventHandler DownButton;
+
+		public UpDownStepper()
 		{
-			UpDownBase owner;
-			NSStepper stepper;
+			SetStyle(ControlStyles.AllPaintingInWmPaint
+				   | ControlStyles.DoubleBuffer
+				   | ControlStyles.Opaque
+				   | ControlStyles.ResizeRedraw
+				   | ControlStyles.UserPaint, true);
+				 //| ControlStyles.FixedHeight, true);
+			SetStyle(ControlStyles.Selectable, false);
 
-			public UpDownSpinner(UpDownBase owner)
-			{
-				this.owner = owner;
+			stepper = new NSStepper();
+			stepper.SizeToFit();
+		}
 
-				SetStyle(ControlStyles.AllPaintingInWmPaint
-					   | ControlStyles.DoubleBuffer
-					   | ControlStyles.Opaque
-					   | ControlStyles.ResizeRedraw
-					   | ControlStyles.UserPaint, true);
-					 //| ControlStyles.FixedHeight, true);
-				SetStyle(ControlStyles.Selectable, false);
+		public override Size GetPreferredSize(Size proposedSize)
+		{
+			if (stepper != null)
+				return stepper.SizeThatFits(proposedSize.ToCGSize()).ToSDSize();
+			
+			return new Size(13, 23);
+		}
 
-				stepper = new NSStepper();
-				stepper.SizeToFit();
-			}
+		public NSView CreateView()
+		{
+			stepper.IntValue = 0;
+			stepper.MinValue = int.MinValue;
+			stepper.MaxValue = int.MaxValue;
+			stepper.ValueWraps = false;
+			stepper.Activated += StepperActivated;
+			return stepper;
+		}
 
-			public override Size GetPreferredSize(Size proposedSize)
-			{
-				if (stepper != null)
-					return stepper.SizeThatFits(proposedSize.ToCGSize()).ToSDSize();
-				
-				return base.GetPreferredSize(proposedSize);
-			}
+		internal void StepperActivated(object sender, EventArgs e)
+		{
+			int value = stepper.IntValue;
+			stepper.IntValue = 0;
 
-			public NSView CreateView()
-			{
-				stepper.IntValue = 0;
-				stepper.MinValue = int.MinValue;
-				stepper.MaxValue = int.MaxValue;
-				stepper.ValueWraps = false;
-				stepper.Activated += StepperActivated;
-				return stepper;
-			}
+			if (value > 0)
+				UpButton(this, new EventArgs());
+			else if (value < 0)
+				DownButton(this, new EventArgs());
+		}
 
-			internal void StepperActivated(object sender, EventArgs e)
-			{
-				int value = stepper.IntValue;
-				stepper.IntValue = 0;
-
-				if (value > 0)
-					owner.UpButton();
-				else if (value < 0)
-					owner.DownButton();
-			}
-
-			protected override void OnEnabledChanged(EventArgs e)
-			{
-				stepper.Enabled = Enabled;
-				base.OnEnabledChanged(e);
-			}
+		protected override void OnEnabledChanged(EventArgs e)
+		{
+			stepper.Enabled = Enabled;
+			base.OnEnabledChanged(e);
 		}
 	}
 }
