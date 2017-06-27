@@ -1885,6 +1885,7 @@ namespace System.Windows.Forms
 				text_format.FormatFlags &= ~(StringFormatFlags.NoClip | StringFormatFlags.NoWrap);
 				text_format.Trimming = StringTrimming.Character;
 
+				var fontHeight = dtp.Font.GetHeight(dc);
 				// Calculate the rectangles for each part 
 				if (dtp.part_data.Length > 0 && dtp.part_data[0].drawing_rectangle.IsEmpty)
 				{
@@ -1894,7 +1895,7 @@ namespace System.Windows.Forms
 						DateTimePicker.PartData fd = dtp.part_data[i];
 						RectangleF text_rect = new RectangleF();
 						string text = fd.GetText(dtp.Value);
-						text_rect.Size = gr.MeasureString (text, dtp.Font, 250, text_format);
+						text_rect.Size = new SizeF(gr.MeasureString(text, dtp.Font, 250, text_format).Width, fontHeight);
 						if (!fd.is_literal)
 							text_rect.Width = Math.Max (dtp.CalculateMaxWidth(fd.value, gr, text_format), text_rect.Width);
 
@@ -1903,9 +1904,10 @@ namespace System.Windows.Forms
 						} else {
 							text_rect.X = date_area_rect.X;
 						}
-						text_rect.Y = 2;
 						text_rect.Inflate (1, 0);
 						fd.drawing_rectangle = text_rect;
+						fd.drawing_rectangle.Y = dtp.ClientRectangle.Y;
+						fd.drawing_rectangle.Height = dtp.ClientRectangle.Height;
 					}
 				}
 				
@@ -1924,15 +1926,11 @@ namespace System.Windows.Forms
 
 					text = dtp.editing_part_index == i ? dtp.editing_text : fd.GetText (dtp.Value);
 
-					PointF text_position = new PointF ();
-					SizeF text_size;
-					RectangleF text_rect;
-
-					text_size = dc.MeasureString (text, dtp.Font, 250, text_format);
-					text_position.X = (fd.drawing_rectangle.Left + fd.drawing_rectangle.Width / 2) - text_size.Width / 2;
-					text_position.Y = (fd.drawing_rectangle.Top + fd.drawing_rectangle.Height / 2) - text_size.Height / 2;
-					text_rect = new RectangleF (text_position, text_size);
-					text_rect = RectangleF.Intersect (text_rect, date_area_rect);
+					var text_size = new SizeF(dc.MeasureString (text, dtp.Font, 250, text_format).Width, fontHeight);
+					var text_position = new PointF(
+						(fd.drawing_rectangle.Left + fd.drawing_rectangle.Width / 2) - text_size.Width / 2,
+						(fd.drawing_rectangle.Top + fd.drawing_rectangle.Height / 2) - text_size.Height / 2);
+					var text_rect = RectangleF.Intersect(new RectangleF(text_position, text_size), date_area_rect);
 					
 					if (text_rect.IsEmpty)
 						break;
