@@ -1939,8 +1939,8 @@ namespace System.Windows.Forms
 						text_format.FormatFlags &= ~StringFormatFlags.NoClip;
 					else
 						text_format.FormatFlags |= StringFormatFlags.NoClip;
-					
-					if (fd.Selected) {
+
+					if (fd.Selected && dtp.Focused) {
 						dc.FillRectangle (SystemBrushes.Highlight, text_rect);
 						dc.DrawString (text, dtp.Font, SystemBrushes.HighlightText, text_rect, text_format);
 					
