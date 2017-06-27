@@ -72,7 +72,7 @@ namespace System.Windows.Forms
 		{
 			Height = PreferredHeight;
 			txtView.Top = (ClientSize.Height - txtView.Height) / 2;
-			spnSpinner.Top = -1 + (ClientSize.Height - spnSpinner.Height) / 2;
+			spnSpinner.Top = (ClientSize.Height - spnSpinner.Height) / 2;
 		}
 
 		[Browsable(false)]
@@ -101,6 +101,8 @@ namespace System.Windows.Forms
 
 		public event EventHandler UpButton;
 		public event EventHandler DownButton;
+
+		public Size Offset = new Size(-1, -1);
 
 		public UpDownStepper()
 		{
@@ -149,6 +151,12 @@ namespace System.Windows.Forms
 		{
 			stepper.Enabled = Enabled;
 			base.OnEnabledChanged(e);
+		}
+
+		protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
+		{
+			base.SetBoundsCore(x, y, width, height, specified);
+			stepper.Frame = stepper.Frame.Move(Offset.Width, Offset.Height);
 		}
 	}
 }
