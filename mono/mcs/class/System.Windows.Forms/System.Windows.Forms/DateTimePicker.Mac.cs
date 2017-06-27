@@ -1868,6 +1868,9 @@ namespace System.Windows.Forms
 			if (e.Button != MouseButtons.Left)
 				return;
 
+			if (!Focused)
+				Focus();
+
 			if (ShowCheckBox && CheckBoxRect.Contains(e.X, e.Y))
 			{
 				is_checkbox_selected = true;
