@@ -21,6 +21,7 @@ namespace System.Windows.Forms
 			InternalBorderStyle = BorderStyle.None;
 
 			spnSpinner = new UpDownStepper();
+			spnSpinner.Offset = new Size(0, -1);
 			spnSpinner.UpButton += (sender, e) => { UpButton(); };
 			spnSpinner.DownButton += (sender, e) => { DownButton(); };
 
@@ -95,14 +96,35 @@ namespace System.Windows.Forms
 		}
 	}
 
+	internal class Stepper : NSStepper
+	{
+		internal Size Offset { get; set; }
+
+		public override MonoMac.CoreGraphics.CGRect Frame
+		{
+			get
+			{
+				return base.Frame.Move(-Offset.Width, -Offset.Height);
+			}
+			set
+			{
+				base.Frame = value.Move(Offset.Width, Offset.Height);
+			}
+		}
+	}
+
 	internal class UpDownStepper : Control, IMacNativeControl
 	{
-		NSStepper stepper;
+		Stepper stepper;
 
 		public event EventHandler UpButton;
 		public event EventHandler DownButton;
 
-		public Size Offset = new Size(-1, -1);
+		public Size Offset
+		{
+			get { return stepper.Offset; }
+			set { stepper.Offset = value; }
+		}
 
 		public UpDownStepper()
 		{
@@ -114,7 +136,7 @@ namespace System.Windows.Forms
 				 //| ControlStyles.FixedHeight, true);
 			SetStyle(ControlStyles.Selectable, false);
 
-			stepper = new NSStepper();
+			stepper = new Stepper();
 			stepper.SizeToFit();
 		}
 
@@ -151,12 +173,6 @@ namespace System.Windows.Forms
 		{
 			stepper.Enabled = Enabled;
 			base.OnEnabledChanged(e);
-		}
-
-		protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
-		{
-			base.SetBoundsCore(x, y, width, height, specified);
-			stepper.Frame = stepper.Frame.Move(Offset.Width, Offset.Height);
 		}
 	}
 }
