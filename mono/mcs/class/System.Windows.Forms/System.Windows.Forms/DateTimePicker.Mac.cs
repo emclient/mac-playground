@@ -184,6 +184,7 @@ namespace System.Windows.Forms
 			updown_timer.Interval = initial_timer_delay;
 
 			stepper = new UpDownStepper();
+			stepper.Offset = new Size(0, -1);
 			stepper.UpButton += Stepper_UpButton;
 			stepper.DownButton += Stepper_DownButton;
 			stepper.Size = stepper.PreferredSize;
