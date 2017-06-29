@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
+using System.Drawing.Mac;
 
 #if XAMARINMAC
 using AppKit;
@@ -82,13 +83,7 @@ namespace System.Windows.Forms
 
 		internal virtual NSDraggingItem[] CreateDraggingItems(NSView view, object data)
 		{
-			var maxSize = new CGSize(320, 240);
-			var size = ScaleToFit(view.Bounds.Size, maxSize);
-			var location = view.ConvertPointFromView(lastMouseEvent.LocationInWindow, null);
-			var bounds = new CGRect(location.Move(-4, -4), size);
-
 			var items = new List<NSDraggingItem>();
-
 			DraggedData = (data is IDataObject) ? data : new DataObject(data);
 
 			if (data is IDataObject idata)
@@ -106,7 +101,13 @@ namespace System.Windows.Forms
 				items.Add(item);
 			}
 
-			var snapshot = TakeSnapshot(view); // FIXME
+			var location = view.ConvertPointFromView(lastMouseEvent.LocationInWindow, null);
+			var maxSize = new CGSize(320, 240);
+
+			var snapshot = TakeSnapshot(view, data);
+			var size = ScaleToFit(snapshot.Size, maxSize);
+			var bounds = new CGRect(location.Move(-4, -4), size);
+
 			foreach (var item in items)
 				item.SetDraggingFrame(bounds, snapshot);
 
@@ -226,19 +227,30 @@ namespace System.Windows.Forms
 			//dndFilenames = null;
 		}
 
-		internal static NSImage TakeSnapshot(NSView view)
+		internal static NSImage TakeSnapshot(NSView view, object data)
 		{
-			var b = view.BitmapImageRepForCachingDisplayInRect(view.Bounds);
-			view.CacheDisplay(view.Bounds, b);
+			NSImage snapshot = null;
 
-			var i = new NSImage(view.Bounds.Size);
-			i.AddRepresentation(b);
+			if (data is IDataObject idata)
+				if (idata.GetData("DragAndDropImage") is Drawing.Image image)
+					snapshot = image.ToNSImage();
 
-			return i;
+			if (snapshot == null)
+			{
+				var b = view.BitmapImageRepForCachingDisplayInRect(view.Bounds);
+				view.CacheDisplay(view.Bounds, b);
+
+				snapshot = new NSImage(view.Bounds.Size);
+				snapshot.AddRepresentation(b);
+			}
+			return snapshot;
 		}
 
 		internal static CGSize ScaleToFit(CGSize val, CGSize max)
 		{
+			if (val.Width <= max.Width && val.Height <= max.Height)
+				return val;
+
 			var kw = max.Width / val.Width;
 			var kh = max.Height / val.Height;
 
@@ -337,7 +349,7 @@ namespace System.Windows.Forms
 			public override bool ConformsToProtocol(IntPtr protocol)
 			{
 				//Console.WriteLine(NSString.FromHandle(Extensions.NSStringFromProtocol(protocol)));
-				if ("NSPasteboardItemDataProvider" == NSString.FromHandle(Extensions.NSStringFromProtocol(protocol)))
+				if ("NSPasteboardItemDataProvider" == NSString.FromHandle(Mac.Extensions.NSStringFromProtocol(protocol)))
 					return true;
 
 				return base.ConformsToProtocol(protocol);
