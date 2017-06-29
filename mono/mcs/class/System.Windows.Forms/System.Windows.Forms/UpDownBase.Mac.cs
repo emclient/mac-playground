@@ -21,7 +21,7 @@ namespace System.Windows.Forms
 			InternalBorderStyle = BorderStyle.None;
 
 			spnSpinner = new UpDownStepper();
-			spnSpinner.Offset = new Size(0, -1);
+			spnSpinner.Offset = new Size(-1, -1);
 			spnSpinner.UpButton += (sender, e) => { UpButton(); };
 			spnSpinner.DownButton += (sender, e) => { DownButton(); };
 
