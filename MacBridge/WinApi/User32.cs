@@ -476,7 +476,7 @@ namespace WinApi
             return false;
         }
 
-        public static bool RegisterTouchWindow(System.IntPtr hWnd, ulong ulFlags)
+        public static bool RegisterTouchWindow(System.IntPtr hWnd, int ulFlags)
         {
 			NotImplemented(MethodBase.GetCurrentMethod());
             return false;
