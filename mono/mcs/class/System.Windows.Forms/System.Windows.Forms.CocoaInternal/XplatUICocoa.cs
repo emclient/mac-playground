@@ -447,10 +447,9 @@ namespace System.Windows.Forms {
 					ReverseWindowMapped = false;
 				}
 
-				bool isMouseEvent = IsMouseEvent(evtRef.Type);
-				if (isMouseEvent)
-					lastMouseEvent = evtRef; // Drag'n'Drop support
-				if (Grab.Hwnd != IntPtr.Zero && isMouseEvent && evtRef.Window != null) {
+				if (evtRef.Type == NSEventType.LeftMouseDown)
+					LastMouseDown = evtRef; // Drag'n'Drop support
+				if (Grab.Hwnd != IntPtr.Zero && IsMouseEvent(evtRef.Type) && evtRef.Window != null) {
 					var grabView = (NSView)ObjCRuntime.Runtime.GetNSObject(Grab.Hwnd);
 					if (grabView.Window.WindowNumber != evtRef.WindowNumber && evtRef.Type != NSEventType.ScrollWheel)
 					{

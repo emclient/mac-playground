@@ -49,7 +49,7 @@ namespace System.Windows.Forms
 		internal string[] dndFilenames;
 		internal int dndCurrentFileIndex;
 
-		internal NSEvent lastMouseEvent = null;
+		internal static NSEvent LastMouseDown = null;
 
 		internal override void SetAllowDrop(IntPtr handle, bool value)
 		{
@@ -64,7 +64,7 @@ namespace System.Windows.Forms
 
 		internal override DragDropEffects StartDrag(IntPtr handle, object data, DragDropEffects allowedEffects)
 		{
-			if (ObjCRuntime.Runtime.GetNSObject(handle) is MonoView view)
+			if (LastMouseDown != null && ObjCRuntime.Runtime.GetNSObject(handle) is MonoView view)
 			{
 				if (Grab.Hwnd != IntPtr.Zero)
 					UngrabWindow(Grab.Hwnd);
@@ -74,7 +74,7 @@ namespace System.Windows.Forms
 				{
 					DraggingAllowedEffects = allowedEffects;
 					DraggingEffects = DragDropEffects.None;
-					view.BeginDraggingSession(items, lastMouseEvent, draggingSource);
+					view.BeginDraggingSession(items, LastMouseDown, draggingSource);
 				}
 			}
 
@@ -101,7 +101,7 @@ namespace System.Windows.Forms
 				items.Add(item);
 			}
 
-			var location = view.ConvertPointFromView(lastMouseEvent.LocationInWindow, null);
+			var location = view.ConvertPointFromView(LastMouseDown.LocationInWindow, null);
 			var maxSize = new CGSize(320, 240);
 
 			var snapshot = TakeSnapshot(view, data);
@@ -284,6 +284,7 @@ namespace System.Windows.Forms
 				XplatUICocoa.DraggedData = null;
 				XplatUICocoa.DraggingEffects = operation.ToDragDropEffects();
 				XplatUICocoa.DraggingEnded(this, new EventArgs());
+				XplatUICocoa.LastMouseDown = null;
 			}
 
 			public override void DraggedImageMovedTo(NSImage image, CGPoint screenPoint)
