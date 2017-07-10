@@ -33,6 +33,8 @@ class ResGen {
 		if (swf != null)
 			return;
 		try {
+
+			Console.WriteLine($"Launched in {IntPtr.Size * 8}bit environment");
 			//swf = Assembly.Load ("System.Windows.Forms-net_4_5.dll");
 			//swf.GetType("System.Windows.Forms.Application").GetMethod("DoEvents", BindingFlags.Static | BindingFlags.Public).Invoke(null, null);
 			//swf = typeof(System.Windows.Forms.Control).Assembly;
@@ -44,7 +46,7 @@ class ResGen {
 			resxr = typeof(System.Resources.ResXResourceReader);
 			resxw = typeof(System.Resources.ResXResourceWriter);
 		} catch (Exception e) {
-			throw new Exception ("Cannot load support for ResX format (Mac): " + e.ToString());
+			throw new Exception ("Cannot load support for ResX format: " + e.Message + ", Stack trace: " + e.StackTrace);
 		}
 	}
 
