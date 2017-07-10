@@ -7,8 +7,10 @@ using System.Windows.Forms.Mac;
 
 #if XAMARINMAC
 using AppKit;
+using CoreGraphics;
 #elif MONOMAC
 using MonoMac.AppKit;
+using MonoMac.CoreGraphics;
 #endif
 
 namespace System.Windows.Forms
@@ -100,7 +102,7 @@ namespace System.Windows.Forms
 	{
 		internal Size Offset { get; set; }
 
-		public override MonoMac.CoreGraphics.CGRect Frame
+		public override CGRect Frame
 		{
 			get
 			{
