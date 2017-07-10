@@ -44,7 +44,7 @@ class ResGen {
 			resxr = typeof(System.Resources.ResXResourceReader);
 			resxw = typeof(System.Resources.ResXResourceWriter);
 		} catch (Exception e) {
-			throw new Exception ("Cannot load support for ResX format: " + e.ToString() );
+			throw new Exception ("Cannot load support for ResX format (Mac): " + e.ToString());
 		}
 	}
 
