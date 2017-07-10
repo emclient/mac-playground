@@ -35,11 +35,14 @@ class ResGen {
 		try {
 			//swf = Assembly.Load ("System.Windows.Forms-net_4_5.dll");
 			//swf.GetType("System.Windows.Forms.Application").GetMethod("DoEvents", BindingFlags.Static | BindingFlags.Public).Invoke(null, null);
-			swf = typeof(System.Windows.Forms.Control).Assembly;
+			//swf = typeof(System.Windows.Forms.Control).Assembly;
 			System.Windows.Forms.Application.DoEvents();
 			//(Type.GetType("AppKit.NSApplication, Xamarin.Mac") ?? Type.GetType("MonoMac.AppKit.NSApplication, MonoMac")).GetMethod("Init", BindingFlags.Static | BindingFlags.Public).Invoke(null, null);
-			resxr = swf.GetType ("System.Resources.ResXResourceReader");
-			resxw = swf.GetType ("System.Resources.ResXResourceWriter");
+			//resxr = swf.GetType ("System.Resources.ResXResourceReader");
+			//resxw = swf.GetType ("System.Resources.ResXResourceWriter");
+
+			resxr = typeof(System.Resources.ResXResourceReader);
+			resxw = typeof(System.Resources.ResXResourceWriter);
 		} catch (Exception e) {
 			throw new Exception ("Cannot load support for ResX format: " + e.Message);
 		}
