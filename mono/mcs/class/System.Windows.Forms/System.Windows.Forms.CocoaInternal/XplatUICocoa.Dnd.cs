@@ -360,7 +360,14 @@ namespace System.Windows.Forms
 			public virtual void FinishedWithDataProvider(NSPasteboard pasteboard)
 			{
 				//Console.WriteLine("FileProvider.FinishedWithDataProvider");
-				driver.FinishedWithDataProvider(pasteboard);
+				try
+				{
+					driver.FinishedWithDataProvider(pasteboard);
+				}
+				catch (Exception e)
+				{
+					DebugHelper.WriteLine(e);
+				}
 			}
 
 			// Using IntPtr instead of NSPasteboardItem prevents crashes in Marshaller under MonoMac.
@@ -371,7 +378,15 @@ namespace System.Windows.Forms
 				var item = obj is NSPasteboardItem ? (NSPasteboardItem)obj : new NSPasteboardItem(hItem);
 
 				//Console.WriteLine($"FileProvider.ProvideDataForType({pasteboard.GetType().Name},{item.GetType().Name},{type.GetType().Name}/{type})");
-				driver.ProvideDataForType(pasteboard, item, type);
+
+				try
+				{
+					driver.ProvideDataForType(pasteboard, item, type);
+				}
+				catch (Exception e)
+				{
+					DebugHelper.WriteLine(e);
+				}
 				driver.dndCurrentFileIndex += 1;
 			}
 		}
