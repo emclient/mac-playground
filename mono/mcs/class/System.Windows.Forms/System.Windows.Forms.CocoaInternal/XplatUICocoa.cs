@@ -1561,7 +1561,8 @@ namespace System.Windows.Forms {
 		internal override void SendAsyncMethod (AsyncMethodData method) {
 			var handle = GCHandle.Alloc (method);
 			NSApplication.SharedApplication.BeginInvokeOnMainThread (delegate {
-				XplatUIDriverSupport.ExecuteClientMessage(handle);
+				try { XplatUIDriverSupport.ExecuteClientMessage(handle); }
+				catch(Exception e) { Debug.WriteLine(e); }
 			});
 		}
 
