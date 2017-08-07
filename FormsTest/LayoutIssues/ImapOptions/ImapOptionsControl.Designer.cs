@@ -55,7 +55,7 @@
 			this.radio_UseAccountCredentials = new System.Windows.Forms.RadioButton();
 			this.group_Servers_OutgoingServer = new MailClient.Common.UI.Controls.SeparatorBox();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this.text_Port = new MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx();
+			this.text_Port = new MailClient.Common.UI.Controls.TextBoxEx.NumericTextBoxEx();
 			this.combo_Security = new System.Windows.Forms.ComboBox();
 			this.label_Security = new System.Windows.Forms.Label();
 			this.label_Port = new System.Windows.Forms.Label();
@@ -259,7 +259,6 @@
 			// 
 			resources.ApplyResources(this.text_Port, "text_Port");
 			this.text_Port.Name = "text_Port";
-			this.text_Port.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.text_Port_KeyPress);
 			// 
 			// combo_Security
 			// 
@@ -329,7 +328,7 @@
 
 		private MailClient.Common.UI.Controls.SeparatorBox group_Servers_OutgoingServer;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx text_Port;
+		private MailClient.Common.UI.Controls.TextBoxEx.NumericTextBoxEx text_Port;
 		private System.Windows.Forms.ComboBox combo_Security;
 		private System.Windows.Forms.Label label_Security;
 		private System.Windows.Forms.Label label_Port;

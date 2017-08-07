@@ -314,15 +314,6 @@ namespace MailClient.Protocols.Imap
 		}
 
 */
-		private void text_Port_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			// numerical or .
-			if ((e.KeyChar < '0' || e.KeyChar > '9') && (e.KeyChar != 8))
-			{
-				e.Handled = true;
-				return;
-			}
-		}
 
 		private void radio_Authentication_CheckChanged(object sender, EventArgs e)
 		{
