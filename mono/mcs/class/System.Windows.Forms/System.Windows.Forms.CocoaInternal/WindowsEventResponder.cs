@@ -22,6 +22,9 @@ namespace System.Windows.Forms.CocoaInternal
 		XplatUICocoa driver;
 		NSView view;
 
+		internal double preciseDeltaScale = 5.0;
+		internal double rawDeltaScale = 40.0;
+
 		public WindowsEventResponder(IntPtr instance) : base(instance)
 		{
 		}
@@ -287,24 +290,9 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.EnqueueMessage(msg);
 		}
 
-		static int nprecise = 0;
-		static int ScaleAndQuantizeDelta(float delta, bool precise)
+		internal int ScaleAndQuantizeDelta(float delta, bool precise)
 		{
-			if (precise)
-			{
-				if (++nprecise % 3 != 0)
-					return 0;
-
-				const double scale = 10.0;
-				int step = delta >= 0 ? 60 : -60;
-				return ((int)((delta * scale + step) / step)) * step;
-			}
-			else
-			{
-				const double scale = 40.0;
-				int step = delta >= 0 ? 60 : -60;
-				return ((int)((delta * scale + step) / step)) * step;
-			}
+			return precise ? (int)(preciseDeltaScale * delta) : (int)(rawDeltaScale * delta);
 		}
 
 		#endregion
