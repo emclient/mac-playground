@@ -603,54 +603,31 @@ namespace System.Windows.Forms {
 			return base.ProcessDialogChar(charCode);
 		}
 
-		protected override bool ProcessDialogKey(Keys keyData) {
-			Keys	key;
-			bool	forward;
-
-			key = keyData & Keys.KeyCode;
-			forward = true;
-
-			switch (key) {
-				case Keys.Tab: {
-					if ((keyData & (Keys.Alt | Keys.Control)) == Keys.None) {
-						if (ProcessTabKey ((Control.ModifierKeys & Keys.Shift) == 0)) {
+		protected override bool ProcessDialogKey(Keys keyData)
+		{
+			if ((keyData & (Keys.Alt | Keys.Control)) == Keys.None)
+			{
+				Keys key = keyData & Keys.KeyCode;
+				switch (key) {
+					case Keys.Tab:
+						if (ProcessTabKey ((Control.ModifierKeys & Keys.Shift) == 0))
 							return true;
-						}
-					}
-					break;
+						break;
+					case Keys.Left:
+					case Keys.Right:
+					case Keys.Up:
+					case Keys.Down:
+						if (SelectNextControl(active_control, key == Keys.Right || key == Keys.Down, false, false, true))
+							return true;
+						break;
 				}
-
-				case Keys.Left: {
-					forward = false;
-					goto case Keys.Down;
-				}
-
-				case Keys.Up: {
-					forward = false;
-					goto case Keys.Down;
-				}
-
-				case Keys.Right: {
-					goto case Keys.Down;
-				}
-				case Keys.Down: {
-					if (SelectNextControl(active_control, forward, false, false, true)) {
-						return true;
-					}
-					break;
-				}
-
-
 			}
 			return base.ProcessDialogKey(keyData);
 		}
 
 		protected override bool ProcessMnemonic(char charCode) {
-			bool	wrapped;
-			Control	c;
-
-			wrapped = false;
-			c = active_control;
+			bool wrapped = false;
+			Control c = active_control;
 
 			do {
 				c = GetNextControl(c, true);
