@@ -610,7 +610,7 @@ namespace System.Windows.Forms {
 				Keys key = keyData & Keys.KeyCode;
 				switch (key) {
 					case Keys.Tab:
-						if (ProcessTabKey ((Control.ModifierKeys & Keys.Shift) == 0))
+						if (ProcessTabKey((keyData & Keys.Shift) == 0))
 							return true;
 						break;
 					case Keys.Left:
