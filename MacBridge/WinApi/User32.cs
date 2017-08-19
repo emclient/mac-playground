@@ -160,6 +160,18 @@ namespace WinApi
             return 0;
         }
 
+		public static int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
+		}
+
+		public static int GetWindowTextLength(IntPtr hWnd)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
+		}
+
 		public static bool AllowSetForegroundWindow(int dwProcessId)
 		{
 			NotImplemented(MethodBase.GetCurrentMethod());
