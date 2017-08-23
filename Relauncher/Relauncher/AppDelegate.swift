@@ -11,7 +11,7 @@
 //  bundle identifier of the application to be launched after the process with that pid exits
 
 // Example:
-// Relauncher 1234 com.emclient.MailClient
+// Relauncher 1234 com.emclient.mail
 
 import Cocoa
 import Foundation
