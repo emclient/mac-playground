@@ -32,7 +32,6 @@
 		53D67A640FD6F5B5001688B3 /* DockTilePlugIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DockTilePlugIn.h; sourceTree = SOURCE_ROOT; };
 		53D67A650FD6F5B5001688B3 /* DockTilePlugIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DockTilePlugIn.m; sourceTree = SOURCE_ROOT; };
 		53D67A890FD6F722001688B3 /* DockTilePlugIn-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DockTilePlugIn-Info.plist"; sourceTree = SOURCE_ROOT; };
-		8D1107310486CEB800E47090 /* DockTile-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DockTile-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +94,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107310486CEB800E47090 /* DockTile-Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
