@@ -1,5 +1,8 @@
 ConsoleTest/bin
 ConsoleTest/obj
+DockTilePlugin/DockTile.xcodeproj/xcuserdata
+DockTilePlugin/bin
+DockTilePlugin/obj
 Experiments/Experiments.xcworkspace/xcuserdata
 Experiments/FakeMailApp.xcodeproj/xcuserdata
 FormsTest/bin

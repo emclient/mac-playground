@@ -2,6 +2,13 @@
 ConsoleTest/ConsoleTest.csproj -text
 ConsoleTest/Program.cs -text
 ConsoleTest/Properties/AssemblyInfo.cs -text
+DockTilePlugin/DockTile-Info.plist -text
+DockTilePlugin/DockTile.xcodeproj/project.pbxproj -text
+DockTilePlugin/DockTile.xcodeproj/project.xcworkspace/contents.xcworkspacedata -text
+DockTilePlugin/DockTilePlugIn-Info.plist -text
+DockTilePlugin/DockTilePlugIn.h -text
+DockTilePlugin/DockTilePlugIn.m -text
+DockTilePlugin/Info.plist -text
 Experiments/Experiments.xcworkspace/contents.xcworkspacedata -text
 Experiments/Experiments.xcworkspace/xcshareddata/Experiments.xccheckout -text
 Experiments/Experiments.xcworkspace/xcshareddata/Experiments.xcscmblueprint -text
