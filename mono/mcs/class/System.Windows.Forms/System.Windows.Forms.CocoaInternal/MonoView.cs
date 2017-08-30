@@ -247,7 +247,9 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void CursorUpdate(NSEvent theEvent)
 		{
-			driver.OverrideCursor(this.Cursor);
+			// Caching cursor (this.Cursor) does not work well, because of logic in Control.Cursor getter.
+			var cursor = Control.FromHandle(Handle)?.Cursor?.Handle ?? IntPtr.Zero;
+			driver.OverrideCursor(cursor);
 		}
 
 		public Rectangle? DirtyRectangle { get; private set; }
