@@ -64,6 +64,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 
 #if XAMARINMAC
 using Foundation;
@@ -84,6 +85,9 @@ namespace System.Windows.Forms.CocoaInternal {
 		internal const string fmt_Text = "Text";
 		internal const string fmt_UnicodeText = "UnicodeText";
 		internal const string fmt_public_utf8_plain_text = "public.utf8-plain-text";
+		internal const string fmt_HTML = "HTML Format";
+
+		internal const string NSPasteboardTypeHTML = "public.html";
 
 		static Pasteboard ()
 		{
@@ -123,8 +127,43 @@ namespace System.Windows.Forms.CocoaInternal {
 				// TODO: Add support for other types
 				case fmt_Text:
 					pboard.SetStringForType(data.ToString(), fmt_public_utf8_plain_text);
-				break;
+					break;
+				case fmt_HTML:
+					SetHTMLData(pboard, data);
+					break;
 			}
+		}
+
+		private static void SetHTMLData(NSPasteboard pboard, object data)
+		{
+			if (data is MemoryStream stream)
+			{
+				var s = Encoding.UTF8.GetString(stream.ToArray());
+				if (!String.IsNullOrEmpty(s))
+				{
+					// Remove MS header, if any
+					int index = s.IndexOf("<!DOCTYPE", StringComparison.InvariantCulture);
+					if (index > 0)
+						s = s.Substring(index);
+
+					var nsdata = NSData.FromString(s, NSStringEncoding.Unicode);
+					pboard.SetDataForType(nsdata, NSPasteboardTypeHTML);
+				}
+			}
+		}
+
+		internal static bool SetStringForType(NSPasteboard pboard, object data, string type)
+		{
+			string s = null;
+			if (data is MemoryStream stream)
+				using (var reader = new StreamReader(stream))
+					s = reader.ReadToEnd();
+
+			if (String.IsNullOrEmpty(s))
+				return false;
+
+			pboard.SetStringForType(s, type);
+			return true;
 		}
 
 		// Original (mono) version of Retrieve method - it might help us in the future
