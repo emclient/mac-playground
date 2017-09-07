@@ -89,6 +89,10 @@ namespace System.Windows.Forms.CocoaInternal {
 
 		internal const string NSPasteboardTypeHTML = "public.html";
 
+		internal const string NSDocumentTypeDocumentAttribute = "DocumentType";
+		internal const string NSRTFTextDocumentType = "NSRTF";
+		internal const string kUTTypeRTF = "public.rtf";
+
 		static Pasteboard ()
 		{
 			primary_pbref = NSPasteboard.GeneralPasteboard;
@@ -146,8 +150,16 @@ namespace System.Windows.Forms.CocoaInternal {
 					if (index > 0)
 						s = s.Substring(index);
 
+					// Add as HTML
 					var nsdata = NSData.FromString(s, NSStringEncoding.Unicode);
 					pboard.SetDataForType(nsdata, NSPasteboardTypeHTML);
+
+					// Add as RTF
+					var options = new NSDictionary();
+					options[(NSString)NSDocumentTypeDocumentAttribute] = (NSString)NSRTFTextDocumentType;
+					var rtf = new NSAttributedString(s, options, out NSDictionary attributes, out NSError error);
+					nsdata = rtf.GetData(new NSRange(0, rtf.Length), options, out error);
+					pboard.SetDataForType(nsdata,kUTTypeRTF);
 				}
 			}
 		}
