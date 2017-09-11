@@ -144,27 +144,27 @@ namespace System.Windows.Forms
 		}
 		
 		#region Public Static Fields
-		public static readonly string Bitmap			= "Bitmap";
-		public static readonly string CommaSeparatedValue	= "Csv";
-		public static readonly string Dib			= "DeviceIndependentBitmap";
-		public static readonly string Dif			= "DataInterchangeFormat";
-		public static readonly string EnhancedMetafile		= "EnhancedMetafile";
-		public static readonly string FileDrop			= "FileDrop";
-		public static readonly string Html			= "HTML Format";
-		public static readonly string Locale			= "Locale";
-		public static readonly string MetafilePict		= "MetaFilePict";
-		public static readonly string OemText			= "OEMText";
-		public static readonly string Palette			= "Palette";
-		public static readonly string PenData			= "PenData";
-		public static readonly string Riff			= "RiffAudio";
-		public static readonly string Rtf			= "Rich Text Format";
-		public static readonly string Serializable		= "WindowsForms10PersistentObject";
-		public static readonly string StringFormat		= "System.String";
-		public static readonly string SymbolicLink		= "SymbolicLink";
-		public static readonly string Text			= "Text";
-		public static readonly string Tiff			= "Tiff";
-		public static readonly string UnicodeText		= "UnicodeText";
-		public static readonly string WaveAudio			= "WaveAudio";
+		public const string Bitmap				= "Bitmap";
+		public const string CommaSeparatedValue	= "Csv";
+		public const string Dib					= "DeviceIndependentBitmap";
+		public const string Dif					= "DataInterchangeFormat";
+		public const string EnhancedMetafile	= "EnhancedMetafile";
+		public const string FileDrop			= "FileDrop";
+		public const string Html				= "HTML Format";
+		public const string Locale				= "Locale";
+		public const string MetafilePict		= "MetaFilePict";
+		public const string OemText				= "OEMText";
+		public const string Palette				= "Palette";
+		public const string PenData				= "PenData";
+		public const string Riff				= "RiffAudio";
+		public const string Rtf					= "Rich Text Format";
+		public const string Serializable		= "WindowsForms10PersistentObject";
+		public const string StringFormat		= "System.String";
+		public const string SymbolicLink		= "SymbolicLink";
+		public const string Text				= "Text";
+		public const string Tiff				= "Tiff";
+		public const string UnicodeText			= "UnicodeText";
+		public const string WaveAudio			= "WaveAudio";
 		#endregion	// Public Static Fields
 
 		private static object lock_object = new object ();
