@@ -21,10 +21,12 @@ namespace System.Windows.Forms.CocoaInternal
 		internal static DateTime IsGoingToPowerOfTime = DateTime.MinValue;
 		internal const double IsGoingToPowerOfMaxDelay = 30; // To pseudo-handle the case when shutdown is cancelled by another app.
 		internal bool DeactivateAppOnDraggingEnded = false;
+		internal NSMenu dockMenu;
 
-		public MonoApplicationDelegate (XplatUICocoa driver)
+		internal MonoApplicationDelegate (XplatUICocoa driver)
 		{
 			this.driver = driver;
+			this.dockMenu = new NSMenu();
 
 			XplatUICocoa.DraggingEnded += XplatUICocoa_DraggingEnded;
 
@@ -119,7 +121,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		internal bool TryOpenFiles(string[] filenames)
 		{
-			GCHandle gch;
+			GCHandle gch = new GCHandle();
 			try
 			{
 				gch = GCHandle.Alloc(filenames);
@@ -136,6 +138,26 @@ namespace System.Windows.Forms.CocoaInternal
 				if (gch.IsAllocated)
 					gch.Free();
 			}
+		}
+
+		public override NSMenu ApplicationDockMenu(NSApplication sender)
+		{
+			GCHandle gch = new GCHandle();
+			try
+			{
+				gch = GCHandle.Alloc(dockMenu);
+				driver.SendMessage(XplatUI.GetActive(), Msg.WM_DOCK_MENU, IntPtr.Zero, GCHandle.ToIntPtr(gch));
+			}
+			catch (Exception e)
+			{
+				DebugHelper.WriteLine($"Exception in WM_DOCK_MENU handler: {e}");
+			}
+			finally
+			{
+				if (gch.IsAllocated)
+					gch.Free();
+			}
+			return dockMenu;
 		}
 	}
 }

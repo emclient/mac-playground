@@ -375,6 +375,7 @@ namespace System.Windows.Forms
 		WM_ASYNC_MESSAGE          = 0x0403,
 		WM_SELECT_ALL             = 0x0404, // eM Client, to support macOS
 		WM_OPEN_FILES             = 0x0410, // NSApplicationDelegate support
+		WM_DOCK_MENU              = 0x0411, // NSApplicationDelegate support
 
 		WM_REFLECT                = WM_USER + 0x1c00,
 		WM_CLOSE_INTERNAL         = WM_USER + 0x1c01,
