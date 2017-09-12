@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 #if XAMARINMAC
 using AppKit;
@@ -103,6 +104,37 @@ namespace System.Windows.Forms.CocoaInternal
 			{
 				DeactivateAppOnDraggingEnded = false;
 				DoDeactivateApp();
+			}
+		}
+
+		public override bool OpenFile(NSApplication sender, string filename)
+		{
+			return TryOpenFiles(new string[] { filename });
+		}
+
+		public override void OpenFiles(NSApplication sender, string[] filenames)
+		{
+			TryOpenFiles(filenames);
+		}
+
+		internal bool TryOpenFiles(string[] filenames)
+		{
+			GCHandle gch;
+			try
+			{
+				gch = GCHandle.Alloc(filenames);
+				var result = driver.SendMessage(XplatUI.GetActive(), Msg.WM_OPEN_FILES, IntPtr.Zero, GCHandle.ToIntPtr(gch));
+				return result == IntPtr.Zero;
+			}
+			catch (Exception e)
+			{
+				DebugHelper.WriteLine($"Failed opening file(s) [{String.Join(",", filenames)}]: {e}");
+				return false;
+			}
+			finally
+			{
+				if (gch.IsAllocated)
+					gch.Free();
 			}
 		}
 	}
