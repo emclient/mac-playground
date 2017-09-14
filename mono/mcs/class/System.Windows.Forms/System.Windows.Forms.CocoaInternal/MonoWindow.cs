@@ -153,7 +153,7 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("windowWillResize:toSize:")]
 		internal virtual NSSize willResize(NSWindow sender, NSSize toFrameSize)
 		{
-			ToolStripManager.FireAppClicked();
+			//ToolStripManager.FireAppClicked();
 
 			//var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
 
