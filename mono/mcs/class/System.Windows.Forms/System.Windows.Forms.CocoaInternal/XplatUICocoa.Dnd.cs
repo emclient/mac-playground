@@ -172,16 +172,18 @@ namespace System.Windows.Forms
 			if (type == PasteboardTypeFileURLPromise && DraggedData is IDataObject idata)
 			{
 				var location = pasteboard.GetStringForType("com.apple.pastelocation");
-				var folder = new NSUrl(location).Path;
-
-				if (DraggedData is Runtime.InteropServices.ComTypes.IDataObject cdata)
+				if (!String.IsNullOrEmpty(location))
 				{
-					var filename = dndFilenames[dndCurrentFileIndex];
-					var unique = GenerateUniqueFilename(folder, filename);
-					var path = Path.Combine(folder, unique);
-					var stream = GetStream(cdata, dndCurrentFileIndex);
-					using (var outputStream = File.Create(path))
-						stream.CopyTo(outputStream);
+					var folder = new NSUrl(location).Path;
+					if (DraggedData is Runtime.InteropServices.ComTypes.IDataObject cdata)
+					{
+						var filename = dndFilenames[dndCurrentFileIndex];
+						var unique = GenerateUniqueFilename(folder, filename);
+						var path = Path.Combine(folder, unique);
+						var stream = GetStream(cdata, dndCurrentFileIndex);
+						using (var outputStream = File.Create(path))
+							stream.CopyTo(outputStream);
+					}
 				}
 			}
 		}
