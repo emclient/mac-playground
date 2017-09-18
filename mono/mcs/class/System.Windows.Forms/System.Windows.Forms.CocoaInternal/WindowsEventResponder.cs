@@ -71,31 +71,37 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void MouseDown(NSEvent theEvent)
 		{
+			ProcessModifiers((theEvent));
 			TranslateMouseEvent(theEvent);
 		}
 
 		public override void RightMouseDown(NSEvent theEvent)
 		{
+			ProcessModifiers((theEvent));
 			TranslateMouseEvent(theEvent);
 		}
 
 		public override void OtherMouseDown(NSEvent theEvent)
 		{
+			ProcessModifiers((theEvent));
 			TranslateMouseEvent(theEvent);
 		}
 
 		public override void MouseUp(NSEvent theEvent)
 		{
+			ProcessModifiers((theEvent));
 			TranslateMouseEvent(theEvent);
 		}
 
 		public override void RightMouseUp(NSEvent theEvent)
 		{
+			ProcessModifiers((theEvent));
 			TranslateMouseEvent(theEvent);
 		}
 
 		public override void OtherMouseUp(NSEvent theEvent)
 		{
+			ProcessModifiers((theEvent));
 			TranslateMouseEvent(theEvent);
 		}
 
