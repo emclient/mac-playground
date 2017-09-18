@@ -142,17 +142,22 @@ namespace System.Windows.Forms.CocoaInternal {
 
 		static object GetHTML(NSPasteboard pboard)
 		{
-			var data = pboard.GetDataForType(NSPasteboardTypeHTML);
-			if (data != null)
+			string html = pboard.GetStringForType(NSPasteboardTypeHTML);
+			if (html == null)
 			{
-				var html = data.ToString(NSStringEncoding.UTF8);
-				if (html == null)
-					html = data.ToString(NSStringEncoding.Unicode);
-				if (html != null)
+				var data = pboard.GetDataForType(NSPasteboardTypeHTML);
+				if (data != null)
 				{
-					var mshtml = AddMSClipboardMetadata(html.ToString());
-					return new MemoryStream(Encoding.UTF8.GetBytes(mshtml));
+					var s = NSString.FromData(data, NSStringEncoding.Unicode);
+					if (s == null)
+						s = NSString.FromData(data, NSStringEncoding.UTF8);
+					html = s?.ToString();
 				}
+			}
+			if (html != null)
+			{
+				var mshtml = AddMSClipboardMetadata(html);
+				return new MemoryStream(Encoding.UTF8.GetBytes(mshtml));
 			}
 			return null;
 		}
@@ -161,7 +166,10 @@ namespace System.Windows.Forms.CocoaInternal {
 		{
 			var data = pboard.GetDataForType(kUTTypeRTF);
 			if (data != null)
-				return data.ToString(NSStringEncoding.UTF8).ToString();
+			{
+				var s = NSString.FromData(data, NSStringEncoding.ASCIIStringEncoding)?.ToString();
+				return s;
+			}
 			return null;
 		}
 
@@ -177,22 +185,38 @@ namespace System.Windows.Forms.CocoaInternal {
 					if (index > 0)
 						s = s.Substring(index);
 
+					// Add as Apple HTML Web Archive
+					var mainRsrc = new NSMutableDictionary();
+					mainRsrc[(NSString)"WebResourceData"] = NSData.FromString(s, NSStringEncoding.UTF8);
+					mainRsrc[(NSString)"WebResourceFrameName"] = (NSString)"";
+					mainRsrc[(NSString)"WebResourceMIMEType"] = (NSString)"text/html";
+					mainRsrc[(NSString)"WebResourceTextEncodingName"] = (NSString)"UTF-8";
+					mainRsrc[(NSString)"WebResourceURL"] = (NSString)"about:blank";
+
+					var container = new NSMutableDictionary();
+					container[(NSString)"WebMainResource"] = mainRsrc;
+
+					var nsdata = NSPropertyListSerialization.DataWithPropertyList(container, NSPropertyListFormat.Xml, out NSError error);
+					var archive = NSString.FromData(nsdata, NSStringEncoding.UTF8);
+					//pboard.SetDataForType(nsdata, (NSString)"Apple Web Archive pasteboard type");
+
+
 					// Add as HTML
-					//var nsdata = NSData.FromString(s, NSStringEncoding.Unicode);
-					var nsdata = NSData.FromString(s, NSStringEncoding.UTF8);
+					nsdata = NSData.FromString(s, NSStringEncoding.Unicode);
+					//var nsdata = NSData.FromString(s, NSStringEncoding.UTF8);
 					pboard.SetDataForType(nsdata, NSPasteboardTypeHTML);
 
 					// Add as RTF
-					nsdata = NSData.FromString(s, NSStringEncoding.UTF8);
-					var options = new NSMutableDictionary();
-					options[(NSString)NSDocumentTypeDocumentAttribute] = (NSString)NSHTMLTextDocumentType;
-					options[(NSString)NSCharacterEncodingDocumentAttribute] = new NSNumber((ulong)NSStringEncoding.UTF8);
-					var rtf = new NSAttributedString(nsdata, options, out NSDictionary attributes, out NSError error);
+					//nsdata = NSData.FromString(s, NSStringEncoding.UTF8);
+					//var options = new NSMutableDictionary();
+					//options[(NSString)NSDocumentTypeDocumentAttribute] = (NSString)NSHTMLTextDocumentType;
+					//options[(NSString)NSCharacterEncodingDocumentAttribute] = new NSNumber((ulong)NSStringEncoding.UTF8);
+					//var rtf = new NSAttributedString(nsdata, options, out NSDictionary attributes, out NSError error);
 
-					options.Clear();
-					options[(NSString)NSDocumentTypeDocumentAttribute] = (NSString)NSRTFTextDocumentType;
-					nsdata = rtf.GetData(new NSRange(0, rtf.Length), options, out error);
-					pboard.SetDataForType(nsdata, kUTTypeRTF);
+					//options.Clear();
+					//options[(NSString)NSDocumentTypeDocumentAttribute] = (NSString)NSRTFTextDocumentType;
+					//nsdata = rtf.GetData(new NSRange(0, rtf.Length), options, out error);
+					//pboard.SetDataForType(nsdata, kUTTypeRTF);
 				}
 			}
 		}
