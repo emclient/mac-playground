@@ -386,25 +386,29 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("selectAll:")]
 		public virtual void SelectAll(NSObject sender)
 		{
-			driver.SendMessage(view.Handle, Msg.WM_SELECT_ALL, IntPtr.Zero, IntPtr.Zero);
+			SendCmdKey(view.Handle, VirtualKeys.VK_A);
+			//driver.SendMessage(view.Handle, Msg.WM_SELECT_ALL, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		[Export("copy:")]
 		public virtual void Copy(NSObject sender)
 		{
-			driver.SendMessage(view.Handle, Msg.WM_COPY, IntPtr.Zero, IntPtr.Zero);
+			SendCmdKey(view.Handle, VirtualKeys.VK_C);
+			//driver.SendMessage(view.Handle, Msg.WM_COPY, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		[Export("paste:")]
 		public virtual void Paste(NSObject sender)
 		{
-			driver.SendMessage(view.Handle, Msg.WM_PASTE, IntPtr.Zero, IntPtr.Zero);
+			SendCmdKey(view.Handle, VirtualKeys.VK_V);
+			//driver.SendMessage(view.Handle, Msg.WM_PASTE, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		[Export("cut:")]
 		public virtual void Cut(NSObject sender)
 		{
-			driver.SendMessage(view.Handle, Msg.WM_CUT, IntPtr.Zero, IntPtr.Zero);
+			SendCmdKey(view.Handle, VirtualKeys.VK_X);
+			//driver.SendMessage(view.Handle, Msg.WM_CUT, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		[Export("insertTab:")]
@@ -420,6 +424,16 @@ namespace System.Windows.Forms.CocoaInternal
 			if (!String.IsNullOrEmpty(str))
 				foreach (var c in str)
 					driver.PostMessage(view.Handle, Msg.WM_CHAR, (IntPtr)c, wmCharLParam);
+		}
+
+		void SendCmdKey(IntPtr hwnd, VirtualKeys key)
+		{
+			if (!cmdDown)
+				driver.SendMessage(hwnd, Msg.WM_KEYDOWN, (IntPtr)VirtualKeys.VK_LWIN, IntPtr.Zero);
+			driver.SendMessage(hwnd, Msg.WM_KEYDOWN, (IntPtr)key, (IntPtr)0x1080000);
+			driver.SendMessage(hwnd, Msg.WM_KEYUP, (IntPtr)key, (IntPtr)0x1080000);
+			if (!cmdDown)
+				driver.SendMessage(hwnd, Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_LWIN, IntPtr.Zero);
 		}
 	}
 }
