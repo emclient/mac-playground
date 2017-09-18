@@ -1,12 +1,19 @@
-﻿#if MONOMAC
+﻿#if MONOMAC || XAMARINMAC
 
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Windows.Forms.CocoaInternal;
+
+#if MONOMAC
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MonoMac.CoreGraphics;
-using System.Collections.Generic;
+#elif XAMARINMAC
+using AppKit;
+using Foundation;
+using CoreGraphics;
+#endif
 
 using R = System.Windows.Forms.MessageBoxFormResourcesMac;
 
@@ -69,7 +76,7 @@ namespace System.Windows.Forms
 			}
 
 			using (var c = new ModalDialogContext ()) {
-				int index = alert.RunModal() - (int)NSAlertButtonReturn.First;
+				int index = (int)alert.RunModal() - (int)NSAlertButtonReturn.First;
 				if (index >= buttons.Count)
 					return DialogResult.Cancel;
 				return buttons[index].Result;
