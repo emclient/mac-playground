@@ -393,6 +393,18 @@ namespace System.Windows.Forms
 		NIN_BALLOONUSERCLICK      = WM_USER + 0x0005 
 	}
 
+	#if PUBLIC_TYPES
+	public
+#else
+	internal
+#endif
+	enum MouseActivate {
+		MA_ACTIVATE          = 1,
+		MA_ACTIVATEANDEAT    = 2,
+		MA_NOACTIVATE        = 3,
+		MA_NOACTIVATEANDEAT  = 4,	
+	}
+
 #if PUBLIC_TYPES
 	public
 #else
