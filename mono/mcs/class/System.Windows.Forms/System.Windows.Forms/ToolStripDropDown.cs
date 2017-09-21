@@ -607,8 +607,8 @@ namespace System.Windows.Forms
 		{
 			base.OnHandleCreated (e);
 
-			if (Application.MWFThread.Current.Context != null && Application.MWFThread.Current.Context.MainForm != null)
-				XplatUI.SetOwner (this.Handle, Application.MWFThread.Current.Context.MainForm.Handle);
+			if (Form.ActiveForm != null)
+				XplatUI.SetOwner (this.Handle, Form.ActiveForm.Handle);
 		}
 
 		protected override void OnItemClicked (ToolStripItemClickedEventArgs e)
@@ -1013,7 +1013,7 @@ namespace System.Windows.Forms
 					return true;
 			}
 			
-			return false;
+			return base.ProcessArrowKey(keyData);
 		}
 
 		internal override ToolStripItem SelectNextToolStripItem (ToolStripItem start, bool forward)

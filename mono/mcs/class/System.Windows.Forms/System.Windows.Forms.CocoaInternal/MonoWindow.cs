@@ -80,6 +80,13 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			get
 			{
+				if (ContentView is MonoView monoView)
+				{
+					if (lastEventType == NSEventType.LeftMouseDown && (mouseActivate == MouseActivate.MA_NOACTIVATE || mouseActivate == MouseActivate.MA_NOACTIVATEANDEAT))
+						return false;
+					if (0 != (monoView.ExStyle & WindowExStyles.WS_EX_NOACTIVATE))
+						return false;
+				}
 				return true;
 			}
 		}
@@ -92,8 +99,13 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
+		IntPtr hitTestHandle = IntPtr.Zero;
+		MouseActivate mouseActivate = MouseActivate.MA_ACTIVATE;
+		NSEventType lastEventType = NSEventType.ApplicationDefined;
+
 		public override void SendEvent(NSEvent theEvent)
 		{
+			lastEventType = theEvent.Type;
 			var monoContentView = (MonoContentView)ContentView;
 
 			switch (theEvent.Type)
@@ -102,11 +114,36 @@ namespace System.Windows.Forms.CocoaInternal
 				case NSEventType.RightMouseDown:
 				case NSEventType.OtherMouseDown:
 				case NSEventType.BeginGesture:
-					var hitTest = (ContentView.Superview ?? ContentView).HitTest(theEvent.LocationInWindow);
+					hitTestHandle = (IntPtr)(ContentView.Superview ?? ContentView).HitTest(theEvent.LocationInWindow)?.Handle;
 					// Make sure any popup menus are closed when clicking on embedded NSView.
-					if (null == Control.FromHandle((IntPtr)hitTest?.Handle))
+					if (null == Control.FromHandle(hitTestHandle))
 						ToolStripManager.FireAppClicked();
 					break;
+
+				case NSEventType.KeyUp:
+				case NSEventType.KeyDown:
+					var toolstrip = Application.KeyboardCapture;
+					if (toolstrip != null)
+					{
+						var view = (NSView)ObjCRuntime.Runtime.GetNSObject(toolstrip.Handle);
+						if (view is MonoView monoView)
+						{
+							if (theEvent.Type == NSEventType.KeyDown)
+								monoView.eventReponder.KeyDown(theEvent);
+							else
+								monoView.eventReponder.KeyUp(theEvent);
+							return;
+						}
+					}
+					break;
+			}
+
+			if (theEvent.Type == NSEventType.LeftMouseDown)
+			{
+				var topLevelParent = IntPtr.Zero; // FIXME
+				mouseActivate = (MouseActivate)driver.SendMessage(ContentView.Handle, Msg.WM_MOUSEACTIVATE, topLevelParent, hitTestHandle).ToInt32();
+				if (mouseActivate == MouseActivate.MA_NOACTIVATEANDEAT)// || mouseActivate == MouseActivate.MA_ACTIVATEANDEAT)
+					return;
 			}
 
 			base.SendEvent(theEvent);
@@ -236,7 +273,6 @@ namespace System.Windows.Forms.CocoaInternal
 				MakeMainWindow();
 
 			// FIXME: Set LParam
-			// FIXME: WM_MOUSEACTIVATE
 			//driver.SendMessage(ContentView.Handle, Msg.WM_NCACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, (IntPtr)(-1));
 			driver.SendMessage(ContentView.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
 

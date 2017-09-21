@@ -1079,6 +1079,8 @@ namespace System.Windows.Forms {
 						monoView.DrawBorders();	
 					break;
 				}
+				case Msg.WM_MOUSEACTIVATE:
+					return new IntPtr((int)MouseActivate.MA_ACTIVATE); // Shoudn't we send it to the parent?
 			}
 			return IntPtr.Zero;
 		}
