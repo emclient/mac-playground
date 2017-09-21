@@ -1222,6 +1222,12 @@ namespace System.Windows.Forms
 
 		protected override void WndProc (ref Message m)
 		{
+			if (m.Msg == (int)Msg.WM_MOUSEACTIVATE)
+			{
+				m.Result = new IntPtr((int)MouseActivate.MA_NOACTIVATE);
+				return;
+			}
+
 			base.WndProc (ref m);
 		}
 		#endregion
@@ -1523,6 +1529,10 @@ namespace System.Windows.Forms
 			foreach (ToolStripItem tsi2 in this.Items)
 				if (tsi != tsi2)
 					tsi2.Dismiss (ToolStripDropDownCloseReason.Keyboard);
+
+			// Re-capture keyboard if sub-item has been closed
+			if (Application.KeyboardCapture != this)
+				this.KeyboardActive = true;
 		}
 		
 		internal virtual bool OnMenuKey ()
@@ -1577,6 +1587,20 @@ namespace System.Windows.Forms
 						(tsi as ToolStripControlHost).Focus ();
 
 					return true;
+				case Keys.Up:
+				case Keys.Down:
+					if (IsDropDown || Orientation != Orientation.Horizontal)
+					{
+						var direction = keyData == Keys.Down ? ArrowDirection.Down : ArrowDirection.Up;
+						tsi = GetCurrentlySelectedItem();
+						tsi = GetNextItem(tsi, direction);
+						if (tsi != null)
+						{
+							ChangeSelection(tsi);
+							return true;
+						}
+					}
+					break;
 			}
 
 			return false;

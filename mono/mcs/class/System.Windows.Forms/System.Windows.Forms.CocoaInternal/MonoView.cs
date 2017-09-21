@@ -50,7 +50,7 @@ namespace System.Windows.Forms.CocoaInternal
 	{
 		protected XplatUICocoa driver;
 		protected NSTrackingArea clientArea;
-		protected WindowsEventResponder eventReponder;
+		internal WindowsEventResponder eventReponder;
 		protected CGRect clientBounds;
 		internal bool inSetFocus;
 
