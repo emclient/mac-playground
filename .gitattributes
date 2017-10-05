@@ -78,6 +78,11 @@ FormsTest/Info.plist -text
 FormsTest/LayoutForm.Designer.cs -text
 FormsTest/LayoutForm.cs -text
 FormsTest/LayoutForm.resx -text
+FormsTest/LayoutIssues/ControlExpandablePanel.cs -text
+FormsTest/LayoutIssues/ControlExpandablePanel.resx -text
+FormsTest/LayoutIssues/ControlExpandablePanelAutodiscover.Designer.cs -text
+FormsTest/LayoutIssues/ControlExpandablePanelAutodiscover.cs -text
+FormsTest/LayoutIssues/ControlExpandablePanelAutodiscover.resx -text
 FormsTest/LayoutIssues/ControlRecurrence.Designer.cs -text
 FormsTest/LayoutIssues/ControlRecurrence.cs -text
 FormsTest/LayoutIssues/ControlRecurrence.resx -text

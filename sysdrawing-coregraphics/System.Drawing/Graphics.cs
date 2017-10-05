@@ -1346,6 +1346,9 @@ namespace System.Drawing {
 
 		public void ResetClip ()
 		{
+			LastPen = null;
+			LastBrush = null;
+
 			//Unlike the current path, the current clipping path is part of the graphics state. 
 			//Therefore, to re-enlarge the paintable area by restoring the clipping path to a 
 			//prior state, you must save the graphics state before you clip and restore the graphics 
