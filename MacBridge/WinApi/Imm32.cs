@@ -47,7 +47,7 @@ namespace WinApi
 
 		internal class ImmContex : NSObject
 		{
-			internal IntPtr hwnd;
+			internal IntPtr hwnd = IntPtr.Zero;
 		}
 	}
 }
