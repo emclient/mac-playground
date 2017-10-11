@@ -500,9 +500,9 @@ namespace System.Windows.Forms
 			if ((flags & TextFormatFlags.NoPadding) == 0 && (flags & TextFormatFlags.Right) == TextFormatFlags.Right) {
 				r.Width -= 4;
 			}
-			//if ((flags & TextFormatFlags.NoPadding) == TextFormatFlags.NoPadding) {
-			//	r.X -= 2;
-			//}
+			if ((flags & TextFormatFlags.NoPadding) == TextFormatFlags.NoPadding) {
+				r.X -= 1;
+			}
 			if ((flags & TextFormatFlags.NoPadding) == 0 && (flags & TextFormatFlags.Bottom) == TextFormatFlags.Bottom) {
 				r.Y += 1;
 			}
@@ -511,7 +511,7 @@ namespace System.Windows.Forms
 				r.Width -= 2;
 			}
 			if ((flags & TextFormatFlags.VerticalCenter) == TextFormatFlags.VerticalCenter && XplatUI.RunningOnUnix) {
-				r.Y -= 1;
+				//r.Y -= 1;
 			}
 
 			return r;
