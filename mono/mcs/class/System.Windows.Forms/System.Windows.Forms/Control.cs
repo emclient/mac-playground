@@ -2276,7 +2276,8 @@ namespace System.Windows.Forms
 			}
 
 			set {
-				SetBounds(value.Left, value.Top, value.Width, value.Height, BoundsSpecified.All);
+				if (bounds != value)
+					SetBounds(value.Left, value.Top, value.Width, value.Height, BoundsSpecified.All);
 			}
 		}
 
@@ -2776,7 +2777,10 @@ namespace System.Windows.Forms
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public int Height {
 			get { return this.bounds.Height; }
-			set { SetBounds(bounds.X, bounds.Y, bounds.Width, value, BoundsSpecified.Height); }
+			set { 
+				if (bounds.Height != value)
+					SetBounds(bounds.X, bounds.Y, bounds.Width, value, BoundsSpecified.Height);
+			}
 		}
 		
 		[AmbientValue(ImeMode.Inherit)]
@@ -2878,7 +2882,8 @@ namespace System.Windows.Forms
 			}
 
 			set {
-				SetBounds(value, bounds.Y, bounds.Width, bounds.Height, BoundsSpecified.X);
+				if (bounds.Left != value)
+					SetBounds(value, bounds.Y, bounds.Width, bounds.Height, BoundsSpecified.X);
 			}
 		}
 
@@ -3227,7 +3232,8 @@ namespace System.Windows.Forms
 			}
 
 			set {
-				SetBounds(bounds.X, value, bounds.Width, bounds.Height, BoundsSpecified.Y);
+				if (bounds.Top != value)
+					SetBounds(bounds.X, value, bounds.Width, bounds.Height, BoundsSpecified.Y);
 			}
 		}
 
@@ -3298,7 +3304,8 @@ namespace System.Windows.Forms
 			}
 
 			set {
-				SetBounds(bounds.X, bounds.Y, value, bounds.Height, BoundsSpecified.Width);
+				if (bounds.Width != value)
+					SetBounds(bounds.X, bounds.Y, value, bounds.Height, BoundsSpecified.Width);
 			}
 		}
 
@@ -3851,7 +3858,7 @@ namespace System.Windows.Forms
 				return;
 
 			if (rc.IsEmpty)
-				rc = ClientRectangle;
+				return;//rc = ClientRectangle;
 				
 			if  (rc.Width > 0 && rc.Height > 0) {
 
@@ -3860,15 +3867,14 @@ namespace System.Windows.Forms
 				XplatUI.Invalidate(Handle, rc, false);
 
 				if (invalidateChildren) {
-					Control [] controls = child_controls.GetAllControls ();
-					for (int i=0; i<controls.Length; i++)
-						controls [i].Invalidate ();
+					foreach (var control in child_controls.GetAllControls())
+						if (IntersectBoundsAndConvertTo(control, rc, out Rectangle r))
+							control.Invalidate(r);
 				} else {
-					// If any of our children are transparent, we
-					// have to invalidate them anyways
+					// If any of our children are transparent, we have to invalidate them anyways
 					foreach (Control c in Controls)
-						if (c.BackColor.A != 255)
-							c.Invalidate ();
+						if (IntersectBoundsAndConvertTo(c, rc, out Rectangle r) && c.BackColor.A != 255)
+							c.Invalidate(r);
 				}
 			}
 			OnInvalidated(new InvalidateEventArgs(rc));
@@ -3885,6 +3891,18 @@ namespace System.Windows.Forms
 				RectangleF bounds = region.GetBounds (g);
 				Invalidate (new Rectangle ((int) bounds.X, (int) bounds.Y, (int) bounds.Width, (int) bounds.Height), invalidateChildren);
 			}
+		}
+
+		internal bool IntersectBoundsAndConvertTo(Control control, Rectangle r, out Rectangle result)
+		{
+			r.Intersect(control.Bounds);
+			result = ConvertTo(r, control);
+			return result.Width != 0 && result.Height != 0;
+		}
+
+		internal Rectangle ConvertTo(Rectangle r, Control c)
+		{
+			return c.RectangleToClient(RectangleToScreen(r));
 		}
 
 		public object Invoke (Delegate method) {
