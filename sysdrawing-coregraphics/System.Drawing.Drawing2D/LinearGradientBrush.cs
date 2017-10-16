@@ -739,6 +739,22 @@ namespace System.Drawing.Drawing2D
 			return cgf;
 		}
 
+		public override bool Equals(object obj)
+		{
+			return (obj is LinearGradientBrush b)
+				&& wrapMode.Equals(b.wrapMode)
+				&& gammaCorrection.Equals(b.gammaCorrection)
+				&& gradientTransform.Equals(b.gradientTransform)
+				&& startPoint.Equals(b.startPoint)
+				&& endPoint.Equals(b.endPoint)
+				&& colors.Equals(b.colors)
+				&& blend.Equals(b.blend)
+				&& colorBlend.Equals(b.colorBlend)
+				&& blend.Equals(b.blend)
+				&& rectangle.Equals(b.rectangle)
+				&& angle.Equals(b.angle)
+				&& angleIsScalable == b.angleIsScalable;
+		}
 	}
 }
 
