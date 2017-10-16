@@ -1708,6 +1708,7 @@ sysdrawing-coregraphics/System.Drawing/GDIPlus.cs -text
 sysdrawing-coregraphics/System.Drawing/Graphics-DrawEllipticalArc.cs -text
 sysdrawing-coregraphics/System.Drawing/Graphics-DrawImage.cs -text
 sysdrawing-coregraphics/System.Drawing/Graphics-DrawString.cs -text
+sysdrawing-coregraphics/System.Drawing/Graphics-DrawStringCache.cs -text
 sysdrawing-coregraphics/System.Drawing/Graphics.cs -text
 sysdrawing-coregraphics/System.Drawing/Icon.cs -text
 sysdrawing-coregraphics/System.Drawing/Image.cs -text
@@ -1724,5 +1725,9 @@ sysdrawing-coregraphics/Utilities/ClipperLib/clipper.cs -text
 sysdrawing-coregraphics/Utilities/ConversionHelpers.cs -text
 sysdrawing-coregraphics/Utilities/GeomTransformUtils.cs -text
 sysdrawing-coregraphics/Utilities/GeomUtilities.cs -text
+sysdrawing-coregraphics/Utilities/HashUtilities.cs -text
 sysdrawing-coregraphics/Utilities/IClientView.cs -text
+sysdrawing-coregraphics/Utilities/IConcurrentDictionary.cs -text
+sysdrawing-coregraphics/Utilities/IDictionaryEx.cs -text
 sysdrawing-coregraphics/Utilities/Locale.cs -text
+sysdrawing-coregraphics/Utilities/LurchTable.cs -text

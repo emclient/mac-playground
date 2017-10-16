@@ -149,5 +149,21 @@ namespace System.Drawing {
 		{
 			throw new NotImplementedException ();
 		}
+
+		public override bool Equals(object obj)
+		{
+			return (obj is StringFormat f)
+				&& FormatFlags.Equals(f.FormatFlags)
+				&& HotkeyPrefix.Equals(f.HotkeyPrefix)
+				&& measurableCharacterRanges == f.measurableCharacterRanges
+				&& Alignment.Equals(f.Alignment)
+				&& LineAlignment.Equals(f.LineAlignment)
+				&& Trimming.Equals(f.Trimming);
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
 	}
 }
