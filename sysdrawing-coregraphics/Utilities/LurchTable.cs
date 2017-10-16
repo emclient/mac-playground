@@ -167,7 +167,7 @@ namespace System.Drawing
         /// </summary>
         public void Initialize()
         {
-            lock (this)
+            //lock (this)
             {
                 _freeVersion = _allocNext = 0;
                 _count = 0;
@@ -908,7 +908,7 @@ namespace System.Drawing
                 if (hash >= 0)
                 {
                     int bucket = hash % _hsize;
-                    lock (_locks[bucket % _lsize])
+                    //lock (_locks[bucket % _lsize])
                     {
                         if (index == _entries[0][0].Prev &&
                             hash == _entries[index >> _shift][index & _shiftMask].Hash)
@@ -981,7 +981,7 @@ namespace System.Drawing
                 if (hash >= 0)
                 {
                     int bucket = hash % _hsize;
-                    lock (_locks[bucket % _lsize])
+                    //lock (_locks[bucket % _lsize])
                     {
                         if (index == _entries[0][0].Prev &&
                             hash == _entries[index >> _shift][index & _shiftMask].Hash)
@@ -1057,7 +1057,7 @@ namespace System.Drawing
                 throw new ObjectDisposedException(GetType().Name);
 
             int bucket = hash % _hsize;
-            lock (_locks[bucket % _lsize])
+            //lock (_locks[bucket % _lsize])
             {
                 int index = _buckets[bucket];
                 while (index != 0)
@@ -1105,7 +1105,7 @@ namespace System.Drawing
         InsertResult InternalInsert<T>(int hash, TKey key, out int added, ref T value) where T : ICreateOrUpdateValue<TKey, TValue>
         {
             int bucket = hash % _hsize;
-            lock (_locks[bucket % _lsize])
+            //lock (_locks[bucket % _lsize])
             {
                 TValue temp;
                 int index = _buckets[bucket];
@@ -1173,7 +1173,7 @@ namespace System.Drawing
 
             int hash = _comparer.GetHashCode(key) & int.MaxValue;
             int bucket = hash % _hsize;
-            lock (_locks[bucket % _lsize])
+            //lock (_locks[bucket % _lsize])
             {
                 int prev = 0;
                 int index = _buckets[bucket];
@@ -1307,7 +1307,7 @@ namespace System.Drawing
                     }
                 }
 
-                lock (this)
+                //lock (this)
                 {
                     //time to grow...
                     if (ReferenceEquals(_entries, previous))

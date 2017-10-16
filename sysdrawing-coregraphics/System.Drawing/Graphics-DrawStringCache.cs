@@ -89,6 +89,9 @@ namespace System.Drawing
 
 		public Entry GetOrCreate(string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format, CreateDrawStringCacheEntryDelegate createEntryDelegate)
 		{
+			if (!enabled)
+				return createEntryDelegate(s, font, brush, layoutRectangle, format);
+			
 #if DEBUG
 			if (total % 1000 == 0)
 			{
@@ -99,12 +102,6 @@ namespace System.Drawing
 			++total;
 #endif
 
-			if (!enabled)
-			{
-				++miss;
-				return createEntryDelegate(s, font, brush, layoutRectangle, format);
-			}
-			
 			var key = GetKey(s, font, brush, layoutRectangle, format);
 			if (lurch.TryGetValue(key, out Entry c))
 				if (c.ConformsTo(s, font, brush, layoutRectangle, format))
