@@ -591,6 +591,11 @@
       <Link>External\Duplex.cs</Link>
     </Compile>
     <Compile Include="System.Drawing.Mac\Extensions.cs" />
+    <Compile Include="Utilities\LurchTable.cs" />
+    <Compile Include="Utilities\IConcurrentDictionary.cs" />
+    <Compile Include="Utilities\IDictionaryEx.cs" />
+    <Compile Include="Utilities\HashUtilities.cs" />
+    <Compile Include="System.Drawing\Graphics-DrawStringCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Mono.ico">
