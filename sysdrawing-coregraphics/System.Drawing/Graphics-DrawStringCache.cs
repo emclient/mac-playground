@@ -17,6 +17,7 @@ namespace System.Drawing
 			public RectangleF layoutRectangle;
 			public StringFormat format;
 
+			// Outputs
 			public bool layoutAvailable;
 			public RectangleF insetBounds;
 			public float boundsWidth;
@@ -47,7 +48,7 @@ namespace System.Drawing
 			}
 		}
 
-		public delegate DrawStringCache.Entry CreateDrawStringCacheEntryDelegate(string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format);
+		public delegate Entry CreateEntryDelegate(string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format);
 
 		protected LurchTable<string, Entry> lurch;
 		protected bool enabled;
@@ -87,7 +88,7 @@ namespace System.Drawing
 			return $"{c.R:X2}{c.G:X2}{c.B:X2}{c.A:X2}";
 		}
 
-		public Entry GetOrCreate(string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format, CreateDrawStringCacheEntryDelegate createEntryDelegate)
+		public Entry GetOrCreate(string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format, CreateEntryDelegate createEntryDelegate)
 		{
 			if (!enabled)
 				return createEntryDelegate(s, font, brush, layoutRectangle, format);
@@ -95,7 +96,7 @@ namespace System.Drawing
 #if DEBUG
 			if (total % 1000 == 0)
 			{
-				Console.WriteLine($"hit:{total - miss}, miss:{miss}");
+				Console.WriteLine($"draw cache hit:{total - miss}, miss:{miss}, size:{lurch.Count}");
 				total = miss = 0;
 			}
 
@@ -113,4 +114,87 @@ namespace System.Drawing
 			return lurch[key] = createEntryDelegate(s, font, brush, layoutRectangle, format);
 		}
 	}
+
+	internal class MeasureStringCache
+	{
+		public class Entry
+		{
+			public string text;
+			public Font font;
+			public SizeF layoutArea;
+			public StringFormat format;
+
+			// Outputs
+			public int charactersFitted = 0;
+			public int linesFilled = 0;
+			public SizeF measure = SizeF.Empty;
+
+			public Entry(string text, Font font, SizeF layoutArea, StringFormat format)
+			{
+				this.text = text;
+				this.font = font;
+				this.layoutArea = layoutArea;
+				this.format = format;
+			}
+
+			public bool ConformsTo(string text, Font font, SizeF layoutArea, StringFormat format)
+			{
+				return
+					this.text.Equals(text)
+						&& this.font.Equals(font)
+						&& this.layoutArea.Equals(layoutArea)
+						&& this.format.Equals(format);
+			}
+		}
+
+		public delegate Entry CreateEntryDelegate(string s, Font font, SizeF layoutArea, StringFormat format);
+
+		protected LurchTable<string, Entry> lurch;
+		protected bool enabled;
+
+#if DEBUG
+		int total = 0;
+		int miss = 0;
+#endif
+
+		public MeasureStringCache(int capacity, bool enabled = true)
+		{
+			this.enabled = enabled;
+			lurch = new LurchTable<string, Entry>(capacity);
+		}
+
+		public string GetKey(string s, Font font, SizeF layoutArea, StringFormat format)
+		{
+			var fnt = $"{font.Name }|{font.Size}|{(font.Italic ? '1' : '0')}{(font.Underline ? '1' : '0')}{(font.Strikeout ? '1' : '0')}";
+			var fmt = $"{format.FormatFlags}|{format.HotkeyPrefix}|{format.Alignment}|{format.LineAlignment}|{format.Trimming}";
+			return $"{s}|{layoutArea.Width},{layoutArea.Height}|{fnt}|{format}";
+		}
+
+		internal Entry GetOrCreate(string text, Font font, SizeF layoutArea, StringFormat format, CreateEntryDelegate createEntryDelegate)
+		{
+			if (!enabled)
+				return createEntryDelegate(text, font, layoutArea, format);
+
+#if DEBUG
+			if (total % 1000 == 0)
+			{
+				Console.WriteLine($"measure cache hit:{total - miss}, miss:{miss}, size:{lurch.Count}");
+				total = miss = 0;
+			}
+
+			++total;
+#endif
+
+			var key = GetKey(text, font, layoutArea, format);
+			if (lurch.TryGetValue(key, out Entry c))
+				if (c.ConformsTo(text, font, layoutArea, format))
+					return c;
+
+#if DEBUG
+			++miss;
+#endif
+			return lurch[key] = createEntryDelegate(text, font, layoutArea, format);
+		}
+	}
+
 }
