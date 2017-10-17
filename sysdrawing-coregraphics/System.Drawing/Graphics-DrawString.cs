@@ -338,9 +338,9 @@ namespace System.Drawing
 
 			if ((c.format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
 			{
-				c.verticalMatrix = CGAffineTransform.MakeTranslation(-c.layoutRectangle.X, -c.layoutRectangle.Y);
+				c.verticalMatrix = CGAffineTransform.MakeTranslation(-offset.X, -offset.Y);
 				c.verticalMatrix.Rotate((float)NMath.PI * 0.5f);
-				c.verticalMatrix.Translate(c.layoutRectangle.X, c.layoutRectangle.Y);
+				c.verticalMatrix.Translate(offset.X, offset.Y);
 				if (c.layoutAvailable)
 					c.verticalMatrix.Translate(c.layoutRectangle.Width, 0);
 				else
