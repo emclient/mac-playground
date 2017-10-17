@@ -2778,8 +2778,7 @@ namespace System.Windows.Forms
 		public int Height {
 			get { return this.bounds.Height; }
 			set { 
-				if (bounds.Height != value)
-					SetBounds(bounds.X, bounds.Y, bounds.Width, value, BoundsSpecified.Height);
+				SetBounds(bounds.X, bounds.Y, bounds.Width, value, BoundsSpecified.Height);
 			}
 		}
 		
@@ -2882,8 +2881,7 @@ namespace System.Windows.Forms
 			}
 
 			set {
-				if (bounds.Left != value)
-					SetBounds(value, bounds.Y, bounds.Width, bounds.Height, BoundsSpecified.X);
+				SetBounds(value, bounds.Y, bounds.Width, bounds.Height, BoundsSpecified.X);
 			}
 		}
 
@@ -3232,8 +3230,7 @@ namespace System.Windows.Forms
 			}
 
 			set {
-				if (bounds.Top != value)
-					SetBounds(bounds.X, value, bounds.Width, bounds.Height, BoundsSpecified.Y);
+				SetBounds(bounds.X, value, bounds.Width, bounds.Height, BoundsSpecified.Y);
 			}
 		}
 
@@ -3304,8 +3301,7 @@ namespace System.Windows.Forms
 			}
 
 			set {
-				if (bounds.Width != value)
-					SetBounds(bounds.X, bounds.Y, value, bounds.Height, BoundsSpecified.Width);
+				SetBounds(bounds.X, bounds.Y, value, bounds.Height, BoundsSpecified.Width);
 			}
 		}
 
@@ -4270,9 +4266,11 @@ namespace System.Windows.Forms
 			if ((specified & BoundsSpecified.Height) == 0)
 				height = Height;
 		
+			var bounds_changed = bounds.X != x || bounds.Y != y || bounds.Width != width || bounds.Height != height;
+
 			SetBoundsCore(x, y, width, height, specified);
 
-			if (parent != null)
+			if (parent != null && bounds_changed)
 				parent.PerformLayout(this, "Bounds");
 		}
 
