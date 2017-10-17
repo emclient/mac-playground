@@ -33,6 +33,7 @@ namespace System.Drawing
 
 		const int DrawStringCacheCapacity = 2000;
 		static DrawStringCache DrawStringCache = new DrawStringCache(DrawStringCacheCapacity);
+		static MeasureStringCache MeasureStringCache = new MeasureStringCache(DrawStringCacheCapacity);
 
 		public Region[] MeasureCharacterRanges(string text, Font font, RectangleF layoutRect, StringFormat stringFormat)
 		{
@@ -103,49 +104,51 @@ namespace System.Drawing
 		static long measureStringCount = 0;
 		static Diagnostics.Stopwatch measureStringStopWatch = new Diagnostics.Stopwatch();
 
-		public SizeF MeasureStringInternal(string text, Font font, SizeF layoutArea, StringFormat stringFormat, out int charactersFitted, out int linesFilled)
+		public SizeF MeasureStringInternal(string text, Font font, SizeF layoutArea, StringFormat format, out int charactersFitted, out int linesFilled)
 		{
 #endif
-			charactersFitted = 0;
-			linesFilled = 0;
-
 			if (font == null)
-				throw new ArgumentNullException("font");
+				throw new ArgumentNullException(nameof(font));
+
+			var c = MeasureStringCache.GetOrCreate(text, font, layoutArea, format ?? StringFormat.GenericDefault, CreateMeasureStringCacheEntry);
+			charactersFitted = c.charactersFitted;
+			linesFilled = c.linesFilled;
+			return c.measure;
+		}
+
+		internal MeasureStringCache.Entry CreateMeasureStringCacheEntry(string text, Font font, SizeF layoutArea, StringFormat format)
+		{
+			var c = new MeasureStringCache.Entry(text, font, layoutArea, format);
 			if (String.IsNullOrEmpty(text))
-				return SizeF.Empty;
+				return c;
 
-			var atts = buildAttributedString(text, font, stringFormat);
-			var measure = SizeF.Empty;
+			var atts = buildAttributedString(text, font, format);
 
-			if ((stringFormat.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
-			{
+			if ((format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
 				layoutArea = new SizeF(layoutArea.Height, layoutArea.Width);
-			}
 
 			float lineHeight = (float)NMath.Ceiling(font.nativeFont.AscentMetric + font.nativeFont.DescentMetric + font.nativeFont.LeadingMetric + 1);
-			var lines = CreateLines(font, atts, layoutArea, stringFormat, lineHeight);
+			var lines = CreateLines(font, atts, layoutArea, format, lineHeight);
 			foreach (var line in lines)
 			{
 				if (line != null)
 				{
 					nfloat ascent, descent, leading;
 					var lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
-					if ((stringFormat.FormatFlags & StringFormatFlags.MeasureTrailingSpaces) != 0)
+					if ((format.FormatFlags & StringFormatFlags.MeasureTrailingSpaces) != 0)
 						lineWidth += line.TrailingWhitespaceWidth;
-					measure.Width = Math.Max(measure.Width, (float)NMath.Ceiling((float)lineWidth));
-					charactersFitted += (int)line.StringRange.Length;
+					c.measure.Width = Math.Max(c.measure.Width, (float)NMath.Ceiling((float)lineWidth));
+					c.charactersFitted += (int)line.StringRange.Length;
 					line.Dispose();
 				}
-				measure.Height += lineHeight;
-				linesFilled++;
+				c.measure.Height += lineHeight;
+				c.linesFilled++;
 			}
 
-			if ((stringFormat.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
-			{
-				return new SizeF(measure.Height, measure.Width);
-			}
+			if ((format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
+				c.measure = new SizeF(c.measure.Height, c.measure.Width);
 
-			return measure;
+			return c;
 		}
 
 		public void DrawString(string s, Font font, Brush brush, PointF point, StringFormat format = null)
