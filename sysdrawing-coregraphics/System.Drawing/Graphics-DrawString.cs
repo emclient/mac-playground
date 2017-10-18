@@ -65,9 +65,9 @@ namespace System.Drawing
 			return MeasureString(text, font, new SizeF(width, float.MaxValue), StringFormat.GenericDefault, out int charactersFitted, out int linesFilled);
 		}
 
-		public SizeF MeasureString(string text, Font font, SizeF layoutArea)
+		public SizeF MeasureString(string text, Font font, SizeF area)
 		{
-			return MeasureString(text, font, layoutArea, StringFormat.GenericDefault, out int charactersFitted, out int linesFilled);
+			return MeasureString(text, font, area, StringFormat.GenericDefault, out int charactersFitted, out int linesFilled);
 		}
 
 		public SizeF MeasureString(string text, Font font, PointF point, StringFormat stringFormat)
@@ -75,9 +75,9 @@ namespace System.Drawing
 			throw new NotImplementedException();
 		}
 
-		public SizeF MeasureString(string text, Font font, SizeF layoutArea, StringFormat stringFormat)
+		public SizeF MeasureString(string text, Font font, SizeF area, StringFormat stringFormat)
 		{
-			return MeasureString(text, font, layoutArea, stringFormat, out int charactersFitted, out int linesFilled);
+			return MeasureString(text, font, area, stringFormat, out int charactersFitted, out int linesFilled);
 		}
 
 		public SizeF MeasureString(string text, Font font, int width, StringFormat stringFormat)
@@ -85,12 +85,12 @@ namespace System.Drawing
 			return MeasureString(text, font, new SizeF(width, float.MaxValue), stringFormat, out int charactersFitted, out int linesFilled);
 		}
 
-		public SizeF MeasureString(string text, Font font, SizeF layoutArea, StringFormat format, out int charactersFitted, out int linesFilled)
+		public SizeF MeasureString(string text, Font font, SizeF area, StringFormat format, out int charactersFitted, out int linesFilled)
 		{
 #if DEBUG
 			++measureStringCount;
 			measureStringStopWatch.Start();
-			var result = MeasureStringInternal(text, font, layoutArea, format ?? StringFormat.GenericDefault,, out charactersFitted, out linesFilled);
+			var result = MeasureStringInternal(text, font, area, format ?? StringFormat.GenericDefault, out charactersFitted, out linesFilled);
 			measureStringStopWatch.Stop();
 
 			if (measureStringCount % 1000 == 0)
@@ -104,31 +104,31 @@ namespace System.Drawing
 		static long measureStringCount = 0;
 		static Diagnostics.Stopwatch measureStringStopWatch = new Diagnostics.Stopwatch();
 
-		public SizeF MeasureStringInternal(string text, Font font, SizeF layoutArea, StringFormat format, out int charactersFitted, out int linesFilled)
+		public SizeF MeasureStringInternal(string text, Font font, SizeF area, StringFormat format, out int charactersFitted, out int linesFilled)
 		{
 #endif
 			if (font == null)
 				throw new ArgumentNullException(nameof(font));
 
-			var c = MeasureStringCache.GetOrCreate(text, font, layoutArea, format ?? StringFormat.GenericDefault, CreateMeasureStringCacheEntry);
+			var c = MeasureStringCache.GetOrCreate(text, font, area, format ?? StringFormat.GenericDefault, CreateMeasureStringCacheEntry);
 			charactersFitted = c.charactersFitted;
 			linesFilled = c.linesFilled;
 			return c.measure;
 		}
 
-		internal MeasureStringCache.Entry CreateMeasureStringCacheEntry(string text, Font font, SizeF layoutArea, StringFormat format)
+		internal MeasureStringCache.Entry CreateMeasureStringCacheEntry(string text, Font font, SizeF area, StringFormat format)
 		{
-			var c = new MeasureStringCache.Entry(text, font, layoutArea, format);
+			var c = new MeasureStringCache.Entry(text, font, area, format);
 			if (String.IsNullOrEmpty(text))
 				return c;
 
 			var atts = buildAttributedString(text, font, format);
 
 			if ((format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
-				layoutArea = new SizeF(layoutArea.Height, layoutArea.Width);
+				area = new SizeF(area.Height, area.Width);
 
 			float lineHeight = (float)NMath.Ceiling(font.nativeFont.AscentMetric + font.nativeFont.DescentMetric + font.nativeFont.LeadingMetric + 1);
-			var lines = CreateLines(font, atts, layoutArea, format, lineHeight);
+			var lines = CreateLines(font, atts, area, format, lineHeight);
 			foreach (var line in lines)
 			{
 				if (line != null)
