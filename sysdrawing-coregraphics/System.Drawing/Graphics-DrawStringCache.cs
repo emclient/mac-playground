@@ -19,13 +19,11 @@ namespace System.Drawing
 
 			// Outputs
 			public bool layoutAvailable;
-			public RectangleF insetBounds;
 			public float boundsWidth;
 			public float boundsHeight;
 			public float lineHeight;
 			public List<CTLine> lines;
 			public CGAffineTransform verticalMatrix;
-			public NSAttributedString attributedString;
 			public PointF textPosition;
 
 			public Entry(string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format)
