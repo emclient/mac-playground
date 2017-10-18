@@ -85,12 +85,12 @@ namespace System.Drawing
 			return MeasureString(text, font, new SizeF(width, float.MaxValue), stringFormat, out int charactersFitted, out int linesFilled);
 		}
 
-		public SizeF MeasureString(string text, Font font, SizeF layoutArea, StringFormat stringFormat, out int charactersFitted, out int linesFilled)
+		public SizeF MeasureString(string text, Font font, SizeF layoutArea, StringFormat format, out int charactersFitted, out int linesFilled)
 		{
 #if DEBUG
 			++measureStringCount;
 			measureStringStopWatch.Start();
-			var result = MeasureStringInternal(text, font, layoutArea, stringFormat, out charactersFitted, out linesFilled);
+			var result = MeasureStringInternal(text, font, layoutArea, format ?? StringFormat.GenericDefault,, out charactersFitted, out linesFilled);
 			measureStringStopWatch.Stop();
 
 			if (measureStringCount % 1000 == 0)
