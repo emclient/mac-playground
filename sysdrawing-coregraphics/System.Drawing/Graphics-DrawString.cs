@@ -264,15 +264,15 @@ namespace System.Drawing
 			var c = new DrawStringCache.Entry(s, font, brush, layoutRectangle, format);
 
 			brush.Setup(this, false); // Stroke
-			c.attributedString = buildAttributedString(s, font, format, lastBrushColor);
+			var attributedString = buildAttributedString(s, font, format, lastBrushColor);
 
 			// Work out the geometry
 			c.layoutAvailable = true;
-			c.insetBounds = layoutRectangle;
-			if (c.insetBounds.Size == SizeF.Empty)
+			var insetBounds = layoutRectangle;
+			if (insetBounds.Size == SizeF.Empty)
 			{
-				c.insetBounds.Width = (float)boundingBox.Width;
-				c.insetBounds.Height = (float)boundingBox.Height;
+				insetBounds.Width = (float)boundingBox.Width;
+				insetBounds.Height = (float)boundingBox.Height;
 				c.layoutAvailable = false;
 			}
 
@@ -284,16 +284,16 @@ namespace System.Drawing
 			// If we are drawing vertical direction then we need to rotate our context transform by 90 degrees
 			if ((format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical) {
 				// Swap out the width and height and calculate the lines
-				c.lines = CreateLines(font, c.attributedString, new SizeF(c.insetBounds.Height, c.insetBounds.Width), format, c.lineHeight);
-				c.boundsWidth = c.insetBounds.Height;
-				c.boundsHeight = c.insetBounds.Width;
+				c.lines = CreateLines(font, attributedString, new SizeF(insetBounds.Height, insetBounds.Width), format, c.lineHeight);
+				c.boundsWidth = insetBounds.Height;
+				c.boundsHeight = insetBounds.Width;
 			} else {
-				c.lines = CreateLines(font, c.attributedString, c.insetBounds.Size, format, c.lineHeight);
-				c.boundsWidth = c.insetBounds.Width;
-				c.boundsHeight = c.insetBounds.Height;
+				c.lines = CreateLines(font, attributedString, insetBounds.Size, format, c.lineHeight);
+				c.boundsWidth = insetBounds.Width;
+				c.boundsHeight = insetBounds.Height;
 			}
 
-			c.textPosition = new PointF(c.insetBounds.X + .5f, c.insetBounds.Y + .5f);
+			c.textPosition = new PointF(insetBounds.X + .5f, insetBounds.Y + .5f);
 			if (c.layoutAvailable)
 			{
 				if (format.LineAlignment == StringAlignment.Far)
