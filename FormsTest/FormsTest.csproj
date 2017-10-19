@@ -168,15 +168,6 @@
     <Compile Include="LayoutIssues\FormLinkMessageBox\FormLinkMessageBox.Designer.cs">
       <DependentUpon>FormLinkMessageBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="LayoutIssues\ControlExpandablePanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="LayoutIssues\ControlExpandablePanelAutodiscover.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="LayoutIssues\ControlExpandablePanelAutodiscover.Designer.cs">
-      <DependentUpon>ControlExpandablePanelAutodiscover.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
@@ -223,12 +214,6 @@
     <EmbeddedResource Include="LayoutIssues\FormLinkMessageBox\FormLinkMessageBox.resx">
       <DependentUpon>FormLinkMessageBox.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LayoutIssues\ControlExpandablePanel.resx">
-      <DependentUpon>ControlExpandablePanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LayoutIssues\ControlExpandablePanelAutodiscover.resx">
-      <DependentUpon>ControlExpandablePanelAutodiscover.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

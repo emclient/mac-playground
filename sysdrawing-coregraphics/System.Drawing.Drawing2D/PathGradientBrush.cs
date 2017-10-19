@@ -705,20 +705,6 @@ namespace System.Drawing.Drawing2D {
         	colorOutput [2] = resBlue / 255f; 
         	colorOutput [3] = resAlpha / 255f;
 		}
-		public override bool Equals(object obj)
-		{
-			return (obj is PathGradientBrush b)
-				&& pathPoints.Equals(b.pathPoints)
-				&& wrapMode.Equals(b.wrapMode)
-				&& gradientTransform.Equals(b.gradientTransform)
-	            && centerColor.Equals(b.centerColor)
-	            && focusScales.Equals(b.focusScales)
-	            && surroundColors.Equals(b.surroundColors)
-	            && colorBlend.Equals(b.colorBlend)
-	            && rectangle.Equals(b.rectangle)
-	            && centerPoint.Equals(b.centerPoint)
-	            && polygonWinding.Equals(b.polygonWinding)
-				&& blend.Equals(b.blend);
-		}
+
 	}
 }

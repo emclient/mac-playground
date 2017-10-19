@@ -747,8 +747,8 @@ namespace WinApi
 
 		internal class KeyStroke
 		{
-			public ushort KeyCode = 0;
-			public bool Down = true;
+			public ushort KeyCode;
+			public bool Down;
 		}
 			                                                   
 		internal static IEnumerable<KeyStroke> ToKeyStrokes(INPUT input)

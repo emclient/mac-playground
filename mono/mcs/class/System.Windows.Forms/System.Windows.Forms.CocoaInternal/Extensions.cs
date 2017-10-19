@@ -134,11 +134,6 @@ namespace System.Windows.Forms.Mac
 			var ok = LibObjc.bool_objc_msgSend_IntPtr_IntPtr(item.Handle, sel.Handle, provider.Handle, array.Handle);
 		}
 
-        public static T GetItem<T>(this NSArray array, uint index) where T : NSObject
-        {
-            return (T)ObjCRuntime.Runtime.GetNSObject(array.ValueAt(index));
-        }
-
 #elif XAMARINMAC
 		public static INSPasteboardWriting AsPasteboardWriting(this NSObject self)
 		{
