@@ -1366,5 +1366,13 @@ namespace System.Drawing.Drawing2D
 			// I am setting this to be used for Text coloring in DrawString
 			graphics.lastBrushColor = foreColor;
 		}
+
+		public override bool Equals(object obj)
+		{
+			return (obj is HatchBrush hb)
+				&& backColor.Equals(hb.backColor)
+				&& foreColor.Equals(hb.foreColor)
+				&& hatchStyle.Equals(hb.hatchStyle);
+		}
 	}
 }

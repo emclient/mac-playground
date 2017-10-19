@@ -164,18 +164,11 @@ namespace System.Drawing {
 			}
 
 			if (client) {
-				var clientView = view as IClientView;
-				if (clientView != null) {
+				if (view is IClientView clientView) {
 					var clientBounds = clientView.ClientBounds;
+					g.context.ClipToRect(new CGRect(clientBounds.Left, clientBounds.Top, clientBounds.Width, clientBounds.Height));
 					g.context.SaveState();
-					g.context.TranslateCTM(
-						clientBounds.Left,
-						clientBounds.Top);
-					g.context.ClipToRect(new CGRect(
-						0,
-						0,
-						clientBounds.Width,
-						clientBounds.Height));
+					g.context.TranslateCTM(clientBounds.Left, clientBounds.Top);
 					g.hasClientTransform = true;
 				}
 			}
@@ -1090,7 +1083,7 @@ namespace System.Drawing {
 		{
 			// We need to reset the clip that is active now so that the graphic
 			// states are correct when we set them.
-			ResetClip();
+			ResetNativeClip();
 
 			switch (combineMode) 
 			{
@@ -1346,16 +1339,25 @@ namespace System.Drawing {
 
 		public void ResetClip ()
 		{
+			ResetNativeClip();
+			clipRegion.MakeInfinite();
+		}
+
+		public void ResetNativeClip()
+		{
+			LastPen = null;
+			LastBrush = null;
+
 			//Unlike the current path, the current clipping path is part of the graphics state. 
 			//Therefore, to re-enlarge the paintable area by restoring the clipping path to a 
 			//prior state, you must save the graphics state before you clip and restore the graphics 
 			//state after you’ve completed any clipped drawing.
-			context.RestoreState ();
-			context.SaveState ();
-			modelViewMatrix.Reset ();
-			applyModelView ();
+			context.RestoreState();
+			context.SaveState();
+			modelViewMatrix.Reset();
+			applyModelView();
 		}
-		
+
 		public void ExcludeClip (Rectangle rect)
 		{
 			SetClip ((RectangleF)rect, CombineMode.Exclude);

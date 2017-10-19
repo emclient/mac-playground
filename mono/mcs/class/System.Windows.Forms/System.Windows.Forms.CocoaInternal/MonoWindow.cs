@@ -241,7 +241,7 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			//var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
 			//if (hwnd != null)
-			resizeWinForm();
+			//resizeWinForm();
 		}
 
 		[Export("windowDidChangeScreen:")]
