@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -48,7 +48,9 @@
     <OutputPath>bin\Mono - Debug\</OutputPath>
     <DefineConstants>DEBUG;NO_CARBON;NO_GTK;NO_X11; MONOMAC; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5;MACOS_THEME</DefineConstants>
     <DebugType>full</DebugType>
-    <ErrorReport>prompt</ErrorReport>    <WarningLevel>4</WarningLevel>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
     <NoStdLib>false</NoStdLib>
     <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
@@ -59,7 +61,9 @@
     <OutputPath>bin\Xamarin - Debug\</OutputPath>
     <DefineConstants>DEBUG;NO_CARBON;NO_GTK;NO_X11; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5;XAMARINMAC;__UNIFIED__;MACOS_THEME</DefineConstants>
     <DebugType>full</DebugType>
-    <ErrorReport>prompt</ErrorReport>    <WarningLevel>4</WarningLevel>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
     <NoStdLib>false</NoStdLib>
     <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
@@ -70,7 +74,9 @@
     <OutputPath>bin\Xamarin-Release\</OutputPath>
     <DefineConstants>NO_CARBON;NO_GTK;NO_X11; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5;XAMARINMAC;__UNIFIED__;MACOS_THEME</DefineConstants>
     <DebugType>none</DebugType>
-    <ErrorReport>prompt</ErrorReport>    <WarningLevel>4</WarningLevel>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
     <Optimize>true</Optimize>
     <NoStdLib>false</NoStdLib>
     <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>

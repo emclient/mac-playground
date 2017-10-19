@@ -2276,8 +2276,7 @@ namespace System.Windows.Forms
 			}
 
 			set {
-				if (bounds != value)
-					SetBounds(value.Left, value.Top, value.Width, value.Height, BoundsSpecified.All);
+				SetBounds(value.Left, value.Top, value.Width, value.Height, BoundsSpecified.All);
 			}
 		}
 
@@ -2777,9 +2776,7 @@ namespace System.Windows.Forms
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public int Height {
 			get { return this.bounds.Height; }
-			set { 
-				SetBounds(bounds.X, bounds.Y, bounds.Width, value, BoundsSpecified.Height);
-			}
+			set { SetBounds(bounds.X, bounds.Y, bounds.Width, value, BoundsSpecified.Height); }
 		}
 		
 		[AmbientValue(ImeMode.Inherit)]
@@ -3854,7 +3851,7 @@ namespace System.Windows.Forms
 				return;
 
 			if (rc.IsEmpty)
-				return;//rc = ClientRectangle;
+				rc = ClientRectangle;
 				
 			if  (rc.Width > 0 && rc.Height > 0) {
 
@@ -3863,14 +3860,15 @@ namespace System.Windows.Forms
 				XplatUI.Invalidate(Handle, rc, false);
 
 				if (invalidateChildren) {
-					foreach (var control in child_controls.GetAllControls())
-						if (IntersectBoundsAndConvertTo(control, rc, out Rectangle r))
-							control.Invalidate(r);
+					Control [] controls = child_controls.GetAllControls ();
+					for (int i=0; i<controls.Length; i++)
+						controls [i].Invalidate ();
 				} else {
-					// If any of our children are transparent, we have to invalidate them anyways
+					// If any of our children are transparent, we
+					// have to invalidate them anyways
 					foreach (Control c in Controls)
-						if (IntersectBoundsAndConvertTo(c, rc, out Rectangle r) && c.BackColor.A != 255)
-							c.Invalidate(r);
+						if (c.BackColor.A != 255)
+							c.Invalidate ();
 				}
 			}
 			OnInvalidated(new InvalidateEventArgs(rc));
@@ -3887,18 +3885,6 @@ namespace System.Windows.Forms
 				RectangleF bounds = region.GetBounds (g);
 				Invalidate (new Rectangle ((int) bounds.X, (int) bounds.Y, (int) bounds.Width, (int) bounds.Height), invalidateChildren);
 			}
-		}
-
-		internal bool IntersectBoundsAndConvertTo(Control control, Rectangle r, out Rectangle result)
-		{
-			r.Intersect(control.Bounds);
-			result = ConvertTo(r, control);
-			return result.Width != 0 && result.Height != 0;
-		}
-
-		internal Rectangle ConvertTo(Rectangle r, Control c)
-		{
-			return c.RectangleToClient(RectangleToScreen(r));
 		}
 
 		public object Invoke (Delegate method) {
@@ -4266,11 +4252,9 @@ namespace System.Windows.Forms
 			if ((specified & BoundsSpecified.Height) == 0)
 				height = Height;
 		
-			var bounds_changed = bounds.X != x || bounds.Y != y || bounds.Width != width || bounds.Height != height;
-
 			SetBoundsCore(x, y, width, height, specified);
 
-			if (parent != null && bounds_changed)
+			if (parent != null)
 				parent.PerformLayout(this, "Bounds");
 		}
 

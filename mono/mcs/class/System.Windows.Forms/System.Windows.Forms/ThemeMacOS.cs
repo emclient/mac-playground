@@ -803,7 +803,7 @@ namespace System.Windows.Forms
 				case TextImageRelation.Overlay:
 					// Text is centered vertically, and 2 pixels to the right
 					textRectangle.X = content_rect.Left + 2;
-					textRectangle.Y = button.PaddingClientRectangle.Top + ((content_rect.Height - text_size.Height) / 2) - 1;
+					textRectangle.Y = button.PaddingClientRectangle.Top + ((content_rect.Height - text_size.Height) / 2);// - 1;
 					textRectangle.Size = text_size;
 
 					// Image is dependent on ImageAlign

@@ -170,25 +170,25 @@ namespace System.Drawing
 		private double sinTheta;
 		
 		/** Start angle of the arc. */
-		private double eta1;
+		protected double eta1;
 		
 		/** End angle of the arc. */
-		private double eta2;
+		protected double eta2;
 		
 		/** Abscissa of the first focus. */
-		private double xF1;
+		protected double xF1;
 		
 		/** Ordinate of the first focus. */
-		private double yF1;
+		protected double yF1;
 		
 		/** Abscissa of the second focus. */
-		private double xF2;
+		protected double xF2;
 		
 		/** Ordinate of the second focus. */
-		private double yF2;
+		protected double yF2;
 		
 		/** Indicator for center to endpoints line inclusion. */
-		private bool isPieSlice;
+		protected bool isPieSlice;
 		
 		/** Build an elliptical arc from its canonical geometrical elements.
 		* @param center center of the ellipse

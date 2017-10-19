@@ -256,7 +256,8 @@ namespace System.Windows.Forms.CocoaInternal
 					return;
 
 				case NSEventType.MouseEntered:
-					if (e.Window != null)
+				case NSEventType.MouseExited:
+					if (driver.Grab.Hwnd == IntPtr.Zero && e.Window != null)
 					{
 						var contentView = e.Window.ContentView;
 						var newMouseView = (contentView.Superview ?? contentView).HitTest(e.LocationInWindow);

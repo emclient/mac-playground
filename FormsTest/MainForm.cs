@@ -89,10 +89,10 @@ namespace FormsTest
 				toolStrip.Items.Add(new MailClient.Common.UI.Controls.ToolStripControls.ControlToolStripButtonFontSelector());
 				f.Show();
 			});
-			/*AddButton("FormLinkMessageBox", () =>
+			AddButton("FormLinkMessageBox", () =>
 			{
 				new FormLinkMessageBox("Hello", "Zkušební doba vypršela. Platnou licenci pro eM Client můžete získat na http://cz.emclient.com/prehled-cenovych-moznosti\r\nNyní budete mít ke svým datům přístup pouze v režimu off-line. Synchronizace a odesílání jakýchkoliv zpráv bude nyní zablokována. Jakmile bude zadána validní licence, všechny funkce aplikace budou okamžitě obnoveny.").Show();
-			});*/
+			});
 			AddButton("Recurrence", () =>
 			{
 				var f = new Form() { Size = new Size(500, 300), Text = "Recurrence" };
@@ -110,12 +110,6 @@ namespace FormsTest
 			{
 				var f = new Form() { Size = new Size(400, 500), Text = "Spell checker" };
 				f.Controls.Add(new MailClient.UI.Controls.SettingsControls.ControlSettingsSpellChecker() { Dock = DockStyle.Top, AutoSize = true });
-				f.Show();
-			});
-			AddButton("Autodiscover", () =>
-			{
-				var f = new Form() { Size = new Size(400, 500), Text = "Autodiscover" };
-				f.Controls.Add(new MailClient.UI.Controls.WizardControls.ControlExpandablePanelAutodiscover() { Dock = DockStyle.Top, AutoSize = true, Expanded = true });
 				f.Show();
 			});
 		}

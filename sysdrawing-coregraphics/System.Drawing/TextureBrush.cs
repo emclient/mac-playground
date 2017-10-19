@@ -292,13 +292,6 @@ namespace System.Drawing
 			// I am setting this to be used for Text coloring in DrawString
 			//graphics.lastBrushColor = foreColor;
 		}
-
-		public override bool Equals(object obj)
-		{
-			return (obj is TextureBrush b)
-				&& textureImage.Equals(b.textureImage)
-				&& wrapMode.Equals(b.wrapMode)
-				&& textureTransform.Equals(b.textureTransform);
-		}
+		
 	}
 }
