@@ -78,5 +78,10 @@ namespace System.Drawing {
 			// I am setting this to be used for Text coloring in DrawString
 			graphics.lastBrushColor = color;
 		}
+
+		public override bool Equals(object obj)
+		{
+			return (obj is SolidBrush sb) && color.Equals(sb.Color);
+		}
 	}
 }

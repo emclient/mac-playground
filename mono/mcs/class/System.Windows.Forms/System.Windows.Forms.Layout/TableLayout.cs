@@ -64,7 +64,10 @@ namespace System.Windows.Forms.Layout
 			// STEP 2:
 			// - Figure out the sizes of each row/column
 			// - Store data in the TableLayoutPanel.widths/heights
-			CalculateColumnRowSizes (panel, panel.actual_positions, out panel.column_widths, out panel.row_heights, panel.DisplayRectangle.Size, false);
+			int[] widths, heights;
+			CalculateColumnRowSizes (panel, panel.actual_positions, out widths, out heights, panel.DisplayRectangle.Size, false);
+			panel.column_widths = widths;
+			panel.row_heights = heights;
 			
 			// STEP 3:
 			// - Size and position each control
