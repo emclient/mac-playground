@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 
 #if XAMARINMAC
 using CoreGraphics;
 using Foundation;
 using CoreText;
-using System.Drawing.Drawing2D;
 #elif MONOMAC
 using MonoMac.CoreGraphics;
 using MonoMac.CoreText;
