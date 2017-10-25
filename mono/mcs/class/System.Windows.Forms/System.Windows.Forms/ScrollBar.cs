@@ -691,6 +691,134 @@ namespace System.Windows.Forms
 			base.WndProc (ref m);
 		}
 
+		/// <include file='doc\ScrollBar.uex' path='docs/doc[@for="ScrollBar.OnMouseWheel"]/*' />
+        /// <devdoc>
+        ///     Converts mouse wheel movements into scrolling, when scrollbar has the focus.
+        ///     Typically one wheel step will cause one small scroll increment, in either
+        ///     direction. A single wheel message could represent either one wheel step, multiple
+        ///     wheel steps (fast wheeling), or even a fraction of a step (smooth-wheeled mice).
+        ///     So we accumulate the total wheel delta, and consume it in whole numbers of steps.
+        /// </devdoc>
+		private int wheelDelta = 0;
+		const int WHEEL_DELTA = 120;
+
+		protected override void OnMouseWheel(MouseEventArgs e) {
+            wheelDelta += e.Delta;
+ 
+            bool scrolled = false;
+ 
+            while (Math.Abs(wheelDelta) >= WHEEL_DELTA) {
+                if (wheelDelta > 0) {
+                    wheelDelta -= WHEEL_DELTA;
+                    DoScroll(ScrollEventType.SmallDecrement);
+                    scrolled = true;
+                }
+                else {
+                    wheelDelta += WHEEL_DELTA;
+                    DoScroll(ScrollEventType.SmallIncrement);
+                    scrolled = true;
+                }
+            }
+ 
+            if (scrolled) {
+                DoScroll(ScrollEventType.EndScroll);
+            }
+ 
+            if (e is HandledMouseEventArgs) {
+                ((HandledMouseEventArgs) e).Handled = true;
+            }
+ 
+            // The base implementation should be called before the implementation above,
+            // but changing the order in Whidbey would be too much of a breaking change
+            // for this particular class.
+            base.OnMouseWheel(e);
+        }
+
+		private void DoScroll(ScrollEventType type) 
+		{
+            // For Rtl systems we need to swap increment and decrement
+            //
+            if (RightToLeft == RightToLeft.Yes) {
+                switch (type) {
+                    case ScrollEventType.First:
+                        type = ScrollEventType.Last;
+                        break;
+ 
+                    case ScrollEventType.Last:
+                        type = ScrollEventType.First;
+                        break;
+ 
+                    case ScrollEventType.SmallDecrement:
+                        type = ScrollEventType.SmallIncrement;
+                        break;
+ 
+                    case ScrollEventType.SmallIncrement:
+                        type = ScrollEventType.SmallDecrement;
+                        break;
+ 
+                    case ScrollEventType.LargeDecrement:
+                        type = ScrollEventType.LargeIncrement;
+                        break;
+ 
+                    case ScrollEventType.LargeIncrement:
+                        type = ScrollEventType.LargeDecrement;
+                        break;
+                }
+            }
+            
+			int newValue = position;
+			int oldValue = position;
+ 
+            // The ScrollEventArgs constants are defined in terms of the windows
+            // messages..  this eliminates confusion between the VSCROLL and
+            // HSCROLL constants, which are identical.
+            //
+            switch (type) {
+                case ScrollEventType.First:
+                    newValue = minimum;
+                    break;
+ 
+                case ScrollEventType.Last:
+                    newValue = maximum - LargeChange + 1; // si.nMax - si.nPage + 1;
+                    break;
+ 
+                case ScrollEventType.SmallDecrement:
+					newValue = Math.Max(position - SmallChange, minimum);
+                    break;
+ 
+                case ScrollEventType.SmallIncrement:
+					newValue = Math.Min(position + SmallChange, maximum - LargeChange + 1); // max - lChange + 1);
+                    break;
+ 
+                case ScrollEventType.LargeDecrement:
+					newValue = Math.Max(position - LargeChange, minimum);
+                    break;
+ 
+                case ScrollEventType.LargeIncrement:
+					newValue = Math.Min(position + LargeChange, maximum - LargeChange + 1); // si.nPos + si.nPage,si.nMax - si.nPage + 1);
+                    break;
+ 
+                //case ScrollEventType.ThumbPosition:
+                //case ScrollEventType.ThumbTrack:
+                    //NativeMethods.SCROLLINFO si = new NativeMethods.SCROLLINFO();
+                    //si.fMask = NativeMethods.SIF_TRACKPOS;
+                    //SafeNativeMethods.GetScrollInfo(new HandleRef(this, Handle), NativeMethods.SB_CTL, si);
+                    
+                    //if (RightToLeft == RightToLeft.Yes) {
+                    //    newValue = ReflectPosition(si.nTrackPos);
+                    //}
+                    //else {
+                    //    newValue = si.nTrackPos;
+                    //}
+                    
+                    //break;
+            }
+ 
+			ScrollEventArgs se = new ScrollEventArgs(type, oldValue, newValue, vert ? ScrollOrientation.VerticalScroll : ScrollOrientation.HorizontalScroll);
+            OnScroll(se);
+            Value = se.NewValue;
+        }
+
 		#endregion //Public Methods
 
 		#region Private Methods
