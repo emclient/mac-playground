@@ -98,6 +98,7 @@ namespace System.Windows.Forms {
 		// Instance members
 		internal static NSEventModifierMask key_modifiers = 0;
 		internal bool translate_modifier = false;
+		internal NSEvent evtRef; // last/current message
 
 		// Event handlers
 		private Cocoa.MonoApplicationDelegate applicationDelegate;
@@ -430,7 +431,7 @@ namespace System.Windows.Forms {
 			NSDate timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
 			NSApplication NSApp = NSApplication.SharedApplication;
 
-			NSEvent evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, dequeue);
+			evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, dequeue);
 			if (evtRef == null)
 				return false;
 
@@ -2379,7 +2380,8 @@ namespace System.Windows.Forms {
 
 		internal override Keys ModifierKeys {
 			get {
-				return key_modifiers.ToKeys();
+				var hscroll = evtRef != null && evtRef.Type == NSEventType.ScrollWheel && evtRef.ScrollingDeltaX != 0 && evtRef.ScrollingDeltaY == 0;
+				return (key_modifiers | (hscroll ? NSEventModifierMask.ShiftKeyMask : 0)).ToKeys();
 			}
 		}
 		internal override Size SmallIconSize { get{ return new Size(16, 16); } }

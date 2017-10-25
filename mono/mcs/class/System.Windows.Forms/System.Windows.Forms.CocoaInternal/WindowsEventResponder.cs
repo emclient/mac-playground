@@ -241,7 +241,8 @@ namespace System.Windows.Forms.CocoaInternal
 					break;
 
 				case NSEventType.ScrollWheel:
-					int delta = ScaleAndQuantizeDelta((float)e.ScrollingDeltaY, e.HasPreciseScrollingDeltas);
+					bool horizontal = e.ScrollingDeltaY == 0 && e.ScrollingDeltaX != 0;
+					int delta = ScaleAndQuantizeDelta((float)(horizontal ? e.ScrollingDeltaX : e.ScrollingDeltaY), e.HasPreciseScrollingDeltas);
 					if (delta == 0)
 						return;
 
@@ -292,7 +293,7 @@ namespace System.Windows.Forms.CocoaInternal
 					return;
 			}
 
-			driver.EnqueueMessage(msg);
+			Application.SendMessage(ref msg);
 		}
 
 		internal int ScaleAndQuantizeDelta(float delta, bool precise)
