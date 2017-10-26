@@ -45,7 +45,7 @@ namespace System.Drawing
 			public bool ConformsTo(string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format)
 			{
 				return
-					this.s.Equals(s)
+					Equals(this.s, s)
 						&& this.font.Equals(font)
 						&& this.brush.Equals(brush)
 						&& this.layoutRectangle.Size.Equals(layoutRectangle.Size)
@@ -145,7 +145,7 @@ namespace System.Drawing
 			public bool ConformsTo(string text, Font font, SizeF layoutArea, StringFormat format)
 			{
 				return
-					this.text.Equals(text)
+					Equals(this.text, text)
 						&& this.font.Equals(font)
 						&& this.layoutArea.Equals(layoutArea)
 						&& this.format.Equals(format);
