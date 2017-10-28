@@ -482,7 +482,11 @@ namespace System.Windows.Forms {
 						case NSEventType.MouseMoved: grabView.MouseMoved(evtRef); break;
 					}
 				} else {
-					NSApp.SendEvent(evtRef);
+					// When KeyboardCapture is set (ToolStrip menus), deliver key events directly, to avoid filtering, such as in case of HTMLWebView which eats KeyDown.
+					if (Application.KeyboardCapture != null && (evtRef.Type == NSEventType.KeyUp || evtRef.Type == NSEventType.KeyDown) && evtRef.Window != null)
+						evtRef.Window.SendEvent(evtRef);
+					else
+						NSApp.SendEvent(evtRef);
 				}
 				NSApp.UpdateWindows();
 			}
