@@ -119,23 +119,6 @@ namespace System.Windows.Forms.CocoaInternal
 					if (null == Control.FromHandle(hitTestHandle))
 						ToolStripManager.FireAppClicked();
 					break;
-
-				case NSEventType.KeyUp:
-				case NSEventType.KeyDown:
-					var toolstrip = Application.KeyboardCapture;
-					if (toolstrip != null)
-					{
-						var view = (NSView)ObjCRuntime.Runtime.GetNSObject(toolstrip.Handle);
-						if (view is MonoView monoView)
-						{
-							if (theEvent.Type == NSEventType.KeyDown)
-								monoView.eventReponder.KeyDown(theEvent);
-							else
-								monoView.eventReponder.KeyUp(theEvent);
-							return;
-						}
-					}
-					break;
 			}
 
 			if (theEvent.Type == NSEventType.LeftMouseDown)
