@@ -55,6 +55,8 @@ namespace System.Windows.Forms
 		}
 
 		static String lastInfo;
+
+		[Conditional("DEBUG")]
 		public static void WriteInfoIfChanged(NSView view, string prefix = null)
 		{
 			if ((NSEvent.CurrentModifierFlags & NSEventModifierMask.FunctionKeyMask) != NSEventModifierMask.FunctionKeyMask)
@@ -65,9 +67,12 @@ namespace System.Windows.Forms
 				Console.WriteLine((prefix ?? String.Empty) + (lastInfo = info));
 		}
 
+		[Conditional("DEBUG")]
 		public static void WriteInfoIfChanged(IntPtr handle, string prefix = null)
 		{
-			//var c = Control.FromHandle(handle);
+			if ((NSEvent.CurrentModifierFlags & NSEventModifierMask.FunctionKeyMask) != NSEventModifierMask.FunctionKeyMask)
+				return;
+
 			string info = ControlInfo(handle);
 			if (info != lastInfo)
 				Console.WriteLine((prefix ?? String.Empty) + (lastInfo = info));
