@@ -5577,6 +5577,9 @@ namespace System.Windows.Forms
 		}
 
 		private void WmMouseMove (ref Message m) {
+
+			DebugUtility.WriteInfoIfChanged(Handle);
+
 			if (XplatUI.IsEnabled (Handle) && active_tracker != null) {
 				MouseEventArgs args = new MouseEventArgs (
 					FromParamToMouseButtons ((int)m.WParam.ToInt32 ()),
