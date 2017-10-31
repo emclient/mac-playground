@@ -127,6 +127,9 @@ namespace System.Windows.Forms.CocoaInternal
 				clientArea = null;
 			}
 
+			if (Window != null && Window.IgnoresMouseEvents)
+				return;
+
 			clientArea = new NSTrackingArea(
 				Bounds,
 				NSTrackingAreaOptions.ActiveInActiveApp |
