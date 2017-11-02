@@ -413,4 +413,14 @@ namespace System.Windows.Forms.CocoaInternal
 			return null;
 		}
 	}
+
+	static class NSViewExtensions
+	{
+		public static T ClosestParentOfType<T>(this NSView view) where T : NSView
+		{
+			while (view != null && !(view is T))
+				view = view.Superview;
+			return view as T;
+		}
+	}
 }
