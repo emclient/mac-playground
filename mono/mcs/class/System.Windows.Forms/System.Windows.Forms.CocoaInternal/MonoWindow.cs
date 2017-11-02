@@ -119,6 +119,23 @@ namespace System.Windows.Forms.CocoaInternal
 					if (null == Control.FromHandle(hitTestHandle))
 						ToolStripManager.FireAppClicked();
 					break;
+
+				case NSEventType.KeyUp:
+				case NSEventType.KeyDown:
+					// Emulation of ToolStrip's modal filter
+					if (Application.KeyboardCapture is ToolStripDropDown)
+					{
+						var monoView = (FirstResponder as NSView)?.ClosestParentOfType<MonoView>();
+						if (monoView != null)
+						{
+							if (theEvent.Type == NSEventType.KeyDown)
+								monoView.eventReponder.KeyDown(theEvent);
+							else
+								monoView.eventReponder.KeyUp(theEvent);
+							return;
+						}
+					}
+					break;
 			}
 
 			if (theEvent.Type == NSEventType.LeftMouseDown)
