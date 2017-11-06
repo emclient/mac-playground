@@ -799,5 +799,12 @@ namespace WinApi
 		{
 			return true;
 		}
+
+		public static bool IsHungAppWindow(IntPtr hwnd)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return false;
+		}
+
 	}
 }
