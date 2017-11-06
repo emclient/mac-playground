@@ -6,6 +6,8 @@ namespace WinApi
 {
 	public static partial class Win32
 	{
+
+		[Conditional("DEBUG")]
 		internal static void NotImplemented(MethodBase method, object details = null)
 		{
 			Debug.WriteLine("Not Implemented: " + method.ReflectedType.Name + "." + method.Name + (details == null ? String.Empty : " (" + details.ToString() + ")"));
