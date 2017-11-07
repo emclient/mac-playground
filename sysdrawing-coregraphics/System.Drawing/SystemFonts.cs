@@ -59,7 +59,7 @@ namespace System.Drawing {
 		public static Font DefaultFont  { 
 			get {
 				if (defaultFont == null)
-					NSApplication.SharedApplication.InvokeOnMainThread(() => { defaultFont = new Font(NSFont.LabelFontOfSize(NSFont.LabelFontSize)); });
+					NSApplication.SharedApplication.InvokeOnMainThread(() => { defaultFont = new Font(NSFont.LabelFontOfSize(NSFont.SmallSystemFontSize)); });
 				return defaultFont;
 			}
 		}
