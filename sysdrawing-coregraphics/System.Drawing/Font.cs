@@ -320,6 +320,11 @@ namespace System.Drawing
 				&& this.FontFamily.Name == f.FontFamily.Name
 				&& this.Style == f.Style;
 		}
+
+		public override string ToString()
+		{
+			return $"{Name}, {SizeInPoints}pt, {Style}{(Strikeout ? ", Strikeout" : "")}, Height {Height}";
+		}
 	}
 }
 
