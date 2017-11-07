@@ -41,7 +41,7 @@ namespace System.Windows.Forms
 		private static List<WeakReference> toolstrips = new List<WeakReference> ();
 		private static List<ToolStripMenuItem> menu_items = new List<ToolStripMenuItem> ();
 		private static bool activated_by_keyboard;
-		private static Font default_font = new Font("Tahoma", 8.25f);
+		private static Font default_font = new Font(SystemFonts.DefaultFont.Name, 8.25f);
 
 		#region Private Constructor
 		private ToolStripManager ()
