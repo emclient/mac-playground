@@ -272,7 +272,8 @@ namespace System.Windows.Forms.CocoaInternal
 								msgLeave.pt = msg.pt;
 								msgLeave.refobject = msg.refobject;
 								msgLeave.message = Msg.WM_MOUSELEAVE;
-								driver.EnqueueMessage(msgLeave);
+								//driver.EnqueueMessage(msgLeave);
+								Application.SendMessage(ref msgLeave);
 								mouseView = null;
 							}
 							if (newMouseView != null)
@@ -280,7 +281,8 @@ namespace System.Windows.Forms.CocoaInternal
 								msg.hwnd = newMouseView.Handle;
 								msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
 								msg.message = Msg.WM_MOUSE_ENTER;
-								driver.EnqueueMessage(msg);
+								//driver.EnqueueMessage(msg);
+								Application.SendMessage(ref msg);
 								mouseView = newMouseView;
 							}
 						}
