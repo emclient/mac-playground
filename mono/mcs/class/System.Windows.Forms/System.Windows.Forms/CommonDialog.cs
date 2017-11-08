@@ -123,7 +123,7 @@ namespace System.Windows.Forms {
 			}
 			
 			// This is an internal derived CommonDialog
-			if (RunDialog (form.Handle))
+			if (RunDialog (owner == null ? IntPtr.Zero : owner.Handle))
 				form.ShowDialog (owner);
 
 			return form.DialogResult;
