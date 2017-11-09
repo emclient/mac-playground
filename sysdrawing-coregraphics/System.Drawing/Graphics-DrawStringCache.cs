@@ -36,10 +36,10 @@ namespace System.Drawing
 			public Entry(string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format)
 			{
 				this.s = s;
-				this.font = font;
-				this.brush = brush;
+				this.font = (Font)font.Clone(); // An owner could possibly call Dispose()!
+				this.brush = (Brush)brush.Clone();
 				this.layoutRectangle = layoutRectangle;
-				this.format = format;
+				this.format = (StringFormat)format.Clone();
 			}
 
 			public bool ConformsTo(string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format)
