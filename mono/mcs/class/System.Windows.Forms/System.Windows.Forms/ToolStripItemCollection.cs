@@ -109,7 +109,7 @@ namespace System.Windows.Forms
 			if (Contains (value))
 				return IndexOf (value);
 
-			value.InternalOwner = owner;
+			SetOwner(value);
 				
 			if (value is ToolStripMenuItem && (value as ToolStripMenuItem).ShortcutKeys != Keys.None)
 				ToolStripManager.AddToolStripMenuItem ((ToolStripMenuItem)value);
@@ -333,6 +333,18 @@ namespace System.Windows.Forms
 
 			base.Remove (value);
 		}
+
+		internal void SetOwner(ToolStripItem item)
+		{
+            if (item != null)
+			{
+                if (item.Owner != null)
+                    item.Owner.Items.Remove(item);
+
+				item.InternalOwner = owner;
+            }
+        }
+        
 		#endregion
 		
 		#region IList Members
