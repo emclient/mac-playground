@@ -3268,11 +3268,14 @@ namespace System.Windows.Forms
 		[MWFCategory("Behavior")]
 		public bool Visible {
 			get {
-				if (!is_visible) {
+				if (IsHandleCreated && !XplatUI.IsVisible(Handle))
 					return false;
-				} else if (parent != null) {
+
+				if (!is_visible)
+					return false;
+				
+				if (parent != null)
 					return parent.Visible;
-				}
 
 				return true;
 			}

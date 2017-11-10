@@ -152,9 +152,7 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("windowShouldClose:")]
 		internal virtual bool shouldClose(NSObject sender)
 		{
-			//var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
-			var form = Control.FromHandle(ContentView.Handle) as Form;
-			if (form != null)
+			if (Control.FromHandle(ContentView.Handle) is Form form)
 			{
 				// If this is the main form, close all the other forms first, to prevent uninitializing errors.
 				if (Application.OpenForms[0].Handle == ContentView.Handle)
@@ -179,12 +177,20 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			base.OrderWindow(place, relativeTo);
 
-			if (place == NSWindowOrderingMode.Out && IsKeyWindow)
-				NSApplication.SharedApplication.BeginInvokeOnMainThread(() =>
+			if (place == NSWindowOrderingMode.Out)
+			{
+				// Remove the window from Windows menu
+				NSApplication.SharedApplication.RemoveWindowsItem(this);
+
+				if (IsKeyWindow)
 				{
-					try { ActivateNextWindow(); }
-					catch (Exception e) { Debug.WriteLine("Failed async call ActivateNextWindow(: " + e); }
-				});
+					NSApplication.SharedApplication.BeginInvokeOnMainThread(() =>
+					{
+						try { ActivateNextWindow(); }
+						catch (Exception e) { Debug.WriteLine("Failed async call ActivateNextWindow(: " + e); }
+					});
+				}
+			}
 		}
 
 		[Export("windowWillResize:toSize:")]
