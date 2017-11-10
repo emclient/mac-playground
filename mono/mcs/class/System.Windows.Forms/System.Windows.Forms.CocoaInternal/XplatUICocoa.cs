@@ -1884,10 +1884,9 @@ namespace System.Windows.Forms {
 
 			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
 			NSWindow winWrap = vuWrap.Window;
-			MonoWindow monoWindow;
 			if (winWrap != null && winWrap.ContentView == vuWrap) {
 				if (visible) {
-					if ((monoWindow = winWrap as MonoWindow) != null && monoWindow.Owner != null)
+					if (winWrap is MonoWindow monoWindow && monoWindow.Owner != null)
 						monoWindow.Owner.AddChildWindow(winWrap, NSWindowOrderingMode.Above);
 					if (Control.FromHandle(handle).ActivateOnShow)
 						winWrap.MakeKeyAndOrderFront(winWrap);
@@ -1895,7 +1894,7 @@ namespace System.Windows.Forms {
 						winWrap.IsVisible = true;
 				} else {
 					winWrap.OrderOut(winWrap);
-					if ((monoWindow = winWrap as MonoWindow) != null && monoWindow.Owner != null)
+					if (winWrap is MonoWindow monoWindow && monoWindow.Owner != null)
 						monoWindow.Owner.RemoveChildWindow(winWrap);
 				}
 			} else {
