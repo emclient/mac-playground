@@ -1014,6 +1014,13 @@ namespace System.Windows.Forms
 								if (c2.Parent is ToolStripDropDownMenu)
 									if ((c2.Parent as ToolStripDropDownMenu).GetTopLevelToolStrip() == keyboard_capture.GetTopLevelToolStrip())
 										goto default;
+
+							if (!Control.IsChild(keyboard_capture.Handle, c2.Handle))
+							{
+								ToolStripManager.FireAppClickedInternal();
+								goto default;
+							}
+
 							if (c2.TopLevelControl == null)
 								goto default;
 
