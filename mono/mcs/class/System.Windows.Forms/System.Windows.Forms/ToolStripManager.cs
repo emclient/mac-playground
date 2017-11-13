@@ -590,6 +590,12 @@ namespace System.Windows.Forms
 				Application.KeyboardCapture.Dismiss (ToolStripDropDownCloseReason.AppClicked);
 		}
 
+		internal static void FireAppClickedInternal()
+		{
+			if (Application.KeyboardCapture != null)
+				Application.KeyboardCapture.GetTopLevelToolStrip().Dismiss(ToolStripDropDownCloseReason.AppClicked);
+		}
+
 		internal static void FireAppFocusChanged (Form form)
 		{
 			if (AppFocusChange != null) AppFocusChange (form, EventArgs.Empty);
@@ -605,7 +611,7 @@ namespace System.Windows.Forms
 			if (Application.KeyboardCapture != null)
 				Application.KeyboardCapture.Dismiss (ToolStripDropDownCloseReason.AppFocusChange);
 		}
-		
+
 		private static void OnRendererChanged (EventArgs e)
 		{
 			if (RendererChanged != null) RendererChanged (null, e);
