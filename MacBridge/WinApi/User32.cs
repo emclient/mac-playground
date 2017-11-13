@@ -806,5 +806,12 @@ namespace WinApi
 			return false;
 		}
 
+
+		public static IntPtr GetDCEx(IntPtr hWnd, IntPtr hrgnClip, DeviceContextValues flags)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return IntPtr.Zero;
+		}
+
 	}
 }
