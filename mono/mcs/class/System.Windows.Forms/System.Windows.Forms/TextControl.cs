@@ -48,6 +48,7 @@
 using System;
 using System.Collections;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Text;
 using RTF=System.Windows.Forms.RTF;
@@ -240,6 +241,9 @@ namespace System.Windows.Forms {
 		internal int left_margin = 2;  // A left margin for all lines
 		internal int top_margin = 2;
 		internal int right_margin = 2;
+
+		internal bool use_clipping_to_draw_selection = true;
+
 		#endregion	// Local Variables
 
 		#region Constructors
@@ -1715,6 +1719,8 @@ namespace System.Windows.Forms {
 			int line_no;
 			Color tag_color;
 			Color current_color;
+			RectangleF sel_rect = RectangleF.Empty;
+			RectangleF line_rect = RectangleF.Empty;
 
 			// First, figure out from what line to what line we need to draw
 			GetVisibleLineIndexes (clip, out start, out end);
@@ -1746,19 +1752,19 @@ namespace System.Windows.Forms {
 
 			// Non multiline selection can be handled outside of the loop
 			if (!multiline && selection_visible && owner.ShowSelection) {
-				g.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush (ThemeEngine.Current.ColorHighlight),
-						offset_x + selection_start.line.widths [selection_start.pos] +
-						selection_start.line.X - viewport_x, 
+				sel_rect = new RectangleF(offset_x + selection_start.line.widths[selection_start.pos] + selection_start.line.X - viewport_x,
 						offset_y + selection_start.line.Y,
-						(selection_end.line.X + selection_end.line.widths [selection_end.pos]) -
-						(selection_start.line.X + selection_start.line.widths [selection_start.pos]), 
+						(selection_end.line.X + selection_end.line.widths[selection_end.pos]) - (selection_start.line.X + selection_start.line.widths[selection_start.pos]),
 						selection_start.line.height);
+
+				g.FillRectangle(ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlight), sel_rect);
 			}
 
 			while (line_no <= end) {
 				line = GetLine (line_no);
-				float line_y = line.Y - viewport_y + offset_y;
-				
+				line_rect = new RectangleF(offset_x - viewport_x, line.Y - viewport_y + offset_y, line.Width, line.Height);
+				float line_y = line.Y - viewport_y + offset_y; // line_rect.Y
+
 				tag = line.tags;
 				if (!calc_pass) {
 					text = line.text;
@@ -1792,10 +1798,9 @@ namespace System.Windows.Forms {
 						line_selection_end = line_selection_start;
 					} else if (multiline) {
 						// lets draw some selection baby!!  (non multiline selection is drawn outside the loop)
-						g.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush (ThemeEngine.Current.ColorHighlight),
-								offset_x + line.widths [line_selection_start - 1] + line.X - viewport_x, 
-								line_y, line.widths [line_selection_end - 1] - line.widths [line_selection_start - 1], 
-								line.height);
+						sel_rect = new RectangleF(offset_x + line.widths [line_selection_start - 1] + line.X - viewport_x,
+							line_y, line.widths [line_selection_end - 1] - line.widths [line_selection_start - 1], line.height);
+						g.FillRectangle(ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlight), sel_rect);
 					}
 				}
 
@@ -1830,37 +1835,64 @@ namespace System.Windows.Forms {
 						if ((a.R == b.R) && (a.G == b.G) && (a.B == b.B))
 							tag_color = ThemeEngine.Current.ColorGrayText;
 
-					} 
+					}
 
-					int tag_pos = tag.Start;
-					current_color = tag_color;
-					while (tag_pos < tag.Start + tag.Length) {
-						int old_tag_pos = tag_pos;
+					Rectangle text_size = Rectangle.Empty;
 
-						if (tag_pos >= line_selection_start && tag_pos < line_selection_end) {
-							current_color = ThemeEngine.Current.ColorHighlightText;
-							tag_pos = Math.Min (tag.End, line_selection_end);
-						} else if (tag_pos < line_selection_start) {
-							current_color = tag_color;
-							tag_pos = Math.Min (tag.End, line_selection_start);
-						} else {
-							current_color = tag_color;
-							tag_pos = tag.End;
+					if (use_clipping_to_draw_selection) {
+						int sel_start = Math.Max(tag.Start, line_selection_start);
+						int sel_end = Math.Min(tag.End, line_selection_end);
+
+						string s = text.ToString();
+						if (sel_start >= sel_end)
+						{
+							// No clipping fun needed
+							tag.Draw(g, tag_color, offset_x + line.X - viewport_x, line_y + tag.Shift, tag.Start - 1, tag.End - 1, s, out text_size, tag.IsLink);
 						}
+						else
+						{
+							// Draw tag text excluding selection
+							g.SetClip(sel_rect, CombineMode.Exclude);
+							tag.Draw(g, tag_color, offset_x + line.X - viewport_x, line_y + tag.Shift, tag.Start - 1, tag.End - 1, s, out text_size, tag.IsLink);
+							g.ResetClip();
 
-						Rectangle text_size;
-
-						tag.Draw (g, current_color,
-								offset_x + line.X - viewport_x,
-								line_y + tag.Shift,
-								old_tag_pos - 1, Math.Min (tag.Start + tag.Length, tag_pos) - 1,
-								text.ToString (), out text_size, tag.IsLink);
-
-						if (tag.IsLink) {
-							TextBoxBase.LinkRectangle link = new TextBoxBase.LinkRectangle (text_size);
-							link.LinkTag = tag;
-							owner.list_links.Add (link);
+							// Draw selected part of tag text
+							g.SetClip(sel_rect, CombineMode.Intersect);
+							Color sel_color = ThemeEngine.Current.ColorHighlightText;
+							tag.Draw(g, sel_color, offset_x + line.X - viewport_x, line_y + tag.Shift, tag.Start - 1, tag.End - 1, s);
+							g.ResetClip();
 						}
+					} else {
+						// This (original) technique suffers from "ripple" effect when changin selection, because of kerning
+						int tag_pos = tag.Start;
+						current_color = tag_color;
+						while (tag_pos < tag.Start + tag.Length) {
+							int old_tag_pos = tag_pos;
+
+							if (tag_pos >= line_selection_start && tag_pos < line_selection_end) {
+								current_color = ThemeEngine.Current.ColorHighlightText;
+								tag_pos = Math.Min (tag.End, line_selection_end);
+							} else if (tag_pos < line_selection_start) {
+								current_color = tag_color;
+								tag_pos = Math.Min (tag.End, line_selection_start);
+							} else {
+								current_color = tag_color;
+								tag_pos = tag.End;
+							}
+
+							tag.Draw (g, current_color,
+									offset_x + line.X - viewport_x,
+									line_y + tag.Shift,
+									old_tag_pos - 1, Math.Min (tag.Start + tag.Length, tag_pos) - 1,
+									text.ToString (), out text_size, tag.IsLink);
+						}
+					}
+
+					if (tag.IsLink)
+					{
+						TextBoxBase.LinkRectangle link = new TextBoxBase.LinkRectangle(text_size);
+						link.LinkTag = tag;
+						owner.list_links.Add(link);
 					}
 					tag = tag.Next;
 				}
@@ -2684,10 +2716,6 @@ namespace System.Windows.Forms {
 
 		// Invalidate a section of the document to trigger redraw
 		internal void Invalidate(Line start, int start_pos, Line end, int end_pos) {
-
-			// FIXME: Temporary workaround for issues with selection and typing 'longer than very short' texts.
-			owner.Invalidate();
-			return;
 
 			Line	l1;
 			Line	l2;
