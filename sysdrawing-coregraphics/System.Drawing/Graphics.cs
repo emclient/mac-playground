@@ -166,9 +166,9 @@ namespace System.Drawing {
 			if (client) {
 				if (view is IClientView clientView) {
 					var clientBounds = clientView.ClientBounds;
-					g.context.ClipToRect(new CGRect(clientBounds.Left, clientBounds.Top, clientBounds.Width, clientBounds.Height));
-					g.context.SaveState();
+					g.context.ClipToRect(clientBounds);
 					g.context.TranslateCTM(clientBounds.Left, clientBounds.Top);
+					g.context.SaveState();
 					g.hasClientTransform = true;
 				}
 			}
