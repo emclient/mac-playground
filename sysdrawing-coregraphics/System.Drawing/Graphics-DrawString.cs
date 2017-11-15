@@ -202,7 +202,7 @@ namespace System.Drawing
 					{
 						case StringTrimming.Character:
 							using (var oldLine = line)
-								line = line.GetTruncatedLine(layoutBox.Width, CTLineTruncation.End, null);
+								line = line.GetTruncatedLine(noWrap ? nfloat.MaxValue : layoutBox.Width, CTLineTruncation.End, null);
 							break;
 						case StringTrimming.EllipsisWord: // Fall thru for now
 						case StringTrimming.EllipsisCharacter:
