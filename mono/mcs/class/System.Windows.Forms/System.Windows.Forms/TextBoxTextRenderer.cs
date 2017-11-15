@@ -63,6 +63,7 @@ namespace System.Windows.Forms
 			sf_nonprinting.HotkeyPrefix = HotkeyPrefix.None;		
 
 			sf_printing = StringFormat.GenericTypographic;
+			sf_printing.Trimming = StringTrimming.Character;
 			sf_printing.HotkeyPrefix = HotkeyPrefix.None;
 			
 			measure_cache = new Hashtable ();
