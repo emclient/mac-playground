@@ -53,6 +53,7 @@ using nfloat = System.Single;
 
 namespace System.Drawing 
 {
+	using System.Diagnostics;
 	using Reflection;
 
 	// Clipper lib definitions
@@ -304,16 +305,53 @@ namespace System.Drawing
 			return ReferenceEquals(this, region);
 		}
 		
-		public Region Clone ()
+		internal Region(Region region)
 		{
-			var region = new Region ();
-			region.solution = this.solution;
-			region.regionPath = this.regionPath;
-			region.regionList = this.regionList;
-			region.regionObject = this.regionObject;
-			region.regionBounds = this.regionBounds;
+			solution = Copy(region.solution);
+			regionPath = new CGPath(region.regionPath);
+			regionList = Copy(region.regionList);
+			regionBounds = region.regionBounds;
+			regionObject = CopyRegionObject(region.regionObject);
+		}
 
-			return region;
+		public Region Clone()
+		{
+			return new Region(this);
+		}
+
+		internal static Paths Copy(Paths src)
+		{
+			var dst = new Paths(src.Capacity);
+			foreach (var path in src)
+				dst.Add(new Path(path));
+			return dst;
+		}
+
+		internal static List<RegionEntry> Copy(List<RegionEntry> src)
+		{
+			var dst = new List<RegionEntry>(src.Capacity);
+			foreach (var r in src)
+				dst.Add(new RegionEntry
+				{
+					regionType = r.regionType,
+					regionClipType = r.regionClipType,
+					regionPath = Copy(r.regionPath),
+					regionObject = CopyRegionObject(r.regionObject)
+				});
+			return dst;
+		}
+
+		internal static object CopyRegionObject(object src)
+		{
+			if (src is CGRect rect)
+				return rect;
+			if (src is CGPath path)
+				return new CGPath(path);
+			if (src is RectangleF rectf)
+				return rectf;
+
+			Console.WriteLine($"Unexpected type of regionObject ({src.GetType().Name})");
+			return src;
 		}
 
 		public void Dispose ()
