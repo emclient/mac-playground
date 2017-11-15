@@ -32,6 +32,7 @@
 			this.textbox1 = new System.Windows.Forms.TextBox();
 			this.textbox2 = new System.Windows.Forms.TextBox();
 			this.textbox3 = new System.Windows.Forms.TextBox();
+			this.textbox4 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // panel1
@@ -72,8 +73,18 @@
 			this.textbox3.Font = System.Drawing.SystemFonts.MenuFont;
 			this.textbox3.Text = this.textbox3.Font.ToString();
 
+			// textbox4
+			this.textbox4.AutoSize = false;
+			this.textbox4.Name = "textbox4";
+			this.textbox4.Size = new System.Drawing.Size(250, 200);
+			this.textbox4.TabIndex = 3;
+			this.textbox4.Font = System.Drawing.SystemFonts.MenuFont;
+			this.textbox4.Text = this.textbox3.Font.ToString();
+			this.textbox4.Multiline = true;
+
 			this.panel1.Controls.Add(textbox1);			this.panel1.Controls.Add(textbox2);
 			this.panel1.Controls.Add(textbox3);
+			this.panel1.Controls.Add(textbox4);
 
 			// TextBoxForm
 			this.MinimumSize = new System.Drawing.Size(0, 0);
@@ -99,5 +110,6 @@
         private System.Windows.Forms.TextBox textbox1;
         private System.Windows.Forms.TextBox textbox2;
         private System.Windows.Forms.TextBox textbox3;
+		private System.Windows.Forms.TextBox textbox4;
 	}
 }
