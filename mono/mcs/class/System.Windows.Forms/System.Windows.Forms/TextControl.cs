@@ -88,6 +88,7 @@ namespace System.Windows.Forms {
 		CtrlHome,	// Move to the beginning of the document
 		CtrlEnd,	// Move to the end of the document
 		WordBack,	// Move to the beginning of the previous word (or beginning of line)
+		WordEnd,	// Move to the end of the current word
 		WordForward,	// Move to the beginning of the next word (or end of line)
 		SelectionStart,	// Move to the beginning of the current selection
 		SelectionEnd,	// Move to the end of the current selection
@@ -236,7 +237,7 @@ namespace System.Windows.Forms {
 
 		internal TextBoxBase	owner;			// Who's owning us?
 		static internal int	caret_width = 1;
-		static internal int	caret_shift = 1;
+		static internal int	caret_shift = 0;
 
 		internal int left_margin = 2;  // A left margin for all lines
 		internal int top_margin = 2;
@@ -1501,6 +1502,36 @@ namespace System.Windows.Forms {
 					return;
 				}
 
+				case CaretDirection.WordEnd: {
+					int len = caret.line.text.Length;
+
+					do {
+						// Skip any whitespace
+						while ((caret.pos < len) && !IsWordChar(caret.line.text[caret.pos]))
+							caret.pos++;
+
+						if (caret.pos < len || caret.line.line_no >= this.lines)
+							break;
+
+						// Go to next line
+						caret.line = GetLine(caret.line.line_no + 1);
+						caret.pos = 0;
+						caret.tag = caret.line.tags;
+						len = caret.line.text.Length;
+					} while (true);
+
+					// Go to the end of word
+					if (caret.pos < len) {
+						while ((caret.pos < len) && IsWordChar(caret.line.text[caret.pos]))
+							caret.pos++;
+					}
+
+					caret.tag = LineTag.FindTag(caret.line, caret.pos);
+
+					UpdateCaret();
+					return;
+				}
+
 				case CaretDirection.WordBack: {
 					if (caret.pos > 0) {
 						caret.pos--;
@@ -1517,8 +1548,13 @@ namespace System.Windows.Forms {
 							if (caret.pos != 0) {
 								caret.pos++;
 							} else {
-								caret.line = GetLine(caret.line.line_no - 1);
-								caret.pos = caret.line.text.Length;
+								Line l = GetLine(caret.line.line_no - 1);
+								if (l != null) {
+									caret.line = l;
+									caret.pos = caret.line.text.Length;
+								} else {
+									caret.pos = 0;
+								}
 							}
 						}
 						caret.tag = LineTag.FindTag(caret.line, caret.pos);
@@ -1671,6 +1707,14 @@ namespace System.Windows.Forms {
 					return;
 				}
 			}
+		}
+
+		internal static bool IsWordChar(char c)
+		{
+			if (Char.IsWhiteSpace(c) || Char.IsPunctuation(c) || Char.IsControl(c) || Char.IsSurrogate(c))
+				return false;
+
+			return true;
 		}
 
 		internal void DumpDoc ()
