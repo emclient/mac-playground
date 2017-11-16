@@ -271,8 +271,8 @@ namespace System.Drawing
 			var insetBounds = layoutRectangle;
 			if (insetBounds.Size == SizeF.Empty)
 			{
-				insetBounds.Width = (float)boundingBox.Width;
-				insetBounds.Height = (float)boundingBox.Height;
+				insetBounds.Width = float.MaxValue;
+				insetBounds.Height = float.MaxValue;
 				c.layoutAvailable = false;
 			}
 
