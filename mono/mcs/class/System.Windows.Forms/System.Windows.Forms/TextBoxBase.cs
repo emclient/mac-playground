@@ -86,6 +86,7 @@ namespace System.Windows.Forms
 		internal CaretSelection		click_mode;
 		internal BorderStyle actual_border_style;
 		internal bool shortcuts_enabled = true;
+		internal static bool select_word_with_trailing_spaces = false;
 #if Debug
 		internal static bool	draw_lines = false;
 #endif
@@ -1275,8 +1276,10 @@ namespace System.Windows.Forms
 
 		internal virtual bool PerformGoToTheEndOfTheWord()
 		{
-			//FIXME:
-			return PerformGoToTheBeginningOfTheNextWord();
+			document.MoveCaret(CaretDirection.WordEnd);
+			document.SetSelectionToCaret((Control.ModifierKeys & Keys.Shift) == 0);
+			CaretMoved(this, null);
+			return true;
 		}
 
 		internal virtual bool PerformGoToTheLeft()
@@ -2129,13 +2132,15 @@ namespace System.Windows.Forms
 			}
 
 			if (s [end] == ' ') {
-				while (end < s.Length && s [end] == ' ')
-					end++;
+				if (select_word_with_trailing_spaces)
+					while (end < s.Length && s [end] == ' ')
+						end++;
 			} else {
 				while (end < s.Length && s [end] != ' ')
 					end++;
-				while (end < s.Length && s [end] == ' ')
-					end++;
+				if (select_word_with_trailing_spaces)
+					while (end < s.Length && s [end] == ' ')
+						end++;
 			}
 
 			document.SetSelection (document.caret.line, start, document.caret.line, end);
