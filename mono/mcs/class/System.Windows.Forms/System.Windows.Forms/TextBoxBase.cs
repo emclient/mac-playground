@@ -115,7 +115,7 @@ namespace System.Windows.Forms
 			enable_links = false;
 			list_links = new ArrayList ();
 			current_link = null;
-			show_caret_w_selection = (this is TextBox);
+			show_caret_w_selection = false; //(this is TextBox);
 			document = new Document(this);
 			document.WidthChanged += new EventHandler(document_WidthChanged);
 			document.HeightChanged += new EventHandler(document_HeightChanged);

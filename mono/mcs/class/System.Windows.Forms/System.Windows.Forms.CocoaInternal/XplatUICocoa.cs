@@ -616,7 +616,7 @@ namespace System.Windows.Forms {
 			if (Caret.Hwnd == hwnd) {
 				if (visible) {
 					if (Caret.Visible < 1) {
-						Caret.Visible++;
+						Caret.Visible = 1;//++;
 						Caret.On = false;
 						if (Caret.Visible == 1) {
 							ShowCaret ();
@@ -624,7 +624,7 @@ namespace System.Windows.Forms {
 						}
 					}
 				} else {
-					Caret.Visible--;
+					Caret.Visible = 0;//--;
 					if (Caret.Visible == 0) {
 						Caret.Timer.Stop ();
 						HideCaret ();
