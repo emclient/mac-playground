@@ -81,6 +81,7 @@
 			this.textbox4.Font = System.Drawing.SystemFonts.MenuFont;
 			this.textbox4.Text = this.textbox3.Font.ToString();
 			this.textbox4.Multiline = true;
+			this.textbox4.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 
 			this.panel1.Controls.Add(textbox1);			this.panel1.Controls.Add(textbox2);
 			this.panel1.Controls.Add(textbox3);

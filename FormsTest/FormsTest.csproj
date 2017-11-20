@@ -56,6 +56,7 @@
     <Reference Include="System.Drawing" Condition=" '$(Configuration)' == 'Debug' " />
     <Reference Include="System.Windows.Forms" Condition=" '$(Configuration)' == 'Debug' " />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DebugLayoutForm.cs">
