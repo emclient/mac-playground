@@ -236,7 +236,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public static string GetCharactersForKeyPress(ushort keyCode, NSEventModifierMask modifierFlags, ref uint deadKeyState)
 		{
-			var keyboard = TISCopyCurrentKeyboardInputSource();
+			var keyboard = TISCopyCurrentKeyboardLayoutInputSource();
 			var characters = GetCharactersForKeyPress(keyCode, modifierFlags, ref deadKeyState, keyboard);
 			CFRelease(keyboard);
 			return characters;
@@ -344,6 +344,9 @@ namespace System.Windows.Forms.CocoaInternal
 
 		[DllImport(Carbon)]
 		extern static IntPtr TISCopyCurrentKeyboardInputSource();
+
+		[DllImport(Carbon)]
+		extern static IntPtr TISCopyCurrentKeyboardLayoutInputSource();
 
 		[DllImport(Carbon)]
 		extern static IntPtr TISGetInputSourceProperty(IntPtr inputSource, IntPtr propertyKey);
