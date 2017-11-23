@@ -4,10 +4,12 @@ using System.Drawing.Mac;
 using Foundation;
 using AppKit;
 using CoreGraphics;
+using ObjCRuntime;
 #elif MONOMAC
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
+using MonoMac.ObjCRuntime;
 using nint = System.Int32;
 using nuint = System.UInt32;
 #endif
@@ -312,7 +314,7 @@ namespace System.Windows.Forms.CocoaInternal
 		static bool cmdDown;
 		static bool shiftDown;
 		static bool ctrlDown;
-		IntPtr wmCharLParam;
+		internal IntPtr wmCharLParam;
 
 		public override void KeyDown(NSEvent theEvent)
 		{
@@ -358,9 +360,6 @@ namespace System.Windows.Forms.CocoaInternal
 			repeatCount = e.IsARepeat ? 1 + repeatCount : 0;
 
 			Keys key = KeysConverter.GetKeys(e);
-			if (key == Keys.None)
-				return;
-
 			bool isExtendedKey = ctrlDown || cmdDown || e.Characters.Length == 0 || !KeysConverter.IsChar(e.Characters[0], key) && KeysConverter.DeadKeyState == 0;
 
 			ulong lp = 0;
@@ -377,10 +376,16 @@ namespace System.Windows.Forms.CocoaInternal
 				: (e.Type == NSEventType.KeyDown ? Msg.WM_KEYDOWN : Msg.WM_KEYUP);
 
 			//Debug.WriteLine ("keyCode={0}, characters=\"{1}\", key='{2}', chars='{3}'", e.KeyCode, chars, key, chars);
-			driver.PostMessage(view.Handle, msg, wParam, lParam);
+
+			// See the comment above SendPendingWmKeyDown() if you want to ask 'what the hell is this?'.
+			isWmKeyDownPending = e.Type == NSEventType.KeyDown && (view is MonoEditView);
+			if (isWmKeyDownPending)
+				pendingWmKeyDown = new MSG { hwnd = view.Handle, message = msg, wParam = wParam, lParam = lParam };
+			else
+				driver.SendMessage(view.Handle, msg, wParam, lParam);
 
 			// On Windows, this would normally be done in TranslateMessage
-			if (e.Type == NSEventType.KeyDown && !isExtendedKey)
+			if (e.Type == NSEventType.KeyDown && (view is MonoEditView))
 			{
 				wmCharLParam = lParam;
 				view.InterpretKeyEvents(new[] { e });
@@ -388,6 +393,47 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
+		MSG pendingWmKeyDown;
+		bool isWmKeyDownPending;
+
+		/// <summary>
+		/// This handles a problem with control keys - like Esc, Enter, Arrows, Tab etc:
+		/// If we sent WM_KEYDOWN regardless of InterpretKeyEvents, the event would afect both IME and the control/dialog.
+		/// (For example, the Esc or Enter key would close not only IME, but the dialog itself, too)
+		/// We have to wait for IME to see if it eats the key event or not.
+		/// </summary>
+		internal virtual void SendPendingWmKeyDown()
+		{
+			if (isWmKeyDownPending)
+			{
+				driver.SendMessage(pendingWmKeyDown.hwnd, pendingWmKeyDown.message, pendingWmKeyDown.wParam, pendingWmKeyDown.lParam);
+				isWmKeyDownPending = false;
+			}
+		}
+
+		// Forwarded from MonoEditView
+		internal virtual void InsertText(NSObject text, NSRange replacementRange)
+		{
+			// Until we fully support marked text and replacing characters in edit box while IME is shown,
+			// emulate replacement by sending backspace and then typing.
+			// Not doing this would result in not deleting the originally typed character, event if it should have been replaced by IME.
+			if (replacementRange.Location == 0)
+				SendKey(view.Handle, VirtualKeys.VK_BACK);
+
+			string str = text.ToString();
+			if (!String.IsNullOrEmpty(str))
+				foreach (var c in str)
+					if (Char.IsControl(c))
+						SendPendingWmKeyDown(); // Esc, Enter etc
+					else
+						driver.SendMessage(view.Handle, Msg.WM_CHAR, (IntPtr)c, wmCharLParam);
+		}
+
+		[Export("doCommandBySelector:")]
+		public virtual void DoCommandBySelector(Selector selector)
+		{
+			SendPendingWmKeyDown();
+		}
 
 		#endregion
 
@@ -422,7 +468,7 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("insertTab:")]
 		public virtual void InsertTab(NSObject sender)
 		{
-			driver.PostMessage(view.Handle, Msg.WM_CHAR, (IntPtr)'\t', wmCharLParam);
+			driver.SendMessage(view.Handle, Msg.WM_CHAR, (IntPtr)'\t', wmCharLParam);
 		}
 
 		[Export("insertText:")]
@@ -431,7 +477,10 @@ namespace System.Windows.Forms.CocoaInternal
 			string str = text.ToString();
 			if (!String.IsNullOrEmpty(str))
 				foreach (var c in str)
-					driver.PostMessage(view.Handle, Msg.WM_CHAR, (IntPtr)c, wmCharLParam);
+					if (Char.IsControl(c))
+						SendPendingWmKeyDown(); // Esc, Enter etc
+					else
+						driver.SendMessage(view.Handle, Msg.WM_CHAR, (IntPtr)c, wmCharLParam);
 		}
 
 		void SendCmdKey(IntPtr hwnd, VirtualKeys key)
@@ -442,6 +491,12 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.SendMessage(hwnd, Msg.WM_KEYUP, (IntPtr)key, (IntPtr)0x1080000);
 			if (!cmdDown)
 				driver.SendMessage(hwnd, Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_LWIN, IntPtr.Zero);
+		}
+
+		void SendKey(IntPtr hwnd, VirtualKeys key)
+		{
+			driver.SendMessage(hwnd, Msg.WM_KEYDOWN, (IntPtr)key, IntPtr.Zero);
+			driver.SendMessage(hwnd, Msg.WM_KEYUP, (IntPtr)key, IntPtr.Zero);
 		}
 	}
 }
