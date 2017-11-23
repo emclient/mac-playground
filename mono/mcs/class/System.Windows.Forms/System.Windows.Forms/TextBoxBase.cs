@@ -710,7 +710,9 @@ namespace System.Windows.Forms
 
 		protected override CreateParams CreateParams {
 			get {
-				return base.CreateParams;
+				var cp = base.CreateParams;
+				cp.ClassName = "EDIT";
+				return cp;
 			}
 		}
 

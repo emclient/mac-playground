@@ -872,7 +872,10 @@ namespace System.Windows.Forms {
 					}
 				}
 				if (viewWrapper == null) {
-					viewWrapper = new Cocoa.MonoView(this, WholeRect, cp.WindowStyle, cp.WindowExStyle);
+					if (cp.ClassName == "EDIT")
+						viewWrapper = new MonoEditView(this, WholeRect, cp.WindowStyle, cp.WindowExStyle);
+					else
+						viewWrapper = new MonoView(this, WholeRect, cp.WindowStyle, cp.WindowExStyle);
 					viewWrapper.AutoresizesSubviews = false;
 				}
 				wholeHandle = (IntPtr)viewWrapper.Handle;
