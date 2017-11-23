@@ -48,7 +48,8 @@
     <OutputPath>bin\Mono - Debug\</OutputPath>
     <DefineConstants>DEBUG;NO_CARBON;NO_GTK;NO_X11; MONOMAC; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5;MACOS_THEME</DefineConstants>
     <DebugType>full</DebugType>
-    <ErrorReport>prompt</ErrorReport>    <WarningLevel>4</WarningLevel>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
     <NoStdLib>false</NoStdLib>
     <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
@@ -59,7 +60,8 @@
     <OutputPath>bin\Xamarin - Debug\</OutputPath>
     <DefineConstants>DEBUG;NO_CARBON;NO_GTK;NO_X11; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5;XAMARINMAC;__UNIFIED__;MACOS_THEME</DefineConstants>
     <DebugType>full</DebugType>
-    <ErrorReport>prompt</ErrorReport>    <WarningLevel>4</WarningLevel>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
     <NoStdLib>false</NoStdLib>
     <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
@@ -70,7 +72,8 @@
     <OutputPath>bin\Xamarin-Release\</OutputPath>
     <DefineConstants>NO_CARBON;NO_GTK;NO_X11; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5;XAMARINMAC;__UNIFIED__;MACOS_THEME</DefineConstants>
     <DebugType>none</DebugType>
-    <ErrorReport>prompt</ErrorReport>    <WarningLevel>4</WarningLevel>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
     <Optimize>true</Optimize>
     <NoStdLib>false</NoStdLib>
     <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
@@ -1280,6 +1283,7 @@
     <Compile Include="System.Windows.Forms\ProgressBar.Mac.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\XplatUICocoa.Dnd.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\LibObjc.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoEditView.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

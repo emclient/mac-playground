@@ -155,7 +155,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		internal static bool IsChar(char c, Keys k)
 		{
-			return c == '\t' || c == '\b' || k == Keys.Back || !char.IsControl(c) && !NonChars.ContainsKey(k);
+			return c == '\t' || c == '\b' || k == Keys.Back || k == Keys.Escape || !char.IsControl(c) && !NonChars.ContainsKey(k);
 		}
 
 		public static Keys GetKeys(NSEvent e)
@@ -433,7 +433,7 @@ namespace System.Windows.Forms.CocoaInternal
 			Keys.FinalMode,
 			Keys.KanjiMode,
 			Keys.HanjaMode,
-			Keys.Escape,
+			//Keys.Escape,
 			Keys.IMEConvert,
 			Keys.IMENonconvert,
 			Keys.IMEAceept,
