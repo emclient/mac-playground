@@ -1,8 +1,10 @@
-﻿#if XAMARINMAC
+﻿using System.Drawing;
+#if XAMARINMAC
 using Foundation;
 using AppKit;
 using CoreGraphics;
 using ObjCRuntime;
+using System.Runtime.InteropServices;
 #elif MONOMAC
 using MonoMac.Foundation;
 using MonoMac.AppKit;
@@ -90,8 +92,26 @@ namespace System.Windows.Forms.CocoaInternal
 		public virtual CGRect GetFirstRect(NSRange characterRange, out NSRange actualRange)
 		{
 			actualRange = new NSRange();
+
+			// SWF textboxes
 			if (XplatUICocoa.CaretView != null && XplatUICocoa.CaretView.Superview == this)
 				return Window.ConvertRectToScreen(XplatUICocoa.CaretView.ConvertRectToView(Bounds, null));
+
+			// EMC textboxes - teporary solution
+			var r = new Rectangle[1] { new Rectangle() };
+			var handle = GCHandle.Alloc(r, GCHandleType.Pinned);
+			if (handle.IsAllocated)
+			{
+				var result = driver.SendMessage(Handle, Msg.WM_IME_GETCURRENTPOSITION, IntPtr.Zero, GCHandle.ToIntPtr(handle));
+				if (result == (IntPtr)1)
+				{
+					var rect = new CGRect(Bounds.Left + r[0].X, Bounds.Top + r[0].Y, r[0].Width, r[0].Height);
+					return Window.ConvertRectToScreen(ConvertRectToView(rect, null));
+				}
+				handle.Free();
+			}
+
+			// fallback
 			return Window.ConvertRectToScreen(ConvertRectToView(Bounds, null));
 		}
 
