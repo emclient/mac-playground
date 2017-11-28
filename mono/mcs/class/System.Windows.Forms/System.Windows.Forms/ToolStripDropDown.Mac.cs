@@ -1,11 +1,8 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 #if XAMARINMAC
 using AppKit;
-using CoreGraphics;
 #else
 using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
 #endif
 
 namespace System.Windows.Forms
@@ -77,7 +74,11 @@ namespace System.Windows.Forms
 				// Convert all the menu items to NSMenuItems (w/ embedded views if necessary)
 				menu.RemoveAllItems();
 				foreach (ToolStripItem item in owner.Items)
-					menu.AddItem(item.ToNSMenuItem());
+				{
+					var menuItem = item.ToNSMenuItem();
+					menuItem.Activated += (sender, e) => owner.OnItemClicked(new ToolStripItemClickedEventArgs(item));
+					menu.AddItem(menuItem);
+				}
 
 				owner.OnOpened(EventArgs.Empty);
 			}
