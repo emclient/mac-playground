@@ -50,6 +50,7 @@ namespace System.Windows.Forms.CocoaInternal
 	{
 		protected XplatUICocoa driver;
 		protected NSTrackingArea clientArea;
+		protected NSTrackingArea clientAreaEnterExit;
 		internal WindowsEventResponder eventReponder;
 		protected CGRect clientBounds;
 		internal bool inSetFocus;
@@ -126,6 +127,11 @@ namespace System.Windows.Forms.CocoaInternal
 				RemoveTrackingArea(clientArea);
 				clientArea = null;
 			}
+			if (clientAreaEnterExit != null)
+			{
+				RemoveTrackingArea(clientAreaEnterExit);
+				clientAreaEnterExit = null;
+			}
 
 			if (Window != null && Window.IgnoresMouseEvents)
 				return;
@@ -133,13 +139,21 @@ namespace System.Windows.Forms.CocoaInternal
 			clientArea = new NSTrackingArea(
 				Bounds,
 				NSTrackingAreaOptions.ActiveInActiveApp |
-				NSTrackingAreaOptions.MouseEnteredAndExited |
 				NSTrackingAreaOptions.MouseMoved |
 				NSTrackingAreaOptions.InVisibleRect |
-				NSTrackingAreaOptions.CursorUpdate,
+				NSTrackingAreaOptions.CursorUpdate |
+				NSTrackingAreaOptions.EnabledDuringMouseDrag,
 				this,
 				new NSDictionary());
 			AddTrackingArea(clientArea);
+			clientAreaEnterExit = new NSTrackingArea(
+				Bounds,
+				NSTrackingAreaOptions.ActiveInActiveApp |
+				NSTrackingAreaOptions.MouseEnteredAndExited |
+				NSTrackingAreaOptions.EnabledDuringMouseDrag,
+				this,
+				new NSDictionary());
+			AddTrackingArea(clientAreaEnterExit);
 
 			base.UpdateTrackingAreas();
 		}

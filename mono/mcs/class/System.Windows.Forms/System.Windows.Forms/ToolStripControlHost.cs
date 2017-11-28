@@ -31,7 +31,7 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms
 {
-	public class ToolStripControlHost : ToolStripItem
+	public partial class ToolStripControlHost : ToolStripItem
 	{
 		private Control control;
 		private ContentAlignment control_align;
