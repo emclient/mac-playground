@@ -33,7 +33,7 @@ using System.Windows.Forms.Design;
 namespace System.Windows.Forms
 {
 	[ToolStripItemDesignerAvailability (ToolStripItemDesignerAvailability.ToolStrip | ToolStripItemDesignerAvailability.ContextMenuStrip)]
-	public class ToolStripSeparator : ToolStripItem
+	public partial class ToolStripSeparator : ToolStripItem
 	{
 		public ToolStripSeparator () : base ()
 		{

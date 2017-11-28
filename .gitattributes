@@ -1463,7 +1463,9 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripContainer.cs -
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripContentPanel.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripContentPanelRenderEventArgs.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripContentPanelRenderEventHandler.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripControlHost.Mac.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripControlHost.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripDropDown.Mac.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripDropDown.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripDropDownButton.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripDropDownCloseReason.cs -text
@@ -1479,6 +1481,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripGripDisplaySty
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripGripRenderEventArgs.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripGripRenderEventHandler.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripGripStyle.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripItem.Mac.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripItem.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripItemAlignment.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripItemClickedEventArgs.cs -text
@@ -1501,6 +1504,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripLabel.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripLayoutStyle.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripManager.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripManagerRenderMode.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripMenuItem.Mac.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripMenuItem.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripOverflow.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripOverflowButton.cs -text
@@ -1514,6 +1518,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripRenderEventArg
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripRenderEventHandler.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripRenderMode.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripRenderer.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripSeparator.Mac.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripSeparator.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripSeparatorRenderEventArgs.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/ToolStripSeparatorRenderEventHandler.cs -text

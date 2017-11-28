@@ -36,7 +36,7 @@ namespace System.Windows.Forms
 {
 	[ToolStripItemDesignerAvailability (ToolStripItemDesignerAvailability.MenuStrip | ToolStripItemDesignerAvailability.ContextMenuStrip)]
 	[DesignerSerializer ("System.Windows.Forms.Design.ToolStripMenuItemCodeDomSerializer, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.Serialization.CodeDomSerializer, " + Consts.AssemblySystem_Design)]
-	public class ToolStripMenuItem : ToolStripDropDownItem
+	public partial class ToolStripMenuItem : ToolStripDropDownItem
 	{
 		private CheckState checked_state;
 		private bool check_on_click;
@@ -286,21 +286,6 @@ namespace System.Windows.Forms
 			}
 		}
 
-		protected override void OnDropDownHide (EventArgs e)
-		{
-			base.OnDropDownHide (e);
-		}
-
-		protected override void OnDropDownShow (EventArgs e)
-		{
-			base.OnDropDownShow (e);
-		}
-
-		protected override void OnFontChanged (EventArgs e)
-		{
-			base.OnFontChanged (e);
-		}
-
 		protected override void OnMouseDown (MouseEventArgs e)
 		{
 			if (!this.IsOnDropDown && this.HasDropDownItems && this.DropDown.Visible)
@@ -413,7 +398,7 @@ namespace System.Windows.Forms
 		protected internal override bool ProcessCmdKey (ref Message m, Keys keyData)
 		{
 			Control source = Control.FromHandle (m.HWnd);
-			Form f = source == null ? null : (Form)source.TopLevelControl;
+			Form f = source == null ? null : source.TopLevelControl as Form;
 
 			if (this.Enabled && keyData == this.shortcut_keys && GetTopLevelControl () == f) {
 				this.FireEvent (EventArgs.Empty, ToolStripItemEventType.Click);
