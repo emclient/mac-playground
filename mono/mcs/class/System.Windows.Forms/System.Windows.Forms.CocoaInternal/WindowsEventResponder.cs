@@ -259,36 +259,24 @@ namespace System.Windows.Forms.CocoaInternal
 					return;
 
 				case NSEventType.MouseEntered:
-				case NSEventType.MouseExited:
-					if (e.Window != null)
+					if (e.TrackingArea?.Owner is NSView entered)
 					{
-						var contentView = e.Window.ContentView;
-						var newMouseView = (contentView.Superview ?? contentView).HitTest(e.LocationInWindow);
-						if (mouseView != newMouseView)
-						{
-							if (mouseView != null)
-							{
-								var msgLeave = new MSG();
-								msgLeave.hwnd = mouseView.Handle;
-								msgLeave.lParam = msg.lParam;
-								msgLeave.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
-								msgLeave.pt = msg.pt;
-								msgLeave.refobject = msg.refobject;
-								msgLeave.message = Msg.WM_MOUSELEAVE;
-								//driver.EnqueueMessage(msgLeave);
-								Application.SendMessage(ref msgLeave);
-								mouseView = null;
-							}
-							if (newMouseView != null)
-							{
-								msg.hwnd = newMouseView.Handle;
-								msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
-								msg.message = Msg.WM_MOUSE_ENTER;
-								//driver.EnqueueMessage(msg);
-								Application.SendMessage(ref msg);
-								mouseView = newMouseView;
-							}
-						}
+						msg.hwnd = entered.Handle;
+						msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
+						msg.message = Msg.WM_MOUSE_ENTER;
+						Application.SendMessage(ref msg);
+						mouseView = (e.Window?.ContentView.Superview ?? e.Window?.ContentView)?.HitTest(e.LocationInWindow);
+					}
+					return;
+
+				case NSEventType.MouseExited:
+					if (e.TrackingArea?.Owner is NSView exited)
+					{
+						msg.hwnd = exited.Handle;
+						msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
+						msg.message = Msg.WM_MOUSELEAVE;
+						Application.SendMessage(ref msg);
+						mouseView = (e.Window?.ContentView.Superview ?? e.Window?.ContentView)?.HitTest(e.LocationInWindow);
 					}
 					return;
 
@@ -424,10 +412,7 @@ namespace System.Windows.Forms.CocoaInternal
 			string str = text.ToString();
 			if (!String.IsNullOrEmpty(str))
 				foreach (var c in str)
-					if (Char.IsControl(c))
-						SendPendingWmKeyDown(); // Esc, Enter etc
-					else
-						driver.SendMessage(view.Handle, Msg.WM_CHAR, (IntPtr)c, wmCharLParam);
+					driver.SendMessage(view.Handle, Msg.WM_CHAR, (IntPtr)c, wmCharLParam);
 		}
 
 		[Export("doCommandBySelector:")]
@@ -478,10 +463,7 @@ namespace System.Windows.Forms.CocoaInternal
 			string str = text.ToString();
 			if (!String.IsNullOrEmpty(str))
 				foreach (var c in str)
-					if (Char.IsControl(c))
-						SendPendingWmKeyDown(); // Esc, Enter etc
-					else
-						driver.SendMessage(view.Handle, Msg.WM_CHAR, (IntPtr)c, wmCharLParam);
+					driver.SendMessage(view.Handle, Msg.WM_CHAR, (IntPtr)c, wmCharLParam);
 		}
 
 		void SendCmdKey(IntPtr hwnd, VirtualKeys key)
