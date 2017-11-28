@@ -2254,12 +2254,17 @@ namespace System.Windows.Forms {
 		protected override bool ProcessTabKey(bool forward) {
 			bool need_refresh = !show_focus_cues;
 			show_focus_cues = true;
-			
-			bool control_activated = SelectNextControl(ActiveControl, forward, true, true, true);
-			
-			if (need_refresh && ActiveControl != null)
-				ActiveControl.Invalidate ();
-				
+
+			Control prev = ActiveControl;
+			bool control_activated = SelectNextControl(prev, forward, true, true, true);
+
+			Control activated = ActiveControl;
+			if (need_refresh && activated != null)
+				activated.Invalidate ();
+
+			if (control_activated && prev != activated && (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix))
+				XplatUI.SendMessage(activated.Handle, Msg.WM_SELECT_ALL, IntPtr.Zero, IntPtr.Zero);
+
 			return control_activated;
 		}
 
