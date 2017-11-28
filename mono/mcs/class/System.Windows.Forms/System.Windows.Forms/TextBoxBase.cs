@@ -1645,7 +1645,7 @@ namespace System.Windows.Forms
 				break;
 
 			case Msg.WM_SELECT_ALL:
-				SelectAll();
+				SelectAllNoScroll();
 				m.Result = IntPtr.Zero;
 				break;
 
