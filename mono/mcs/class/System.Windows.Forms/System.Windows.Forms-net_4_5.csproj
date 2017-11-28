@@ -1284,6 +1284,11 @@
     <Compile Include="System.Windows.Forms.CocoaInternal\XplatUICocoa.Dnd.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\LibObjc.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoEditView.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItem.Mac.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripSeparator.Mac.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripControlHost.Mac.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripDropDown.Mac.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripMenuItem.Mac.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

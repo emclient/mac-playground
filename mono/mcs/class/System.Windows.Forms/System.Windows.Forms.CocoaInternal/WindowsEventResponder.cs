@@ -259,6 +259,7 @@ namespace System.Windows.Forms.CocoaInternal
 					return;
 
 				case NSEventType.MouseEntered:
+				case NSEventType.MouseExited:
 					if (e.Window != null)
 					{
 						var contentView = e.Window.ContentView;

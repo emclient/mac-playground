@@ -29,13 +29,20 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
+#if XAMARINMAC
+using AppKit;
+using CoreGraphics;
+#else
+using MonoMac.AppKit;
+using MonoMac.CoreGraphics;
+#endif
 
 namespace System.Windows.Forms
 {
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[ComVisible (true)]
 	[Designer ("System.Windows.Forms.Design.ToolStripDropDownDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
-	public class ToolStripDropDown : ToolStrip
+	public partial class ToolStripDropDown : ToolStrip
 	{
 		private bool allow_transparency;
 		private bool auto_close;
@@ -355,7 +362,10 @@ namespace System.Windows.Forms
 			if (visible)
 			{
 				// TODO: Move here the code from Show().
-				base.SetVisibleCore(visible);
+				if (currentMenu != null)
+					this.is_visible = true;
+				else
+					base.SetVisibleCore(visible);
 			}
 			else
 			{
@@ -383,7 +393,12 @@ namespace System.Windows.Forms
 					tsi.Dismiss(closeReason);
 
 				// Hide this dropdown
-				base.SetVisibleCore(visible);
+				if (this.currentMenu != null) {
+					this.currentMenu.CancelTracking();
+					this.is_visible = false;
+				} else {
+					base.SetVisibleCore(visible);
+				}
 
 				this.OnClosed(new ToolStripDropDownClosedEventArgs(closeReason));
 			}
@@ -543,11 +558,27 @@ namespace System.Windows.Forms
 			ToolStripManager.AppClicked += new EventHandler (ToolStripMenuTracker_AppClicked);
 			ToolStripManager.AppFocusChange += new EventHandler (ToolStripMenuTracker_AppFocusChange);
 
+			bool useNativeMenu = true;
+			foreach (var item in this.Items)
+				useNativeMenu &= item is ToolStripMenuItem || item is ToolStripSeparator;
+
+			Size displaySize;
+			XplatUI.GetDisplaySize(out displaySize);
+
+			if (useNativeMenu) {
+				currentMenu = ToNSMenu();
+				NSApplication.SharedApplication.BeginInvokeOnMainThread(delegate {
+					currentMenu.PopUpMenu(null, new CGPoint(show_point.X, displaySize.Height - show_point.Y), null);
+				});
+			}
+
 			base.Show ();
 
 			ToolStripManager.SetActiveToolStrip (this, ToolStripManager.ActivatedByKeyboard);
 
-			this.OnOpened (EventArgs.Empty);
+			// Called from NSMenuDelegate for native menus
+			if (!useNativeMenu)
+				this.OnOpened (EventArgs.Empty);
 		}
 		
 		public void Show (Control control, int x, int y)

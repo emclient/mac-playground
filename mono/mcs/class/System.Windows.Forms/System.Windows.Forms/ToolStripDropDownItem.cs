@@ -208,7 +208,7 @@ namespace System.Windows.Forms
 				eh (this, e);
 		}
 
-		protected virtual void OnDropDownShow (EventArgs e)
+		protected internal virtual void OnDropDownShow (EventArgs e)
 		{
 			EventHandler eh = (EventHandler)(Events[DropDownOpeningEvent]);
 			if (eh != null)

@@ -39,7 +39,7 @@ namespace System.Windows.Forms
 	[DesignTimeVisible (false)]
 	[ToolboxItem (false)]
 	[Designer ("System.Windows.Forms.Design.ToolStripItemDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
-	public abstract class ToolStripItem : Component, IDropTarget, IComponent, IDisposable
+	public abstract partial class ToolStripItem : Component, IDropTarget, IComponent, IDisposable
 	{
 		#region Private Variables
 		private AccessibleObject accessibility_object;
