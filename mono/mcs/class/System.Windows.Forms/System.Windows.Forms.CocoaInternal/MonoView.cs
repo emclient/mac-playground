@@ -114,6 +114,19 @@ namespace System.Windows.Forms.CocoaInternal
 			return true;
 		}
 
+		public override bool MouseDownCanMoveWindow
+		{
+			get
+			{
+				// FIXME: Another ugly hack - until we find a good solution
+				var typeName = (Control.FromHandle(Handle))?.GetType().Name ?? String.Empty;
+				if (typeName.Contains("Button") || typeName.Contains("TextBox") || typeName.Contains("Label") || typeName.Contains("Search"))
+					return false;
+
+				return base.MouseDownCanMoveWindow;
+			}
+		}
+
 		public override void ViewDidMoveToWindow()
 		{
 			base.ViewDidMoveToWindow();

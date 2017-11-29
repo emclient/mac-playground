@@ -1668,9 +1668,7 @@ namespace System.Windows.Forms {
 			var vuWrap = ObjCRuntime.Runtime.GetNSObject(window) as MonoView;
 			if (vuWrap != null && vuWrap.Cursor != cursor) {
 				vuWrap.Cursor = cursor;
-				if (vuWrap == WindowsEventResponder.mouseView) {
-					OverrideCursor(cursor);
-				}
+				OverrideCursor(cursor);
 			}
 		}
 

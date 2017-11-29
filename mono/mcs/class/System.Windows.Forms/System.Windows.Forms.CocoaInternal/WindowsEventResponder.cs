@@ -109,8 +109,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void MouseMoved(NSEvent theEvent)
 		{
-			if (driver.Grab.Hwnd == view.Handle || mouseView == view)
-				TranslateMouseEvent(theEvent);
+			TranslateMouseEvent(theEvent);
 		}
 
 		public override void MouseDragged(NSEvent theEvent)
@@ -132,8 +131,6 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			TranslateMouseEvent(theEvent);
 		}
-
-		internal static NSView mouseView; // A view that is currently under the mouse cursor.
 
 		static nuint ButtonMaskToWParam(nuint mouseButtons)
 		{
@@ -265,9 +262,9 @@ namespace System.Windows.Forms.CocoaInternal
 						msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
 						msg.message = Msg.WM_MOUSE_ENTER;
 						Application.SendMessage(ref msg);
-						mouseView = (e.Window?.ContentView.Superview ?? e.Window?.ContentView)?.HitTest(e.LocationInWindow);
+						return;
 					}
-					return;
+					break;
 
 				case NSEventType.MouseExited:
 					if (e.TrackingArea?.Owner is NSView exited)
@@ -276,9 +273,9 @@ namespace System.Windows.Forms.CocoaInternal
 						msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
 						msg.message = Msg.WM_MOUSELEAVE;
 						Application.SendMessage(ref msg);
-						mouseView = (e.Window?.ContentView.Superview ?? e.Window?.ContentView)?.HitTest(e.LocationInWindow);
+						return;
 					}
-					return;
+					break;
 
 				//case NSEventType.TabletPoint:
 				//case NSEventType.TabletProximity:
