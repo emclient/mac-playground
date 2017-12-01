@@ -18,7 +18,12 @@ namespace System.Windows.Forms
 			nsMenuItem.Enabled = Enabled;
 			nsMenuItem.Hidden = !InternalVisible;
 			if (Image != null && (DisplayStyle == ToolStripItemDisplayStyle.ImageAndText || DisplayStyle == ToolStripItemDisplayStyle.Image))
-				nsMenuItem.Image = Image.ToNSImage();
+			{
+				var nsImage = Image.ToNSImage();
+				if (Image.Size.Width > 16)
+					nsImage.Size = new CoreGraphics.CGSize(nsImage.Size.Width / 2, nsImage.Size.Height / 2);
+				nsMenuItem.Image = nsImage;
+			}
 			// TODO: Checked, submenu
 			nsMenuItem.Activated += (sender, e) => this.OnClick(e);
 			return nsMenuItem;
