@@ -107,7 +107,7 @@ namespace System.Windows.Forms {
 		internal GrabStruct Grab;
 		internal Cocoa.Caret Caret;
 		internal readonly Stack<IntPtr> ModalSessions = new Stack<IntPtr>();
-		internal float screenHeight;
+		internal Size initialScreenSize;
 
 		private Dictionary<Thread, Stack<NSAutoreleasePool>> pools = new Dictionary<Thread, Stack<NSAutoreleasePool>>();
 
@@ -174,9 +174,7 @@ namespace System.Windows.Forms {
 				NSApplication.SharedApplication.FinishLaunching();
 
 			// Cache main screen height for flipping screen coordinates.
-			Size size;
-			GetDisplaySize(out size);
-			screenHeight = size.Height;
+			GetDisplaySize(out initialScreenSize);
 
 			// Initialize the Caret
 			Caret.Timer = new Timer ();
@@ -264,7 +262,7 @@ namespace System.Windows.Forms {
 
 		internal CGPoint MonoToNativeScreen (Point monoPoint)
 		{
-			return new CGPoint (monoPoint.X, screenHeight - monoPoint.Y);
+			return new CGPoint (monoPoint.X, initialScreenSize.Height - monoPoint.Y);
 		}
 
 		internal CGPoint MonoToNativeFramed (Point monoPoint, NSView view)
@@ -278,7 +276,7 @@ namespace System.Windows.Forms {
 
 		internal Point NativeToMonoScreen (CGPoint nativePoint)
 		{
-			return new Point ((int) nativePoint.X, (int) (screenHeight - nativePoint.Y));
+			return new Point ((int) nativePoint.X, (int) (initialScreenSize.Height - nativePoint.Y));
 		}
 
 		internal Point NativeToMonoFramed (CGPoint nativePoint, NSView view)
@@ -292,7 +290,7 @@ namespace System.Windows.Forms {
 
 		internal CGRect MonoToNativeScreen (Rectangle monoRect)
 		{
-			return new CGRect(monoRect.Left, screenHeight - monoRect.Bottom, monoRect.Width, monoRect.Height);
+			return new CGRect(monoRect.Left, initialScreenSize.Height - monoRect.Bottom, monoRect.Width, monoRect.Height);
 		}
 
 		internal CGRect MonoToNativeFramed (Rectangle monoRect, NSView view)
@@ -306,7 +304,7 @@ namespace System.Windows.Forms {
 
 		internal Rectangle NativeToMonoScreen (CGRect nativeRect)
 		{
-			return new Rectangle ((int) nativeRect.Left, (int) (screenHeight - nativeRect.Bottom), 
+			return new Rectangle ((int) nativeRect.Left, (int) (initialScreenSize.Height - nativeRect.Bottom), 
 				(int) nativeRect.Size.Width, (int) nativeRect.Size.Height);
 		}
 
@@ -1195,6 +1193,13 @@ namespace System.Windows.Forms {
 
 		internal override void GetDisplaySize (out Size size)
 		{
+			// For proper positioning of things after moving to another screen,
+			// we have to continue using the initial display size.
+			if (initialScreenSize.Height != 0) {
+				size = initialScreenSize;
+				return;
+			}
+			
 			// NSScreen.mainScreen () returns the screen the the user is currently interacting with.
 			// To get the screen identified by CGMainDisplayID (), get the 0th element of this array.
 			var screens = NSScreen.Screens;
@@ -1202,9 +1207,10 @@ namespace System.Windows.Forms {
 				NSScreen screenWrap = (NSScreen) screens[0];
 				CGRect bounds = screenWrap.Frame;
 				size = new Size ((int) bounds.Size.Width, (int) bounds.Size.Height);
-			} else {
-				size = Size.Empty;
+				return;
 			}
+
+			size = Size.Empty;
 		}
 
 		internal override IntPtr GetParent(IntPtr handle, bool with_owner)
