@@ -349,6 +349,8 @@ namespace System.Drawing
 				return new CGPath(path);
 			if (src is RectangleF rectf)
 				return rectf;
+			if (src is GraphicsPath graphicsPath)
+				return graphicsPath.Clone(); 
 
 			Console.WriteLine($"Unexpected type of regionObject ({src.GetType().Name})");
 			return src;
