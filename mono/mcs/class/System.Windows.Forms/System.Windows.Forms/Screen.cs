@@ -30,7 +30,6 @@ using System.Drawing;
 namespace System.Windows.Forms {
 	public class Screen {
 		#region Local Variables
-		private static Screen[] all_screens;
 		private bool		primary;
 		private Rectangle	bounds;
 		private Rectangle	workarea;
@@ -41,18 +40,24 @@ namespace System.Windows.Forms {
 		#region	Constructors
 		static Screen ()
 		{
+		}
+
+		static Screen[] GetAllScreens()
+		{
+			Screen[] screens = null;
 			try {
-				all_screens = XplatUI.AllScreens;
+				screens = XplatUI.AllScreens;
 			}
 			catch (Exception e) {
 				Console.WriteLine ("{0} trying to get all screens: {1}", e.GetType (), e.Message);
 			}
 
-			if (all_screens == null || all_screens.Length == 0) {
+			if (screens == null || screens.Length == 0) {
 				// just use a default one
-				all_screens = new[] { new Screen(true, "Mono MWF Primary Display",
+				screens = new[] { new Screen(true, "Mono MWF Primary Display",
 					XplatUI.VirtualScreen, XplatUI.WorkingArea) };
 			}
+			return screens;
 		}
 
 		internal Screen() {
@@ -72,13 +77,13 @@ namespace System.Windows.Forms {
 		#region Public Static Properties
 		public static Screen[] AllScreens {
 			get {
-				return all_screens;
+				return GetAllScreens();
 			}
 		}
 
 		public static Screen PrimaryScreen {
 			get {
-				return all_screens[0];
+				return GetAllScreens()[0];
 			}
 		}
 		#endregion	// Public Static Properties
@@ -132,9 +137,10 @@ namespace System.Windows.Forms {
 		}
 
 		public static Screen FromPoint(Point point) {
-			for (int i = 0; i < all_screens.Length; i++) {
-				if (all_screens[i].Bounds.Contains(point)) {
-					return all_screens[i];
+			var screens = XplatUI.AllScreens;
+			for (int i = 0; i < screens.Length; i++) {
+				if (screens[i].Bounds.Contains(point)) {
+					return screens[i];
 				}
 			}
 			return Screen.PrimaryScreen;
