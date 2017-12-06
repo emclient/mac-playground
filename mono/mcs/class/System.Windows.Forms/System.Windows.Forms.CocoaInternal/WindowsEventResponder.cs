@@ -371,7 +371,7 @@ namespace System.Windows.Forms.CocoaInternal
 				driver.SendMessage(view.Handle, msg, wParam, lParam);
 
 			// On Windows, this would normally be done in TranslateMessage
-			if (e.Type == NSEventType.KeyDown && (view is MonoEditView))
+			if (e.Type == NSEventType.KeyDown)// && (view is MonoEditView))
 			{
 				wmCharLParam = lParam;
 				view.InterpretKeyEvents(new[] { e });
