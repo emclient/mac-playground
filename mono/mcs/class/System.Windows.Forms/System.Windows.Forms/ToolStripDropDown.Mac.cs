@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Drawing;
 #if XAMARINMAC
 using AppKit;
 #else
@@ -28,6 +29,33 @@ namespace System.Windows.Forms
 			menu.AutoEnablesItems = false;
 			return menu;
 		}
+
+		// Finds an item that should appear at given position. Passing this item to PopUpMenu() causes adjusting the final menu position.
+		// It's not perfect, because real items are inserted and set later (in MenuWillOpen callback).
+		NSMenuItem ItemForPosition(Screen screen, Point position)
+		{
+			is_visible = true;
+			int menuHeight = 0;
+			int itemHeight = (int)NSApplication.SharedApplication.Menu.MenuBarHeight - 4; // FIXME: Is there a better way to determine menu item height?
+			foreach (ToolStripItem tsi in Items)
+			{
+				currentMenu.AddItem(tsi.ToNSMenuItem());
+				//if (item.Visible) // This condition dsoes not work well, because some items get hidden later
+				menuHeight += itemHeight;
+			}
+			is_visible = false;
+
+			var overlap = position.Y + menuHeight - screen.Bounds.Bottom;
+			if (overlap > 0)
+			{
+				int index = (int)Math.Ceiling((double)overlap / (double)itemHeight);
+				if (index > 0 && index < Items.Count)
+					return currentMenu.ItemAt(index);
+			}
+			return null;
+		}
+
+
 
 		class MonoMenuDelegate : NSMenuDelegate
 		{

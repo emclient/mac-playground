@@ -567,8 +567,9 @@ namespace System.Windows.Forms
 
 			if (useNativeMenu) {
 				currentMenu = ToNSMenu();
+				var item = ItemForPosition(bestScreen, show_point = position);
 				NSApplication.SharedApplication.BeginInvokeOnMainThread(delegate {
-					currentMenu.PopUpMenu(null, new CGPoint(show_point.X, displaySize.Height - show_point.Y), null);
+					currentMenu.PopUpMenu(item, new CGPoint(show_point.X, displaySize.Height - show_point.Y), null);
 				});
 			}
 
