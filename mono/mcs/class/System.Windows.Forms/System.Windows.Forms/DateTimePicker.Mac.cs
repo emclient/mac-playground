@@ -2256,6 +2256,14 @@ namespace System.Windows.Forms
 			is_drop_down_visible = false;
 			Invalidate(drop_down_arrow_rect);
 
+			NMHDR notification = new NMHDR();
+			notification.idFrom = IntPtr.Zero; // FIXME: GetWindowLong(GWL_ID)
+			notification.code = -746; // DTN_CLOSEUP
+			IntPtr notificationNative = Marshal.AllocHGlobal(Marshal.SizeOf(notification));
+			Marshal.StructureToPtr(notification, notificationNative, false);
+			XplatUI.SendMessage(this.Handle, Msg.WM_NOTIFY, IntPtr.Zero, notificationNative);
+			Marshal.FreeHGlobal(notificationNative);
+
 			Focus();
 		}
 	}
