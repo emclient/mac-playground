@@ -1088,5 +1088,18 @@ namespace System.Windows.Forms
         public int cy;
         public uint flags;
     }
+
+	[StructLayout(LayoutKind.Sequential)]
+#if PUBLIC_TYPES
+    public
+#else
+	internal
+#endif
+	struct NMHDR
+	{
+		public IntPtr hwndFrom;
+		public IntPtr idFrom;
+		public int code;
+	}
 }
 
