@@ -2,8 +2,10 @@
 using System.Drawing;
 #if XAMARINMAC
 using AppKit;
+using Foundation;
 #else
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 #endif
 
 namespace System.Windows.Forms
@@ -55,7 +57,96 @@ namespace System.Windows.Forms
 			return null;
 		}
 
+		[Register("__xmonomac_internal_ActionDispatcher")]
+		internal class ActionDispatcher : NSObject
+		{
+			const string skey = "__xmonomac_internal_ActionDispatcher_activated:";
+			const string dkey = "__xmonomac_internal_ActionDispatcher_doubleActivated:";
+			public static ObjCRuntime.Selector Action = new ObjCRuntime.Selector(skey);
+			public static ObjCRuntime.Selector DoubleAction = new ObjCRuntime.Selector(dkey);
+			public EventHandler Activated;
+			public EventHandler DoubleActivated;
+			//public Func<NSMenuItem, bool> ValidateMenuItemFunc;
 
+			[Preserve, Export(skey)]
+			public void OnActivated(NSObject sender)
+			{
+				EventHandler handler = Activated;
+				if (handler != null)
+					handler(sender, EventArgs.Empty);
+			}
+
+			[Preserve, Export(dkey)]
+			public void OnActivated2(NSObject sender)
+			{
+				EventHandler handler = DoubleActivated;
+				if (handler != null)
+					handler(sender, EventArgs.Empty);
+			}
+
+			public ActionDispatcher(EventHandler handler)
+			{
+				IsDirectBinding = false;
+				Activated = handler;
+			}
+
+			public ActionDispatcher()
+			{
+				IsDirectBinding = false;
+			}
+
+			public static NSObject SetupAction(NSObject target, EventHandler handler)
+			{
+				ActionDispatcher ctarget = target as ActionDispatcher;
+				if (ctarget == null)
+				{
+					ctarget = new ActionDispatcher();
+				}
+				ctarget.Activated += handler;
+				return ctarget;
+			}
+
+			public static void RemoveAction(NSObject target, EventHandler handler)
+			{
+				ActionDispatcher ctarget = target as ActionDispatcher;
+				if (ctarget == null)
+					return;
+				ctarget.Activated -= handler;
+			}
+
+			public static NSObject SetupDoubleAction(NSObject target, EventHandler doubleHandler)
+			{
+				ActionDispatcher ctarget = target as ActionDispatcher;
+				if (ctarget == null)
+				{
+					ctarget = new ActionDispatcher();
+				}
+				ctarget.DoubleActivated += doubleHandler;
+				return ctarget;
+			}
+
+			public static void RemoveDoubleAction(NSObject target, EventHandler doubleHandler)
+			{
+				ActionDispatcher ctarget = target as ActionDispatcher;
+				if (ctarget == null)
+					return;
+				ctarget.DoubleActivated -= doubleHandler;
+			}
+
+			/*public bool ValidateMenuItem(NSMenuItem menuItem)
+			{
+				if (ValidateMenuItemFunc != null)
+					return ValidateMenuItemFunc(menuItem);
+
+				return true;
+			}*/
+
+			public virtual Boolean WorksWhenModal
+			{
+				[Export("worksWhenModal")]
+				get { return true; }
+			}
+		}
 
 		class MonoMenuDelegate : NSMenuDelegate
 		{
@@ -104,7 +195,15 @@ namespace System.Windows.Forms
 				foreach (ToolStripItem item in owner.Items)
 				{
 					var menuItem = item.ToNSMenuItem();
-					menuItem.Activated += (sender, e) => owner.OnItemClicked(new ToolStripItemClickedEventArgs(item));
+					var actionObj = new ActionDispatcher((sender, e) =>
+						{
+							owner.OnItemClicked(new ToolStripItemClickedEventArgs(item)); item.PerformClick();
+						});
+					menuItem.Target = actionObj;
+					menuItem.Action = ActionDispatcher.Action;
+					/*menuItem.Activated += (sender, e) => {
+						owner.OnItemClicked(new ToolStripItemClickedEventArgs(item)); item.PerformClick();
+					};*/
 					menu.AddItem(menuItem);
 				}
 
@@ -114,6 +213,7 @@ namespace System.Windows.Forms
 			public override void MenuDidClose(NSMenu menu)
 			{
 				// Send WM_CANCELMODE to cancel any grabs
+				menu.RemoveAllItems();
 				owner.CancelGrab();
 				owner.currentMenu = null;
 				owner.Close();
