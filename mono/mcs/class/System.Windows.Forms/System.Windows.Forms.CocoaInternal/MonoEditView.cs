@@ -1,10 +1,10 @@
 ﻿using System.Drawing;
+using System.Runtime.InteropServices;
 #if XAMARINMAC
 using Foundation;
 using AppKit;
 using CoreGraphics;
 using ObjCRuntime;
-using System.Runtime.InteropServices;
 #elif MONOMAC
 using MonoMac.Foundation;
 using MonoMac.AppKit;

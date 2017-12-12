@@ -3,9 +3,11 @@ using System.Drawing;
 #if XAMARINMAC
 using AppKit;
 using Foundation;
+using ObjCRuntime;
 #else
 using MonoMac.AppKit;
 using MonoMac.Foundation;
+using MonoMac.ObjCRuntime;
 #endif
 
 namespace System.Windows.Forms
@@ -41,8 +43,11 @@ namespace System.Windows.Forms
 			int itemHeight = (int)NSApplication.SharedApplication.Menu.MenuBarHeight - 4; // FIXME: Is there a better way to determine menu item height?
 			foreach (ToolStripItem tsi in Items)
 			{
-				currentMenu.AddItem(tsi.ToNSMenuItem());
-				//if (item.Visible) // This condition dsoes not work well, because some items get hidden later
+				var nsitem = tsi.ToNSMenuItem();
+				if (nsitem.Menu != null)
+					nsitem.Menu.RemoveItem(nsitem);
+				currentMenu.AddItem(nsitem);
+				//if (item.Visible) // This condition does not work well, because some items get hidden later
 				menuHeight += itemHeight;
 			}
 			is_visible = false;
@@ -62,8 +67,8 @@ namespace System.Windows.Forms
 		{
 			const string skey = "__xmonomac_internal_ActionDispatcher_activated:";
 			const string dkey = "__xmonomac_internal_ActionDispatcher_doubleActivated:";
-			public static ObjCRuntime.Selector Action = new ObjCRuntime.Selector(skey);
-			public static ObjCRuntime.Selector DoubleAction = new ObjCRuntime.Selector(dkey);
+			public static Selector Action = new Selector(skey);
+			public static Selector DoubleAction = new Selector(dkey);
 			public EventHandler Activated;
 			public EventHandler DoubleActivated;
 			//public Func<NSMenuItem, bool> ValidateMenuItemFunc;
