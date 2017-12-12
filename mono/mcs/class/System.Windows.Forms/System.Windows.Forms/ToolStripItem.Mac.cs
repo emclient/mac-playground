@@ -2,8 +2,10 @@
 using System.Drawing.Mac;
 #if XAMARINMAC
 using AppKit;
+using CoreGraphics;
 #else
 using MonoMac.AppKit;
+using MonoMac.CoreGraphics;
 #endif
 
 namespace System.Windows.Forms
@@ -23,7 +25,7 @@ namespace System.Windows.Forms
 			{
 				var nsImage = Image.ToNSImage();
 				if (Image.Size.Width > 16)
-					nsImage.Size = new CoreGraphics.CGSize(nsImage.Size.Width / 2, nsImage.Size.Height / 2);
+					nsImage.Size = new CGSize(nsImage.Size.Width / 2, nsImage.Size.Height / 2);
 				nsMenuItem.Image = nsImage;
 			}
 			return nativeMenuItem = nsMenuItem;
