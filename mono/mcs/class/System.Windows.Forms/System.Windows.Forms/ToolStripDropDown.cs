@@ -429,11 +429,9 @@ namespace System.Windows.Forms
 		{
 			Show (new Point (x, y), DefaultDropDownDirection);
 		}
-		
-		public void Show (Point position, ToolStripDropDownDirection direction)
-		{
-			this.PerformLayout ();
 
+		private Point CalculateShowPoint (Point position, ToolStripDropDownDirection direction, Size size)
+		{
 			Screen primaryScreen = null;
 			Screen bestScreen = null;
 			foreach (var screen in XplatUI.AllScreens) {
@@ -455,28 +453,28 @@ namespace System.Windows.Forms
 				// X direction
 				switch (direction) {
 					case ToolStripDropDownDirection.AboveLeft:
-						if (show_point.X - this.Width < bestScreen.WorkingArea.Left)
+						if (show_point.X - size.Width < bestScreen.WorkingArea.Left)
 							direction = ToolStripDropDownDirection.AboveRight;
 						break;
 					case ToolStripDropDownDirection.BelowLeft:
-						if (show_point.X - this.Width < bestScreen.WorkingArea.Left)
+						if (show_point.X - size.Width < bestScreen.WorkingArea.Left)
 							direction = ToolStripDropDownDirection.BelowRight;
 						break;
 					case ToolStripDropDownDirection.Left:
-						if (show_point.X - this.Width < bestScreen.WorkingArea.Left)
+						if (show_point.X - size.Width < bestScreen.WorkingArea.Left)
 							direction = ToolStripDropDownDirection.Right;
 						break;
 					case ToolStripDropDownDirection.AboveRight:
-						if (show_point.X + this.Width > bestScreen.WorkingArea.Right)
+						if (show_point.X + size.Width > bestScreen.WorkingArea.Right)
 							direction = ToolStripDropDownDirection.AboveLeft;
 						break;
 					case ToolStripDropDownDirection.BelowRight:
 					case ToolStripDropDownDirection.Default:
-						if (show_point.X + this.Width > bestScreen.WorkingArea.Right)
+						if (show_point.X + size.Width > bestScreen.WorkingArea.Right)
 							direction = ToolStripDropDownDirection.BelowLeft;
 						break;
 					case ToolStripDropDownDirection.Right:
-						if (show_point.X + this.Width > bestScreen.WorkingArea.Right)
+						if (show_point.X + size.Width > bestScreen.WorkingArea.Right)
 							direction = ToolStripDropDownDirection.Left;
 						break;
 				}
@@ -484,28 +482,28 @@ namespace System.Windows.Forms
 				// Y direction
 				switch (direction) {
 					case ToolStripDropDownDirection.AboveLeft:
-						if (show_point.Y - this.Height < bestScreen.WorkingArea.Top)
+						if (show_point.Y - size.Height < bestScreen.WorkingArea.Top)
 							direction = ToolStripDropDownDirection.BelowLeft;
 						break;
 					case ToolStripDropDownDirection.AboveRight:
-						if (show_point.Y - this.Height < bestScreen.WorkingArea.Top)
+						if (show_point.Y - size.Height < bestScreen.WorkingArea.Top)
 							direction = ToolStripDropDownDirection.BelowRight;
 						break;
 					case ToolStripDropDownDirection.BelowLeft:
-						if (show_point.Y + this.Height > bestScreen.WorkingArea.Bottom && show_point.Y - this.Height > 0)
+						if (show_point.Y + size.Height > bestScreen.WorkingArea.Bottom && show_point.Y - size.Height > 0)
 							direction = ToolStripDropDownDirection.AboveLeft;
 						break;
 					case ToolStripDropDownDirection.BelowRight:
 					case ToolStripDropDownDirection.Default:
-						if (show_point.Y + this.Height > bestScreen.WorkingArea.Bottom && show_point.Y - this.Height > 0)
+						if (show_point.Y + size.Height > bestScreen.WorkingArea.Bottom && show_point.Y - size.Height > 0)
 							direction = ToolStripDropDownDirection.AboveRight;
 						break;
 					case ToolStripDropDownDirection.Left:
-						if (show_point.Y + this.Height > bestScreen.WorkingArea.Bottom && show_point.Y - this.Height > 0)
+						if (show_point.Y + size.Height > bestScreen.WorkingArea.Bottom && show_point.Y - size.Height > 0)
 							direction = ToolStripDropDownDirection.AboveLeft;
 						break;
 					case ToolStripDropDownDirection.Right:
-						if (show_point.Y + this.Height > bestScreen.WorkingArea.Bottom && show_point.Y - this.Height > 0)
+						if (show_point.Y + size.Height > bestScreen.WorkingArea.Bottom && show_point.Y - size.Height > 0)
 							direction = ToolStripDropDownDirection.AboveRight;
 						break;
 				}
@@ -513,33 +511,42 @@ namespace System.Windows.Forms
 		
 			switch (direction) {
 				case ToolStripDropDownDirection.AboveLeft:
-					show_point.Y -= this.Height;
-					show_point.X -= this.Width;
+					show_point.Y -= size.Height;
+					show_point.X -= size.Width;
 					break;
 				case ToolStripDropDownDirection.AboveRight:
-					show_point.Y -= this.Height;
+					show_point.Y -= size.Height;
 					break;
 				case ToolStripDropDownDirection.BelowLeft:
-					show_point.X -= this.Width;
+					show_point.X -= size.Width;
 					break;
 				case ToolStripDropDownDirection.Left:
-					show_point.X -= this.Width;
+					show_point.X -= size.Width;
 					break;
 				case ToolStripDropDownDirection.Right:
 					break;
 			}
 
 			// Fix offscreen horizontal positions
-			if ((show_point.X + this.Width) > bestScreen.WorkingArea.Right)
-				show_point.X = bestScreen.WorkingArea.Right - this.Width;
+			if ((show_point.X + size.Width) > bestScreen.WorkingArea.Right)
+				show_point.X = bestScreen.WorkingArea.Right - size.Width;
 			if (show_point.X < bestScreen.WorkingArea.Left)
 				show_point.X = bestScreen.WorkingArea.Left;
 
 			// Fix offscreen vertical positions
-			if ((show_point.Y + this.Height) > bestScreen.WorkingArea.Bottom)
-				show_point.Y = bestScreen.WorkingArea.Bottom - this.Height;
+			if ((show_point.Y + size.Height) > bestScreen.WorkingArea.Bottom)
+				show_point.Y = bestScreen.WorkingArea.Bottom - size.Height;
 			if (show_point.Y < bestScreen.WorkingArea.Top)
 				show_point.Y = bestScreen.WorkingArea.Top ;
+
+			return show_point;
+		}
+
+		public void Show (Point position, ToolStripDropDownDirection direction)
+		{
+			this.PerformLayout ();
+
+			Point show_point = CalculateShowPoint (position, direction, Size);
 
 			if (this.Location != show_point)
 				this.Location = show_point;
@@ -562,14 +569,14 @@ namespace System.Windows.Forms
 			foreach (var item in this.Items)
 				useNativeMenu &= item is ToolStripMenuItem || item is ToolStripSeparator;
 
-			Size displaySize;
-			XplatUI.GetDisplaySize(out displaySize);
-
 			if (useNativeMenu) {
-				currentMenu = ToNSMenu();
-				var item = ItemForPosition(bestScreen, show_point = position);
+				currentMenu = ToNSMenu ();
+				((MonoMenuDelegate)currentMenu.Delegate).BeforePopup ();
+				show_point = CalculateShowPoint (position, direction, new Size((int)currentMenu.Size.Width, (int)currentMenu.Size.Height));
 				NSApplication.SharedApplication.BeginInvokeOnMainThread(delegate {
-					currentMenu.PopUpMenu(item, new CGPoint(show_point.X, displaySize.Height - show_point.Y), null);
+					Size displaySize;
+					XplatUI.GetDisplaySize(out displaySize);
+					currentMenu.PopUpMenu(null, new CGPoint(show_point.X, displaySize.Height - show_point.Y), null);
 				});
 			}
 
