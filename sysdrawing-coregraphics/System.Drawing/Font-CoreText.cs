@@ -83,8 +83,10 @@ namespace System.Drawing
 		private void CreateNativeFont (FontFamily familyName, float emSize, FontStyle style,
 			GraphicsUnit unit, byte gdiCharSet, bool  gdiVerticalFont )
 		{
+			sizeInPoints = ConversionHelpers.GraphicsUnitConversion(unit, GraphicsUnit.Point, 72.0f, emSize); 
+
 			// convert to 96 Dpi to be consistent with Windows
-			var dpiSize = emSize * dpiScale;
+			var dpiSize = sizeInPoints * dpiScale;
 
 			try 
 			{
@@ -113,13 +115,8 @@ namespace System.Drawing
 
 			bold = (nativeFont.SymbolicTraits & CTFontSymbolicTraits.Bold) == CTFontSymbolicTraits.Bold; 
 			italic = (nativeFont.SymbolicTraits & CTFontSymbolicTraits.Italic) == CTFontSymbolicTraits.Italic;
-			sizeInPoints = emSize;
+			this.size = emSize;
 			this.unit = unit;
-
-			// FIXME
-			// I do not like the hard coded 72 but am just trying to boot strap the Font class right now
-			size = ConversionHelpers.GraphicsUnitConversion(GraphicsUnit.Point, unit, 72.0f, sizeInPoints); 
-
 		}
 
 		internal static string PreferredLanguage
