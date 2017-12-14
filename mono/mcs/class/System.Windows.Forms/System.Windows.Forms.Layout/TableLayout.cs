@@ -388,6 +388,8 @@ namespace System.Windows.Forms.Layout
 				// Divvy up the space..
 				int index = 0;
 				foreach (ColumnStyle cs in styles) {
+					if (index >= column_widths.Length)
+						break;
 					if (cs.SizeType == SizeType.Percent) {
 						int width_change = (int)((cs.Width / total_percent) * overlap);
 						if (width_change > 0) {
