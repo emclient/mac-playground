@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -21,7 +20,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
     <Optimize>false</Optimize>
-    <OutputPath>bin\Mono - Debug</OutputPath>
+    <OutputPath>bin\Xamarin - Debug</OutputPath>
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>DEBUG; NET_4_5; NET_4_0; MAC</DefineConstants>
@@ -59,49 +58,10 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DebugLayoutForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DebugLayoutForm.Designer.cs">
-      <DependentUpon>DebugLayoutForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DebugLayoutForm2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DebugLayoutForm2.Designer.cs">
-      <DependentUpon>DebugLayoutForm2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DebugLayoutForm3.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DebugLayoutForm3.Designer.cs">
-      <DependentUpon>DebugLayoutForm3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DebugLayoutForm4.Designer.cs">
-      <DependentUpon>DebugLayoutForm4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TextBoxForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TextBoxForm.Designer.cs">
-      <DependentUpon>TextBoxForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LayoutForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LayoutForm.Designer.cs">
-      <DependentUpon>LayoutForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs" />
     <Compile Include="Properties\Settings.Designer.cs" />
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Extensions.cs" />
     <Compile Include="MyListBox.cs">
       <SubType>Component</SubType>
@@ -110,13 +70,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Msg.cs" />
-    <Compile Include="WebForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="UrlProtocol.cs" />
-    <Compile Include="DebugLayoutForm4.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="LayoutIssues\ImapOptions\ImapOptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,30 +132,89 @@
     <Compile Include="LayoutIssues\ControlExpandablePanelAutodiscover.Designer.cs">
       <DependentUpon>ControlExpandablePanelAutodiscover.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\DebugLayoutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DebugLayoutForm.Designer.cs">
+      <DependentUpon>DebugLayoutForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\DebugLayoutForm.resx">
+      <DependentUpon>DebugLayoutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Forms\DebugLayoutForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DebugLayoutForm2.Designer.cs">
+      <DependentUpon>DebugLayoutForm2.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\DebugLayoutForm2.resx">
+      <DependentUpon>DebugLayoutForm2.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Forms\DebugLayoutForm3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DebugLayoutForm3.Designer.cs">
+      <DependentUpon>DebugLayoutForm3.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\DebugLayoutForm3.resx">
+      <DependentUpon>DebugLayoutForm3.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Forms\DebugLayoutForm4.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DebugLayoutForm4.Designer.cs">
+      <DependentUpon>DebugLayoutForm4.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\DebugLayoutForm4.resx">
+      <DependentUpon>DebugLayoutForm4.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Forms\ImageForm.cs" />
+    <Compile Include="Forms\ImageForm.Designer.cs">
+      <DependentUpon>ImageForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\ImageForm.resx">
+      <DependentUpon>ImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Forms\LayoutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LayoutForm.Designer.cs">
+      <DependentUpon>LayoutForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\LayoutForm.resx">
+      <DependentUpon>LayoutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Forms\TextBoxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TextBoxForm.Designer.cs">
+      <DependentUpon>TextBoxForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\TextBoxForm.resx">
+      <DependentUpon>TextBoxForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Forms\WebForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Resources\Providers.Designer.cs">
+      <DependentUpon>Providers.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Resources\Providers.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Providers.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
-    <EmbeddedResource Include="DebugLayoutForm.resx">
-      <DependentUpon>DebugLayoutForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DebugLayoutForm2.resx">
-      <DependentUpon>DebugLayoutForm2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DebugLayoutForm3.resx">
-      <DependentUpon>DebugLayoutForm3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DebugLayoutForm4.resx">
-      <DependentUpon>DebugLayoutForm4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TextBoxForm.resx">
-      <DependentUpon>TextBoxForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LayoutForm.resx">
-      <DependentUpon>LayoutForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">
       <LogicalName>MailClient.Protocols.Imap.ImapOptionsControl.resources</LogicalName>
     </EmbeddedResource>
@@ -238,6 +251,18 @@
     <None Include="application.ico" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
+    <None Include="Resources\Hotmail_Small.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Hotmail.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\iCloud_Small.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\iCloud.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
@@ -285,5 +310,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="LayoutIssues\FormLinkMessageBox\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
+
+<!-- <Target Name="MonoResGenWorkaround" BeforeTargets="BeforeBuild" Condition=" ('$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release') and Exists('$(SolutionDir)/Dependencies/Mac/ResGen/bin/Debug/ResGen.exe') ">
+    <PropertyGroup>
+      <ResgenToolPath>$(SolutionDir)/Dependencies/Mac/ResGen/bin/Debug/</ResgenToolPath>
+      <ResGenExecuteAsTool>True</ResGenExecuteAsTool>
+      <GenerateResourceMSBuildRuntime>CLR4</GenerateResourceMSBuildRuntime>
+      <GenerateResourceMSBuildArchitecture>x86</GenerateResourceMSBuildArchitecture>
+    </PropertyGroup>        
+  </Target>
+-->    
 </Project>
