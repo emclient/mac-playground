@@ -73,7 +73,8 @@ namespace FormsTest
 			webView.ClearedWindowObject += new EventHandler<WebFrameScriptFrameEventArgs>(WebViewClearedWindowObject);
 			webView.ReceivedTitle += new EventHandler<WebFrameTitleEventArgs>(WebViewReceivedTitle);
 
-			var url = new NSUrl("http://jetencurakjesteprezidentem.cz");
+			//var url = new NSUrl("http://jetencurakjesteprezidentem.cz");
+			var url = new NSUrl("http://idnes.cz");
 			var request = new NSUrlRequest(url);
 			webView.MainFrame.LoadRequest(request);
 
