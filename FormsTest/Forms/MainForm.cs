@@ -66,6 +66,7 @@ namespace FormsTest
             this.filterTextBox.KeyDown += FilterTextBox_KeyDown;
 
 			AddButton("WebForm", () => { new WebForm().Show(); });
+            AddButton("ImageForm", () => { new ImageForm().Show(); });
 			AddButton("TextBoxes", () => { new TextBoxForm().Show(); });
 			AddButton("ImapOptions", () => { new ImapOptionsForm().Show(); });
 			AddButton("MailOptions", () => { new MailOptionsForm().Show(); });
@@ -76,7 +77,7 @@ namespace FormsTest
 			).Show(); });
 			AddButton("Layout 1", () => { new DebugLayoutForm().Show(); });
 			AddButton("Layout 2", () => { new DebugLayoutForm2().Show(); });
-			AddButton("Layout 3", () => { new DebugLayoutForm3().Show(); });
+			//AddButton("Layout 3", () => { new DebugLayoutForm3().Show(); });
 			//AddButton("Layout 4", () => { new DebugLayoutForm4().Show(); });
 			AddButton("Editor", () =>
 			{
