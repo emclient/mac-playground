@@ -139,6 +139,7 @@
     <Compile Include="..\..\..\WinApi\Usp10.Structs.cs">
       <Link>WinApi\Usp10.Structs.cs</Link>
     </Compile>
+    <Compile Include="MacApi\Posix\LibC.cs" />
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
@@ -164,5 +165,6 @@
     <Folder Include="MacApi\CoreGraphics\" />
     <Folder Include="MacApi\AppKit\" />
     <Folder Include="MacApi\CoreServices\" />
+    <Folder Include="MacApi\Posix\" />
   </ItemGroup>
 </Project>
