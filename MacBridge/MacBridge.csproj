@@ -140,6 +140,8 @@
       <Link>WinApi\Usp10.Structs.cs</Link>
     </Compile>
     <Compile Include="MacApi\Posix\LibC.cs" />
+    <Compile Include="MacApi\AppKit\NSWorkspace.cs" />
+    <Compile Include="MacApi\AppKit\NSApplication.cs" />
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
