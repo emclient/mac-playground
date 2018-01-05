@@ -168,7 +168,9 @@
     <EmbeddedResource Include="Forms\DebugLayoutForm4.resx">
       <DependentUpon>DebugLayoutForm4.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="Forms\ImageForm.cs" />
+    <Compile Include="Forms\ImageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\ImageForm.Designer.cs">
       <DependentUpon>ImageForm.cs</DependentUpon>
     </Compile>
@@ -308,13 +310,8 @@
       <Name>HTMLEditorControl</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="LayoutIssues\FormLinkMessageBox\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Resources\" />
-  </ItemGroup>
-
-<!-- <Target Name="MonoResGenWorkaround" BeforeTargets="BeforeBuild" Condition=" ('$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release') and Exists('$(SolutionDir)/Dependencies/Mac/ResGen/bin/Debug/ResGen.exe') ">
+  <ItemGroup />
+  <!-- <Target Name="MonoResGenWorkaround" BeforeTargets="BeforeBuild" Condition=" ('$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release') and Exists('$(SolutionDir)/Dependencies/Mac/ResGen/bin/Debug/ResGen.exe') ">
     <PropertyGroup>
       <ResgenToolPath>$(SolutionDir)/Dependencies/Mac/ResGen/bin/Debug/</ResgenToolPath>
       <ResGenExecuteAsTool>True</ResGenExecuteAsTool>
@@ -322,5 +319,5 @@
       <GenerateResourceMSBuildArchitecture>x86</GenerateResourceMSBuildArchitecture>
     </PropertyGroup>        
   </Target>
--->    
+-->
 </Project>
