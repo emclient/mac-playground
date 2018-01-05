@@ -57,6 +57,9 @@ namespace MacBridge.Posix
         [DllImport(Constants.libcLibrary, SetLastError = true)]
         public static extern int getpid();
 
+		[DllImport(Constants.libcLibrary, SetLastError = true)]
+		public static extern int waitpid(int pid, int[] status, int options);
+
         #endregion
     }
 }

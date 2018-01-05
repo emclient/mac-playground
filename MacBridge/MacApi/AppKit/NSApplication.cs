@@ -20,11 +20,11 @@ namespace MacBridge.AppKit
 				if (app == null)
 					app = NSRunningApplication.GetRunningApplication(pid);
 
-				if (app != null)
+				if (app != null && app.FinishedLaunching)
 					if (app.Activate(NSApplicationActivationOptions.ActivateIgnoringOtherWindows))
 						return true;
 					
-				System.Threading.Thread.Sleep(100);
+				NSThread.SleepFor(0.1);
 			}
 			return false;
 		}
