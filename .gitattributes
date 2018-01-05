@@ -2,6 +2,9 @@
 ConsoleTest/ConsoleTest.csproj -text
 ConsoleTest/Program.cs -text
 ConsoleTest/Properties/AssemblyInfo.cs -text
+DockTile.docktileplugin/Contents/Info.plist -text
+DockTile.docktileplugin/Contents/MacOS/DockTile -text
+DockTile.docktileplugin/Contents/_CodeSignature/CodeResources -text
 DockTilePlugin/DockTile.xcodeproj/project.pbxproj -text
 DockTilePlugin/DockTile.xcodeproj/project.xcworkspace/contents.xcworkspacedata -text
 DockTilePlugin/DockTilePlugIn-Info.plist -text
