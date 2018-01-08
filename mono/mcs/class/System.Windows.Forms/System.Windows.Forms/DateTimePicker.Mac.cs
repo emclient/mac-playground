@@ -1393,7 +1393,13 @@ namespace System.Windows.Forms
 
 			if (selected_index == -1)
 			{
-				return;
+                SelectPart(0);
+                selected_index = GetSelectedPartIndex();
+                if (selected_index == -1)
+                {
+                    // if there was not any part at all
+                    return;
+                }
 			}
 
 			EndDateEdit(false);
