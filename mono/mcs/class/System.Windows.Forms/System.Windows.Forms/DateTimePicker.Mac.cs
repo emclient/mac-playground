@@ -237,6 +237,8 @@ namespace System.Windows.Forms
 			IncrementSelectedPart(1);
 			updown_timer.Interval = initial_timer_delay;
 			updown_timer.Enabled = true;
+
+			Focus();
 		}
 
 		internal virtual void Stepper_DownButton(object sender, EventArgs e)
@@ -244,6 +246,8 @@ namespace System.Windows.Forms
 			IncrementSelectedPart(-1);
 			updown_timer.Interval = initial_timer_delay;
 			updown_timer.Enabled = true;
+
+			Focus();
 		}
 
 		#endregion
@@ -1393,13 +1397,13 @@ namespace System.Windows.Forms
 
 			if (selected_index == -1)
 			{
-                SelectPart(0);
-                selected_index = GetSelectedPartIndex();
-                if (selected_index == -1)
-                {
-                    // if there was not any part at all
-                    return;
-                }
+				SelectPart(0);
+				selected_index = GetSelectedPartIndex();
+				if (selected_index == -1)
+				{
+					// if there was not any part at all
+					return;
+				}
 			}
 
 			EndDateEdit(false);
