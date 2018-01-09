@@ -1010,10 +1010,19 @@ namespace System.Windows.Forms
 						}
 						else
 						{
-							if (c2.Parent != null)
-								if (c2.Parent is ToolStripDropDownMenu)
-									if ((c2.Parent as ToolStripDropDownMenu).GetTopLevelToolStrip() == keyboard_capture.GetTopLevelToolStrip())
+							Control dropDownParent = c2.Parent;
+
+							while (dropDownParent != null)
+							{
+								if (dropDownParent is ToolStripDropDown)
+								{
+									if ((dropDownParent as ToolStripDropDown).GetTopLevelToolStrip() == keyboard_capture.GetTopLevelToolStrip())
 										goto default;
+									break;
+								}
+
+								dropDownParent = dropDownParent.Parent;
+							}
 
 							if (!Control.IsChild(keyboard_capture.Handle, c2.Handle))
 							{
