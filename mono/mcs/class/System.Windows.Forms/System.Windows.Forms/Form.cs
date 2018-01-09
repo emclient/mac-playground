@@ -2402,16 +2402,18 @@ namespace System.Windows.Forms {
 				this.OnShown (EventArgs.Empty);
 				shown_raised = true;
 			}
-			
-			if (value && !IsMdiChild) {
-				if (ActiveControl == null)
-					SelectNextControl (null, true, true, true, false);
 
-				// Commented out as it caused losing focus of the current control when another form was shown without activation (pop-up)
-				//if (ActiveControl != null)
-				//	SendControlFocus (ActiveControl);
-				//else
-				//	this.Focus ();
+			if (value && !IsMdiChild){
+				if (ActiveControl == null)
+					SelectNextControl(null, true, true, true, false);
+
+			    if (!this.ShowWithoutActivation)
+			    {
+			    	if (ActiveControl != null)
+			    		SendControlFocus(ActiveControl);
+			    	else
+			    		this.Focus();
+			    }
 			}
 		}
 
