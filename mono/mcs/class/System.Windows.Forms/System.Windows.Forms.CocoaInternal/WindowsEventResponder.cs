@@ -476,12 +476,11 @@ namespace System.Windows.Forms.CocoaInternal
 
 		void SendCmdKey(IntPtr hwnd, VirtualKeys key)
 		{
-			if (!cmdDown)
-				driver.SendMessage(hwnd, Msg.WM_KEYDOWN, (IntPtr)VirtualKeys.VK_LWIN, IntPtr.Zero);
+			NSEventModifierMask original = XplatUICocoa.key_modifiers;
+			XplatUICocoa.key_modifiers = NSEventModifierMask.CommandKeyMask;
 			driver.SendMessage(hwnd, Msg.WM_KEYDOWN, (IntPtr)key, (IntPtr)0x1080000);
 			driver.SendMessage(hwnd, Msg.WM_KEYUP, (IntPtr)key, (IntPtr)0x1080000);
-			if (!cmdDown)
-				driver.SendMessage(hwnd, Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_LWIN, IntPtr.Zero);
+			XplatUICocoa.key_modifiers = original;
 		}
 
 		void SendKey(IntPtr hwnd, VirtualKeys key)
