@@ -416,6 +416,17 @@ namespace System.Windows.Forms.CocoaInternal
 		public virtual void DoCommandBySelector(Selector selector)
 		{
 			SendPendingWmKeyDown();
+
+			switch (selector.Name)
+			{
+				case "insertNewline:":
+					// although '\n' is the new line char on Mac, .net controls are bound to '\r'
+					driver.SendMessage(view.Handle, Msg.WM_CHAR, (IntPtr)'\r', wmCharLParam);
+					break;
+				case "insertTab:":
+					driver.SendMessage(view.Handle, Msg.WM_CHAR, (IntPtr)'\t', wmCharLParam);
+					break;
+			}
 		}
 
 		#endregion
