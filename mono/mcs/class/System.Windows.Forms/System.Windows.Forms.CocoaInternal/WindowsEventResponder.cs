@@ -319,10 +319,14 @@ namespace System.Windows.Forms.CocoaInternal
 			ProcessModifiers(theEvent);
 		}
 
-		void ProcessModifiers(NSEvent eventref)
+		void ProcessModifiers(NSEvent theEvent)
+		{
+			ProcessModifiers(theEvent.ModifierFlags);
+		}
+
+		void ProcessModifiers(NSEventModifierMask flags)
 		{
 			// we get notified when modifiers change, but not specifically what changed
-			NSEventModifierMask flags = eventref.ModifierFlags;
 			NSEventModifierMask diff = flags ^ XplatUICocoa.key_modifiers;
 			XplatUICocoa.key_modifiers = flags;
 
@@ -476,12 +480,13 @@ namespace System.Windows.Forms.CocoaInternal
 
 		void SendCmdKey(IntPtr hwnd, VirtualKeys key)
 		{
-			if (!cmdDown)
-				driver.SendMessage(hwnd, Msg.WM_KEYDOWN, (IntPtr)VirtualKeys.VK_LWIN, IntPtr.Zero);
+			var emulateCmd = !cmdDown;
+			if (emulateCmd)
+				ProcessModifiers(XplatUICocoa.key_modifiers | NSEventModifierMask.CommandKeyMask);
 			driver.SendMessage(hwnd, Msg.WM_KEYDOWN, (IntPtr)key, (IntPtr)0x1080000);
 			driver.SendMessage(hwnd, Msg.WM_KEYUP, (IntPtr)key, (IntPtr)0x1080000);
-			if (!cmdDown)
-				driver.SendMessage(hwnd, Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_LWIN, IntPtr.Zero);
+			if (emulateCmd)
+				ProcessModifiers(XplatUICocoa.key_modifiers & ~NSEventModifierMask.CommandKeyMask);
 		}
 
 		void SendKey(IntPtr hwnd, VirtualKeys key)
