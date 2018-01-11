@@ -607,88 +607,86 @@ namespace System.Drawing {
 
 		internal new void RotateFlip (RotateFlipType rotateFlipType)
 		{
-//
-//			CGAffineTransform rotateFlip = CGAffineTransform.MakeIdentity();
-//
-//			int width, height;
-//			width = NativeCGImage.Width;
-//			height = NativeCGImage.Height;
-//
-//			switch (rotateFlipType) 
-//			{
-//				//			case RotateFlipType.RotateNoneFlipNone:
-//				//			//case RotateFlipType.Rotate180FlipXY:
-//				//				rotateFlip = GeomUtilities.CreateRotateFlipTransform (b.Width, b.Height, 0, false, false);
-//				//				break;
-//				case RotateFlipType.Rotate90FlipNone:
-//				//case RotateFlipType.Rotate270FlipXY:
-//				rotateFlip = GeomUtilities.CreateRotateFlipTransform (ref width, ref height, 90, false, false);
-//				break;
-//				case RotateFlipType.Rotate180FlipNone:
-//				//case RotateFlipType.RotateNoneFlipXY:
-//				rotateFlip = GeomUtilities.CreateRotateFlipTransform (ref width, ref height, 0, true, true);
-//				break;
-//				case RotateFlipType.Rotate270FlipNone:
-//				//case RotateFlipType.Rotate90FlipXY:
-//				rotateFlip = GeomUtilities.CreateRotateFlipTransform (ref width, ref height, 270, false, false);
-//				break;
-//				case RotateFlipType.RotateNoneFlipX:
-//				//case RotateFlipType.Rotate180FlipY:
-//				rotateFlip = GeomUtilities.CreateRotateFlipTransform (ref width, ref height, 0, true, false);
-//				break;
-//				case RotateFlipType.Rotate90FlipX:
-//				//case RotateFlipType.Rotate270FlipY:
-//				rotateFlip = GeomUtilities.CreateRotateFlipTransform (ref width, ref height, 90, true, false);
-//				break;
-//				case RotateFlipType.Rotate180FlipX:
-//				//case RotateFlipType.RotateNoneFlipY:
-//				rotateFlip = GeomUtilities.CreateRotateFlipTransform (ref width, ref height, 0, false, true);
-//				break;
-//				case RotateFlipType.Rotate270FlipX:
-//				//case RotateFlipType.Rotate90FlipY:
-//				rotateFlip = GeomUtilities.CreateRotateFlipTransform (ref width, ref height, 270, true, false);
-//				break;
-//			}
-//
-//			var format = GetBestSupportedFormat (pixelFormat);
-//			var bitmapContext = CreateCompatibleBitmapContext (width, height, format);
-//
-//			bitmapContext.ConcatCTM (rotateFlip);
-//
-//			bitmapContext.DrawImage (new CGRect (0, 0, NativeCGImage.Width, NativeCGImage.Height), NativeCGImage);
-//
-//			int size = bitmapContext.BytesPerRow * bitmapContext.Height;
-//			dataProvider = new CGDataProvider (bitmapContext.Data, size, true);
-//
-//			// If the width or height is not the seme we need to switch the dpiHeight and dpiWidth
-//			// We should be able to get around this with set resolution later.
-//			if (NativeCGImage.Width != width || NativeCGImage.Height != height)
-//			{
-//				var temp = dpiWidth;
-//				dpiHeight = dpiWidth;
-//				dpiWidth = temp;
-//			}
-//
-//			NativeCGImage = new CGImage (bitmapContext.Width, bitmapContext.Height, bitmapContext.BitsPerComponent, 
-//			                             bitmapContext.BitsPerPixel, bitmapContext.BytesPerRow, 
-//			                             bitmapContext.ColorSpace,
-//			                             bitmapContext.AlphaInfo,
-//				dataProvider, null, true, CGColorRenderingIntent.Default);
-//
-//
-//			physicalDimension.Width = (float)width;
-//			physicalDimension.Height = (float)height;
-//
-//			physicalSize = new SizeF (physicalDimension.Width, physicalDimension.Height);
-//			physicalSize.Width *= ConversionHelpers.MS_DPI / dpiWidth;
-//			physicalSize.Height *= ConversionHelpers.MS_DPI / dpiHeight;
-//
-//			// In windows the RawFormat is changed to MemoryBmp to show that the image has changed.
-//			rawFormat = ImageFormat.MemoryBmp;
-//
-//			// Set our transform for this image for the new height
-//			imageTransform = new CGAffineTransform(1, 0, 0, -1, 0, height);
-//
+			CGAffineTransform rotateFlip = CGAffineTransform.MakeIdentity();
+
+			int width, height;
+			width = (int)NativeCGImage.Width;
+			height = (int)NativeCGImage.Height;
+
+			switch (rotateFlipType) 
+			{
+				//			case RotateFlipType.RotateNoneFlipNone:
+				//			//case RotateFlipType.Rotate180FlipXY:
+				//				rotateFlip = GeomUtilities.CreateRotateFlipTransform (b.Width, b.Height, 0, false, false);
+				//				break;
+				case RotateFlipType.Rotate90FlipNone:
+				//case RotateFlipType.Rotate270FlipXY:
+				rotateFlip = GeomUtilities.CreateRotateFlipTransform (ref width, ref height, 90, false, false);
+				break;
+				case RotateFlipType.Rotate180FlipNone:
+				//case RotateFlipType.RotateNoneFlipXY:
+				rotateFlip = GeomUtilities.CreateRotateFlipTransform (ref width, ref height, 0, true, true);
+				break;
+				case RotateFlipType.Rotate270FlipNone:
+				//case RotateFlipType.Rotate90FlipXY:
+				rotateFlip = GeomUtilities.CreateRotateFlipTransform (ref width, ref height, 270, false, false);
+				break;
+				case RotateFlipType.RotateNoneFlipX:
+				//case RotateFlipType.Rotate180FlipY:
+				rotateFlip = GeomUtilities.CreateRotateFlipTransform (ref width, ref height, 0, true, false);
+				break;
+				case RotateFlipType.Rotate90FlipX:
+				//case RotateFlipType.Rotate270FlipY:
+				rotateFlip = GeomUtilities.CreateRotateFlipTransform (ref width, ref height, 90, true, false);
+				break;
+				case RotateFlipType.Rotate180FlipX:
+				//case RotateFlipType.RotateNoneFlipY:
+				rotateFlip = GeomUtilities.CreateRotateFlipTransform (ref width, ref height, 0, false, true);
+				break;
+				case RotateFlipType.Rotate270FlipX:
+				//case RotateFlipType.Rotate90FlipY:
+				rotateFlip = GeomUtilities.CreateRotateFlipTransform (ref width, ref height, 270, true, false);
+				break;
+			}
+
+			var bytesPerRow = (width * (int)NativeCGImage.BitsPerPixel + 7) / 8;
+			var newBitmapBlock = Marshal.AllocHGlobal(height * bytesPerRow);
+			var newBitmapContext = new CGBitmapContext(bitmapBlock, width, height, NativeCGImage.BitsPerComponent, bytesPerRow, NativeCGImage.ColorSpace, NativeCGImage.AlphaInfo);
+			newBitmapContext.ConcatCTM(rotateFlip);
+			newBitmapContext.DrawImage(new CGRect(0, 0, NativeCGImage.Width, NativeCGImage.Height), NativeCGImage);
+
+			if (bitmapBlock != IntPtr.Zero)
+				Marshal.FreeHGlobal(bitmapBlock);
+			if (cachedContext != null)
+				cachedContext.Dispose();
+
+			this.bitmapBlock = newBitmapBlock;
+			this.dataProvider = new CGDataProvider(bitmapBlock, height * bytesPerRow);
+			this.NativeCGImage = newBitmapContext.ToImage();
+			this.cachedContext = newBitmapContext;
+			this.imageSource = null;
+
+			// If the width or height is not the seme we need to switch the dpiHeight and dpiWidth
+			// We should be able to get around this with set resolution later.
+			if (NativeCGImage.Width != width || NativeCGImage.Height != height)
+			{
+				var temp = dpiWidth;
+				dpiHeight = dpiWidth;
+				dpiWidth = temp;
+			}
+
+			physicalDimension.Width = (float)width;
+			physicalDimension.Height = (float)height;
+
+			physicalSize = new SizeF (physicalDimension.Width, physicalDimension.Height);
+			physicalSize.Width *= ConversionHelpers.MS_DPI / dpiWidth;
+			physicalSize.Height *= ConversionHelpers.MS_DPI / dpiHeight;
+
+			// In windows the RawFormat is changed to MemoryBmp to show that the image has changed.
+			rawFormat = ImageFormat.MemoryBmp;
+
+			// Set our transform for this image for the new height
+			imageTransform = new CGAffineTransform(1, 0, 0, -1, 0, height);
 		}
 
 		/// <summary>
