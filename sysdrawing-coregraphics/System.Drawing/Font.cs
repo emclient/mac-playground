@@ -25,8 +25,6 @@ namespace System.Drawing
 		byte gdiCharSet = 1;
 		bool  gdiVerticalFont;
 
-		static float dpiScale = 96f / 72f;
-
 		public Font (Font prototype, FontStyle newStyle)
 			: this (prototype.FontFamily, prototype.size, newStyle, prototype.unit, prototype.gdiCharSet, prototype.gdiVerticalFont)
 		{

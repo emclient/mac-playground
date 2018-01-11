@@ -67,9 +67,9 @@ namespace System.Drawing
 				((traits & NSFontSymbolicTraits.ItalicTrait) == NSFontSymbolicTraits.ItalicTrait ? FontStyle.Italic : 0);
 			gdiVerticalFont = false;
 			gdiCharSet = DefaultCharSet;
-			sizeInPoints = (float)font.PointSize / dpiScale;
-			size = sizeInPoints;
-			unit = GraphicsUnit.Point;
+			sizeInPoints = (float)(font.PointSize * 72f / 96f);
+			size = (float)font.PointSize;
+			unit = GraphicsUnit.Pixel;
 
 			// CTFont and NSFont are toll-free bridged
 			this.nativeFont = (CTFont)Activator.CreateInstance(
@@ -83,10 +83,10 @@ namespace System.Drawing
 		private void CreateNativeFont (FontFamily familyName, float emSize, FontStyle style,
 			GraphicsUnit unit, byte gdiCharSet, bool  gdiVerticalFont )
 		{
-			sizeInPoints = ConversionHelpers.GraphicsUnitConversion(unit, GraphicsUnit.Point, 72.0f, emSize); 
+			sizeInPoints = ConversionHelpers.GraphicsUnitConversion(unit, GraphicsUnit.Point, 96.0f, emSize); 
 
 			// convert to 96 Dpi to be consistent with Windows
-			var dpiSize = sizeInPoints * dpiScale;
+			var dpiSize = sizeInPoints * 96f / 72f;
 
 			try 
 			{
