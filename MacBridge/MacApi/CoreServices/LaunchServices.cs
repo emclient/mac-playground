@@ -1,12 +1,16 @@
-﻿#if !XAMARINMAC
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
+#if XAMARINMAC
+using Foundation;
+#elif MONOMAC
 using MonoMac.Foundation;
+#endif
 
 namespace MacBridge.CoreServices
 {
-    public class LaunchServices {
-
+	public class LaunchServices
+	{
+#if !XAMARINMAC
 		class NSUrlHelper : NSUrl
 		{
 			public NSUrlHelper (IntPtr handle) : base(handle)
@@ -30,7 +34,6 @@ namespace MacBridge.CoreServices
 
         [DllImport(Constants.CoreServicesLibrary)]
         internal extern static int LSSetDefaultHandlerForURLScheme(IntPtr urlScheme, IntPtr handlerBundleID);
-    }
-
-}
 #endif
+	}
+}
