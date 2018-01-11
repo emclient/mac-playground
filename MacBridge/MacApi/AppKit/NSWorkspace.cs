@@ -15,6 +15,8 @@ namespace MacBridge.AppKit
 {
     public static class NSWorkspaceEx
     {
+		readonly static NSString NSWorkspaceLaunchConfigurationArguments = (NSString)"NSWorkspaceLaunchConfigurationArguments"; // NSWorkspace.LaunchConfigurationArguments;
+
 		public static int LaunchApplicationForPath(string path, string args, bool activate = true)
 		{
 			return LaunchApplicationForPath(path, SplitArgs(args), activate);
@@ -24,7 +26,7 @@ namespace MacBridge.AppKit
         {
             var options = new NSWorkspaceLaunchOptions();
 			var arguments = NSArray.FromObjects(args);
-            var configuration = NSDictionary.FromObjectAndKey(arguments, NSWorkspace.LaunchConfigurationArguments);
+			var configuration = NSDictionary.FromObjectAndKey(arguments, NSWorkspaceLaunchConfigurationArguments);
 			var url = new NSUrl(path, false);
             
 			NSError error = null;
