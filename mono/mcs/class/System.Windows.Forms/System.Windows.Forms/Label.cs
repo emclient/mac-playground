@@ -699,12 +699,17 @@ namespace System.Windows.Forms
 			SetBounds (Left, Top, s.Width, s.Height, BoundsSpecified.Size);
 		}
 
-		private void SetUseMnemonic (bool use)
+		private void SetUseMnemonic(bool use)
 		{
-			if (use)
-				string_format.HotkeyPrefix = HotkeyPrefix.Show;
+			if (this.ShowKeyboardCues)
+			{
+				if (use)
+					string_format.HotkeyPrefix = HotkeyPrefix.Show;
+				else
+					string_format.HotkeyPrefix = HotkeyPrefix.None;
+			}
 			else
-				string_format.HotkeyPrefix = HotkeyPrefix.None;
+				string_format.HotkeyPrefix = HotkeyPrefix.Hide;
 		}
 
 		#endregion Private Methods
