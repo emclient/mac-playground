@@ -689,6 +689,10 @@ namespace System.Drawing {
 			this.NativeCGImage = newBitmapContext.ToImage();
 			this.cachedContext = newBitmapContext;
 			this.imageSource = null;
+
+			// update the cached size
+			imageSize.Width = this.Width;
+			imageSize.Height = this.Height;
 		}
 
 		/// <summary>
