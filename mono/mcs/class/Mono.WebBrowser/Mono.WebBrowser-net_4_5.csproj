@@ -45,7 +45,8 @@
     <NoWarn>1699</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>  </PropertyGroup>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin - Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Xamarin - Debug\</OutputPath>
@@ -54,7 +55,8 @@
     <NoWarn>1699</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>  </PropertyGroup>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin-Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
     <OutputPath>bin\Xamarin-Release\</OutputPath>
@@ -63,7 +65,8 @@
     <NoWarn>1699</NoWarn>
     <DebugType>none</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>  </PropertyGroup>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <Import Project="..\..\..\..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
     <Compile Include="..\..\build\common\Consts.cs" />
