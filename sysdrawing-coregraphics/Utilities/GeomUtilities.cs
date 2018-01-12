@@ -456,7 +456,7 @@ namespace System.Drawing
 			if (0.0f != angle)  
 			{  
 				var rot	=  CGAffineTransform.MakeTranslation(-deltaHeight*0.5f,-deltaWidth*0.5f);  
-				rot.Rotate(angle.ToRadians());  
+				rot.Rotate(-angle.ToRadians());  
 				rot.Translate(deltaWidth*0.5f,deltaHeight*0.5f);  
 
 				rotateFlipTransform = CGAffineTransform.Multiply (rot, rotateFlipTransform);
