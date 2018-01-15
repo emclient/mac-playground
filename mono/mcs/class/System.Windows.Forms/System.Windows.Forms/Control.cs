@@ -50,6 +50,14 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
 
+#if __MACOS__
+#if XAMARINMAC
+using AppKit;
+#else
+using MonoMac.AppKit;
+#endif
+#endif
+
 namespace System.Windows.Forms
 {
 	[ComVisible(true)]
@@ -3157,6 +3165,15 @@ namespace System.Windows.Forms
 		[MWFCategory("Behavior")]
 		public bool TabStop {
 			get {
+#if __MACOS__
+				if (this is IMacNativeControl) {
+					if (!IsHandleCreated)
+						return false;
+					var self = (NSView)ObjCRuntime.Runtime.GetNSObject(Handle);
+					if (!(self is CocoaInternal.MonoView))
+						return self.CanBecomeKeyView;
+				}
+#endif
 				return tab_stop;
 			}
 
@@ -4217,7 +4234,7 @@ namespace System.Windows.Forms
 #if DebugFocus
 				Console.WriteLine("{0} {1}", c, c.CanSelect);
 #endif
-				if (c.CanSelect && ((c.parent == this) || nested) && (c.tab_stop || !tabStopOnly)) {
+				if (c.CanSelect && ((c.parent == this) || nested) && (c.TabStop || !tabStopOnly)) {
 					c.Select (true, true);
 					return true;
 				}
