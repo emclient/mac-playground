@@ -109,6 +109,14 @@ namespace System.Windows.Forms.CocoaInternal
 			return Enabled && inSetFocus;
 		}
 
+		public override bool CanBecomeKeyView
+		{
+			get
+			{
+				return Style.HasFlag(WindowStyles.WS_TABSTOP) && base.CanBecomeKeyView;
+			}
+		}
+
 		public override bool AcceptsFirstMouse(NSEvent theEvent)
 		{
 			return true;
