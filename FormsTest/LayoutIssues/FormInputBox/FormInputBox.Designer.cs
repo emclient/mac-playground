@@ -74,10 +74,10 @@
 			// 
 			// FormInputBox
 			// 
-			this.AcceptStripButton = this.buttonOk;
+			this.AcceptButton = this.buttonOk;
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.CancelStripButton = this.buttonCancel;
+			this.CancelButton = this.buttonCancel;
 			this.Controls.Add(this.flowLayoutPanel1);
 			this.Controls.Add(this.textResult);
 			this.Controls.Add(this.labelDescription);
@@ -103,8 +103,5 @@
 		private MailClient.Common.UI.Controls.ControlToolStrip.ControlToolStripButton buttonOk;
 		private MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx textResult;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-
-		public MailClient.Common.UI.Controls.ControlToolStrip.ControlToolStripButton AcceptStripButton { get; set; }
-		public MailClient.Common.UI.Controls.ControlToolStrip.ControlToolStripButton CancelStripButton { get; set; }
 	}
 }
