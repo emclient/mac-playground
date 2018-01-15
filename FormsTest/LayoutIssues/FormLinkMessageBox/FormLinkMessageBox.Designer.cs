@@ -63,10 +63,10 @@
 			// 
 			// FormLinkMessageBox
 			// 
-			this.AcceptStripButton = this.buttonOk;
+			this.AcceptButton = this.buttonOk;
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.CancelStripButton = this.buttonOk;
+			this.CancelButton = this.buttonOk;
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
