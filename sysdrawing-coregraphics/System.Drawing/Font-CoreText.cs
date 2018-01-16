@@ -141,7 +141,7 @@ namespace System.Drawing
 				// For some reason, Helvetica causes problems on the Mac:
 				// The metric looks good, but glyphs get rendered just at the top of the bounding rectangle.
 				// The layout then seems broken. Until determining the real reason, let's disable this font.
-				case "Helvetica": return false;
+				// case "Helvetica": return false;
 				default: return true;
 			}
 		}
