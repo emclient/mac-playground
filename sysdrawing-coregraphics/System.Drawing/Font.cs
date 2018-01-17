@@ -239,6 +239,11 @@ namespace System.Drawing
 			get { return fontFamily.Name; }
 		}
 
+		public float GetHeight()
+		{
+			return GetNativeheight();
+		}
+
 		public float GetHeight(Graphics g) 
 		{
 			return GetNativeheight ();
