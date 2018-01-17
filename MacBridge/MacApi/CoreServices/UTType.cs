@@ -12,6 +12,10 @@ namespace MacBridge.LaunchServices
 		public const string PublicUtf8PlainText = "public.utf8-plain-text";
 		public const string NSStringPboardType = "NSStringPboardType";
 
+		public const string kUTTagClassMIMEType = "public.mime-type";
+		public const string kUTTagClassFilenameExtension = "public.filename-extension";
+		public const string kApplicationOctetStream = "application/octet-stream";
+
 		public const string TagClassFilenameExtension = "public.filename-extension";
 
 		public static string CreatePreferredIdentifier(string tagClass, string tag, string conformingToUti)
@@ -39,6 +43,24 @@ namespace MacBridge.LaunchServices
 			NSString.ReleaseNative(a);
 			NSString.ReleaseNative(b);
 			return ret;
+		}
+
+		public static string MimeTypeFromExtension(string extension)
+		{
+			return UTTagFromTag(extension.StartsWith(".") ? extension.Substring(1) : extension, kUTTagClassFilenameExtension, kUTTagClassMIMEType, kApplicationOctetStream);
+		}
+
+		public static string ExtensionFromMimeType(string mimeType, string defaultValue = kApplicationOctetStream)
+		{
+			return UTTagFromTag(mimeType, kUTTagClassMIMEType, kUTTagClassFilenameExtension, defaultValue);
+		}
+
+		internal static string UTTagFromTag(string value, string sourceTag, string destinationTag, string defaultValue)
+		{
+			var uti = CreatePreferredIdentifier(sourceTag, value, null);
+			if (uti != null)
+				return GetPreferredTag(uti, destinationTag) ?? defaultValue;
+			return defaultValue;
 		}
 
 		[DllImport(Constants.CoreServicesLibrary)]
