@@ -26,6 +26,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 using System;
+using System.Drawing.Mac;
 
 #if XAMARINMAC
 using Foundation;
@@ -56,6 +57,7 @@ namespace System.Drawing
 		internal CTFont nativeFont;
 		bool bold = false;
 		bool italic = false;
+		const int RegularWidth = 5;
 
 		internal Font(NSFont font)
 		{
@@ -71,52 +73,34 @@ namespace System.Drawing
 			size = (float)font.PointSize;
 			unit = GraphicsUnit.Pixel;
 
-			// CTFont and NSFont are toll-free bridged
-			this.nativeFont = (CTFont)Activator.CreateInstance(
-				typeof(CTFont),
-				Reflection.BindingFlags.NonPublic | Reflection.BindingFlags.Instance,
-				null,
-				new object[] { font.Handle },
-				null);
+			nativeFont = font.ToCTFont();
 		}
 
-		private void CreateNativeFont (FontFamily familyName, float emSize, FontStyle style,
-			GraphicsUnit unit, byte gdiCharSet, bool  gdiVerticalFont )
+		void CreateNativeFont(FontFamily familyName, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet, bool gdiVerticalFont)
 		{
-			sizeInPoints = ConversionHelpers.GraphicsUnitConversion(unit, GraphicsUnit.Point, 96.0f, emSize); 
-
-			// convert to 96 Dpi to be consistent with Windows
-			var dpiSize = sizeInPoints * 96f / 72f;
-
-			try 
-			{
-				if (IsFontInstalled(familyName.NativeDescriptor, dpiSize) && IsFontSafe(familyName.Name))
-					nativeFont = new CTFont(familyName.NativeDescriptor, dpiSize);
-				else
-					nativeFont = new CTFont(CTFontUIFontType.System, dpiSize, PreferredLanguage);
-			}
-			catch
-			{
-				nativeFont = new CTFont(CTFontUIFontType.System, dpiSize, PreferredLanguage);
-			}
-
-			CTFontSymbolicTraits tMask = CTFontSymbolicTraits.None;
-
-			if ((style & FontStyle.Bold) == FontStyle.Bold)
-				tMask |= CTFontSymbolicTraits.Bold;
-			if ((style & FontStyle.Italic) == FontStyle.Italic)
-				tMask |= CTFontSymbolicTraits.Italic;
-			strikeThrough = (style & FontStyle.Strikeout) == FontStyle.Strikeout;
-			underLine = (style & FontStyle.Underline) == FontStyle.Underline;
-
-			var nativeFont2 = nativeFont.WithSymbolicTraits(dpiSize,tMask,tMask);
-			if (nativeFont2 != null)
-				nativeFont = nativeFont2;
-
-			bold = (nativeFont.SymbolicTraits & CTFontSymbolicTraits.Bold) == CTFontSymbolicTraits.Bold; 
-			italic = (nativeFont.SymbolicTraits & CTFontSymbolicTraits.Italic) == CTFontSymbolicTraits.Italic;
+			this.sizeInPoints = ConversionHelpers.GraphicsUnitConversion(unit, GraphicsUnit.Point, 96f, emSize);
+			this.bold = FontStyle.Bold == (style & FontStyle.Bold);
+			this.italic = FontStyle.Bold == (style & FontStyle.Italic);
+			this.underLine = FontStyle.Underline == (style & FontStyle.Underline);
 			this.size = emSize;
 			this.unit = unit;
+
+			var size = sizeInPoints * 96f / 72f;
+			var traits = (NSFontTraitMask)0;
+			if (bold) traits |= NSFontTraitMask.Bold;
+			if (italic) traits |= NSFontTraitMask.Italic;
+
+			this.nativeFont = NSFontWithFamily(familyName.Name, traits, RegularWidth, size).ToCTFont();
+		}
+
+		static NSFont NSFontWithFamily(string name, NSFontTraitMask traits, int width, float size)
+		{
+			if (NSThread.Current.IsMainThread)
+				return NSFontManager.SharedFontManager.FontWithFamily(name, traits, width, size);
+
+			NSFont font = null;
+			NSThread.MainThread.InvokeOnMainThread(() => { font = NSFontManager.SharedFontManager.FontWithFamily(name, traits, width, size); });
+			return font;
 		}
 
 		internal static string PreferredLanguage
@@ -125,24 +109,6 @@ namespace System.Drawing
 			{
 				var langauges = NSLocale.PreferredLanguages;
 				return langauges.Length > 0 ? langauges[0] : "en-US";
-			}
-		}
-
-		internal static bool IsFontInstalled(CTFontDescriptor descriptor, nfloat size)
-		{
-			var matching = descriptor.GetMatchingFontDescriptors((NSSet)null);
-			return matching != null && matching.Length > 0;
-		}
-
-		internal static bool IsFontSafe(string name)
-		{
-			switch (name)
-			{
-				// For some reason, Helvetica causes problems on the Mac:
-				// The metric looks good, but glyphs get rendered just at the top of the bounding rectangle.
-				// The layout then seems broken. Until determining the real reason, let's disable this font.
-				// case "Helvetica": return false;
-				default: return true;
 			}
 		}
 
