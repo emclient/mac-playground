@@ -85,7 +85,7 @@ namespace System.Drawing
 				bsh = $"LGB{lgb.LinearColors.Length:X2}{lgb.GetHashCode():X2}";
 
 			var fmt = $"{format.FormatFlags}|{format.HotkeyPrefix}|{format.Alignment}|{format.LineAlignment}|{format.Trimming}";
-			return $"{s}|{layoutRectangle.Width},{layoutRectangle.Height}|{fnt}|{format}|{bsh}";
+			return $"{s}|{layoutRectangle.Width},{layoutRectangle.Height}|{fnt}|{fmt}|{bsh}";
 		}
 
 		internal string ToString(Color c)
@@ -172,7 +172,7 @@ namespace System.Drawing
 		{
 			var fnt = $"{font.Name }|{font.Size}|{(font.Italic ? '1' : '0')}{(font.Underline ? '1' : '0')}{(font.Strikeout ? '1' : '0')}";
 			var fmt = $"{format.FormatFlags}|{format.HotkeyPrefix}|{format.Alignment}|{format.LineAlignment}|{format.Trimming}";
-			return $"{s}|{layoutArea.Width},{layoutArea.Height}|{fnt}|{format}";
+			return $"{s}|{layoutArea.Width},{layoutArea.Height}|{fnt}|{fmt}";
 		}
 
 		internal Entry GetOrCreate(string text, Font font, SizeF layoutArea, StringFormat format, CreateEntryDelegate createEntryDelegate)
