@@ -90,6 +90,7 @@ namespace System.Windows.Forms.CocoaInternal {
 		internal const string NSRTFTextDocumentType = "NSRTF";
 		internal const string kUTTypeRTF = "public.rtf";
 		internal const string NSPasteboardTypeHTML = "public.html";
+		internal const string NSPasteboardTypePNG = "public.png";
 
 		static Pasteboard ()
 		{
@@ -136,6 +137,18 @@ namespace System.Windows.Forms.CocoaInternal {
 					break;
 				case DataFormats.Html:
 					SetHTMLData(pboard, data);
+					break;
+				case DataFormats.Bitmap:
+					System.Drawing.Bitmap bmp = data as System.Drawing.Bitmap;
+					if (bmp != null)
+					{
+						using (var stream = new MemoryStream())
+						{
+							bmp.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+							NSData imgData = NSData.FromArray(stream.ToArray());
+							pboard.SetDataForType(imgData, NSPasteboardTypePNG);
+						}
+					}
 					break;
 			}
 		}
