@@ -66,6 +66,17 @@ namespace System.Drawing.Mac
 			return nsf; //new NSFont(f.nativeFont.Handle);
 		}
 
+		public static CTFont ToCTFont(this NSFont f)
+		{
+			// CTFont and NSFont are toll-free bridged
+			return (CTFont)Activator.CreateInstance(
+				typeof(CTFont),
+				Reflection.BindingFlags.NonPublic | Reflection.BindingFlags.Instance,
+				null,
+				new object[] { f.Handle },
+				null);
+		}
+
 		public static NSTextAlignment ToNSTextAlignment(this ContentAlignment a)
 		{
 			return (NSTextAlignment)ToCTTextAlignment(a);
