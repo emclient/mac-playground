@@ -54,6 +54,7 @@ namespace System.Drawing {
 			Alignment = format.Alignment;
 			LineAlignment = format.LineAlignment;
 			FormatFlags = format.FormatFlags;
+			Trimming = format.Trimming;
 		}
 
 		public StringFormat(StringFormatFlags options) : this()
