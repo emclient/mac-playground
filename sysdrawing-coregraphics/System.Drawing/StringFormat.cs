@@ -55,6 +55,7 @@ namespace System.Drawing {
 			LineAlignment = format.LineAlignment;
 			FormatFlags = format.FormatFlags;
 			Trimming = format.Trimming;
+			HotkeyPrefix = format.HotkeyPrefix;
 		}
 
 		public StringFormat(StringFormatFlags options) : this()
