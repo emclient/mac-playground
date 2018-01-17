@@ -1,9 +1,14 @@
 ﻿using System;
-using NUnit.Framework;
 using System.Diagnostics;
-using MonoMac.CoreGraphics;
+using NUnit.Framework;
 using MacBridge.CoreServices;
+#if XAMARINMAC
+using CoreGraphics;
+using Foundation;
+#elif MONOMAC
+using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
+#endif
 
 namespace MacBridge.Test
 {
