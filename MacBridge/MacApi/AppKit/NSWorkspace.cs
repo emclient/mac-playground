@@ -29,7 +29,7 @@ namespace MacBridge.AppKit
 			var configuration = NSDictionary.FromObjectAndKey(arguments, NSWorkspaceLaunchConfigurationArguments);
 			var url = new NSUrl(path, false);
             
-			NSError error = null;
+			NSError error = new NSError();
 #if MONOMAC
             var app = NSWorkspace.SharedWorkspace.LaunchApplication(url, options, configuration, error);
 #else
@@ -80,6 +80,21 @@ namespace MacBridge.AppKit
 		{
 			return LaunchTaskAndWaitForExit(path, SplitArgs(args));
 	
+		}
+
+		public static bool TerminateApplication(int pid, bool waitForExit = true)
+		{
+			var app = NSRunningApplication.GetRunningApplication(pid);
+			if (app == null)
+				return false;
+
+			if (app.Terminate())
+			{
+				while (null != NSRunningApplication.GetRunningApplication(pid))
+				{
+				}
+			}
+			return true;
 		}
 
 		static int LaunchTaskAndWaitForExit(string path, string[] args)
