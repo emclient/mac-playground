@@ -34,9 +34,9 @@ namespace System.Windows.Forms
 				return "null";
 
 			NSView view = ClientViewFromControl(ctrl);
-			return ctrl.GetType().Name + ", visible=" + ctrl.Visible + ", WxH=" + ctrl.Size.Width + "x" + ctrl.Size.Height
-				       + ", XY=" + ctrl.Location.X + ";" + ctrl.Location.Y + ", text=\"" + ctrl.Text + ", view.IsHidden=" + view.Hidden + ", view.IsHiddenOrHasHiddenAncestor=" + view.IsHiddenOrHasHiddenAncestor
-				      + "\"" + GetFieldInfo(ctrl);
+			return $"{ctrl.GetType().Name}, visible={ctrl.Visible}, WxH={ctrl.Size.Width}x{ctrl.Size.Height}, XY={ctrl.Location.X};{ctrl.Location.Y}"
+				+ $", text=\"{ctrl.Text}\", view.IsHidden={view.Hidden}, view.IsHiddenOrHasHiddenAncestor={view.IsHiddenOrHasHiddenAncestor}"
+				+ $", font=\"{ctrl.Font}\", {GetFieldInfo(ctrl)}";
 		}
 
 		public static String ControlInfo(IntPtr handle)
