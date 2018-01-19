@@ -408,7 +408,7 @@ namespace System.Windows.Forms.CocoaInternal
 			// emulate replacement by sending backspace and then typing.
 			// Not doing this would result in not deleting the originally typed character, event if it should have been replaced by IME.
 			if (replacementRange.Location == 0)
-				SendKey(view.Handle, VirtualKeys.VK_BACK);
+				SendKey(view.Handle, VirtualKeys.VK_BACK, IntPtr.Zero);
 
 			string str = text.ToString();
 			if (!String.IsNullOrEmpty(str))
@@ -478,21 +478,54 @@ namespace System.Windows.Forms.CocoaInternal
 					driver.SendMessage(view.Handle, Msg.WM_CHAR, (IntPtr)c, wmCharLParam);
 		}
 
+		[Export("undo:")]
+		public virtual void Undo(NSObject sender)
+		{
+			SendCmdKey(view.Handle, VirtualKeys.VK_Z);
+		}
+
+		[Export("redo:")]
+		public virtual void Redo(NSObject sender)
+		{
+			SendCmdKey(view.Handle, VirtualKeys.VK_Y);
+		}
+
 		void SendCmdKey(IntPtr hwnd, VirtualKeys key)
 		{
 			var emulateCmd = !cmdDown;
 			if (emulateCmd)
 				ProcessModifiers(XplatUICocoa.key_modifiers | NSEventModifierMask.CommandKeyMask);
-			driver.SendMessage(hwnd, Msg.WM_KEYDOWN, (IntPtr)key, (IntPtr)0x1080000);
-			driver.SendMessage(hwnd, Msg.WM_KEYUP, (IntPtr)key, (IntPtr)0x1080000);
+			SendKey(hwnd, key, (IntPtr)0x1080000);
 			if (emulateCmd)
 				ProcessModifiers(XplatUICocoa.key_modifiers & ~NSEventModifierMask.CommandKeyMask);
 		}
 
-		void SendKey(IntPtr hwnd, VirtualKeys key)
+		void SendKey(IntPtr hwnd, VirtualKeys key, IntPtr lParam)
 		{
-			driver.SendMessage(hwnd, Msg.WM_KEYDOWN, (IntPtr)key, IntPtr.Zero);
-			driver.SendMessage(hwnd, Msg.WM_KEYUP, (IntPtr)key, IntPtr.Zero);
+			driver.SendMessage(hwnd, Msg.WM_KEYDOWN, (IntPtr)key, lParam);
+			driver.SendMessage(hwnd, Msg.WM_KEYUP, (IntPtr)key, lParam);
 		}
+
+		#region Support for embedding native controls
+
+		internal bool snatchCommands = true;
+
+		public virtual IntPtr SwfControlHandle
+		{
+			[Export("swfControlHandle")]
+			get { return view.Handle; }
+		}
+
+		[Export("embeddedControl:doCommandBySelector:")]
+		public virtual bool EmbeddedControlDoCommandBySelector(NSResponder target, Selector selector)
+		{
+			// This method allows you to choose which [menu] commands should be processed by embedded native control itself,
+			// and which commands should be handled in the form of WM_KEYDOWN/WM_KEYUP message pair by it's WinForms parent control.
+
+			// By default, the parent control performs all commands (copy:, paste:, etc..).
+			return (snatchCommands ? this : target).TryToPerformwith(selector, this);
+		}
+
+		#endregion
 	}
 }
