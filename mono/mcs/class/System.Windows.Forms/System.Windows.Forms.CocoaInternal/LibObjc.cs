@@ -9,25 +9,25 @@ using ObjCRuntime;
 
 namespace System.Windows.Forms.Mac
 {
-	internal class LibObjc
+	public class LibObjc
 	{
 		const string libobjc = "/usr/lib/libobjc.dylib";
 		const string objc_msgSend = "objc_msgSend";
 
 		[DllImport(libobjc)]
-		extern internal static IntPtr class_getInstanceMethod(IntPtr classHandle, IntPtr Selector);
+		extern public static IntPtr class_getInstanceMethod(IntPtr classHandle, IntPtr Selector);
 
 		[DllImport(libobjc)]
-		extern internal static IntPtr method_getImplementation(IntPtr method);
+		extern public static IntPtr method_getImplementation(IntPtr method);
 
 		[DllImport(libobjc)]
-		extern internal static IntPtr imp_implementationWithBlock(ref BlockLiteral block);
+		extern public static IntPtr imp_implementationWithBlock(ref BlockLiteral block);
 
 		[DllImport(libobjc)]
-		extern internal static void method_setImplementation(IntPtr method, IntPtr imp);
+		extern public static void method_setImplementation(IntPtr method, IntPtr imp);
 
 		[DllImport(libobjc)]
-		extern internal static void method_exchangeImplementations(IntPtr originalMethod, IntPtr swizzledMethod);
+		extern public static void method_exchangeImplementations(IntPtr originalMethod, IntPtr swizzledMethod);
 
 		[DllImport(libobjc, EntryPoint = objc_msgSend)]
 		public extern static bool bool_objc_msgSend_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2);

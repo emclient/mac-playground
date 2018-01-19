@@ -36,10 +36,12 @@ using System.Collections.Generic;
 using Foundation;
 using AppKit;
 using CoreGraphics;
+using ObjCRuntime;
 #elif MONOMAC
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
+using MonoMac.ObjCRuntime;
 using NMath = System.Math;
 #endif
 
@@ -51,7 +53,7 @@ namespace System.Windows.Forms.CocoaInternal
 		protected XplatUICocoa driver;
 		protected NSTrackingArea clientArea;
 		protected NSTrackingArea clientAreaEnterExit;
-		internal WindowsEventResponder eventReponder;
+		internal WindowsEventResponder eventResponder;
 		protected CGRect clientBounds;
 		internal bool inSetFocus;
 
@@ -64,8 +66,8 @@ namespace System.Windows.Forms.CocoaInternal
 			this.driver = driver;
 			this.Style = style;
 			this.ExStyle = exStyle;
-			this.eventReponder = new WindowsEventResponder(driver, this);
-			base.NextResponder = eventReponder;
+			this.eventResponder = new WindowsEventResponder(driver, this);
+			base.NextResponder = eventResponder;
 		}
 
 		public override NSResponder NextResponder
@@ -76,7 +78,7 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 			set
 			{
-				eventReponder.NextResponder = value;
+				eventResponder.NextResponder = value;
 			}
 		}
 
@@ -446,6 +448,18 @@ namespace System.Windows.Forms.CocoaInternal
 			// TODO: Add more conversions/wrappers - for files, images etc.
 
 			return null;
+		}
+
+		public virtual IntPtr SwfControlHandle
+		{
+			[Export("swfControlHandle")]
+			get { return Handle; }
+		}
+
+		[Export("embeddedControl:doCommandBySelector:")]
+		public virtual bool EmbeddedControlDoCommandBySelector(NSResponder target, Selector selector)
+		{
+			return eventResponder.EmbeddedControlDoCommandBySelector(target, selector);
 		}
 	}
 
