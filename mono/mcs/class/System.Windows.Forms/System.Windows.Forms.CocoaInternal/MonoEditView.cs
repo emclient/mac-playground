@@ -118,7 +118,7 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("insertText:replacementRange:")]
 		public virtual void InsertText(NSObject text, NSRange replacementRange)
 		{
-			eventReponder.InsertText(text, replacementRange);
+			eventResponder.InsertText(text, replacementRange);
 		}
 
 		[Export("setMarkedText:selectedRange:replacementRange:")]

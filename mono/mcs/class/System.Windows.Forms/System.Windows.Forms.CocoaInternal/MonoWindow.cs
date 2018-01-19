@@ -129,9 +129,9 @@ namespace System.Windows.Forms.CocoaInternal
 						if (monoView != null)
 						{
 							if (theEvent.Type == NSEventType.KeyDown)
-								monoView.eventReponder.KeyDown(theEvent);
+								monoView.eventResponder.KeyDown(theEvent);
 							else
-								monoView.eventReponder.KeyUp(theEvent);
+								monoView.eventResponder.KeyUp(theEvent);
 							return;
 						}
 					}
