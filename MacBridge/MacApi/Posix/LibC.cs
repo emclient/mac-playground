@@ -14,13 +14,23 @@ namespace MacBridge.Posix
             return limit.cur;
         }
 
-        public static void SetMaxNumberOfOpenFiles(UInt64 value)
-        {
-            var limit = new rlimit();
-            getrlimit((int)RLimit.NoFile, ref limit);
-            limit.cur = value;
-            setrlimit((int)RLimit.NoFile, ref limit);
-        }
+		public static void SetMaxNumberOfOpenFiles(UInt64 value)
+		{
+			var limit = new rlimit();
+			getrlimit((int)RLimit.NoFile, ref limit);
+
+			if (value > limit.max)
+			{
+				Console.Error.WriteLine($"Max available number of open file handles ({limit.max}) is lower than required ({value}). Using {limit.max}.");
+				value = limit.max;
+			}
+			else
+			{
+				limit.cur = value;
+			}
+
+			setrlimit((int)RLimit.NoFile, ref limit);
+		}
 
         #endregion
 
