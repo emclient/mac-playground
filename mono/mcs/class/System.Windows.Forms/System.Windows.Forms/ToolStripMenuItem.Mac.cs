@@ -21,6 +21,8 @@ namespace System.Windows.Forms
 					nsMenuItem.State = NSCellStateValue.On;
 				else if (CheckState == CheckState.Indeterminate)
 					nsMenuItem.State = NSCellStateValue.Mixed;
+				else
+					nsMenuItem.State = NSCellStateValue.Off;
 			}
 			return nsMenuItem;
 		}
