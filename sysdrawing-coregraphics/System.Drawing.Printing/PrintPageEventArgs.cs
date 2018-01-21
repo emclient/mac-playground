@@ -54,7 +54,7 @@ namespace System.Drawing.Printing {
 
 		public PageSettings PageSettings { get; private set; }
 		public bool CopySettingsToDevMode { get; internal set; }
-		internal GraphicsPrinter GraphicsContext { get; set; }
+		//internal GraphicsPrinter GraphicsContext { get; set; }
 
 		internal void SetGraphics(Graphics graphics)
 		{

@@ -53,6 +53,6 @@ namespace System.Drawing.Printing
 			get { return action; }
 		}
 
-		internal GraphicsPrinter GraphicsContext { get; set; }
+		//internal GraphicsPrinter GraphicsContext { get; set; }
 	}
 }
