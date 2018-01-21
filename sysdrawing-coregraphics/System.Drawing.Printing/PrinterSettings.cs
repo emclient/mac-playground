@@ -56,6 +56,7 @@ namespace System.Drawing.Printing {
 		public PrinterSettings ()
 		{
 			printer = NSPrintInfo.DefaultPrinter;
+			printer_name = printer?.Name;
 			page_settings = new PageSettings(this);
 			//PaperSizes = new PaperSizeCollection(new[] { new PaperSize("Letter", (int)(8.5f * 72f), (int)(11f * 72f)) });
 		}
@@ -67,7 +68,7 @@ namespace System.Drawing.Printing {
 		}
 
 		public bool IsValid {
-			get { return true; }
+			get { return printer != null; }
 		}
 
 		public int FromPage
