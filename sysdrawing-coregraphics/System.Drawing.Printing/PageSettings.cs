@@ -38,7 +38,14 @@ namespace System.Drawing.Printing {
 	public class PageSettings : ICloneable {
 
 		public PageSettings ()
+			: this (new PrinterSettings())
 		{
+		}
+
+		public PageSettings (PrinterSettings printerSettings)
+		{
+			this.Margins = new Margins(10, 10, 10, 10);
+			this.PaperSize = printerSettings.PaperSizes[0];
 		}
 
 		public Rectangle Bounds
@@ -46,8 +53,8 @@ namespace System.Drawing.Printing {
 			get
 			{
 				// FIXME
-				NotImplemented(MethodBase.GetCurrentMethod());
-				return Rectangle.Empty;
+				//NotImplemented(MethodBase.GetCurrentMethod());
+				return GetBounds(null);
 			}
 		}
 
@@ -102,7 +109,7 @@ namespace System.Drawing.Printing {
 		{
 			// FIXME
 			NotImplemented(MethodBase.GetCurrentMethod());
-			return new Rectangle(0, 0, 0, 0);
+			return new Rectangle(0, 0, PaperSize.Width, PaperSize.Height);
 		}
 
 		internal static void NotImplemented(MethodBase method)

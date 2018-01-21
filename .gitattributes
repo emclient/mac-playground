@@ -1713,6 +1713,7 @@ sysdrawing-coregraphics/System.Drawing.Printing/PrintDocument.cs -text
 sysdrawing-coregraphics/System.Drawing.Printing/PrintEventArgs.cs -text
 sysdrawing-coregraphics/System.Drawing.Printing/PrintPageEventArgs.cs -text
 sysdrawing-coregraphics/System.Drawing.Printing/PrinterSettings.cs -text
+sysdrawing-coregraphics/System.Drawing.Printing/StandardPrintController.cs -text
 sysdrawing-coregraphics/System.Drawing.Text/FontCollection-CoreText.cs -text
 sysdrawing-coregraphics/System.Drawing.Text/FontCollection.cs -text
 sysdrawing-coregraphics/System.Drawing.Text/InstalledFontCollection.cs -text

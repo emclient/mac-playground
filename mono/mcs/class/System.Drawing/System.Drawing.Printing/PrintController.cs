@@ -171,7 +171,7 @@ namespace System.Drawing.Printing {
 			}
 		}
 
-private bool PrintLoop(PrintDocument document)
+		private bool PrintLoop(PrintDocument document)
 		{
 			QueryPageSettingsEventArgs queryEvent = new QueryPageSettingsEventArgs((PageSettings)document.DefaultPageSettings.Clone());
 			for (;;)

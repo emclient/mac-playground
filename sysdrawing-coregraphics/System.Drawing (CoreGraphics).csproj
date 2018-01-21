@@ -569,9 +569,6 @@
       <Link>System.Drawing.Imaging\ImageCodecInfo.cs</Link>
     </Compile>
     <Compile Include="Utilities\IClientView.cs" />
-    <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Printing\StandardPrintController.cs">
-      <Link>External\StandardPrintController.cs</Link>
-    </Compile>
     <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Printing\PrintingServices.cs">
       <Link>External\PrintingServices.cs</Link>
     </Compile>
@@ -596,6 +593,7 @@
     <Compile Include="Utilities\IDictionaryEx.cs" />
     <Compile Include="Utilities\HashUtilities.cs" />
     <Compile Include="System.Drawing\Graphics-DrawStringCache.cs" />
+    <Compile Include="System.Drawing.Printing\StandardPrintController.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Mono.ico">

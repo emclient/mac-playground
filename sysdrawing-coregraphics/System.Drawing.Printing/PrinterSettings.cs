@@ -51,6 +51,7 @@ namespace System.Drawing.Printing {
 
 		public PrinterSettings ()
 		{
+			PaperSizes = new PaperSizeCollection(new[] { new PaperSize("Letter", (int)(8.5f * 72f), (int)(11f * 72f)) });
 		}
 		
 		public object Clone ()
@@ -60,7 +61,7 @@ namespace System.Drawing.Printing {
 		}
 
 		public bool IsValid {
-			get { return false; }
+			get { return true; }
 		}
 
 		public int FromPage
