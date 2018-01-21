@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 #if XAMARINMAC
 using AppKit;
@@ -48,10 +49,15 @@ namespace System.Drawing.Printing {
 		private int maximum_page;
 		private short copies;
 		private PrintRange print_range;
+		private string printer_name;
+		internal NSPrinter printer;
+		internal PageSettings page_settings;
 
 		public PrinterSettings ()
 		{
-			PaperSizes = new PaperSizeCollection(new[] { new PaperSize("Letter", (int)(8.5f * 72f), (int)(11f * 72f)) });
+			printer = NSPrintInfo.DefaultPrinter;
+			page_settings = new PageSettings(this);
+			//PaperSizes = new PaperSizeCollection(new[] { new PaperSize("Letter", (int)(8.5f * 72f), (int)(11f * 72f)) });
 		}
 		
 		public object Clone ()
@@ -133,6 +139,15 @@ namespace System.Drawing.Printing {
 			}
 		}
 
+		public string PrinterName
+		{
+			get { return printer_name; }
+			set {
+				printer_name = value;
+				printer = NSPrinter.PrinterWithName(value);
+			}
+		}
+
 		public bool PrintToFile { get; set; }
 		public string PrintFileName { get; set; }
 		public bool CanDuplex { get; internal set; }
@@ -141,17 +156,29 @@ namespace System.Drawing.Printing {
 		public bool IsPlotter { get; set; }
 		public int LandscapeAngle { get; internal set; }
 		public bool SupportsColor { get; internal set; }
-		public string PrinterName { get; set; }
 		public bool PrintDialogDisplayed { get; set; }
 		public PrinterSettings.PaperSourceCollection PaperSources { get; set; }
-		public PrinterSettings.PaperSizeCollection PaperSizes { get; set; }
+
+
+		public PrinterSettings.PaperSizeCollection PaperSizes {
+			get {
+				List<PaperSize> paper_sizes = new List<PaperSize>();
+				if (printer != null) {
+					foreach (var paper_name in printer.StringListForKey("PageSize", "PPD")) {
+						var size = printer.PageSizeForPaper(paper_name);
+						paper_sizes.Add(new PaperSize(paper_name, (int)size.Width, (int)size.Height));
+					}
+				}
+				return new PaperSizeCollection(paper_sizes.ToArray());
+			}
+		}
 		public PrinterResolutionCollection PrinterResolutions { get; internal set; }
 		public object printer_capabilities { get; internal set; }
 
 		public PageSettings DefaultPageSettings
 		{
 			get {
-				return new PageSettings ();
+				return page_settings;
 			}
 		}
 
