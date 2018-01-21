@@ -58,12 +58,13 @@ namespace System.Drawing.Printing {
 
 		internal void SetGraphics(Graphics graphics)
 		{
-			throw new NotImplementedException();
+			this.Graphics = graphics;
+			//throw new NotImplementedException();
 		}
 
 		internal void Dispose()
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 	}
 }
