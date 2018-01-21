@@ -70,8 +70,7 @@ namespace System.Drawing.Printing {
 
 		public Rectangle Bounds
 		{
-			get
-			{
+			get {
 				return new Rectangle(0, 0, PaperSize.Width, PaperSize.Height);
 			}
 		}
