@@ -33,7 +33,7 @@ using System.Runtime.Versioning;
 namespace System.Drawing.Printing {
 
 	public abstract class PrintController {
-
+		/*
 		internal sealed class SafeDeviceModeHandle : SafeHandle
 		{ 
 			private SafeDeviceModeHandle()
@@ -75,7 +75,7 @@ namespace System.Drawing.Printing {
 			}
 		}
 
-		internal SafeDeviceModeHandle modeHandle = null;
+		internal SafeDeviceModeHandle modeHandle = null;*/
 
 		public virtual bool IsPreview { 
 			get { return false; }
@@ -274,7 +274,7 @@ namespace System.Drawing.Printing {
 		{
 			//IntSecurity.AllPrintingAndUnmanagedCode.Assert();
 			//Debug.Assert((modeHandle != null), "modeHandle is null.  Someone must have forgot to call base.StartPrint");
-			Rectangle pageBounds = pageSettings.GetBounds(modeHandle);
+			Rectangle pageBounds = pageSettings.Bounds;
 			Rectangle marginBounds = new Rectangle(pageSettings.Margins.Left,
 												   pageSettings.Margins.Top,
 												   pageBounds.Width - (pageSettings.Margins.Left + pageSettings.Margins.Right),

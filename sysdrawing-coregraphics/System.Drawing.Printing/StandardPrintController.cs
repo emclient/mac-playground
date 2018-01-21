@@ -1,5 +1,9 @@
 ﻿using System;
+#if XAMARINMAC
 using AppKit;
+#elif MONOMAC
+using MonoMac.AppKit;
+#endif
 
 namespace System.Drawing.Printing
 {

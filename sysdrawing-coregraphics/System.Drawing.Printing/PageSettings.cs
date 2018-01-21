@@ -32,10 +32,20 @@
 
 using System.Diagnostics;
 using System.Reflection;
+#if XAMARINMAC
+using AppKit;
+using CoreGraphics;
+#elif MONOMAC
+using MonoMac.AppKit;
+using MonoMac.CoreGraphics;
+#endif
 
 namespace System.Drawing.Printing {
 	
 	public class PageSettings : ICloneable {
+
+		internal NSPrintInfo print_info;
+		private PaperSize paper_size;
 
 		public PageSettings ()
 			: this (new PrinterSettings())
@@ -44,17 +54,25 @@ namespace System.Drawing.Printing {
 
 		public PageSettings (PrinterSettings printerSettings)
 		{
-			this.Margins = new Margins(10, 10, 10, 10);
-			this.PaperSize = printerSettings.PaperSizes[0];
+			this.PrinterSettings = printerSettings;
+			print_info = new NSPrintInfo(NSPrintInfo.SharedPrintInfo.Dictionary);
+			print_info.Printer = printerSettings.printer;
+			paper_size = new PaperSize(print_info.PaperName, (int)print_info.PaperSize.Width, (int)print_info.PaperSize.Height);
 		}
+
+		private PageSettings (PageSettings pageSettings)
+		{
+			this.PrinterSettings = pageSettings.PrinterSettings;
+			print_info = new NSPrintInfo(pageSettings.print_info.Dictionary);
+			print_info.Printer = PrinterSettings.printer;
+			paper_size = pageSettings.PaperSize;
+		} 
 
 		public Rectangle Bounds
 		{
 			get
 			{
-				// FIXME
-				//NotImplemented(MethodBase.GetCurrentMethod());
-				return GetBounds(null);
+				return new Rectangle(0, 0, PaperSize.Width, PaperSize.Height);
 			}
 		}
 
@@ -64,11 +82,38 @@ namespace System.Drawing.Printing {
 
 		public bool Color { get; set; }
 
-		public bool Landscape { get; set; }
+		public bool Landscape
+		{
+			get {
+				return print_info.Orientation == NSPrintingOrientation.Landscape;
+			}
+			set {
+				print_info.Orientation = value ? NSPrintingOrientation.Landscape : NSPrintingOrientation.Portrait;
+			}
+		}
 
-		public PaperSize PaperSize { get; set; }
+		public PaperSize PaperSize
+		{
+			get { return paper_size; }
+			set {
+				paper_size = value;
+				print_info.PaperName = paper_size.PaperName;
+				print_info.PaperSize = new CGSize(paper_size.Width, paper_size.Height);
+			}
+		}
 
-		public Margins Margins { get; set; }
+		public Margins Margins
+		{
+			get {
+				return new Margins((int)print_info.LeftMargin, (int)print_info.RightMargin, (int)print_info.TopMargin, (int)print_info.BottomMargin);
+			}
+			set {
+				print_info.LeftMargin = value.Left;
+				print_info.RightMargin = value.Right;
+				print_info.TopMargin = value.Top;
+				print_info.BottomMargin = value.Bottom;
+			}
+		}
 
 		public PrinterSettings PrinterSettings { get; set; }		
 
@@ -100,16 +145,7 @@ namespace System.Drawing.Printing {
 
 		public object Clone()
 		{
-			// FIXME
-			NotImplemented(MethodBase.GetCurrentMethod());
-			return new PageSettings();
-		}
-
-		internal Rectangle GetBounds(object modeHandle)
-		{
-			// FIXME
-			NotImplemented(MethodBase.GetCurrentMethod());
-			return new Rectangle(0, 0, PaperSize.Width, PaperSize.Height);
+			return new PageSettings(this);
 		}
 
 		internal static void NotImplemented(MethodBase method)
