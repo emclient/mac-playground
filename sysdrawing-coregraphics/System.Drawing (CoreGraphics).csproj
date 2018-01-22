@@ -324,12 +324,6 @@
     <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Printing\PrintAction.cs">
       <Link>External\PrintAction.cs</Link>
     </Compile>
-    <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Printing\PreviewPrintController.cs">
-      <Link>External\PreviewPrintController.cs</Link>
-    </Compile>
-    <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Printing\PreviewPageInfo.cs">
-      <Link>External\PreviewPageInfo.cs</Link>
-    </Compile>
     <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Printing\InvalidPrinterException.cs">
       <Link>External\InvalidPrinterException.cs</Link>
     </Compile>
@@ -585,6 +579,8 @@
     <Compile Include="Utilities\HashUtilities.cs" />
     <Compile Include="System.Drawing\Graphics-DrawStringCache.cs" />
     <Compile Include="System.Drawing.Printing\StandardPrintController.cs" />
+    <Compile Include="System.Drawing.Printing\PreviewPrintController.cs" />
+    <Compile Include="System.Drawing.Printing\PreviewPageInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Mono.ico">
