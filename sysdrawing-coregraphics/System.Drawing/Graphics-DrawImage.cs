@@ -40,20 +40,8 @@ namespace System.Drawing
 
 			// Apply our transform to the context
 			context.ConcatCTM (trans);
-
-			// we are getting an error somewhere and not sure where
-			// I think the image bitmapBlock is being corrupted somewhere
-			try {
-				context.DrawImage(new CGRect(rect.X, rect.Y, rect.Width, rect.Height), image);
-			}
-			catch (Exception exc)
-			{
-				Console.WriteLine(exc.Message);
-			}
-
-			// Now we revert our image transform from the context 
-			var revert = CGAffineTransform.CGAffineTransformInvert (trans);
-			context.ConcatCTM (revert);
+			context.DrawImage(new CGRect(rect.X, rect.Y, rect.Width, rect.Height), image);
+			context.ConcatCTM (trans.Invert());
 		}
 
 
@@ -67,7 +55,19 @@ namespace System.Drawing
 			if (image == null)
 				throw new ArgumentNullException ("image");
 
-			DrawImage (rect, image.NativeCGImage, image.imageTransform);
+			if (image.nativeMetafilePage != null) {
+				var cgrect = new CGRect(rect.X, rect.Y, rect.Width, rect.Height);
+				var transformation = image.nativeMetafilePage.GetDrawingTransform(CGPDFBox.Media, cgrect, 0, false);
+				context.SaveState();
+				context.ConcatCTM(transformation);
+				context.ScaleCTM(1, -1);
+				context.TranslateCTM(0, -image.nativeMetafilePage.GetBoxRect(CGPDFBox.Media).Height);
+				context.DrawPDFPage(image.nativeMetafilePage);
+				context.RestoreState();
+			}
+			else if (image.NativeCGImage != null) {
+				DrawImage (rect, image.NativeCGImage, image.imageTransform);
+			}
 		}
 
 		/// <summary>
@@ -172,6 +172,8 @@ namespace System.Drawing
 			// Windows throws a Not Implemented error if the points are more than 3
 			if (destPoints.Length > 3)
 				throw new NotImplementedException ();
+			if (image.nativeMetafilePage != null)
+				throw new NotImplementedException ();
 
 			// create our rectangle.  Offset is 0 because the CreateGeometricTransform bakes our x,y offset in there.
 			var rect = new CGRect (0,0, destPoints [1].X - destPoints [0].X, destPoints [2].Y - destPoints [0].Y);
@@ -185,7 +187,7 @@ namespace System.Drawing
 			context.ConcatCTM (geoTransform);
 
 			// now we draw our image.
-			context.DrawImage(rect, image.NativeCGImage);
+			context.DrawImage (rect, image.NativeCGImage);
 
 			// Now we revert our image transform from the context 
 			var revert = CGAffineTransform.CGAffineTransformInvert (geoTransform);
@@ -276,7 +278,16 @@ namespace System.Drawing
 			if (srcUnit != graphicsUnit && srcUnit != GraphicsUnit.Pixel) 
 			{
 				ConversionHelpers.GraphicsUnitConversion (srcUnit, graphicsUnit, image.HorizontalResolution, image.VerticalResolution,  ref srcRect1);
-			} 
+			}
+
+			if (srcRect1.Location == Point.Empty && srcRect1.Size == image.Size)
+			{
+				DrawImage(image, destRect);
+				return;
+			}
+
+			if (image.NativeCGImage == null)
+				throw new NotImplementedException();
 
 			// Obtain the subImage
 			var subImage = image.NativeCGImage.WithImageInRect (new CGRect(srcRect1.X, srcRect1.Y, srcRect1.Width, srcRect1.Height));
@@ -369,6 +380,15 @@ namespace System.Drawing
 			{
 				ConversionHelpers.GraphicsUnitConversion (srcUnit, graphicsUnit, image.HorizontalResolution, image.VerticalResolution,  ref srcRect1);
 			} 
+
+			if (srcRect1.Location == Point.Empty && srcRect1.Size == image.Size)
+			{
+				DrawImage(image, destPoints);
+				return;
+			}
+
+			if (image.NativeCGImage == null)
+				throw new NotImplementedException();
 
 			// Obtain the subImage
 			var subImage = image.NativeCGImage.WithImageInRect (new CGRect(srcRect1.X, srcRect1.Y, srcRect.Width, srcRect1.Height));
@@ -618,6 +638,11 @@ namespace System.Drawing
 			{
 				ConversionHelpers.GraphicsUnitConversion (srcUnit, graphicsUnit, image.HorizontalResolution, image.VerticalResolution,  ref srcRect1);
 			} 
+
+			if (image.NativeCGImage == null) {
+				DrawImage(image, destRect);
+				return;
+			}
 
 			// Obtain the subImage
 			var subImage = image.NativeCGImage.WithImageInRect (new CGRect(srcRect1.X, srcRect1.Y, srcRect1.Width, srcRect1.Height));

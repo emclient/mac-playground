@@ -197,7 +197,8 @@ namespace System.Windows.Forms {
 
 					if (page_infos.Length > 0) {
 						image_size = ThemeEngine.Current.PrintPreviewControlGetPageSize (this);
-						if (image_size.Width >= 0 && image_size.Width < page_infos[0].Image.Width
+						// Keep the original preview data since they could be Metafile and not a Bitmap
+						/*if (image_size.Width >= 0 && image_size.Width < page_infos[0].Image.Width
 						    && image_size.Height >= 0 && image_size.Height < page_infos[0].Image.Height) {
 
 							for (int i = 0; i < page_infos.Length; i ++) {
@@ -206,7 +207,7 @@ namespace System.Windows.Forms {
 								g.DrawImage (page_infos[i].Image, new Rectangle (new Point (0, 0), image_size), 0, 0, page_infos[i].Image.Width, page_infos[i].Image.Height, GraphicsUnit.Pixel);
 								g.Dispose ();
 							}
-						}
+						}*/
 					}
 				}
 				UpdateScrollBars();
