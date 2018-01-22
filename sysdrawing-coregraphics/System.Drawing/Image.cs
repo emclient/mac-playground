@@ -70,22 +70,12 @@ namespace System.Drawing {
 
 		// This is obtained from a PDF file.  Not supported right now.
 		internal CGPDFDocument nativeMetafile;
+		internal CGPDFPage nativeMetafilePage;
 		string tag = string.Empty;
 		internal SizeF physicalSize;
 
 		internal CGAffineTransform imageTransform;
 		protected ImageFlags pixelFlags;
-
-		// From microsoft documentation an image can also be described by a metafile which in
-		// Quartz2D is a PDF file.  Quartz2D for Mac OSX Developers provides more information
-		// on that but for right now only Bitmap will be supported.
-		internal enum ImageClass 
-		{
-			Bitmap,		// Concrete Pixel based class of this abstract class
-			PDFDocument	// Concrete PDF representation based class of this abstract class
-		}
-
-		internal ImageClass Implementaion { get; set; }
 
 
 		~Image ()
@@ -99,7 +89,12 @@ namespace System.Drawing {
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
 		public int Height {
 			get {
-				return (int)((this as Bitmap)?.NativeCGImage?.Height ?? 0);
+				if (NativeCGImage != null)
+					return (int)NativeCGImage.Height;
+				else if (nativeMetafilePage != null)
+					return (int)nativeMetafilePage.GetBoxRect(CGPDFBox.Media).Height;
+				else
+					return 0;
 			}
 		}
 		
@@ -123,7 +118,12 @@ namespace System.Drawing {
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
 		public int Width {
 			get {
-				return (int)((this as Bitmap)?.NativeCGImage?.Width ?? 0);
+				if (NativeCGImage != null)
+					return (int)NativeCGImage.Width;
+				else if (nativeMetafilePage != null)
+					return (int)nativeMetafilePage.GetBoxRect(CGPDFBox.Media).Width;
+				else
+					return 0;
 			}
 		}
 
@@ -154,7 +154,11 @@ namespace System.Drawing {
 
 		public Size Size 
 		{ 
-			get { 
+			get {
+				if (this.nativeMetafilePage != null) {
+					var cgsize = this.nativeMetafilePage.GetBoxRect(CGPDFBox.Media);
+					return new Size((int)cgsize.Width, (int)cgsize.Height);
+				}
 				var b = this as Bitmap;
 				return b == null ? Size.Empty : b.imageSize;	 
 			}
