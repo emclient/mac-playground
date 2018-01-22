@@ -52,7 +52,5 @@ namespace System.Drawing.Printing
 		public PrintAction PrintAction {
 			get { return action; }
 		}
-
-		//internal GraphicsPrinter GraphicsContext { get; set; }
 	}
 }
