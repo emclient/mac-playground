@@ -63,7 +63,7 @@ namespace System.Windows.Forms {
 			autozoom = true;
 			columns = 1;
 			rows = 0;
-			startPage = 1;
+			startPage = 0;
 
 			this.BackColor = SystemColors.AppWorkspace;
 
@@ -125,17 +125,18 @@ namespace System.Windows.Forms {
 				InvalidateLayout ();
 			}
 		}
+
 		[DefaultValue(0)]
 		public int StartPage {
-			get { return startPage; }
+			get {
+				int value = startPage;
+				if (page_infos != null)
+					value = Math.Min(value, page_infos.Length - (rows * columns));
+				return Math.Max(value, 0);
+			}
 			set {
-				if (value < 1)
-					return;
-				if (document != null && value + (Rows + 1) * Columns > page_infos.Length + 1) {
-					value = page_infos.Length + 1 - (Rows + 1) * Columns;
-					if (value < 1)
-						value = 1;
-				}
+				if (value < 0)
+					throw new ArgumentOutOfRangeException ("StartPage");
 
 				int start = StartPage;
 				startPage = value;
