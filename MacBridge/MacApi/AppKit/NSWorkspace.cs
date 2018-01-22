@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Text;
 using System.Collections.Generic;
-
+using System.Threading;
 #if MONOMAC
 using MonoMac.Foundation;
 using MonoMac.AppKit;
@@ -55,9 +55,26 @@ namespace MacBridge.AppKit
 		static int LaunchAppAndWaitForExit(string path, string[] args, bool activate = true)
 		{
 			var pid = LaunchApplicationForPath(path, args, activate);
+			return WaitForExit(pid);
+		}
+
+		public static int WaitForExit(int pid, double timeout = -1)
+		{
+			DateTime limit = timeout >= 0 ? DateTime.Now.AddSeconds(timeout) : DateTime.MaxValue;
+
 			var process = System.Diagnostics.Process.GetProcessById(pid);
-			process.WaitForExit();
-			return 0; //process.ExitCode; ExitCode not implemented in Mono
+			while (process != null)
+			{
+				if (process.HasExited)
+					return 0; // process.ExitCode; // process.ExitCode not implemented in MONO
+				if (DateTime.Now >= limit)
+					return 0;
+				
+				Thread.Sleep(10);
+				process = System.Diagnostics.Process.GetProcessById(pid);
+			}
+
+			return 0;
 		}
 
 		public static NSTask LaunchTaskForPath(string path, string[] args, bool activate = true)
