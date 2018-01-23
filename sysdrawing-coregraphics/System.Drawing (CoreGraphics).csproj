@@ -586,18 +586,6 @@
     <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Mono.ico">
       <LogicalName>Mono.ico</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Information.ico">
-      <LogicalName>Information.ico</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Error.ico">
-      <LogicalName>Error.ico</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Warning.ico">
-      <LogicalName>Warning.ico</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Question.ico">
-      <LogicalName>Question.ico</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Shield.ico">
       <LogicalName>Shield.ico</LogicalName>
     </EmbeddedResource>
