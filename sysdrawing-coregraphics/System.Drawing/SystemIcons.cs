@@ -40,26 +40,16 @@ namespace System.Drawing {
 
 	public sealed class SystemIcons {
 
-		static Icon[] icons;
-		private const int Application_Winlogo = 0;
-		private const int Asterisk_Information = 1;
-		private const int Error_Hand = 2;
-		private const int Exclamation_Warning = 3;
-		private const int Question_ = 4;
-		private const int Shield_ = 5;
-
 		static SystemIcons ()
 		{
-			// we minimize the # of icons to load since most of them are duplicates
-			icons = new Icon [6];
-			// we use an internal .ctor to ensure the SystemIcons can't de disposed
-			//icons [Application_Winlogo] = new Icon(new Bitmap(NSImage.ImageNamed (NSImageName.ApplicationIcon).CGImage));
-			icons [Application_Winlogo] = new Icon("Mono.ico", true);
-			icons [Asterisk_Information] = new Icon("Information.ico", true);
-			icons [Error_Hand] = new Icon ("Error.ico", true);
-			icons [Exclamation_Warning] = new Icon("Warning.ico", true);
-			icons [Question_] = new Icon ("Question.ico", true);
-			icons [Shield_] = new Icon ("Shield.ico", true);
+			using (var stream = typeof(Icon).Assembly.GetManifestResourceStream("Mono.ico"))
+				WinLogo = new Icon(stream) { undisposable = true };
+			using (var stream = typeof(Icon).Assembly.GetManifestResourceStream("Shield.ico"))
+				Shield = new Icon(stream) { undisposable = true };
+			Information = new Icon("/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ToolbarInfo.icns") { undisposable = true };
+			Error = new Icon("/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/AlertStopIcon.icns") { undisposable = true };
+			Warning = new Icon("/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/AlertCautionIcon.icns") { undisposable = true };
+			Question = new Icon("/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/AlertNoteIcon.icns") { undisposable = true };
 		}
 
 		private SystemIcons ()
@@ -68,50 +58,56 @@ namespace System.Drawing {
 
 		// note: same as WinLogo (for Mono)
 		public static Icon Application {
-			get { return icons [Application_Winlogo]; }
+			get { return WinLogo; }
 		}
 
 		// note: same as Information
 		public static Icon Asterisk {
-			get { return icons [Asterisk_Information]; }
+			get { return Information; }
 		}
 
 		// note: same as Hand
 		public static Icon Error {
-			get { return icons [Error_Hand]; }
+			get;
+			private set;
 		}
 
 		// same as Warning
 		public static Icon Exclamation {
-			get { return icons [Exclamation_Warning]; }
+			get { return Warning; }
 		}
 
 		// note: same as Error
 		public static Icon Hand {
-			get { return icons [Error_Hand]; }
+			get { return Error; }
 		}
 
 		// note: same as Asterisk
 		public static Icon Information {
-			get { return icons [Asterisk_Information]; }
+			get;
+			private set;
 		}
 
 		public static Icon Question {
-			get { return icons [Question_]; }
+			get;
+			private set;
 		}
 
 		// note: same as Exclamation
 		public static Icon Warning {
-			get { return icons [Exclamation_Warning]; }
+			get;
+			private set;
 		}
 
 		// note: same as Application (for Mono)
 		public static Icon WinLogo {
-			get { return icons [Application_Winlogo]; }
+			get;
+			private set;
 		}
 
 		public static Icon Shield {
-			get { return icons [Shield_]; }
+			get;
+			private set;
 		}
 	}
 }
