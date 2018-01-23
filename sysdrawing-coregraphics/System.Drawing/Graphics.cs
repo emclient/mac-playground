@@ -1541,6 +1541,9 @@ namespace System.Drawing {
 			if (icon == null)
 				throw new ArgumentNullException ("icon");
 
+			var scaledSize = context.ConvertSizeToDeviceSpace(new CGSize(targetRect.Width, targetRect.Height));
+			icon = new Icon(icon, new Size((int)scaledSize.Width, (int)scaledSize.Height));
+
 			DrawImage (icon.ToBitmap (), targetRect);
 		}
 
