@@ -80,7 +80,7 @@ namespace System.Drawing
 		{
 			this.sizeInPoints = ConversionHelpers.GraphicsUnitConversion(unit, GraphicsUnit.Point, 96f, emSize);
 			this.bold = FontStyle.Bold == (style & FontStyle.Bold);
-			this.italic = FontStyle.Bold == (style & FontStyle.Italic);
+			this.italic = FontStyle.Italic == (style & FontStyle.Italic);
 			this.underLine = FontStyle.Underline == (style & FontStyle.Underline);
 			this.size = emSize;
 			this.unit = unit;
