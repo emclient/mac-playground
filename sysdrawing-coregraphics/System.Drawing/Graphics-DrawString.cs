@@ -339,6 +339,15 @@ namespace System.Drawing
 
 			c.brush.Setup(this, false); // Stroke
 
+			if ((c.format.FormatFlags & StringFormatFlags.NoClip) == 0)
+			{
+				context.SaveState();
+				if ((c.format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
+					context.ClipToRect(new CGRect(offset.X, offset.Y, c.boundsHeight, c.boundsWidth));
+				else
+					context.ClipToRect(new CGRect(offset.X, offset.Y, c.boundsWidth, c.boundsHeight));
+			}
+
 			if ((c.format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
 			{
 				c.verticalMatrix = CGAffineTransform.MakeTranslation(-offset.X, -offset.Y);
@@ -414,7 +423,9 @@ namespace System.Drawing
 			// See comments.
 			c.brush.Setup(this, true); // Fill
 
-            if ((c.format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
+			if ((c.format.FormatFlags & StringFormatFlags.NoClip) == 0)
+				context.RestoreState();
+            else if ((c.format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
                 context.ConcatCTM(c.verticalMatrix.Invert());
 			SmoothingMode = savedSmoothingMode;
 		}	
