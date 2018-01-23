@@ -339,7 +339,7 @@ namespace System.Drawing
 
 			c.brush.Setup(this, false); // Stroke
 
-			if ((c.format.FormatFlags & StringFormatFlags.NoClip) == 0)
+			if ((c.format.FormatFlags & StringFormatFlags.NoClip) == 0 && c.layoutAvailable)
 			{
 				context.SaveState();
 				if ((c.format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
@@ -423,7 +423,7 @@ namespace System.Drawing
 			// See comments.
 			c.brush.Setup(this, true); // Fill
 
-			if ((c.format.FormatFlags & StringFormatFlags.NoClip) == 0)
+			if ((c.format.FormatFlags & StringFormatFlags.NoClip) == 0 && c.layoutAvailable)
 				context.RestoreState();
             else if ((c.format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
                 context.ConcatCTM(c.verticalMatrix.Invert());
