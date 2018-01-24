@@ -75,18 +75,23 @@ namespace FormsTest
 		static void MaxOpenFiles()
 		{
 			var lim = new LibC.rlimit();
-			LibC.getrlimit((int)LibC.RLimit.NoFile, ref lim);
+			var ok = LibC.getrlimit((int)LibC.RLimit.NoFile, ref lim);
+			Console.WriteLine($"getrlimit({lim.cur}, {lim.max}) => {ok}");
 
 			int n = 9000;
 			lim.cur = lim.max = (UInt64)n;
-			LibC.setrlimit((int)LibC.RLimit.NoFile, ref lim);
-
-			LibC.getrlimit((int)LibC.RLimit.NoFile, ref lim);
+			ok = LibC.setrlimit((int)LibC.RLimit.NoFile, ref lim);
+			Console.WriteLine($"setrlimit({lim.cur}, {lim.max}) => {ok}");
+			ok = LibC.getrlimit((int)LibC.RLimit.NoFile, ref lim);
+			Console.WriteLine($"getrlimit({lim.cur}, {lim.max}) => {ok}");
 
 			lim.cur = (UInt64)4000;
-			LibC.setrlimit((int)LibC.RLimit.NoFile, ref lim);
+			ok = LibC.setrlimit((int)LibC.RLimit.NoFile, ref lim);
+			Console.WriteLine($"setrlimit({lim.cur}, {lim.max}) => {ok}");
+			ok = LibC.getrlimit((int)LibC.RLimit.NoFile, ref lim);
+			Console.WriteLine($"getrlimit({lim.cur}, {lim.max}) => {ok}");
 
-			var a = new FileStream[n];
+			var a = new Stream[n];
 			var f = Path.GetTempFileName();
 			int i = 0;
 			try
@@ -103,10 +108,11 @@ namespace FormsTest
 			catch
 			{
 			}
+			finally
+			{
+				for (int j = i - 1; j >= 0; --j) 					a[j].Close(); 			}
 			Console.WriteLine($"#{i}");
 		}
-
-	}
 #else
 		static void Terminate()
 		{
