@@ -5,12 +5,11 @@ using FormsTest;
 using System.Diagnostics;
 using MailClient.Common.UI;
 using Xilium.CefGlue;
-using MacBridge.Posix;
 using System.IO;
 using System.Runtime.InteropServices;
 
 #if MAC
-
+using MacBridge.Posix;
 #if XAMARINMAC
 using AppKit;
 #else //MONOMAC
@@ -117,4 +116,5 @@ namespace FormsTest
 		{
 		}
 #endif
+	}
 }
