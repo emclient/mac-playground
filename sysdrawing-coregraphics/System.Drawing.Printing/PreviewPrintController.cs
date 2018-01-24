@@ -30,10 +30,8 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
+using System.Drawing.Mac;
 using CoreGraphics;
 using Foundation;
 
@@ -82,7 +80,7 @@ namespace System.Drawing.Printing
 
 		public override Graphics OnStartPage(PrintDocument document, PrintPageEventArgs e)
 		{
-			var page_rect = new CGRect(0, 0, e.PageSettings.PaperSize.Width, e.PageSettings.PaperSize.Height);
+			var page_rect = e.PageSettings.Bounds.ToCGRect();
 			context.BeginPage(page_rect);
 			context.SetFillColor(1f, 1f);
 			context.FillRect(page_rect);
