@@ -65,13 +65,13 @@ namespace MacBridge.Posix
             public UInt64 max;
         }
 
-        [DllImport(Constants.libcLibrary, SetLastError = true)]
+		[DllImport(Constants.libcLibrary, SetLastError = true)]
         public static extern int getrlimit(int resource, ref rlimit l);
 
-        [DllImport(Constants.libcLibrary, SetLastError = true)]
+		[DllImport(Constants.libcLibrary, SetLastError = true)]
         public static extern int setrlimit(int resource, ref rlimit l);
 
-        [DllImport(Constants.libcLibrary, SetLastError = true)]
+		[DllImport(Constants.libcLibrary, SetLastError = true)]
         public static extern int getpid();
 
 		[DllImport(Constants.libcLibrary, SetLastError = true)]
@@ -106,8 +106,30 @@ namespace MacBridge.Posix
 			S_IEXEC	 = S_IXUSR,		/* backward compatability */
 		}
 
+		public enum SeekFlags : int
+		{
+			SEEK_SET = 0,
+			SEEK_CUR = 1,
+			SEEK_END = 2
+		}
+
 		[DllImport(Constants.libcLibrary, SetLastError = true)]
 		public static extern IntPtr fopen(string path, string mode);
+
+		[DllImport(Constants.libcLibrary, SetLastError = true)]
+		public static extern int fclose(IntPtr stream);
+
+		[DllImport(Constants.libcLibrary, SetLastError = true)]
+		public static extern int fseek(IntPtr stream, long offset, SeekFlags origin);
+
+		[DllImport(Constants.libcLibrary, SetLastError = true)]
+		public static extern ulong fread(byte[] ptr, ulong size, ulong nmemb, IntPtr stream);
+
+		[DllImport(Constants.libcLibrary, SetLastError = true)]
+		public static extern ulong fwrite(byte[] ptr, ulong size, ulong nmemb, IntPtr stream);
+
+		[DllImport(Constants.libcLibrary, SetLastError = true)]
+		public static extern int fflush(IntPtr stream);
 
 		[DllImport(Constants.libcLibrary, SetLastError = true)]
 		public static extern IntPtr open(string path, FileMode mode);
