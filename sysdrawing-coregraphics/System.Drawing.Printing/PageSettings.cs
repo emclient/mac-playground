@@ -32,6 +32,7 @@
 
 using System.Diagnostics;
 using System.Reflection;
+using System.Drawing.Mac;
 #if XAMARINMAC
 using AppKit;
 using CoreGraphics;
@@ -71,7 +72,8 @@ namespace System.Drawing.Printing {
 		public Rectangle Bounds
 		{
 			get {
-				return new Rectangle(0, 0, PaperSize.Width, PaperSize.Height);
+				return print_info.ImageablePageBounds.ToRectangle();
+				//return new Rectangle(0, 0, PaperSize.Width, PaperSize.Height);
 			}
 		}
 
