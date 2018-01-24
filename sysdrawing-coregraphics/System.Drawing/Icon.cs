@@ -151,6 +151,12 @@ namespace System.Drawing
 		
 		public void Dispose ()
 		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		private void Dispose(bool disposing)
+		{
 			// SystemIcons requires this
 			if (undisposable)
 				return;
@@ -160,7 +166,7 @@ namespace System.Drawing
 			this.imageData.Release();
 			this.imageData = null;
 		}
-		
+
 		public object Clone ()
 		{
 			return new Icon (this, Size);
@@ -224,7 +230,7 @@ namespace System.Drawing
 		
 		~Icon ()
 		{
-			Dispose ();
+			Dispose (false);
 		}
 		
 		private void InitFromStreamWithSize (Stream stream, int width, int height)
