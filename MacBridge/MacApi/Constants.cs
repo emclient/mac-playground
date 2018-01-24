@@ -91,5 +91,7 @@
 		// macOS 10.12
 		public const string PhotosLibrary = "/System/Library/Frameworks/Photos.framework/Photos";
 		public const string IntentsLibrary = "/System/Library/Frameworks/Intents.framework/Intents";
+
+		public const string PrintCoreLibrary = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/PrintCore.framework/PrintCore";	
 	}
 }
