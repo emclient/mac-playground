@@ -309,6 +309,10 @@
       <Project>{5873DE0F-6853-4C8E-91A4-7A6861069A9A}</Project>
       <Name>HTMLEditorControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MacApi\MacApi.csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'">
+      <Project>{981DC886-42D2-496B-B6E1-1EF6FE3EE78A}</Project>
+      <Name>MacApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <!-- <Target Name="MonoResGenWorkaround" BeforeTargets="BeforeBuild" Condition=" ('$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release') and Exists('$(SolutionDir)/Dependencies/Mac/ResGen/bin/Debug/ResGen.exe') ">
