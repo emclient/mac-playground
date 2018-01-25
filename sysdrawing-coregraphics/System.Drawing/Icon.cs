@@ -69,7 +69,8 @@ namespace System.Drawing
 
 			// The original icon was loaded from multi-image file.
 			this.imageData = original.imageData.Acquire();
-			LoadImageWithSize(size);
+			if (!LoadImageWithSize(size))
+				this.image = original.image.Clone();
 		}
 		
 		public Icon (Stream stream) : this (stream, 32, 32) 
@@ -151,20 +152,26 @@ namespace System.Drawing
 		
 		public void Dispose ()
 		{
+			// SystemIcons requires this
+			if (undisposable)
+				return;
+
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		private void Dispose(bool disposing)
 		{
-			// SystemIcons requires this
-			if (undisposable)
-				return;
-
-			this.image.Dispose();
-			this.image = null;
-			this.imageData.Release();
-			this.imageData = null;
+			if (this.image != null)
+			{
+				this.image.Dispose();
+				this.image = null;
+			}
+			if (this.imageData != null)
+			{
+				this.imageData.Release();
+				this.imageData = null;
+			}
 		}
 
 		public object Clone ()
@@ -237,10 +244,11 @@ namespace System.Drawing
 		{
 			var data = NSData.FromStream(stream);
 			this.imageData = new ReferencedImageData(data, CGImageSource.FromData(data));
-			LoadImageWithSize(new Size(width, height));
+			if (!LoadImageWithSize(new Size(width, height)))
+				throw new ArgumentOutOfRangeException("stream");
 		}
 
-		private void LoadImageWithSize(Size size)
+		private bool LoadImageWithSize(Size size)
 		{
 			var imageSource = imageData.ImageSource;
 			int bestIndex = (int)imageSource.ImageCount - 1;
@@ -260,8 +268,9 @@ namespace System.Drawing
 					break;
 			}
 			if (bestIndex >= imageSource.ImageCount)
-				throw new ArgumentException();
+				return false;
 			this.image = imageSource.CreateImage(bestIndex, null);
+			return this.image != null;
 		}
 
 		public static Icon ExtractAssociatedIcon(string filePath)
