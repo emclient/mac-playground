@@ -65,6 +65,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Drawing;
+using System.Drawing.Mac;
+using System.Drawing.Imaging;
 
 #if XAMARINMAC
 using Foundation;
@@ -76,9 +79,6 @@ using MonoMac.AppKit;
 
 namespace System.Windows.Forms.CocoaInternal {
 	internal class Pasteboard {
-		private static NSPasteboard primary_pbref;
-		private static NSPasteboard app_pbref;
-
 		internal static readonly string internal_format;
 		internal static readonly string serialized_format;
 
@@ -94,8 +94,6 @@ namespace System.Windows.Forms.CocoaInternal {
 
 		static Pasteboard ()
 		{
-			primary_pbref = NSPasteboard.GeneralPasteboard;
-			app_pbref = NSPasteboard.CreateWithUniqueName();
 #if DriverDebug
 			Console.WriteLine ("primary_pbref = {0}, app_pbref = {1}", primary_pbref, app_pbref);
 #endif
@@ -127,6 +125,8 @@ namespace System.Windows.Forms.CocoaInternal {
 				pboard.ClearContents();
 				return;
 			}
+			if (data == null)
+				return;
 
 			var name = DataFormats.GetFormat(id)?.Name;
 			switch (name)
@@ -139,16 +139,8 @@ namespace System.Windows.Forms.CocoaInternal {
 					SetHTMLData(pboard, data);
 					break;
 				case DataFormats.Bitmap:
-					System.Drawing.Bitmap bmp = data as System.Drawing.Bitmap;
-					if (bmp != null)
-					{
-						using (var stream = new MemoryStream())
-						{
-							bmp.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-							NSData imgData = NSData.FromArray(stream.ToArray());
-							pboard.SetDataForType(imgData, NSPasteboardTypePNG);
-						}
-					}
+					if (data is Image image)
+						pboard.SetDataForType(image.ToNSData(ImageFormat.Png), NSPasteboardTypePNG);
 					break;
 			}
 		}
@@ -372,12 +364,11 @@ namespace System.Windows.Forms.CocoaInternal {
 		}
 
 		internal static NSPasteboard Primary {
-			get { return primary_pbref; }
+			get { return NSPasteboard.GeneralPasteboard; }
 		}
 		
 		internal static NSPasteboard Application {
-			get { return primary_pbref; }
-			//get { return app_pbref; }
+			get { return NSPasteboard.GeneralPasteboard; }
 		}
 
 		internal static string AddMSClipboardMetadata(string html)
