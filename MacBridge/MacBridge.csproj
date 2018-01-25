@@ -87,13 +87,10 @@
     <Compile Include="WinApi\Shell32.cs" />
     <Compile Include="WinApi\ShlWapi.cs" />
     <Compile Include="WinApi\User32.cs" />
-    <Compile Include="MacApi\QuickLook.cs" />
     <Compile Include="WinApi\Secur32.cs" />
     <Compile Include="..\..\..\WinApi\Secur32.Struct.cs">
       <Link>WinApi\Secur32.Struct.cs</Link>
     </Compile>
-    <Compile Include="MacApi\Foundation\PathUtilities.cs" />
-    <Compile Include="MacApi\Foundation\Foundation.cs" />
     <Compile Include="WinApi\Imm32.cs" />
     <Compile Include="..\..\..\WinApi\Imm32.Structs.cs">
       <Link>WinApi\Imm32.Structs.cs</Link>
@@ -127,21 +124,13 @@
     <Compile Include="..\..\..\WinApi\ObjIdl.Types.cs">
       <Link>WinApi\ObjIdl.Types.cs</Link>
     </Compile>
-    <Compile Include="MacApi\CoreGraphics\CGEventTypes.cs" />
-    <Compile Include="MacApi\Constants.cs" />
     <Compile Include="WinApi\AdvApi32.cs" />
     <Compile Include="..\..\..\WinApi\AdvApi32.Structs.cs">
       <Link>WinApi\AdvApi32.Structs.cs</Link>
     </Compile>
-    <Compile Include="MacApi\AppKit\NSTitlebarAccessoryViewController.cs" />
-    <Compile Include="MacApi\CoreServices\UTType.cs" />
-    <Compile Include="MacApi\CoreServices\LaunchServices.cs" />
     <Compile Include="..\..\..\WinApi\Usp10.Structs.cs">
       <Link>WinApi\Usp10.Structs.cs</Link>
     </Compile>
-    <Compile Include="MacApi\Posix\LibC.cs" />
-    <Compile Include="MacApi\AppKit\NSWorkspace.cs" />
-    <Compile Include="MacApi\AppKit\NSApplication.cs" />
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
@@ -156,14 +145,12 @@
       <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
       <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MacApi\MacApi.csproj">
+      <Project>{981DC886-42D2-496B-B6E1-1EF6FE3EE78A}</Project>
+      <Name>MacApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="WinApi\" />
-    <Folder Include="MacApi\" />
-    <Folder Include="MacApi\Foundation\" />
-    <Folder Include="MacApi\CoreGraphics\" />
-    <Folder Include="MacApi\AppKit\" />
-    <Folder Include="MacApi\CoreServices\" />
-    <Folder Include="MacApi\Posix\" />
   </ItemGroup>
 </Project>

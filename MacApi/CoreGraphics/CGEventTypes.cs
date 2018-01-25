@@ -13,7 +13,7 @@
 using System;
 using System.Runtime.InteropServices;
 #if !NO_SYSTEM_DRAWING
-using System.Drawing;
+//using System.Drawing;
 #endif
 //using XamCore.CoreFoundation;
 //using XamCore.ObjCRuntime;

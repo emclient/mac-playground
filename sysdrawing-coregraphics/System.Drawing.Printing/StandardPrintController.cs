@@ -2,8 +2,11 @@
 #if XAMARINMAC
 using AppKit;
 using PrintCore;
+using CoreGraphics;
 #elif MONOMAC
 using MonoMac.AppKit;
+using MonoMac.CoreGraphics;
+using MacBridge.MacApi.PrintCore;
 #endif
 
 namespace System.Drawing.Printing
@@ -51,7 +54,7 @@ namespace System.Drawing.Printing
 				IntPtr.Zero);
 			IntPtr contextHandle;
 			PMSessionGetCGGraphicsContext(sessionHandle, out contextHandle);
-			e.SetGraphics(new Graphics(new CoreGraphics.CGContext(contextHandle), false));
+			e.SetGraphics(new Graphics(new CGContext(contextHandle), false));
 			return e.Graphics;
 		}
 

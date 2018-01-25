@@ -598,4 +598,10 @@
     <Folder Include="Utilities\ClipperLib\" />
     <Folder Include="System.Drawing.Mac\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MacApi\MacApi.csproj">
+      <Project>{981DC886-42D2-496B-B6E1-1EF6FE3EE78A}</Project>
+      <Name>MacApi</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

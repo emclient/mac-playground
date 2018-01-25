@@ -31,9 +31,15 @@
 //
 
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.Drawing.Mac;
+#if XAMARINMAC
 using CoreGraphics;
 using Foundation;
+#elif MONOMAC
+using MonoMac.CoreGraphics;
+using MonoMac.Foundation;
+#endif
 
 namespace System.Drawing.Printing
 {
@@ -70,7 +76,11 @@ namespace System.Drawing.Printing
 			//pageInfoList.Clear ();
 
 			previewData = new NSMutableData();
+#if XAMARINMAC
 			context = new CGContextPDF(new CGDataConsumer(previewData));
+#elif MONOMAC
+			context = new CGContextPDF(new CGDataConsumer(previewData), new CGRect(), new CGPDFInfo());
+#endif
 		}
 
 		public override void OnEndPrint(PrintDocument document, PrintEventArgs e)
@@ -94,6 +104,7 @@ namespace System.Drawing.Printing
 
 		public PreviewPageInfo [] GetPreviewPageInfo()
 		{
+#if XAMARINMAC
 			if (previewData != null) {
 				var pdfDocument = new CGPDFDocument(new CGDataProvider(previewData));
 				List<PreviewPageInfo> pi = new List<PreviewPageInfo>();
@@ -104,6 +115,7 @@ namespace System.Drawing.Printing
 				}
 				return pi.ToArray();
 			}
+#endif
 			return new PreviewPageInfo[0];
 		}
 
