@@ -167,6 +167,7 @@ MacApi/PrintCore/PMDuplexMode.cs -text
 MacApi/PrintCore/PMPrintCoreBase.cs -text
 MacApi/PrintCore/PMPrintSettings.cs -text
 MacApi/PrintCore/PMStatusCode.cs -text
+MacApi/Properties/AssemblyInfo.cs -text
 MacApi/QuickLook.cs -text
 MacBridge.Test/CGImageExtensionsTest.cs -text
 MacBridge.Test/LaunchServicesTest.cs -text
