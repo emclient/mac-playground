@@ -1,7 +1,6 @@
 ﻿using System.Text;
 
 #if MONOMAC
-using System.Text;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.CoreText;
@@ -62,8 +61,7 @@ namespace System.Drawing.Mac
 
 		public static NSFont ToNSFont(this Font f)
 		{
-			var nsf = ObjCRuntime.Runtime.GetNSObject(f.nativeFont.Handle) as NSFont;
-			return nsf; //new NSFont(f.nativeFont.Handle);
+			return ObjCRuntime.Runtime.GetNSObject(f.nativeFont.Handle) as NSFont;
 		}
 
 		public static CTFont ToCTFont(this NSFont f)
@@ -157,14 +155,21 @@ namespace System.Drawing.Mac
 			return (uint)color.ToSDColor().ToArgb();
 		}
 
+		public static NSData ToNSData(this Image image, Imaging.ImageFormat format)
+		{
+			using (var stream = new IO.MemoryStream())
+			{
+				image.Save(stream, format);
+				return NSData.FromArray(stream.ToArray());
+			}
+		}
+
 		public static NSImage ToNSImage(this Image image)
 		{
 			if (image.NativeCGImage != null)
 				return new NSImage(image.NativeCGImage, CGSize.Empty);
-			var stream = new IO.MemoryStream();
-			image.Save(stream, Imaging.ImageFormat.Png);
-			var data = NSData.FromArray(stream.ToArray());
-			return new NSImage(data);
+
+			return new NSImage(image.ToNSData(Imaging.ImageFormat.Png));
 		}
 
 		public static Bitmap ToBitmap(this CGImage cgImage)
