@@ -163,6 +163,10 @@ MacApi/Foundation/PathUtilities.cs -text
 MacApi/MacApi.csproj -text
 MacApi/MacApi.snk -text
 MacApi/Posix/LibC.cs -text
+MacApi/PrintCore/PMDuplexMode.cs -text
+MacApi/PrintCore/PMPrintCoreBase.cs -text
+MacApi/PrintCore/PMPrintSettings.cs -text
+MacApi/PrintCore/PMStatusCode.cs -text
 MacApi/QuickLook.cs -text
 MacBridge.Test/CGImageExtensionsTest.cs -text
 MacBridge.Test/LaunchServicesTest.cs -text
