@@ -91,6 +91,9 @@ namespace System.Windows.Forms.CocoaInternal {
 		internal const string kUTTypeRTF = "public.rtf";
 		internal const string NSPasteboardTypeHTML = "public.html";
 		internal const string NSPasteboardTypePNG = "public.png";
+		internal const string NSPasteboardTypeTIFF = "public.tiff";
+
+		internal const string UniformResourceLocatorW = "UniformResourceLocatorW";
 
 		static Pasteboard ()
 		{
@@ -113,6 +116,10 @@ namespace System.Windows.Forms.CocoaInternal {
 					return GetHTML(pboard);
 				case DataFormats.Rtf:
 					return GetRTF(pboard);
+				case DataFormats.Bitmap:
+					return GetBitmap(pboard);
+				case UniformResourceLocatorW:
+					return GetUri(pboard);
 			}
 
 			return null;
@@ -171,10 +178,25 @@ namespace System.Windows.Forms.CocoaInternal {
 		{
 			var data = pboard.GetDataForType(kUTTypeRTF);
 			if (data != null)
-			{
-				var s = NSString.FromData(data, NSStringEncoding.ASCIIStringEncoding)?.ToString();
-				return s;
-			}
+				return  NSString.FromData(data, NSStringEncoding.ASCIIStringEncoding)?.ToString();
+
+			return null;
+		}
+
+		static object GetBitmap(NSPasteboard pboard)
+		{
+			var cgimage = new NSImage(pboard)?.CGImage;
+			if (cgimage != null)
+				return cgimage.ToBitmap();
+
+			return null;
+		}
+
+		static object GetUri(NSPasteboard pboard)
+		{
+			if (Uri.TryCreate(pboard.GetStringForType(fmt_public_utf8_plain_text), UriKind.Absolute, out Uri uri))
+				return uri;
+
 			return null;
 		}
 
@@ -338,13 +360,20 @@ namespace System.Windows.Forms.CocoaInternal {
 			var ids = new List<int>();
 			foreach (var type in pboard.Types)
 				AppendTypeIDs(pboard, ids, type);
+
+			// Specialties
+
+			// If pb contains plain-text URI, add UniformResourceLocatorW (Windows & Chrome compatibiity)
+			var set = new HashSet<string>(pboard.Types);
+			if (set.Contains(fmt_public_utf8_plain_text))
+				if (GetUri(pboard) != null)
+					ids.Add(DataFormats.Format.Add(UniformResourceLocatorW).Id);
+	
 			return ids.ToArray();
 		}
 
 		internal static void AppendTypeIDs(NSPasteboard pboard, List<int> ids, string type)
 		{
-			var usedIDs = new HashSet<string>();
-
 			switch (type)
 			{
 				// TODO: Add more identifiers - for images, sounds etc.
@@ -356,6 +385,10 @@ namespace System.Windows.Forms.CocoaInternal {
 					break;
 				case kUTTypeRTF:
 					ids.Add(DataFormats.Format.Add(DataFormats.Rtf).Id);
+					break;
+				case NSPasteboardTypePNG:
+				case NSPasteboardTypeTIFF:
+					ids.Add(DataFormats.Format.Add(DataFormats.Bitmap).Id);
 					break;
 			}
 

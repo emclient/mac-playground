@@ -406,22 +406,17 @@ namespace System.Windows.Forms {
 		
 		internal static bool ClipboardContainsFormat (params string[] formats)
 		{
-			IntPtr clipboard_handle;
-			int[] native_formats;
-			DataFormats.Format item_format;
-
-			clipboard_handle = XplatUI.ClipboardOpen (false);
-			native_formats = XplatUI.ClipboardAvailableFormats (clipboard_handle);
+			var clipboard_handle = XplatUI.ClipboardOpen(false);
+			var native_formats = XplatUI.ClipboardAvailableFormats(clipboard_handle);
 			
 			if (native_formats == null)
 				return false;
 				
 			foreach (int i in native_formats) {
 				// We might get a format we don't understand or know
-				item_format = DataFormats.GetFormat (i);
-				
+				var item_format = DataFormats.GetFormat(i);
 				if (item_format != null)
-					if (((IList)formats).Contains (item_format.Name))
+					if (((IList)formats).Contains(item_format.Name))
 						return true;
 			}
 				
