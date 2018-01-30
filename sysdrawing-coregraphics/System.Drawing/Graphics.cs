@@ -40,15 +40,10 @@ namespace System.Drawing {
 		private bool hasClientTransform;
 		internal Pen LastPen;
 		internal Brush LastBrush;
-		internal SizeF contextUserSpace;
 		internal CGRect boundingBox;
-		internal GraphicsUnit quartzUnit = GraphicsUnit.Point;
 		internal object nativeObject;
 		internal bool isFlipped;
 		internal InterpolationMode interpolationMode;
-		// Need to keep a transform around, since it is not possible to
-		// set the transform on the context, merely to concatenate.
-		CGAffineTransform transform;
 		internal SmoothingMode smoothingMode;
 
 		// Text Layout
