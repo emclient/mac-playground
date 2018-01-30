@@ -1299,6 +1299,8 @@
     <Compile Include="System.Windows.Forms\ToolStripMenuItem.Mac.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="System.Windows.Forms.Extensions\IOExtensions.cs" />
+    <Compile Include="System.Windows.Forms\DataObjectWrapper.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -1319,6 +1321,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="System.Windows.Forms.Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="resources\SplitterNS.cur">
