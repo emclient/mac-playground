@@ -62,7 +62,8 @@ namespace System.Drawing {
 		private GraphicsUnit graphicsUnit = GraphicsUnit.Display;
 		private float pageScale = 1;
 		private PointF renderingOrigin = PointF.Empty;
-		private Region clipRegion;
+		private static Region infinitRegion = new Region();
+		private Region clip;
 		private float screenScale;
 
 		public Graphics (CGContext context, bool flipped = true)
@@ -205,8 +206,6 @@ namespace System.Drawing {
 
 			// Set anti-aliasing
 			SmoothingMode = SmoothingMode.Default;
-
-			clipRegion = new Region ();
 
 			setupView ();
 		}
@@ -1063,13 +1062,17 @@ namespace System.Drawing {
 		public void SetClip (RectangleF rect, CombineMode combineMode)
 		{
 			if (combineMode == CombineMode.Intersect) {
-				clipRegion.Intersect(rect);
+				if (clip == null || clip.IsInfinite(this)) {
+					clip = new Region(rect);
+				} else {
+					clip.Intersect(rect);
+				}
 				context.ClipToRect(rect.ToCGRect());
 			} else if (combineMode == CombineMode.Replace) {
-				if (combineMode == CombineMode.Replace && !clipRegion.IsInfinite(this)) {
+				if (combineMode == CombineMode.Replace && clip != null && !clip.IsInfinite(this)) {
 					ResetNativeClip();
 				}
-				clipRegion = new Region(rect);
+				clip = new Region(rect);
 				context.ClipToRect(rect.ToCGRect());
 			} else {
 				SetClip (new Region (rect), combineMode);
@@ -1097,44 +1100,47 @@ namespace System.Drawing {
 			// states are correct when we set them.
 			ResetNativeClip();
 
-			switch (combineMode) 
-			{
-			case CombineMode.Replace:
-				// Set our clip region by cloning the region that is passed for now
-				clipRegion = region.Clone ();
-				break;
-			case CombineMode.Intersect:
-
-				clipRegion.Intersect (region);
-
-				break;
-			case CombineMode.Union:
-
-				clipRegion.Union (region);
-
-				break;
-			case CombineMode.Exclude:
-
-				clipRegion.Exclude (region);
-
-				break;
-			case CombineMode.Xor:
-
-				clipRegion.Xor (region);
-
-				break;
-			default:
-				throw new NotImplementedException ("SetClip for CombineMode " + combineMode + " not implemented");
+			switch (combineMode) {
+				case CombineMode.Replace:
+					// Set our clip region by cloning the region that is passed for now
+					clip = region.Clone ();
+					break;
+				case CombineMode.Intersect:
+					if (clip == null) {
+						clip = region.Clone();
+					} else {
+						clip.Intersect(region);
+					}
+					break;
+				case CombineMode.Union:
+					if (clip != null) {
+						clip.Union(region);
+					}
+					break;
+				case CombineMode.Exclude:
+					if (clip != null) {
+						clip = new Region();
+					}
+					clip.Exclude(region);
+					break;
+				case CombineMode.Xor:
+					if (clip != null) {
+						clip = new Region();
+					}
+					clip.Xor(region);
+					break;
+				default:
+					throw new NotImplementedException ("SetClip for CombineMode " + combineMode + " not implemented");
 			}
 
 			//Unlike the current path, the current clipping path is part of the graphics state. 
 			//Therefore, to re-enlarge the paintable area by restoring the clipping path to a 
 			//prior state, you must save the graphics state before you clip and restore the graphics 
 			//state after you’ve completed any clipped drawing.
-			if (clipRegion.IsEmpty(this)) {
+			if (Clip.IsEmpty(this)) {
 				context.ClipToRect (CGRect.Empty);
 			} else {
-				context.AddPath (clipRegion.regionPath);
+				context.AddPath (Clip.regionPath);
 				context.ClosePath ();
 				context.Clip ();
 			}
@@ -1202,7 +1208,7 @@ namespace System.Drawing {
 		
 		public bool IsClipEmpty {
 			get {
-				return clipRegion.IsEmpty(this);
+				return Clip.IsEmpty(this);
 			}
 		}
 
@@ -1218,7 +1224,7 @@ namespace System.Drawing {
 		
 		public Region Clip {
 			get {
-				return clipRegion;
+				return clip ?? infinitRegion;
 			}
 			set {
 				SetClip (value, CombineMode.Replace);
@@ -1227,7 +1233,7 @@ namespace System.Drawing {
 		
 		public RectangleF ClipBounds {
 			get {
-				return clipRegion.GetBounds ();
+				return Clip.GetBounds ();
 				//return context.GetClipBoundingBox ();
 			}
 			set {
@@ -1237,7 +1243,8 @@ namespace System.Drawing {
 		
 		public RectangleF VisibleClipBounds {
 			get {
-				return clipRegion.GetBounds ();
+				// FIXME
+				return Clip.GetBounds ();
 				//throw new NotImplementedException ();
 			}
 			set {
@@ -1334,7 +1341,7 @@ namespace System.Drawing {
 		
 		public bool IsVisibleClipEmpty { 
 			get {
-				return clipRegion == null;
+				return Clip.IsEmpty(this);
 			}
 		}
 
@@ -1345,14 +1352,16 @@ namespace System.Drawing {
 		
 		public void TranslateClip (float dx, float dy)
 		{
-			clipRegion.Translate (dx, dy);
-			SetClip (clipRegion, CombineMode.Replace);
+			if (clip != null) {
+				Clip.Translate (dx, dy);
+				SetClip (Clip, CombineMode.Replace);
+			}
 		}
 
 		public void ResetClip ()
 		{
 			ResetNativeClip();
-			clipRegion.MakeInfinite();
+			clip = null;
 		}
 
 		public void ResetNativeClip()
@@ -1419,7 +1428,7 @@ namespace System.Drawing {
 			graphicsUnit = gstate.pageUnit;
 			pageScale = gstate.pageScale;
 			SmoothingMode = gstate.smoothingMode;
-			clipRegion = gstate.clipRegion;
+			clip = gstate.clipRegion;
 			applyModelView();
 		}
 		
@@ -1436,7 +1445,7 @@ namespace System.Drawing {
 			currentState.pageUnit = graphicsUnit;
 			currentState.pageScale = pageScale;
 			currentState.smoothingMode = smoothingMode;
-			currentState.clipRegion = clipRegion.Clone();
+			currentState.clipRegion = clip == null ? null : clip.Clone();
 			return currentState;
 		}
 
@@ -1747,33 +1756,32 @@ namespace System.Drawing {
 		
 		public bool IsVisible (Point point)
 		{
-			return clipRegion.IsVisible (point);
+			return Clip.IsVisible (point);
 		}
-
 		
 		public bool IsVisible (RectangleF rect)
 		{
-			return clipRegion.IsVisible (rect);
+			return Clip.IsVisible (rect);
 		}
 
 		public bool IsVisible (PointF point)
 		{
-			return clipRegion.IsVisible (point);
+			return Clip.IsVisible (point);
 		}
 		
 		public bool IsVisible (Rectangle rect)
 		{
-			return clipRegion.IsVisible (rect);
+			return Clip.IsVisible (rect);
 		}
 		
 		public bool IsVisible (float x, float y)
 		{
-			return clipRegion.IsVisible (x, y);
+			return Clip.IsVisible (x, y);
 		}
 		
 		public bool IsVisible (int x, int y)
 		{
-			return clipRegion.IsVisible (x, y);
+			return Clip.IsVisible (x, y);
 		}
 		
 		public bool IsVisible (float x, float y, float width, float height)
