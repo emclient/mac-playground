@@ -79,8 +79,8 @@ using MonoMac.AppKit;
 
 namespace System.Windows.Forms.CocoaInternal {
 	internal class Pasteboard {
-		internal static readonly string internal_format;
-		internal static readonly string serialized_format;
+		internal const string internal_format = "com.novell.mono.mwf.pasteboard";
+		internal const string serialized_format = "com.novell.mono.mwf.pasteboard.WindowsForms10PersistentObject";
 
 		internal const string fmt_public_utf8_plain_text = "public.utf8-plain-text";
 
@@ -95,13 +95,13 @@ namespace System.Windows.Forms.CocoaInternal {
 
 		internal const string UniformResourceLocatorW = "UniformResourceLocatorW";
 
+		internal static Dictionary<string, object> managed = new Dictionary<string, object>();
+
 		static Pasteboard ()
 		{
 #if DriverDebug
 			Console.WriteLine ("primary_pbref = {0}, app_pbref = {1}", primary_pbref, app_pbref);
 #endif
-			internal_format = "com.novell.mono.mwf.pasteboard";
-			serialized_format = "com.novell.mono.mwf.pasteboard.WindowsForms10PersistentObject";
 		}
 
 		internal static object Retrieve(NSPasteboard pboard, int id)
@@ -120,7 +120,15 @@ namespace System.Windows.Forms.CocoaInternal {
 					return GetBitmap(pboard);
 				case UniformResourceLocatorW:
 					return GetUri(pboard);
+				default:
+					return RetrieveManaged(name);
 			}
+		}
+
+		internal static object RetrieveManaged(string name)
+		{
+			if (managed.TryGetValue(name, out object value))
+				return value is IDataObject idata ? new DataObjectWrapper(idata) : value;
 
 			return null;
 		}
@@ -130,6 +138,7 @@ namespace System.Windows.Forms.CocoaInternal {
 			if (id == 0)
 			{
 				pboard.ClearContents();
+				managed.Clear();
 				return;
 			}
 			if (data == null)
@@ -148,6 +157,10 @@ namespace System.Windows.Forms.CocoaInternal {
 				case DataFormats.Bitmap:
 					if (data is Image image)
 						pboard.SetDataForType(image.ToNSData(ImageFormat.Png), NSPasteboardTypePNG);
+					break;
+				default:
+					if (!(data is NSObject))
+						managed[name] = data;
 					break;
 			}
 		}
@@ -358,6 +371,12 @@ namespace System.Windows.Forms.CocoaInternal {
 		internal static int[] GetAvailableFormats(NSPasteboard pboard)
 		{
 			var ids = new List<int>();
+
+			// .net formats
+			foreach(var name in managed.Keys)
+				ids.Add(DataFormats.Format.Add(name).Id);
+
+			// native formats
 			foreach (var type in pboard.Types)
 				AppendTypeIDs(pboard, ids, type);
 
