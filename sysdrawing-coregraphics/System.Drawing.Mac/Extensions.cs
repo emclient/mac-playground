@@ -24,6 +24,11 @@ namespace System.Drawing.Mac
 			return new CGRect(r.X, r.Y, r.Width, r.Height);
 		}
 
+		public static CGRect ToCGRect(this RectangleF r)
+		{
+			return new CGRect(r.X, r.Y, r.Width, r.Height);
+		}
+
 		public static Rectangle ToRectangle(this CGRect r)
 		{
 			return new Rectangle((int)Math.Round(r.X), (int)Math.Round(r.Y), (int)Math.Round(r.Width), (int)Math.Round(r.Height));
