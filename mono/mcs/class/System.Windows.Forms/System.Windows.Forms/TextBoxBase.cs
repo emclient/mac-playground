@@ -2525,6 +2525,9 @@ namespace System.Windows.Forms
 				return false;
 			}
 
+			if (!Multiline)
+				s = s.Replace("\n", "").Replace("\r","");
+
 			if (!obey_length) {
 				document.undo.BeginUserAction (Locale.GetText ("Paste"));
 				this.SelectedText = s;

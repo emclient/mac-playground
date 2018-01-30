@@ -691,6 +691,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Design/PropertyTab.cs -
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Design/ToolStripItemDesignerAvailability.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Design/ToolStripItemDesignerAvailabilityAttribute.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Design/WindowsFormsComponentEditor.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Extensions/IOExtensions.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Internal/Accessor.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Internal/ChangeLog -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.Internal/DebugHelper.cs -text
@@ -1066,6 +1067,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataGridViewTextBoxEdit
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataGridViewTopLeftHeaderCell.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataGridViewTriState.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataObject.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataObjectWrapper.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataSourceUpdateMode.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DateBoldEventArgs.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DateBoldEventHandler.cs -text

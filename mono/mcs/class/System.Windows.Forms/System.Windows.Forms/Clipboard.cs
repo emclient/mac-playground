@@ -34,9 +34,13 @@ using System.Runtime.Serialization;
 using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Windows.Forms.Extensions.IO;
 
 namespace System.Windows.Forms {
 	public sealed class Clipboard {
+
+		internal const string IDataObjectFormat = "com.novell.mono.mwf.pasteboard.IDataObject";
+
 		#region Local Variables
 		#endregion	// Local Variables
 
@@ -244,11 +248,13 @@ namespace System.Windows.Forms {
 
 			native_format = -1;
 
-			if (data is IDataObject) {
-				string[] formats;
+			if (data is IDataObject data_object) {
 
-				IDataObject data_object = data as IDataObject;
-				formats = data_object.GetFormats();
+				// Store the oroginal object
+				XplatUI.ClipboardStore(clipboard_handle, data_object, DataFormats.GetFormat(IDataObjectFormat).Id, converter, copy);
+
+				//Store components
+				var formats = data_object.GetFormats();
 				for (int i = 0; i < formats.Length; i++) {
 					item_format = DataFormats.GetFormat(formats[i]);
 					if ((item_format != null) && (item_format.Name != DataFormats.StringFormat)) {
@@ -365,29 +371,27 @@ namespace System.Windows.Forms {
 		#region Internal Static Methods
 		internal static IDataObject GetDataObject (bool primary_selection)
 		{
-			DataObject clipboard;
-			IntPtr clipboard_handle;
-			int[] native_formats;
-			DataFormats.Format item_format;
-			object managed_clipboard_item;
-			XplatUI.ClipboardToObject converter;
+			var converter = new XplatUI.ClipboardToObject (ConvertFromClipboardData);
 
-			converter = new XplatUI.ClipboardToObject (ConvertFromClipboardData);
-
-			clipboard_handle = XplatUI.ClipboardOpen (primary_selection);
-			native_formats = XplatUI.ClipboardAvailableFormats (clipboard_handle);
+			var clipboard_handle = XplatUI.ClipboardOpen (primary_selection);
+			var native_formats = XplatUI.ClipboardAvailableFormats (clipboard_handle);
 			if (native_formats == null) {
 				return null;	// Clipboard empty
 			}
 
-			// Build the IDataObject
-			clipboard = new DataObject ();
+			// Try getting original IDataObject
+			var ido = XplatUI.ClipboardRetrieve(clipboard_handle, DataFormats.GetFormat(IDataObjectFormat).Id, converter);
+			if (ido is IDataObject idata)
+				return idata;
+
+			// Build the IDataObject of not found
+			var clipboard = new DataObject ();
 			for (int i = 0; i < native_formats.Length; i++) {
 				// We might get a format we don't understand or know
-				item_format = DataFormats.GetFormat (native_formats[i]);
+				var item_format = DataFormats.GetFormat (native_formats[i]);
 
 				if (item_format != null) {
-					managed_clipboard_item = XplatUI.ClipboardRetrieve (clipboard_handle, native_formats[i], converter);
+					var managed_clipboard_item = XplatUI.ClipboardRetrieve (clipboard_handle, native_formats[i], converter);
 
 					if (managed_clipboard_item != null) {
 						clipboard.SetData (item_format.Name, managed_clipboard_item);
