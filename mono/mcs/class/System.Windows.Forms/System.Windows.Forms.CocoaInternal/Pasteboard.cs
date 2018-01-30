@@ -144,10 +144,9 @@ namespace System.Windows.Forms.CocoaInternal {
 			if (data == null)
 				return;
 
-			var name = DataFormats.GetFormat(id)?.Name;
+			var name = DataFormats.GetFormat(id)?.Name ?? String.Empty;
 			switch (name)
 			{
-				// TODO: Add support for other types
 				case DataFormats.Text:
 					pboard.SetStringForType(data.ToString(), fmt_public_utf8_plain_text);
 					break;
