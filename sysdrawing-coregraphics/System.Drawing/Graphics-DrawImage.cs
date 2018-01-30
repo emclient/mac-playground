@@ -704,7 +704,7 @@ namespace System.Drawing
 				subImage = ciContext.CreateCGImage (result, result.Extent);
 			}
 
-			transform = image.imageTransform;
+			var transform = image.imageTransform;
 			transform.y0 = subImage.Height;
 			float scaleX1 = subImage.Width/srcRect1.Width;
 			float scaleY1 = subImage.Height/srcRect1.Height;
