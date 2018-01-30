@@ -1113,13 +1113,13 @@ namespace System.Drawing {
 					}
 					break;
 				case CombineMode.Exclude:
-					if (clip != null) {
+					if (clip == null) {
 						clip = new Region();
 					}
 					clip.Exclude(region);
 					break;
 				case CombineMode.Xor:
-					if (clip != null) {
+					if (clip == null) {
 						clip = new Region();
 					}
 					clip.Xor(region);
