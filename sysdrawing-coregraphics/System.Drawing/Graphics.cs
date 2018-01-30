@@ -15,6 +15,7 @@ using System;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
+using System.Drawing.Mac;
 
 #if XAMARINMAC
 using CoreGraphics;
@@ -1061,7 +1062,18 @@ namespace System.Drawing {
 
 		public void SetClip (RectangleF rect, CombineMode combineMode)
 		{
-			SetClip (new Region (rect), combineMode);
+			if (combineMode == CombineMode.Intersect) {
+				clipRegion.Intersect(rect);
+				context.ClipToRect(rect.ToCGRect());
+			} else if (combineMode == CombineMode.Replace) {
+				if (combineMode == CombineMode.Replace && !clipRegion.IsInfinite(this)) {
+					ResetNativeClip();
+				}
+				clipRegion = new Region(rect);
+				context.ClipToRect(rect.ToCGRect());
+			} else {
+				SetClip (new Region (rect), combineMode);
+			}
 		}
 
 		public void SetClip (Rectangle rect, CombineMode combineMode)
@@ -1078,7 +1090,7 @@ namespace System.Drawing {
 		{
 			throw new NotImplementedException ();
 		}
-		
+
 		public void SetClip (Region region, CombineMode combineMode)
 		{
 			// We need to reset the clip that is active now so that the graphic
