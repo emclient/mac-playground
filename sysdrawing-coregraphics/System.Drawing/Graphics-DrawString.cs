@@ -418,15 +418,16 @@ namespace System.Drawing
 				textPosition.Y += c.lineHeight;
 			}
 
+			if ((c.format.FormatFlags & StringFormatFlags.NoClip) == 0 && c.layoutAvailable)
+				context.RestoreState();
+			else if ((c.format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
+                context.ConcatCTM(c.verticalMatrix.Invert());
+
 			// Now we call the brush with a fill of true so the brush can do the fill if need be 
 			// For LinearGradientBrush this will draw the Gradient and end the TransparentLayer.
 			// See comments.
 			c.brush.Setup(this, true); // Fill
 
-			if ((c.format.FormatFlags & StringFormatFlags.NoClip) == 0 && c.layoutAvailable)
-				context.RestoreState();
-            else if ((c.format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
-                context.ConcatCTM(c.verticalMatrix.Invert());
 			SmoothingMode = savedSmoothingMode;
 		}	
 
