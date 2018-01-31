@@ -41,7 +41,6 @@ namespace System.Drawing {
 		internal Pen LastPen;
 		internal Brush LastBrush;
 		internal CGRect boundingBox;
-		internal object nativeObject;
 		internal bool isFlipped;
 		internal InterpolationMode interpolationMode;
 		internal SmoothingMode smoothingMode;
@@ -59,15 +58,30 @@ namespace System.Drawing {
 		private PointF renderingOrigin = PointF.Empty;
 		private static Region infinitRegion = new Region();
 		private Region clip;
-		private float screenScale;
+		//private float screenScale;
 
-		public Graphics (CGContext context, bool flipped = true)
+		internal Graphics (CGContext context, bool flipped = true)
 		{
 			if (context == null)
 				throw new ArgumentNullException ("context");
-			isFlipped = flipped;
-			screenScale = 1;
-			InitializeContext(context);
+			
+			this.isFlipped = flipped;
+			//screenScale = 1;
+			this.context = context;
+
+			context.SaveState();
+
+			modelMatrix = new Matrix();
+
+			boundingBox = context.GetClipBoundingBox();
+
+			graphicsUnit = GraphicsUnit.Pixel;
+			pageScale = 1;
+
+			// Set anti-aliasing
+			SmoothingMode = SmoothingMode.Default;
+
+			setupView();
 		}
 
 #if MONOTOUCH
@@ -107,23 +121,9 @@ namespace System.Drawing {
 		{
 		}
 
-		private Graphics (NSGraphicsContext context)
+		private Graphics (NSGraphicsContext context) :
+			this (context.CGContext, context.IsFlipped)
 		{
-			var gc = context;
-
-			// testing for now
-			//			var attribs = gc.Attributes;
-			//			attribs = NSScreen.MainScreen.DeviceDescription;
-			//			NSValue asdf = (NSValue)attribs["NSDeviceResolution"];
-			//			var size = asdf.SizeFValue;
-			// ----------------------
-			screenScale = 1;
-			nativeObject = gc;
-
-			isFlipped = gc.IsFlipped;
-
-			InitializeContext(gc.GraphicsPort);
-
 		}
 
 		public static Graphics FromContext (NSGraphicsContext context)
@@ -182,52 +182,6 @@ namespace System.Drawing {
 		public static Graphics FromCurrentContext()
 		{
 			return new Graphics ();
-		}
-
-		private void InitializeContext(CGContext context) 
-		{
-			this.context = context;
-
-			context.SaveState ();
-
-			modelMatrix = new Matrix();
-			viewMatrix = new Matrix();
-			modelViewMatrix = new Matrix();
-
-			boundingBox = context.GetClipBoundingBox();
-
-			graphicsUnit = GraphicsUnit.Pixel;
-			pageScale = 1;
-
-			// Set anti-aliasing
-			SmoothingMode = SmoothingMode.Default;
-
-			setupView ();
-		}
-
-		private void initializeMatrix(ref Matrix matrix, bool isFlipped) 
-		{
-			if (!isFlipped) 
-			{
-				//				matrix.Reset();
-				//				matrix.Translate(0, boundingBox.Height, MatrixOrder.Append);
-				//				matrix.Scale(1,-1, MatrixOrder.Append);
-				matrix = new Matrix(
-					1, 0, 0, -1, 0, (float)boundingBox.Height);
-				
-			}
-			else {
-				matrix.Reset();
-			}
-			
-			// It looks like we really do not need to determin if it is flipped or not.
-			// So far this following is working no matter which coordinate system is being used
-			// on both Mac and iOS.  
-			// I will leave the previous commented out code there just in case.  When first implementing 
-			// DrawString the flipped coordinates were causing problems.  Now after implementing with 
-			// CoreText it seems to all be working.  Fingers Crossed.
-			//matrix = new Matrix(
-			//	1, 0, 0, -1, 0, boundingBox.Height);
 		}
 
 		internal float GraphicsUnitConvertX (float x)
@@ -715,7 +669,10 @@ namespace System.Drawing {
 			// Since there is no context.SetCTM, only ConcatCTM
 			// get the current transform, invert it, and concat this to
 			// obtain the identity.   Then we concatenate the value passed
-			context.ConcatCTM (modelViewMatrix.transform.Invert());
+			if (modelViewMatrix != null && !modelViewMatrix.IsIdentity) {
+				modelViewMatrix.Invert();
+				context.ConcatCTM (modelViewMatrix.transform);
+			}
 
 			modelViewMatrix = viewMatrix.Clone();
 			modelViewMatrix.Multiply (modelMatrix);
@@ -980,16 +937,15 @@ namespace System.Drawing {
 
 		void setupView() 
 		{
-			initializeMatrix(ref viewMatrix, isFlipped);
-
-			// Take into account retina diplays
-			viewMatrix.Scale(screenScale, screenScale);
-
+			if (!isFlipped) {
+				viewMatrix = new Matrix(1, 0, 0, -1, 0, (float)boundingBox.Height);
+			} else {
+				viewMatrix = new Matrix();
+			}
 			userspaceScaleX = GraphicsUnitConvertX(1) * pageScale;
 			userspaceScaleY = GraphicsUnitConvertY(1) * pageScale;
 			viewMatrix.Scale(userspaceScaleX, userspaceScaleY);
-			viewMatrix.Translate(renderingOrigin.X * userspaceScaleX, 
-			                     -renderingOrigin.Y * userspaceScaleY, MatrixOrder.Append);
+			viewMatrix.Translate(renderingOrigin.X * userspaceScaleX, -renderingOrigin.Y * userspaceScaleY, MatrixOrder.Append);
 			applyModelView();
 			
 		}
@@ -1370,7 +1326,7 @@ namespace System.Drawing {
 			//state after you’ve completed any clipped drawing.
 			context.RestoreState();
 			context.SaveState();
-			modelViewMatrix.Reset();
+			modelViewMatrix = null;
 			applyModelView();
 		}
 
@@ -1415,6 +1371,8 @@ namespace System.Drawing {
 		
 		public void Restore (GraphicsState gstate)
 		{
+			LastPen = null;
+			LastBrush = null;
 			//LastPen = gstate.lastPen;
 			//LastBrush = gstate.lastBrush;
 			modelMatrix = gstate.model;
@@ -1743,10 +1701,11 @@ namespace System.Drawing {
 		
 		public void Flush (FlushIntention intention)
 		{
-			if (context == null)
-				return;
-
-			context.Synchronize ();
+			if (intention == FlushIntention.Flush) {
+				context.Flush ();
+			} else {
+				context.Synchronize ();
+			}
 		}
 		
 		public bool IsVisible (Point point)
