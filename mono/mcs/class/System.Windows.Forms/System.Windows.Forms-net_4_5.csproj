@@ -1301,6 +1301,8 @@
     </Compile>
     <Compile Include="System.Windows.Forms.Extensions\IOExtensions.cs" />
     <Compile Include="System.Windows.Forms\DataObjectWrapper.cs" />
+    <Compile Include="System.Windows.Forms\DataObjectPasteboard.cs" />
+    <Compile Include="System.Windows.Forms\HtmlClip.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

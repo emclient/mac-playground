@@ -1067,6 +1067,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataGridViewTextBoxEdit
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataGridViewTopLeftHeaderCell.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataGridViewTriState.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataObject.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataObjectPasteboard.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataObjectWrapper.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataSourceUpdateMode.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DateBoldEventArgs.cs -text
@@ -1151,6 +1152,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/HelpEventHandler.cs -te
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/HelpNavigator.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/HelpProvider.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/HorizontalAlignment.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/HtmlClip.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/HtmlDocument.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/HtmlElement.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/HtmlElementCollection.cs -text

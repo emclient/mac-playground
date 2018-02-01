@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Windows.Forms.Extensions.IO;
 
@@ -18,7 +17,7 @@ namespace System.Windows.Forms
 
 		public object GetData(string format)
 		{
-			var data = innerData.GetData(format);
+			var data = innerData.GetData(AlterFormat(format));
 			return Unwrap(format, data);
 		}
 
@@ -82,6 +81,15 @@ namespace System.Windows.Forms
 
 		#region internals
 
+		string AlterFormat(string format)
+		{
+			switch (format)
+			{
+				case DataFormats.HtmlStream: return DataFormats.Html;
+				default: return format;
+			}
+		}
+
 		object Unwrap(string format, object data)
 		{
 			switch (format)
@@ -89,11 +97,26 @@ namespace System.Windows.Forms
 				case DataFormats.Rtf:
 				case DataFormats.Html:
 				case DataFormats.Text:
-					{ return data is Stream stream ? stream.ToString(Encoding.UTF8).Replace("\0", "") : data as string; }
+					{ 
+						if (data is Stream stream)
+						{
+							data = stream.ToString(Encoding.UTF8).Replace("\0", "");
+							innerData.SetData(format, data);
+						}
+						return data;
+					}
 				case DataFormats.UnicodeText:
-					{ return data is Stream stream ? stream.ToString(Encoding.Unicode).Replace("\0", "") : data as string; }
+					{
+						if (data is Stream stream)
+						{
+							data = stream.ToString(Encoding.Unicode).Replace("\0", "");
+							innerData.SetData(format, data);
+						}
+						return data;
+					}
+				case DataFormats.HtmlStream:
+					return data is string s ? s.ToStream(Encoding.UTF8) : null;
 			}
-
 			return data;
 		}
 

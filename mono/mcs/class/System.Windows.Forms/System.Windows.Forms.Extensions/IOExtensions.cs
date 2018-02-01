@@ -20,5 +20,11 @@ namespace System.Windows.Forms.Extensions.IO
 			var bytes = stream.ToArray();
 			return encoding.GetString(bytes);
 		}
+
+		public static MemoryStream ToStream(this string text, Encoding encoding)
+		{
+			var bytes = encoding.GetBytes(text);
+			return new MemoryStream(bytes);
+		}
 	}
 }

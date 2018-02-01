@@ -98,7 +98,7 @@ namespace System.Windows.Forms {
 					bool available = true;
 					if (only_convertible && !entries.autoconvert)
 						available = false;
-					if (available && String.Compare (entries.type, type, true) == 0) {
+					if (available && String.Compare (entries.type, type, false) == 0) {
 						return entries;
 					}
 					entries = entries.next;
