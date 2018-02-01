@@ -236,47 +236,19 @@ namespace System.Windows.Forms {
 		}
 
 		internal static void SetDataObjectImpl(object data, bool copy) {
-			IntPtr			clipboard_handle;
-			XplatUI.ObjectToClipboard converter;
-			int			native_format;
-			DataFormats.Format	item_format;
+			var converter = new XplatUI.ObjectToClipboard(ConvertToClipboardData);
 
-			converter = new XplatUI.ObjectToClipboard(ConvertToClipboardData);
-
-			clipboard_handle = XplatUI.ClipboardOpen(false);
+			var clipboard_handle = XplatUI.ClipboardOpen(false);
 			XplatUI.ClipboardStore(clipboard_handle, null, 0, null, copy);	// Empty clipboard
 
-			native_format = -1;
-
-			if (data is IDataObject data_object) {
-
-				// Store the oroginal object
-				XplatUI.ClipboardStore(clipboard_handle, data_object, DataFormats.GetFormat(IDataObjectFormat).Id, converter, copy);
-
-				//Store components
-				var formats = data_object.GetFormats();
-				for (int i = 0; i < formats.Length; i++) {
-					item_format = DataFormats.GetFormat(formats[i]);
-					if ((item_format != null) && (item_format.Name != DataFormats.StringFormat)) {
-						native_format = item_format.Id;
-					}
-
-					object obj = data_object.GetData (formats [i]);
-
-					// this is used only by custom formats
-					if (IsDataSerializable (obj))
-						item_format.is_serializable = true;
-
-					XplatUI.ClipboardStore(clipboard_handle, obj, native_format, converter, copy);
-				}
+			if (data is IDataObject idata) {
+				XplatUI.ClipboardStore(clipboard_handle, idata, DataFormats.GetFormat(IDataObjectFormat).Id, converter, copy);
 			} else {
-				item_format = DataFormats.Format.Find(data.GetType().FullName);
-				if ((item_format != null) && (item_format.Name != DataFormats.StringFormat)) {
-					native_format = item_format.Id;
-				}
-
-				XplatUI.ClipboardStore(clipboard_handle, data, native_format, converter, copy);
+				var format = DataFormats.Format.Find(data.GetType().FullName);
+				var id = (format != null) && (format.Name != DataFormats.StringFormat) ? format.Id : -1;
+				XplatUI.ClipboardStore(clipboard_handle, data, id, converter, copy);
 			}
+
 			XplatUI.ClipboardClose(clipboard_handle);
 		}
 
@@ -369,43 +341,24 @@ namespace System.Windows.Forms {
 		#endregion	// Public Static Methods
 
 		#region Internal Static Methods
-		internal static IDataObject GetDataObject (bool primary_selection)
+		internal static IDataObject GetDataObject(bool primary_selection)
 		{
-			var converter = new XplatUI.ClipboardToObject (ConvertFromClipboardData);
+			IDataObject data = null;
 
-			var clipboard_handle = XplatUI.ClipboardOpen (primary_selection);
-			var native_formats = XplatUI.ClipboardAvailableFormats (clipboard_handle);
-			if (native_formats == null) {
-				return null;	// Clipboard empty
-			}
+			var clipboard_handle = XplatUI.ClipboardOpen(primary_selection);
 
-			// Try getting original IDataObject
-			var ido = XplatUI.ClipboardRetrieve(clipboard_handle, DataFormats.GetFormat(IDataObjectFormat).Id, converter);
-			if (ido is IDataObject idata)
-				return idata;
-
-			// Build the IDataObject of not found
-			var clipboard = new DataObject ();
-			for (int i = 0; i < native_formats.Length; i++) {
-				// We might get a format we don't understand or know
-				var item_format = DataFormats.GetFormat (native_formats[i]);
-
-				if (item_format != null) {
-					var managed_clipboard_item = XplatUI.ClipboardRetrieve (clipboard_handle, native_formats[i], converter);
-
-					if (managed_clipboard_item != null) {
-						clipboard.SetData (item_format.Name, managed_clipboard_item);
-						// We don't handle 'bitmap' since it involves handles, so we'll equate it to dib
-						if (item_format.Name == DataFormats.Dib) {
-							clipboard.SetData (DataFormats.Bitmap, managed_clipboard_item);
-						}
-					}
-				}
+			var formats = XplatUI.ClipboardAvailableFormats(clipboard_handle);
+			if (formats != null)
+			{
+				var format = DataFormats.GetFormat(IDataObjectFormat).Id;
+				var converter = new XplatUI.ClipboardToObject(ConvertFromClipboardData);
+				if (XplatUI.ClipboardRetrieve(clipboard_handle, format, converter) is IDataObject idata)
+					data = idata;
 			}
 
 			XplatUI.ClipboardClose (clipboard_handle);
 
-			return clipboard;
+			return data;
 		}
 		
 		internal static bool ClipboardContainsFormat (params string[] formats)
