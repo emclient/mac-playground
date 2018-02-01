@@ -167,6 +167,8 @@ namespace System.Windows.Forms
 		public const string WaveAudio			= "WaveAudio";
 		#endregion	// Public Static Fields
 
+		internal const string HtmlStream		= "Html Format";
+
 		private static object lock_object = new object ();
 		private static bool initialized;
 
