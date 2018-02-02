@@ -64,6 +64,7 @@ namespace System.Windows.Forms.CocoaInternal
 						case DataFormats.Html:
 							types.Add(Pasteboard.NSPasteboardTypeHTML);
 							//types.Add(WebArchiveDynamicType);
+							types.Add(Pasteboard.NSPasteboardTypeRTF);
 							break;
 						case DataFormats.Bitmap:
 							types.Add(Pasteboard.NSPasteboardTypePNG);
@@ -92,6 +93,9 @@ namespace System.Windows.Forms.CocoaInternal
 				case Pasteboard.NSPasteboardTypeWebArchive:
 					ProvideWebArchive(pboard, item, type);
 					break;
+				case Pasteboard.NSPasteboardTypeRTF:
+					ProvideRtf(pboard, item, type);
+					break;
 				case Pasteboard.NSPasteboardTypeTIFF:
 					ProvideTiff(pboard, item, type);
 					break;
@@ -105,10 +109,8 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		bool finished = false;
 		public override void FinishedWithDataProvider(NSPasteboard pasteboard)
 		{
-			finished = true;
 		}
 
 		#endregion
@@ -149,6 +151,25 @@ namespace System.Windows.Forms.CocoaInternal
 			var nsdata = NSPropertyListSerialization.DataWithPropertyList(container, NSPropertyListFormat.Xml, out NSError error);
 			var archive = NSString.FromData(nsdata, NSStringEncoding.UTF8);
 			item.SetDataForType(nsdata, Pasteboard.NSPasteboardTypeWebArchive);
+		}
+
+		protected void ProvideRtf(NSPasteboard pboard, NSPasteboardItem item, string type)
+		{
+			var s = GetHtmlWithoutMetadata();
+			if (s == null)
+				return;
+
+			var nsdata = NSData.FromString(s, NSStringEncoding.UTF8);
+			var options = new NSMutableDictionary();
+			options[Pasteboard.NSDocumentTypeDocumentAttribute] = (NSString)Pasteboard.NSHTMLTextDocumentType;
+			options[Pasteboard.NSCharacterEncodingDocumentAttribute] = new NSNumber((ulong)NSStringEncoding.UTF8);
+			var rtf = new NSAttributedString(nsdata, options, out NSDictionary attributes, out NSError error);
+
+			options = new NSMutableDictionary();
+			options[Pasteboard.NSDocumentTypeDocumentAttribute] = (NSString)Pasteboard.NSRTFTextDocumentType;
+			options[Pasteboard.NSCharacterEncodingDocumentAttribute] = new NSNumber((ulong)NSStringEncoding.UTF8);
+			nsdata = rtf.GetData(new NSRange(0, rtf.Length), options, out error);
+			item.SetDataForType(nsdata, Pasteboard.NSPasteboardTypeRTF);
 		}
 
 		protected string CreateDynamicTypeFor(string type)
