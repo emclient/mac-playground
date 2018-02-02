@@ -181,6 +181,15 @@ namespace System.Drawing.Mac
 		{
 			return new Bitmap(cgImage);
 		}
+
+		public static CGContext CGContext(this NSGraphicsContext context)
+		{
+#if MONOMAC
+			return context.GraphicsPort;
+#elif XAMARINMAC
+			return context.CGContext;
+#endif
+		}
 	}
 
 #if MONOMAC

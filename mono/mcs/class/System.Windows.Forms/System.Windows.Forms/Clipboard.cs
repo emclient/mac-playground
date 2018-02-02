@@ -358,7 +358,7 @@ namespace System.Windows.Forms {
 
 			XplatUI.ClipboardClose (clipboard_handle);
 
-			return data;
+			return data ?? new DataObject();
 		}
 		
 		internal static bool ClipboardContainsFormat (params string[] formats)

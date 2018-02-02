@@ -122,7 +122,7 @@ namespace System.Drawing {
 		}
 
 		private Graphics (NSGraphicsContext context) :
-			this (context.CGContext, context.IsFlipped)
+			this (context.CGContext(), context.IsFlipped)
 		{
 		}
 
