@@ -13,7 +13,7 @@ using MonoMac.Foundation;
 using MonoMac.AppKit;
 #endif
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms.CocoaInternal
 {
 	internal class DataObjectPasteboard : IDataObject
 	{

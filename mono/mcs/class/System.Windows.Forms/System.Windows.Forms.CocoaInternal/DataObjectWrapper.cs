@@ -2,7 +2,7 @@
 using System.Text;
 using System.Windows.Forms.Extensions.IO;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms.CocoaInternal
 {
 	internal class DataObjectWrapper : IDataObject
 	{

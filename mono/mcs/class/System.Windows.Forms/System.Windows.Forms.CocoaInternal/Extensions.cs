@@ -139,7 +139,21 @@ namespace System.Windows.Forms.Mac
             return (T)ObjCRuntime.Runtime.GetNSObject(array.ValueAt(index));
         }
 
+		public static void WriteObject(this NSPasteboard pboard, NSObject pasteboardWriting)
+		{
+			// NOTE: pasteboardWriting must conform to NSPasteboardWriting protocol
+			var selector = new ObjCRuntime.Selector("writeObjects:");
+			var array = NSArray.FromNSObjects(pasteboardWriting);
+			ObjCRuntime.Messaging.void_objc_msgSend_IntPtr(pboard.Handle, selector.Handle, array.Handle);
+		}
+
 #elif XAMARINMAC
+
+		public static void WriteObject(this NSPasteboard pboard, INSPasteboardWriting pasteboardWriting)
+		{
+			pboard.WriteObjects(new INSPasteboardWriting[] { pasteboardWriting });
+		}
+
 		public static INSPasteboardWriting AsPasteboardWriting(this NSObject self)
 		{
 			return (INSPasteboardWriting)self;
