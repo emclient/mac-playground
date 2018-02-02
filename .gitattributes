@@ -662,6 +662,9 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CarbonInternal/Structs.
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CarbonInternal/WindowHandler.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/ChangeLog -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Cursor.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/DataObjectPasteboard.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/DataObjectProvider.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/DataObjectWrapper.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Enums.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Extensions.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/IMacNativeControl.cs -text
@@ -1067,8 +1070,6 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataGridViewTextBoxEdit
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataGridViewTopLeftHeaderCell.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataGridViewTriState.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataObject.cs -text
-mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataObjectPasteboard.cs -text
-mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataObjectWrapper.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DataSourceUpdateMode.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DateBoldEventArgs.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/DateBoldEventHandler.cs -text

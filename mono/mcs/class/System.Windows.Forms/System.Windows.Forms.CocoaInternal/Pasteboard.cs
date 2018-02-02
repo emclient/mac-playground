@@ -57,12 +57,7 @@
 //
 
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Drawing;
-using System.Drawing.Mac;
-using System.Drawing.Imaging;
-using System.Windows.Forms.Extensions.IO;
+using System.Windows.Forms.Mac;
 
 #if XAMARINMAC
 using Foundation;
@@ -88,6 +83,7 @@ namespace System.Windows.Forms.CocoaInternal {
 		internal const string NSPasteboardTypeHTML = "public.html";
 		internal const string NSPasteboardTypePNG = "public.png";
 		internal const string NSPasteboardTypeTIFF = "public.tiff";
+		internal const string NSPasteboardTypeWebArchive = "Apple Web Archive pasteboard type";
 
 		internal const string UniformResourceLocatorW = "UniformResourceLocatorW";
 
@@ -125,80 +121,16 @@ namespace System.Windows.Forms.CocoaInternal {
 				return;
 
 			var name = DataFormats.GetFormat(id)?.Name ?? String.Empty;
-			switch (name)
+			if (name == Clipboard.IDataObjectFormat)
 			{
-				case Clipboard.IDataObjectFormat:
-					managed[name] = data;
-					pboard.SetStringForType(name, name); // Set flag that clipboard contains our data
+				managed[name] = data;
+				pboard.SetStringForType(name, name); // Set flag that clipboard contains our data
 
-					//TODO: Replace with data provider, so that we can work efficiently, on-demand
-					Store(pboard, (IDataObject)data);
-					break;
+				var provider = new DataObjectProvider((IDataObject)data);
+				var item = new NSPasteboardItem();
+				item.SetDataProviderForTypes(provider, provider.Types);
+				pboard.WriteObject(item);
 			}
-		}
-
-		internal static void Store(NSPasteboard pboard, IDataObject data)
-		{
-			data = new DataObjectWrapper(data);
-			foreach (var format in data.GetFormats())
-			{
-				switch (format)
-				{
-					case DataFormats.Text:
-					case DataFormats.UnicodeText:
-						pboard.SetStringForType(data.GetData(format) as string, NSPasteboardTypeText);
-						break;
-					case DataFormats.Html:
-						SetHTMLData(pboard, data.GetData(format));
-						break;
-					case DataFormats.Bitmap:
-						if (data.GetData(format) is Image image)
-						{
-							pboard.SetDataForType(image.ToNSData(ImageFormat.Png), NSPasteboardTypePNG);
-							pboard.SetDataForType(image.ToNSData(ImageFormat.Tiff), NSPasteboardTypeTIFF);
-						}
-						break;
-				}
-			}
-		}
-
-		static void SetHTMLData(NSPasteboard pboard, object data)
-		{
-			if (!(data is string s))
-				return;
-
-			s = HtmlClip.RemoveHeader(s);
-
-			// Add as HTML
-			pboard.SetStringForType(s, NSPasteboardTypeHTML);
-
-			// Add as Apple HTML Web Archive
-			var mainRsrc = new NSMutableDictionary();
-			mainRsrc[(NSString)"WebResourceData"] = NSData.FromString(s, NSStringEncoding.UTF8);
-			mainRsrc[(NSString)"WebResourceFrameName"] = (NSString)"";
-			mainRsrc[(NSString)"WebResourceMIMEType"] = (NSString)"text/html";
-			mainRsrc[(NSString)"WebResourceTextEncodingName"] = (NSString)"UTF-8";
-			mainRsrc[(NSString)"WebResourceURL"] = (NSString)"about:blank";
-
-			var container = new NSMutableDictionary();
-			container[(NSString)"WebMainResource"] = mainRsrc;
-
-			var nsdata = NSPropertyListSerialization.DataWithPropertyList(container, NSPropertyListFormat.Xml, out NSError error);
-			var archive = NSString.FromData(nsdata, NSStringEncoding.UTF8);
-			pboard.SetDataForType(nsdata, (NSString)"Apple Web Archive pasteboard type");
-
-			// Add as RTF
-			//nsdata = NSData.FromString(s, NSStringEncoding.UTF8);
-			//var options = new NSMutableDictionary();
-			//options[(NSString)NSDocumentTypeDocumentAttribute] = (NSString)NSHTMLTextDocumentType;
-			//options[(NSString)NSCharacterEncodingDocumentAttribute] = new NSNumber((ulong)NSStringEncoding.UTF8);
-			//var rtf = new NSAttributedString(nsdata, options, out NSDictionary attributes, out NSError error);
-
-			//options.Clear();
-			//options[(NSString)NSDocumentTypeDocumentAttribute] = (NSString)NSRTFTextDocumentType;
-			//options[(NSString)NSCharacterEncodingDocumentAttribute] = new NSNumber((ulong)NSStringEncoding.UTF8);
-			//nsdata = rtf.GetData(new NSRange(0, rtf.Length), options, out error);
-			//pboard.SetDataForType(nsdata, kUTTypeRTF);
 		}
 
 		// Retrieves array of identifiers of available formats.
