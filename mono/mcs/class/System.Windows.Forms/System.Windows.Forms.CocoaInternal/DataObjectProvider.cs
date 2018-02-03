@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Mac;
 using System.Drawing.Imaging;
+using System.Windows.Forms.Mac;
 
 using MacBridge.LaunchServices;
 
