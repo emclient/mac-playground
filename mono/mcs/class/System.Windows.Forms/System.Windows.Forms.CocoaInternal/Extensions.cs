@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Windows.Forms.CocoaInternal;
 
 #if MONOMAC
 using ObjCRuntime = MonoMac.ObjCRuntime;
@@ -65,6 +66,36 @@ namespace System.Windows.Forms.Mac
 		{
 			var p = target.Window.ConvertScreenToBase(e.Window.ConvertBaseToScreen(e.LocationInWindow));
 			return NSEvent.MouseEvent(e.Type, p, e.ModifierFlags, e.Timestamp, target.Window.WindowNumber, null, 0, e.ClickCount, e.Pressure);
+		}
+
+		public static NSObject ToNSObject(this IntPtr handle)
+		{
+			return ObjCRuntime.Runtime.GetNSObject(handle);
+		}
+
+		internal static T ToNSObject<T>(this IntPtr handle) where T : NSObject
+		{
+			return (T)ObjCRuntime.Runtime.GetNSObject(handle);
+		}
+
+		internal static T AsNSObject<T>(this IntPtr handle) where T : NSObject
+		{
+			return ObjCRuntime.Runtime.GetNSObject(handle) as T;
+		}
+
+		internal static NSView ToNSView(this IntPtr handle)
+		{
+			return (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+		}
+
+		internal static NSView AsNSView(this IntPtr handle)
+		{
+			return ObjCRuntime.Runtime.GetNSObject(handle) as NSView;
+		}
+
+		internal static MonoView AsMonoView(this IntPtr handle)
+		{
+			return ObjCRuntime.Runtime.GetNSObject(handle) as MonoView;
 		}
 
 		public static NSWindow[] OrderedWindows(this NSApplication self)
@@ -185,6 +216,16 @@ namespace System.Windows.Forms.Mac
 			var array = NSArray.FromNSObjects(pasteboardWriting);
 			ObjCRuntime.Messaging.void_objc_msgSend_IntPtr(pboard.Handle, selector.Handle, array.Handle);
 		}
+
+		public static NSData GetData(this NSAttributedString astr, NSRange range, NSDictionary options, out NSError error)
+		{
+			var selector = new ObjCRuntime.Selector("dataFromRange:documentAttributes:error:");
+			var e = new NSError();
+			var h = ObjCRuntime.Messaging.IntPtr_objc_msgSend_NSRange_IntPtr_IntPtr_int(astr.Handle, selector.Handle, range, options.Handle, e.Handle, 0);
+			error = null;
+			return h.AsNSObject<NSData>();
+		}
+
 
 #elif XAMARINMAC
 

@@ -77,7 +77,6 @@ using MonoMac.AppKit;
 using MonoMac.Foundation;
 using System.Windows.Forms.CocoaInternal;
 using MonoMac.CoreGraphics;
-using ObjCRuntime = MonoMac.ObjCRuntime;
 using nint = System.Int32;
 using nfloat = System.Single;
 #endif
@@ -203,7 +202,7 @@ namespace System.Windows.Forms {
 
 		internal void ScreenToClientWindow (IntPtr handle, ref CGPoint point)
 		{
-			NSView viewWrapper = ObjCRuntime.Runtime.GetNSObject (handle) as NSView;
+			NSView viewWrapper = handle.AsNSView();
 			if (viewWrapper == null)
 				throw new ArgumentException ("XplatUICocoa.ScreenToClientWindow() requires NSView*");
 
@@ -223,7 +222,7 @@ namespace System.Windows.Forms {
 
 		internal void ClientWindowToScreen (IntPtr handle, ref CGPoint point)
 		{
-			NSView viewWrapper = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView viewWrapper = handle.ToNSView();
 			NSWindow windowWrapper = viewWrapper.Window;
 			if (viewWrapper != null && windowWrapper != null) {
 				if (viewWrapper is IClientView) {
@@ -241,7 +240,7 @@ namespace System.Windows.Forms {
 
 		internal void PositionWindowInClient (Rectangle rect, NSWindow window, IntPtr handle)
 		{
-			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
+			NSView vuWrap = handle.ToNSView();
 			/*if (vuWrap is IClientView)
 			{
 				rect.X += (int)((IClientView)vuWrap).ClientBounds.X;
@@ -339,7 +338,7 @@ namespace System.Windows.Forms {
 
 			ScreenToClientWindow (handle, ref nspoint);
 
-			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
+			NSView vuWrap = handle.ToNSView();
 			point = NativeToMonoFramed (nspoint, vuWrap);
 			if (vuWrap is IClientView)
 			{
@@ -351,7 +350,7 @@ namespace System.Windows.Forms {
 
 		private Point ConvertClientPointToScreen (IntPtr handle, Point point)
 		{
-			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
+			NSView vuWrap = handle.ToNSView();
 			if (vuWrap == null)
 				return Point.Empty;
 			/*if (vuWrap is IClientView)
@@ -370,7 +369,7 @@ namespace System.Windows.Forms {
 
 		private Point ConvertScreenPointToNonClient (IntPtr handle, Point point)
 		{
-			NSView viewWrapper = ObjCRuntime.Runtime.GetNSObject (handle) as NSView;
+			NSView viewWrapper = handle.AsNSView();
 			if (viewWrapper == null)
 				throw new ArgumentException ("XplatUICocoa.ConvertScreenPointToNonClient() requires NSView*");
 
@@ -387,7 +386,7 @@ namespace System.Windows.Forms {
 
 		private Point ConvertNonClientPointToScreen (IntPtr handle, Point point)
 		{
-			NSView viewWrapper = ObjCRuntime.Runtime.GetNSObject (handle) as NSView;
+			NSView viewWrapper = handle.AsNSView();
 			if (viewWrapper == null)
 				throw new ArgumentException ("XplatUICocoa.ConvertScreenPointToNonClient() requires NSView*");
 
@@ -431,7 +430,7 @@ namespace System.Windows.Forms {
 
 				bool isMouseEvt = evtRef.IsMouse();
 				if (Grab.Hwnd != IntPtr.Zero && isMouseEvt && evtRef.Window != null) {
-					var grabView = (NSView)ObjCRuntime.Runtime.GetNSObject(Grab.Hwnd);
+					var grabView = Grab.Hwnd.ToNSView();
 					if (grabView.Window.WindowNumber != evtRef.WindowNumber && evtRef.Type != NSEventType.ScrollWheel)
 						evtRef = evtRef.RetargetMouseEvent(grabView);
 					NSApp.SendEvent(evtRef);
@@ -459,7 +458,7 @@ namespace System.Windows.Forms {
 			if (child == IntPtr.Zero)
 				return;
 			
-			NSView viewWrapper = ObjCRuntime.Runtime.GetNSObject(child) as NSView;
+			var viewWrapper = child.AsNSView();
 			if (viewWrapper == null)
 				return;
 			if (viewWrapper is MonoView && ((MonoView)viewWrapper).ExStyle.HasFlag(WindowExStyles.WS_EX_NOPARENTNOTIFY))
@@ -557,7 +556,7 @@ namespace System.Windows.Forms {
 		internal override void Activate(IntPtr handle)
 		{
 			if (handle != IntPtr.Zero) {
-				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+				var vuWrap = handle.ToNSView();
 				if (vuWrap != null && vuWrap.Window != null && !vuWrap.Window.IsKeyWindow) {
 					vuWrap.Window.MakeKeyAndOrderFront(vuWrap);
 				}
@@ -637,7 +636,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override int[] ClipboardAvailableFormats (IntPtr handle) {
-			return Cocoa.Pasteboard.GetAvailableFormats((NSPasteboard)ObjCRuntime.Runtime.GetNSObject(handle));
+			return Pasteboard.GetAvailableFormats((NSPasteboard)handle.ToNSObject());
 		}
 
 		internal override void ClipboardClose (IntPtr handle) {
@@ -657,12 +656,12 @@ namespace System.Windows.Forms {
 		}
 
 		internal override object ClipboardRetrieve (IntPtr handle, int type, XplatUI.ClipboardToObject converter) {
-			return Cocoa.Pasteboard.Retrieve ((NSPasteboard)ObjCRuntime.Runtime.GetNSObject(handle), type);
+			return Pasteboard.Retrieve((NSPasteboard)handle.ToNSObject(), type);
 		}
 
 		internal override void ClipboardStore (IntPtr handle, object obj, int type, XplatUI.ObjectToClipboard converter, bool copy)
 		{
-			Cocoa.Pasteboard.Store ((NSPasteboard)ObjCRuntime.Runtime.GetNSObject(handle), obj, type);
+			Cocoa.Pasteboard.Store((NSPasteboard)handle.ToNSObject(), obj, type);
 		}
 		
 		internal override void CreateCaret (IntPtr hwnd, int width, int height) {
@@ -675,7 +674,7 @@ namespace System.Windows.Forms {
 			Caret.Visible = 0;
 			Caret.On = false;
 
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hwnd);
+			var vuWrap = hwnd.ToNSView();
 			if (CaretView.Superview != vuWrap)
 			{
 				if (CaretView.Superview != null)
@@ -762,7 +761,7 @@ namespace System.Windows.Forms {
 			bool isTopLevel = !StyleSet(cp.Style, WindowStyles.WS_CHILD);
 
 			if (cp.Parent != IntPtr.Zero) {
-				ParentWrapper = (NSView)ObjCRuntime.Runtime.GetNSObject(cp.Parent);
+				ParentWrapper = cp.Parent.ToNSView();
 				if (!isTopLevel)
 					windowWrapper = ParentWrapper.Window;
 			}
@@ -949,7 +948,7 @@ namespace System.Windows.Forms {
 					break;
 				case Msg.WM_NCCALCSIZE: {
 					if (msg.WParam == (IntPtr)1) {
-						MonoView monoView = ObjCRuntime.Runtime.GetNSObject(msg.HWnd) as MonoView;						
+						MonoView monoView = msg.HWnd.AsMonoView();
 						if (monoView != null) {
 							XplatUIWin32.NCCALCSIZE_PARAMS ncp;
 							ncp = (XplatUIWin32.NCCALCSIZE_PARAMS)Marshal.PtrToStructure (msg.LParam, typeof (XplatUIWin32.NCCALCSIZE_PARAMS));
@@ -1043,7 +1042,7 @@ namespace System.Windows.Forms {
 				}
 				case Msg.WM_NCPAINT:
 				{
-					var monoView = ObjCRuntime.Runtime.GetNSObject(msg.HWnd) as MonoView;
+					var monoView = msg.HWnd.AsMonoView();
 					if (monoView != null)
 						monoView.DrawBorders();	
 					break;
@@ -1086,7 +1085,7 @@ namespace System.Windows.Forms {
 			}
 
 			foreach (IntPtr h in windows) {
-				NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(h);
+				NSView vuWrap = h.ToNSView();
 				NSWindow winWrap = vuWrap.Window;
 				if (winWrap != null && winWrap.ContentView == vuWrap) { 
 					winWrap.ReleasedWhenClosed = true;
@@ -1112,7 +1111,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override void EnableWindow (IntPtr handle, bool Enable) {
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView vuWrap = handle.ToNSView();
 			if (vuWrap is MonoView)
 				((MonoView)vuWrap).Enabled = Enable;
 			if (vuWrap is NSControl)
@@ -1138,7 +1137,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override Region GetClipRegion (IntPtr handle) {
-			MonoView vuWrap = ObjCRuntime.Runtime.GetNSObject(handle) as MonoView;
+			MonoView vuWrap = handle.AsMonoView();
 			if (vuWrap != null)
 				return vuWrap.UserClip;
 			return null;
@@ -1180,7 +1179,7 @@ namespace System.Windows.Forms {
 		{
 			if (handle == IntPtr.Zero)
 				return IntPtr.Zero;
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView vuWrap = handle.ToNSView();
 			MonoWindow monoWindow;
 			if (vuWrap.Window != null && vuWrap == vuWrap.Window.ContentView)
 				return with_owner && (monoWindow = vuWrap.Window as MonoWindow) != null && monoWindow.Owner != null ? monoWindow.Owner.ContentView.Handle : IntPtr.Zero;
@@ -1191,7 +1190,7 @@ namespace System.Windows.Forms {
 
 		internal override IntPtr GetPreviousWindow (IntPtr handle)
 		{
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView vuWrap = handle.ToNSView();
 			NSView superWrap = vuWrap.Superview;
 			if (superWrap == null)
 				return IntPtr.Zero;
@@ -1256,7 +1255,7 @@ namespace System.Windows.Forms {
 
 		internal override void GetWindowPos (IntPtr handle, bool is_toplevel, out int x, out int y, out int width, out int height, out int client_width, out int client_height)
 		{
-			NSView view = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView view = handle.ToNSView();
 
 			if (view is MonoContentView) {
 				var frame = NativeToMonoScreen(view.Window.Frame);
@@ -1301,7 +1300,7 @@ namespace System.Windows.Forms {
 
 		internal FormWindowState GetWindowStateInternal(IntPtr handle)
 		{
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView vuWrap = handle.ToNSView();
 			NSWindow winWrap = vuWrap.Window;
 
 			if (winWrap.IsMiniaturized)
@@ -1352,7 +1351,7 @@ namespace System.Windows.Forms {
 		}
 		
 		internal override void Invalidate(IntPtr handle, Rectangle rc, bool clear) {
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView vuWrap = handle.ToNSView();
 			if (!vuWrap.Hidden)
 			{
 				if (vuWrap is IClientView)
@@ -1366,13 +1365,13 @@ namespace System.Windows.Forms {
 
 		internal override void InvalidateNC(IntPtr handle)
 		{
-            MonoView vuWrap = ObjCRuntime.Runtime.GetNSObject(handle) as MonoView;
+			MonoView vuWrap = handle.AsMonoView();
             if (vuWrap != null && !vuWrap.Hidden && vuWrap.ClientBounds != vuWrap.Bounds)
 				vuWrap.NeedsDisplay = true;
 		}
 		
 		internal override bool IsEnabled(IntPtr handle) {
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView vuWrap = handle.ToNSView();
 			if (vuWrap is MonoView)
 				return ((MonoView)vuWrap).Enabled;
 			if (vuWrap is NSControl)
@@ -1381,13 +1380,13 @@ namespace System.Windows.Forms {
 		}
 		
 		internal override bool IsVisible(IntPtr handle) {
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView vuWrap = handle.ToNSView();
 			return !vuWrap.Hidden;
 		}
 		
 		internal override void KillTimer(Timer timer) {
 			if (timer.window != IntPtr.Zero) {
-				NSTimer nstimer = (NSTimer)ObjCRuntime.Runtime.GetNSObject(timer.window);
+				NSTimer nstimer = (NSTimer)timer.window.ToNSObject();
 				nstimer.Invalidate();
 				//nstimer.Release();
 				timer.window = IntPtr.Zero;
@@ -1406,7 +1405,7 @@ namespace System.Windows.Forms {
 
 		internal override PaintEventArgs PaintEventStart (ref Message msg, IntPtr handle, bool client)
 		{
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView vuWrap = handle.ToNSView();
 			Graphics dc;
 			PaintEventArgs paint_event;
 
@@ -1487,7 +1486,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override void RequestNCRecalc (IntPtr handle) {
-			var view = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			var view = handle.ToNSView();
 			if (view is MonoView)
 				((MonoView)view).PerformNCCalc(view.Frame.Size);
 			SendMessage (handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
@@ -1525,14 +1524,14 @@ namespace System.Windows.Forms {
 			 * efficient invalidation of the entire handle which appears to fix the problem
 			 * see bug #381084
 			 */
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView vuWrap = handle.ToNSView();
 			if (!vuWrap.Hidden)
 				vuWrap.NeedsDisplay = true;
 		}
 		
 		
 		internal override void ScrollWindow (IntPtr handle, int XAmount, int YAmount, bool clear) {
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView vuWrap = handle.ToNSView();
 			if (!vuWrap.Hidden)
 				vuWrap.NeedsDisplay = true;
 		}
@@ -1614,7 +1613,7 @@ namespace System.Windows.Forms {
 
 		internal override void SetClipRegion (IntPtr handle, Region region)
 		{
-			MonoView vuWrap = ObjCRuntime.Runtime.GetNSObject (handle) as MonoView;
+			MonoView vuWrap = handle.AsMonoView();
 			if (vuWrap != null) {
 				vuWrap.UserClip = region;
 				if (vuWrap != null && vuWrap.Window != null && vuWrap.Window.ContentView == vuWrap) {
@@ -1634,7 +1633,7 @@ namespace System.Windows.Forms {
 		}
 		
 		internal override void SetCursor (IntPtr window, IntPtr cursor) {
-			var vuWrap = ObjCRuntime.Runtime.GetNSObject(window) as MonoView;
+			var vuWrap = window.AsMonoView();
 			if (vuWrap != null && vuWrap.Cursor != cursor) {
 				vuWrap.Cursor = cursor;
 				OverrideCursor(cursor);
@@ -1673,7 +1672,7 @@ namespace System.Windows.Forms {
 			}
 			else
 			{
-				var view = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+				var view = handle.ToNSView();
 				if (view.Window == null)
 					return;
 
@@ -1723,7 +1722,7 @@ namespace System.Windows.Forms {
 		
 		internal override void SetModal (IntPtr handle, bool Modal)
 		{
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView vuWrap = handle.ToNSView();
 			NSWindow winWrap = vuWrap.Window;
 			if (Modal)
 			{
@@ -1736,8 +1735,8 @@ namespace System.Windows.Forms {
 
 		internal override IntPtr SetParent (IntPtr handle, IntPtr parent)
 		{
-			NSView newParentWrap = IntPtr.Zero != parent ? (NSView)ObjCRuntime.Runtime.GetNSObject(parent) : null;
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView newParentWrap = IntPtr.Zero != parent ? parent.ToNSView() : null;
+			NSView vuWrap = handle.ToNSView();
 			NSWindow winWrap = (NSWindow) vuWrap.Window;
 
 			if (winWrap != null && winWrap.ContentView == vuWrap) {
@@ -1812,7 +1811,7 @@ namespace System.Windows.Forms {
 
 		internal override bool SetTopmost (IntPtr hWnd, bool Enabled)
 		{
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(hWnd);
+			NSView vuWrap = hWnd.ToNSView();
 			NSWindow winWrap = vuWrap.Window;
 			if (winWrap != null)
 				winWrap.Level = Enabled ? NSWindowLevel.ModalPanel : NSWindowLevel.Normal;
@@ -1825,8 +1824,8 @@ namespace System.Windows.Forms {
 			if (hWnd == IntPtr.Zero || hWndOwner == IntPtr.Zero)
 				return false;
 
-			MonoWindow winWrap = ((NSView)ObjCRuntime.Runtime.GetNSObject(hWnd))?.Window as MonoWindow;
-			NSWindow winOwnerWrap = ((NSView)ObjCRuntime.Runtime.GetNSObject(hWndOwner))?.Window;
+			MonoWindow winWrap = hWnd.ToNSView()?.Window as MonoWindow;
+			NSWindow winOwnerWrap = hWndOwner.ToNSView()?.Window;
 
 			if (winWrap != null && winWrap != winOwnerWrap)
 			{
@@ -1852,7 +1851,7 @@ namespace System.Windows.Forms {
 				}
 			}
 
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView vuWrap = handle.ToNSView();
 			NSWindow winWrap = vuWrap.Window;
 			if (winWrap != null && winWrap.ContentView == vuWrap) {
 				if (visible) {
@@ -1899,7 +1898,7 @@ namespace System.Windows.Forms {
 		}
 		
 		internal override void SetWindowMinMax (IntPtr handle, Rectangle maximized, Size min, Size max) {
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView vuWrap = handle.ToNSView();
 			vuWrap.Window.MinSize = min.ToCGSize();
 			if (max.IsEmpty)
 				vuWrap.Window.MaxSize = new CGSize(float.MaxValue, float.MaxValue);
@@ -1909,7 +1908,7 @@ namespace System.Windows.Forms {
 
 		internal override void SetWindowPos (IntPtr handle, int x, int y, int width, int height)
 		{
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView vuWrap = handle.ToNSView();
 
 			// Win32 automatically changes negative width/height to 0.
 			if (width < 0)
@@ -1986,8 +1985,8 @@ namespace System.Windows.Forms {
 		
 		internal override void SetWindowState (IntPtr handle, FormWindowState state)
 		{
-			NSView		vuWrap	= (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
-			NSWindow	winWrap	=  vuWrap.Window;
+			NSView vuWrap = handle.ToNSView();
+			NSWindow winWrap = vuWrap.Window;
 
 			switch (state) {
 				case FormWindowState.Minimized: {
@@ -2023,7 +2022,7 @@ namespace System.Windows.Forms {
 
 		internal override void SetWindowStyle (IntPtr handle, CreateParams cp)
 		{
-			NSView vuWrap = (NSView)ObjCRuntime.Runtime.GetNSObject(handle);
+			NSView vuWrap = handle.ToNSView();
 
 			var monoView = vuWrap as MonoView;
 			if (monoView != null) {
@@ -2052,7 +2051,7 @@ namespace System.Windows.Forms {
 
 		internal override bool SetZOrder (IntPtr handle, IntPtr after_handle, bool Top, bool Bottom)
 		{
-			NSView itVuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
+			NSView itVuWrap = handle.ToNSView();
 			NSView afterVuWrap = null;
 			NSView itSuperVuWrap = itVuWrap.Superview;
 			bool results = true;
@@ -2062,7 +2061,7 @@ namespace System.Windows.Forms {
 #endif
 
 			if (IntPtr.Zero != after_handle) {
-				afterVuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (after_handle);
+				afterVuWrap = after_handle.ToNSView();
 				if (afterVuWrap == null) {
 					return false;	// Bad after_handle.
 				}
@@ -2176,7 +2175,7 @@ namespace System.Windows.Forms {
 
 		internal override bool Text (IntPtr handle, string text)
 		{
-			NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
+			NSView vuWrap = handle.ToNSView();
 			if (vuWrap.Window != null && vuWrap.Window.ContentView == vuWrap)
 				vuWrap.Window.Title = text;
 			else
@@ -2186,7 +2185,7 @@ namespace System.Windows.Forms {
 
 		internal override void UpdateWindow (IntPtr handle)
 		{
-			//NSView vuWrap = (NSView) ObjCRuntime.Runtime.GetNSObject (handle);
+			//NSView vuWrap = handle.ToNSView();
 			//vuWrap.DisplayIfNeeded();
 		}
 
