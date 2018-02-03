@@ -28,6 +28,39 @@ namespace System.Windows.Forms.Mac
 			return reference.AddSeconds(date.SecondsSinceReferenceDate).ToLocalTime();
 		}
 
+		public static bool IsMouse(this NSEvent e)
+		{
+			switch (e.Type)
+			{
+				case NSEventType.LeftMouseDown:
+				case NSEventType.RightMouseDown:
+				case NSEventType.OtherMouseDown:
+				case NSEventType.LeftMouseUp:
+				case NSEventType.RightMouseUp:
+				case NSEventType.OtherMouseUp:
+				case NSEventType.LeftMouseDragged:
+				case NSEventType.RightMouseDragged:
+				case NSEventType.OtherMouseDragged:
+				case NSEventType.ScrollWheel:
+				case NSEventType.MouseMoved:
+					return true;
+			}
+			return false;
+		}
+
+		public static bool IsMouseDown(this NSEvent e)
+		{
+			switch (e.Type)
+			{
+				case NSEventType.LeftMouseDown:
+				case NSEventType.RightMouseDown:
+				case NSEventType.OtherMouseDown:
+					return true;
+				default:
+					return false;
+			}
+		}
+
 		public static NSWindow[] OrderedWindows(this NSApplication self)
 		{
 			var selector = new ObjCRuntime.Selector("orderedWindows");
