@@ -448,7 +448,9 @@ namespace System.Windows.Forms {
 
 				if (evtRef.Type == NSEventType.LeftMouseDown)
 					LastMouseDown = evtRef; // Drag'n'Drop support
-				if (Grab.Hwnd != IntPtr.Zero && IsMouseEvent(evtRef.Type) && evtRef.Window != null) {
+
+				bool isMouseEvt = IsMouseEvent(evtRef.Type);
+				if (Grab.Hwnd != IntPtr.Zero && isMouseEvt && evtRef.Window != null) {
 					var grabView = (NSView)ObjCRuntime.Runtime.GetNSObject(Grab.Hwnd);
 					if (grabView.Window.WindowNumber != evtRef.WindowNumber && evtRef.Type != NSEventType.ScrollWheel)
 					{
@@ -483,8 +485,10 @@ namespace System.Windows.Forms {
 					// When KeyboardCapture is set (ToolStrip menus), deliver key events directly, to avoid filtering, such as in case of HTMLWebView which eats KeyDown.
 					if (Application.KeyboardCapture != null && (evtRef.Type == NSEventType.KeyUp || evtRef.Type == NSEventType.KeyDown) && evtRef.Window != null)
 						evtRef.Window.SendEvent(evtRef);
-					else
-						NSApp.SendEvent(evtRef);
+					else {
+						if (!isMouseEvt || NSApp.ModalWindow == null || NSApp.ModalWindow == evtRef.Window || evtRef.Window == null || evtRef.Window.WorksWhenModal())
+							NSApp.SendEvent(evtRef);
+					}
 				}
 				NSApp.UpdateWindows();
 			}
