@@ -61,6 +61,12 @@ namespace System.Windows.Forms.Mac
 			}
 		}
 
+		public static NSEvent RetargetMouseEvent(this NSEvent e, NSView target)
+		{
+			var p = target.Window.ConvertScreenToBase(e.Window.ConvertBaseToScreen(e.LocationInWindow));
+			return NSEvent.MouseEvent(e.Type, p, e.ModifierFlags, e.Timestamp, target.Window.WindowNumber, null, 0, e.ClickCount, e.Pressure);
+		}
+
 		public static NSWindow[] OrderedWindows(this NSApplication self)
 		{
 			var selector = new ObjCRuntime.Selector("orderedWindows");

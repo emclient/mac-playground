@@ -433,34 +433,8 @@ namespace System.Windows.Forms {
 				if (Grab.Hwnd != IntPtr.Zero && isMouseEvt && evtRef.Window != null) {
 					var grabView = (NSView)ObjCRuntime.Runtime.GetNSObject(Grab.Hwnd);
 					if (grabView.Window.WindowNumber != evtRef.WindowNumber && evtRef.Type != NSEventType.ScrollWheel)
-					{
-						evtRef = NSEvent.MouseEvent(
-							evtRef.Type,
-							grabView.Window.ConvertScreenToBase(evtRef.Window.ConvertBaseToScreen(evtRef.LocationInWindow)),
-							evtRef.ModifierFlags,
-							evtRef.Timestamp,
-							grabView.Window.WindowNumber,
-							null,
-							0,
-							evtRef.ClickCount,
-							evtRef.Pressure);
-					}
-					switch (evtRef.Type)
-					{
-						case NSEventType.LeftMouseDown: grabView.MouseDown(evtRef); break;
-						case NSEventType.RightMouseDown: grabView.RightMouseDown(evtRef); break;
-						case NSEventType.OtherMouseDown: grabView.OtherMouseDown(evtRef); break;
-						case NSEventType.LeftMouseUp: grabView.MouseUp(evtRef); break;
-						case NSEventType.RightMouseUp: grabView.RightMouseUp(evtRef); break;
-						case NSEventType.OtherMouseUp: grabView.OtherMouseUp(evtRef); break;
-						case NSEventType.LeftMouseDragged: grabView.MouseDragged(evtRef); break;
-						case NSEventType.RightMouseDragged: grabView.RightMouseDragged(evtRef); break;
-						case NSEventType.OtherMouseDragged: grabView.OtherMouseDragged(evtRef); break;
-						case NSEventType.ScrollWheel: grabView.ScrollWheel(evtRef); break;
-						case NSEventType.BeginGesture: grabView.BeginGestureWithEvent(evtRef); break;
-						case NSEventType.EndGesture: grabView.EndGestureWithEvent(evtRef); break;
-						case NSEventType.MouseMoved: grabView.MouseMoved(evtRef); break;
-					}
+						evtRef = evtRef.RetargetMouseEvent(grabView);
+					NSApp.SendEvent(evtRef);
 				} else {
 					// When KeyboardCapture is set (ToolStrip menus), deliver key events directly, to avoid filtering, such as in case of HTMLWebView which eats KeyDown.
 					if (Application.KeyboardCapture != null && (evtRef.Type == NSEventType.KeyUp || evtRef.Type == NSEventType.KeyDown) && evtRef.Window != null)
