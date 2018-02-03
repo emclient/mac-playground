@@ -402,26 +402,6 @@ namespace System.Windows.Forms {
 			return converted_point;
 		}
 
-		private static bool IsMouseEvent (NSEventType type)
-		{
-			switch (type)
-			{
-				case NSEventType.LeftMouseDown:
-				case NSEventType.RightMouseDown:
-				case NSEventType.OtherMouseDown:
-				case NSEventType.LeftMouseUp:
-				case NSEventType.RightMouseUp:
-				case NSEventType.OtherMouseUp:
-				case NSEventType.LeftMouseDragged:
-				case NSEventType.RightMouseDragged:
-				case NSEventType.OtherMouseDragged:
-				case NSEventType.ScrollWheel:
-				case NSEventType.MouseMoved:
-					return true;
-			}
-			return false;
-		}
-
 		private bool PumpNativeEvent (bool wait, ref MSG msg, bool dequeue = true)
 		{
 			msg.message = Msg.WM_NULL;
@@ -449,7 +429,7 @@ namespace System.Windows.Forms {
 				if (evtRef.Type == NSEventType.LeftMouseDown)
 					LastMouseDown = evtRef; // Drag'n'Drop support
 
-				bool isMouseEvt = IsMouseEvent(evtRef.Type);
+				bool isMouseEvt = evtRef.IsMouse();
 				if (Grab.Hwnd != IntPtr.Zero && isMouseEvt && evtRef.Window != null) {
 					var grabView = (NSView)ObjCRuntime.Runtime.GetNSObject(Grab.Hwnd);
 					if (grabView.Window.WindowNumber != evtRef.WindowNumber && evtRef.Type != NSEventType.ScrollWheel)
@@ -486,8 +466,13 @@ namespace System.Windows.Forms {
 					if (Application.KeyboardCapture != null && (evtRef.Type == NSEventType.KeyUp || evtRef.Type == NSEventType.KeyDown) && evtRef.Window != null)
 						evtRef.Window.SendEvent(evtRef);
 					else {
+						// Discard mouse events for other windows if we have a modal one...
 						if (!isMouseEvt || NSApp.ModalWindow == null || NSApp.ModalWindow == evtRef.Window || evtRef.Window == null || evtRef.Window.WorksWhenModal())
 							NSApp.SendEvent(evtRef);
+
+						// ... but still use mouse click to activate the app if necessary.
+						if (evtRef.IsMouseDown() && NSApp.ModalWindow != evtRef.Window && NSApp.ModalWindow != null && !NSApp.Active)
+							NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
 					}
 				}
 				NSApp.UpdateWindows();
