@@ -4,6 +4,7 @@ using System;
 using System.Drawing;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Drawing.Mac;
 
 #if XAMARINMAC
 using AppKit;
@@ -34,9 +35,24 @@ namespace System.Windows.Forms
 
 		public NSView CreateView()
 		{
-			scroller = new NSScroller();
+			var scrollView = new NSScrollView();
+			if (vert)
+			{
+				scrollView.HasVerticalScroller = true;
+				scroller = scrollView.VerticalScroller;
+			}
+			else
+			{
+				scrollView.HasHorizontalScroller = true;
+				scroller = scrollView.HorizontalScroller;
+			}
+			scroller.RemoveFromSuperview();
+			scroller.Frame = Bounds.ToCGRect();
+
 			scroller.DoubleValue = 0.0;
 			scroller.Activated += HandleScroller;
+
+			UpdateScroller();
 			return scroller;
 		}
 
