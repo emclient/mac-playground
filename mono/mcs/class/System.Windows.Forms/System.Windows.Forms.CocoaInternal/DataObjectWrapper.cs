@@ -97,29 +97,24 @@ namespace System.Windows.Forms.CocoaInternal
 				case DataFormats.Rtf:
 				case DataFormats.Html:
 				case DataFormats.Text:
-					{ 
-						if (data is Stream stream)
-						{
-							data = stream.ToString(Encoding.UTF8).Replace("\0", "");
-							innerData.SetData(format, data);
-						}
-						return data;
-					}
+					return UnwrapText(format, data, Encoding.UTF8);
 				case DataFormats.UnicodeText:
-					{
-						if (data is Stream stream)
-						{
-							data = stream.ToString(Encoding.Unicode).Replace("\0", "");
-							innerData.SetData(format, data);
-						}
-						return data;
-					}
+					return UnwrapText(format, data, Encoding.Unicode);
 				case DataFormats.HtmlStream:
 					return data is string s ? s.ToStream(Encoding.UTF8) : null;
 			}
 			return data;
 		}
 
+		string UnwrapText(string format, object data, Encoding encoding)
+		{
+			if (data is Stream stream)
+			{
+				data = stream.ToString(encoding).Replace("\0", "");
+				innerData.SetData(format, data);
+			}
+			return data as String;
+		}
 		#endregion
 	}
 }
