@@ -1025,6 +1025,11 @@ namespace System.Windows.Forms
 
 		#region Internal Properties
 
+		internal bool IsRunningOnMac
+		{
+			get { return (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix); }
+		}
+
 		internal Rectangle PaddingClientRectangle
 		{
 			get {

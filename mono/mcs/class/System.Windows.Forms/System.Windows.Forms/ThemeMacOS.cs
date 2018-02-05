@@ -4018,7 +4018,7 @@ namespace System.Windows.Forms
 		}
 
 		public override int ScrollBarButtonSize {
-			get { return 16; }
+			get { return (int)NSScroller.ScrollerWidth; }
 		}
 
 		public override bool ScrollBarHasHotElementStyles {
