@@ -139,15 +139,19 @@ namespace System.Windows.Forms.CocoaInternal
 			if (s == null)
 				return;
 
-			var mainRsrc = new NSMutableDictionary();
-			mainRsrc["WebResourceData"] = NSData.FromString(s, NSStringEncoding.UTF8);
-			mainRsrc["WebResourceFrameName"] = (NSString)"";
-			mainRsrc["WebResourceMIMEType"] = (NSString)"text/html";
-			mainRsrc["WebResourceTextEncodingName"] = (NSString)"UTF-8";
-			mainRsrc["WebResourceURL"] = (NSString)"about:blank";
+			var mainRsrc = new NSDictionary
+			{
+				["WebResourceData"] = NSData.FromString(s, NSStringEncoding.UTF8),
+				["WebResourceFrameName"] = (NSString)"",
+				["WebResourceMIMEType"] = (NSString)"text/html",
+				["WebResourceTextEncodingName"] = (NSString)"UTF-8",
+				["WebResourceURL"] = (NSString)"about:blank"
+			};
 
-			var container = new NSMutableDictionary();
-			container["WebMainResource"] = mainRsrc;
+			var container = new NSDictionary
+			{
+				["WebMainResource"] = mainRsrc
+			};
 
 			var nsdata = NSPropertyListSerialization.DataWithPropertyList(container, NSPropertyListFormat.Xml, out NSError error);
 			var archive = NSString.FromData(nsdata, NSStringEncoding.UTF8);
@@ -161,14 +165,14 @@ namespace System.Windows.Forms.CocoaInternal
 				return;
 
 			var nsdata = NSData.FromString(s, NSStringEncoding.UTF8);
-			var options = new NSMutableDictionary();
-			options[Pasteboard.NSDocumentTypeDocumentAttribute] = (NSString)Pasteboard.NSHTMLTextDocumentType;
-			options[Pasteboard.NSCharacterEncodingDocumentAttribute] = new NSNumber((ulong)NSStringEncoding.UTF8);
+			var options = new NSMutableDictionary
+			{
+				[Pasteboard.NSDocumentTypeDocumentAttribute] = (NSString)Pasteboard.NSHTMLTextDocumentType,
+				[Pasteboard.NSCharacterEncodingDocumentAttribute] = new NSNumber((ulong)NSStringEncoding.UTF8)
+			};
 			var rtf = new NSAttributedString(nsdata, options, out NSDictionary attributes, out NSError error);
 
-			options = new NSMutableDictionary();
 			options[Pasteboard.NSDocumentTypeDocumentAttribute] = (NSString)Pasteboard.NSRTFTextDocumentType;
-			options[Pasteboard.NSCharacterEncodingDocumentAttribute] = new NSNumber((ulong)NSStringEncoding.UTF8);
 			nsdata = rtf.GetData(new NSRange(0, rtf.Length), options, out error);
 			item.SetDataForType(nsdata, Pasteboard.NSPasteboardTypeRTF);
 		}
