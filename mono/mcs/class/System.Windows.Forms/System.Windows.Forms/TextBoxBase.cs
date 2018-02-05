@@ -2046,7 +2046,7 @@ namespace System.Windows.Forms
 				return;
 
 			int hmod = vscroll.Visible ? vscroll.Width : 0;
-			int vmod = hscroll.Visible ? hscroll.Height : 0;
+			int vmod = hscroll.Visible && !IsRunningOnMac ? hscroll.Height : 0;
 
 			if (GetInheritedRtoL () == RightToLeft.Yes) {
 				hscroll.Bounds = new Rectangle (ClientRectangle.Left + hmod, 
