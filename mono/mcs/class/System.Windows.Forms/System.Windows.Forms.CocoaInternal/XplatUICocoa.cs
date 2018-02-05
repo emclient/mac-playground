@@ -433,7 +433,7 @@ namespace System.Windows.Forms {
 					var grabView = Grab.Hwnd.ToNSView();
 					if (grabView.Window.WindowNumber != evtRef.WindowNumber && evtRef.Type != NSEventType.ScrollWheel)
 						evtRef = evtRef.RetargetMouseEvent(grabView);
-					NSApp.SendEvent(evtRef);
+					grabView.DispatchMouseEvent(evtRef);
 				} else {
 					// When KeyboardCapture is set (ToolStrip menus), deliver key events directly, to avoid filtering, such as in case of HTMLWebView which eats KeyDown.
 					if (Application.KeyboardCapture != null && (evtRef.Type == NSEventType.KeyUp || evtRef.Type == NSEventType.KeyDown) && evtRef.Window != null)

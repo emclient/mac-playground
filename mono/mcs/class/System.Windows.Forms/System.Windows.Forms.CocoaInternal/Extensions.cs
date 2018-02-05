@@ -68,6 +68,26 @@ namespace System.Windows.Forms.Mac
 			return NSEvent.MouseEvent(e.Type, p, e.ModifierFlags, e.Timestamp, target.Window.WindowNumber, null, 0, e.ClickCount, e.Pressure);
 		}
 
+		public static void DispatchMouseEvent(this NSView view, NSEvent e)
+		{
+			switch (e.Type)
+			{
+				case NSEventType.LeftMouseDown: view.MouseDown(e); break;
+				case NSEventType.RightMouseDown: view.RightMouseDown(e); break;
+				case NSEventType.OtherMouseDown: view.OtherMouseDown(e); break;
+				case NSEventType.LeftMouseUp: view.MouseUp(e); break;
+				case NSEventType.RightMouseUp: view.RightMouseUp(e); break;
+				case NSEventType.OtherMouseUp: view.OtherMouseUp(e); break;
+				case NSEventType.LeftMouseDragged: view.MouseDragged(e); break;
+				case NSEventType.RightMouseDragged: view.RightMouseDragged(e); break;
+				case NSEventType.OtherMouseDragged: view.OtherMouseDragged(e); break;
+				case NSEventType.ScrollWheel: view.ScrollWheel(e); break;
+				case NSEventType.BeginGesture: view.BeginGestureWithEvent(e); break;
+				case NSEventType.EndGesture: view.EndGestureWithEvent(e); break;
+				case NSEventType.MouseMoved: view.MouseMoved(e); break;
+			}			
+		}
+
 		public static NSObject ToNSObject(this IntPtr handle)
 		{
 			return ObjCRuntime.Runtime.GetNSObject(handle);
