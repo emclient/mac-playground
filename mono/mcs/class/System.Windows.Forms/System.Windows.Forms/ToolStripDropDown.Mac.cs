@@ -157,6 +157,7 @@ namespace System.Windows.Forms
 						});
 					menuItem.Target = actionObj;
 					menuItem.Action = ActionDispatcher.Action;
+					menuItem.Menu?.RemoveItem(menuItem);
 					menu.AddItem(menuItem);
 				}
 			}
