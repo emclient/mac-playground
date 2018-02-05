@@ -97,10 +97,10 @@ namespace System.Drawing
 		static NSFont NSSystemFont(int weight, float size)
 		{
 			if (NSThread.Current.IsMainThread)
-				return NSFont.SystemFontOfSize(size, weight);
+				return NSFontSystemFontOfSize(size, weight);
 
 			NSFont font = null;
-			NSThread.MainThread.InvokeOnMainThread(() => { font = NSFont.SystemFontOfSize(size, weight); });
+			NSThread.MainThread.InvokeOnMainThread(() => { font = NSFontSystemFontOfSize(size, weight); });
 			return font;
 		}
 
@@ -145,6 +145,18 @@ namespace System.Drawing
 		{
 			return (float)nativeFont.BoundingBox.Height;
 		}
+
+#if MONOMAC
+		internal static NSFont NSFontSystemFontOfSize(float size, int weight)
+		{
+			return NSFont.SystemFontOfSize(size);
+		}
+#elif XAMARINMAC
+		internal static NSFont NSFontSystemFontOfSize(float size, int weight)
+		{
+			return NSFont.SystemFontOfSize(size, weight);
+		}
+#endif
 	}
 }
 
