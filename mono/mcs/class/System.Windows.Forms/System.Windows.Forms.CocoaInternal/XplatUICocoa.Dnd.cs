@@ -302,7 +302,9 @@ namespace System.Windows.Forms
 				return new string[] { };
 			}
 
-			public override NSDragOperation DraggingSourceOperationMaskForLocal(bool flag)
+			// Replacement for deprecated DraggingSourceOperationMaskForLocal, not yet in Xamarin
+			[Export("draggingSession:sourceOperationMaskForDraggingContext:")]
+			public virtual NSDragOperation DraggingSourceOperationMaskForDraggingContext(NSDraggingSession session, NSDraggingContext context)
 			{
 				return NSDragOperation.Copy;
 			}
