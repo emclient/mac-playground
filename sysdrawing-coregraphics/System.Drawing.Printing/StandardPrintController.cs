@@ -1,10 +1,10 @@
 ﻿using System;
 #if XAMARINMAC
-using AppKit;
 using PrintCore;
+using CoreFoundation;
 using CoreGraphics;
 #elif MONOMAC
-using MonoMac.AppKit;
+using MonoMac.CoreFoundation;
 using MonoMac.CoreGraphics;
 using MacBridge.MacApi.PrintCore;
 #endif
@@ -34,6 +34,10 @@ namespace System.Drawing.Printing
 			printSettings.SetPageRange((uint)document.PrinterSettings.MinimumPage, (uint)document.PrinterSettings.MaximumPage);
 			printSettings.FirstPage = (uint)document.PrinterSettings.FromPage;
 			printSettings.LastPage = (uint)document.PrinterSettings.ToPage;
+			if (document.DocumentName != null) {
+				using (var jobName = new CFString(document.DocumentName))
+					PMPrintSettingsSetJobName(printSettings.Handle, jobName.Handle);
+			}
 
 			var result = PMSessionBeginCGDocumentNoDialog(
 				sessionHandle,
@@ -70,5 +74,7 @@ namespace System.Drawing.Printing
 		static extern uint PMSessionBeginPageNoDialog(IntPtr sessionHandle, IntPtr pageFormat, IntPtr pageFrame);
 		[Runtime.InteropServices.DllImport(PrintCoreLibrary)]
 		static extern uint PMSessionEndPageNoDialog(IntPtr sessionHandle);
+		[Runtime.InteropServices.DllImport(PrintCoreLibrary)]
+		static extern uint PMPrintSettingsSetJobName(IntPtr printSettingsHandle, IntPtr jobNameHandle);
 	}
 }
