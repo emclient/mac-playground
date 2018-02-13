@@ -1221,7 +1221,6 @@
     <Compile Include="System.Windows.Forms\WebBrowserRefreshOption.cs" />
     <Compile Include="System.Windows.Forms\WebBrowserSiteBase.cs" />
     <Compile Include="System.Windows.Forms\Win32DnD.cs" />
-    <Compile Include="System.Windows.Forms\WindowsFormsSection.cs" />
     <Compile Include="System.Windows.Forms\WindowsFormsSynchronizationContext.cs" />
     <Compile Include="System.Windows.Forms\X11Clipboard.cs" />
     <Compile Include="System.Windows.Forms\X11DesktopColors.cs" />
@@ -1511,7 +1510,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
