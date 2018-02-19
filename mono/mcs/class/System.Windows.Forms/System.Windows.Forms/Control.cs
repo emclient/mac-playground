@@ -4852,6 +4852,11 @@ namespace System.Windows.Forms
 				parent.cached_preferred_size = Size.Empty;
 				parent.LayoutEngine.InitLayout (this, specified);
 			}
+
+			if (layout_suspended != 0)
+				foreach(Control c in child_controls)
+					if (c.Dock == DockStyle.None)
+						this.LayoutEngine.InitLayout(c, specified);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
