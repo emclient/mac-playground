@@ -202,6 +202,7 @@ MacBridge/WinApi/User32.cs -text
 MacBridge/WinApi/Usp10.cs -text
 MacBridge/WinApi/Uxtheme.cs -text
 MacBridge/WinApi/Win32.cs -text
+/MacPlayground.sln -text
 /MonoMac.dll -text
 Relauncher.app/Contents/Frameworks/libswiftAppKit.dylib -text
 Relauncher.app/Contents/Frameworks/libswiftCore.dylib -text
