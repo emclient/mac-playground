@@ -23,6 +23,14 @@ Experiments/FakeMailApp/Base.lproj/Main.storyboard -text
 Experiments/FakeMailApp/Images.xcassets/AppIcon.appiconset/Contents.json -text
 Experiments/FakeMailApp/Info.plist -text
 Experiments/FakeMailApp/ViewController.swift -text
+Experiments/XibLessApp/Info.plist -text
+Experiments/XibLessApp/Main.cs -text
+Experiments/XibLessApp/XibLessApp.csproj -text
+Experiments/XibLessSwiftApp/XibLessSwiftApp.xcodeproj/project.pbxproj -text
+Experiments/XibLessSwiftApp/XibLessSwiftApp.xcodeproj/project.xcworkspace/contents.xcworkspacedata -text
+Experiments/XibLessSwiftApp/XibLessSwiftApp.xcodeproj/project.xcworkspace/xcshareddata/XibLessSwiftApp.xcscmblueprint -text
+Experiments/XibLessSwiftApp/XibLessSwiftApp/Info.plist -text
+Experiments/XibLessSwiftApp/XibLessSwiftApp/main.swift -text
 Experiments/eM[!!-~]Client[!!-~]32/App.h -text
 Experiments/eM[!!-~]Client[!!-~]32/App.m -text
 Experiments/eM[!!-~]Client[!!-~]32/AutofreePool.h -text
@@ -195,8 +203,6 @@ MacBridge/WinApi/Usp10.cs -text
 MacBridge/WinApi/Uxtheme.cs -text
 MacBridge/WinApi/Win32.cs -text
 /MonoMac.dll -text
-/OSXPlayground[!!-~](Unified).sln -text
-/OSXPlayground.mdw -text
 Relauncher.app/Contents/Frameworks/libswiftAppKit.dylib -text
 Relauncher.app/Contents/Frameworks/libswiftCore.dylib -text
 Relauncher.app/Contents/Frameworks/libswiftCoreData.dylib -text
@@ -228,15 +234,6 @@ ResGen/bin/Debug/ResGen.exe -text
 ResGen/bin/Debug/System.Drawing.dll -text
 ResGen/bin/Debug/System.Windows.Forms.dll -text
 ResGen/monoresgen.cs -text
-/WinMac.targets -text
-XibLessApp/Info.plist -text
-XibLessApp/Main.cs -text
-XibLessApp/XibLessApp.csproj -text
-XibLessSwiftApp/XibLessSwiftApp.xcodeproj/project.pbxproj -text
-XibLessSwiftApp/XibLessSwiftApp.xcodeproj/project.xcworkspace/contents.xcworkspacedata -text
-XibLessSwiftApp/XibLessSwiftApp.xcodeproj/project.xcworkspace/xcshareddata/XibLessSwiftApp.xcscmblueprint -text
-XibLessSwiftApp/XibLessSwiftApp/Info.plist -text
-XibLessSwiftApp/XibLessSwiftApp/main.swift -text
 mono/mcs/build/common/ChangeLog -text
 mono/mcs/build/common/Consts.cs -text
 mono/mcs/build/common/Consts.cs.in -text
@@ -1696,7 +1693,6 @@ mono/mcs/class/ecma.pub -text
 mono/mcs/class/mono.pub -text
 mono/mcs/class/mono.snk -text
 mono/mcs/class/msfinal.pub -text
-/readme.rtf -text
 sysdrawing-coregraphics/AssemblyInfo.cs -text
 sysdrawing-coregraphics/System.Drawing[!!-~](CoreGraphics).csproj -text
 sysdrawing-coregraphics/System.Drawing[!!-~](CoreGraphics).sln -text
