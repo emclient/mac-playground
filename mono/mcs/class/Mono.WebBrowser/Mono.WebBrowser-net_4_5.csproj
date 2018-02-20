@@ -67,7 +67,6 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
-  <Import Project="..\..\..\..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
     <Compile Include="..\..\build\common\Consts.cs" />
     <Compile Include="Assembly\AssemblyInfo.cs" />
@@ -113,4 +112,13 @@
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
+  <ItemGroup>
+    <!-- Include Mac API libraries -->
+    <Reference Include="MonoMac" Condition=" '$(Configuration)' == 'Mono - Debug' ">
+      <HintPath>$(SolutionDir)\Dependencies\Mac\MonoMac.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Mac" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release' " />
+  </ItemGroup>	
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" Condition=" '$(Configuration)' != 'Xamarin - Debug' and '$(Configuration)' != 'Xamarin-Release'" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'" />
 </Project>
