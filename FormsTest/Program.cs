@@ -1,10 +1,14 @@
-﻿using System;
+﻿// #define INCLUDE_CEF_TEST
+
+using System;
 using System.Windows.Forms;
 using System.Threading;
 using FormsTest;
 using System.Diagnostics;
+#if INCLUDE_CEF_TEST
 using MailClient.Common.UI;
 using Xilium.CefGlue;
+#endif
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -24,6 +28,7 @@ namespace FormsTest
 	{
 		//public static Settings Settings { get; private set; }
 
+		#if INCLUDE_CEF_TEST
 		static CefApp a = new MyCefApp();
 
 		class MyCefRenderProcessHandler : CefRenderProcessHandler
@@ -37,6 +42,7 @@ namespace FormsTest
 				return new MyCefRenderProcessHandler();
 			}
 		}
+		#endif
 
 		/// <summary>
 		/// The main entry point for the application.
@@ -55,7 +61,7 @@ namespace FormsTest
 
 			//UrlProtocol.Register();
 
-			Marshalling.Initialize();
+			//Marshalling.Initialize();
 			//CefApp.
 
 			Application.Run(new MainForm());

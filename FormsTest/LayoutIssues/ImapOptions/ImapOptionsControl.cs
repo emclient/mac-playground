@@ -2,10 +2,10 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 //using MailClient.Accounts;
-using MailClient.Common.UI;
+//using MailClient.Common.UI;
 //using MailClient.Storage.Application;
 using System.Net;
-using MailClient.UI.Controls;
+//using MailClient.UI.Controls;
 
 namespace MailClient.Protocols.Imap
 {

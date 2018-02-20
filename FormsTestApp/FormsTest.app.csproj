@@ -85,15 +85,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Entitlements.plist" />
-    <None Include="Properties\AssemblyInfoTemplate.cs" />
-    <None Include="InfoTemplate.plist" />
     <None Include="Info.plist" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <Import Project="..\..\..\Tools\BuildTasks\MailClient.BuildTasks.targets" />
+  <!--<Import Project="..\..\..\Tools\BuildTasks\MailClient.BuildTasks.targets" />-->
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <Import Project="FixMacBundle.targets" /> 
 </Project>

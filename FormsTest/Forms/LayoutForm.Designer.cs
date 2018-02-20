@@ -1,5 +1,5 @@
-﻿using MailClient.Common.UI.Controls;
-using MailClient.UI.Controls;
+﻿//using MailClient.Common.UI.Controls;
+//using MailClient.UI.Controls;
 
 namespace FormsTest
 {
