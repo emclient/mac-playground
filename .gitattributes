@@ -69,6 +69,7 @@ FormsTest/Assets.xcassets/AppIcon.appiconset/AppIcon-512.png -text
 FormsTest/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png -text
 FormsTest/Assets.xcassets/AppIcon.appiconset/Contents.json -text
 FormsTest/Assets.xcassets/Contents.json -text
+FormsTest/ControlDebugUtils.cs -text
 FormsTest/Entitlements.plist -text
 FormsTest/Extensions.cs -text
 FormsTest/Forms/DebugLayoutForm.Designer.cs -text
@@ -152,7 +153,7 @@ FormsTest/car.png -text
 FormsTestApp/Entitlements.plist -text
 FormsTestApp/FixMacBundle.targets -text
 FormsTestApp/FormsTest.app.csproj -text
-FormsTestApp/InfoTemplate.plist -text
+FormsTestApp/Info.plist -text
 FormsTestApp/Main.cs -text
 FormsTestApp/Main.storyboard -text
 FormsTestApp/Program.cs -text

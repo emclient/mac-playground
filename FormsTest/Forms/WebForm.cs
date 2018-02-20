@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-using MailClient.UI.Controls;
+//using MailClient.UI.Controls;
 using System;
 
 #if MAC

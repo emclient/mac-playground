@@ -71,7 +71,7 @@
     </Compile>
     <Compile Include="Msg.cs" />
     <Compile Include="UrlProtocol.cs" />
-    <Compile Include="LayoutIssues\ImapOptions\ImapOptionsForm.cs">
+    <!--<Compile Include="LayoutIssues\ImapOptions\ImapOptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LayoutIssues\ImapOptions\ImapOptionsControl.cs">
@@ -94,18 +94,18 @@
     <Compile Include="LayoutIssues\MailOptions\MailOptionsControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="LayoutIssues\MailOptions\MailOptionsControl.Designer.cs" />
-    <Compile Include="LayoutIssues\FormInputBox\FormInputBox.cs">
+    <Compile Include="LayoutIssues\MailOptions\MailOptionsControl.Designer.cs" />-->
+    <!--<Compile Include="LayoutIssues\FormInputBox\FormInputBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LayoutIssues\FormInputBox\FormInputBox.Designer.cs" />
-    <Compile Include="LayoutIssues\ControlRecurrence.cs">
+    <Compile Include="LayoutIssues\FormInputBox\FormInputBox.Designer.cs" />-->
+    <!--<Compile Include="LayoutIssues\ControlRecurrence.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="LayoutIssues\ControlRecurrence.Designer.cs">
       <DependentUpon>ControlRecurrence.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LayoutIssues\ControlSettingsConfirmations.cs">
+    </Compile>-->
+    <!--<Compile Include="LayoutIssues\ControlSettingsConfirmations.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="LayoutIssues\ControlSettingsConfirmations.Designer.cs">
@@ -131,7 +131,7 @@
     </Compile>
     <Compile Include="LayoutIssues\ControlExpandablePanelAutodiscover.Designer.cs">
       <DependentUpon>ControlExpandablePanelAutodiscover.cs</DependentUpon>
-    </Compile>
+    </Compile>-->
     <Compile Include="Forms\DebugLayoutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -177,7 +177,7 @@
     <EmbeddedResource Include="Forms\ImageForm.resx">
       <DependentUpon>ImageForm.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="Forms\LayoutForm.cs">
+    <!--<Compile Include="Forms\LayoutForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\LayoutForm.Designer.cs">
@@ -185,7 +185,7 @@
     </Compile>
     <EmbeddedResource Include="Forms\LayoutForm.resx">
       <DependentUpon>LayoutForm.cs</DependentUpon>
-    </EmbeddedResource>
+    </EmbeddedResource>-->
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -214,10 +214,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Providers.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Compile Include="ControlDebugUtils.cs" />
   </ItemGroup>
-  <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
-    <EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">
+    <!--<EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">
       <LogicalName>MailClient.Protocols.Imap.ImapOptionsControl.resources</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="LayoutIssues\MailOptions\MailOptionsControl.resx">
@@ -245,7 +245,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LayoutIssues\ControlExpandablePanelAutodiscover.resx">
       <DependentUpon>ControlExpandablePanelAutodiscover.cs</DependentUpon>
-    </EmbeddedResource>
+    </EmbeddedResource>-->
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Resources.resx" />
@@ -277,19 +277,19 @@
       <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
       <Name>System.Windows.Forms-net_4_5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MacBridge\MacBridge.csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'">
+    <!--<ProjectReference Include="..\MacBridge\MacBridge.csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'">
       <Project>{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}</Project>
       <Name>MacBridge</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\MailClient.Collections\MailClient.Collections.csproj">
+    </ProjectReference>-->
+    <!--<ProjectReference Include="..\..\..\MailClient.Collections\MailClient.Collections.csproj">
       <Project>{C69A5715-2180-4C49-8AD0-150697A81790}</Project>
       <Name>MailClient.Collections</Name>
-    </ProjectReference>
+    </ProjectReference>-->
     <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'">
       <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
       <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\MailClient.Common.UI\MailClient.Common.UI.csproj">
+    <!--<ProjectReference Include="..\..\..\MailClient.Common.UI\MailClient.Common.UI.csproj">
       <Project>{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}</Project>
       <Name>MailClient.Common.UI</Name>
     </ProjectReference>
@@ -308,20 +308,17 @@
     <ProjectReference Include="..\..\..\MailClient\UI\htmlcontrol\HtmlEditorControl\HTMLEditorControl.csproj">
       <Project>{5873DE0F-6853-4C8E-91A4-7A6861069A9A}</Project>
       <Name>HTMLEditorControl</Name>
-    </ProjectReference>
+    </ProjectReference>-->
     <ProjectReference Include="..\MacApi\MacApi.csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'">
       <Project>{981DC886-42D2-496B-B6E1-1EF6FE3EE78A}</Project>
       <Name>MacApi</Name>
     </ProjectReference>
+    <!-- Include Mac API libraries -->
+    <Reference Include="MonoMac" Condition=" '$(Configuration)' == 'Mono - Debug' ">
+      <HintPath>$(SolutionDir)\Dependencies\Mac\MonoMac.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Mac" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release' " />
   </ItemGroup>
-  <ItemGroup />
-  <!-- <Target Name="MonoResGenWorkaround" BeforeTargets="BeforeBuild" Condition=" ('$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release') and Exists('$(SolutionDir)/Dependencies/Mac/ResGen/bin/Debug/ResGen.exe') ">
-    <PropertyGroup>
-      <ResgenToolPath>$(SolutionDir)/Dependencies/Mac/ResGen/bin/Debug/</ResgenToolPath>
-      <ResGenExecuteAsTool>True</ResGenExecuteAsTool>
-      <GenerateResourceMSBuildRuntime>CLR4</GenerateResourceMSBuildRuntime>
-      <GenerateResourceMSBuildArchitecture>x86</GenerateResourceMSBuildArchitecture>
-    </PropertyGroup>        
-  </Target>
--->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" Condition=" '$(Configuration)' != 'Xamarin - Debug' and '$(Configuration)' != 'Xamarin-Release'" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'" />	
 </Project>
