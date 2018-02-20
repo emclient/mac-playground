@@ -168,7 +168,7 @@ namespace System.Windows.Forms.Layout
 				if (height < 0)
 					height = 0;
 
-				if (child.AutoSize) {
+				if (child.AutoSizeInternal) {
 					Size proposedSize = Size.Empty;
 					if ((anchor & (AnchorStyles.Left | AnchorStyles.Right)) == (AnchorStyles.Left | AnchorStyles.Right))
 						proposedSize.Width = width;
