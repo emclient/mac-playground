@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
-using MailClient.Common.UI;
+//using MailClient.Common.UI;
 /*using MailClient.Schedule;
 using MailClient.Schedule.Event;
 using MailClient.Schedule.Recurrence;

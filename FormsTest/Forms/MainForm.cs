@@ -3,13 +3,13 @@ using System.Drawing.Text;
 using System.Windows.Forms;
 using System;
 using System.Linq;
-using MailClient.Common.UI;
+//using MailClient.Common.UI;
 using System.Diagnostics;
 
 namespace FormsTest
 {
 	using System.Collections.Generic;
-	using MailClient.UI.Forms;
+	//using MailClient.UI.Forms;
 	//using CocoaMessageBox = MessageBox;
 	using FormsMessageBox = System.Windows.Forms.MessageBox;
 	using MessageBox = System.Windows.Forms.MessageBox;
@@ -53,7 +53,7 @@ namespace FormsTest
 
         public MainForm()
         {
-            DisplaySettingsManager.Initialize();
+            //DisplaySettingsManager.Initialize();
 
             InitializeComponent();
 
@@ -68,18 +68,18 @@ namespace FormsTest
 			AddButton("WebForm", () => { new WebForm().Show(); });
             AddButton("ImageForm", () => { new ImageForm().Show(); });
 			AddButton("TextBoxes", () => { new TextBoxForm().Show(); });
-			AddButton("ImapOptions", () => { new ImapOptionsForm().Show(); });
-			AddButton("MailOptions", () => { new MailOptionsForm().Show(); });
-			AddButton("FormInputBox", () => { new FormInputBox(
+			//AddButton("ImapOptions", () => { new ImapOptionsForm().Show(); });
+			//AddButton("MailOptions", () => { new MailOptionsForm().Show(); });
+			/*AddButton("FormInputBox", () => { new FormInputBox(
 				"Nazdar", 
 				"Přihlášení k webovému kalendáři",
 			    "Zadej url kalendáře, ke kterému se chceš přihlásit, třeba http://calndar.org-mycalndar.ics"
-			).Show(); });
+			).Show(); });*/
 			AddButton("Layout 1", () => { new DebugLayoutForm().Show(); });
 			AddButton("Layout 2", () => { new DebugLayoutForm2().Show(); });
 			//AddButton("Layout 3", () => { new DebugLayoutForm3().Show(); });
 			//AddButton("Layout 4", () => { new DebugLayoutForm4().Show(); });
-			AddButton("Editor", () =>
+			/*AddButton("Editor", () =>
 			{
 				var f = new Form() { Size = new Size(500, 300), Text = "Editor" };
 
@@ -89,12 +89,12 @@ namespace FormsTest
 				f.Controls.Add(toolStrip);
 				toolStrip.Items.Add(new MailClient.Common.UI.Controls.ToolStripControls.ControlToolStripButtonFontSelector());
 				f.Show();
-			});
+			});*/
 			/*AddButton("FormLinkMessageBox", () =>
 			{
 				new FormLinkMessageBox("Hello", "Zkušební doba vypršela. Platnou licenci pro eM Client můžete získat na http://cz.emclient.com/prehled-cenovych-moznosti\r\nNyní budete mít ke svým datům přístup pouze v režimu off-line. Synchronizace a odesílání jakýchkoliv zpráv bude nyní zablokována. Jakmile bude zadána validní licence, všechny funkce aplikace budou okamžitě obnoveny.").Show();
 			});*/
-			AddButton("Recurrence", () =>
+			/*AddButton("Recurrence", () =>
 			{
 				var f = new Form() { Size = new Size(500, 300), Text = "Recurrence" };
 				f.Controls.Add(new MailClient.UI.Controls.ControlRecurrence());
@@ -118,7 +118,7 @@ namespace FormsTest
 				var f = new Form() { Size = new Size(400, 500), Text = "Autodiscover" };
 				f.Controls.Add(new MailClient.UI.Controls.WizardControls.ControlExpandablePanelAutodiscover() { Dock = DockStyle.Top, AutoSize = true, Expanded = true });
 				f.Show();
-			});
+			});*/
 		}
 
 		List<Button> buttons = new List<Button>();
@@ -219,8 +219,8 @@ namespace FormsTest
 
         private void button2_Click(object sender, System.EventArgs e)
         {
-            var form = new LayoutForm();
-            form.Show();
+            //var form = new LayoutForm();
+            //form.Show();
         }
 
         private void button3_Click(object sender, System.EventArgs e)
