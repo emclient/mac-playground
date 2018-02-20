@@ -93,5 +93,13 @@
     <Compile Include="PrintCore\PMDuplexMode.cs" />
     <Compile Include="QuickLook.cs" />
   </ItemGroup>
-  <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
+  <ItemGroup>
+    <!-- Include Mac API libraries -->
+    <Reference Include="MonoMac" Condition=" '$(Configuration)' == 'Mono - Debug' ">
+      <HintPath>$(SolutionDir)\Dependencies\Mac\MonoMac.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Mac" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release' " />
+  </ItemGroup>	
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" Condition=" '$(Configuration)' != 'Xamarin - Debug' and '$(Configuration)' != 'Xamarin-Release'" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'" />
 </Project>
