@@ -495,9 +495,6 @@ namespace System.Windows.Forms {
 				return;
 			Caret.On = false;
 			CaretView.Hidden = true;
-
-			// FIXME: Remove this when TextBox (LineTag) rendering is fixed
-			CaretView.Superview.NeedsDisplay = true;
 		}
 		
 		private void AccumulateDestroyedHandles (Control c, ArrayList list) {
