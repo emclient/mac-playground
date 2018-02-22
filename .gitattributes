@@ -230,13 +230,6 @@ Relauncher/Relauncher.xcodeproj/project.xcworkspace/xcshareddata/Relauncher.xcsc
 Relauncher/Relauncher/AppDelegate.swift -text
 Relauncher/Relauncher/Base.lproj/MainMenu.xib -text
 Relauncher/Relauncher/Info.plist -text
-ResGen/ResGen.csproj -text
-ResGen/bin/Debug/Mono.WebBrowser.dll -text
-ResGen/bin/Debug/MonoMac.dll -text
-ResGen/bin/Debug/ResGen.exe -text
-ResGen/bin/Debug/System.Drawing.dll -text
-ResGen/bin/Debug/System.Windows.Forms.dll -text
-ResGen/monoresgen.cs -text
 mono/mcs/build/common/ChangeLog -text
 mono/mcs/build/common/Consts.cs -text
 mono/mcs/build/common/Consts.cs.in -text

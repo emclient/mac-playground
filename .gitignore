@@ -24,7 +24,6 @@ MacBridge/bin
 MacBridge/obj
 Relauncher/Relauncher.xcodeproj/project.xcworkspace/xcuserdata
 Relauncher/Relauncher.xcodeproj/xcuserdata
-ResGen/obj
 mono/mcs/class/Mono.WebBrowser/bin
 mono/mcs/class/Mono.WebBrowser/obj
 mono/mcs/class/System.Drawing/bin
