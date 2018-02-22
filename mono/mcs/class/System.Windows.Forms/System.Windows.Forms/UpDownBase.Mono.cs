@@ -12,7 +12,7 @@ namespace System.Windows.Forms
 			_UpDownAlign = LeftRightAlignment.Right;
 			InternalBorderStyle = BorderStyle.Fixed3D;
 
-			spnSpinner = new UpDownSpinner(this);
+			spnSpinner = new UpDownStepper(this);
 
 			txtView = new UpDownTextBox (this);
 			txtView.ModifiedChanged += new EventHandler(OnChanged);
@@ -88,7 +88,7 @@ namespace System.Windows.Forms
 		}
 
 		#region UpDownSpinner Sub-class
-		internal sealed class UpDownSpinner : Control
+		internal sealed class UpDownStepper : Control
 		{
 #region	Local Variables
 			private const int InitialRepeatDelay = 50;
@@ -106,7 +106,7 @@ namespace System.Windows.Forms
 #endregion   // Local Variables
 
 #region Constructors
-			public UpDownSpinner(UpDownBase owner)
+			public UpDownStepper(UpDownBase owner)
 			{
 				this.owner = owner;
 
