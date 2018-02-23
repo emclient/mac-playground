@@ -384,7 +384,7 @@ namespace System.Windows.Forms {
 					if (fullOpen && allowFullOpen) {
 						defineColoursButton.Enabled = false;
 						colorMatrixControl.ColorToShow = baseColorControl.ColorToShow;
-						form.Size = GetFormClientSize (true);
+						form.ClientSize = GetFormClientSize (true);
 					} else {
 						if (allowFullOpen)
 							defineColoursButton.Enabled = true;
