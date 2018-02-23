@@ -2587,12 +2587,9 @@ namespace System.Windows.Forms {
 
 		private void WmClose (ref Message m)
 		{
-			if (this.Enabled == false) // How about WM_QUERYENDSESSION?
-				return; // prevent closing a disabled form.
-
 			Form act = Form.ActiveForm;
 			// Don't close this form if there's another modal form visible.
-			if (act != null && act != this && act.Modal == true) {
+			if (act != null && act != this && act.Modal == true && this.Parent != null) {
 				// Check if any of the parents up the tree is the modal form, 
 				// in which case we can still close this form.
 				Control current = this;
