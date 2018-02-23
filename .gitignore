@@ -24,6 +24,7 @@ MacBridge/bin
 MacBridge/obj
 Relauncher/Relauncher.xcodeproj/project.xcworkspace/xcuserdata
 Relauncher/Relauncher.xcodeproj/xcuserdata
+/bin
 mono/mcs/class/Mono.WebBrowser/bin
 mono/mcs/class/Mono.WebBrowser/obj
 mono/mcs/class/System.Drawing/bin
@@ -34,6 +35,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/SWF.csproj.user
 mono/mcs/class/System.Windows.Forms/bin
 mono/mcs/class/System.Windows.Forms/obj
 mono/mcs/class/lib
+/obj
 sysdrawing-coregraphics/bin
 sysdrawing-coregraphics/lib
 sysdrawing-coregraphics/obj

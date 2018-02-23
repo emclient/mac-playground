@@ -97,7 +97,6 @@ FormsTest/Forms/TextBoxForm.Designer.cs -text
 FormsTest/Forms/TextBoxForm.cs -text
 FormsTest/Forms/TextBoxForm.resx -text
 FormsTest/Forms/WebForm.cs -text
-FormsTest/FormsTest[!!-~](Unified).csproj -text
 FormsTest/FormsTest.csproj -text
 FormsTest/Info.plist -text
 FormsTest/LayoutIssues/ControlExpandablePanel.cs -text
@@ -151,7 +150,6 @@ FormsTest/XamUrlProtocol.cs -text
 FormsTest/application.ico -text
 FormsTest/car.png -text
 FormsTestApp/Entitlements.plist -text
-FormsTestApp/FixMacBundle.targets -text
 FormsTestApp/FormsTest.app.csproj -text
 FormsTestApp/Info.plist -text
 FormsTestApp/Main.cs -text
@@ -1691,8 +1689,6 @@ mono/mcs/class/mono.snk -text
 mono/mcs/class/msfinal.pub -text
 sysdrawing-coregraphics/AssemblyInfo.cs -text
 sysdrawing-coregraphics/System.Drawing[!!-~](CoreGraphics).csproj -text
-sysdrawing-coregraphics/System.Drawing[!!-~](CoreGraphics).sln -text
-sysdrawing-coregraphics/System.Drawing[!!-~](Unified-CoreGraphics).csproj -text
 sysdrawing-coregraphics/System.Drawing.Drawing2D/GraphicsContainer.cs -text
 sysdrawing-coregraphics/System.Drawing.Drawing2D/GraphicsPath-AddString.cs -text
 sysdrawing-coregraphics/System.Drawing.Drawing2D/GraphicsPath.cs -text
