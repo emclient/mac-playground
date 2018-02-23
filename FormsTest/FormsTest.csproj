@@ -46,10 +46,13 @@
     <OutputPath>bin\Release</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
+    <IntermediateOutputPath>$(SolutionDir)\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <OutputPath>$(SolutionDir)\bin\$(Configuration)\</OutputPath>
+    <OutDir>$(OutputPath)</OutDir>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MonoMac" Condition=" '$(Configuration)' == 'Mono - Debug' ">
-      <HintPath>..\MonoMac.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" Condition=" '$(Configuration)' == 'Debug' " />
