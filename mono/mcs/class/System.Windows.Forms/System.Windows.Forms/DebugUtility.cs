@@ -50,11 +50,24 @@ namespace System.Windows.Forms
 			if (ctrl != null)
 				return ControlInfo(ctrl);
 			if (view != null)
-				return view.GetType().Name;
+				return ControlInfo(view.Superview);
 			return "null";
 		}
 
-		static String lastInfo;
+		static IntPtr lastInfo;
+		[Conditional("DEBUG")]
+		public static void WriteInfoIfChanged(NSEvent e, string prefix = null)
+		{
+			if ((NSEvent.CurrentModifierFlags & NSEventModifierMask.FunctionKeyMask) != NSEventModifierMask.FunctionKeyMask)
+				return;
+
+			var view = (e.Window.ContentView?.Superview ?? e.Window.ContentView)?.HitTest(e.LocationInWindow);
+			if (view == null || view.Handle == lastInfo)
+				return;
+
+			lastInfo = view.Handle;
+			Console.WriteLine((prefix ?? String.Empty) + ControlInfo(view));
+		}
 
 		[Conditional("DEBUG")]
 		public static void WriteInfoIfChanged(NSView view, string prefix = null)
@@ -62,9 +75,11 @@ namespace System.Windows.Forms
 			if ((NSEvent.CurrentModifierFlags & NSEventModifierMask.FunctionKeyMask) != NSEventModifierMask.FunctionKeyMask)
 				return;
 			
-			string info = ControlInfo(view);
-			if (info != lastInfo)
-				Console.WriteLine((prefix ?? String.Empty) + (lastInfo = info));
+			if (view == null || view.Handle == lastInfo)
+				return;
+
+			lastInfo = view.Handle;
+			Console.WriteLine((prefix ?? String.Empty) + ControlInfo(view));
 		}
 
 		[Conditional("DEBUG")]
@@ -73,14 +88,16 @@ namespace System.Windows.Forms
 			if ((NSEvent.CurrentModifierFlags & NSEventModifierMask.FunctionKeyMask) != NSEventModifierMask.FunctionKeyMask)
 				return;
 
-			string info = ControlInfo(handle);
-			if (info != lastInfo)
-				Console.WriteLine((prefix ?? String.Empty) + (lastInfo = info));
+			if (lastInfo != handle)
+				return;
+
+			lastInfo = handle;
+			Console.WriteLine((prefix ?? String.Empty) + ControlInfo(handle));
 		}
 
 		public static Control ControlFromView(NSView view)
 		{
-			if (view != null && view is CocoaInternal.MonoView)
+			if (view != null)
 				return Control.FromHandle(view.Handle);
 			return null;
 		}

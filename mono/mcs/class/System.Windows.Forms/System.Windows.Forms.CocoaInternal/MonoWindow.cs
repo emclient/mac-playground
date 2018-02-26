@@ -105,6 +105,8 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void SendEvent(NSEvent theEvent)
 		{
+			DebugUtility.WriteInfoIfChanged(theEvent);
+
 			lastEventType = theEvent.Type;
 			var monoContentView = (MonoContentView)ContentView;
 
