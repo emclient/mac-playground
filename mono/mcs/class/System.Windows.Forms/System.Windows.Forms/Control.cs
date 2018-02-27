@@ -4578,6 +4578,7 @@ namespace System.Windows.Forms
 
 				case (int)Msg.WM_SYSKEYUP:
 				case (int)Msg.WM_KEYUP: {
+					suppressing_key_press = false;
 					key_event = new KeyEventArgs (((Keys) m.WParam.ToInt32 ()) | XplatUI.State.ModifierKeys);
 					OnKeyUp (key_event);
 					return key_event.Handled;
