@@ -96,7 +96,7 @@
   <ItemGroup>
     <!-- Include Mac API libraries -->
     <Reference Include="MonoMac" Condition=" '$(Configuration)' == 'Mono - Debug' ">
-      <HintPath>$(SolutionDir)\Dependencies\Mac\MonoMac.dll</HintPath>
+      <HintPath>..\MonoMac.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Mac" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release' " />
   </ItemGroup>	

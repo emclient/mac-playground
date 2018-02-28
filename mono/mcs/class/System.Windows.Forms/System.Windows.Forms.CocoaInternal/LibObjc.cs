@@ -34,5 +34,8 @@ namespace System.Windows.Forms.Mac
 
 		[DllImport(libobjc, EntryPoint = objc_msgSend)]
 		public static extern IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector);
+
+		[DllImport(libobjc, EntryPoint = objc_msgSend)]
+		public extern static void void_objc_msgSend_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1);
 	}
 }

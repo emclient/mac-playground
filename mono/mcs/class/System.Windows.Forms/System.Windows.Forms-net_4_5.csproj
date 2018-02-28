@@ -1008,6 +1008,9 @@
     <Compile Include="System.Windows.Forms\TextBoxBase.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="System.Windows.Forms\TextBoxBase.Mac.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="System.Windows.Forms\TextBoxRenderer.cs" />
     <Compile Include="System.Windows.Forms\TextBoxTextRenderer.cs" />
     <Compile Include="System.Windows.Forms\TextControl.cs" />
@@ -1303,6 +1306,11 @@
     <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectProvider.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectPasteboard.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectWrapper.cs" />
+    <Compile Include="System.Windows.Forms\RichTextBox.Mac.cs" />
+    <Compile Include="System.Windows.Forms\TextBox.Mac.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase-NSTextField.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase-NSTextView.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase-NSSecureTextField.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -1530,7 +1538,7 @@
     </ProjectReference>
     <!-- Include Mac API libraries -->
     <Reference Include="MonoMac" Condition=" '$(Configuration)' == 'Mono - Debug' ">
-      <HintPath>$(SolutionDir)\Dependencies\Mac\MonoMac.dll</HintPath>
+      <HintPath>..\..\..\..\MonoMac.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Mac" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release' " />
   </ItemGroup>
