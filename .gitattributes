@@ -1359,6 +1359,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/RelatedImageListAttribu
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/RelatedPropertyManager.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/RetrieveVirtualItemEventArgs.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/RetrieveVirtualItemEventHandler.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/RichTextBox.Mac.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/RichTextBox.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/RichTextBoxFinds.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/RichTextBoxLanguageOptions.cs -text
@@ -1444,7 +1445,11 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/TableLayoutRowStyleColl
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/TableLayoutSettings.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/TableLayoutStyle.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/TableLayoutStyleCollection.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/TextBox.Mac.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/TextBox.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/TextBoxBase-NSSecureTextField.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/TextBoxBase-NSTextField.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/TextBoxBase-NSTextView.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/TextBoxBase.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/TextBoxRenderer.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/TextBoxTextRenderer.cs -text

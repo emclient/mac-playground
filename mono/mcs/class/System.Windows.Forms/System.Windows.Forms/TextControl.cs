@@ -515,7 +515,7 @@ namespace System.Windows.Forms {
 
 		internal void UpdateMargins ()
 		{
-			switch (owner.actual_border_style) {
+			switch (owner.BorderStyle) {
 				case BorderStyle.None:
 					left_margin = 0;
 					top_margin = 0;
@@ -1178,17 +1178,11 @@ namespace System.Windows.Forms {
 			return best_index;
 		}
 
-
-
 		private void InvalidateLinks (Rectangle clip)
 		{
-			for (int i = (owner.list_links.Count - 1); i >= 0; i--) {
-				TextBoxBase.LinkRectangle link = (TextBoxBase.LinkRectangle) owner.list_links [i];
-
-				if (clip.IntersectsWith (link.LinkAreaRectangle))
-					owner.list_links.RemoveAt (i);
-			}
+			owner.InvalidateLinks(clip);
 		}
+
 		#endregion	// Private Methods
 
 		#region Internal Methods
@@ -1775,7 +1769,7 @@ namespace System.Windows.Forms {
 			///
 			/// We draw the single border ourself
 			///
-			if (owner.actual_border_style == BorderStyle.FixedSingle) {
+			if (owner.BorderStyle == BorderStyle.FixedSingle) {
 				ControlPaint.DrawBorder (g, owner.ClientRectangle, Color.Black, ButtonBorderStyle.Solid);
 			}
 

@@ -1663,13 +1663,6 @@ namespace System.Windows.Forms
 			region_to_invalidate.Dispose ();
 		}
 		#endregion //Private Methods
-		protected override void OnMouseWheel (MouseEventArgs e)
-		{
-			if (e is HandledMouseEventArgs)
-				((HandledMouseEventArgs) e).Handled = true;
-
-			base.OnMouseWheel (e);
-		}
 
 		#region UIA Framework Section: Events, Methods and Properties.
 
