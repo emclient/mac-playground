@@ -88,6 +88,67 @@ namespace System.Windows.Forms.Mac
 			}			
 		}
 
+		internal static void SendWmKey(this NSView view, VirtualKeys key, IntPtr lParam)
+		{
+			XplatUI.SendMessage(view.Handle, Msg.WM_KEYDOWN, (IntPtr)key, lParam);
+			XplatUI.SendMessage(view.Handle, Msg.WM_KEYUP, (IntPtr)key, lParam);
+		}
+
+		public static string GetString(this NSTextView self)
+		{
+			var selector = new ObjCRuntime.Selector("string");
+			var handle = LibObjc.IntPtr_objc_msgSend(self.Handle, selector.Handle);
+			return handle != IntPtr.Zero ? NSString.FromHandle(handle) : (string)null;
+		}
+
+		public static void SetString(this NSTextView self, NSString value)
+		{
+			var selector = new ObjCRuntime.Selector("setString:");
+			LibObjc.void_objc_msgSend_IntPtr(self.Handle, selector.Handle, value.Handle);
+		}
+
+		public static NSBorderType ToNSBorderType(this BorderStyle self)
+		{
+			switch (self)
+			{
+				case BorderStyle.None: return NSBorderType.NoBorder;
+				case BorderStyle.FixedSingle: return NSBorderType.LineBorder;
+				case BorderStyle.Fixed3D: return NSBorderType.BezelBorder;
+				default: return NSBorderType.BezelBorder;
+			}
+		}
+
+		public static BorderStyle ToBorderStyle(this NSBorderType self)
+		{
+			switch (self)
+			{
+				case NSBorderType.LineBorder: return BorderStyle.FixedSingle;
+				case NSBorderType.BezelBorder: return BorderStyle.Fixed3D;
+				case NSBorderType.GrooveBorder: return BorderStyle.Fixed3D;
+				default: return BorderStyle.None;
+			}
+		}
+
+		public static NSTextAlignment ToNSTextAlignment(this HorizontalAlignment self)
+		{
+			switch (self)
+			{
+				case HorizontalAlignment.Center: return NSTextAlignment.Center;
+				case HorizontalAlignment.Right: return NSTextAlignment.Right;
+				default: return NSTextAlignment.Left;
+			}
+		}
+
+		public static HorizontalAlignment ToHorizontalAlignment(this NSTextAlignment self)
+		{
+			switch (self)
+			{
+				case NSTextAlignment.Center: return HorizontalAlignment.Center;
+				case NSTextAlignment.Right: return HorizontalAlignment.Right;
+				default: return HorizontalAlignment.Left;
+			}
+		}
+
 		public static NSObject ToNSObject(this IntPtr handle)
 		{
 			return ObjCRuntime.Runtime.GetNSObject(handle);

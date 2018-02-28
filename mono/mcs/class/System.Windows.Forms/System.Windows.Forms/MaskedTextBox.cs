@@ -848,7 +848,7 @@ namespace System.Windows.Forms
 
 		private void ReCalculatePasswordChar (bool using_password)
 		{
-			if (using_password)
+			if (using_password && document != null)
 				if (is_empty_mask)
 					document.PasswordChar = PasswordChar.ToString ();
 				else

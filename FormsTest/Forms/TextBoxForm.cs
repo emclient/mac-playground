@@ -44,6 +44,14 @@ namespace FormsTest
 			foreach (var m in nonPublicStaticMethods)
 				textbox4.AppendText($"\n{m.Name}()");
 
+			// textbox5
+			textbox5.Rtf = "{\\rtf1\\ansi{\\fonttbl\\f0\\fswiss Helvetica;}\\f0\\pard\\line This is some {\\b bold} text.\\par}";
+		}
+
+		private void button1_Click(object sender, System.EventArgs e)
+        {
+			Console.WriteLine(textbox5.Rtf);
+			//MessageBox.Show(textbox5.Rtf, "RTF", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
     }
 }

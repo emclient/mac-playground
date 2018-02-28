@@ -4296,7 +4296,7 @@ namespace System.Windows.Forms
 		#region TextBox
 		public override void TextBoxBaseFillBackground (TextBoxBase textBoxBase, Graphics g, Rectangle clippingArea)
 		{
-			if (textBoxBase.backcolor_set || (textBoxBase.Enabled && !textBoxBase.read_only)) {
+			if (textBoxBase.backcolor_set || (textBoxBase.Enabled && !textBoxBase.ReadOnly)) {
 				g.FillRectangle(ResPool.GetSolidBrush(textBoxBase.BackColor), clippingArea);
 			} else {
 				g.FillRectangle(ResPool.GetSolidBrush(ColorControl), clippingArea);

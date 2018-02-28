@@ -1,4 +1,5 @@
-﻿// Permission is hereby granted, free of charge, to any person obtaining
+﻿#if !MACOS_THEME
+// Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
 // without limitation the rights to use, copy, modify, merge, publish,
@@ -2588,6 +2589,16 @@ namespace System.Windows.Forms
 		}
 		#endregion
 
+		internal void InvalidateLinks(Rectangle clip)
+		{
+			for (int i = (list_links.Count - 1); i >= 0; i--) {
+				TextBoxBase.LinkRectangle link = (TextBoxBase.LinkRectangle) list_links [i];
+
+				if (clip.IntersectsWith (link.LinkAreaRectangle))
+					list_links.RemoveAt (i);
+			}
+		}
+
 		// This is called just before OnTextChanged is called.
 		internal virtual void OnTextUpdate ()
 		{
@@ -2676,6 +2687,7 @@ namespace System.Windows.Forms
 		}
 #endif
 
-		#endregion
+#endregion
 	}
 }
+#endif

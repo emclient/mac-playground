@@ -4657,7 +4657,7 @@ namespace System.Windows.Forms
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected void RecreateHandle() {
-			//if (!IsHandleCreated)
+			if (!IsHandleCreated)
 				return;
 
 #if DebugRecreate
@@ -6882,5 +6882,11 @@ namespace System.Windows.Forms
 		}
 
 		#endregion	// Events
+
+		[Conditional("DEBUG")]
+		internal static void NotImplemented(MethodBase method, object value = null)
+		{
+			Debug.WriteLine("Not Implemented: " + method.ReflectedType.Name + "." + method.Name);
+		}
 	}
 }
