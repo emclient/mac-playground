@@ -96,6 +96,7 @@ namespace System.Windows.Forms {
 
 		// Instance members
 		internal static NSEventModifierMask key_modifiers = 0;
+		internal static NSEventModifierMask key_modifiers_mask = 0; // mask of the latest change of key_modifiers
 		internal bool translate_modifier = false;
 		internal NSEvent evtRef; // last/current message
 
@@ -425,6 +426,9 @@ namespace System.Windows.Forms {
 					ReverseWindowMapped = false;
 				}
 
+				if (evtRef.Type == NSEventType.FlagsChanged)
+					UpdateModifiers(evtRef);
+
 				if (evtRef.Type == NSEventType.LeftMouseDown)
 					LastMouseDown = evtRef; // Drag'n'Drop support
 
@@ -453,6 +457,16 @@ namespace System.Windows.Forms {
 
 			return true;
 		}
+
+		void UpdateModifiers(NSEvent e) {
+			key_modifiers_mask = key_modifiers ^ e.ModifierFlags;
+			key_modifiers = e.ModifierFlags;
+		}
+
+		internal static bool IsShiftDown { get { return 0 != (key_modifiers & NSEventModifierMask.ShiftKeyMask); } }
+		internal static bool IsCtrlDown { get { return 0 != (key_modifiers & NSEventModifierMask.ControlKeyMask); } }
+		internal static bool IsAltDown { get { return 0 != (key_modifiers & NSEventModifierMask.AlternateKeyMask); } }
+		internal static bool IsCmdDown { get { return 0 != (key_modifiers & NSEventModifierMask.CommandKeyMask); } }
 
 		private void SendParentNotify(IntPtr child, Msg cause, int x, int y) {
 			if (child == IntPtr.Zero)
