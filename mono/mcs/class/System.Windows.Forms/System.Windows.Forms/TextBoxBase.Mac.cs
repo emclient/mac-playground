@@ -598,16 +598,16 @@ namespace System.Windows.Forms
 
 			switch (keyData & Keys.KeyCode)
 			{
-				//case Keys.Enter:
-				//	return (accepts_return && document.multiline);
+				case Keys.Enter:
+					return (accepts_return && document.multiline);
 
-				//case Keys.Tab:
-				//{
-				//	if (accepts_tab && document.multiline)
-				//		if ((keyData & Keys.Control) == 0)
-				//			return true;
-				//	return false;
-				//}
+				case Keys.Tab:
+					if ((keyData & Keys.Shift) != 0)
+						return false;
+					if (AcceptsTab && Multiline)
+						if ((keyData & Keys.Control) == 0)
+							return true;
+					return false;
 
 				case Keys.Back:
 					return !ReadOnly;
