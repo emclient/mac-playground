@@ -73,37 +73,31 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void MouseDown(NSEvent theEvent)
 		{
-			ProcessModifiers((theEvent));
 			TranslateMouseEvent(theEvent);
 		}
 
 		public override void RightMouseDown(NSEvent theEvent)
 		{
-			ProcessModifiers((theEvent));
 			TranslateMouseEvent(theEvent);
 		}
 
 		public override void OtherMouseDown(NSEvent theEvent)
 		{
-			ProcessModifiers((theEvent));
 			TranslateMouseEvent(theEvent);
 		}
 
 		public override void MouseUp(NSEvent theEvent)
 		{
-			ProcessModifiers((theEvent));
 			TranslateMouseEvent(theEvent);
 		}
 
 		public override void RightMouseUp(NSEvent theEvent)
 		{
-			ProcessModifiers((theEvent));
 			TranslateMouseEvent(theEvent);
 		}
 
 		public override void OtherMouseUp(NSEvent theEvent)
 		{
-			ProcessModifiers((theEvent));
 			TranslateMouseEvent(theEvent);
 		}
 
@@ -296,45 +290,26 @@ namespace System.Windows.Forms.CocoaInternal
 		#region Keyboard
 
 		static int repeatCount = 0;
-		static bool altDown;
-		static bool cmdDown;
-		static bool shiftDown;
-		static bool ctrlDown;
 		internal IntPtr wmCharLParam;
 
 		public override void KeyDown(NSEvent theEvent)
 		{
-			ProcessModifiers(theEvent);
 			TranslateKeyboardEvent(theEvent);
 		}
 
 		public override void KeyUp(NSEvent theEvent)
 		{
-			ProcessModifiers(theEvent);
 			TranslateKeyboardEvent(theEvent);
 		}
 
 		public override void FlagsChanged(NSEvent theEvent)
-		{
-			ProcessModifiers(theEvent);
-		}
-
-		void ProcessModifiers(NSEvent theEvent)
 		{
 			ProcessModifiers(theEvent.ModifierFlags);
 		}
 
 		void ProcessModifiers(NSEventModifierMask flags)
 		{
-			// we get notified when modifiers change, but not specifically what changed
-			NSEventModifierMask diff = flags ^ XplatUICocoa.key_modifiers;
-			XplatUICocoa.key_modifiers = flags;
-
-			shiftDown = 0 != (flags & NSEventModifierMask.ShiftKeyMask);
-			ctrlDown = 0 != (flags & NSEventModifierMask.ControlKeyMask);
-			altDown = 0 != (flags & NSEventModifierMask.AlternateKeyMask);
-			cmdDown = 0 != (flags & NSEventModifierMask.CommandKeyMask);
-
+			var diff = XplatUICocoa.key_modifiers_mask;
 			if ((NSEventModifierMask.ShiftKeyMask & diff) != 0)
 				driver.SendMessage(view.Handle, (NSEventModifierMask.ShiftKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_SHIFT, IntPtr.Zero);
 			if ((NSEventModifierMask.ControlKeyMask & diff) != 0)
@@ -350,7 +325,7 @@ namespace System.Windows.Forms.CocoaInternal
 			repeatCount = e.IsARepeat ? 1 + repeatCount : 0;
 
 			Keys key = KeysConverter.GetKeys(e);
-			bool isExtendedKey = ctrlDown || cmdDown || e.Characters.Length == 0 || !KeysConverter.IsChar(e.Characters[0], key) && KeysConverter.DeadKeyState == 0;
+			bool isExtendedKey = XplatUICocoa.IsCtrlDown || XplatUICocoa.IsCmdDown || e.Characters.Length == 0 || !KeysConverter.IsChar(e.Characters[0], key) && KeysConverter.DeadKeyState == 0;
 
 			ulong lp = 0;
 			lp |= ((ulong)(uint)repeatCount);
@@ -492,7 +467,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		void SendCmdKey(IntPtr hwnd, VirtualKeys key)
 		{
-			var emulateCmd = !cmdDown;
+			var emulateCmd = !XplatUICocoa.IsCmdDown;
 			if (emulateCmd)
 				ProcessModifiers(XplatUICocoa.key_modifiers | NSEventModifierMask.CommandKeyMask);
 			SendKey(hwnd, key, (IntPtr)0x1080000);
