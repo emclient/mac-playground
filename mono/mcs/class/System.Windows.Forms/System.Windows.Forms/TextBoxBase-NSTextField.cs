@@ -80,7 +80,7 @@ namespace System.Windows.Forms
 					textField.Enabled = value;
 			}
 
-			public Size IntrinsicContentSize
+			public virtual Size IntrinsicContentSize
 			{
 				get { return textField?.IntrinsicContentSize.ToSDSize() ?? new Size(100, 20); }
 			}
@@ -129,7 +129,7 @@ namespace System.Windows.Forms
 					textField.BackgroundColor = value.ToNSColor();
 			}
 
-			public void ApplyAlignment(HorizontalAlignment value)
+			public virtual void ApplyAlignment(HorizontalAlignment value)
 			{
 				if (textField != null)
 					textField.Alignment = value.ToNSTextAlignment();
@@ -217,16 +217,22 @@ namespace System.Windows.Forms
 				{
 					case "insertTab:":
 					case "insertBacktab:":
-						textField.SendWmKey(VirtualKeys.VK_TAB, IntPtr.Zero);
+						SendWmKey(VirtualKeys.VK_TAB, IntPtr.Zero);
 						return true;
 					case "insertNewline:":
-						textField.SendWmKey(VirtualKeys.VK_RETURN, IntPtr.Zero);
+						SendWmKey(VirtualKeys.VK_RETURN, IntPtr.Zero);
 						return true;
 					case "cancelOperation:":
-						textField.SendWmKey(VirtualKeys.VK_ESCAPE, IntPtr.Zero);
+						SendWmKey(VirtualKeys.VK_ESCAPE, IntPtr.Zero);
 						return true;
 				}
 				return false;
+			}
+
+			internal virtual void SendWmKey(VirtualKeys key, IntPtr lParam)
+			{
+				XplatUI.SendMessage(owner.Handle, Msg.WM_KEYDOWN, (IntPtr)key, lParam);
+				XplatUI.SendMessage(owner.Handle, Msg.WM_KEYUP, (IntPtr)key, lParam);
 			}
 
 			#endregion //NSTextFieldDelegate
