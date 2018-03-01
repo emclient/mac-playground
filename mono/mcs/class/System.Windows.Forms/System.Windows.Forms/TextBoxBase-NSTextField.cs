@@ -38,6 +38,7 @@ namespace System.Windows.Forms
 				var text = owner.Text;
 				var size = owner.Bounds.Size;
 				textField = new NSTextField(new CGRect(0, 0, size.Width, size.Height));
+				textField.TextShouldBeginEditing = TextFieldShouldBeginEditing;
 				textField.Changed += TextFieldChanged;
 				textField.DoCommandBySelector = DoCommandBySelector;
 
@@ -70,8 +71,10 @@ namespace System.Windows.Forms
 
 			public virtual void ApplyReadOnly(bool value)
 			{
-				if (textField != null)
-					textField.Editable = !value;
+				// Now handled by TextFieldShouldBeginEditing(), which let's the user to select, copy and lookup content.
+
+				//if (textField != null)
+					//textField.Editable = !value;
 			}
 
 			public virtual void ApplyEnabled(bool value)
@@ -227,6 +230,11 @@ namespace System.Windows.Forms
 						return true;
 				}
 				return false;
+			}
+
+			internal virtual bool TextFieldShouldBeginEditing(NSControl control, NSText fieldEditor)
+			{
+				return !owner.Enabled;
 			}
 
 			internal virtual void SendWmKey(VirtualKeys key, IntPtr lParam)
