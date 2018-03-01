@@ -1008,9 +1008,7 @@
     <Compile Include="System.Windows.Forms\TextBoxBase.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="System.Windows.Forms\TextBoxBase.Mac.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\TextBoxBase.Mac.cs" />
     <Compile Include="System.Windows.Forms\TextBoxRenderer.cs" />
     <Compile Include="System.Windows.Forms\TextBoxTextRenderer.cs" />
     <Compile Include="System.Windows.Forms\TextControl.cs" />
@@ -1331,7 +1329,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="System.Windows.Forms.Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="resources\SplitterNS.cur">
