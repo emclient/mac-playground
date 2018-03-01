@@ -88,12 +88,6 @@ namespace System.Windows.Forms.Mac
 			}			
 		}
 
-		internal static void SendWmKey(this NSView view, VirtualKeys key, IntPtr lParam)
-		{
-			XplatUI.SendMessage(view.Handle, Msg.WM_KEYDOWN, (IntPtr)key, lParam);
-			XplatUI.SendMessage(view.Handle, Msg.WM_KEYUP, (IntPtr)key, lParam);
-		}
-
 		public static string GetString(this NSTextView self)
 		{
 			var selector = new ObjCRuntime.Selector("string");

@@ -33,7 +33,7 @@ namespace System.Windows.Forms
 				this.owner = owner;
 			}
 
-			public NSView CreateView()
+			public virtual NSView CreateView()
 			{
 				var text = owner.Text;
 				scrollView = new NSScrollView(owner.Bounds.ToCGRect());
@@ -67,7 +67,7 @@ namespace System.Windows.Forms
 				return scrollView;
 			}
 
-			public void AppendText(string text)
+			public virtual void AppendText(string text)
 			{
 				if (textView == null)
 					initialText = initialText == null ? text : initialText + text;
@@ -101,7 +101,7 @@ namespace System.Windows.Forms
 				} 
 			}
 
-			public string Text
+			public virtual string Text
 			{
 				get { return textView != null ? textView.GetString() : initialText; }
 				set
@@ -113,18 +113,18 @@ namespace System.Windows.Forms
 				}
 			}
 
-			public Size IntrinsicContentSize
+			public virtual Size IntrinsicContentSize
 			{
 				get { return textView?.IntrinsicContentSize.ToSDSize() ?? new Size(100, 20); }
 			}
 
-			public void ApplyReadOnly(bool value)
+			public virtual void ApplyReadOnly(bool value)
 			{
 				if (textView != null)
 					textView.Editable = !value;
 			}
 
-			public void ApplyEnabled(bool value)
+			public virtual void ApplyEnabled(bool value)
 			{
 				if (textView != null)
 				{
@@ -134,7 +134,7 @@ namespace System.Windows.Forms
 				}
 			}
 
-			public void ApplyFont(Font value)
+			public virtual void ApplyFont(Font value)
 			{
 				if (textView != null)
 					textView.Font = value.ToNSFont();
@@ -158,13 +158,13 @@ namespace System.Windows.Forms
 					textView.BackgroundColor = value.ToNSColor();
 			}
 
-			public void ApplyAlignment(HorizontalAlignment value)
+			public virtual void ApplyAlignment(HorizontalAlignment value)
 			{
 				if (textView != null)
 					textView.Alignment = value.ToNSTextAlignment();
 			}
 
-			public void ApplyScrollbars(RichTextBoxScrollBars scrollbars)
+			public virtual void ApplyScrollbars(RichTextBoxScrollBars scrollbars)
 			{
 				if (scrollView == null)
 					return;
@@ -209,48 +209,48 @@ namespace System.Windows.Forms
 				}
 			}
 
-			public void SelectAll()
+			public virtual void SelectAll()
 			{
 				if (textView != null)
 					textView.SelectAll(textView);
 			}
 
-			public void SelectAllNoScroll()
+			public virtual void SelectAllNoScroll()
 			{
 				// FIXME
 				if (textView != null)
 					textView.SelectAll(textView);
 			}
 
-			public void Copy()
+			public virtual void Copy()
 			{
 				if (textView != null)
 					textView.Copy(textView);
 			}
 
-			public void Cut()
+			public virtual void Cut()
 			{
 				if (textView != null)
 					textView.Cut(textView);
 			}
 
-			public void Paste()
+			public virtual void Paste()
 			{
 				if (textView != null)
 					textView.Paste(textView);
 			}
 
-			public bool CanUndo()
+			public virtual bool CanUndo()
 			{
 				return textView != null && textView.AllowsUndo && (textView.GetUndoManager(textView)?.CanUndo ?? false);
 			}
 
-			public bool CanRedo()
+			public virtual bool CanRedo()
 			{
 				return textView != null && textView.AllowsUndo && (textView.GetUndoManager(textView)?.CanRedo ?? false);
 			}
 
-			public bool Undo()
+			public virtual bool Undo()
 			{
 				if (!CanUndo())
 					return false;
@@ -259,7 +259,7 @@ namespace System.Windows.Forms
 				return true;
 			}
 
-			public bool Redo()
+			public virtual bool Redo()
 			{
 				if (!CanRedo())
 					return false;
@@ -270,31 +270,31 @@ namespace System.Windows.Forms
 
 			// Delegate ------------
 
-			protected virtual void TextViewTextDidChange(object sender, EventArgs e)
+			internal virtual void TextViewTextDidChange(object sender, EventArgs e)
 			{
 				owner.OnTextUpdate();
 				owner.OnTextChanged(EventArgs.Empty);
 			}
 
-			private bool TextViewDoCommandBySelector(NSTextView textView, Selector commandSelector)
+			internal virtual bool TextViewDoCommandBySelector(NSTextView textView, Selector commandSelector)
 			{
 				switch (commandSelector.Name)
 				{
 					case "insertTab:":
 						if (owner.accepts_tab)
 							return false;
-						textView.SendWmKey(VirtualKeys.VK_TAB, IntPtr.Zero);
+						SendWmKey(VirtualKeys.VK_TAB, IntPtr.Zero);
 						return true;
 					case "insertNewline:":
 						if (owner.Multiline && owner.accepts_return)
 							return false;
-						textView.SendWmKey(VirtualKeys.VK_RETURN, IntPtr.Zero);
+						SendWmKey(VirtualKeys.VK_RETURN, IntPtr.Zero);
 						return true;
 					case "insertBacktab:":
-						textView.SendWmKey(VirtualKeys.VK_TAB, IntPtr.Zero);
+						SendWmKey(VirtualKeys.VK_TAB, IntPtr.Zero);
 						return true;
 					case "cancelOperation:":
-						textView.SendWmKey(VirtualKeys.VK_ESCAPE, IntPtr.Zero);
+						SendWmKey(VirtualKeys.VK_ESCAPE, IntPtr.Zero);
 						return true;
 				}
 				return false;
@@ -302,7 +302,13 @@ namespace System.Windows.Forms
 
 			// Internals -----------
 
-			internal void ApplyText(string value)
+			internal virtual void SendWmKey(VirtualKeys key, IntPtr lParam)
+			{
+				XplatUI.SendMessage(owner.Handle, Msg.WM_KEYDOWN, (IntPtr)key, lParam);
+				XplatUI.SendMessage(owner.Handle, Msg.WM_KEYUP, (IntPtr)key, lParam);
+			}
+
+			internal virtual void ApplyText(string value)
 			{
 				if (textView != null && value != null)
 					textView.SetString((NSString)value);
