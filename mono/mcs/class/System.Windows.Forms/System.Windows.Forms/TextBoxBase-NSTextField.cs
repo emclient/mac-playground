@@ -234,7 +234,7 @@ namespace System.Windows.Forms
 
 			internal virtual bool TextFieldShouldBeginEditing(NSControl control, NSText fieldEditor)
 			{
-				return !owner.Enabled;
+				return !owner.ReadOnly && owner.Enabled;
 			}
 
 			internal virtual void SendWmKey(VirtualKeys key, IntPtr lParam)
