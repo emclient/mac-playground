@@ -88,6 +88,14 @@ namespace System.Windows.Forms.Mac
 			}			
 		}
 
+		public static bool Contains(this NSView self, NSView view)
+		{
+			for (var v = view; v != null; v = v.Superview)
+				if (v == self)
+					return true;
+			return false;
+		}
+
 		public static string GetString(this NSTextView self)
 		{
 			var selector = new ObjCRuntime.Selector("string");
@@ -99,6 +107,18 @@ namespace System.Windows.Forms.Mac
 		{
 			var selector = new ObjCRuntime.Selector("setString:");
 			LibObjc.void_objc_msgSend_IntPtr(self.Handle, selector.Handle, value.Handle);
+		}
+
+		public static bool AllowsUndo(this NSTextView self)
+		{
+			var selector = new ObjCRuntime.Selector("allowsUndo");
+			return LibObjc.bool_objc_msgSend(self.Handle, selector.Handle);
+		}
+
+		public static void AllowsUndo(this NSTextView self, bool value)
+		{
+			var selector = new ObjCRuntime.Selector("setAllowsUndo:");
+			LibObjc.void_objc_msgSend_Bool(self.Handle, selector.Handle, value);
 		}
 
 		public static NSBorderType ToNSBorderType(this BorderStyle self)

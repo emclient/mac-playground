@@ -188,16 +188,16 @@ namespace System.Windows.Forms
 
 			public virtual bool Undo()
 			{
-				// FIXME
-				Control.NotImplemented(MethodBase.GetCurrentMethod(), text);
-				return false;
+				if (textField.Window.FirstResponder is NSTextView textView && textField.Contains(textView))
+					NSApplication.SharedApplication.SendAction(new Selector("undo:"), textView, NSApplication.SharedApplication);
+				return true;
 			}
 
 			public virtual bool Redo()
 			{
-				// FIXME
-				Control.NotImplemented(MethodBase.GetCurrentMethod(), text);
-				return false;
+				if (textField.Window.FirstResponder is NSTextView textView && textField.Contains(textView))
+					NSApplication.SharedApplication.SendAction(new Selector("redo:"), textView, NSApplication.SharedApplication);
+				return true;
 			}
 
 			internal virtual void ApplyText(string value)
