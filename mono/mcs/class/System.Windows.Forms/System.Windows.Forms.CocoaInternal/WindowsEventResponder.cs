@@ -456,13 +456,36 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("undo:")]
 		public virtual void Undo(NSObject sender)
 		{
-			SendCmdKey(view.Handle, VirtualKeys.VK_Z);
+			if (view.Window.FirstResponder is NSTextView textView) // Make use of NSTextView's undo/redo caps.
+				SuppressAndResendAction("undo:", sender);
+			else
+				SendCmdKey(view.Handle, VirtualKeys.VK_Z);
 		}
 
 		[Export("redo:")]
 		public virtual void Redo(NSObject sender)
 		{
-			SendCmdKey(view.Handle, VirtualKeys.VK_Y);
+			if (view.Window.FirstResponder is NSTextView textView) // Make use of NSTextView's undo/redo caps.
+				SuppressAndResendAction("redo:", sender);
+			else
+				SendCmdKey(view.Handle, VirtualKeys.VK_Z); // Shift modifier added automatically if pressed
+		}
+
+		static string suppressedAction = null;
+	
+		virtual internal void SuppressAndResendAction(string actionName, NSObject sender)
+		{
+			var sel = new Selector(suppressedAction = actionName);
+			NSApplication.SharedApplication.SendAction(sel, null, sender);
+			suppressedAction = null;
+		}
+
+		public override bool RespondsToSelector(Selector sel)
+		{
+			if (suppressedAction == sel.Name)
+				return false;
+			
+			return base.RespondsToSelector(sel);
 		}
 
 		void SendCmdKey(IntPtr hwnd, VirtualKeys key)

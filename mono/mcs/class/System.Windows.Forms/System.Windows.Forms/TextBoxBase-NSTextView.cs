@@ -51,6 +51,7 @@ namespace System.Windows.Forms
 
 				textView.TextDidChange += TextViewTextDidChange;
 				textView.DoCommandBySelector = TextViewDoCommandBySelector;
+				textView.AllowsUndo(true);
 
 				scrollView.DocumentView = textView;
 
@@ -242,29 +243,25 @@ namespace System.Windows.Forms
 
 			public virtual bool CanUndo()
 			{
-				return textView != null && textView.AllowsUndo && (textView.GetUndoManager(textView)?.CanUndo ?? false);
+				return textView != null && textView.AllowsUndo;
 			}
 
 			public virtual bool CanRedo()
 			{
-				return textView != null && textView.AllowsUndo && (textView.GetUndoManager(textView)?.CanRedo ?? false);
+				return textView != null && textView.AllowsUndo;
 			}
 
 			public virtual bool Undo()
 			{
-				if (!CanUndo())
-					return false;
-				
-				textView.GetUndoManager(textView).Undo();
+				if (textView != null && textView.Window.FirstResponder == textView)
+					NSApplication.SharedApplication.SendAction(new Selector("undo:"), textView, NSApplication.SharedApplication);
 				return true;
 			}
 
 			public virtual bool Redo()
 			{
-				if (!CanRedo())
-					return false;
-
-				textView.GetUndoManager(textView).Redo();
+				if (textView != null && textView.Window.FirstResponder == textView)
+					NSApplication.SharedApplication.SendAction(new Selector("redo:"), textView, NSApplication.SharedApplication);
 				return true;
 			}
 
