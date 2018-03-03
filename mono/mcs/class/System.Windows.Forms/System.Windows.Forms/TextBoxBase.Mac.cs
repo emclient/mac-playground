@@ -531,6 +531,15 @@ namespace System.Windows.Forms
 			}
 		}
 
+		public void Redo()
+		{
+			if (Imp.Redo())
+			{
+				Modified = true;
+				OnTextChanged(EventArgs.Empty);
+			}
+		}
+
 		public void DeselectAll()
 		{
 			SelectionLength = 0;
@@ -608,19 +617,6 @@ namespace System.Windows.Forms
 						if ((keyData & Keys.Control) == 0)
 							return true;
 					return false;
-
-				case Keys.Back:
-					return !ReadOnly;
-
-				case Keys.Left:
-				case Keys.Right:
-				case Keys.Up:
-				case Keys.Down:
-				case Keys.PageUp:
-				case Keys.PageDown:
-				case Keys.Home:
-				case Keys.End:
-					return true;
 			}
 			return false;
 		}
