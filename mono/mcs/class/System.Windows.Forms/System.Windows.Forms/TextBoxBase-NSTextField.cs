@@ -1,9 +1,10 @@
 ﻿#if MACOS_THEME
-using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Mac;
-using System.Windows.Forms.Mac;
+using System.Linq;
 using System.Reflection;
+using System.Windows.Forms.Mac;
 
 #if MONOMAC
 using MonoMac.AppKit;
@@ -41,6 +42,7 @@ namespace System.Windows.Forms
 				textField.TextShouldBeginEditing = TextFieldShouldBeginEditing;
 				textField.Changed += TextFieldChanged;
 				textField.DoCommandBySelector = DoCommandBySelector;
+				textField.GetCompletions = TextFieldGetCompletions;
 
 				ApplyBorderStyle(owner.BorderStyle);
 				ApplyForeColor(owner.ForeColor, owner.forecolor_set);
@@ -206,10 +208,26 @@ namespace System.Windows.Forms
 					textField.StringValue = value;
 			}
 
+			bool completing = false;
 			protected virtual void TextFieldChanged(object sender, EventArgs e)
 			{
 				owner.OnTextUpdate();
 				owner.OnTextChanged(e);
+
+				Complete();
+			}
+
+			internal virtual void Complete()
+			{
+				if (!completing 
+				    && owner.auto_complete_mode != AutoCompleteMode.None && owner.auto_complete_source == AutoCompleteSource.CustomSource && owner.auto_complete_custom_source != null
+					&& textField.StringValue.Length > 0 && owner.auto_complete_custom_source.Count != 0
+				    && textField.Window.FirstResponder is NSTextView textView)
+				{
+						completing = true;
+						textView.Complete(textField);
+						completing = false;
+				}
 			}
 
 			#region NSTextFieldDelegate
@@ -235,6 +253,19 @@ namespace System.Windows.Forms
 			internal virtual bool TextFieldShouldBeginEditing(NSControl control, NSText fieldEditor)
 			{
 				return !owner.ReadOnly && owner.Enabled;
+			}
+
+			internal string[] TextFieldGetCompletions(NSControl control, NSTextView textView, string[] words, NSRange charRange, ref nint index)
+			{
+				var prefix = textView.String?.Substring(0, (int)charRange.Location + (int)charRange.Length) ?? String.Empty;
+
+				var completions = new List<string>();
+				foreach(string s in owner.auto_complete_custom_source)
+					if (s.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase))
+						completions.Add(s.Substring((int)charRange.Location));
+
+				index = -1;
+				return completions.Distinct().OrderBy(x => x).ToArray();
 			}
 
 			internal virtual void SendWmKey(VirtualKeys key, IntPtr lParam)
