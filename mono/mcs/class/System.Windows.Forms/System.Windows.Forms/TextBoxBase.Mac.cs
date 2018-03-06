@@ -608,7 +608,7 @@ namespace System.Windows.Forms
 			switch (keyData & Keys.KeyCode)
 			{
 				case Keys.Enter:
-					return (accepts_return && document.multiline);
+					return (accepts_return && Multiline);
 
 				case Keys.Tab:
 					if ((keyData & Keys.Shift) != 0)
