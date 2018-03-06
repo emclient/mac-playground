@@ -26,7 +26,6 @@ namespace System.Windows.Forms {
 		#endregion // Public Constructors
 
 		#region Public Instance Properties
-		[MonoTODO("AutoCompletion algorithm is currently not implemented.")]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		[Browsable(true)]
 		[EditorBrowsable(EditorBrowsableState.Always)]
@@ -66,7 +65,6 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		[MonoTODO("AutoCompletion algorithm is currently not implemented.")]
 		[Browsable(true)]
 		[EditorBrowsable(EditorBrowsableState.Always)]
 		[DefaultValue(AutoCompleteMode.None)]
@@ -85,7 +83,6 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		[MonoTODO("AutoCompletion algorithm is currently not implemented.")]
 		[Browsable(true)]
 		[EditorBrowsable(EditorBrowsableState.Always)]
 		[DefaultValue(AutoCompleteSource.None)]
