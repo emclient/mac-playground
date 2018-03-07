@@ -67,9 +67,8 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup>
-    <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
     <IntermediateOutputPath>$(SolutionDir)\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
-    <OutputPath>$(SolutionDir)\bin\$(Configuration)\</OutputPath>
+    <OutputPath>$(SolutionDir)\bin\$(Configuration)\$(MSBuildProjectName)\</OutputPath>
     <OutDir>$(OutputPath)</OutDir>
   </PropertyGroup>
   <ItemGroup>
@@ -607,13 +606,14 @@
     <ProjectReference Include="..\MacApi\MacApi.csproj">
       <Project>{981DC886-42D2-496B-B6E1-1EF6FE3EE78A}</Project>
       <Name>MacApi</Name>
+      <Private>True</Private>
     </ProjectReference>
     <!-- Include Mac API libraries -->
     <Reference Include="MonoMac" Condition=" '$(Configuration)' == 'Mono - Debug' ">
       <HintPath>..\MonoMac.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Mac" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release' " />
-  </ItemGroup>	
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" Condition=" '$(Configuration)' != 'Xamarin - Debug' and '$(Configuration)' != 'Xamarin-Release'" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'" />
 </Project>

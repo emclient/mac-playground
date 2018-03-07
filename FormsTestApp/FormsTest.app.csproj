@@ -64,9 +64,8 @@
     <UseSGen>false</UseSGen>
   </PropertyGroup>
   <PropertyGroup>
-    <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
     <IntermediateOutputPath>$(SolutionDir)\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
-    <OutputPath>$(SolutionDir)\bin\$(Configuration)\</OutputPath>
+    <OutputPath>$(SolutionDir)\bin\$(Configuration)\$(MSBuildProjectName)\</OutputPath>
     <OutDir>$(OutputPath)</OutDir>
   </PropertyGroup>
   <ItemGroup>
