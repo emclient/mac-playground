@@ -37,7 +37,8 @@ namespace System.Windows.Forms
 
 			public virtual NSView CreateView()
 			{
-				var text = owner.Text;
+				text = owner.Text;
+
 				var size = owner.Bounds.Size;
 				textField = new NSTextField(new CGRect(0, 0, size.Width, size.Height));
 				textField.TextShouldBeginEditing = TextFieldShouldBeginEditing;
