@@ -113,6 +113,9 @@ namespace System.Windows.Forms {
 			thousands_separator = false;
 
 			Text = "0";
+#if MACOS_THEME
+			txtView.preprocessText = PreprocessText;
+#endif
 		}
 		#endregion	// Public Constructors
 
@@ -378,7 +381,13 @@ namespace System.Windows.Forms {
 				ParseEditText ();
 
 			ChangingText = true;
-			if (!hexadecimal) {
+			Text = FormatValue(dvalue);
+		}
+
+		internal virtual string FormatValue(decimal value)
+		{
+			if (!hexadecimal)
+			{
 				// "N" and "F" differ only in that "N" includes commas
 				// every 3 digits to the left of the decimal and "F"
 				// does not.
@@ -393,13 +402,13 @@ namespace System.Windows.Forms {
 
 				format_string += decimal_places;
 
-				Text = dvalue.ToString (format_string, CultureInfo.CurrentCulture);
+				return value.ToString(format_string, CultureInfo.CurrentCulture);
 
 			} else {
 				// Cast to Int64 to be able to use the "X" formatter.
 				// If the value is below Int64.MinValue or above Int64.MaxValue,
 				// then an OverflowException will be thrown, as with .NET.
-				Text = ((Int64)dvalue).ToString("X", CultureInfo.CurrentCulture);
+				return ((Int64)dvalue).ToString("X", CultureInfo.CurrentCulture);
 			}
 		}
 
@@ -451,5 +460,21 @@ namespace System.Windows.Forms {
 			remove { base.TextChanged -= value; }
 		}
 		#endregion	// Events
+
+		internal virtual string PreprocessText(string text, string prev)
+		{
+			try
+			{
+				var value = !hexadecimal
+					? Check(decimal.Parse(text, CultureInfo.CurrentCulture))
+					: Check(Convert.ToDecimal(Convert.ToInt32(text, 16)));
+
+				return FormatValue(value);
+			}
+			catch
+			{
+				return prev;
+			}
+		}
 	}
 }
