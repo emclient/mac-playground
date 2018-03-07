@@ -28,6 +28,7 @@ namespace System.Windows.Forms
 			protected NSTextField textField;
 			protected NSTextFieldDelegate textFieldDelegate;
 			protected string text;
+			protected Formatter formatter;
 
 			public TextBoxBase_NSTextField(TextBoxBase owner)
 			{
@@ -43,6 +44,7 @@ namespace System.Windows.Forms
 				textField.Changed += TextFieldChanged;
 				textField.DoCommandBySelector = DoCommandBySelector;
 				textField.GetCompletions = TextFieldGetCompletions;
+				textField.Formatter = formatter = new Formatter(this);
 
 				ApplyBorderStyle(owner.BorderStyle);
 				ApplyForeColor(owner.ForeColor, owner.forecolor_set);
@@ -61,13 +63,12 @@ namespace System.Windows.Forms
 
 			public virtual string Text
 			{
-				get { return textField != null ? textField.StringValue : this.text; }
+				get { return text; }
 				set
 				{
+					this.text = value;
 					if (textField != null)
 						ApplyText(value);
-					else
-						this.text = value;
 				}
 			}
 
@@ -208,9 +209,17 @@ namespace System.Windows.Forms
 					textField.StringValue = value;
 			}
 
+			internal virtual void ApplyFormatter(NSFormatter formatter)
+			{
+				if (textField != null && formatter != null)
+					textField.Formatter = formatter;
+			}
+
 			bool completing = false;
 			protected virtual void TextFieldChanged(object sender, EventArgs e)
 			{
+				this.text = textField.StringValue;
+
 				owner.OnTextUpdate();
 				owner.OnTextChanged(e);
 
@@ -228,6 +237,13 @@ namespace System.Windows.Forms
 						textView.Complete(textField);
 						completing = false;
 				}
+			}
+
+			internal virtual string FormatterPreprocessText(string value)
+			{
+				if (owner.preprocessText!= null)
+					return owner.preprocessText(value, this.text);
+				return value;
 			}
 
 			#region NSTextFieldDelegate
@@ -275,6 +291,37 @@ namespace System.Windows.Forms
 			}
 
 			#endregion //NSTextFieldDelegate
+		}
+
+		internal class Formatter : NSFormatter
+		{
+			TextBoxBase_NSTextField owner;
+
+			public Formatter(TextBoxBase_NSTextField owner)
+			{
+				this.owner = owner;
+			}
+
+			public override string StringFor(NSObject value)
+			{
+				return owner.FormatterPreprocessText(value?.ToString() ?? null);
+			}
+
+			public override bool GetObjectValue(out NSObject obj, string str, out NSString error)
+			{
+				try
+				{
+					obj = (NSString)owner.FormatterPreprocessText(str ?? String.Empty);
+					error = null;
+					return true;
+				}
+				catch (Exception e)
+				{
+					obj = (NSString)string.Empty;
+					error = (NSString)e.Message;	
+					return false;
+				}
+			}
 		}
 	}
 }

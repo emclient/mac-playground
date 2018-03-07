@@ -8,8 +8,10 @@ using System.Runtime.InteropServices;
 
 #if MONOMAC
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 #elif XAMARINMAC
 using AppKit;
+using Foundation;
 #endif
 
 namespace System.Windows.Forms
@@ -52,6 +54,9 @@ namespace System.Windows.Forms
 		internal ArrayList list_links;
 		internal ImplicitHScrollBar hscroll;
 		internal ImplicitVScrollBar vscroll;
+
+		internal delegate string PreprocessTextDelegate(string text, string prev);
+		internal PreprocessTextDelegate preprocessText = null;
 
 		#endregion // Local Variables
 
