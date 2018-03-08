@@ -79,11 +79,6 @@
     <NoStdLib>false</NoStdLib>
     <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
   </PropertyGroup>
-  <PropertyGroup>
-    <IntermediateOutputPath>$(SolutionDir)\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
-    <OutputPath>$(SolutionDir)\bin\$(Configuration)\$(MSBuildProjectName)\</OutputPath>
-    <OutDir>$(OutputPath)</OutDir>
-  </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\build\common\Consts.cs" />
     <Compile Include="..\..\build\common\MonoTODOAttribute.cs" />
@@ -1529,17 +1524,14 @@
     <ProjectReference Include="..\..\..\..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'">
       <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
       <Name>System.Drawing (CoreGraphics)</Name>
-      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Mono.WebBrowser\Mono.WebBrowser-net_4_5.csproj">
       <Project>{1D660912-8164-4499-A2D7-A3B2FE742E17}</Project>
       <Name>Mono.WebBrowser-net_4_5</Name>
-      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\MacApi\MacApi.csproj">
       <Project>{981DC886-42D2-496B-B6E1-1EF6FE3EE78A}</Project>
       <Name>MacApi</Name>
-      <Private>False</Private>
     </ProjectReference>
     <!-- Include Mac API libraries -->
     <Reference Include="MonoMac" Condition=" '$(Configuration)' == 'Mono - Debug' ">
