@@ -694,7 +694,7 @@ namespace System.Windows.Forms {
 		
 		// The flags to be used for MeasureText and DrawText
 		internal TextFormatFlags TextFormatFlags {
-			get { return this.text_format_flags; }
+			get { return this.text_format_flags | (ShowKeyboardCues ? 0 : TextFormatFlags.HidePrefix); }
 		}
 		#endregion
 		
