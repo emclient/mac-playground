@@ -59,7 +59,7 @@ namespace System.Drawing {
 		public static Font DefaultFont  { 
 			get {
 				if (defaultFont == null)
-					NSApplication.SharedApplication.InvokeOnMainThread(() => { defaultFont = new Font(NSFont.LabelFontOfSize(NSFont.SmallSystemFontSize)); });
+					NSApplication.SharedApplication.InvokeOnMainThread(() => { defaultFont = new Font(NSFont.LabelFontOfSize(NSFont.SystemFontSize)); });
 				return defaultFont;
 			}
 		}
@@ -99,7 +99,7 @@ namespace System.Drawing {
 			get
 			{
 				if (messageBoxFont == null)
-					NSApplication.SharedApplication.InvokeOnMainThread(() => { messageBoxFont = new Font(NSFont.SystemFontOfSize(NSFont.SmallSystemFontSize)); });
+					NSApplication.SharedApplication.InvokeOnMainThread(() => { messageBoxFont = new Font(NSFont.SystemFontOfSize(NSFont.SystemFontSize)); });
 				return messageBoxFont;
 			}
 		}
