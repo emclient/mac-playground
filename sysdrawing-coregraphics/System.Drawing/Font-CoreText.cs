@@ -57,7 +57,6 @@ namespace System.Drawing
 		internal CTFont nativeFont;
 		bool bold = false;
 		bool italic = false;
-		const int RegularWeight = 5;
 
 		internal Font(NSFont font)
 		{
@@ -76,42 +75,45 @@ namespace System.Drawing
 			nativeFont = font.ToCTFont();
 		}
 
-		void CreateNativeFont(FontFamily familyName, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet, bool gdiVerticalFont)
+		void CreateNativeFont(FontFamily family, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet, bool gdiVerticalFont)
 		{
 			this.sizeInPoints = ConversionHelpers.GraphicsUnitConversion(unit, GraphicsUnit.Point, 96f, emSize);
 			this.bold = FontStyle.Bold == (style & FontStyle.Bold);
 			this.italic = FontStyle.Italic == (style & FontStyle.Italic);
 			this.underLine = FontStyle.Underline == (style & FontStyle.Underline);
+			this.strikeThrough = FontStyle.Strikeout == (style & FontStyle.Strikeout);
+
 			this.size = emSize;
 			this.unit = unit;
 
 			var size = sizeInPoints * 96f / 72f;
-			var traits = (NSFontTraitMask)0;
-			if (bold) traits |= NSFontTraitMask.Bold;
-			if (italic) traits |= NSFontTraitMask.Italic;
 
-			var f = NSFontWithFamily(familyName.Name, traits, RegularWeight, size) ?? NSSystemFont(RegularWeight, size);
-			this.nativeFont = f.ToCTFont();
+			var traits = CTFontSymbolicTraits.None;
+			if (bold) traits |= CTFontSymbolicTraits.Bold;
+			if (italic) traits |= CTFontSymbolicTraits.Italic;
+
+			this.nativeFont = CTFontWithFamily(family, traits, size);
 		}
 
-		static NSFont NSSystemFont(int weight, float size)
+		internal static CTFont CTFontWithFamily(FontFamily family, CTFontSymbolicTraits traits, float size)
 		{
-			if (NSThread.Current.IsMainThread)
-				return NSFontSystemFontOfSize(size, weight);
-
-			NSFont font = null;
-			NSThread.MainThread.InvokeOnMainThread(() => { font = NSFontSystemFontOfSize(size, weight); });
-			return font;
+			var font = CTFontWithFamily(family, size);
+			var mask = (CTFontSymbolicTraits)uint.MaxValue;
+			var fontWithTraits = font.WithSymbolicTraits(size, traits, mask);
+			return fontWithTraits ?? font;
 		}
 
-		static NSFont NSFontWithFamily(string name, NSFontTraitMask traits, int weight, float size)
+		internal static CTFont CTFontWithFamily(FontFamily family, float size)
 		{
-			if (NSThread.Current.IsMainThread)
-				return NSFontManager.SharedFontManager.FontWithFamily(name, traits, weight, size);
+			return IsFontInstalled(family.NativeDescriptor)
+				? new CTFont(family.NativeDescriptor, size)
+				: new CTFont(CTFontUIFontType.System, size, PreferredLanguage);
+		}
 
-			NSFont font = null;
-			NSThread.MainThread.InvokeOnMainThread(() => { font = NSFontManager.SharedFontManager.FontWithFamily(name, traits, weight, size); });
-			return font;
+		internal static bool IsFontInstalled(CTFontDescriptor descriptor)
+		{
+			var matching = descriptor.GetMatchingFontDescriptors((NSSet)null);
+			return matching != null && matching.Length > 0;
 		}
 
 		internal static string PreferredLanguage
