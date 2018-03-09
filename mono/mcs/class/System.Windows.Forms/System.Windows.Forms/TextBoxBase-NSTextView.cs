@@ -104,7 +104,7 @@ namespace System.Windows.Forms
 
 			public virtual string Text
 			{
-				get { return textView != null ? textView.GetString() : initialText; }
+				get { return textView != null ? textView.GetString() : initialText ?? String.Empty; }
 				set
 				{
 					if (textView != null)

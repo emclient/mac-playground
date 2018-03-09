@@ -64,7 +64,7 @@ namespace System.Windows.Forms
 
 			public virtual string Text
 			{
-				get { return text; }
+				get { return text ?? String.Empty; }
 				set
 				{
 					this.text = value;
