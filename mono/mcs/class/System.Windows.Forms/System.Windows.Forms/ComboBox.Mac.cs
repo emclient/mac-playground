@@ -7,12 +7,15 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Drawing.Mac;
-using System.Windows.Forms.Mac;
 
 #if XAMARINMAC
 using AppKit;
+using Foundation;
+using ObjCRuntime;
 #elif MONOMAC
 using MonoMac.AppKit;
+using MonoMac.Foundation;
+using MonoMac.ObjCRuntime;
 #endif
 
 namespace System.Windows.Forms
@@ -25,11 +28,11 @@ namespace System.Windows.Forms
 	[ComVisible(true)]
 	public class ComboBox : ListControl, IMacNativeControl
 	{
-		ComboBoxStyle dropdown_style;
-		int selected_index = -1;
+		internal ComboBoxStyle dropdown_style = ComboBoxStyle.DropDown;
+		internal int selected_index = -1;
 		private ObjectCollection items;
 
-		NSPopUpButton popup;
+		IComboBoxImp imp;
 
 		[ComVisible(true)]
 		public class ChildAccessibleObject : AccessibleObject
@@ -41,69 +44,55 @@ namespace System.Windows.Forms
 
 		public ComboBox()
 		{
-			dropdown_style = ComboBoxStyle.DropDownList;
 			items = new ObjectCollection(this);
+			imp = new DummyImp(this);
 		}
 
 		public NSView CreateView()
 		{
-			popup = new NSPopUpButton();
-			popup.BezelStyle = NSBezelStyle.Rounded;
-			popup.Alignment = NSTextAlignment.Natural;
-			popup.Enabled = Enabled;
-			popup.Font = Font.ToNSFont();
-			//popup.PullsDown = true;
-			popup.Activated += Popup_Activated;
+			if (imp is DummyImp)
+				RecreateImp();
 
-			foreach (object item in items)
-				popup.AddItem(GetItemText(item));
-
-			if (selected_index >= 0 && selected_index < popup.Items().Length)
-				popup.SelectItem(selected_index);
-
-			return popup;
+			return imp.Control;
 		}
 
-		internal virtual NSPopUpButton PopUp
+		internal virtual IComboBoxImp CreateImp()
 		{
-			get
+			switch (dropdown_style)
 			{
-				if (popup == null)
-					CreateView();
-				return popup;
+				case ComboBoxStyle.DropDown:
+					return new ComboBoxImp(this);
+				default:
+					return new PopUpImp(this);
 			}
 		}
 
-		internal virtual void Popup_Activated(object sender, EventArgs e)
+		internal virtual void RecreateImp()
 		{
-			selected_index = (int)popup.IndexOfSelectedItem;
+			var prev = imp;
+			imp = CreateImp();
+			prev?.Release();
+		}
+
+		internal virtual void OnImpSelectedItemChanged(object sender, EventArgs e)
+		{
+			selected_index = imp.IndexOfSelectedItem;
 
 			OnSelectedValueChanged(EventArgs.Empty);
 			OnSelectedIndexChanged(EventArgs.Empty);
 			OnSelectedItemChanged(EventArgs.Empty);
 		}
 
-		public override Font Font
-		{
-			set
-			{
-				if (popup != null)
-					popup.Font = font.ToNSFont();
-				base.Font = value;
-			}
-		}
-
 		protected override void OnEnabledChanged(EventArgs e)
 		{
-			if (popup != null)
-				popup.Enabled = Enabled;
+			imp.Enabled = Enabled;
 			base.OnEnabledChanged(e);
 		}
 
-		public override Drawing.Size GetPreferredSize(Drawing.Size proposedSize)
+		public override Size GetPreferredSize(Size proposedSize)
 		{
-			if (this.AutoSize)
-				return PopUp.SizeThatFits(proposedSize.ToCGSize()).ToSDSize();
+			if (this.AutoSize && imp.Control != null)
+				return imp.Control.SizeThatFits(proposedSize.ToCGSize()).ToSDSize();
 			return base.GetPreferredSize(proposedSize);
 		}
 
@@ -276,12 +265,30 @@ namespace System.Windows.Forms
 			get { return dropdown_style; }
 			set
 			{
-				if (value != ComboBoxStyle.DropDownList)
+				if (value != dropdown_style)
 				{
-					Debug.WriteLine($"Unsupported combobox style ({value})");
-					if (Debugger.IsAttached)
-						Debugger.Break();
+					dropdown_style = value;
+
+					if (!ImpSupportsStyle(imp, value))
+						RecreateImp();
 				}
+			}
+		}
+
+		private bool ImpSupportsStyle(IComboBoxImp popup, ComboBoxStyle value)
+		{
+			if (imp is DummyImp)
+				return true;
+			
+			switch(value)
+			{
+				case ComboBoxStyle.Simple:
+				case ComboBoxStyle.DropDown:
+					return popup is ComboBoxImp;
+				case ComboBoxStyle.DropDownList:
+					return popup is PopUpImp;
+				default:
+					return false;
 			}
 		}
 
@@ -372,7 +379,12 @@ namespace System.Windows.Forms
 		[Browsable(false)]
 		public int PreferredHeight
 		{
-            get { return (int)PopUp.FittingSize.Height - (int)PopUp.AlignmentRectInsets.Bottom - (int)PopUp.AlignmentRectInsets.Top; }
+			get {
+				var c = imp?.Control;
+				if (c != null)
+					return (int)c.FittingSize.Height - (int)c.AlignmentRectInsets.Bottom - (int)c.AlignmentRectInsets.Top;
+				return Font.Height + 8;
+			}
 			//get { return Font.Height + 8; }
 		}
 
@@ -437,34 +449,16 @@ namespace System.Windows.Forms
 		{
 			get
 			{
-				// FIXME: Add support for editbox
-				if (dropdown_style != ComboBoxStyle.DropDownList)
-				{
-					//if (textbox_ctrl != null)
-					//return textbox_ctrl.Text;
-				}
-
-				if (SelectedItem != null)
-					return GetItemText(SelectedItem);
-
-				return base.Text;
+				return imp.Text;
 			}
 			set
 			{
 				if (value == null)
 				{
 					if (SelectedIndex == -1)
-					{
-						// FIXME: Add support for editbox
-						if (dropdown_style != ComboBoxStyle.DropDownList)
-						{
-							//SetControlText(string.Empty, false);
-						}
-					}
+						imp.Text = String.Empty;
 					else
-					{
 						SelectedIndex = -1;
-					}
 					return;
 				}
 
@@ -485,12 +479,7 @@ namespace System.Windows.Forms
 					}
 				}
 
-				// FIXME: Add support for editbox
-				// set directly the passed value
-				if (dropdown_style != ComboBoxStyle.DropDownList)
-				{
-					//textbox_ctrl.Text = value;
-				}
+				imp.Text = value;
 			}
 		}
 
@@ -726,11 +715,7 @@ namespace System.Windows.Forms
 		{
 			base.OnFontChanged(e);
 
-			//if (textbox_ctrl != null)
-			//	textbox_ctrl.Font = Font;
-
-			//if (!item_height_specified)
-			//item_height = Font.Height + 2;
+			imp.Font = font;
 
 			if (IntegralHeight)
 				UpdateComboBoxBounds();
@@ -838,14 +823,7 @@ namespace System.Windows.Forms
 
 		public void SelectAll()
 		{
-			//if (dropdown_style == ComboBoxStyle.DropDownList)
-			//	return;
-
-			//if (textbox_ctrl != null)
-			//{
-			//	textbox_ctrl.ShowSelection = true;
-			//	textbox_ctrl.SelectAll();
-			//}
+			imp.SelectAll();
 		}
 
 		protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
@@ -978,7 +956,7 @@ namespace System.Windows.Forms
 				return;
 
 			if (value <= -2 || value >= Items.Count)
-				throw new ArgumentOutOfRangeException("SelectedIndex");
+				throw new ArgumentOutOfRangeException(nameof(value));
 
 			selected_index = value;
 
@@ -993,8 +971,7 @@ namespace System.Windows.Forms
 			//if (DropDownStyle == ComboBoxStyle.DropDownList)
 			//	Invalidate();
 
-			if (popup != null)
-				popup.SelectItem(value);
+			imp?.SelectItem(value);
 
 			OnSelectedValueChanged(EventArgs.Empty);
 			OnSelectedIndexChanged(EventArgs.Empty);
@@ -1121,8 +1098,7 @@ namespace System.Windows.Forms
 					//UIA Framework event: Item Added
 					OnUIACollectionChangedEvent(new CollectionChangeEventArgs(CollectionChangeAction.Add, value));
 
-					if (owner.popup != null)
-						owner.popup.Items()[index].Title = owner.GetItemText(value);
+					owner.imp?.SetItemTitle(index, owner.GetItemText(value));
 
 					if (index == owner.SelectedIndex)
 					{
@@ -1183,7 +1159,7 @@ namespace System.Windows.Forms
 			{
 				owner.selected_index = -1;
 				object_items.Clear();
-				owner.popup?.RemoveAllItems();
+				owner.imp?.RemoveAllItems();
 
 				owner.UpdatedItems();
 				owner.Refresh();
@@ -1242,7 +1218,7 @@ namespace System.Windows.Forms
 				else
 				{
 					object_items.Insert(index, item);
-					owner.popup?.InsertItem(owner.GetItemText(item), index);
+					owner.imp?.InsertItem(owner.GetItemText(item), index);
 
 					//UIA Framework event: Item added
 					OnUIACollectionChangedEvent(new CollectionChangeEventArgs(CollectionChangeAction.Add, item));
@@ -1273,7 +1249,7 @@ namespace System.Windows.Forms
 				object removed = object_items[index];
 
 				object_items.RemoveAt(index);
-				owner.popup?.RemoveItem(index);
+				owner.imp?.RemoveItem(index);
 
 				owner.UpdatedItems();
 
@@ -1298,7 +1274,7 @@ namespace System.Windows.Forms
 						if (String.Compare(item.ToString(), o.ToString()) < 0)
 						{
 							object_items.Insert(index, item);
-							owner.popup?.InsertItem(owner.GetItemText(item), index);
+							owner.imp?.InsertItem(owner.GetItemText(item), index);
 
 							// If we added the new item before the selectedindex
 							// bump the selectedindex by one, behavior differs if
@@ -1315,7 +1291,7 @@ namespace System.Windows.Forms
 					}
 				}
 				object_items.Add(item);
-				owner.popup?.AddItem(owner.GetItemText(item));
+				owner.imp?.AddItem(owner.GetItemText(item));
 
 				//UIA Framework event: Item added
 				OnUIACollectionChangedEvent(new CollectionChangeEventArgs(CollectionChangeAction.Add, item));
@@ -1343,11 +1319,11 @@ namespace System.Windows.Forms
 				else
 					object_items.Sort(new ObjectComparer(owner));
 
-				if (owner.popup != null)
+				if (owner.imp != null)
 				{
-					owner.popup.RemoveAllItems();
+					owner.imp.RemoveAllItems();
 					foreach (object item in object_items)
-						owner.popup.AddItem(owner.GetItemText(item));
+						owner.imp.AddItem(owner.GetItemText(item));
 				}
 			}
 
@@ -1368,6 +1344,294 @@ namespace System.Windows.Forms
 				#endregion
 			}
 			#endregion Private Methods
+		}
+
+		internal interface IComboBoxImp
+		{
+			NSControl Control { get; }
+			bool Enabled { set; }
+			string Text { get; set; }
+			Font Font { set; }
+			int IndexOfSelectedItem { get; }
+
+			void RemoveAllItems();
+			void AddItem(object item);
+			void InsertItem(string title, int index);
+			void RemoveItem(int index);
+			void SelectItem(int value);
+			void Release();
+			void SetItemTitle(int index, string title);
+			void SelectAll();
+		}
+
+		internal class DummyImp : IComboBoxImp
+		{
+			public DummyImp(ComboBox owner) {}
+
+			public NSControl Control { get { return null; } }
+			public bool Enabled { set {} }
+			public string Text { get; set; }
+			public Font Font { set {} }
+			public int IndexOfSelectedItem { get; }
+
+			public void RemoveAllItems() {}
+			public void AddItem(object item) {}
+			public void InsertItem(string title, int index) {}
+			public void RemoveItem(int index) {}
+			public void SelectItem(int value) {}
+			public void Release() {}
+			public void SetItemTitle(int index, string title) {}
+			public void SelectAll() {}
+		}
+
+		internal class PopUpImp : IComboBoxImp
+		{
+			internal ComboBox owner;
+			internal NSPopUpButton popup;
+
+			public PopUpImp(ComboBox owner)
+			{
+				this.owner = owner;				
+
+				popup = new NSPopUpButton();
+				popup.BezelStyle = NSBezelStyle.Rounded;
+				popup.Alignment = NSTextAlignment.Natural;
+				popup.Enabled = owner.Enabled;
+				popup.Font = owner.Font.ToNSFont();
+				//popup.PullsDown = true;
+				popup.Activated += owner.OnImpSelectedItemChanged;
+
+				foreach (object item in owner.items)
+					popup.AddItem(owner.GetItemText(item));
+
+				if (owner.selected_index >= 0 && owner.selected_index < popup.Items().Length)
+					popup.SelectItem(owner.selected_index);
+			}
+
+			public NSControl Control
+			{
+				get { return popup; }
+			}
+
+			public string Text
+			{
+				get { return popup?.SelectedItem?.Title; }
+				set
+				{
+					var index = popup.IndexOfItem(value);
+					if (index != -1)
+						popup.SelectItem(index);
+				}
+			}
+
+			public int IndexOfSelectedItem
+			{
+				get { return (int)popup.IndexOfSelectedItem; }
+			}
+
+			public Font Font
+			{
+				set { popup.Font = value.ToNSFont(); }
+			}
+
+			public bool Enabled
+			{
+				set { popup.Enabled = value; }
+			}
+
+			public void AddItem(object item)
+			{
+				popup.AddItem(item.ToString());
+			}
+
+			public void InsertItem(string title, int index)
+			{
+				popup.InsertItem(title, index);
+			}
+
+			public void Release()
+			{
+				popup.Activated -= owner.OnImpSelectedItemChanged;
+				owner = null;
+			}
+
+			public void RemoveAllItems()
+			{
+				popup.RemoveAllItems();
+			}
+
+			public void RemoveItem(int index)
+			{
+				popup.RemoveItem(index);
+			}
+
+			public void SelectItem(int index)
+			{
+				popup.SelectItem(index);
+			}
+
+			public void SetItemTitle(int index, string title)
+			{
+				popup.Items()[index].Title = title;
+			}
+
+			public void SelectAll()
+			{
+			}
+		}
+
+		internal class ComboBoxImp : IComboBoxImp
+		{
+			internal ComboBox owner;
+			internal NSComboBox combo;
+			internal string textBeforePopUp;
+
+			public ComboBoxImp(ComboBox owner)
+			{
+				this.owner = owner;
+
+				combo = new NSComboBox();
+				combo.BezelStyle = NSTextFieldBezelStyle.Rounded;
+				combo.Alignment = NSTextAlignment.Natural;
+				combo.Enabled = owner.Enabled;
+				combo.Font = owner.Font.ToNSFont();
+				combo.DoCommandBySelector = ComboDoCommandBySelector;
+				combo.Changed += ComboTextFieldChanged;
+				combo.SelectionChanged += ComboSelectionChanged;
+				combo.WillPopUp += ComboWillPopUp;
+				combo.WillDismiss += ComboWillDismiss;
+
+				foreach (object item in owner.items)
+					AddItem(owner.GetItemText(item));
+
+				if (owner.selected_index >= 0 && owner.selected_index < combo.Count)
+					combo.SelectItem(owner.selected_index);
+			}
+
+			public NSControl Control
+			{
+				get { return combo; }
+			}
+
+			public string Text
+			{
+				get { return combo?.StringValue; }
+				set { combo.StringValue = value; }
+			}
+
+			public int IndexOfSelectedItem
+			{
+				get { return (int)combo.SelectedIndex; }
+			}
+
+			public Font Font
+			{
+				set { combo.Font = value.ToNSFont(); }
+			}
+
+			public bool Enabled
+			{
+				set { combo.Enabled = value; }
+			}
+
+			public void AddItem(object item)
+			{
+				combo.Add((NSString)item.ToString());
+			}
+
+			public void InsertItem(string title, int index)
+			{
+				combo.Insert((NSString)title, index);
+			}
+
+			public void Release()
+			{
+				combo.WillDismiss -= ComboWillDismiss;
+				combo.WillPopUp -= ComboWillPopUp;
+				combo.SelectionChanged -= ComboSelectionChanged;
+				combo.Changed -= ComboTextFieldChanged;
+				combo.Activated -= owner.OnImpSelectedItemChanged;
+				owner = null;
+			}
+
+			public void RemoveAllItems()
+			{
+				combo.RemoveAll();
+			}
+
+			public void RemoveItem(int index)
+			{
+				combo.RemoveAt(index);
+			}
+
+			public void SelectItem(int value)
+			{
+				combo.SelectItem(value);
+			}
+
+			public void SetItemTitle(int index, string title)
+			{
+			}
+
+			public void SelectAll()
+			{
+				combo.SelectText(combo);
+			}
+
+			// Internals
+
+			internal bool ComboDoCommandBySelector(NSControl control, NSTextView textView, Selector selector)
+			{
+				switch (selector.Name)
+				{
+					case "insertTab:":
+					case "insertBacktab:":
+						SendWmKey(VirtualKeys.VK_TAB, IntPtr.Zero);
+						return true;
+					case "insertNewline:":
+						SendWmKey(VirtualKeys.VK_RETURN, IntPtr.Zero);
+						return true;
+					case "cancelOperation:":
+						SendWmKey(VirtualKeys.VK_ESCAPE, IntPtr.Zero);
+						return true;
+				}
+				return false;
+			}
+
+			internal void SendWmKey(VirtualKeys key, IntPtr lParam)
+			{
+				XplatUI.SendMessage(owner.Handle, Msg.WM_KEYDOWN, (IntPtr)key, lParam);
+				XplatUI.SendMessage(owner.Handle, Msg.WM_KEYUP, (IntPtr)key, lParam);
+			}
+
+			internal void ComboTextFieldChanged(object sender, EventArgs e)
+			{
+				owner.OnTextUpdate(e);
+				owner.OnTextChanged(e);
+			}
+
+			internal void ComboSelectionChanged(object sender, EventArgs e)
+			{
+				owner.BeginInvoke((Action)delegate
+				{
+					owner.OnImpSelectedItemChanged(sender, e);
+					owner.OnTextChanged(e);
+				});
+			}
+
+			internal void ComboWillPopUp(object sender, EventArgs e)
+			{
+				textBeforePopUp = combo.StringValue;
+			}
+
+			internal void ComboWillDismiss(object sender, EventArgs e)
+			{
+				owner.BeginInvoke((Action)delegate
+				{
+					if (textBeforePopUp != combo.StringValue)
+						owner.OnTextChanged(e);
+				});
+			}
 		}
 	}
 }
