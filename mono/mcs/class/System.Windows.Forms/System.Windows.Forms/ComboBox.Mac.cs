@@ -1431,7 +1431,7 @@ namespace System.Windows.Forms
 
 			public Font Font
 			{
-				set { popup.Font = value.ToNSFont(); }
+				set { if (value != null) popup.Font = value.ToNSFont(); }
 			}
 
 			public bool Enabled
@@ -1526,7 +1526,7 @@ namespace System.Windows.Forms
 
 			public Font Font
 			{
-				set { combo.Font = value.ToNSFont(); }
+				set { if (value != null) combo.Font = value.ToNSFont(); }
 			}
 
 			public bool Enabled
