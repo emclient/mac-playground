@@ -30,16 +30,14 @@ using System.Drawing.Mac;
 
 #if XAMARINMAC
 using Foundation;
-using CoreGraphics;
 using CoreText;
 using AppKit;
 #elif MONOMAC
 using MonoMac.Foundation;
-using MonoMac.CoreGraphics;
 using MonoMac.CoreText;
 using MonoMac.AppKit;
 #else
-using MonoTouch.CoreGraphics;
+using MonoTouch.Foundation;
 using MonoTouch.CoreText;
 using MonoTouch.UIKit;
 #endif
@@ -55,17 +53,14 @@ namespace System.Drawing
 	public partial class Font
 	{
 		internal CTFont nativeFont;
-		bool bold = false;
-		bool italic = false;
 
 		internal Font(NSFont font)
 		{
 			var traits = font.FontDescriptor.SymbolicTraits;
 
 			fontFamily = new FontFamily(font.FamilyName, true);
-			fontStyle =
-				((traits & NSFontSymbolicTraits.BoldTrait) == NSFontSymbolicTraits.BoldTrait ? FontStyle.Bold : 0) |
-				((traits & NSFontSymbolicTraits.ItalicTrait) == NSFontSymbolicTraits.ItalicTrait ? FontStyle.Italic : 0);
+			fontStyle |= traits.IsBold() ? FontStyle.Bold : 0;
+			fontStyle |= traits.IsItalic() ? FontStyle.Italic : 0;
 			gdiVerticalFont = false;
 			gdiCharSet = DefaultCharSet;
 			sizeInPoints = (float)(font.PointSize * 72f / 96f);
@@ -78,10 +73,8 @@ namespace System.Drawing
 		void CreateNativeFont(FontFamily family, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet, bool gdiVerticalFont)
 		{
 			this.sizeInPoints = ConversionHelpers.GraphicsUnitConversion(unit, GraphicsUnit.Point, 96f, emSize);
-			this.bold = FontStyle.Bold == (style & FontStyle.Bold);
-			this.italic = FontStyle.Italic == (style & FontStyle.Italic);
-			this.underLine = FontStyle.Underline == (style & FontStyle.Underline);
-			this.strikeThrough = FontStyle.Strikeout == (style & FontStyle.Strikeout);
+			this.underLine = 0 != (style & FontStyle.Underline);
+			this.strikeThrough = 0 != (style & FontStyle.Strikeout);
 
 			this.size = emSize;
 			this.unit = unit;
@@ -89,8 +82,8 @@ namespace System.Drawing
 			var size = sizeInPoints * 96f / 72f;
 
 			var traits = CTFontSymbolicTraits.None;
-			if (bold) traits |= CTFontSymbolicTraits.Bold;
-			if (italic) traits |= CTFontSymbolicTraits.Italic;
+			traits |= style.IsBold() ? CTFontSymbolicTraits.Bold : 0;
+			traits |= style.IsItalic() ? CTFontSymbolicTraits.Italic : 0;
 
 			this.nativeFont = CTFontWithFamily(family, traits, size);
 		}
@@ -147,18 +140,6 @@ namespace System.Drawing
 		{
 			return (float)nativeFont.BoundingBox.Height;
 		}
-
-#if MONOMAC
-		internal static NSFont NSFontSystemFontOfSize(float size, int weight)
-		{
-			return NSFont.SystemFontOfSize(size);
-		}
-#elif XAMARINMAC
-		internal static NSFont NSFontSystemFontOfSize(float size, int weight)
-		{
-			return NSFont.SystemFontOfSize(size, weight);
-		}
-#endif
 	}
 }
 
