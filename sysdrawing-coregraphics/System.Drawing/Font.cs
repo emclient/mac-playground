@@ -201,12 +201,12 @@ namespace System.Drawing
 
 		public bool Bold 
 		{ 
-			get { return bold; }
+			get { return 0 != (fontStyle & FontStyle.Bold); }
 		}
 
 		public bool Italic
 		{ 
-			get { return italic; }
+			get { return 0 != (fontStyle & FontStyle.Italic); }
 		}
 
 		public bool Underline
