@@ -109,6 +109,26 @@ namespace System.Drawing.Mac
 			}
 		}
 
+		public static bool IsBold(this FontStyle style)
+		{
+			return 0 != (style & FontStyle.Bold);
+		}
+
+		public static bool IsItalic(this FontStyle style)
+		{
+			return 0 != (style & FontStyle.Italic);
+		}
+
+		public static bool IsBold(this NSFontSymbolicTraits traits)
+		{
+			return 0 != (traits & NSFontSymbolicTraits.BoldTrait);
+		}
+
+		public static bool IsItalic(this NSFontSymbolicTraits traits)
+		{
+			return 0 != (traits & NSFontSymbolicTraits.BoldTrait);
+		}
+
 		public static CGColor ToCGColor(this Color c)
 		{
 			return new CGColor(c.R / 255f, c.G / 255f, c.B / 255f, c.A / 255f);
