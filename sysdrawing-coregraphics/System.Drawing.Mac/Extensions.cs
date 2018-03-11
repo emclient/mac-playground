@@ -126,7 +126,7 @@ namespace System.Drawing.Mac
 
 		public static bool IsItalic(this NSFontSymbolicTraits traits)
 		{
-			return 0 != (traits & NSFontSymbolicTraits.BoldTrait);
+			return 0 != (traits & NSFontSymbolicTraits.ItalicTrait);
 		}
 
 		public static CGColor ToCGColor(this Color c)
