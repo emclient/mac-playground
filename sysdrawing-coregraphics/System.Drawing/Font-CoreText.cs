@@ -138,7 +138,7 @@ namespace System.Drawing
 		 **/
 		private float GetNativeheight()
 		{
-			return (float)nativeFont.BoundingBox.Height;
+			return nativeFont.GetLineHeight();
 		}
 	}
 }

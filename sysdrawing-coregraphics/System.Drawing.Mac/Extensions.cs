@@ -80,6 +80,20 @@ namespace System.Drawing.Mac
 				null);
 		}
 
+		public static float GetLineHeight(this CTFont font)
+		{
+			// https://stackoverflow.com/questions/5511830/how-does-line-spacing-work-in-core-text-and-why-is-it-different-from-nslayoutm
+			//var ascent = (double)font.AscentMetric;
+			//var descent = (double)font.DescentMetric;
+			//var leading = (double)font.LeadingMetric;
+			//leading = leading < 0 ? 0.0 : Math.Floor(leading + 0.5);
+			//var lineHeight = Math.Floor(ascent + 0.5) + Math.Floor(descent + 0.5) + leading;
+			//var ascenderDelta = leading > 0 ? 0.0 : Math.Floor(0.2 * lineHeight + 0.5);
+			//return (float)(lineHeight + ascenderDelta);
+
+			return (float)NMath.Ceiling(font.AscentMetric + font.DescentMetric + font.LeadingMetric + 1);
+		}
+
 		public static NSTextAlignment ToNSTextAlignment(this ContentAlignment a)
 		{
 			return (NSTextAlignment)ToCTTextAlignment(a);
