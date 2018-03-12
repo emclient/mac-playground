@@ -366,7 +366,7 @@ namespace System.Windows.Forms {
             SizeF current_scale = GetAutoScaleSize (Font);
 
 			autoscale = true;
-			autoscale_base_size = new Size ((int)Math.Round (current_scale.Width), (int)Math.Round(current_scale.Height));
+			autoscale_base_size = Size.Empty;
 			allow_transparency = false;
 			closing = false;
 			is_modal = false;
@@ -497,6 +497,11 @@ namespace System.Windows.Forms {
 		[Browsable(false)]
 		public virtual Size AutoScaleBaseSize {
 			get {
+				if (autoscale_base_size.IsEmpty)
+				{
+					SizeF real = XplatUI.GetAutoScaleSize(Font);
+					return new Size((int)Math.Round(real.Width), (int)Math.Round(real.Height));
+				}
 				return autoscale_base_size;
 			}
 			[MonoTODO ("Setting this is probably unintentional and can cause Forms to be improperly sized.  See http://www.mono-project.com/FAQ:_Winforms#My_forms_are_sized_improperly for details.")]
@@ -1792,6 +1797,9 @@ namespace System.Windows.Forms {
 		[Obsolete ("This method has been deprecated")] // XXX what to use instead?
 		protected void ApplyAutoScaling()
 		{
+			if (autoscale_base_size.IsEmpty)
+				return;
+
 			SizeF current_size_f = GetAutoScaleSize (Font);
 			Size current_size = new Size ((int)Math.Round (current_size_f.Width), (int)Math.Round (current_size_f.Height));
 			float	dx;

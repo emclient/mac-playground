@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
+using System.Drawing.Mac;
+using System.Text;
 
 #if XAMARINMAC
 using CoreGraphics;
@@ -127,7 +128,7 @@ namespace System.Drawing
 			if ((format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
 				area = new SizeF(area.Height, area.Width);
 
-			float lineHeight = (float)NMath.Ceiling(font.nativeFont.AscentMetric + font.nativeFont.DescentMetric + font.nativeFont.LeadingMetric + 1);
+			float lineHeight = font.nativeFont.GetLineHeight();
 			var lines = CreateLines(font, atts, area, format, lineHeight);
 			foreach (var line in lines)
 			{
@@ -276,7 +277,7 @@ namespace System.Drawing
 				c.layoutAvailable = false;
 			}
 
-			c.lineHeight = (float)NMath.Ceiling(font.nativeFont.AscentMetric + font.nativeFont.DescentMetric + font.nativeFont.LeadingMetric + 1);
+			c.lineHeight = font.nativeFont.GetLineHeight();
 			c.lines = new List<CTLine>();
             c.verticalMatrix = default(CGAffineTransform);
 
