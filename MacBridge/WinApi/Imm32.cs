@@ -17,7 +17,19 @@ namespace WinApi
 			return IntPtr.Zero;
 		}
 
+		public static IntPtr ImmReleaseContext(IntPtr hWnd, IntPtr hIMC)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return IntPtr.Zero;
+		}
+
 		public static IntPtr ImmAssociateContext(IntPtr hWnd, IntPtr hIMC)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return IntPtr.Zero;
+		}
+
+		public static IntPtr ImmAssociateContextEx(IntPtr hWnd, IntPtr hIMC, int dwFlags)
 		{
 			NotImplemented(MethodBase.GetCurrentMethod());
 			return IntPtr.Zero;
