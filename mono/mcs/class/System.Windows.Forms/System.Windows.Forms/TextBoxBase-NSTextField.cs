@@ -60,6 +60,18 @@ namespace System.Windows.Forms
 				return textField;
 			}
 
+			public virtual void Release()
+			{
+				if (textField != null)
+				{
+					textField.AbortEditing();
+					textField.TextShouldBeginEditing -= TextFieldShouldBeginEditing;
+					textField.Changed -= TextFieldChanged;
+					textField.DoCommandBySelector = null;
+					textField.GetCompletions = null;
+				}
+			}
+
 			public virtual string Rtf { get { return null; } set { } }
 
 			public virtual string Text
@@ -288,7 +300,9 @@ namespace System.Windows.Forms
 			internal virtual void SendWmKey(VirtualKeys key, IntPtr lParam)
 			{
 				XplatUI.SendMessage(owner.Handle, Msg.WM_KEYDOWN, (IntPtr)key, lParam);
-				XplatUI.SendMessage(owner.Handle, Msg.WM_KEYUP, (IntPtr)key, lParam);
+
+				if (owner.IsHandleCreated) // The previous line could have caused disposing the control (esc, enter, ...)
+					XplatUI.SendMessage(owner.Handle, Msg.WM_KEYUP, (IntPtr)key, lParam);
 			}
 
 			#endregion //NSTextFieldDelegate
