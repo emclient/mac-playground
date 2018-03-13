@@ -68,6 +68,15 @@ namespace System.Windows.Forms
 				return scrollView;
 			}
 
+			public virtual void Release()
+			{
+				if (textView != null)
+				{
+					textView.TextDidChange -= TextViewTextDidChange;
+					textView.DoCommandBySelector = null;
+				}
+			}
+
 			public virtual void AppendText(string text)
 			{
 				if (textView == null)
@@ -302,7 +311,9 @@ namespace System.Windows.Forms
 			internal virtual void SendWmKey(VirtualKeys key, IntPtr lParam)
 			{
 				XplatUI.SendMessage(owner.Handle, Msg.WM_KEYDOWN, (IntPtr)key, lParam);
-				XplatUI.SendMessage(owner.Handle, Msg.WM_KEYUP, (IntPtr)key, lParam);
+
+				if (owner.IsHandleCreated) // The previous line could have caused disposing the control (esc, enter, ...)
+					XplatUI.SendMessage(owner.Handle, Msg.WM_KEYUP, (IntPtr)key, lParam);
 			}
 
 			internal virtual void ApplyText(string value)

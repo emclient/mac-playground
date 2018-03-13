@@ -456,6 +456,15 @@ namespace System.Windows.Forms
 		#endregion // Protected Instance Properties
 
 		#region Public Instance Methods
+
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+				imp.Release();
+			
+			base.Dispose(disposing);
+		}
+
 		public void AppendText(string text)
 		{
 			if (String.IsNullOrEmpty(text))
@@ -975,6 +984,7 @@ namespace System.Windows.Forms
 	internal interface ITextBoxBaseImp
 	{
 		NSView CreateView();
+		void Release();
 
 		string Rtf { get; set; }
 		string Text { get; set; }
@@ -1004,6 +1014,7 @@ namespace System.Windows.Forms
 	internal class TextBoxBase_Dummy : ITextBoxBaseImp
 	{
 		public NSView CreateView() { return new NSView(); }
+		public void Release() {}
 
 		public string Rtf { get; set; }
 		public string Text { get; set; }

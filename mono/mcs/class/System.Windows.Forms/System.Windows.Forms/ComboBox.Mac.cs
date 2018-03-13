@@ -1601,7 +1601,9 @@ namespace System.Windows.Forms
 			internal void SendWmKey(VirtualKeys key, IntPtr lParam)
 			{
 				XplatUI.SendMessage(owner.Handle, Msg.WM_KEYDOWN, (IntPtr)key, lParam);
-				XplatUI.SendMessage(owner.Handle, Msg.WM_KEYUP, (IntPtr)key, lParam);
+
+				if (owner.IsHandleCreated) // The previous line could have caused disposing the control (esc, enter, ...)
+					XplatUI.SendMessage(owner.Handle, Msg.WM_KEYUP, (IntPtr)key, lParam);
 			}
 
 			internal void ComboTextFieldChanged(object sender, EventArgs e)
