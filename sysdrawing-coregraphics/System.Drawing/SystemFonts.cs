@@ -1,13 +1,14 @@
 using System;
 
 #if XAMARINMAC
-using AppKit;
+using CoreText;
 using Foundation;
 #elif MONOMAC
-using MonoMac.AppKit;
+using MonoMac.CoreText;
 using MonoMac.Foundation;
 #else
-using MonoTouch.UIKit;
+using CoreText;
+using Foundation;
 #endif
 
 namespace System.Drawing {
@@ -50,7 +51,7 @@ namespace System.Drawing {
 		public static Font CaptionFont { 
 			get {
 				if (captionFont == null)
-					NSApplication.SharedApplication.InvokeOnMainThread(() => { captionFont = new Font(NSFont.TitleBarFontOfSize(NSFont.SystemFontSize)); });
+					captionFont = new Font(new CTFont(CTFontUIFontType.WindowTitle, 0, null));
 				return captionFont;
 			}
 		}
@@ -59,7 +60,7 @@ namespace System.Drawing {
 		public static Font DefaultFont  { 
 			get {
 				if (defaultFont == null)
-					NSApplication.SharedApplication.InvokeOnMainThread(() => { defaultFont = new Font(NSFont.LabelFontOfSize(NSFont.SystemFontSize)); });
+					defaultFont = new Font(new CTFont(CTFontUIFontType.Label, 0, null));
 				return defaultFont;
 			}
 		}
@@ -69,7 +70,7 @@ namespace System.Drawing {
 			get
 			{
 				if (dialogFont == null)
-					NSApplication.SharedApplication.InvokeOnMainThread(() => { dialogFont = new Font(NSFont.LabelFontOfSize(NSFont.LabelFontSize)); });
+					dialogFont = new Font(new CTFont(CTFontUIFontType.Label, 0, null));
 				return dialogFont;
 			}
 		}
@@ -79,7 +80,7 @@ namespace System.Drawing {
 			get
 			{
 				if (iconTitleFont == null)
-					NSApplication.SharedApplication.InvokeOnMainThread(() => { iconTitleFont = new Font(NSFont.LabelFontOfSize(NSFont.LabelFontSize)); });
+					iconTitleFont = new Font(new CTFont(CTFontUIFontType.Label, 0, null));
 				return iconTitleFont;
 			}
 		}
@@ -89,7 +90,7 @@ namespace System.Drawing {
 			get
 			{
 				if (menuFont == null)
-					NSApplication.SharedApplication.InvokeOnMainThread(() => { menuFont = new Font(NSFont.MenuFontOfSize(NSFont.SystemFontSize)); });
+					menuFont = new Font(new CTFont(CTFontUIFontType.MenuItem, 0, null));
 				return menuFont;
 			}
 		}
@@ -99,7 +100,7 @@ namespace System.Drawing {
 			get
 			{
 				if (messageBoxFont == null)
-					NSApplication.SharedApplication.InvokeOnMainThread(() => { messageBoxFont = new Font(NSFont.SystemFontOfSize(NSFont.SystemFontSize)); });
+					messageBoxFont = new Font(new CTFont(CTFontUIFontType.System, 0, null));
 				return messageBoxFont;
 			}
 		}
@@ -109,7 +110,7 @@ namespace System.Drawing {
 			get
 			{
 				if (smallCaptionFont == null)
-					NSApplication.SharedApplication.InvokeOnMainThread(() => { smallCaptionFont = new Font(NSFont.TitleBarFontOfSize(NSFont.SmallSystemFontSize)); });
+					smallCaptionFont = new Font(new CTFont(CTFontUIFontType.UtilityWindowTitle, 0, null));
 				return smallCaptionFont;
 			}
 		}
@@ -119,7 +120,7 @@ namespace System.Drawing {
 			get
 			{
 				if (statusFont == null)
-					NSApplication.SharedApplication.InvokeOnMainThread(() => { statusFont = new Font(NSFont.LabelFontOfSize(NSFont.LabelFontSize)); });
+					statusFont = new Font(new CTFont(CTFontUIFontType.Label, 0, null));
 				return statusFont;
 			}
 		}
