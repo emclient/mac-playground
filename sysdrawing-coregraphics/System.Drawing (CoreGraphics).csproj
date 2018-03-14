@@ -587,6 +587,7 @@
     <Compile Include="System.Drawing.Printing\StandardPrintController.cs" />
     <Compile Include="System.Drawing.Printing\PreviewPrintController.cs" />
     <Compile Include="System.Drawing.Printing\PreviewPageInfo.cs" />
+    <Compile Include="System.Drawing.Mac\CTFontWeight.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Mono.ico">

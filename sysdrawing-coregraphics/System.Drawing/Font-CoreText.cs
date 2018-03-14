@@ -90,7 +90,12 @@ namespace System.Drawing
 
 		internal static CTFont CTFontWithFamily(FontFamily family, CTFontSymbolicTraits traits, float size)
 		{
-			var font = CTFontWithFamily(family, size);
+			// Semibold font hack
+			if (FontFamily.RemoveSemiboldSuffix(family.Name, out string familyName))
+			    if (CTFontWithFamilyName(familyName, traits, size, CTFontWeight.Semibold) is CTFont semibold)
+					return semibold;
+			
+			var	font = CTFontWithFamily(family, size);
 			var mask = (CTFontSymbolicTraits)uint.MaxValue;
 			var fontWithTraits = font.WithSymbolicTraits(size, traits, mask);
 			return fontWithTraits ?? font;
@@ -116,6 +121,30 @@ namespace System.Drawing
 				var langauges = NSLocale.PreferredLanguages;
 				return langauges.Length > 0 ? langauges[0] : "en-US";
 			}
+		}
+
+		internal static CTFont CTFontWithFamilyName(string family, CTFontSymbolicTraits straits, float size, float weight)
+		{
+			var bold = Math.Abs(weight - CTFontWeight.Bold) < 0.01f;
+			var traits = new NSMutableDictionary();
+
+			if (Math.Abs(weight) > 0.01 && !bold)
+				traits[CTFontTraitKey.Weight] = NSNumber.FromFloat(weight);
+
+			if (bold)
+				straits |= CTFontSymbolicTraits.Bold;
+
+			if (0 != (straits & (CTFontSymbolicTraits.Bold | CTFontSymbolicTraits.Italic)))
+				traits[CTFontTraitKey.Symbolic] = NSNumber.FromUInt32((UInt32)straits);
+
+			var attrs = new NSMutableDictionary();
+			attrs[CTFontDescriptorAttributeKey.FamilyName] = (NSString)family;
+			attrs[CTFontDescriptorAttributeKey.Traits] = traits;
+
+			var desc = new CTFontDescriptor(new CTFontDescriptorAttributes(attrs));
+			var font = new CTFont(desc, size);
+
+			return font;
 		}
 
 		/**
