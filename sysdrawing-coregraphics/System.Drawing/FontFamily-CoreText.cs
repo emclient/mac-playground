@@ -25,7 +25,6 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-using System;
 using System.Drawing.Text;
 
 #if XAMARINMAC
@@ -70,6 +69,9 @@ namespace System.Drawing
 
 		CTFontDescriptor nativeFontDescriptor;
 
+		// Semibold font hack support (the MS-Windows way)
+		internal const string semiboldSuffix = " Semibold";
+
 		internal CTFontDescriptor NativeDescriptor
 		{
 			get { return nativeFontDescriptor; }
@@ -80,8 +82,10 @@ namespace System.Drawing
 			CreateNativeFontFamily (name, null, createDefaultIfNotExists);
 		}
 
-		private void CreateNativeFontFamily(string name, FontCollection fontCollection, bool createDefaultIfNotExists)
+		private void CreateNativeFontFamily(string extendedName, FontCollection fontCollection, bool createDefaultIfNotExists)
 		{
+			RemoveSemiboldSuffix(extendedName, out string name);
+
 			if (fontCollection != null) 
 			{
 				if (fontCollection.nativeFontDescriptors.ContainsKey (name))
@@ -113,7 +117,7 @@ namespace System.Drawing
 				if (string.IsNullOrEmpty (familyName)) 
 				{
 					var font = new CTFont (nativeFontDescriptor, 0);
-					familyName = font.FamilyName;
+					familyName = extendedName;
 				}
 			}
 
@@ -201,6 +205,19 @@ namespace System.Drawing
 			}
 
 			return 0;
+		}
+
+		// Semibold font hack support (the MS-Windows way)
+		internal static bool RemoveSemiboldSuffix(string name, out string plain)
+		{
+			if (name.EndsWith(semiboldSuffix, StringComparison.InvariantCulture))
+			{
+				plain = name.Substring(0, name.Length - semiboldSuffix.Length);
+				return true;
+			}
+
+			plain = name;
+			return false;
 		}
 
 	}

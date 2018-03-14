@@ -1712,6 +1712,7 @@ sysdrawing-coregraphics/System.Drawing.Imaging/EncoderParameters.cs -text
 sysdrawing-coregraphics/System.Drawing.Imaging/ImageAttributes.cs -text
 sysdrawing-coregraphics/System.Drawing.Imaging/ImageCodecFlags.cs -text
 sysdrawing-coregraphics/System.Drawing.Imaging/ImageCodecInfo.cs -text
+sysdrawing-coregraphics/System.Drawing.Mac/CTFontWeight.cs -text
 sysdrawing-coregraphics/System.Drawing.Mac/Extensions.cs -text
 sysdrawing-coregraphics/System.Drawing.Printing/PageSettings.cs -text
 sysdrawing-coregraphics/System.Drawing.Printing/PreviewPageInfo.cs -text
