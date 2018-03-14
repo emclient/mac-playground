@@ -54,20 +54,18 @@ namespace System.Drawing
 	{
 		internal CTFont nativeFont;
 
-		internal Font(NSFont font)
+		internal Font(CTFont font)
 		{
-			var traits = font.FontDescriptor.SymbolicTraits;
-
+			var traits = font.GetTraits().SymbolicTraits.GetValueOrDefault();
 			fontFamily = new FontFamily(font.FamilyName, true);
 			fontStyle |= traits.IsBold() ? FontStyle.Bold : 0;
 			fontStyle |= traits.IsItalic() ? FontStyle.Italic : 0;
 			gdiVerticalFont = false;
 			gdiCharSet = DefaultCharSet;
-			sizeInPoints = (float)(font.PointSize * 72f / 96f);
-			size = (float)font.PointSize;
+			sizeInPoints = (float)(font.Size * 72f / 96f);
+			size = (float)font.Size;
 			unit = GraphicsUnit.Pixel;
-
-			nativeFont = font.ToCTFont();
+			nativeFont = font;
 		}
 
 		void CreateNativeFont(FontFamily family, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet, bool gdiVerticalFont)

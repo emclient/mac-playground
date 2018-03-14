@@ -133,14 +133,14 @@ namespace System.Drawing.Mac
 			return 0 != (style & FontStyle.Italic);
 		}
 
-		public static bool IsBold(this NSFontSymbolicTraits traits)
+		public static bool IsBold(this CTFontSymbolicTraits traits)
 		{
-			return 0 != (traits & NSFontSymbolicTraits.BoldTrait);
+			return 0 != (traits & CTFontSymbolicTraits.Bold);
 		}
 
-		public static bool IsItalic(this NSFontSymbolicTraits traits)
+		public static bool IsItalic(this CTFontSymbolicTraits traits)
 		{
-			return 0 != (traits & NSFontSymbolicTraits.ItalicTrait);
+			return 0 != (traits & CTFontSymbolicTraits.Italic);
 		}
 
 		public static CGColor ToCGColor(this Color c)
