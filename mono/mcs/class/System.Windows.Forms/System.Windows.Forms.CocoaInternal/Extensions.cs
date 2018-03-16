@@ -201,6 +201,14 @@ namespace System.Windows.Forms.Mac
 			return array;
 		}
 
+		public static bool IsChildOf(this NSWindow window, NSWindow parent)
+		{
+			for (; window != null; window = window.ParentWindow)
+				if (window.ParentWindow == parent)
+					return true;
+			return false;
+		}
+
 		public static NSDragOperation ToDragOperation(this DragDropEffects e)
 		{
 			var o = NSDragOperation.None;
