@@ -444,7 +444,7 @@ namespace System.Windows.Forms {
 						evtRef.Window.SendEvent(evtRef);
 					else {
 						// Discard mouse events for other windows if we have a modal one...
-						if (!isMouseEvt || NSApp.ModalWindow == null || NSApp.ModalWindow == evtRef.Window || evtRef.Window == null || evtRef.Window.WorksWhenModal())
+						if (!isMouseEvt || NSApp.ModalWindow == null || NSApp.ModalWindow == evtRef.Window  || evtRef.Window == null || evtRef.Window.WorksWhenModal() || evtRef.Window.IsChildOf(NSApp.ModalWindow))
 							NSApp.SendEvent(evtRef);
 
 						// ... but still use mouse click to activate the app if necessary.
