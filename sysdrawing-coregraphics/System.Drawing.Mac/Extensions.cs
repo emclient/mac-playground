@@ -7,6 +7,7 @@ using MonoMac.CoreText;
 using MonoMac.Foundation;
 using ObjCRuntime = MonoMac.ObjCRuntime;
 using nfloat = System.Single;
+using NMath = System.Math;
 #elif XAMARINMAC
 using AppKit;
 using CoreGraphics;
@@ -42,6 +43,16 @@ namespace System.Drawing.Mac
 		public static CGRect Move(this CGRect r, float dx, float dy)
 		{
 			return new CGRect(r.X + dx, r.Y + dy, r.Width, r.Height);
+		}
+
+		public static Rectangle Move(this Rectangle r, int x, int y)
+		{
+			return new Rectangle(r.X + x, r.Y + y, r.Width, r.Height);
+		}
+
+		public static CGPoint Move(this CGPoint p, nfloat x, nfloat y)
+		{
+			return new CGPoint(p.X + x, p.Y + y);
 		}
 
 		public static CGSize ToCGSize(this Size s)

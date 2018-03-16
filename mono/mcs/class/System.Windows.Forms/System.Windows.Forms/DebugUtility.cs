@@ -188,16 +188,6 @@ namespace System.Windows.Forms
 			return null;
 		}
 
-		public static Rectangle Move(this Rectangle r, int x, int y)
-		{
-			return new Rectangle(r.X + x, r.Y + y, r.Width, r.Height);
-		}
-
-		public static CGPoint Move(this CGPoint p, float x, float y)
-		{
-			return new CGPoint(p.X + x, p.Y + y);
-		}
-
 		private static string logPath;
 
 		public static void WriteLine(string format, params object[] args)
