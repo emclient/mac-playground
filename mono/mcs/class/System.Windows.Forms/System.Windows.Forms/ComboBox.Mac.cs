@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Drawing.Mac;
+using System.Windows.Forms.Mac;
 
 #if XAMARINMAC
 using AppKit;

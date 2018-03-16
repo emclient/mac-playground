@@ -11,6 +11,7 @@ using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
+using nint = System.Int32;
 #elif XAMARINMAC
 using AppKit;
 using CoreGraphics;
