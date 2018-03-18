@@ -30,6 +30,7 @@ namespace System.Windows.Forms
 			protected NSTextFieldDelegate textFieldDelegate;
 			protected string text;
 			protected Formatter formatter;
+			internal static Class fieldClass;
 
 			public TextBoxBase_NSTextField(TextBoxBase owner)
 			{
@@ -39,14 +40,17 @@ namespace System.Windows.Forms
 			public virtual NSView CreateView()
 			{
 				text = owner.Text;
-
 				var size = owner.Bounds.Size;
-				textField = new NSTextField(new CGRect(0, 0, size.Width, size.Height));
+
+				using (var restore = new NSControlSetCellClass(typeof(NSTextField), typeof(TextFieldCell)))
+					textField = new NSTextField(new CGRect(0, 0, size.Width, size.Height));
+
 				textField.TextShouldBeginEditing = TextFieldShouldBeginEditing;
 				textField.Changed += TextFieldChanged;
 				textField.DoCommandBySelector = DoCommandBySelector;
 				textField.GetCompletions = TextFieldGetCompletions;
 				textField.Formatter = formatter = new Formatter(this);
+				textField.UsesSingleLineMode = true;
 
 				ApplyBorderStyle(owner.BorderStyle);
 				ApplyForeColor(owner.ForeColor, owner.forecolor_set);
@@ -307,6 +311,34 @@ namespace System.Windows.Forms
 			}
 
 			#endregion //NSTextFieldDelegate
+		}
+
+		internal class TextFieldCell : NSTextFieldCell
+		{
+			static NSLayoutManager lm = new NSLayoutManager();
+
+			[Export("init:")]
+			public TextFieldCell() : base(String.Empty)
+			{
+			}
+
+			[Export("initTextCell:")]
+			public TextFieldCell(string text) : base(text ?? String.Empty)
+			{
+			}
+
+			public override CGRect DrawingRectForBounds(CGRect theRect)
+			{
+				var lineHeight = lm.DefaultLineHeightForFont(Font);
+
+				// Vertical text position compensation for the case when the text field is too narrow.
+				// 1px is not enough, but 2px would cause artifacts.
+				var dr = base.DrawingRectForBounds(theRect);
+				if (lineHeight > dr.Height)
+					dr.Y -= 1;
+
+				return dr;
+			}
 		}
 
 		internal class Formatter : NSFormatter
