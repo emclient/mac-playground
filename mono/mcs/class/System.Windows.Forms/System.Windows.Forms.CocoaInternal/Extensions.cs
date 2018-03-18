@@ -2,6 +2,7 @@
 using System.Windows.Forms.CocoaInternal;
 
 #if MONOMAC
+using MonoMac.ObjCRuntime;
 using ObjCRuntime = MonoMac.ObjCRuntime;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
@@ -11,6 +12,7 @@ using System.Drawing;
 using System;
 using AppKit;
 using Foundation;
+using ObjCRuntime;
 #endif
 
 namespace System.Windows.Forms.Mac
@@ -85,7 +87,7 @@ namespace System.Windows.Forms.Mac
 				case NSEventType.BeginGesture: view.BeginGestureWithEvent(e); break;
 				case NSEventType.EndGesture: view.EndGestureWithEvent(e); break;
 				case NSEventType.MouseMoved: view.MouseMoved(e); break;
-			}			
+			}
 		}
 
 		public static bool Contains(this NSView self, NSView view)
@@ -161,6 +163,35 @@ namespace System.Windows.Forms.Mac
 				case NSTextAlignment.Right: return HorizontalAlignment.Right;
 				default: return HorizontalAlignment.Left;
 			}
+		}
+
+		internal static Selector classSel = new Selector("class");
+		internal static Selector cellClassSel = new Selector("cellClass");
+		internal static Selector setCellClassSel = new Selector("setCellClass:");
+
+		public static Class SetCellClass(this Class ctrlClass, Class cellClass)
+		{
+			var cellClassHandle = LibObjc.IntPtr_objc_msgSend(cellClass.Handle, classSel.Handle);
+			var ctrlClassHandle = LibObjc.IntPtr_objc_msgSend(ctrlClass.Handle, classSel.Handle);
+			var prevCellClassHandle = LibObjc.IntPtr_objc_msgSend(ctrlClassHandle, cellClassSel.Handle);
+			LibObjc.void_objc_msgSend_IntPtr(ctrlClassHandle, setCellClassSel.Handle, cellClassHandle);
+			return prevCellClassHandle == IntPtr.Zero ? (Class)null : new Class(prevCellClassHandle);
+		}
+
+		public static Class SetCellClass(this Type ctrlType, Type cellType)
+		{
+			return GetClass(ctrlType)?.SetCellClass(GetClass(cellType));
+		}
+
+		public static Class SetCellClass(this Type ctrlType, Class cellClass)
+		{
+			return GetClass(ctrlType)?.SetCellClass(cellClass);
+		}
+
+		public static Class GetClass(Type type)
+		{
+			var handle = Class.GetHandle(type);
+			return handle != IntPtr.Zero ? new Class(handle) : null;
 		}
 
 		public static NSObject ToNSObject(this IntPtr handle)
@@ -329,7 +360,6 @@ namespace System.Windows.Forms.Mac
 			return h.AsNSObject<NSData>();
 		}
 
-
 #elif XAMARINMAC
 
 		public static void WriteObject(this NSPasteboard pboard, INSPasteboardWriting pasteboardWriting)
@@ -347,5 +377,21 @@ namespace System.Windows.Forms.Mac
 			return (INSPasteboardWriting)(NSString)self;
 		}
 #endif
+	}
+
+	public class NSControlSetCellClass : IDisposable
+	{
+		Class ctrl, cell;
+
+		public NSControlSetCellClass(Type ctrlType, Type cellType)
+		{
+			this.ctrl = Extensions.GetClass(ctrlType);
+			this.cell = ctrl?.SetCellClass(Extensions.GetClass(cellType));
+		}
+
+		public void Dispose()
+		{
+			ctrl?.SetCellClass(cell);
+		}
 	}
 }
