@@ -579,15 +579,12 @@
       <Link>External\Duplex.cs</Link>
     </Compile>
     <Compile Include="System.Drawing.Mac\Extensions.cs" />
-    <Compile Include="Utilities\LurchTable.cs" />
-    <Compile Include="Utilities\IConcurrentDictionary.cs" />
-    <Compile Include="Utilities\IDictionaryEx.cs" />
-    <Compile Include="Utilities\HashUtilities.cs" />
     <Compile Include="System.Drawing\Graphics-DrawStringCache.cs" />
     <Compile Include="System.Drawing.Printing\StandardPrintController.cs" />
     <Compile Include="System.Drawing.Printing\PreviewPrintController.cs" />
     <Compile Include="System.Drawing.Printing\PreviewPageInfo.cs" />
     <Compile Include="System.Drawing.Mac\CTFontWeight.cs" />
+    <Compile Include="Utilities\LruCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Mono.ico">
