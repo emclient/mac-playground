@@ -55,7 +55,7 @@ namespace System.Drawing
 
 		public delegate Entry CreateEntryDelegate(string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format);
 
-		protected LurchTable<string, Entry> lurch;
+		protected LruCache<string, Entry> lurch;
 		protected bool enabled;
 
 #if DEBUG
@@ -66,7 +66,7 @@ namespace System.Drawing
 		public DrawStringCache(int capacity, bool enabled = true)
 		{
 			this.enabled = enabled;
-			lurch = new LurchTable<string, Entry>(capacity);
+			lurch = new LruCache<string, Entry>(capacity);
 		}
 
 		public string GetKey(string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format)
@@ -116,7 +116,10 @@ namespace System.Drawing
 #if DEBUG
 			++miss;
 #endif
-			return lurch[key] = createEntryDelegate(s, font, brush, layoutRectangle, format);
+
+			var entry = createEntryDelegate(s, font, brush, layoutRectangle, format);
+			lurch.Set(key, entry);
+			return entry;
 		}
 	}
 
@@ -154,7 +157,7 @@ namespace System.Drawing
 
 		public delegate Entry CreateEntryDelegate(string s, Font font, SizeF layoutArea, StringFormat format);
 
-		protected LurchTable<string, Entry> lurch;
+		protected LruCache<string, Entry> lurch;
 		protected bool enabled;
 
 #if DEBUG
@@ -165,7 +168,7 @@ namespace System.Drawing
 		public MeasureStringCache(int capacity, bool enabled = true)
 		{
 			this.enabled = enabled;
-			lurch = new LurchTable<string, Entry>(capacity);
+			lurch = new LruCache<string, Entry>(capacity);
 		}
 
 		public string GetKey(string s, Font font, SizeF layoutArea, StringFormat format)
@@ -198,7 +201,9 @@ namespace System.Drawing
 #if DEBUG
 			++miss;
 #endif
-			return lurch[key] = createEntryDelegate(text, font, layoutArea, format);
+			var entry = createEntryDelegate(text, font, layoutArea, format);
+			lurch.Set(key, entry);
+			return entry;
 		}
 	}
 
