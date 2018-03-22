@@ -4901,11 +4901,11 @@ namespace System.Windows.Forms
 
 		protected virtual void SetVisibleCore(bool value) {
 			if (value != is_visible) {
+				is_visible = value;
+
 				if (!value)
 					SelectNextIfFocused();
 
-				is_visible = value;
-				
 				if (is_visible && ((window.Handle == IntPtr.Zero) || !is_created)) {
 					CreateControl();
 					if (!(this is Form))
