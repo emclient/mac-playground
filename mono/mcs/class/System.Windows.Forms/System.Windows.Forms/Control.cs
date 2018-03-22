@@ -4381,6 +4381,11 @@ namespace System.Windows.Forms
 					XplatUI.SetParent(window.Handle, parent.Handle);
 				}
 
+				// .. and with children
+				foreach (Control child in Controls)
+					if (child.IsHandleCreated)
+						XplatUI.SetParent(child.Handle, window.Handle);
+
 				UpdateStyles();
 				XplatUI.SetAllowDrop (window.Handle, allow_drop);
 
