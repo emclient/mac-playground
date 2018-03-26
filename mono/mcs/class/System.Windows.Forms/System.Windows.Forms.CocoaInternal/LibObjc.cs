@@ -13,6 +13,7 @@ namespace System.Windows.Forms.Mac
 	{
 		const string libobjc = "/usr/lib/libobjc.dylib";
 		const string objc_msgSend = "objc_msgSend";
+		const string objc_msgSendSuper = "objc_msgSendSuper";
 
 		[DllImport(libobjc)]
 		extern public static IntPtr class_getInstanceMethod(IntPtr classHandle, IntPtr Selector);
@@ -34,6 +35,9 @@ namespace System.Windows.Forms.Mac
 
 		[DllImport(libobjc, EntryPoint = objc_msgSend)]
 		public static extern IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector);
+
+		[DllImport(libobjc, EntryPoint = objc_msgSendSuper)]
+		public static extern IntPtr IntPtr_objc_msgSendSuper(IntPtr receiver, IntPtr selector);
 
 		[DllImport(libobjc, EntryPoint = objc_msgSend)]
 		public extern static void void_objc_msgSend_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1);
