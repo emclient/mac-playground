@@ -39,7 +39,7 @@ namespace System.Windows.Forms
 				scrollView = new NSScrollView(owner.Bounds.ToCGRect());
 
 				var contentSize = scrollView.ContentSize;
-				textView = new NSTextView(new CGRect(0, 0, contentSize.Width, contentSize.Height));
+				textView = new TextView(new CGRect(0, 0, contentSize.Width, contentSize.Height));
 				//textView.MinSize = new CGSize(MinimumSize.Width, MinimumSize.Height);
 				//textView.MaxSize = new CGSize(MaximumSize.Width, MaximumSize.Height);
 				textView.VerticallyResizable = true;
@@ -320,6 +320,21 @@ namespace System.Windows.Forms
 			{
 				if (textView != null && value != null)
 					textView.SetString((NSString)value);
+			}
+		}
+
+		internal class TextView : NSTextView
+		{
+			public TextView() {}
+			public TextView(CGRect frame) : base(frame) {}
+
+			[Export("makeTouchBar")]
+			public virtual NSTouchBar MakeTouchBar()
+			{
+				// NOTE: This a temporary workaround for crash in base's method 
+				// https://emclient.atlassian.net/browse/EC-1375
+				var tb = new NSTouchBar();
+				return tb;
 			}
 		}
 	}
