@@ -188,7 +188,7 @@ namespace System.Windows.Forms.Mac
 			return GetClass(ctrlType)?.SetCellClass(cellClass);
 		}
 
-		public static Class GetClass(Type type)
+		public static Class GetClass(this Type type)
 		{
 			var handle = Class.GetHandle(type);
 			return handle != IntPtr.Zero ? new Class(handle) : null;
@@ -385,8 +385,8 @@ namespace System.Windows.Forms.Mac
 
 		public NSControlSetCellClass(Type ctrlType, Type cellType)
 		{
-			this.ctrl = Extensions.GetClass(ctrlType);
-			this.cell = ctrl?.SetCellClass(Extensions.GetClass(cellType));
+			this.ctrl = ctrlType.GetClass();
+			this.cell = ctrl?.SetCellClass(cellType.GetClass());
 		}
 
 		public void Dispose()
