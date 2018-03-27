@@ -26,7 +26,7 @@ namespace System.Windows.Forms
 	//
 	//		public MyClass()
 	//		{
-	//			swizzle = new Swizzle<NativeEventHandler>(this, "mouseDown:", HijackedMouseDown);
+	//			swizzle = new Swizzle<NativeEventHandler>(typeof(NSView), "mouseDown:", HijackedMouseDown);
 	//		}
 	//
 	//		void HijackedMouseDown(IntPtr @this, IntPtr selector, IntPtr theEvent)
@@ -47,16 +47,26 @@ namespace System.Windows.Forms
 
 		protected TDelegate dlg; // Your delegate
 
-		public Swizzle(NSObject victim, string selector, TDelegate del)
+		public Swizzle(Class victim, IntPtr selector, TDelegate del)
 		{
-			dlg = del;
-			victimSel = Selector.GetHandle(selector);
+		    dlg = del;
+			victimSel = selector;
 
-			originalMethod = LibObjc.class_getInstanceMethod(victim.ClassHandle,  victimSel);
+			originalMethod = LibObjc.class_getInstanceMethod(victim.Handle, victimSel);
 			originalImpl = LibObjc.method_getImplementation(originalMethod);
 
 			newImpl = Marshal.GetFunctionPointerForDelegate(del as System.Delegate);
 			LibObjc.method_setImplementation(originalMethod, newImpl);
+		}
+
+		public Swizzle(Type victim, string selector, TDelegate del)
+			: this(victim.GetClass(), Selector.GetHandle(selector), del)
+		{
+		}
+
+		public Swizzle(NSObject victim, string selector, TDelegate del)
+			: this(victim.Class, Selector.GetHandle(selector), del)
+		{
 		}
 
 		public Unswizzle Restore()
