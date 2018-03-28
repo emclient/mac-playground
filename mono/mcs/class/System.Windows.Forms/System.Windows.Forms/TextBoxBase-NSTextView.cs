@@ -39,7 +39,7 @@ namespace System.Windows.Forms
 				scrollView = new NSScrollView(owner.Bounds.ToCGRect());
 
 				var contentSize = scrollView.ContentSize;
-				textView = new TextView(new CGRect(0, 0, contentSize.Width, contentSize.Height));
+				textView = new NSTextView(new CGRect(0, 0, contentSize.Width, contentSize.Height));
 				//textView.MinSize = new CGSize(MinimumSize.Width, MinimumSize.Height);
 				//textView.MaxSize = new CGSize(MaximumSize.Width, MaximumSize.Height);
 				textView.VerticallyResizable = true;
@@ -48,6 +48,8 @@ namespace System.Windows.Forms
 				textView.TextContainer.ContainerSize = new CGSize(contentSize.Width, float.MaxValue);
 				textView.TextContainer.WidthTracksTextView = true;
 				textView.RichText = owner.richtext;
+				textView.ShouldUpdateTouchBarItemIdentifiers = TextViewUpdateTouchBarItemIdentifiers;
+				textView.AutomaticTextCompletionEnabled = true;
 
 				textView.TextDidChange += TextViewTextDidChange;
 				textView.DoCommandBySelector = TextViewDoCommandBySelector;
@@ -306,6 +308,12 @@ namespace System.Windows.Forms
 				return false;
 			}
 
+			// This prevents crash caused by the default xamarin's delegate that returns null.
+			internal string[] TextViewUpdateTouchBarItemIdentifiers(NSTextView textView, string[] identifiers)
+			{
+				return identifiers;
+			}
+
 			// Internals -----------
 
 			internal virtual void SendWmKey(VirtualKeys key, IntPtr lParam)
@@ -320,21 +328,6 @@ namespace System.Windows.Forms
 			{
 				if (textView != null && value != null)
 					textView.SetString((NSString)value);
-			}
-		}
-
-		internal class TextView : NSTextView
-		{
-			public TextView() {}
-			public TextView(CGRect frame) : base(frame) {}
-
-			[Export("makeTouchBar")]
-			public virtual NSTouchBar MakeTouchBar()
-			{
-				// NOTE: This a temporary workaround for crash in base's method 
-				// https://emclient.atlassian.net/browse/EC-1375
-				var tb = new NSTouchBar();
-				return tb;
 			}
 		}
 	}
