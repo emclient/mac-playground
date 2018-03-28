@@ -33,6 +33,15 @@ namespace System.Windows.Forms.Mac
 		[DllImport(libobjc, EntryPoint = objc_msgSend)]
 		public extern static bool bool_objc_msgSend_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2);
 
+		[DllImport(libobjc, EntryPoint = objc_msgSendSuper)]
+		public static extern IntPtr bool_objc_msgSendSuper_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2);
+
+		[DllImport(libobjc, EntryPoint = objc_msgSend)]
+		public extern static void void_objc_msgSend_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2);
+
+		[DllImport(libobjc, EntryPoint = objc_msgSendSuper)]
+		public static extern void void_objc_msgSendSuper_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2);
+
 		[DllImport(libobjc, EntryPoint = objc_msgSend)]
 		public static extern IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector);
 
@@ -47,5 +56,6 @@ namespace System.Windows.Forms.Mac
 
 		[DllImport(libobjc, EntryPoint = objc_msgSend)]
 		public extern static void void_objc_msgSend_Bool(IntPtr receiver, IntPtr selector, bool arg1);
+
 	}
 }
