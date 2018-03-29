@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Mac;
+using System.Windows.Forms.Mac;
 #if XAMARINMAC
 using Foundation;
 using AppKit;
@@ -126,49 +127,6 @@ namespace System.Windows.Forms.CocoaInternal
 			TranslateMouseEvent(theEvent);
 		}
 
-		static nuint ButtonMaskToWParam(nuint mouseButtons)
-		{
-			uint wParam = 0;
-
-			if ((mouseButtons & 1) != 0)
-				wParam |= (uint)MsgButtons.MK_LBUTTON;
-			if ((mouseButtons & 2) != 0)
-				wParam |= (uint)MsgButtons.MK_RBUTTON;
-			if ((mouseButtons & 4) != 0)
-				wParam |= (uint)MsgButtons.MK_MBUTTON;
-			if ((mouseButtons & 8) != 0)
-				wParam |= (uint)MsgButtons.MK_XBUTTON1;
-			if ((mouseButtons & 16) != 0)
-				wParam |= (uint)MsgButtons.MK_XBUTTON2;
-
-			return wParam;
-		}
-
-		static nuint ButtonNumberToWParam(nint buttonNumber)
-		{
-			switch (buttonNumber)
-			{
-				case 0: return (uint)MsgButtons.MK_LBUTTON;
-				case 1: return (uint)MsgButtons.MK_RBUTTON;
-				case 2: return (uint)MsgButtons.MK_MBUTTON;
-				case 3: return (uint)MsgButtons.MK_XBUTTON1;
-				case 4: return (uint)MsgButtons.MK_XBUTTON2;
-			}
-			return 0;
-		}
-
-		static uint ModifiersToWParam(NSEventModifierMask modifierFlags)
-		{
-			uint wParam = 0;
-
-			if ((modifierFlags & NSEventModifierMask.ControlKeyMask) != 0)
-				wParam |= (int)MsgButtons.MK_CONTROL;
-			if ((modifierFlags & NSEventModifierMask.ShiftKeyMask) != 0)
-				wParam |= (int)MsgButtons.MK_SHIFT;
-
-			return wParam;
-		}
-
 		void TranslateMouseEvent(NSEvent e)
 		{
 			var clientView = view as IClientView;
@@ -215,21 +173,21 @@ namespace System.Windows.Forms.CocoaInternal
 						msg.message = (client ? Msg.WM_LBUTTONDBLCLK : Msg.WM_NCLBUTTONDBLCLK) + msgOffset4Button;
 					else
 						msg.message = (client ? Msg.WM_LBUTTONDOWN : Msg.WM_NCLBUTTONDOWN) + msgOffset4Button;
-					msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonNumberToWParam(e.ButtonNumber));
+					msg.wParam = (IntPtr)(e.ModifiersToWParam() | e.ButtonNumberToWParam());
 					break;
 
 				case NSEventType.LeftMouseUp:
 				case NSEventType.RightMouseUp:
 				case NSEventType.OtherMouseUp:
 					msg.message = (client ? Msg.WM_LBUTTONUP : Msg.WM_NCLBUTTONUP) + msgOffset4Button;
-					msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonNumberToWParam(e.ButtonNumber));
+					msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | e.ButtonNumberToWParam());
 					break;
 
 				case NSEventType.MouseMoved:
 				case NSEventType.LeftMouseDragged:
 				case NSEventType.RightMouseDragged:
 				case NSEventType.OtherMouseDragged:
-					msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
+					msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
 					msg.message = (client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE);
 					break;
 
@@ -242,7 +200,7 @@ namespace System.Windows.Forms.CocoaInternal
 					if (e.Phase == NSEventPhase.None && e.MomentumPhase == NSEventPhase.None || e.Phase == NSEventPhase.Changed || e.MomentumPhase == NSEventPhase.Changed)
 					{
 						msg.message = Msg.WM_MOUSEWHEEL;
-						msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
+						msg.wParam = (IntPtr)(e.ModifiersToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
 						msg.wParam = (IntPtr)(((int)msg.wParam & 0xFFFF) | (delta << 16));
 						msg.lParam = (IntPtr)((msg.pt.x & 0xFFFF) | (msg.pt.y << 16));
 						break;
@@ -250,10 +208,15 @@ namespace System.Windows.Forms.CocoaInternal
 					return;
 
 				case NSEventType.MouseEntered:
+					if (driver.Grab.Hwnd != IntPtr.Zero)
+					{
+						driver.Grab.LastEnteredHwnd = e.TrackingArea?.Owner?.Handle ?? IntPtr.Zero;
+						return;
+					}
 					if (e.TrackingArea?.Owner is NSView entered)
 					{
 						msg.hwnd = entered.Handle;
-						msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
+						msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
 						msg.message = Msg.WM_MOUSE_ENTER;
 						Application.SendMessage(ref msg);
 						return;
@@ -261,10 +224,12 @@ namespace System.Windows.Forms.CocoaInternal
 					break;
 
 				case NSEventType.MouseExited:
+					if (driver.Grab.Hwnd != IntPtr.Zero)
+						return;
 					if (e.TrackingArea?.Owner is NSView exited)
 					{
 						msg.hwnd = exited.Handle;
-						msg.wParam = (IntPtr)(ModifiersToWParam(e.ModifierFlags) | ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
+						msg.wParam = (IntPtr)(e.ModifiersToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
 						msg.message = Msg.WM_MOUSELEAVE;
 						Application.SendMessage(ref msg);
 						return;

@@ -1334,6 +1334,7 @@ namespace System.Windows.Forms {
 
 			Grab.Hwnd = handle;
 			Grab.Confined = confine_to_handle != IntPtr.Zero;
+			Grab.LastEnteredHwnd = IntPtr.Zero;
 			// FIXME: Set the Grab.Area
 		}
 		
@@ -1343,15 +1344,24 @@ namespace System.Windows.Forms {
 				return;
 			}
 
-			bool was_grabbed = Grab.Hwnd != IntPtr.Zero;
+			IntPtr grabbed = Grab.Hwnd;
 			Grab.Hwnd = IntPtr.Zero;
 			Grab.Confined = false;
 
-			if (was_grabbed) {
+			if (grabbed != IntPtr.Zero) {
 				// lparam should be the handle to the window gaining the mouse capture,
 				// but we dont have that information like X11.
 				// Also only generate WM_CAPTURECHANGED if the window actually was grabbed.
 				SendMessage (hwnd, Msg.WM_CAPTURECHANGED, IntPtr.Zero, IntPtr.Zero);
+
+				// Send artificial Leave & Enter messages
+				if (Grab.LastEnteredHwnd != IntPtr.Zero && Grab.LastEnteredHwnd != Grab.Hwnd)
+				{
+					var lparam = IntPtr.Zero; // TODO: should contain mouse coords? See WindowsEventResponder.TranslateMouseEvent()
+					var wparam = (IntPtr)(NSEvent.CurrentModifierFlags.ToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
+					SendMessage(grabbed, Msg.WM_MOUSELEAVE, wparam, lparam);
+					SendMessage(Grab.LastEnteredHwnd, Msg.WM_MOUSE_ENTER, wparam, lparam);
+				}
 			}
 		}
 		

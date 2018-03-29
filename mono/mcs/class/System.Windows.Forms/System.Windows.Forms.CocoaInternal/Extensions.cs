@@ -90,6 +90,71 @@ namespace System.Windows.Forms.Mac
 			}
 		}
 
+		public static uint ToWParam(this NSEvent e)
+		{
+			uint wParam = 0;
+
+			if ((e.ModifierFlags & NSEventModifierMask.ControlKeyMask) != 0)
+				wParam |= (int)MsgButtons.MK_CONTROL;
+			if ((e.ModifierFlags & NSEventModifierMask.ShiftKeyMask) != 0)
+				wParam |= (int)MsgButtons.MK_SHIFT;
+
+			return wParam;
+		}
+
+		public static nuint ButtonMaskToWParam(this NSEvent e)
+		{
+			return ButtonMaskToWParam(e.ButtonMask);
+		}
+
+		public static nuint ButtonMaskToWParam(nuint mask)
+		{
+			uint wParam = 0;
+
+			if ((mask & 1) != 0)
+				wParam |= (uint)MsgButtons.MK_LBUTTON;
+			if ((mask & 2) != 0)
+				wParam |= (uint)MsgButtons.MK_RBUTTON;
+			if ((mask & 4) != 0)
+				wParam |= (uint)MsgButtons.MK_MBUTTON;
+			if ((mask & 8) != 0)
+				wParam |= (uint)MsgButtons.MK_XBUTTON1;
+			if ((mask & 16) != 0)
+				wParam |= (uint)MsgButtons.MK_XBUTTON2;
+
+			return wParam;
+		}
+
+		public static nuint ButtonNumberToWParam(this NSEvent e)
+		{
+			switch (e.ButtonNumber)
+			{
+				case 0: return (uint)MsgButtons.MK_LBUTTON;
+				case 1: return (uint)MsgButtons.MK_RBUTTON;
+				case 2: return (uint)MsgButtons.MK_MBUTTON;
+				case 3: return (uint)MsgButtons.MK_XBUTTON1;
+				case 4: return (uint)MsgButtons.MK_XBUTTON2;
+			}
+			return 0;
+		}
+
+		public static uint ToWParam(this NSEventModifierMask mask)
+		{
+			uint wParam = 0;
+
+			if ((mask & NSEventModifierMask.ControlKeyMask) != 0)
+				wParam |= (int)MsgButtons.MK_CONTROL;
+			if ((mask & NSEventModifierMask.ShiftKeyMask) != 0)
+				wParam |= (int)MsgButtons.MK_SHIFT;
+
+			return wParam;
+		}
+
+		public static uint ModifiersToWParam(this NSEvent e)
+		{
+			return e.ModifierFlags.ToWParam();
+		}
+
 		public static bool Contains(this NSView self, NSView view)
 		{
 			for (var v = view; v != null; v = v.Superview)
