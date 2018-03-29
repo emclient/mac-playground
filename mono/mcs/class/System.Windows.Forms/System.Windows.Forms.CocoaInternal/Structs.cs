@@ -82,5 +82,6 @@ namespace System.Windows.Forms.CocoaInternal {
 		internal bool Confined;     // Is the current grab (if any) confined to grab_area?
 		internal IntPtr Hwnd;           // The window that is grabbed
 		internal Rectangle Area;            // The area the current grab is confined to
+		internal IntPtr LastEnteredHwnd;    // The window that was last enetered during grab
 	}
 }	
