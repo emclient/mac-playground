@@ -5869,11 +5869,14 @@ namespace System.Windows.Forms
 
 		public override void CPDrawCheckBox (Graphics dc, Rectangle rectangle, ButtonState state)
 		{
-			if ((state & ButtonState.Flat) != 0) {
+			if ((state & ButtonState.Flat) != 0)
 				CPDrawCheckBoxInternal(dc, rectangle, state, false /* mixed */);
-				return;
-			}
+			else
+				DrawCheckBoxNative(dc, rectangle, state);
+		}
 			
+		internal virtual void DrawCheckBoxNative(Graphics dc, Rectangle rectangle, ButtonState state, bool mixed = false)
+		{
 			using (var cell = new NSButtonCell()) {
 				cell.SetButtonType(NSButtonType.Switch);
 				cell.AttributedTitle = new NSAttributedString();
@@ -5881,7 +5884,8 @@ namespace System.Windows.Forms
 				cell.Highlighted = (state & ButtonState.Pushed) != 0;
 				cell.Bezeled = false;
 				cell.Bordered = false;
-				cell.State = (state & ButtonState.Checked) != 0 ? NSCellStateValue.On : NSCellStateValue.Off;
+				cell.SetCellAttribute(NSCellAttribute.CellAllowsMixedState, 1);
+				cell.State = mixed ? NSCellStateValue.Mixed : (state & ButtonState.Checked) != 0 ? NSCellStateValue.On : NSCellStateValue.Off;
 				cell.Enabled = (state & ButtonState.Inactive) == 0;
 
 				var frame = rectangle.ToCGRect();
@@ -6321,7 +6325,10 @@ namespace System.Windows.Forms
 
 		public override void CPDrawMixedCheckBox (Graphics graphics, Rectangle rectangle, ButtonState state)
 		{
-			CPDrawCheckBoxInternal (graphics, rectangle, state, true /* mixed */);
+			if ((state & ButtonState.Flat) != 0)
+				CPDrawCheckBoxInternal(graphics, rectangle, state, true /* mixed */);
+			else
+				DrawCheckBoxNative(graphics, rectangle, state, true);
 		}
 
 		public override void CPDrawRadioButton (Graphics dc, Rectangle rectangle, ButtonState state)
