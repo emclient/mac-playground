@@ -678,8 +678,13 @@ namespace System.Windows.Forms
 		public virtual void DrawCheckBoxGlyph (Graphics g, CheckBox cb, Rectangle glyphArea)
 		{
 			var cell = SharedCheckBoxCell(cb);
-			var frame = glyphArea.ToCGRect(); // cb.ClientRectangle.ToCGRect();
-			var view = NSView.FocusView(); //CocoaInternal.MonoView.FocusedView;
+
+			var bounds = new CGRect(CGPoint.Empty, cell.CellSize);
+			var imageRect = cell.ImageRectForBounds(bounds);
+			var offset = imageRect.Location;
+
+			var frame = glyphArea.ToCGRect().Move(offset.X - 1, offset.Y);
+			var view = NSView.FocusView();
 
 			if (cb.Focused && cb.Enabled && cb.ShowFocusCues)
 				cell.DrawFocusRing(frame, view);
@@ -710,7 +715,13 @@ namespace System.Windows.Forms
 
 		internal int CheckSize
 		{
-			get { return SharedCheckBoxCell().CellSize.ToSDSize().Height; }
+			get
+			{
+				var cell = SharedCheckBoxCell();
+				var bounds = new CGRect(CGPoint.Empty, cell.CellSize);
+				var rect = cell.ImageRectForBounds(bounds);
+				return rect.Size.ToSDSize().Height;
+			}
 		}
 
 		internal int RBSize
@@ -806,6 +817,8 @@ namespace System.Windows.Forms
 					textRectangle.Y = button.PaddingClientRectangle.Top + ((content_rect.Height - text_size.Height) / 2) - 1;
 					textRectangle.Size = text_size;
 
+					glyphArea = AdjustGlyphArea(button, align, glyphArea, content_rect, textRectangle);
+
 					// Image is dependent on ImageAlign
 					if (image == null)
 						return;
@@ -878,6 +891,28 @@ namespace System.Windows.Forms
 					LayoutTextBeforeOrAfterImage(content_rect, true, text_size, image_size, button.TextAlign, button.ImageAlign, out textRectangle, out imageRectangle);
 					break;
 			}
+		}
+
+		// Adjust vertical glyph position - center it to an appropriate text line
+		internal Rectangle AdjustGlyphArea(ButtonBase button, ContentAlignment align, Rectangle glyphArea, Rectangle contentRect, Rectangle textRect)
+		{
+			var lines = Math.Max(1, textRect.Height / button.Font.GetHeight());
+			var lineHeight = (int)button.Font.GetHeight();
+			switch (align)
+			{
+				case ContentAlignment.TopCenter:
+				case ContentAlignment.TopLeft:
+				case ContentAlignment.TopRight:
+					glyphArea.Y = textRect.Y + (lineHeight - glyphArea.Height) / 2;
+					break;
+				case ContentAlignment.BottomCenter:
+				case ContentAlignment.BottomLeft:
+				case ContentAlignment.BottomRight:
+					glyphArea.Y = textRect.Bottom - lineHeight + (lineHeight - glyphArea.Height) / 2;
+					break;
+			}
+
+			return glyphArea;
 		}
 
 		public override Size CalculateCheckBoxAutoSize (CheckBox checkBox)
@@ -5889,11 +5924,9 @@ namespace System.Windows.Forms
 				cell.Enabled = (state & ButtonState.Inactive) == 0;
 
 				var frame = rectangle.ToCGRect();
-
-				// Move to the top if necessary
-				//var s = cell.CellSizeForBounds(frame);
-				//if (s.Height < frame.Height)
-				//	frame.Height = (int)Math.Round(s.Height);
+				var bounds = new CGRect(CGPoint.Empty, cell.CellSize);
+				var imgRect = cell.ImageRectForBounds(bounds);
+				frame = frame.Move(bounds.X - imgRect.X - 1, bounds.Y - imgRect.Y);
 
 				using (var view = new NSFlippedView(frame))
 				using (new LocalGraphicsContext(dc))
