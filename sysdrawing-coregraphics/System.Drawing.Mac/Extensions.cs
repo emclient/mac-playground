@@ -40,6 +40,11 @@ namespace System.Drawing.Mac
 			return new CGRect(r.X - w, r.Y - h, r.Width + w + w, r.Height + h + h);
 		}
 
+		public static CGRect Move(this CGRect r, nfloat dx, nfloat dy)
+		{
+			return new CGRect(r.X + dx, r.Y + dy, r.Width, r.Height);
+		}
+
 		public static CGRect Move(this CGRect r, float dx, float dy)
 		{
 			return new CGRect(r.X + dx, r.Y + dy, r.Width, r.Height);
