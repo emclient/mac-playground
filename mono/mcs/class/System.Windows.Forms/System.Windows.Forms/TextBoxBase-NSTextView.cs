@@ -50,6 +50,7 @@ namespace System.Windows.Forms
 				textView.RichText = owner.richtext;
 				textView.ShouldUpdateTouchBarItemIdentifiers = TextViewUpdateTouchBarItemIdentifiers;
 				textView.AutomaticTextCompletionEnabled = true;
+				textView.LinkClicked = TextViewLinkClicked;
 
 				textView.TextDidChange += TextViewTextDidChange;
 				textView.DoCommandBySelector = TextViewDoCommandBySelector;
@@ -133,7 +134,7 @@ namespace System.Windows.Forms
 			public virtual void ApplyReadOnly(bool value)
 			{
 				if (textView != null)
-					textView.Editable = !value;
+					textView.Editable = !value && owner.Enabled;
 			}
 
 			public virtual void ApplyEnabled(bool value)
@@ -312,6 +313,12 @@ namespace System.Windows.Forms
 			internal string[] TextViewUpdateTouchBarItemIdentifiers(NSTextView textView, string[] identifiers)
 			{
 				return identifiers;
+			}
+
+			internal virtual bool TextViewLinkClicked(NSTextView textView, NSObject link, nuint charIndex)
+			{
+				owner.HandleLinkClicked(textView, link, charIndex);
+				return true;
 			}
 
 			// Internals -----------
