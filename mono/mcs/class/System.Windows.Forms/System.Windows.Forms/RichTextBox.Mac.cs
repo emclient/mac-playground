@@ -6,6 +6,14 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
+#if MONOMAC
+using MonoMac.AppKit;
+using MonoMac.Foundation;
+#elif XAMARINMAC
+using AppKit;
+using Foundation;
+#endif
+
 namespace System.Windows.Forms
 {
 	[ClassInterface(ClassInterfaceType.AutoDispatch)]
@@ -523,6 +531,12 @@ namespace System.Windows.Forms
 		protected override bool ProcessCmdKey(ref Message m, Keys keyData)
 		{
 			return base.ProcessCmdKey(ref m, keyData);
+		}
+
+		internal override void HandleLinkClicked(NSTextView textView, NSObject link, nuint charIndex)
+		{
+			var e = new LinkClickedEventArgs(link.ToString());
+			OnLinkClicked(e);
 		}
 		#endregion // Protected Instance Methods
 

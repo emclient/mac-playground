@@ -122,6 +122,10 @@ namespace System.Windows.Forms
 			RecreateImpIfNeeded();
 		}
 
+		internal virtual void HandleLinkClicked(NSTextView textView, NSObject link, nuint charIndex)
+		{
+		}
+
 		#endregion // Private and Internal Methods
 
 		#region Public Instance Properties
