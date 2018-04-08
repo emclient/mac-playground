@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Windows.Forms.Mac;
 
 #if XAMARINMAC
 using AppKit;
 using Foundation;
+using ObjCRuntime;
 #elif MONOMAC
 using MonoMac.AppKit;
 using MonoMac.Foundation;
@@ -64,6 +66,12 @@ namespace System.Windows.Forms.CocoaInternal
 			return NSApplicationTerminateReply.Now;
 		}
 
+		public override void WillFinishLaunching(NSNotification notification)
+		{
+			NSAppleEventManager.SharedAppleEventManager
+				.SetEventHandler(this, new Selector("handleGetURLEvent:withReplyEvent:"), AEEventClass.Internet, AEEventID.GetUrl);
+		}
+
 		public override void DidFinishLaunching(NSNotification notification)
 		{
 		}
@@ -119,18 +127,25 @@ namespace System.Windows.Forms.CocoaInternal
 			TryOpenFiles(filenames);
 		}
 
-		internal bool TryOpenFiles(string[] filenames)
+		[Export("handleGetURLEvent:withReplyEvent:")]
+		internal virtual void HandleGetURLEvent(NSAppleEventDescriptor ae, NSAppleEventDescriptor aeReply)
+		{
+			string url = ae.ParamDescriptorForKeyword(AEKeyword.DirectObject).StringValue;
+			TryOpenFiles(new string[] { url }, Msg.WM_OPEN_URLS);
+		}
+
+		internal bool TryOpenFiles(string[] filenames, Msg msg = Msg.WM_OPEN_FILES)
 		{
 			GCHandle gch = new GCHandle();
 			try
 			{
 				gch = GCHandle.Alloc(filenames);
-				var result = driver.SendMessage(XplatUI.GetActive(), Msg.WM_OPEN_FILES, IntPtr.Zero, GCHandle.ToIntPtr(gch));
+				var result = driver.SendMessage(XplatUI.GetActive(), msg, IntPtr.Zero, GCHandle.ToIntPtr(gch));
 				return result == IntPtr.Zero;
 			}
 			catch (Exception e)
 			{
-				DebugHelper.WriteLine($"Failed opening file(s) [{String.Join(",", filenames)}]: {e}");
+				DebugHelper.WriteLine($"Failed opening file(s) or URL(s) [{String.Join(",", filenames)}]: {e}");
 				return false;
 			}
 			finally
