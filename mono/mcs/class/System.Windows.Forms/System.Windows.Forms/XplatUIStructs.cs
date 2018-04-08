@@ -377,6 +377,7 @@ namespace System.Windows.Forms
 		WM_OPEN_FILES             = 0x0410, // NSApplicationDelegate support
 		WM_DOCK_MENU              = 0x0411, // NSApplicationDelegate support
 		WM_IME_GETCURRENTPOSITION = 0x0412, // Temporary support for positioning Apple'sn IME
+		WM_OPEN_URLS              = 0x0413, // NSApplicationDelegate support
 
 		WM_REFLECT                = WM_USER + 0x1c00,
 		WM_CLOSE_INTERNAL         = WM_USER + 0x1c01,

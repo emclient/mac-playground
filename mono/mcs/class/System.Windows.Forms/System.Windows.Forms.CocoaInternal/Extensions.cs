@@ -21,6 +21,11 @@ namespace System.Windows.Forms.Mac
 	{
 		static DateTime reference = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
+		public static uint ToFourCC(this string s)
+		{
+			return (((uint)s[0]) << 24 | ((uint)s[1]) << 16 | ((uint)s[2]) << 8 | ((uint)s[3]));
+		}
+
 		public static NSDate ToNSDate(this DateTime datetime)
 		{
 			return NSDate.FromTimeIntervalSinceReferenceDate((datetime.ToUniversalTime() - reference).TotalSeconds);
@@ -458,5 +463,16 @@ namespace System.Windows.Forms.Mac
 		{
 			ctrl?.SetCellClass(cell);
 		}
+	}
+
+	public static class AEKeyword {
+		public static uint DirectObject { get { return "----".ToFourCC(); } }
+		public static uint ErrorNumber { get { return "errn".ToFourCC(); } }
+		public static uint ErrorString { get { return "errs".ToFourCC(); } }
+		public static uint ProcessSerialNumber { get { return "psn ".ToFourCC(); } }
+		public static uint PreDispatch { get { return "phac".ToFourCC(); } }
+		public static uint SelectProc { get { return "selh".ToFourCC(); } }
+		public static uint AERecorderCount { get { return "recr".ToFourCC(); } }
+		public static uint AEVersion { get { return "vers".ToFourCC(); } }
 	}
 }
