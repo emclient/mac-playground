@@ -1900,7 +1900,7 @@ namespace System.Windows.Forms
 
 			Point pt = PointToClient (Cursor.Position);
 
-			if (!bounds.Contains (pt) && !Capture)
+			if (!client_rect.Contains (pt) && !Capture)
 				return;
 
 			if (cursor != null || use_wait_cursor) {
