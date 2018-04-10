@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
@@ -16,6 +17,14 @@ namespace WinApi
 {
     public static partial class Win32
     {
+		internal class SelectedObjects
+		{
+			public NSFont font;
+			// TODO: Add more objects
+		}
+
+		internal static Dictionary<IntPtr, SelectedObjects> selectedObjects = new Dictionary<IntPtr, SelectedObjects>();
+
         // TODO
         public static bool ExtTextOut(IntPtr hdc, int X, int Y, uint fuOptions, [In] ref RECT lprc, string lpString, int cbCount, IntPtr lpDx)
         {
@@ -35,10 +44,27 @@ namespace WinApi
             return 0;
         }
 
-        public static IntPtr SelectObject(IntPtr hdc, IntPtr hgdiobj)
-        {
-            NotImplemented(MethodBase.GetCurrentMethod());
-            return IntPtr.Zero;
+		public static IntPtr SelectObject(IntPtr hdc, IntPtr hgdiobj)
+		{
+			var prev = IntPtr.Zero;
+			if (!selectedObjects.TryGetValue(hdc, out SelectedObjects objects))
+			{
+				objects = new SelectedObjects();
+				selectedObjects.Add(hdc, objects);
+			}
+
+			var obj = ObjCRuntime.Runtime.GetNSObject(hgdiobj);
+			if (obj is NSFont font)
+			{
+				prev = objects.font?.Handle ?? IntPtr.Zero;
+				objects.font = font;
+			}
+
+			// else if (obj is NSColor color) {
+			// TODO: Add more object types
+			//}
+
+			return prev;
         }
 
         public static bool DeleteObject(IntPtr hObject)
@@ -134,31 +160,40 @@ namespace WinApi
 			return false;
 		}
 
+		internal static NSFont GetSelectedFont(IntPtr hdc)
+		{
+			return selectedObjects.TryGetValue(hdc, out SelectedObjects objects) ? objects.font : null;
+		}
+
 		public static uint GetFontUnicodeRanges(IntPtr hdc, IntPtr lpgs)
 		{
-			// FIXME:
-			// Currently, we only return empty result, just to not cause throwing exceptions after execution of this method.
+			var ranges = new List<WCRANGE>();
 
-			int rangeCount = 0;
-
-			int size = Marshal.SizeOf(typeof(GLYPHSET));
-			if (rangeCount > 0)
-				size += rangeCount * Marshal.SizeOf(typeof(WCRANGE));
-
-			if (lpgs != IntPtr.Zero)
+			if (selectedObjects.TryGetValue(hdc, out SelectedObjects objects) && objects.font != null)
 			{
-				GLYPHSET glyphset = new GLYPHSET
-				{
-					cbThis = 0,
-					flAccel = 0,
-					cGlyphsSupported = 0,
-					cRanges = 0,
-					ranges = new WCRANGE[rangeCount]
-				};
-				Marshal.StructureToPtr(glyphset, lpgs, true);
+				var font = objects.font;
+				ranges = GetFontUnicodeRanges(font);
 			}
 
-			NotImplemented(MethodBase.GetCurrentMethod());
+			int glyphsetSize = 16; //Marshal.SizeOf(typeof(GLYPHSET)) - 4;
+			int size = glyphsetSize + ranges.Count * Marshal.SizeOf(typeof(WCRANGE));
+			if (lpgs == IntPtr.Zero)
+				return (uint)size;
+
+			var totalGlyphs = 0;
+			foreach (var range in ranges)
+				totalGlyphs += range.cGlyphs;
+
+			Marshal.WriteInt32(lpgs, 0, size); 				//glyphset.cbThis = (ulong)size;
+			Marshal.WriteInt32(lpgs, 4, 0);					//glyphset.flAccel = 0;
+			Marshal.WriteInt32(lpgs, 8, totalGlyphs);   	//glyphset.cGlyphsSupported = (ulong)totalGlyphs;
+			Marshal.WriteInt32(lpgs, 12, ranges.Count);    //glyphset.cRanges = (ulong)ranges.Length;
+
+			for (var i = 0; i < ranges.Count; ++i) {
+				Marshal.WriteInt16(lpgs, 16 + i * 4, ranges[i].wcLow);
+				Marshal.WriteInt16(lpgs, 18 + i * 4, (short)ranges[i].cGlyphs);
+			}
+
 			return (uint)size;
 		}
 
@@ -179,5 +214,56 @@ namespace WinApi
 				default: throw new NotImplementedException($"GetDeviceCaps({cap}");
 			}
 		}
+
+		internal static List<WCRANGE> GetFontUnicodeRanges(NSFont font)
+		{
+			var bytes = new byte[4];
+			int a = -1, b = -1;
+
+			var ranges = new List<WCRANGE>();
+
+			var charset = font.CoveredCharacterSet;
+			for (byte plane = 0; plane <= 16; plane++)
+			{
+				if (charset.HasMemberInPlane(plane))
+				{
+					var plane32u = (UInt32)plane;
+					for (var c = plane32u << 16; c < (plane32u + 1) << 16; c++)
+						if (charset.Contains(c))
+							GetFontUnicodeRanges_Next((int)c, ref a, ref b, ref ranges);
+				}
+			}
+
+			GetFontUnicodeRanges_Next(-1, ref a, ref b, ref ranges);
+
+			return ranges;
+		}
+
+		static bool GetFontUnicodeRanges_Next(int c, ref int a, ref int b, ref List<WCRANGE> ranges)
+		{
+			if (c == -1)
+			{
+				if (a != -1)
+				{
+					ranges.Add(new WCRANGE { wcLow = (char)a, cGlyphs = (ushort)(1 + b - a) });
+					a = b = c;
+					return true;
+				}
+			}
+			else if (a == -1)
+				a = b = c;
+			else
+				if (b == c - 1)
+				b = c;
+			else
+			{
+				ranges.Add(new WCRANGE { wcLow = (char)a, cGlyphs = (ushort)(1 + b - a) });
+				a = b = c;
+				return true;
+			}
+
+			return false;
+		}
+
 	}
 }
