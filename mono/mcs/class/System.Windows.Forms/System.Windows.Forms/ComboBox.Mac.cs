@@ -8,6 +8,8 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Drawing.Mac;
 using System.Windows.Forms.Mac;
+using System.Collections.Generic;
+using System.Linq;
 
 #if XAMARINMAC
 using AppKit;
@@ -420,7 +422,20 @@ namespace System.Windows.Forms
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public string SelectedText
 		{
-			get; set;
+			get
+			{
+				if (dropdown_style == ComboBoxStyle.DropDownList)
+					return string.Empty;
+
+				return imp.SelectedText;
+			}
+			set
+			{
+				if (dropdown_style == ComboBoxStyle.DropDownList)
+					return;
+
+				imp.SelectedText = value;
+			}
 		}
 
 		[Browsable(false)]
@@ -1354,9 +1369,10 @@ namespace System.Windows.Forms
 			string Text { get; set; }
 			Font Font { set; }
 			int IndexOfSelectedItem { get; }
+			string SelectedText { get; set; }
 
 			void RemoveAllItems();
-			void AddItem(object item);
+			void AddItem(string item);
 			void InsertItem(string title, int index);
 			void RemoveItem(int index);
 			void SelectItem(int value);
@@ -1374,9 +1390,10 @@ namespace System.Windows.Forms
 			public string Text { get; set; }
 			public Font Font { set {} }
 			public int IndexOfSelectedItem { get; }
+			public string SelectedText { get; set; }
 
 			public void RemoveAllItems() {}
-			public void AddItem(object item) {}
+			public void AddItem(string title) {}
 			public void InsertItem(string title, int index) {}
 			public void RemoveItem(int index) {}
 			public void SelectItem(int value) {}
@@ -1425,6 +1442,12 @@ namespace System.Windows.Forms
 				}
 			}
 
+			public string SelectedText
+			{
+				get { return popup?.SelectedItem?.Title; }
+				set { }
+			}
+
 			public int IndexOfSelectedItem
 			{
 				get { return (int)popup.IndexOfSelectedItem; }
@@ -1440,9 +1463,9 @@ namespace System.Windows.Forms
 				set { popup.Enabled = value; }
 			}
 
-			public void AddItem(object item)
+			public void AddItem(string title)
 			{
-				popup.AddItem(item.ToString());
+				popup.AddItem(title);
 			}
 
 			public void InsertItem(string title, int index)
@@ -1481,7 +1504,7 @@ namespace System.Windows.Forms
 			}
 		}
 
-		internal class ComboBoxImp : IComboBoxImp
+		internal class ComboBoxImp : NSComboBoxDataSource, IComboBoxImp
 		{
 			internal ComboBox owner;
 			internal NSComboBox combo;
@@ -1501,9 +1524,11 @@ namespace System.Windows.Forms
 				combo.SelectionChanged += ComboSelectionChanged;
 				combo.WillPopUp += ComboWillPopUp;
 				combo.WillDismiss += ComboWillDismiss;
-
-				foreach (object item in owner.items)
-					AddItem(owner.GetItemText(item));
+				combo.Completes = true;
+				combo.VisibleItems = 10;
+				combo.UsesDataSource = true;
+				combo.DataSource = this;
+				combo.GetCompletions = ComboGetCompletions;
 
 				if (owner.selected_index >= 0 && owner.selected_index < combo.Count)
 					combo.SelectItem(owner.selected_index);
@@ -1517,6 +1542,12 @@ namespace System.Windows.Forms
 			public string Text
 			{
 				get { return combo?.StringValue; }
+				set { combo.StringValue = value; }
+			}
+
+			public string SelectedText
+			{
+				get { return combo.SelectedValue.ToString(); }
 				set { combo.StringValue = value; }
 			}
 
@@ -1535,14 +1566,12 @@ namespace System.Windows.Forms
 				set { combo.Enabled = value; }
 			}
 
-			public void AddItem(object item)
+			public void AddItem(string title)
 			{
-				combo.Add((NSString)item.ToString());
 			}
 
 			public void InsertItem(string title, int index)
 			{
-				combo.Insert((NSString)title, index);
 			}
 
 			public void Release()
@@ -1557,12 +1586,10 @@ namespace System.Windows.Forms
 
 			public void RemoveAllItems()
 			{
-				combo.RemoveAll();
 			}
 
 			public void RemoveItem(int index)
 			{
-				combo.RemoveAt(index);
 			}
 
 			public void SelectItem(int value)
@@ -1609,6 +1636,8 @@ namespace System.Windows.Forms
 
 			internal void ComboTextFieldChanged(object sender, EventArgs e)
 			{
+				combo.ReloadData();
+
 				owner.OnTextUpdate(e);
 				owner.OnTextChanged(e);
 			}
@@ -1625,6 +1654,7 @@ namespace System.Windows.Forms
 			internal void ComboWillPopUp(object sender, EventArgs e)
 			{
 				textBeforePopUp = combo.StringValue;
+				combo.ReloadData();
 			}
 
 			internal void ComboWillDismiss(object sender, EventArgs e)
@@ -1634,6 +1664,64 @@ namespace System.Windows.Forms
 					if (textBeforePopUp != combo.StringValue)
 						owner.OnTextChanged(e);
 				});
+			}
+
+			[Export("comboBox:objectValueForItemAtIndex:")]
+			public override NSObject ObjectValueForItem(NSComboBox comboBox, nint index)
+			{
+				var item = owner.items[(int)index];
+				var title = owner.GetItemText(item);
+				return (NSString)title;
+			}
+
+			[Export("numberOfItemsInComboBox:")]
+			public override nint ItemCount(NSComboBox comboBox)
+			{
+				return owner.items.Count;
+			}
+
+			[Export("comboBox:indexOfItemWithStringValue:")]
+			public override nint IndexOfItem(NSComboBox comboBox, string value)
+			{
+				for (int i = 0; i < owner.items.Count; ++i)
+				{
+					var item = owner.items[i];
+					var title = owner.GetItemText(item);
+					if (title == value)
+						return (nint)i;
+				}
+				return - 1;
+			}
+
+			[Export("comboBox:completedString:")]
+			public override string CompletedString(NSComboBox comboBox, string prefix)
+			{
+				var completions = new List<string>();
+
+				foreach (var item in owner.items)
+				{
+					var title = owner.GetItemText(item);
+					if (title.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase))
+						completions.Add(title);
+				}
+
+				return completions.FirstOrDefault();
+			}
+
+			public virtual string[] ComboGetCompletions(NSControl control, NSTextView textView, string[] words, NSRange charRange, ref nint index)
+			{
+				var prefix = textView.String?.Substring(0, (int)charRange.Location + (int)charRange.Length) ?? String.Empty;
+
+				var completions = new List<string>();
+				foreach (var item in owner.items)
+				{
+					var title = owner.GetItemText(item);
+					if (title.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase))
+						completions.Add(title.Substring((int)charRange.Location));
+				}
+				index = -1;
+				return completions.ToArray();
+
 			}
 		}
 	}
