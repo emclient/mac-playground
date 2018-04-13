@@ -1509,6 +1509,8 @@ namespace System.Windows.Forms
 			internal ComboBox owner;
 			internal NSComboBox combo;
 			internal string textBeforePopUp;
+			internal int indexofCompleted = 0;
+
 
 			public ComboBoxImp(ComboBox owner)
 			{
@@ -1553,7 +1555,7 @@ namespace System.Windows.Forms
 
 			public int IndexOfSelectedItem
 			{
-				get { return (int)combo.SelectedIndex; }
+				get { return (int)combo.SelectedIndex == -1 ? indexofCompleted : (int)combo.SelectedIndex; }
 			}
 
 			public Font Font
@@ -1636,14 +1638,21 @@ namespace System.Windows.Forms
 
 			internal void ComboTextFieldChanged(object sender, EventArgs e)
 			{
-				combo.ReloadData();
+				owner.BeginInvoke((Action)delegate
+				{
+					if (indexofCompleted != -1)
+						owner.OnImpSelectedItemChanged(sender, e);
 
-				owner.OnTextUpdate(e);
-				owner.OnTextChanged(e);
+					owner.OnTextUpdate(e);
+					owner.OnTextChanged(e);
+
+					combo.ReloadData();
+				});
 			}
 
 			internal void ComboSelectionChanged(object sender, EventArgs e)
 			{
+				indexofCompleted = -1;
 				owner.BeginInvoke((Action)delegate
 				{
 					owner.OnImpSelectedItemChanged(sender, e);
@@ -1696,16 +1705,20 @@ namespace System.Windows.Forms
 			[Export("comboBox:completedString:")]
 			public override string CompletedString(NSComboBox comboBox, string prefix)
 			{
-				var completions = new List<string>();
-
+				int i = 0;
 				foreach (var item in owner.items)
 				{
 					var title = owner.GetItemText(item);
 					if (title.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase))
-						completions.Add(title);
+					{
+						indexofCompleted = i;
+						return title;
+					}
+					++i;
 				}
 
-				return completions.FirstOrDefault();
+				indexofCompleted = -1;
+				return prefix;
 			}
 
 			public virtual string[] ComboGetCompletions(NSControl control, NSTextView textView, string[] words, NSRange charRange, ref nint index)

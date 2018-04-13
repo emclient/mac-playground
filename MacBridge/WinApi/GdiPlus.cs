@@ -19,11 +19,13 @@ namespace WinApi
     {
 		internal class SelectedObjects
 		{
-			public NSFont font;
+			public NSFont font = NSFont.SystemFontOfSize(NSFont.SystemFontSize);
 			// TODO: Add more objects
 		}
 
 		internal static Dictionary<IntPtr, SelectedObjects> selectedObjects = new Dictionary<IntPtr, SelectedObjects>();
+		internal static Dictionary<NSFont, List<WCRANGE>> unicodeRangesByFont = new Dictionary<NSFont, List<WCRANGE>>();
+
 
         // TODO
         public static bool ExtTextOut(IntPtr hdc, int X, int Y, uint fuOptions, [In] ref RECT lprc, string lpString, int cbCount, IntPtr lpDx)
@@ -167,13 +169,9 @@ namespace WinApi
 
 		public static uint GetFontUnicodeRanges(IntPtr hdc, IntPtr lpgs)
 		{
-			var ranges = new List<WCRANGE>();
-
-			if (selectedObjects.TryGetValue(hdc, out SelectedObjects objects) && objects.font != null)
-			{
-				var font = objects.font;
-				ranges = GetFontUnicodeRanges(font);
-			}
+			var ranges = selectedObjects.TryGetValue(hdc, out SelectedObjects objects) && objects.font != null
+				? GetFontUnicodeRanges(objects.font)
+				: new List<WCRANGE>();
 
 			int glyphsetSize = 16; //Marshal.SizeOf(typeof(GLYPHSET)) - 4;
 			int size = glyphsetSize + ranges.Count * Marshal.SizeOf(typeof(WCRANGE));
@@ -217,10 +215,13 @@ namespace WinApi
 
 		internal static List<WCRANGE> GetFontUnicodeRanges(NSFont font)
 		{
+			if (unicodeRangesByFont.TryGetValue(font, out List<WCRANGE> ranges))
+				return ranges;
+
 			var bytes = new byte[4];
 			int a = -1, b = -1;
 
-			var ranges = new List<WCRANGE>();
+			ranges = new List<WCRANGE>();
 
 			var charset = font.CoveredCharacterSet;
 			for (byte plane = 0; plane <= 16; plane++)
@@ -236,6 +237,7 @@ namespace WinApi
 
 			GetFontUnicodeRanges_Next(-1, ref a, ref b, ref ranges);
 
+			unicodeRangesByFont.Add(font, ranges);
 			return ranges;
 		}
 
