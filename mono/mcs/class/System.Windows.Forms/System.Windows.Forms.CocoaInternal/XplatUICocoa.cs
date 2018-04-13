@@ -409,7 +409,11 @@ namespace System.Windows.Forms {
 			NSDate timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
 			NSApplication NSApp = NSApplication.SharedApplication;
 
+#if MONOMAC
 			evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, dequeue);
+#else
+			evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoopMode.Default, dequeue);
+#endif
 			if (evtRef == null)
 				return false;
 
