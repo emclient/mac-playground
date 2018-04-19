@@ -431,7 +431,7 @@ namespace System.Windows.Forms {
 				}
 
 				if (evtRef.Type == NSEventType.FlagsChanged)
-					UpdateModifiers(evtRef);
+					UpdateModifiers(evtRef.ModifierFlags);
 
 				if (evtRef.Type == NSEventType.LeftMouseDown)
 					LastMouseDown = evtRef; // Drag'n'Drop support
@@ -462,15 +462,20 @@ namespace System.Windows.Forms {
 			return true;
 		}
 
-		void UpdateModifiers(NSEvent e) {
-			key_modifiers_mask = key_modifiers ^ e.ModifierFlags;
-			key_modifiers = e.ModifierFlags;
+		static void UpdateModifiers(NSEventModifierMask flags)
+		{
+			key_modifiers_mask = key_modifiers ^ flags;
+			key_modifiers = flags;
 		}
 
 		internal static bool IsShiftDown { get { return 0 != (key_modifiers & NSEventModifierMask.ShiftKeyMask); } }
 		internal static bool IsCtrlDown { get { return 0 != (key_modifiers & NSEventModifierMask.ControlKeyMask); } }
 		internal static bool IsAltDown { get { return 0 != (key_modifiers & NSEventModifierMask.AlternateKeyMask); } }
-		internal static bool IsCmdDown { get { return 0 != (key_modifiers & NSEventModifierMask.CommandKeyMask); } }
+
+		internal static bool IsCmdDown { 
+			get { return 0 != (key_modifiers & NSEventModifierMask.CommandKeyMask); } 
+			set { UpdateModifiers(value ? (key_modifiers | NSEventModifierMask.CommandKeyMask) : (key_modifiers & ~NSEventModifierMask.CommandKeyMask)); }
+		}
 
 		private void SendParentNotify(IntPtr child, Msg cause, int x, int y) {
 			if (child == IntPtr.Zero)

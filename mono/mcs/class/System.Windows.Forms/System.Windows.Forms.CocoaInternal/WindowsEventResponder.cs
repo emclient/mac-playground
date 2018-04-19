@@ -457,10 +457,16 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			var emulateCmd = !XplatUICocoa.IsCmdDown;
 			if (emulateCmd)
-				ProcessModifiers(XplatUICocoa.key_modifiers | NSEventModifierMask.CommandKeyMask);
+			{
+				XplatUICocoa.IsCmdDown = true;
+				ProcessModifiers(XplatUICocoa.key_modifiers);
+			}
 			SendKey(hwnd, key, (IntPtr)0x1080000);
 			if (emulateCmd)
-				ProcessModifiers(XplatUICocoa.key_modifiers & ~NSEventModifierMask.CommandKeyMask);
+			{
+				XplatUICocoa.IsCmdDown = false;
+				ProcessModifiers(XplatUICocoa.key_modifiers);
+			}
 		}
 
 		void SendKey(IntPtr hwnd, VirtualKeys key, IntPtr lParam)
