@@ -151,7 +151,6 @@ FormsTest/application.ico -text
 FormsTest/car.png -text
 FormsTestApp/Entitlements.plist -text
 FormsTestApp/FormsTest.app.csproj -text
-FormsTestApp/Info.plist -text
 FormsTestApp/Main.cs -text
 FormsTestApp/Main.storyboard -text
 FormsTestApp/Program.cs -text
