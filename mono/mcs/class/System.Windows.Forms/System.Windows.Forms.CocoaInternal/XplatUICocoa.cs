@@ -130,8 +130,6 @@ namespace System.Windows.Forms {
 		private XplatUICocoa() {
 
 			RefCount = 0;
-
-			Initialize ();
 		}
 
 		~XplatUICocoa() {
@@ -163,7 +161,7 @@ namespace System.Windows.Forms {
 
 #region Internal methods
 
-		internal void Initialize ()
+		internal override IntPtr InitializeDriver()
 		{
 			// Initialize the event handlers
 			applicationDelegate = new Cocoa.MonoApplicationDelegate (this);
@@ -199,6 +197,8 @@ namespace System.Windows.Forms {
 			ReverseWindowMapped = false;
 
 			nextWindowLocation = CGPoint.Empty;
+
+			return IntPtr.Zero;
 		}
 
 		internal void ScreenToClientWindow (IntPtr handle, ref CGPoint point)
@@ -558,10 +558,6 @@ namespace System.Windows.Forms {
 		{
 			if (Idle != null)
 				Idle (this, e);
-		}
-
-		internal override IntPtr InitializeDriver() {
-			return IntPtr.Zero;
 		}
 
 		internal override void ShutdownDriver (IntPtr token)
