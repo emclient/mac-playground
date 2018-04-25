@@ -55,7 +55,18 @@ namespace MacBridge.AppKit
 		static int LaunchAppAndWaitForExit(string path, string[] args, bool activate = true)
 		{
 			var pid = LaunchApplicationForPath(path, args, activate);
-			return WaitForExit(pid);
+			var retval = WaitForExit(pid); // returning exit code not implemented in Mono.
+
+			// This hack works only with apps that write their exit code into their defaults under "ExitCode" key and PID under "PID" key.
+			var bundleIdentifier = NSBundle.FromPath(path)?.BundleIdentifier;
+			if (bundleIdentifier != null)
+			{
+				var defaults = new NSUserDefaults(bundleIdentifier, NSUserDefaultsType.SuiteName);
+				if ((defaults.ValueForKey((NSString)"PID") is NSNumber num) && num.Int32Value == pid)
+					if (defaults.ValueForKey((NSString)"ExitCode") is NSNumber exitCode)
+						retval = exitCode.Int32Value;
+			}
+			return retval;
 		}
 
 		public static int WaitForExit(int pid, double timeout = -1)
