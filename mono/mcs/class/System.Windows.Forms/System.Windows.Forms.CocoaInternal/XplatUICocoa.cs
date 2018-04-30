@@ -1273,7 +1273,7 @@ namespace System.Windows.Forms {
 		{
 			NSView view = handle.ToNSView();
 
-			if (view is MonoContentView) {
+			if (view is MonoContentView && view.Window != null) {
 				var frame = NativeToMonoScreen(view.Window.Frame);
 				x = frame.X;
 				y = frame.Y;
@@ -1976,37 +1976,13 @@ namespace System.Windows.Forms {
 					nsrect = MonoToNativeFramed(mrect, superVuWrap);
 				} else
 					nsrect = new CGRect(mrect.X, mrect.Y, mrect.Width, mrect.Height);
-				nsrect = GetFrameForAlignmentRect(vuWrap, nsrect);
-				if (vuWrap.Frame != nsrect)
-					vuWrap.Frame = nsrect;
+				vuWrap.Frame = GetFrameForAlignmentRect(vuWrap, nsrect);
 			}
 
 #if DriverDebug
 			if ( null != winWrap )
 				Console.WriteLine ("{0} SetWindowPos( {1}, {2}, WxH: {3} x {4} )", winWrap.Title, x, y, width, height);
 #endif
-
-            var wp = new WINDOWPOS
-                {
-                    hwnd = handle,
-                    hwndAfter = IntPtr.Zero,
-                    x = x,
-                    y = y,
-                    cx = width,
-                    cy = height,
-                    flags = (uint)(XplatUIWin32.SetWindowPosFlags.SWP_NOZORDER
-							| XplatUIWin32.SetWindowPosFlags.SWP_NOACTIVATE
-							| XplatUIWin32.SetWindowPosFlags.SWP_NOOWNERZORDER
-							| XplatUIWin32.SetWindowPosFlags.SWP_NOREPOSITION
-							| (nomove ? XplatUIWin32.SetWindowPosFlags.SWP_NOMOVE : 0)
-							| (nosize ? XplatUIWin32.SetWindowPosFlags.SWP_NOSIZE : 0)
-					),
-                };
-
-			var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(wp));
-			Marshal.StructureToPtr(wp, ptr, true);
-			SendMessage(handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, ptr);
-			Marshal.FreeHGlobal(ptr);
 		}
 		
 		internal override void SetWindowState (IntPtr handle, FormWindowState state)

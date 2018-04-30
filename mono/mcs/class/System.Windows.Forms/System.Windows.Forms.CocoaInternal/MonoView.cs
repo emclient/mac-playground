@@ -193,25 +193,11 @@ namespace System.Windows.Forms.CocoaInternal
 			this.DirtyRectangle = null;
 		}
 
-        public override CGRect Frame
-        {
-            get
-            {
-                return base.Frame;
-            }
-            set
-            {
-                var oldFrame = base.Frame;
-                base.Frame = value;
-				if (oldFrame.Size != value.Size)
-					PerformNCCalc(value.Size);
-            }
-        }
-
         public override void SetFrameSize(CGSize newSize)
         {
 			base.SetFrameSize(newSize);
 			PerformNCCalc(newSize);
+			driver.SendMessage(Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		public void PerformNCCalc(CGSize newSize)
