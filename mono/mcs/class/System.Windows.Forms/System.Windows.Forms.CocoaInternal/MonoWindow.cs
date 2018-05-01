@@ -204,14 +204,7 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("windowWillResize:toSize:")]
 		internal virtual NSSize willResize(NSWindow sender, NSSize toFrameSize)
 		{
-			//ToolStripManager.FireAppClicked();
-
-			//var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
-
-			var rect = new XplatUIWin32.RECT();
-			rect.left = rect.top = 0;
-			rect.right = (int)toFrameSize.Width;
-			rect.bottom = (int)toFrameSize.Height;
+			var rect = new XplatUIWin32.RECT(0, 0, (int)toFrameSize.Width, (int)toFrameSize.Height);
 			IntPtr lpRect = Marshal.AllocHGlobal(Marshal.SizeOf(rect));
 			Marshal.StructureToPtr(rect, lpRect, false);
 
