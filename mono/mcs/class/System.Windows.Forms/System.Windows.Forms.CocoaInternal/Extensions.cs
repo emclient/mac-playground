@@ -310,6 +310,11 @@ namespace System.Windows.Forms.Mac
 			return false;
 		}
 
+		public static bool IsFullscreen(this NSWindow self)
+		{
+			return 0 != (self.StyleMask & NSWindowStyle.FullScreenWindow);
+		}
+
 		public static NSDragOperation ToDragOperation(this DragDropEffects e)
 		{
 			var o = NSDragOperation.None;
