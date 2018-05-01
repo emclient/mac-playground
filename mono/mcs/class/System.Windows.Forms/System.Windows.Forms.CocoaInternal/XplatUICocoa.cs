@@ -1961,6 +1961,8 @@ namespace System.Windows.Forms {
 				nsrect = MonoToNativeScreen(mrect);
 				if (winWrap.Frame != nsrect) {
 					winWrap.SetFrame(nsrect, false);
+					if (!(winWrap is MonoWindow)) // MonoWindow will send the message itself
+						SendMessage(handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 					SetCaretPos(handle, Caret.X, Caret.Y);
 				}
 			}
@@ -1977,6 +1979,8 @@ namespace System.Windows.Forms {
 				} else
 					nsrect = new CGRect(mrect.X, mrect.Y, mrect.Width, mrect.Height);
 				vuWrap.Frame = GetFrameForAlignmentRect(vuWrap, nsrect);
+				if (!(vuWrap is MonoView)) // MonoView will send the message itself
+					SendMessage(handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 			}
 
 #if DriverDebug

@@ -195,6 +195,12 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
+		public override void SetFrame(NSRect frameRect, bool display)
+		{
+			base.SetFrame(frameRect, display);
+			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
+		}
+
 		[Export("windowWillResize:toSize:")]
 		internal virtual NSSize willResize(NSWindow sender, NSSize toFrameSize)
 		{
