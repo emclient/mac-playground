@@ -585,9 +585,17 @@ namespace System.Windows.Forms
 				
 			toolStrip.KeyboardActive = true;
 
-			activeToolStrips.Add(toolStrip);
+			if (!activeToolStrips.Contains(toolStrip))
+				activeToolStrips.Add(toolStrip);
 		}
-		
+
+		internal static void ToolStripDropDownDismissed(ToolStripDropDown toolStrip, ToolStripDropDownCloseReason reason)
+		{
+			if (activeToolStrips.Remove(toolStrip))
+				if (activeToolStrips.Count > 0)
+					SetActiveToolStrip(activeToolStrips[activeToolStrips.Count - 1], reason == ToolStripDropDownCloseReason.Keyboard);
+		}
+
 		internal static void AddToolStripMenuItem (ToolStripMenuItem tsmi)
 		{
 			lock (menu_items)
