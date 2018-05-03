@@ -1003,7 +1003,10 @@ namespace System.Windows.Forms
 
 			// ContextMenuStrip won't have a parent
 			if (this.OwnerItem == null)
+			{
+				ToolStripManager.ToolStripDropDownDismissed(this, reason);
 				return;
+			}
 			
 			// Ensure Submenu loes keyboard capture when closing.
 			ToolStripManager.SetActiveToolStrip (null, false);			
