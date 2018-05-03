@@ -96,6 +96,31 @@ namespace System.Windows.Forms
 				}
 			}
 		}
+
+		internal static bool IsChildOfActiveToolStrip(IntPtr hitTestHandle)
+		{
+			foreach (var toolStrip in activeToolStrips)
+				if (Contains(toolStrip.window.Handle, hitTestHandle))
+					return true;
+
+			return false;
+		}
+
+		static bool Contains(IntPtr root, IntPtr child)
+		{
+			if (root == IntPtr.Zero)
+				return false;
+			for (var control = child; control != IntPtr.Zero; )
+			{
+				var parent = XplatUI.GetParent(control, true);
+				if (parent == root)
+					return true;
+
+				control = parent;
+			}
+			return false;
+		}
+
 		#endregion
 
 		#region Public Methods
@@ -543,7 +568,9 @@ namespace System.Windows.Forms
 
 			return false;
 		}
-		
+
+		internal static List<ToolStrip> activeToolStrips = new List<ToolStrip>();
+
 		internal static void SetActiveToolStrip (ToolStrip toolStrip, bool keyboard)
 		{
 			if (Application.KeyboardCapture != null)
@@ -557,6 +584,8 @@ namespace System.Windows.Forms
 			activated_by_keyboard = keyboard;
 				
 			toolStrip.KeyboardActive = true;
+
+			activeToolStrips.Add(toolStrip);
 		}
 		
 		internal static void AddToolStripMenuItem (ToolStripMenuItem tsmi)
@@ -588,12 +617,16 @@ namespace System.Windows.Forms
 			
 			if (Application.KeyboardCapture != null)
 				Application.KeyboardCapture.Dismiss (ToolStripDropDownCloseReason.AppClicked);
+
+			activeToolStrips.Clear();
 		}
 
 		internal static void FireAppClickedInternal()
 		{
 			if (Application.KeyboardCapture != null)
 				Application.KeyboardCapture.GetTopLevelToolStrip().Dismiss(ToolStripDropDownCloseReason.AppClicked);
+
+			activeToolStrips.Clear();
 		}
 
 		internal static void FireAppFocusChanged (Form form)
@@ -601,7 +634,10 @@ namespace System.Windows.Forms
 			if (AppFocusChange != null) AppFocusChange (form, EventArgs.Empty);
 
 			if (Application.KeyboardCapture != null)
-				Application.KeyboardCapture.Dismiss (ToolStripDropDownCloseReason.AppFocusChange);
+			{
+				activeToolStrips.Remove(Application.KeyboardCapture);
+				Application.KeyboardCapture.Dismiss(ToolStripDropDownCloseReason.AppFocusChange);
+			}
 		}
 
 		internal static void FireAppFocusChanged (object sender)
@@ -609,7 +645,10 @@ namespace System.Windows.Forms
 			if (AppFocusChange != null) AppFocusChange (sender, EventArgs.Empty);
 
 			if (Application.KeyboardCapture != null)
-				Application.KeyboardCapture.Dismiss (ToolStripDropDownCloseReason.AppFocusChange);
+			{
+				activeToolStrips.Remove(Application.KeyboardCapture);
+				Application.KeyboardCapture.Dismiss(ToolStripDropDownCloseReason.AppFocusChange);
+			}
 		}
 
 		private static void OnRendererChanged (EventArgs e)
