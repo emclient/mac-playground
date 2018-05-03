@@ -116,9 +116,8 @@ namespace System.Windows.Forms.CocoaInternal
 				case NSEventType.RightMouseDown:
 				case NSEventType.OtherMouseDown:
 				case NSEventType.BeginGesture:
-					hitTestHandle = (IntPtr)(ContentView.Superview ?? ContentView).HitTest(theEvent.LocationInWindow)?.Handle;
-					// Make sure any popup menus are closed when clicking on embedded NSView.
-					if (null == Control.FromHandle(hitTestHandle))
+					hitTestHandle = (ContentView.Superview ?? ContentView).HitTest(theEvent.LocationInWindow)?.Handle ?? IntPtr.Zero;
+					if (!ToolStripManager.IsChildOfActiveToolStrip(hitTestHandle))
 						ToolStripManager.FireAppClicked();
 					break;
 
