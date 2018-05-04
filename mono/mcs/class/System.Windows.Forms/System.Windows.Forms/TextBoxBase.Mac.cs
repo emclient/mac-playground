@@ -38,6 +38,7 @@ namespace System.Windows.Forms
 		internal bool forecolor_set = false;
 		internal bool accepts_tab = false;
 		internal bool accepts_return = false;
+		internal int max_length = -1;
 		internal HorizontalAlignment alignment = HorizontalAlignment.Left;
 
 		internal BorderStyle actual_border_style = BorderStyle.Fixed3D;
@@ -124,6 +125,18 @@ namespace System.Windows.Forms
 
 		internal virtual void HandleLinkClicked(NSTextView textView, NSObject link, nuint charIndex)
 		{
+		}
+
+		// macOS-specific, but intentionally protected
+		protected virtual string PreprocessText(string value)
+		{
+			value = preprocessText != null ? preprocessText(value, Text) : value;
+
+			value = value ?? String.Empty;
+			if (MaxLength >= 0 && value.Length > MaxLength)
+				value = value.Substring(0, MaxLength);
+			
+			return value;
 		}
 
 		#endregion // Private and Internal Methods
@@ -264,8 +277,16 @@ namespace System.Windows.Forms
 		[MWFCategory("Behavior")]
 		public virtual int MaxLength
 		{
-			get { NotImplemented(MethodBase.GetCurrentMethod()); return 0; }
-			set { NotImplemented(MethodBase.GetCurrentMethod(), value); }
+			get { return max_length; }
+			set
+			{
+				value = value < 0 ? -1 : value;
+				if (value != max_length)
+				{
+					max_length = value;
+					Text = PreprocessText(Text);
+				}
+			}
 		}
 
 		[Browsable(false)]

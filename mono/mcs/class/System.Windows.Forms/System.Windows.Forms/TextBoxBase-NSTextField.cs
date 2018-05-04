@@ -259,9 +259,7 @@ namespace System.Windows.Forms
 
 			internal virtual string FormatterPreprocessText(string value)
 			{
-				if (owner.preprocessText!= null)
-					return owner.preprocessText(value, this.text);
-				return value;
+				return owner.PreprocessText(value);
 			}
 
 			#region NSTextFieldDelegate
