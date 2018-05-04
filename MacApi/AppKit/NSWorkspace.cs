@@ -73,7 +73,7 @@ namespace MacBridge.AppKit
 		{
 			DateTime limit = timeout >= 0 ? DateTime.Now.AddSeconds(timeout) : DateTime.MaxValue;
 
-			var process = System.Diagnostics.Process.GetProcessById(pid);
+			var process = TryGetProcessById(pid);
 			while (process != null)
 			{
 				if (process.HasExited)
@@ -82,10 +82,22 @@ namespace MacBridge.AppKit
 					return 0;
 				
 				Thread.Sleep(10);
-				process = System.Diagnostics.Process.GetProcessById(pid);
+				process = TryGetProcessById(pid);
 			}
 
 			return 0;
+		}
+
+		static System.Diagnostics.Process TryGetProcessById(int pid)
+		{
+			try
+			{
+				return System.Diagnostics.Process.GetProcessById(pid);
+			}
+			catch (Exception)
+			{
+				return null;
+			}
 		}
 
 		public static NSTask LaunchTaskForPath(string path, string[] args, bool activate = true)
