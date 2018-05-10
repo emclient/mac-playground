@@ -1041,8 +1041,8 @@ namespace System.Windows.Forms
 		public NSView CreateView() { return new NSView(); }
 		public void Release() {}
 
-		public string Rtf { get; set; }
-		public string Text { get; set; }
+		public string Rtf { get; set; } = String.Empty;
+		public string Text { get; set; } = String.Empty;
 		public Size IntrinsicContentSize { get { return new Size(100, 20); } }
 
 		public void AppendText(string text) { if (text != null) Text = (Text??String.Empty) + text; }
