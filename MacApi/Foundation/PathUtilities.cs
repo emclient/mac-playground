@@ -40,9 +40,10 @@ namespace MacBridge
 			get { return NSString.FromHandle(NSOpenStepRootDirectory()); }
 		}
 
-		public static string SearchPathForDirectoriesInDomains(NSSearchPathDirectory directory, NSSearchPathDomainMask domainMask, bool expandTilde)
+		public static string[] SearchPathForDirectoriesInDomains(NSSearchPathDirectory directory, NSSearchPathDomainMask domainMask, bool expandTilde)
 		{
-			return NSString.FromHandle(NSSearchPathForDirectoriesInDomains(directory, domainMask, expandTilde));
+			var handle = NSSearchPathForDirectoriesInDomains(directory, domainMask, expandTilde);
+			return NSArray.StringArrayFromHandle(handle);
 		}
 
 
