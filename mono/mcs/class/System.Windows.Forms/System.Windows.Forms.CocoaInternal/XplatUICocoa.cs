@@ -1319,10 +1319,12 @@ namespace System.Windows.Forms {
 			NSView vuWrap = handle.ToNSView();
 			NSWindow winWrap = vuWrap.Window;
 
-			if (winWrap.IsMiniaturized)
-				return FormWindowState.Minimized;
-			if (winWrap.IsZoomed)
-				return FormWindowState.Maximized;
+			if (winWrap != null) {
+				if (winWrap.IsMiniaturized)
+					return FormWindowState.Minimized;
+				if (winWrap.IsZoomed)
+					return FormWindowState.Maximized;
+			}
 
 			return FormWindowState.Normal;
 		}
