@@ -95,7 +95,7 @@ namespace System.Windows.Forms {
 		internal static NSView CaretView;
 
 		// Instance members
-		internal static NSEventModifierMask key_modifiers = 0;
+		internal static NSEventModifierMask key_modifiers_internal = 0;
 		internal static NSEventModifierMask key_modifiers_mask = 0; // mask of the latest change of key_modifiers
 		internal bool translate_modifier = false;
 		internal NSEvent evtRef; // last/current message
@@ -123,6 +123,12 @@ namespace System.Windows.Forms {
 		private CGPoint nextWindowLocation;
 
 		private Dictionary<IntPtr, object> keepAlivePool = new Dictionary<IntPtr, object>();
+
+		internal static NSEventModifierMask key_modifiers
+		{
+			set { key_modifiers_internal = value; }
+			get { return NSEvent.CurrentModifierFlags | key_modifiers_internal; } // support emulated modifiers
+		}
 
 #endregion Local Variables
 		
@@ -862,6 +868,7 @@ namespace System.Windows.Forms {
 			// Assign handle to control's native window before sending messages.
 			if (null != cp.control) {
 				cp.control.window.AssignHandle(viewWrapper.Handle);
+				viewWrapper.Identifier = cp.control.Name;
 #if DriverDebug
 				if ("StackTraceMe" == cp.control.Name)
 					Console.WriteLine ("{0}", new StackTrace (true));
@@ -1608,7 +1615,9 @@ namespace System.Windows.Forms {
 			while (keys.Count != 0)
 			{
 				var msg = (MSG)keys.Dequeue();
-				var e = CocoaInternal.KeysConverter.ConvertKeyEvent(hwnd, msg, ref key_modifiers);
+				var modifiers = key_modifiers;
+				var e = CocoaInternal.KeysConverter.ConvertKeyEvent(hwnd, msg, ref modifiers);
+				key_modifiers = modifiers;
 
 				if (e != null)
 					NSApplication.SharedApplication.PostEvent(e, false);
