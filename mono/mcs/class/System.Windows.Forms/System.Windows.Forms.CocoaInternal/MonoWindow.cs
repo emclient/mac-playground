@@ -54,7 +54,7 @@ namespace System.Windows.Forms.CocoaInternal
 		public override bool MakeFirstResponder(NSResponder aResponder)
 		{
 			var prevFirstResponder = FirstResponder;
-			if (base.MakeFirstResponder(aResponder) && IsKeyWindow)
+			if (base.MakeFirstResponder(aResponder) && IsKeyWindow && prevFirstResponder != FirstResponder)
 			{
 				var prev = (prevFirstResponder as NSView)?.Handle ?? IntPtr.Zero;
 				var next = (aResponder as NSView)?.Handle ?? IntPtr.Zero;
@@ -68,7 +68,7 @@ namespace System.Windows.Forms.CocoaInternal
 				// to update the ActiveControl chain in Form to match it using similar approach as in Control.WmSetFocus. 
 				var wrapperControl = Control.FromChildHandle(next);
 				if (wrapperControl != null && wrapperControl.Handle != next)
-					(wrapperControl ?? wrapperControl.Parent).Select(wrapperControl);
+					(wrapperControl.Parent ?? wrapperControl).Select(wrapperControl);
 
 				return true;
 			}
