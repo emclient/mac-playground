@@ -1968,7 +1968,7 @@ namespace System.Windows.Forms {
 			Rectangle mrect = new Rectangle(x, y, width, height);
 			CGRect nsrect;
 
-			if (winWrap != null && winWrap.ContentView == vuWrap) {
+			if (winWrap != null && winWrap.ContentView == vuWrap && vuWrap is MonoContentView) {
 				nsrect = MonoToNativeScreen(mrect);
 				if (winWrap.Frame != nsrect) {
 					winWrap.SetFrame(nsrect, false);
