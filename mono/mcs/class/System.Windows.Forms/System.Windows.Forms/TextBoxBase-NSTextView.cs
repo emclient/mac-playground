@@ -49,7 +49,10 @@ namespace System.Windows.Forms
 				textView.TextContainer.WidthTracksTextView = true;
 				textView.RichText = owner.richtext;
 				textView.ShouldUpdateTouchBarItemIdentifiers = TextViewUpdateTouchBarItemIdentifiers;
-				textView.AutomaticTextCompletionEnabled = true;
+
+				if (NSProcessInfo.ProcessInfo.IsOperatingSystemAtLeastVersion(new NSOperatingSystemVersion(10,12,1)))
+					textView.AutomaticTextCompletionEnabled = true;
+				
 				textView.LinkClicked = TextViewLinkClicked;
 
 				textView.TextDidChange += TextViewTextDidChange;
