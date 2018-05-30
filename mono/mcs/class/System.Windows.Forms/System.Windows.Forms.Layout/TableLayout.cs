@@ -1,4 +1,4 @@
-﻿//
+//
 // TableLayout.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -366,7 +366,7 @@ namespace System.Windows.Forms.Layout
 				}
 			}
 
-			for (index = 0; index < row_styles.Count && index < column_widths.Length; ++index) {
+			for (index = 0; index < row_styles.Count && index < row_heights.Length; ++index) {
 				RowStyle rs = row_styles[index];
 				if (rs.SizeType == SizeType.Percent)
 					row_heights[index] = Math.Max(row_heights[index], (int)Math.Ceiling(max_percent_size * rs.Height * (100f / total_percent)));
