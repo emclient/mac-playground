@@ -470,8 +470,8 @@ namespace System.Windows.Forms {
 
 		static void UpdateModifiers(NSEventModifierMask flags)
 		{
-			key_modifiers_mask = key_modifiers ^ flags;
-			key_modifiers = flags;
+			key_modifiers_mask = key_modifiers_internal ^ flags;
+			key_modifiers_internal = flags;
 		}
 
 		internal static bool IsShiftDown { get { return 0 != (key_modifiers & NSEventModifierMask.ShiftKeyMask); } }
@@ -480,7 +480,7 @@ namespace System.Windows.Forms {
 
 		internal static bool IsCmdDown { 
 			get { return 0 != (key_modifiers & NSEventModifierMask.CommandKeyMask); } 
-			set { UpdateModifiers(value ? (key_modifiers | NSEventModifierMask.CommandKeyMask) : (key_modifiers & ~NSEventModifierMask.CommandKeyMask)); }
+			set { UpdateModifiers(value ? (key_modifiers_internal | NSEventModifierMask.CommandKeyMask) : (key_modifiers_internal & ~NSEventModifierMask.CommandKeyMask)); }
 		}
 
 		private void SendParentNotify(IntPtr child, Msg cause, int x, int y) {
