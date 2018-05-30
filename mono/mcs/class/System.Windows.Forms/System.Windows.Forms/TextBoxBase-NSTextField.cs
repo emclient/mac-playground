@@ -179,20 +179,19 @@ namespace System.Windows.Forms
 
 			public virtual void Copy()
 			{
-				if (textField != null && !(textField is NSSecureTextField))
-					textField.SendAction(new Selector("copy:"), textField);
+				if (!(textField is NSSecureTextField))
+					SendActionToTextView("copy:");
 			}
 
 			public virtual void Cut()
 			{
-				if (textField != null && !(textField is NSSecureTextField))
-					textField.SendAction(new Selector("cut:"), textField);
+				if (!(textField is NSSecureTextField))
+					SendActionToTextView("cut:");
 			}
 
 			public virtual void Paste()
 			{
-				if (textField != null)
-					textField.SendAction(new Selector("paste:"), textField);
+				SendActionToTextView("paste:");
 			}
 
 			public virtual bool CanUndo()
@@ -209,16 +208,12 @@ namespace System.Windows.Forms
 
 			public virtual bool Undo()
 			{
-				if (textField.Window.FirstResponder is NSTextView textView && textField.Contains(textView))
-					NSApplication.SharedApplication.SendAction(new Selector("undo:"), textView, NSApplication.SharedApplication);
-				return true;
+				return SendActionToTextView("undo:");
 			}
 
 			public virtual bool Redo()
 			{
-				if (textField.Window.FirstResponder is NSTextView textView && textField.Contains(textView))
-					NSApplication.SharedApplication.SendAction(new Selector("redo:"), textView, NSApplication.SharedApplication);
-				return true;
+				return SendActionToTextView("redo:");
 			}
 
 			internal virtual void ApplyText(string value)
@@ -260,6 +255,13 @@ namespace System.Windows.Forms
 			internal virtual string FormatterPreprocessText(string value)
 			{
 				return owner.PreprocessText(value);
+			}
+
+			internal virtual bool SendActionToTextView(string action)
+			{
+				if (textField != null && textField.Window.FirstResponder is NSTextView textView && textField.Contains(textView))
+					return NSApplication.SharedApplication.SendAction(new Selector(action), textView, NSApplication.SharedApplication);
+				return false;
 			}
 
 			#region NSTextFieldDelegate
