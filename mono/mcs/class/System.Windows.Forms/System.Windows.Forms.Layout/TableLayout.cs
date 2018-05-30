@@ -37,7 +37,9 @@ namespace System.Windows.Forms.Layout
 	{
 		internal static readonly TableLayout Instance = new TableLayout();
 
-		internal static Control dummy_control = new Control ("Dummy");	// Used as a placeholder for row/col spans
+		private static Control dummy_control = new Control ("Dummy");	// Used as a placeholder for row/col spans
+		private static ColumnStyle default_column_style = new ColumnStyle();
+		private static RowStyle default_row_style = new RowStyle();
 
 		private TableLayout () : base ()
 		{
@@ -259,8 +261,8 @@ namespace System.Windows.Forms.Layout
 			// no column with Percent styling clips its contents.
 			// (per http://msdn.microsoft.com/en-us/library/ms171690.aspx)
 			for (int colspan = 0; colspan < max_colspan; ++colspan) {
-				for (index = colspan; index < col_styles.Count - colspan && index < column_widths.Length - colspan; ++index) {
-					ColumnStyle cs = col_styles[index];
+				for (index = colspan; index < column_widths.Length - colspan; ++index) {
+					ColumnStyle cs = index < col_styles.Count ? col_styles[index] : default_column_style;
 					if (cs.SizeType == SizeType.AutoSize || (auto_size && cs.SizeType == SizeType.Percent)) {
 						int max_width = column_widths[index];
 						// Find the widest control in the column
@@ -326,8 +328,8 @@ namespace System.Windows.Forms.Layout
 			// no row with Percent styling clips its contents.
 			// (per http://msdn.microsoft.com/en-us/library/ms171690.aspx)
 			for (int rowspan = 0; rowspan < max_rowspan; ++rowspan) {
-				for (index = rowspan; index < row_styles.Count - rowspan && index < row_heights.Length - rowspan; ++index) {
-					RowStyle rs = row_styles[index];
+				for (index = rowspan; index < row_heights.Length - rowspan; ++index) {
+					RowStyle rs = index < row_styles.Count ? row_styles[index] : default_row_style;
 					if (rs.SizeType == SizeType.AutoSize || (auto_size && rs.SizeType == SizeType.Percent)) {
 						int max_height = row_heights[index];
 						// Find the tallest control in the row
@@ -487,9 +489,9 @@ namespace System.Windows.Forms.Layout
 				// Find the last column that isn't an Absolute SizeType, and give it
 				// all this free space.  (Absolute sized columns need to retain their
 				// absolute width if at all possible!)
-				int col = Math.Min(settings.ColumnStyles.Count, column_widths.Length) - 1;
+				int col = column_widths.Length - 1;
 				for (; col >= 0; --col)
-					if (settings.ColumnStyles[col].SizeType != SizeType.Absolute)
+					if (col >= settings.ColumnStyles.Count || settings.ColumnStyles[col].SizeType != SizeType.Absolute)
 						break;
 				if (col < 0)
 					col = column_widths.Length - 1;
@@ -520,9 +522,9 @@ namespace System.Windows.Forms.Layout
 				// Find the last row that isn't an Absolute SizeType, and give it
 				// all this free space.  (Absolute sized rows need to retain their
 				// absolute height if at all possible!)
-				int row = Math.Min(settings.RowStyles.Count, row_heights.Length) - 1;
+				int row = row_heights.Length - 1;
 				for (; row >= 0; --row)
-					if (settings.RowStyles[row].SizeType != SizeType.Absolute)
+					if (row >= settings.RowStyles.Count || settings.RowStyles[row].SizeType != SizeType.Absolute)
 						break;
 				if (row < 0)
 					row = row_heights.Length - 1;
