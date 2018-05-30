@@ -141,6 +141,14 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			base.ViewDidMoveToWindow();
 			UpdateTrackingAreas();
+
+			SendWindowPosChanged(Frame.Size);
+		}
+
+		internal void SendWindowPosChanged(CGSize newSize)
+		{
+			PerformNCCalc(newSize);
+			driver.SendMessage(Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		public override void UpdateTrackingAreas()
@@ -196,8 +204,9 @@ namespace System.Windows.Forms.CocoaInternal
         public override void SetFrameSize(CGSize newSize)
         {
 			base.SetFrameSize(newSize);
-			PerformNCCalc(newSize);
-			driver.SendMessage(Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
+
+			if (Window != null) // in CreateWindow()
+				SendWindowPosChanged(newSize);
 		}
 
 		public void PerformNCCalc(CGSize newSize)
