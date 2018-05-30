@@ -201,8 +201,13 @@ namespace System.Windows.Forms
 			cdata.GetData(ref format, out STGMEDIUM medium);
 
 			if (medium.tymed == format.tymed)
-				if (Marshal.GetObjectForIUnknown(medium.unionmember) is IStream stream)
+			{
+				if (medium.unionmember != IntPtr.Zero && Marshal.GetObjectForIUnknown(medium.unionmember) is IStream stream)
 					return stream;
+				// Workaround for Xamarin.Mac mobile framework
+				if (medium.unionmember == IntPtr.Zero && medium.pUnkForRelease is IStream stream2)
+					return stream2;
+			}
 
 			return null;
 		}
