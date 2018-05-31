@@ -1308,7 +1308,7 @@ namespace System.Windows.Forms
 				}
 
 				Color fore_color = !Enabled ? ThemeEngine.Current.ColorGrayText :
-					(state & DrawItemState.Selected) != 0 ? ThemeEngine.Current.ColorHighlightText : ForeColor;
+					(state & DrawItemState.Selected) != 0 ? ThemeEngine.Current.ColorHighlightText : ThemeEngine.Current.ColorControlText; //ForeColor;
 				OnDrawItem (new DrawItemEventArgs (dc, Font, rect, i, state, fore_color, BackColor));
 			}
 		}
