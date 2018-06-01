@@ -465,7 +465,7 @@ namespace System.Windows.Forms
 		{
 			get
 			{
-				return imp.Text;
+				return imp?.Text ?? String.Empty;
 			}
 			set
 			{
