@@ -56,8 +56,8 @@ namespace System.Windows.Forms.CocoaInternal
 			var prevFirstResponder = FirstResponder;
 			if (base.MakeFirstResponder(aResponder) && IsKeyWindow && prevFirstResponder != FirstResponder)
 			{
-				var prev = (prevFirstResponder as NSView)?.Handle ?? IntPtr.Zero;
-				var next = (aResponder as NSView)?.Handle ?? IntPtr.Zero;
+				var prev = GetHandle(prevFirstResponder);
+				var next = GetHandle(aResponder);
 
 				if (prev != IntPtr.Zero)
 					driver.SendMessage(prev, Msg.WM_KILLFOCUS, next, IntPtr.Zero);
@@ -74,6 +74,17 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 
 			return false;
+		}
+
+		static IntPtr GetHandle(NSObject o)
+		{
+			if (o is NSView view)
+				return view.Handle;
+			if (o is MonoWindow mwin && mwin.ContentView != null)
+				return mwin.ContentView.Handle;
+			if (o is WindowsEventResponder wer)
+				return wer.view.Handle;
+			return IntPtr.Zero;
 		}
 
 		public override bool CanBecomeKeyWindow
