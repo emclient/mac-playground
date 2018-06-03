@@ -23,7 +23,7 @@ namespace System.Windows.Forms.CocoaInternal
 	class WindowsEventResponder : NSResponder
 	{
 		XplatUICocoa driver;
-		NSView view;
+		internal NSView view;
 
 		internal double preciseDeltaScale = 5.0;
 		internal double rawDeltaScale = 40.0;
