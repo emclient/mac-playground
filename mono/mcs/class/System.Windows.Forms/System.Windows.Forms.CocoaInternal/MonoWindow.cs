@@ -80,8 +80,8 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			if (o is NSView view)
 				return view.Handle;
-			if (o is MonoWindow mwin && mwin.ContentView != null)
-				return mwin.ContentView.Handle;
+			//if (o is MonoWindow mwin && mwin.ContentView != null)
+				//return mwin.ContentView.Handle;
 			if (o is WindowsEventResponder wer)
 				return wer.view.Handle;
 			return IntPtr.Zero;
