@@ -80,11 +80,20 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			if (o is NSView view)
 				return view.Handle;
-			//if (o is MonoWindow mwin && mwin.ContentView != null)
-				//return mwin.ContentView.Handle;
+			if (o is MonoWindow mwin && mwin.ContentView != null)
+				return mwin.ContentView.Handle;
 			if (o is WindowsEventResponder wer)
 				return wer.view.Handle;
 			return IntPtr.Zero;
+		}
+
+		public override void EndEditingFor(NSObject anObject)
+		{
+			// Commenting this out prevents calling Window.MakeFirstResponder(Window), 
+			// which would cause infinite switching focus back and forth when pressing tab key
+			// under certain circumstances.
+
+			//base.EndEditingFor(anObject);
 		}
 
 		public override bool CanBecomeKeyWindow
