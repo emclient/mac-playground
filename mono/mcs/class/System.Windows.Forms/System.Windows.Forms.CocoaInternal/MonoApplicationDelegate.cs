@@ -63,6 +63,15 @@ namespace System.Windows.Forms.CocoaInternal
 						XplatUI.SendMessage(window.ContentView.Handle, Msg.WM_ENDSESSION, (IntPtr)1, (IntPtr)ENDSESSION_LOGOFF);
 			}
 
+			if (Application.MessageLoop)
+			{
+				var form = Application.MWFThread.Current.Context.MainForm;
+				if (form != null && form.IsHandleCreated && !form.Disposing && !form.IsDisposed)
+					NSApplication.SharedApplication.BeginInvokeOnMainThread(() => { form.Close(); });
+
+				return NSApplicationTerminateReply.Cancel;
+			}
+
 			return NSApplicationTerminateReply.Now;
 		}
 
