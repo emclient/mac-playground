@@ -105,6 +105,7 @@ namespace System.Windows.Forms {
 		
 		// Cocoa Specific
 		internal GrabStruct Grab;
+		internal IntPtr LastEnteredHwnd;
 		internal Cocoa.Caret Caret;
 		internal readonly Stack<IntPtr> ModalSessions = new Stack<IntPtr>();
 		internal Size initialScreenSize;
@@ -1346,9 +1347,17 @@ namespace System.Windows.Forms {
 			if (handle == IntPtr.Zero)
 				return;
 
+			// Send artificial Leave & Enter messages
+			if (LastEnteredHwnd != IntPtr.Zero && LastEnteredHwnd != Grab.Hwnd)
+			{
+				var lparam = IntPtr.Zero; // TODO: should contain mouse coords? See WindowsEventResponder.TranslateMouseEvent()
+				var wparam = (IntPtr)(NSEvent.CurrentModifierFlags.ToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
+				SendMessage(LastEnteredHwnd, Msg.WM_MOUSELEAVE, wparam, lparam);
+				SendMessage(handle, Msg.WM_MOUSE_ENTER, wparam, lparam);
+			}
+
 			Grab.Hwnd = handle;
 			Grab.Confined = confine_to_handle != IntPtr.Zero;
-			Grab.LastEnteredHwnd = IntPtr.Zero;
 			// FIXME: Set the Grab.Area
 		}
 		
@@ -1369,12 +1378,12 @@ namespace System.Windows.Forms {
 				SendMessage (hwnd, Msg.WM_CAPTURECHANGED, IntPtr.Zero, IntPtr.Zero);
 
 				// Send artificial Leave & Enter messages
-				if (Grab.LastEnteredHwnd != IntPtr.Zero && Grab.LastEnteredHwnd != Grab.Hwnd)
+				if (LastEnteredHwnd != IntPtr.Zero && LastEnteredHwnd != Grab.Hwnd)
 				{
 					var lparam = IntPtr.Zero; // TODO: should contain mouse coords? See WindowsEventResponder.TranslateMouseEvent()
 					var wparam = (IntPtr)(NSEvent.CurrentModifierFlags.ToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
 					SendMessage(grabbed, Msg.WM_MOUSELEAVE, wparam, lparam);
-					SendMessage(Grab.LastEnteredHwnd, Msg.WM_MOUSE_ENTER, wparam, lparam);
+					SendMessage(LastEnteredHwnd, Msg.WM_MOUSE_ENTER, wparam, lparam);
 				}
 			}
 		}

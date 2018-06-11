@@ -138,7 +138,7 @@ namespace System.Windows.Forms.CocoaInternal
 			localMonoPoint = driver.NativeToMonoFramed(nspoint, view);
 
 			if ((clientView != null && clientView.ClientBounds.ToRectangle().Contains(localMonoPoint)) ||
-			    driver.Grab.Hwnd != IntPtr.Zero)
+				driver.Grab.Hwnd != IntPtr.Zero)
 			{
 				client = true;
 				localMonoPoint.X -= (int)clientView.ClientBounds.X;
@@ -208,33 +208,77 @@ namespace System.Windows.Forms.CocoaInternal
 					return;
 
 				case NSEventType.MouseEntered:
-					if (driver.Grab.Hwnd != IntPtr.Zero)
-					{
-						driver.Grab.LastEnteredHwnd = e.TrackingArea?.Owner?.Handle ?? IntPtr.Zero;
-						return;
-					}
-					if (e.TrackingArea?.Owner is NSView entered)
-					{
-						msg.hwnd = entered.Handle;
-						msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
-						msg.message = Msg.WM_MOUSE_ENTER;
-						Application.SendMessage(ref msg);
-						return;
-					}
-					break;
-
 				case NSEventType.MouseExited:
-					if (driver.Grab.Hwnd != IntPtr.Zero)
-						return;
-					if (e.TrackingArea?.Owner is NSView exited)
+					// We use overlapping track rectanges on every control, so the Entered/Exited events
+					// are sent not only to the top-level visible view, but also to its superviews.
+					// This has to be converted to the the model where only the top-level control receives
+					// the messages.
+					//
+					// The conversion is by performing the hit test. Note that e.LocationInWindow is NOT
+					// updated by the time the tracking events are received and thus e.Window.
+					// MouseLocationOutsideOfEventStream has to be used instead.
+					//
+					// The Exited event has to be handled the same way as the entered event to cover the
+					// following scenario:
+					//  ___________________________
+					// | Panel                     |
+					// |  ______________           |
+					// | |    Button    |          |
+					// 
+					// When you move the mouse over the Button you will receive the Entered event for
+					// it. At the same time the Panel already had Entered called for its own tracking area.
+					// Now moving the mouse away from the Button into the Panel area will cause an
+					// Exited event on the Button's tracking rectangle, but it will NOT generate any
+					// Entered event. In the System.Windows.Forms world we want to receive WM_MOUSELEAVE
+					// on the Button and WM_MOUSE_ENTERED on the Panel.
+					//
+					// Further reading:
+					// https://stackoverflow.com/questions/9986267/mouse-enter-exit-events-on-partially-hidden-nsviews
+
+					var newMouseView = (e.Window?.ContentView.Superview ?? e.Window?.ContentView).HitTest(e.Window.MouseLocationOutsideOfEventStream);
+					var newMouseViewHandle = newMouseView is MonoView ? newMouseView.Handle : IntPtr.Zero;
+
+#if DEBUG_MOUSE_ENTER_EXIT
 					{
-						msg.hwnd = exited.Handle;
-						msg.wParam = (IntPtr)(e.ModifiersToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
-						msg.message = Msg.WM_MOUSELEAVE;
-						Application.SendMessage(ref msg);
+						// DEBUG
+						Console.Write(e.Type == NSEventType.MouseEntered ? "ENTER " : "EXIT ");
+						if (newMouseView != null)
+							Console.Write("NEW: " + DebugUtility.ControlInfo(newMouseView));
+						else
+							Console.Write("NO NEW");
+					}
+#endif
+
+					if (newMouseViewHandle == driver.LastEnteredHwnd)
+						return;
+
+					// Keep track of the last entered window during grab, but don't send messages. The
+					// messages are sent by XplatUICocoa.GrabWindow and XplatUICocoa.UngrabWindow when
+					// the grabbing state is entered/exited.
+					if (driver.Grab.Hwnd != IntPtr.Zero)
+					{
+						driver.LastEnteredHwnd = newMouseViewHandle;
 						return;
 					}
-					break;
+
+					msg.wParam = (IntPtr)(e.ModifiersToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
+					// First notify the old window that mouse left it
+					if (driver.LastEnteredHwnd != IntPtr.Zero)
+					{
+						msg.hwnd = driver.LastEnteredHwnd;
+						msg.message = Msg.WM_MOUSELEAVE;
+						driver.LastEnteredHwnd = IntPtr.Zero;
+						Application.SendMessage(ref msg);
+					}
+					// And then notify the new window that mouse entered it
+					if (newMouseViewHandle != IntPtr.Zero)
+					{
+						msg.hwnd = newMouseViewHandle;
+						msg.message = Msg.WM_MOUSE_ENTER;
+						driver.LastEnteredHwnd = newMouseViewHandle;
+						Application.SendMessage(ref msg);
+					}
+					return;
 
 				//case NSEventType.TabletPoint:
 				//case NSEventType.TabletProximity:
