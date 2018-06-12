@@ -66,9 +66,11 @@ namespace System.Windows.Forms.CocoaInternal
 			if (Application.MessageLoop)
 			{
 				var form = Application.MWFThread.Current.Context.MainForm;
-				if (form != null && form.IsHandleCreated && !form.Disposing && !form.IsDisposed)
-					NSApplication.SharedApplication.BeginInvokeOnMainThread(() => { form.Close(); });
-
+				if (form != null && form.IsHandleCreated && !form.Disposing && !form.IsDisposed && !form.Modal)
+				{
+					form.CloseReason = CloseReason.ApplicationExitCall;
+					XplatUI.PostMessage(form.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+				}
 				return NSApplicationTerminateReply.Cancel;
 			}
 
