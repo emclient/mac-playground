@@ -179,21 +179,7 @@ namespace System.Windows.Forms.CocoaInternal
 		internal virtual bool shouldClose(NSObject sender)
 		{
 			if (Control.FromHandle(ContentView.Handle) is Form form)
-			{
-				// If this is the main form, close all the other forms first, to prevent uninitializing errors.
-				if (Application.OpenForms[0].Handle == ContentView.Handle)
-				{
-					var openForms = new List<Form>();
-					foreach (Form f in Application.OpenForms)
-						if (f.Handle != ContentView.Handle)
-							openForms.Add(f);
-					
-					foreach (var f in openForms)
-						f.Close();
-				}
-
 				form.Close(); // Sets CloseReason, among other things
-			}
 			else
 				driver.SendMessage(ContentView.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
 			return false;
