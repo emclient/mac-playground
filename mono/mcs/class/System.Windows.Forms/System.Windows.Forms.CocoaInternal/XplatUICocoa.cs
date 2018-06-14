@@ -1348,7 +1348,7 @@ namespace System.Windows.Forms {
 				return;
 
 			// Send artificial Leave & Enter messages
-			if (LastEnteredHwnd != IntPtr.Zero && LastEnteredHwnd != Grab.Hwnd)
+			if (LastEnteredHwnd != IntPtr.Zero && LastEnteredHwnd != handle)
 			{
 				var lparam = IntPtr.Zero; // TODO: should contain mouse coords? See WindowsEventResponder.TranslateMouseEvent()
 				var wparam = (IntPtr)(NSEvent.CurrentModifierFlags.ToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
@@ -1378,7 +1378,7 @@ namespace System.Windows.Forms {
 				SendMessage (hwnd, Msg.WM_CAPTURECHANGED, IntPtr.Zero, IntPtr.Zero);
 
 				// Send artificial Leave & Enter messages
-				if (LastEnteredHwnd != IntPtr.Zero && LastEnteredHwnd != Grab.Hwnd)
+				if (LastEnteredHwnd != IntPtr.Zero && LastEnteredHwnd != grabbed)
 				{
 					var lparam = IntPtr.Zero; // TODO: should contain mouse coords? See WindowsEventResponder.TranslateMouseEvent()
 					var wparam = (IntPtr)(NSEvent.CurrentModifierFlags.ToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
