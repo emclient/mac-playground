@@ -235,7 +235,7 @@ namespace System.Windows.Forms.CocoaInternal
 					// Further reading:
 					// https://stackoverflow.com/questions/9986267/mouse-enter-exit-events-on-partially-hidden-nsviews
 
-					var newMouseView = (e.Window?.ContentView.Superview ?? e.Window?.ContentView).HitTest(e.Window.MouseLocationOutsideOfEventStream);
+					var newMouseView = e.Window?.ContentView.HitTest(e.LocationInWindow) ?? e.Window?.ContentView.Superview?.HitTest(e.LocationInWindow);
 					var newMouseViewHandle = newMouseView is MonoView ? newMouseView.Handle : IntPtr.Zero;
 
 #if DEBUG_MOUSE_ENTER_EXIT
