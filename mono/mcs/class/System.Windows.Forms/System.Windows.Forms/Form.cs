@@ -2415,13 +2415,16 @@ namespace System.Windows.Forms {
 				if (ActiveControl == null)
 					SelectNextControl(null, true, true, true, false);
 
-			    if (!this.ShowWithoutActivation)
+#if !__MACOS__
+			// On macOS, this seems to be handled in XplatUICocoa by calling MakeKeyAndOrderFront / setting IsVisible to true
+			if (!this.ShowWithoutActivation)
 			    {
 			    	if (ActiveControl != null)
 			    		SendControlFocus(ActiveControl);
 			    	else
 			    		this.Focus();
 			    }
+#endif
 			}
 		}
 
