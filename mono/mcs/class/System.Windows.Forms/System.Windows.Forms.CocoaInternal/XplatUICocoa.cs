@@ -890,11 +890,7 @@ namespace System.Windows.Forms {
 
 			if (StyleSet (cp.Style, WindowStyles.WS_VISIBLE)) {
 				if (WindowHandle != IntPtr.Zero) {
-					Form f = Control.FromHandle(viewWrapper.Handle) as Form;
-					if (f != null) {
-						if (f.WindowState == FormWindowState.Normal) {
-							SendMessage(viewWrapper.Handle, Msg.WM_SHOWWINDOW, (IntPtr)1, IntPtr.Zero);
-						}
+					if (Control.FromHandle(viewWrapper.Handle) is Form f) {
 						if (f.ActivateOnShow)
 							windowWrapper.MakeKeyAndOrderFront (viewWrapper);
 						else
@@ -902,9 +898,9 @@ namespace System.Windows.Forms {
 					}
 				}
 
-				if (!(Control.FromHandle(viewWrapper.Handle) is Form)) {
-					SendMessage(viewWrapper.Handle, Msg.WM_SHOWWINDOW, (IntPtr)1, IntPtr.Zero);
-				}
+//				if (!(Control.FromHandle(viewWrapper.Handle) is Form)) {
+//					SendMessage(viewWrapper.Handle, Msg.WM_SHOWWINDOW, (IntPtr)1, IntPtr.Zero);
+//				}
 			}
 			else
 			{
@@ -1239,12 +1235,21 @@ namespace System.Windows.Forms {
 			var keyWindow = NSApplication.SharedApplication.KeyWindow;
 			if (keyWindow != null) {
 				var responder = keyWindow.FirstResponder;
-				if (responder is NSView)
-					return responder.Handle;
+				return GetHandle(responder);
  			}
 			return IntPtr.Zero;
 		}
-		
+
+		internal static IntPtr GetHandle(NSObject o) {
+			if (o == null)
+				return IntPtr.Zero;
+			if (o is MonoWindow mwin && mwin.ContentView != null)
+				return mwin.ContentView.Handle;
+			if (o is WindowsEventResponder wer)
+				return wer.view.Handle;
+			return o.Handle;
+		}
+
 		internal override bool GetFontMetrics (Graphics g, Font font, out int ascent, out int descent) {
 			FontFamily ff = font.FontFamily;
 			ascent = ff.GetCellAscent (font.Style);
@@ -1900,6 +1905,7 @@ namespace System.Windows.Forms {
 			NSView vuWrap = handle.ToNSView();
 			NSWindow winWrap = vuWrap.Window;
 			if (winWrap != null && winWrap.ContentView == vuWrap) {
+				if (winWrap.IsVisible != visible)
 				if (visible) {
 					if (winWrap is MonoWindow monoWindow && monoWindow.Owner != null)
 						monoWindow.Owner.AddChildWindow(winWrap, NSWindowOrderingMode.Above);

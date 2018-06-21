@@ -56,8 +56,8 @@ namespace System.Windows.Forms.CocoaInternal
 			var prevFirstResponder = FirstResponder;
 			if (base.MakeFirstResponder(aResponder) && IsKeyWindow && prevFirstResponder != FirstResponder)
 			{
-				var prev = GetHandle(prevFirstResponder);
-				var next = GetHandle(aResponder);
+				var prev = XplatUICocoa.GetHandle(prevFirstResponder);
+				var next = XplatUICocoa.GetHandle(aResponder);
 
 				if (prev != IntPtr.Zero)
 					driver.SendMessage(prev, Msg.WM_KILLFOCUS, next, IntPtr.Zero);
@@ -74,17 +74,6 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 
 			return false;
-		}
-
-		static IntPtr GetHandle(NSObject o)
-		{
-			if (o is NSView view)
-				return view.Handle;
-			if (o is MonoWindow mwin && mwin.ContentView != null)
-				return mwin.ContentView.Handle;
-			if (o is WindowsEventResponder wer)
-				return wer.view.Handle;
-			return IntPtr.Zero;
 		}
 
 		public override void EndEditingFor(NSObject anObject)
@@ -187,6 +176,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void OrderWindow(NSWindowOrderingMode place, nint relativeTo)
 		{
+			var wasVisible = IsVisible;
 			base.OrderWindow(place, relativeTo);
 
 			if (place == NSWindowOrderingMode.Out)
@@ -203,6 +193,9 @@ namespace System.Windows.Forms.CocoaInternal
 					});
 				}
 			}
+
+			if (wasVisible != IsVisible)
+				driver.SendMessage(ContentView.Handle, Msg.WM_SHOWWINDOW, (IntPtr)(wasVisible ? 0 : 1), IntPtr.Zero);
 		}
 
 		public override void SetFrame(NSRect frameRect, bool display)

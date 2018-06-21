@@ -151,6 +151,20 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.SendMessage(Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
 
+
+		public override bool Hidden
+		{
+			get { return base.Hidden; }
+			set
+			{
+				if (value != Hidden)
+				{
+					base.Hidden = value;
+					driver.SendMessage(Handle, Msg.WM_SHOWWINDOW, (IntPtr)(value ? 0 : 1), IntPtr.Zero);
+				}
+			}
+		}
+
 		public override void UpdateTrackingAreas()
 		{
 			if (clientArea != null)
