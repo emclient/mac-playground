@@ -184,10 +184,19 @@ namespace System.Windows.Forms.CocoaInternal
 					break;
 
 				case NSEventType.MouseMoved:
+					msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam());
+					msg.message = (client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE);
+					break;
 				case NSEventType.LeftMouseDragged:
+					msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | (uint)MsgButtons.MK_LBUTTON);
+					msg.message = (client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE);
+					break;
 				case NSEventType.RightMouseDragged:
+					msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | (uint)MsgButtons.MK_RBUTTON);
+					msg.message = (client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE);
+					break;
 				case NSEventType.OtherMouseDragged:
-					msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
+					msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | (uint)MsgButtons.MK_MBUTTON);
 					msg.message = (client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE);
 					break;
 
@@ -200,7 +209,7 @@ namespace System.Windows.Forms.CocoaInternal
 					if (e.Phase == NSEventPhase.None && e.MomentumPhase == NSEventPhase.None || e.Phase == NSEventPhase.Changed || e.MomentumPhase == NSEventPhase.Changed)
 					{
 						msg.message = Msg.WM_MOUSEWHEEL;
-						msg.wParam = (IntPtr)(e.ModifiersToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
+						msg.wParam = (IntPtr)(e.ModifiersToWParam());
 						msg.wParam = (IntPtr)(((int)msg.wParam & 0xFFFF) | (delta << 16));
 						msg.lParam = (IntPtr)((msg.pt.x & 0xFFFF) | (msg.pt.y << 16));
 						break;
