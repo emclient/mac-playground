@@ -130,12 +130,10 @@ namespace System.Windows.Forms.CocoaInternal
 		void TranslateMouseEvent(NSEvent e)
 		{
 			var clientView = view as IClientView;
-			CGPoint nspoint = e.LocationInWindow;
-			Point localMonoPoint;
 			bool client = clientView == null;
 
-			nspoint = view.ConvertPointFromView(nspoint, null);
-			localMonoPoint = driver.NativeToMonoFramed(nspoint, view);
+			var nspoint = view.ConvertPointFromView(e.LocationInWindow, null);
+			var localMonoPoint = driver.NativeToMonoFramed(nspoint, view);
 
 			if ((clientView != null && clientView.ClientBounds.ToRectangle().Contains(localMonoPoint)) ||
 				driver.Grab.Hwnd != IntPtr.Zero)
@@ -144,15 +142,6 @@ namespace System.Windows.Forms.CocoaInternal
 				localMonoPoint.X -= (int)clientView.ClientBounds.X;
 				localMonoPoint.Y -= (int)clientView.ClientBounds.Y;
 			}
-
-			int button = (int)e.ButtonNumber;
-			if (button >= (int)NSMouseButtons.Excessive)
-				button = (int)NSMouseButtons.X;
-			else if (button == (int)NSMouseButtons.Left && ((driver.ModifierKeys & Keys.Control) != 0))
-				button = (int)NSMouseButtons.Right;
-			int msgOffset4Button = 3 * (button - (int)NSMouseButtons.Left);
-			if (button >= (int)NSMouseButtons.X)
-				++msgOffset4Button;
 
 			MSG msg = new MSG();
 			msg.hwnd = view.Handle;
@@ -170,16 +159,16 @@ namespace System.Windows.Forms.CocoaInternal
 				case NSEventType.OtherMouseDown:
 					// FIXME: Should be elsewhere
 					if (e.ClickCount > 1)
-						msg.message = (client ? Msg.WM_LBUTTONDBLCLK : Msg.WM_NCLBUTTONDBLCLK) + msgOffset4Button;
+						msg.message = (client ? Msg.WM_LBUTTONDBLCLK : Msg.WM_NCLBUTTONDBLCLK) + MsgOffset4Button(e);
 					else
-						msg.message = (client ? Msg.WM_LBUTTONDOWN : Msg.WM_NCLBUTTONDOWN) + msgOffset4Button;
+						msg.message = (client ? Msg.WM_LBUTTONDOWN : Msg.WM_NCLBUTTONDOWN) + MsgOffset4Button(e);
 					msg.wParam = (IntPtr)(e.ModifiersToWParam() | e.ButtonNumberToWParam());
 					break;
 
 				case NSEventType.LeftMouseUp:
 				case NSEventType.RightMouseUp:
 				case NSEventType.OtherMouseUp:
-					msg.message = (client ? Msg.WM_LBUTTONUP : Msg.WM_NCLBUTTONUP) + msgOffset4Button;
+					msg.message = (client ? Msg.WM_LBUTTONUP : Msg.WM_NCLBUTTONUP) + MsgOffset4Button(e);
 					msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | e.ButtonNumberToWParam());
 					break;
 
@@ -296,6 +285,19 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 
 			Application.SendMessage(ref msg);
+		}
+
+		internal int MsgOffset4Button(NSEvent e)
+		{
+			int button = (int)e.ButtonNumber;
+			if (button >= (int)NSMouseButtons.Excessive)
+				button = (int)NSMouseButtons.X;
+			else if (button == (int)NSMouseButtons.Left && ((driver.ModifierKeys & Keys.Control) != 0))
+				button = (int)NSMouseButtons.Right;
+			int msgOffset4Button = 3 * (button - (int)NSMouseButtons.Left);
+			if (button >= (int)NSMouseButtons.X)
+				++msgOffset4Button;
+			return msgOffset4Button;
 		}
 
 		internal int ScaleAndQuantizeDelta(float delta, bool precise)
