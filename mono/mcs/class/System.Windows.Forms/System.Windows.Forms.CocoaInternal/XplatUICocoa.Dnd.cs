@@ -75,10 +75,11 @@ namespace System.Windows.Forms
 					DraggingAllowedEffects = allowedEffects;
 					DraggingEffects = DragDropEffects.None;
 					view.BeginDraggingSession(items, LastMouseDown, draggingSource);
+					return allowedEffects;
 				}
 			}
 
-			return allowedEffects;
+			return DragDropEffects.None;
 		}
 
 		internal virtual NSDraggingItem[] CreateDraggingItems(NSView view, object data)
@@ -101,15 +102,24 @@ namespace System.Windows.Forms
 				items.Add(item);
 			}
 
+			if (items.Count == 0)
+			{
+				var pbitem = NewPasteboardItem();
+				var item = new NSDraggingItem(pbitem.AsPasteboardWriting());
+				items.Add(item);
+			}
+
 			var location = view.ConvertPointFromView(LastMouseDown.LocationInWindow, null);
 			var maxSize = new CGSize(320, 240);
 
 			var snapshot = TakeSnapshot(view, data);
-			var size = ScaleToFit(snapshot.Size, maxSize);
-			var bounds = new CGRect(location.Move(-4, -4), size);
-
-			foreach (var item in items)
-				item.SetDraggingFrame(bounds, snapshot);
+			if (snapshot != null)
+			{
+				var size = ScaleToFit(snapshot.Size, maxSize);
+				var bounds = new CGRect(location.Move(-4, -4), size);
+				foreach (var item in items)
+					item.SetDraggingFrame(bounds, snapshot);
+			}
 
 			return items.ToArray();
 		}
@@ -242,6 +252,9 @@ namespace System.Windows.Forms
 				if (idata.GetData("DragAndDropImage") is Drawing.Image image)
 					snapshot = image.ToNSImage();
 
+			if (snapshot == null && view is MonoView)
+				snapshot = CreateSwatch(new CGSize(32, 22));
+
 			if (snapshot == null)
 			{
 				var b = view.BitmapImageRepForCachingDisplayInRect(view.Bounds);
@@ -251,6 +264,24 @@ namespace System.Windows.Forms
 				snapshot.AddRepresentation(b);
 			}
 			return snapshot;
+		}
+
+		internal static NSImage CreateSwatch(CGSize size, NSColor stroke = null, NSColor fill = null)
+		{
+			var image = new NSImage(size);
+			image.LockFocus();
+			var context = NSGraphicsContext.CurrentContext.CGContext;
+
+			var rect = new CGRect(CGPoint.Empty, size);
+
+			(fill ?? NSColor.FromWhite(1.0f, 0.9f)).SetFill();
+			context.FillRect(rect);
+
+			(stroke ?? NSColor.FromWhite(0.2f, 1.0f)).SetStroke();
+			context.StrokeRectWithWidth(rect, 4.0f);
+
+			image.UnlockFocus();
+			return image;
 		}
 
 		internal static CGSize ScaleToFit(CGSize val, CGSize max)
