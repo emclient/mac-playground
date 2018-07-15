@@ -132,9 +132,10 @@ namespace WinApi
 			return 0;
 		}
 
-		public static int IntersectClipRect(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect)
+		public static int IntersectClipRect(IntPtr hdc, int l, int t, int r, int b)
 		{
-			NotImplemented(MethodBase.GetCurrentMethod());
+			using (var g = Graphics.FromHdc(hdc))
+				g?.SetClip(Rectangle.FromLTRB(l, t, r, b));
 			return 0;
 		}
 
