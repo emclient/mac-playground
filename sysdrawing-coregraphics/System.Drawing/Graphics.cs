@@ -241,7 +241,12 @@ namespace System.Drawing {
 
 		public static Graphics FromHdc(IntPtr hdc)
 		{
-			throw new NotSupportedException ();		
+			if (hdc != IntPtr.Zero)
+			{
+				var context = new CGContext(hdc);
+				return new Graphics(context);
+			}
+			return null;
 		}
 
 		public static Graphics FromHdcInternal(IntPtr hdc)
