@@ -466,14 +466,14 @@ namespace System.Windows.Forms
 					string msg = string.Format(CultureInfo.CurrentCulture,
 						"'{0}' is not a valid value for 'MaxDate'. 'MaxDate' "
 						+ "must be greater than or equal to MinDate.",
-						value.ToString("G"));
+						value.ToSafeString("G"));
 					throw new ArgumentOutOfRangeException("MaxDate", msg);
 				}
 				if (value > MaxDateTime)
 				{
 					string msg = string.Format(CultureInfo.CurrentCulture,
 						"DateTimePicker does not support dates after {0}.",
-						MaxDateTime.ToString("G", CultureInfo.CurrentCulture));
+						MaxDateTime.ToSafeString("G", CultureInfo.CurrentCulture));
 					throw new ArgumentOutOfRangeException("MaxDate", msg);
 				}
 				if (max_date != value)
@@ -513,17 +513,17 @@ namespace System.Windows.Forms
 
 				if (value > MaxDate)
 				{
-					string msg = string.Format(CultureInfo.CurrentCulture,
+					string msg = string.Format(DateTimeUtility.PreferredCulture,
 						"'{0}' is not a valid value for 'MinDate'. 'MinDate' "
 						+ "must be less than MaxDate.",
-						value.ToString("G"));
+						value.ToSafeString("G"));
 					throw new ArgumentOutOfRangeException("MinDate", msg);
 				}
 				if (value < MinDateTime)
 				{
-					string msg = string.Format(CultureInfo.CurrentCulture,
+					string msg = string.Format(DateTimeUtility.PreferredCulture,
 						"DateTimePicker does not support dates before {0}.",
-						MinDateTime.ToString("G", CultureInfo.CurrentCulture));
+						MinDateTime.ToSafeString("G", DateTimeUtility.PreferredCulture));
 					throw new ArgumentOutOfRangeException("MinDate", msg);
 				}
 				if (min_date != value)
@@ -683,7 +683,7 @@ namespace System.Windows.Forms
 				}
 				else
 				{
-					return Value.ToString(GetExactFormat());
+					return Value.ToSafeString(GetExactFormat());
 				}
 			}
 		}
@@ -1227,18 +1227,19 @@ namespace System.Windows.Forms
 		// http://blogs.msdn.com/michkap/archive/2007/01/11/1449754.aspx
 		private string GetExactFormat()
 		{
+			var format = DateTimeUtility.CurrentFormat;
 			switch (this.format)
 			{
 				case DateTimePickerFormat.Long:
-					return Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.LongDatePattern;
+					return format.LongDatePattern;
 				case DateTimePickerFormat.Short:
-					return Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;
+					return format.ShortDatePattern;
 				case DateTimePickerFormat.Time:
-					return Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.LongTimePattern;
+					return format.LongTimePattern;
 				case DateTimePickerFormat.Custom:
 					return this.custom_format == null ? String.Empty : this.custom_format;
 				default:
-					return Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.LongDatePattern;
+					return format.LongDatePattern;
 			}
 		}
 
@@ -2127,11 +2128,11 @@ namespace System.Windows.Forms
 				if (format.StartsWith("g"))
 					return " ";
 				else if (format.Length == 1)
-					return date.ToString("%" + format);
+					return date.ToSafeString("%" + format);
 				else if (format == "yyyyy" || format == "yyyyyy" || format == "yyyyyyy" || format == "yyyyyyyy")
-					return date.ToString("yyyy");
+					return date.ToSafeString("yyyy");
 				else if (format.Length > 1)
-					return date.ToString(format);
+					return date.ToSafeString(format);
 				else
 					return string.Empty;
 			}
