@@ -1309,6 +1309,7 @@
     <Compile Include="System.Windows.Forms\TextBoxBase-NSTextField.cs" />
     <Compile Include="System.Windows.Forms\TextBoxBase-NSTextView.cs" />
     <Compile Include="System.Windows.Forms\TextBoxBase-NSSecureTextField.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\DateTimeUtility.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
