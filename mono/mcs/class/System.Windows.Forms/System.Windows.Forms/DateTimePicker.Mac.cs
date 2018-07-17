@@ -1216,6 +1216,14 @@ namespace System.Windows.Forms
 					size = gr.MeasureString(text, font, int.MaxValue, string_format);
 					result = Math.Max(result, size.Width);
 					return result;
+				case "yyyyy":
+				case "yyyyyy":
+				case "yyyyyyy":
+				case "yyyyyyyy":
+					text = PartData.GetText(Value, "yy");
+					size = gr.MeasureString(text, font, int.MaxValue, string_format);
+					result = Math.Max(result, size.Width);
+					return result;
 				default:
 					return gr.MeasureString(format, font, int.MaxValue, string_format).Width;
 			}
@@ -2114,6 +2122,10 @@ namespace System.Windows.Forms
 					case "yy":
 					case "yyy":
 					case "yyyy":
+					case "yyyyy":
+					case "yyyyyy":
+					case "yyyyyyy":
+					case "yyyyyyyy":
 						return DateTimePart.Year;
 					case "t":
 					case "tt":
@@ -2129,8 +2141,10 @@ namespace System.Windows.Forms
 					return " ";
 				else if (format.Length == 1)
 					return date.ToSafeString("%" + format);
-				else if (format == "yyyyy" || format == "yyyyyy" || format == "yyyyyyy" || format == "yyyyyyyy")
+				else if (format == "yyyy")
 					return date.ToSafeString("yyyy");
+				else if (format == "yyyyy" || format == "yyyyyy" || format == "yyyyyyy" || format == "yyyyyyyy")
+					return date.ToSafeString("yy");
 				else if (format.Length > 1)
 					return date.ToSafeString(format);
 				else
