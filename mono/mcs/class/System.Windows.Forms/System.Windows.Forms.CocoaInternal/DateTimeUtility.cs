@@ -166,21 +166,43 @@ namespace System.Windows.Forms.Mac
 
 		static NSDateFormatter NewDateFormatter(NSDateFormatter current, NSLocale locale)
 		{
+			var dateStyle = current.DateStyle;
+			var timeStyle = current.TimeStyle;
+
 			var baseline = BaselineFormatter;
-			baseline.DateStyle = current.DateStyle;
-			baseline.TimeStyle = current.TimeStyle;
 
 			var merged = new NSDateFormatter();
 			merged.Locale = locale;
-			merged.DateStyle = current.DateStyle;
-			merged.TimeStyle = current.TimeStyle;
+
+			merged.DateStyle = baseline.DateStyle = current.DateStyle = dateStyle;
+			merged.TimeStyle = baseline.TimeStyle = current.TimeStyle = NSDateFormatterStyle.None;
+			var mergedDateFormat = merged.DateFormat;
+			var baselineDateFormat = baseline.DateFormat;
+			var currentDateFormat = current.DateFormat;
+
+			merged.DateStyle = baseline.DateStyle = current.DateStyle = NSDateFormatterStyle.None;
+			merged.TimeStyle = baseline.TimeStyle = current.TimeStyle = timeStyle;
+			var mergedTimeFormat = merged.DateFormat;
+			var baselineTimeFormat = baseline.DateFormat;
+			var currentTimeFormat = current.DateFormat;
+
+			merged.DateStyle = baseline.DateStyle = current.DateStyle = dateStyle;
+			merged.TimeStyle = baseline.TimeStyle = current.TimeStyle = timeStyle;
 
 			if (!current.AMSymbol.Equals(baseline.AMSymbol))
 				merged.AMSymbol = current.AMSymbol;
 			if (!current.PMSymbol.Equals(baseline.PMSymbol))
 				merged.PMSymbol = current.PMSymbol;
+
 			if (!current.DateFormat.Equals(baseline.DateFormat))
-				merged.DateFormat = current.DateFormat;
+			{
+				var format = merged.DateFormat;
+				if (baselineDateFormat != currentDateFormat)
+					format = format.Replace(mergedDateFormat, currentDateFormat);
+				if (baselineTimeFormat != currentTimeFormat)
+					format = format.Replace(mergedTimeFormat, currentTimeFormat);
+				merged.DateFormat = format;
+			}
 
 			return merged;
 		}
@@ -243,10 +265,16 @@ namespace System.Windows.Forms.Mac
 			p = ReplaceNotQuoted(p, "EEEE", "dddd");
 			p = ReplaceNotQuoted(p, "E", "ddd");
 			p = ReplaceNotQuoted(p, "a", "tt");
+			p = ReplaceNotQuoted(p, 'y', "yyyy");
 			return p;
 		}
 
-		static string ReplaceNotQuoted(string s, string what, string with)
+		public static string ReplaceNotQuoted(string s, char what, string with)
+		{
+			return ReplaceNotQuoted(s, what.ToString(), with, true);
+		}
+
+		public static string ReplaceNotQuoted(string s, string what, string with, bool singleChar = false)
 		{
 			var q = false;
 			var l = s.Length;
@@ -259,14 +287,35 @@ namespace System.Windows.Forms.Mac
 					continue;
 				}
 
-				if (!q && s.IndexOf(what, i) == i)
+				int pos = s.IndexOf(what, i);
+				if (!q && pos == i && (!singleChar || IsSingular(s, pos)))
 				{
 					s = s.Substring(0, i) + with + s.Substring(i + what.Length);
-					i += what.Length - 1;
+					i += with.Length - 1;
 					l = s.Length;
 				}
 			}
 			return s;
+		}
+
+		public static string ReplaceAllNotQuoted(string s, string what, string with, bool singleChar = false)
+		{
+			while (true)
+			{
+				string next = DateTimeUtility.ReplaceNotQuoted(s, "y", "");
+				if (s == next)
+					break;
+				s = next;
+			}
+			return s;
+		}
+
+		static bool IsSingular(string s, int pos)
+		{
+			for (int i = Math.Max(0, pos - 1); i < Math.Min(pos, s.Length - 1); ++i)
+				if (i != pos && s[i] == s[pos])
+					return false;
+			return true;
 		}
 
 		static string GetDateSeparator()
