@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -1309,7 +1308,10 @@
     <Compile Include="System.Windows.Forms\TextBoxBase-NSTextField.cs" />
     <Compile Include="System.Windows.Forms\TextBoxBase-NSTextView.cs" />
     <Compile Include="System.Windows.Forms\TextBoxBase-NSSecureTextField.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\DateTimeUtility.cs" />
+    <Compile Include="System.Windows.Forms\DateTimeUtility.cs" />
+    <Compile Include="resources\Strings.Designer.cs" >
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -1319,14 +1321,10 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">
-    </PreBuildEvent>
-    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">
-    </PreBuildEvent>
-    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">
-    </PostBuildEvent>
-    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">
-    </PostBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' "></PreBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' "></PreBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' "></PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' "></PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
@@ -1507,6 +1505,68 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageBoxFormResourcesMac.Designer.cs</LastGenOutput>
       <LogicalName>System.Windows.Forms.MessageBoxFormResourcesMac.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.cs.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.da.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.de.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.el.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.es.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+      <LastGenOutput>Strings.cs.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.fr.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.hu.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.it.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.ja.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.ko.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.nl.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.no.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.pl.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.pt.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.ru.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.sk.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.sv.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.tr.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.zh.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

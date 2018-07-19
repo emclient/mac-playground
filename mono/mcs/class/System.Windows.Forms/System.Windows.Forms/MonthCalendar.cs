@@ -33,6 +33,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Windows.Forms.Mac;
 
 namespace System.Windows.Forms {
 	[DefaultBindingProperty("SelectionRange")]
@@ -365,10 +366,10 @@ namespace System.Windows.Forms {
 		public DateTime MaxDate {
 			set {
 				if (value < MinDate) {
-					string msg = string.Format (CultureInfo.CurrentCulture,
+					string msg = string.Format (DateTimeUtility.PreferredCulture,
 						"Value of '{0}' is not valid for 'MaxDate'. 'MaxDate' " +
 						"must be greater than or equal to MinDate.",
-						value.ToString ("d", CultureInfo.CurrentCulture));
+						value.ToSafeString ("d", DateTimeUtility.PreferredCulture));
 					throw new ArgumentOutOfRangeException ("MaxDate",
 						msg);
 				}
@@ -394,7 +395,7 @@ namespace System.Windows.Forms {
 		public int MaxSelectionCount {
 			set {
 				if (value < 1) {
-					string msg = string.Format (CultureInfo.CurrentCulture,
+					string msg = string.Format (DateTimeUtility.PreferredCulture,
 						"Value of '{0}' is not valid for 'MaxSelectionCount'. " +
 						"'MaxSelectionCount' must be greater than or equal to {1}.",
 						value, 1);
@@ -423,20 +424,20 @@ namespace System.Windows.Forms {
 				DateTime absoluteMinDate = new DateTime (1753, 1, 1);
 
 				if (value < absoluteMinDate) {
-					string msg = string.Format (CultureInfo.CurrentCulture,
+					string msg = string.Format (DateTimeUtility.PreferredCulture,
 						"Value of '{0}' is not valid for 'MinDate'. 'MinDate' " +
 						"must be greater than or equal to {1}.",
-						value.ToString ("d", CultureInfo.CurrentCulture),
-						absoluteMinDate.ToString ("d", CultureInfo.CurrentCulture));
+						value.ToSafeString ("d", DateTimeUtility.PreferredCulture),
+						absoluteMinDate.ToSafeString ("d", DateTimeUtility.PreferredCulture));
 					throw new ArgumentOutOfRangeException ("MinDate",
 						msg);
 				}
 
 				if (value > MaxDate) {
-					string msg = string.Format (CultureInfo.CurrentCulture,
+					string msg = string.Format (DateTimeUtility.PreferredCulture,
 						"Value of '{0}' is not valid for 'MinDate'. 'MinDate' " +
 						"must be less than MaxDate.",
-						value.ToString ("d", CultureInfo.CurrentCulture));
+						value.ToSafeString ("d", DateTimeUtility.PreferredCulture));
 					throw new ArgumentOutOfRangeException ("MinDate",
 						msg);
 				}
@@ -1528,7 +1529,7 @@ namespace System.Windows.Forms {
 		private void SetUpMonthMenu () {
 			month_menu = new ContextMenu ();
 			for (int i=0; i < 12; i++) {
-				MenuItem menu_item = new MenuItem ( new DateTime (2000, i+1, 1).ToString ("MMMM"));
+				MenuItem menu_item = new MenuItem ( new DateTime (2000, i+1, 1).ToSafeString ("MMMM"));
 				menu_item.Click += new EventHandler (MonthMenuItemClickHandler);
 				month_menu.MenuItems.Add (menu_item);
 			}
@@ -1620,7 +1621,7 @@ namespace System.Windows.Forms {
 		// convert a Day enum into a DayOfWeek enum
 		internal DayOfWeek GetDayOfWeek (Day day) {
 			if (day == Day.Default) {
-				return Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+				return DateTimeUtility.CurrentFormat.FirstDayOfWeek;
 			} else {
 				return (DayOfWeek) DayOfWeek.Parse (typeof (DayOfWeek), day.ToString ());
 			}
@@ -1629,8 +1630,8 @@ namespace System.Windows.Forms {
 		// returns the rectangle for themonth name
 		internal Rectangle GetMonthNameRectangle (Rectangle title_rect, int calendar_index) {
 			DateTime this_month = this.current_month.AddMonths (calendar_index);
-			Size title_text_size = TextRenderer.MeasureString (this_month.ToString ("MMMM yyyy"), this.Font).ToSize ();
-			Size month_size = TextRenderer.MeasureString (this_month.ToString ("MMMM"), this.Font).ToSize ();
+			Size title_text_size = TextRenderer.MeasureString (this_month.ToSafeString ("MMMM yyyy"), this.Font).ToSize ();
+			Size month_size = TextRenderer.MeasureString (this_month.ToSafeString ("MMMM"), this.Font).ToSize ();
 			// return only the month name part of that
 			return new Rectangle (
 				new Point (
@@ -1642,8 +1643,8 @@ namespace System.Windows.Forms {
 		internal void GetYearNameRectangles (Rectangle title_rect, int calendar_index, out Rectangle year_rect, out Rectangle up_rect, out Rectangle down_rect)
 		{
 			DateTime this_month = this.current_month.AddMonths (calendar_index);
-			SizeF title_text_size = TextRenderer.MeasureString (this_month.ToString ("MMMM yyyy"), this.bold_font, int.MaxValue, centered_format);
-			SizeF year_size = TextRenderer.MeasureString (this_month.ToString ("yyyy"), this.bold_font, int.MaxValue, centered_format);
+			SizeF title_text_size = TextRenderer.MeasureString (this_month.ToSafeString ("MMMM yyyy"), this.bold_font, int.MaxValue, centered_format);
+			SizeF year_size = TextRenderer.MeasureString (this_month.ToSafeString ("yyyy"), this.bold_font, int.MaxValue, centered_format);
 			// find out how much space the title took
 			RectangleF text_rect = new RectangleF (
 				new PointF (

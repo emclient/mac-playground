@@ -94,7 +94,7 @@ namespace System.Windows.Forms {
 		#region public methods
 
 		public override string ToString() {
-			return "SelectionRange: Start: " + Start.ToString() + ", End: " + End.ToString();
+			return "SelectionRange: Start: " + Start.ToSafeString() + ", End: " + End.ToSafeString();
 		}
 
 		#endregion // public methods
