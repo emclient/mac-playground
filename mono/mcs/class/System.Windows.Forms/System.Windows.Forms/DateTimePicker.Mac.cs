@@ -31,8 +31,8 @@ using System.Collections;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using System.Windows.Forms.Mac;
+using System.Windows.Forms.resources;
 
 #if MONOMAC
 using MonoMac.AppKit;
@@ -374,21 +374,6 @@ namespace System.Windows.Forms
 				return custom_format;
 			}
 		}
-
-		[Localizable(true)]
-		[DefaultValue("Today")]
-		public string PickerTodayButtonTitle
-		{
-			get; set;
-		}
-
-		[Localizable(true)]
-		[DefaultValue("Clear")]
-		public string PickerClearButtonTitle
-		{
-			get; set;
-		}
-
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		protected override bool DoubleBuffered
@@ -2261,8 +2246,6 @@ namespace System.Windows.Forms
 
 			var controller = new DatePickerPopoverController(this.date_value);
 			controller.DateChanged += MonthCalendarDateChangedHandler;
-			controller.TodayButtonTitle = PickerTodayButtonTitle;
-			controller.ClearButtonTitle = PickerClearButtonTitle;
 
 			popover = new NSPopover();
 			popover.WeakDelegate = popoverDelegate;
@@ -2326,22 +2309,19 @@ namespace System.Windows.Forms
 		{
 		}
 
-		public string TodayButtonTitle { get; set; }
-		public string ClearButtonTitle { get; set; }
-
 		public override void LoadView()
 		{
 			View = new NSView();
 
 			clearButton = new NSButton();
 			clearButton.BezelStyle = NSBezelStyle.Rounded;
-			clearButton.Title = ClearButtonTitle ?? "Clear";
+			clearButton.Title = Strings.ResourceManager.GetString("MonthCalClear", DateTimeUtility.PreferredCulture);
 			clearButton.SizeToFit();
 			clearButton.Activated += (sender, e) => { SetDate(initialDate); };
 			View.AddSubview(clearButton);
 
 			todayButton = new NSButton();
-			todayButton.Title = TodayButtonTitle ?? "Today";
+			todayButton.Title = Strings.ResourceManager.GetString("MonthCalToday", DateTimeUtility.PreferredCulture);
 			todayButton.BezelStyle = NSBezelStyle.Rounded;
 			todayButton.SizeToFit();
 			todayButton.Activated += (sender, e) => { SetDate(new NSDate()); };
@@ -2353,6 +2333,7 @@ namespace System.Windows.Forms
 			View.AddSubview(line);
 
 			numericDatePicker = new NSDatePicker();
+			numericDatePicker.Locale = DateTimeUtility.PreferredLocale;
 			numericDatePicker.DateValue = date;
 			numericDatePicker.Bezeled = false;
 			numericDatePicker.DatePickerStyle = NSDatePickerStyle.TextFieldAndStepper;
@@ -2368,6 +2349,7 @@ namespace System.Windows.Forms
 			View.AddSubview(line);
 
 			graphicalDatePicker = new NSDatePicker();
+			graphicalDatePicker.Locale = DateTimeUtility.PreferredLocale;
 			graphicalDatePicker.DateValue = date;
 			graphicalDatePicker.Bezeled = false;
 			graphicalDatePicker.DatePickerStyle = NSDatePickerStyle.ClockAndCalendar;

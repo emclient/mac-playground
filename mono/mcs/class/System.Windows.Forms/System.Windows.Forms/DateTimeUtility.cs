@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Globalization;
+using System.Windows.Forms.Mac;
 
 #if MONOMAC
 using MonoMac.Foundation;
@@ -7,8 +8,9 @@ using MonoMac.Foundation;
 using Foundation;
 #endif
 
-namespace System.Windows.Forms.Mac
+namespace System.Windows.Forms
 {
+#if __MACOS__
 	public static class DateTimeUtility
 	{
 		static object localeDidChangeNotification = NSLocale.Notifications.ObserveCurrentLocaleDidChange(OnLocaleDidChange);
@@ -83,8 +85,15 @@ namespace System.Windows.Forms.Mac
 					}
 					catch
 					{
-						System.Diagnostics.Debug.Assert(false, $"Failed to get CultureInfo for {identifier}");
-						preferredCulture = CultureInfo.CurrentCulture;
+						try
+						{
+							preferredCulture = CultureInfo.GetCultureInfo(locale.LanguageCode);
+						}
+						catch
+						{
+							System.Diagnostics.Debug.Assert(false, $"Failed to get CultureInfo for {identifier}");
+							preferredCulture = CultureInfo.CurrentCulture;
+						}
 					}
 				}
 				return preferredCulture;
@@ -351,7 +360,12 @@ namespace System.Windows.Forms.Mac
 			return @default;
 		}
 
-		public static string ToSafeString(this DateTime dateTime, string format)
+		public static string ToString(DateTime dateTime)
+		{
+			return ToString(dateTime, null);
+		}
+
+		public static string ToString(DateTime dateTime, string format)
 		{
 			if (String.IsNullOrEmpty(format))
 				format = "G";
@@ -359,15 +373,78 @@ namespace System.Windows.Forms.Mac
 			if (Formatters.TryGetValue(format, out NSDateFormatter formatter))
 				return formatter.ToString(dateTime.ToNSDate());
 
-			return dateTime.ToSafeString(format, PreferredCulture);
+			return ToString(dateTime, format, PreferredCulture);
 		}
 
-		public static string ToSafeString(this DateTime dateTime, string format, CultureInfo culture)
+		public static string ToString(DateTime dateTime, string format, CultureInfo culture)
 		{
 			if (culture.Calendar.MinSupportedDateTime <= dateTime && dateTime <= culture.Calendar.MaxSupportedDateTime)
 				return dateTime.ToString(format, culture);
 
 			return dateTime.ToString(format, CultureInfo.InvariantCulture);
 		}
+
+		internal static string ToSafeString(this DateTime dateTime)
+		{
+			return ToString(dateTime);
+		}
+
+		internal static string ToSafeString(this DateTime dateTime, string format)
+		{
+			return ToString(dateTime, format);
+		}
+
+		public static string ToSafeString(this DateTime dateTime, string format, CultureInfo culture)
+		{
+			return ToString(dateTime, format, culture);
+		}
 	}
+
+#else
+	internal static class DateTimeUtility
+	{
+		public static CultureInfo PreferredCulture
+		{
+			get { return CultureInfo.CurrentCulture; }
+		}
+
+		public static DateTimeFormatInfo CurrentFormat
+		{
+			get { return PreferredCulture.DateTimeFormat; }
+		}
+
+		public static string ToString(DateTime dateTime)
+		{
+			return dateTime.ToString(null);
+		}
+
+		public static string ToString(DateTime dateTime, string format)
+		{
+			return dateTime.ToString(format, CultureInfo.CurrentCulture);
+		}
+
+		public static string ToString(DateTime dateTime, string format, CultureInfo culture)
+		{
+			if (culture.Calendar.MinSupportedDateTime <= dateTime && dateTime <= culture.Calendar.MaxSupportedDateTime)
+				return dateTime.ToString(format, culture);
+			return dateTime.ToString(format, CultureInfo.InvariantCulture);
+		}
+
+		internal static string ToSafeString(this DateTime dateTime)
+		{
+			return ToString(dateTime);
+		}
+
+		internal static string ToSafeString(DateTime dateTime, string format)
+		{
+			return ToString(dateTime, format);
+		}
+
+		public static string ToSafeString(DateTime dateTime, string format, CultureInfo culture)
+		{
+			return ToString(dateTime, format, culture);
+		}
+	}
+#endif
 }
+
