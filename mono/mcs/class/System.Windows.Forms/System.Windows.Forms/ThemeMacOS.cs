@@ -9,6 +9,7 @@ using System.Drawing.Printing;
 using System.Drawing.Text;
 using System.Text;
 using System.Windows.Forms.Theming;
+using System.Windows.Forms.resources;
 using System.Drawing.Mac;
 
 #if XAMARINMAC
@@ -3134,7 +3135,9 @@ namespace System.Windows.Forms
 							Math.Max(client_rectangle.Bottom - date_cell_size.Height, 0),
 							Math.Max(client_rectangle.Width - today_offset, 0),
 							date_cell_size.Height);
-					dc.DrawString ("Today: " + DateTime.Now.ToShortDateString(), mc.bold_font, GetControlForeBrush (mc.ForeColor), today_rect, text_format);
+					string today = DateTime.Now.ToSafeString("d");
+					string label = Strings.ResourceManager.GetString("MonthCalToday", DateTimeUtility.PreferredCulture);
+					dc.DrawString (label + ": " + today, mc.bold_font, GetControlForeBrush (mc.ForeColor), today_rect, text_format);
 					text_format.Dispose ();
 				}				
 			}
@@ -3220,7 +3223,7 @@ namespace System.Windows.Forms
 			if (title_rect.IntersectsWith (clip_rectangle)) {
 				dc.FillRectangle (ResPool.GetSolidBrush (mc.TitleBackColor), title_rect);
 				// draw the title				
-				string title_text = this_month.ToString ("MMMM yyyy");
+				string title_text = this_month.ToSafeString ("MMMM yyyy");
 				dc.DrawString (title_text, mc.bold_font, ResPool.GetSolidBrush (mc.TitleForeColor), title_rect, mc.centered_format);
 
 				if (mc.ShowYearUpDown) {
@@ -3230,7 +3233,7 @@ namespace System.Windows.Forms
 					
 					mc.GetYearNameRectangles (title_rect, row * mc.CalendarDimensions.Width + col, out year_rect, out upRect, out downRect);
 					dc.FillRectangle (ResPool.GetSolidBrush (SystemColors.Control), year_rect);
-					dc.DrawString (this_month.ToString ("yyyy"), mc.bold_font, ResPool.GetSolidBrush (Color.Black), year_rect, mc.centered_format);
+					dc.DrawString (this_month.ToSafeString ("yyyy"), mc.bold_font, ResPool.GetSolidBrush (Color.Black), year_rect, mc.centered_format);
 					
 					upState = mc.IsYearGoingUp ? ButtonState.Pushed : ButtonState.Normal;
 					downState = mc.IsYearGoingDown ? ButtonState.Pushed : ButtonState.Normal;
@@ -3290,7 +3293,7 @@ namespace System.Windows.Forms
 						day_name_rect.Y,
 						date_cell_size.Width,
 						date_cell_size.Height);
-					dc.DrawString (sunday.AddDays (i + (int) first_day_of_week).ToString ("ddd"), mc.Font, ResPool.GetSolidBrush (mc.TitleBackColor), day_rect, mc.centered_format);
+					dc.DrawString (sunday.AddDays (i + (int) first_day_of_week).ToSafeString ("ddd"), mc.Font, ResPool.GetSolidBrush (mc.TitleBackColor), day_rect, mc.centered_format);
 				}
 				
 				// draw the vertical divider

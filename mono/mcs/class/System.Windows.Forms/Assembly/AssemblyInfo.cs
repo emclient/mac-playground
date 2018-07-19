@@ -34,8 +34,8 @@ using System.Diagnostics;
 [assembly: ComVisible (false)]
 [assembly: AllowPartiallyTrustedCallers]
 
-[assembly: AssemblyDelaySign (true)]
-[assembly: AssemblyKeyFile("../msfinal.pub")]
+//[assembly: AssemblyDelaySign (true)]
+//[assembly: AssemblyKeyFile("../msfinal.pub")]
 
 [assembly: AssemblyFileVersion (Consts.FxFileVersion)]
 [assembly: CompilationRelaxations (CompilationRelaxations.NoStringInterning)]
