@@ -547,7 +547,7 @@ namespace System.Windows.Forms {
 		private void CleanupCachedWindows(IntPtr handle)
 		{
 			if (GetFocus() == handle) {
-				SendMessage (handle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
+				NSApplication.SharedApplication.KeyWindow.MakeFirstResponder(null);
 			}
 
 			if (Grab.Hwnd == handle) {
