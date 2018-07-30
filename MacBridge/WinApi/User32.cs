@@ -813,5 +813,12 @@ namespace WinApi
 			return IntPtr.Zero;
 		}
 
+		public static uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			lpdwProcessId = 0u;
+			return 0u;
+		}
+
 	}
 }
