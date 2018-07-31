@@ -432,19 +432,9 @@ namespace System.Windows.Forms
 
 		private Point CalculateShowPoint (Point position, ToolStripDropDownDirection direction, Size size)
 		{
-			Screen primaryScreen = null;
-			Screen bestScreen = null;
-			foreach (var screen in XplatUI.AllScreens) {
-				if (screen.Primary) {
-					primaryScreen = screen;
-				}
-				else {
-					if (screen.Bounds.Contains(position))
-						bestScreen = screen;
-				}
-			}
-			if (bestScreen == null)
-				bestScreen = primaryScreen;
+			var parent = XplatUI.GetParent(Handle, true);
+			var handle = parent == IntPtr.Zero ? Handle : parent;
+			var bestScreen = XplatUI.ScreenFromWindow(handle);
 
 			Point show_point = position;
 
@@ -527,17 +517,19 @@ namespace System.Windows.Forms
 					break;
 			}
 
+			const int gap = 4;
+
 			// Fix offscreen horizontal positions
 			if ((show_point.X + size.Width) > bestScreen.WorkingArea.Right)
-				show_point.X = bestScreen.WorkingArea.Right - size.Width;
+				show_point.X = bestScreen.WorkingArea.Right - size.Width - gap;
 			if (show_point.X < bestScreen.WorkingArea.Left)
-				show_point.X = bestScreen.WorkingArea.Left;
+				show_point.X = bestScreen.WorkingArea.Left + gap;
 
 			// Fix offscreen vertical positions
 			if ((show_point.Y + size.Height) > bestScreen.WorkingArea.Bottom)
-				show_point.Y = bestScreen.WorkingArea.Bottom - size.Height;
+				show_point.Y = bestScreen.WorkingArea.Bottom - size.Height - gap;
 			if (show_point.Y < bestScreen.WorkingArea.Top)
-				show_point.Y = bestScreen.WorkingArea.Top ;
+				show_point.Y = bestScreen.WorkingArea.Top + gap;
 
 			return show_point;
 		}

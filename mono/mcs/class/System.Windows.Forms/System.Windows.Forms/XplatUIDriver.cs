@@ -466,6 +466,13 @@ namespace System.Windows.Forms {
 		{
 		}
 
+		internal virtual Screen ScreenFromWindow(IntPtr handle)
+		{
+			var control = Control.FromHandle(handle);
+			var point = control.Parent != null ? control.Parent.PointToScreen(control.Location) : control.Location;
+			return Screen.FromPoint(point);
+		}
+
 #endregion	// XplatUI Driver Methods
 	}
 
