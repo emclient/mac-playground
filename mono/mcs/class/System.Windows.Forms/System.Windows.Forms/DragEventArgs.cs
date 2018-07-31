@@ -90,6 +90,11 @@ namespace System.Windows.Forms {
 				return this.y;
 			}
 		}
-		#endregion	// Public Instance Properties
+		#endregion // Public Instance Properties
+
+		public override string ToString()
+		{
+			return $"{GetType().Name}: X={X}, Y={Y}, AllowedEffect={AllowedEffect}, Effect={Effect}, Keys={(Keys)keystate}, Data=[{Data}] ";
+		}
 	}
 }
