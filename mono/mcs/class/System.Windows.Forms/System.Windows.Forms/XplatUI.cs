@@ -1219,6 +1219,11 @@ namespace System.Windows.Forms {
 			}
 			return false;
 		}
+
+		internal static Screen ScreenFromWindow(IntPtr handle) {
+			return driver.ScreenFromWindow(handle);
+		}
+
 		#endregion	// Public Static Methods
 
 		#region	Delegates

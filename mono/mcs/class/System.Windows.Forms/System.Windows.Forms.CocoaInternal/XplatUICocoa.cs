@@ -2306,6 +2306,14 @@ namespace System.Windows.Forms {
 				return NativeToMonoScreen (NSEvent.CurrentMouseLocation);
 			}
 		}
+
+		internal override Screen ScreenFromWindow(IntPtr handle)
+		{
+			var obj = ObjCRuntime.Runtime.GetNSObject(handle);
+			var screen = ((obj is NSView view) ? view.Window : (obj is NSWindow win) ? win : null)?.Screen ?? NSScreen.MainScreen;
+			return new Screen(screen == NSScreen.MainScreen, String.Empty, NativeToMonoScreen(screen.Frame), NativeToMonoScreen(screen.VisibleFrame));
+		}
+
 #endregion Override Methods XplatUIDriver
 
 
