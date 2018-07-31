@@ -75,7 +75,8 @@ namespace System.Windows.Forms
 					DraggingAllowedEffects = allowedEffects;
 					DraggingEffects = DragDropEffects.None;
 					view.BeginDraggingSession(items, LastMouseDown, draggingSource);
-					return allowedEffects;
+					DoEvents();
+					return DraggingEffects;
 				}
 			}
 

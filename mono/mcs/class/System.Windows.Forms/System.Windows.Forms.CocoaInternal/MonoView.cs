@@ -367,9 +367,24 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			var q = ToMonoScreen(sender.DraggingLocation, null);
 			var allowed = XplatUICocoa.DraggingAllowedEffects;
-			var modifiers = NSEvent.CurrentModifierFlags.ToKeys();
+			var modifiers = NSEvent.CurrentModifierFlags;
+
+			// translate mac modifiers to win modifiers
+			// 1(bit 0)  - The left mouse button.
+			// 2(bit 1)  - The right mouse button.
+			// 4(bit 2)  - The SHIFT key.
+			// 8(bit 3)  - The CTRL key.
+			// 16(bit 4) - The middle mouse button.
+			// 32(bit 5) - The ALT key.
+
+			int keystate = 0;
+			if (0 != (modifiers & NSEventModifierMask.ShiftKeyMask))
+				keystate |= 4;
+			if (0 != (modifiers & NSEventModifierMask.AlternateKeyMask)) // alt (mac) => ctrl (win)
+				keystate |= 8;
+
 			var idata = XplatUICocoa.DraggedData as IDataObject ?? (IDataObject)(XplatUICocoa.DraggedData = ToIDataObject(sender.DraggingPasteboard));
-			return new DragEventArgs(idata, (int)modifiers, q.X, q.Y, allowed, effect);
+			return new DragEventArgs(idata, keystate, q.X, q.Y, allowed, effect);
 		}
 
 		public override void DraggingEnded(NSDraggingInfo sender)
