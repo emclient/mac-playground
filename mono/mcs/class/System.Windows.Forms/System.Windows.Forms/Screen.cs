@@ -121,8 +121,7 @@ namespace System.Windows.Forms {
 
 		#region Public Static Methods
 		public static Screen FromControl(Control control) {
-			var point = control.Parent != null ? control.Parent.PointToScreen(control.Location) : control.Location;
-			return Screen.FromPoint(point);
+			return XplatUI.ScreenFromWindow(control.Handle);
 		}
 
 		public static Screen FromHandle(IntPtr hwnd) {
