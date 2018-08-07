@@ -30,7 +30,7 @@ namespace System.Windows.Forms
 			txtView = new UpDownTextBox(this);
 			txtView.ModifiedChanged += OnChanged;
 			txtView.AcceptsReturn = true;
-			txtView.AutoSize = false;
+			//txtView.AutoSize = false;
 			txtView.BorderStyle = BorderStyle.Fixed3D;
 			txtView.TabIndex = TabIndex;
 			txtView.SetStyle(ControlStyles.Selectable, true);
