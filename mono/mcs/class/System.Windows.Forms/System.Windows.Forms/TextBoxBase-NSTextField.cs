@@ -50,7 +50,6 @@ namespace System.Windows.Forms
 				textField.DoCommandBySelector = DoCommandBySelector;
 				textField.GetCompletions = TextFieldGetCompletions;
 				textField.Formatter = formatter = new Formatter(this);
-				textField.UsesSingleLineMode = true;
 
 				ApplyBorderStyle(owner.BorderStyle);
 				ApplyForeColor(owner.ForeColor, owner.forecolor_set);
