@@ -791,14 +791,10 @@ namespace System.Windows.Forms {
 
 			bool cascade = false;
 			if (X == int.MinValue || Y == int.MinValue) {
-				if (isTopLevel) {
-					X = (int)this.nextWindowLocation.X;
-					Y = (int)this.nextWindowLocation.Y;
+				if (isTopLevel)
 					cascade = true;
-				} else {
-					X = 0;
-					Y = 0;
-				}
+				X = 0;
+				Y = 0;
 			}
 
 			Rectangle mWholeRect = new Rectangle (new Point (X, Y), new Size(Width, Height));
@@ -822,7 +818,6 @@ namespace System.Windows.Forms {
 				NSWindowStyle attributes = NSStyleFromStyle(cp.WindowStyle);
 				//SetAutomaticControlDragTrackingEnabledForWindow (, true);
 				//ParentHandle = WindowView;
-				WholeRect = NSWindow.ContentRectFor(WholeRect, attributes);
 				windowWrapper = new MonoWindow(WholeRect, attributes, NSBackingStore.Buffered, true, this);
 				WindowHandle = (IntPtr) windowWrapper.Handle;
 				windowWrapper.WeakDelegate = windowWrapper;
@@ -831,9 +826,10 @@ namespace System.Windows.Forms {
 					windowWrapper.HasShadow = true;
 				windowWrapper.CollectionBehavior = !cp.WindowStyle.HasFlag(WindowStyles.WS_MAXIMIZEBOX) ? NSWindowCollectionBehavior.FullScreenAuxiliary : NSWindowCollectionBehavior.Default;
 
-				viewWrapper = new Cocoa.MonoContentView(this, WholeRect, cp.WindowStyle, cp.WindowExStyle);
+				WholeRect = NSWindow.ContentRectFor(WholeRect, attributes);
+				viewWrapper = new MonoContentView(this, WholeRect, cp.WindowStyle, cp.WindowExStyle);
 				viewWrapper.AutoresizesSubviews = false;
-				wholeHandle = (IntPtr)viewWrapper.Handle;
+				wholeHandle = viewWrapper.Handle;
 				windowWrapper.ContentView = viewWrapper;
 				windowWrapper.InitialFirstResponder = viewWrapper;
 				windowWrapper.SetOneShot(true);
@@ -843,8 +839,11 @@ namespace System.Windows.Forms {
 				if (ParentWrapper != null)
 					ParentWrapper.Window.AddChildWindow (windowWrapper, NSWindowOrderingMode.Above);
 
-				if (cascade)
-					this.nextWindowLocation = windowWrapper.CascadeTopLeftFromPoint(this.nextWindowLocation);
+				if (cascade) {
+					if (nextWindowLocation.IsEmpty)
+						nextWindowLocation = windowWrapper.Screen.VisibleFrame.Location;
+					nextWindowLocation = windowWrapper.CascadeTopLeftFromPoint(nextWindowLocation);
+				}
 			} else {
 				if (cp.control is IMacNativeControl) {
 					var nativeView = ((IMacNativeControl)cp.control).CreateView();
