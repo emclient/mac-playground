@@ -18,10 +18,12 @@ using NSSize = System.Drawing.SizeF;
 using nint = System.Int32;
 #else
 #if XAMARINMAC
+using NSPoint = CoreGraphics.CGPoint;
 using NSRect = CoreGraphics.CGRect;
 using NSSize = CoreGraphics.CGSize;
 using System.Windows.Forms.Mac;
 #elif MONOMAC
+using NSPoint = MonoMac.CoreGraphics.CGPoint;
 using NSRect = MonoMac.CoreGraphics.CGRect;
 using NSSize = MonoMac.CoreGraphics.CGSize;
 using nint = System.Int32;
@@ -198,12 +200,6 @@ namespace System.Windows.Forms.CocoaInternal
 				driver.SendMessage(ContentView.Handle, Msg.WM_SHOWWINDOW, (IntPtr)(wasVisible ? 0 : 1), IntPtr.Zero);
 		}
 
-		public override void SetFrame(NSRect frameRect, bool display)
-		{
-			base.SetFrame(frameRect, display);
-			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
-		}
-
 		[Export("windowWillResize:toSize:")]
 		internal virtual NSSize willResize(NSWindow sender, NSSize toFrameSize)
 		{
@@ -249,9 +245,7 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("windowDidMove:")]
 		internal virtual void windowDidMove(NSNotification notification)
 		{
-			//var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
-			//if (hwnd != null)
-			//resizeWinForm();
+			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		[Export("windowDidChangeScreen:")]
