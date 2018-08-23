@@ -469,7 +469,7 @@ namespace System.Windows.Forms {
 			return true;
 		}
 
-		static void UpdateModifiers(NSEventModifierMask flags)
+		static internal void UpdateModifiers(NSEventModifierMask flags)
 		{
 			key_modifiers_mask = key_modifiers_internal ^ flags;
 			key_modifiers_internal = flags;
