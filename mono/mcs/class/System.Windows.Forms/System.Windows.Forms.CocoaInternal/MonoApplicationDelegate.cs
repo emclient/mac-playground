@@ -106,6 +106,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		void DoActivateApp()
 		{
+			XplatUICocoa.UpdateModifiers(NSEvent.CurrentModifierFlags);
 			driver.SendMessage(XplatUI.GetActive(), Msg.WM_ACTIVATEAPP, (IntPtr)WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
 		}
 
