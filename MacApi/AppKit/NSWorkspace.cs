@@ -22,7 +22,7 @@ namespace MacBridge.AppKit
 			return LaunchApplicationForPath(path, SplitArgs(args), activate);
 		}
 
-		static int LaunchApplicationForPath(string path, string[] args, bool activate = true)
+		public static int LaunchApplicationForPath(string path, string[] args, bool activate = true)
         {
             var options = new NSWorkspaceLaunchOptions();
 			var arguments = NSArray.FromObjects(args);
