@@ -142,7 +142,7 @@ namespace System.Windows.Forms.CocoaInternal
 			base.ViewDidMoveToWindow();
 			UpdateTrackingAreas();
 
-			SendWindowPosChanged(Frame.Size);
+			driver.PostMessage(Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		internal void SendWindowPosChanged(CGSize newSize)
@@ -150,7 +150,6 @@ namespace System.Windows.Forms.CocoaInternal
 			PerformNCCalc(newSize);
 			driver.SendMessage(Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
-
 
 		public override bool Hidden
 		{
