@@ -142,6 +142,7 @@ namespace System.Windows.Forms.CocoaInternal
 			base.ViewDidMoveToWindow();
 			UpdateTrackingAreas();
 
+			PerformNCCalc(Frame.Size);
 			driver.PostMessage(Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
 
