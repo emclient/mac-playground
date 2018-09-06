@@ -4662,6 +4662,10 @@ namespace System.Windows.Forms
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected void RecreateHandle() {
+			//FIXME: RecreateHandle does not work well on Mac
+			if (IsRunningOnMac)
+				return;
+
 			if (!IsHandleCreated)
 				return;
 
