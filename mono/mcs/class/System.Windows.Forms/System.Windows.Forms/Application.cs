@@ -964,7 +964,7 @@ namespace System.Windows.Forms
 								return IntPtr.Zero;
 							case PreProcessControlState.MessageNeeded:
 							case PreProcessControlState.MessageNotNeeded:
-								if (((msg.message == Msg.WM_KEYDOWN || msg.message == Msg.WM_CHAR) && !keyboard_capture.ProcessControlMnemonic((char)m.WParam)))
+								if (((msg.message == Msg.WM_KEYDOWN || msg.message == Msg.WM_CHAR) && keyboard_capture != null && !keyboard_capture.ProcessControlMnemonic((char)m.WParam)))
 								{
 									if (c == null || !ControlOnToolStrip(c))
 									{
