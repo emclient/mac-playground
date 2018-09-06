@@ -143,7 +143,7 @@ namespace System.Windows.Forms.CocoaInternal
 			UpdateTrackingAreas();
 
 			PerformNCCalc(Frame.Size);
-			driver.PostMessage(Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
+			driver.SendMessage(Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		internal void SendWindowPosChanged(CGSize newSize)
