@@ -56,6 +56,7 @@ namespace System.Windows.Forms.CocoaInternal
 		internal WindowsEventResponder eventResponder;
 		protected CGRect clientBounds;
 		internal bool inSetFocus;
+		private WindowExStyles exStyle;
 
 		public MonoView(IntPtr instance) : base(instance)
 		{
@@ -94,12 +95,12 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			get
 			{
+				if (UserClip != null)
+					return false;
 				if (!(Superview is MonoView))
 					return false;
 				if (Superview != null)
 					return Superview.IsOpaque;
-				if (UserClip != null)
-					return false;
 				return true;
 			}
 		}
@@ -205,14 +206,17 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void DrawRect(CGRect dirtyRect)
 		{
-			this.DirtyRectangle = driver.NativeToMonoFramed(dirtyRect, this);
+			if (!dirtyRect.IsEmpty)
+			{
+				this.DirtyRectangle = driver.NativeToMonoFramed(dirtyRect, this);
 
-			var msg = new MSG { hwnd = this.Handle, message = Msg.WM_NCPAINT };
-			driver.DispatchMessage(ref msg);
-			msg = new MSG { hwnd = this.Handle, message = Msg.WM_PAINT };
-			driver.DispatchMessage(ref msg);
+				var msg = new MSG { hwnd = this.Handle, message = Msg.WM_NCPAINT };
+				driver.DispatchMessage(ref msg);
+				msg = new MSG { hwnd = this.Handle, message = Msg.WM_PAINT };
+				driver.DispatchMessage(ref msg);
 
-			this.DirtyRectangle = null;
+				this.DirtyRectangle = null;
+			}
 		}
 
         public override void SetFrameSize(CGSize newSize)
@@ -289,10 +293,18 @@ namespace System.Windows.Forms.CocoaInternal
 		}
 
 		public Rectangle? DirtyRectangle { get; private set; }
-		public WindowStyles Style { get; set; }
-		public WindowExStyles ExStyle { get; set; }
 		public Region UserClip { get; set; }
 		public IntPtr Cursor { get; set; }
+		public WindowStyles Style { get; set; }
+		public WindowExStyles ExStyle
+		{
+			get { return exStyle; }
+			set
+			{
+				exStyle = value;
+				WantsLayer = (exStyle & WindowExStyles.WS_EX_LAYERED) != 0; 
+			}
+		}
 
 		public bool Enabled
 		{
