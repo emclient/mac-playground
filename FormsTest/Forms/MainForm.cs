@@ -119,6 +119,8 @@ namespace FormsTest
 				f.Controls.Add(new MailClient.UI.Controls.WizardControls.ControlExpandablePanelAutodiscover() { Dock = DockStyle.Top, AutoSize = true, Expanded = true });
 				f.Show();
 			});*/
+
+			AddButton("Animations", () => { new AnimationsForm().Show(); });
 		}
 
 		List<Button> buttons = new List<Button>();

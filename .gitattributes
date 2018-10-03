@@ -70,8 +70,15 @@ FormsTest/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png -text
 FormsTest/Assets.xcassets/AppIcon.appiconset/Contents.json -text
 FormsTest/Assets.xcassets/Contents.json -text
 FormsTest/ControlDebugUtils.cs -text
+FormsTest/Controls/ControlStatusBar.Designer.cs -text
+FormsTest/Controls/ControlStatusBar.cs -text
+FormsTest/Controls/ControlStatusBar.resx -text
+FormsTest/Controls/ControlWaiting.cs -text
+FormsTest/Controls/ControlWaiting.designer.cs -text
+FormsTest/Controls/ControlWaiting.resx -text
 FormsTest/Entitlements.plist -text
 FormsTest/Extensions.cs -text
+FormsTest/Forms/AnimationsForm.cs -text
 FormsTest/Forms/DebugLayoutForm.Designer.cs -text
 FormsTest/Forms/DebugLayoutForm.cs -text
 FormsTest/Forms/DebugLayoutForm.resx -text
