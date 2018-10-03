@@ -60,15 +60,13 @@
 			this.maskedbox.Text = this.maskedbox.Font.ToString();
 
 			// textbox1
-			this.textbox1.AutoSize = true;
             this.textbox1.Name = "textbox1";
-            this.textbox1.Size = new System.Drawing.Size(600, 13);
+            this.textbox1.Size = new System.Drawing.Size(600, 22);
 			this.textbox1.TabIndex = 2;
 			this.textbox1.Font = System.Drawing.SystemFonts.DefaultFont;
-			this.textbox1.Text = this.textbox1.Font.ToString();
+			this.textbox1.Text = this.textbox1.Name + ":" + this.textbox1.Font.ToString();
 
 			// textbox2
-			this.textbox2.AutoSize = true;
 			this.textbox2.Name = "textbox2";
 			this.textbox2.Size = new System.Drawing.Size(600, 13);
 			this.textbox2.TabIndex = 3;
@@ -76,7 +74,6 @@
 			this.textbox2.Text = this.textbox2.Font.ToString();
 
 			// textbox3
-			this.textbox3.AutoSize = true;
 			this.textbox3.Name = "textbox3";
 			this.textbox3.Size = new System.Drawing.Size(600, 13);
 			this.textbox3.TabIndex = 4;
