@@ -86,7 +86,8 @@ namespace FormsTest
 			base.OnResize(e);
 
 			#if MAC
-			webView.Frame = container.Bounds;
+			if (webView != null && container != null)
+				webView.Frame = container.Bounds;
 			#endif
 		}
 
