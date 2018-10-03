@@ -218,6 +218,11 @@
       <LastGenOutput>Providers.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Compile Include="ControlDebugUtils.cs" />
+    <Compile Include="Forms\AnimationsForm.cs" />
+    <Compile Include="Controls\ControlStatusBar.cs" />
+    <Compile Include="Controls\ControlStatusBar.Designer.cs" />
+    <Compile Include="Controls\ControlWaiting.cs" />
+    <Compile Include="Controls\ControlWaiting.designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <!--<EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">
@@ -268,6 +273,8 @@
     <None Include="Resources\iCloud.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Controls\ControlWaiting.resx" />
+    <None Include="Controls\ControlStatusBar.resx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
@@ -321,6 +328,9 @@
       <HintPath>$(SolutionDir)\Dependencies\Mac\MonoMac.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Mac" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release' " />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" Condition=" '$(Configuration)' != 'Xamarin - Debug' and '$(Configuration)' != 'Xamarin-Release'" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'" />	
