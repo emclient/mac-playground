@@ -29,7 +29,7 @@ namespace MailClient.UI.Controls
 
 	public partial class ControlStatusBar : UserControl
 	{
-		public bool InvalidationEnabled { get; set; }
+		public bool InvalidationEnabled { get; set; } = true;
 
 		public Color StatusBarForeground = Color.Black;
 		public Color StatusBarBackground = Color.White;

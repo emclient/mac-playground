@@ -8,7 +8,7 @@ namespace MailClient.UI.Controls
 {
 	public partial class ControlWaiting : UserControl
 	{
-		public bool InvalidationEnabled { get; set; }
+		public bool InvalidationEnabled { get; set; } = true;
 
 		static class UIUtils
 		{
