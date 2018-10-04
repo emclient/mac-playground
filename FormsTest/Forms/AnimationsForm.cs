@@ -11,6 +11,8 @@ namespace FormsTest
 		IContainer components;
 		ControlWaiting circle;
 		ControlStatusBar bar;
+		ProgressBar pbar, pbar2;
+		ProgressIndicator pind;
 
 		protected override void Dispose(bool disposing)
 		{
@@ -23,43 +25,104 @@ namespace FormsTest
 		{
 			components = new System.ComponentModel.Container();
 
-			bar = new ControlStatusBar();
-			bar.Size = new Size(100, 18);
-			bar.SetInfiniteProgress("Synchronizing...");
-			bar.Location = Place();
-			Controls.Add(bar);
+			var d = new Button();
+			d.Text = "Native";
+			d.Location = Below();
+			d.Click += (sender, evt) => { pbar.Style = pbar.Style == ProgressBarStyle.Marquee ? ProgressBarStyle.Continuous : ProgressBarStyle.Marquee; };
+			Controls.Add(d);
+
+			pbar = new ProgressBar();
+			pbar.Style = ProgressBarStyle.Marquee;
+			pbar.Size = new Size(100, 5);
+			pbar.Location = Right(d);
+			Controls.Add(pbar);
+
+			var e = new Button();
+			e.Text = "Native";
+			e.Location = Below(d);
+			e.Click += (sender, evt) => { pbar2.Style = pbar2.Style == ProgressBarStyle.Marquee ? ProgressBarStyle.Continuous : ProgressBarStyle.Marquee; };
+			Controls.Add(e);
+
+			pbar2 = new ProgressBar();
+			pbar2.Style = ProgressBarStyle.Marquee;
+			pbar2.Size = new Size(100, 5);
+			pbar2.Location = Right(e);
+			Controls.Add(pbar2);
+
+			var f = new Button();
+			f.Text = "CALayer";
+			f.Location = Below();
+			f.Click += (sender, evt) => { pind.ToggleSpinning(); };
+			Controls.Add(f);
+
+			pind = new ProgressIndicator();
+			pind.Size = new Size(16, 16);
+			pind.Location = Right(f);
+			Controls.Add(pind);
+
+			var c = new Button();
+			c.Text = "Don't Inval";
+			c.Location = Below();
+			c.Click += C_Click;
+			Controls.Add(c);
+
+			var a = new Button();
+			a.Text = "Circle";
+			a.Location = Below();
+			a.Click += A_Click;
+			Controls.Add(a);
 
 			circle = new ControlWaiting();
-			circle.Location = Place();
+			circle.Location = Right(a);
 			circle.Size = new Size(16, 16);
 			circle.BackColor = Color.Transparent;
 			Controls.Add(circle);
 
-			var a = new Button();
-			a.Text = "Circle";
-			a.Location = Place();
-			a.Click += A_Click;
-			Controls.Add(a);
-
 			var b = new Button();
 			b.Text = "Bar";
-			b.Location = Place();
 			b.Click += B_Click;
+			b.Location = Below();
 			Controls.Add(b);
 
-			var c = new Button();
-			c.Text = "Invalidate";
-			c.Location = Place();
-			c.Click += C_Click;
-			Controls.Add(c);
+			bar = new ControlStatusBar();
+			bar.Size = new Size(100, 18);
+			bar.SetInfiniteProgress("Synchronizing...");
+			bar.Location = Right(b);
+			Controls.Add(bar);
 		}
 
-		private Point Place()
+		protected override void OnLoad(EventArgs e)
 		{
-			var pos = Point.Empty;
-			foreach (Control c in Controls)
-				pos.Y = Math.Max(pos.Y, c.Bottom);
+			base.OnLoad(e);
+			pind.StartSpinning();
+		}
+
+		private Point Below(Control control = null)
+		{
+			var pos = new Point(5, 5);
+			if (control != null)
+				pos = control.Location + new Size(0, control.Height);
+			else
+				foreach (Control c in Controls)
+				{
+					pos.Y = Math.Max(pos.Y, c.Bottom);
+					pos.X = Math.Min(pos.X, c.Left);
+				}
 			return pos + new Size(0, 5);
+		}
+
+		private Point Right(Control control = null)
+		{
+			var pos = new Point(5, 5);
+			if (control != null)
+				pos = control.Location + new Size(control.Width, 0);
+			else
+				foreach (Control c in Controls)
+				{
+					pos.X = Math.Max(pos.X, c.Right);
+					pos.Y = Math.Min(pos.Y, c.Top);
+				}
+			return pos + new Size(5, 0);
 		}
 
 		void A_Click(object sender, EventArgs e)
@@ -78,13 +141,14 @@ namespace FormsTest
 		bool inval = true;
 		void C_Click(object sender, EventArgs e)
 		{
+			inval = !inval;
 			bar.InvalidationEnabled = inval;
 			circle.InvalidationEnabled = inval;
-			inval = !inval;
 		}
 
 		public AnimationsForm()
 		{
+			Text = "Animations";
 			InitializeComponent();
 		}
 	}
