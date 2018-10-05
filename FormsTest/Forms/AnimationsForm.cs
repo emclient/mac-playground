@@ -37,27 +37,16 @@ namespace FormsTest
 			pbar.Location = Right(d);
 			Controls.Add(pbar);
 
-			var e = new Button();
-			e.Text = "Native";
-			e.Location = Below(d);
-			e.Click += (sender, evt) => { pbar2.Style = pbar2.Style == ProgressBarStyle.Marquee ? ProgressBarStyle.Continuous : ProgressBarStyle.Marquee; };
-			Controls.Add(e);
-
-			pbar2 = new ProgressBar();
-			pbar2.Style = ProgressBarStyle.Marquee;
-			pbar2.Size = new Size(100, 5);
-			pbar2.Location = Right(e);
-			Controls.Add(pbar2);
-
 			var f = new Button();
 			f.Text = "CALayer";
 			f.Location = Below();
-			f.Click += (sender, evt) => { pind.ToggleSpinning(); };
+			f.Click += (sender, evt) => { pind.Enabled = !pind.Enabled; };
 			Controls.Add(f);
 
 			pind = new ProgressIndicator();
 			pind.Size = new Size(16, 16);
 			pind.Location = Right(f);
+			pind.BackColor = Color.White;
 			Controls.Add(pind);
 
 			var c = new Button();
@@ -94,7 +83,6 @@ namespace FormsTest
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
-			pind.StartSpinning();
 		}
 
 		private Point Below(Control control = null)
