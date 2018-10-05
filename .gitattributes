@@ -76,6 +76,7 @@ FormsTest/Controls/ControlStatusBar.resx -text
 FormsTest/Controls/ControlWaiting.cs -text
 FormsTest/Controls/ControlWaiting.designer.cs -text
 FormsTest/Controls/ControlWaiting.resx -text
+FormsTest/Controls/HatchedBar.cs -text
 FormsTest/Controls/ProgressIndicator.cs -text
 FormsTest/Entitlements.plist -text
 FormsTest/Extensions.cs -text
