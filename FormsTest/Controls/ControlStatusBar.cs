@@ -36,7 +36,7 @@ namespace MailClient.UI.Controls
 		public Color StatusBarBackgroundOffline = Color.DarkGray;
 		public Color StatusBarForegroundOffline = Color.Black;
 
-		public Color StatusBarInfiniteProgressBackground = Color.LightGray;
+		public Color StatusBarInfiniteProgressBackground = Color.DarkGray;
 		public Color StatusBarInfiniteProgress = Color.LightBlue;
 
 		public Color LightLine = Color.LightBlue;
