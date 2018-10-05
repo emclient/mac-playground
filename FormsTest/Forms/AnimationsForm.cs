@@ -11,8 +11,9 @@ namespace FormsTest
 		IContainer components;
 		ControlWaiting circle;
 		ControlStatusBar bar;
-		ProgressBar pbar, pbar2;
+		ProgressBar pbar;
 		ProgressIndicator pind;
+		HatchedBar hbar;
 
 		protected override void Dispose(bool disposing)
 		{
@@ -48,6 +49,18 @@ namespace FormsTest
 			pind.Location = Right(f);
 			pind.BackColor = Color.White;
 			Controls.Add(pind);
+
+			var g = new Button();
+			g.Text = "HatchedBar";
+			g.Location = Below();
+			g.Click += (sender, evt) => { hbar.Enabled = !hbar.Enabled; };
+			Controls.Add(g);
+
+			hbar = new HatchedBar();
+			hbar.Size = new Size(100, 4);
+			hbar.Location = Right(g);
+			hbar.BackColor = Color.White;
+			Controls.Add(hbar);
 
 			var c = new Button();
 			c.Text = "Don't Inval";
