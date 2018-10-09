@@ -225,6 +225,7 @@
     <Compile Include="Controls\ControlWaiting.designer.cs" />
     <Compile Include="Controls\ProgressIndicator.cs" />
     <Compile Include="Controls\HatchedBar.cs" />
+    <Compile Include="Controls\RunningDots.cs" />
   </ItemGroup>
   <ItemGroup>
     <!--<EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">

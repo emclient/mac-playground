@@ -10,10 +10,12 @@ namespace FormsTest
 	{
 		IContainer components;
 		ControlWaiting circle;
+		ControlWaiting dots;
 		ControlStatusBar bar;
 		ProgressBar pbar;
 		ProgressIndicator pind;
 		HatchedBar hbar;
+		RunningDots spheres;
 
 		protected override void Dispose(bool disposing)
 		{
@@ -62,16 +64,40 @@ namespace FormsTest
 			hbar.BackColor = Color.White;
 			Controls.Add(hbar);
 
+			g = new Button();
+			g.Text = "Spheres";
+			g.Location = Below();
+			g.Click += (sender, evt) => { spheres.Enabled = !spheres.Enabled; };
+			Controls.Add(g);
+
+			spheres = new RunningDots();
+			spheres.Size = new Size(100, 3);
+			spheres.Location = Right(g);
+			Controls.Add(spheres);
+
 			var c = new Button();
 			c.Text = "Don't Inval";
 			c.Location = Below();
 			c.Click += C_Click;
 			Controls.Add(c);
 
+			g = new Button();
+			g.Text = "Dots";
+			g.Location = Below();
+			g.Click += (sender, e) => { dots.Enabled = !dots.Enabled; };
+			Controls.Add(g);
+
+			dots = new ControlWaiting();
+			dots.Location = Right(g);
+			dots.Size = new Size(100, 10);
+			dots.BackColor = Color.Transparent;
+			dots.Style = ControlWaiting.WaitingStyle.Line;
+			Controls.Add(dots);
+
 			var a = new Button();
 			a.Text = "Circle";
 			a.Location = Below();
-			a.Click += A_Click;
+			a.Click += (sender, e) => { circle.Enabled = !circle.Enabled; };
 			Controls.Add(a);
 
 			circle = new ControlWaiting();
@@ -124,11 +150,6 @@ namespace FormsTest
 					pos.Y = Math.Min(pos.Y, c.Top);
 				}
 			return pos + new Size(5, 0);
-		}
-
-		void A_Click(object sender, EventArgs e)
-		{
-			circle.Enabled = !circle.Enabled;
 		}
 
 		void B_Click(object sender, EventArgs e)
