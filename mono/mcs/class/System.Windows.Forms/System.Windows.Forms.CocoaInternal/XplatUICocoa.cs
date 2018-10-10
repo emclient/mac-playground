@@ -816,6 +816,7 @@ namespace System.Windows.Forms {
 				
 			if (isTopLevel) {
 				NSWindowStyle attributes = NSStyleFromStyle(cp.WindowStyle);
+				WholeRect = NSWindow.ContentRectFor(WholeRect, attributes);
 				//SetAutomaticControlDragTrackingEnabledForWindow (, true);
 				//ParentHandle = WindowView;
 				windowWrapper = new MonoWindow(WholeRect, attributes, NSBackingStore.Buffered, true, this);
@@ -826,7 +827,6 @@ namespace System.Windows.Forms {
 					windowWrapper.HasShadow = true;
 				windowWrapper.CollectionBehavior = !cp.WindowStyle.HasFlag(WindowStyles.WS_MAXIMIZEBOX) ? NSWindowCollectionBehavior.FullScreenAuxiliary : NSWindowCollectionBehavior.Default;
 
-				WholeRect = NSWindow.ContentRectFor(WholeRect, attributes);
 				viewWrapper = new MonoContentView(this, WholeRect, cp.WindowStyle, cp.WindowExStyle);
 				viewWrapper.AutoresizesSubviews = false;
 				wholeHandle = viewWrapper.Handle;
