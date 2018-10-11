@@ -35,10 +35,13 @@ namespace System.Windows.Forms
 			indicator.Style = NSProgressIndicatorStyle.Bar;
 			indicator.ControlSize = NSControlSize.Regular;
 			indicator.IsDisplayedWhenStopped = true;
-			indicator.Indeterminate = false;
+			indicator.Indeterminate = style == ProgressBarStyle.Marquee;
 
 			indicator.MinValue = minimum;
 			indicator.MaxValue = maximum;
+
+			if (style == ProgressBarStyle.Marquee)
+				indicator.StartAnimation(indicator);
 
 			return indicator;
 		}

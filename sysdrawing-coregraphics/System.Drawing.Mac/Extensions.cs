@@ -60,6 +60,11 @@ namespace System.Drawing.Mac
 			return new CGPoint(p.X + x, p.Y + y);
 		}
 
+		public static CGRect CenterIn(this CGRect self, CGRect other)
+		{
+			return new CGRect(other.Left + (other.Width - self.Width) / 2f, other.Top + (other.Height - self.Height) /2f, self.Width, self.Height);
+		}
+
 		public static CGSize ToCGSize(this Size s)
 		{
 			return new CGSize(s.Width, s.Height);
