@@ -5324,8 +5324,9 @@ namespace System.Windows.Forms
 		}
 
 		private void WmWindowPosChanged (ref Message m) {
+			Size size = Size;
 			UpdateBounds();
-			if (Visible && GetStyle(ControlStyles.ResizeRedraw)) {
+			if (Visible && GetStyle(ControlStyles.ResizeRedraw) && size != Size) {
 				Invalidate();
 			}
 		}
