@@ -437,8 +437,7 @@ namespace System.Windows.Forms {
 					ReverseWindowMapped = false;
 				}
 
-				if (evtRef.Type == NSEventType.FlagsChanged)
-					UpdateModifiers(evtRef.ModifierFlags);
+				UpdateModifiers(evtRef);
 
 				if (evtRef.Type == NSEventType.LeftMouseDown)
 					LastMouseDown = evtRef; // Drag'n'Drop support
@@ -467,6 +466,20 @@ namespace System.Windows.Forms {
 			}
 
 			return true;
+		}
+
+		static internal void UpdateModifiers(NSEvent e)
+		{
+			switch (e.Type)
+			{
+				case NSEventType.FlagsChanged:
+				case NSEventType.KeyDown:
+				case NSEventType.LeftMouseDown:
+				case NSEventType.RightMouseDown:
+				case NSEventType.OtherMouseDown:
+					UpdateModifiers(e.ModifierFlags);
+					break;
+			}
 		}
 
 		static internal void UpdateModifiers(NSEventModifierMask flags)
