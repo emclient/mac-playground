@@ -176,12 +176,17 @@ MacApi/CoreServices/LaunchServices.cs -text
 MacApi/CoreServices/UTType.cs -text
 MacApi/Foundation/Foundation.cs -text
 MacApi/Foundation/PathUtilities.cs -text
+MacApi/LibObjC.cs -text
 MacApi/MacApi.csproj -text
 MacApi/MacApi.snk -text
 MacApi/Posix/LibC.cs -text
+MacApi/PrintCore/PMDestinationType.cs -text
+MacApi/PrintCore/PMDocumentFormat.cs -text
 MacApi/PrintCore/PMDuplexMode.cs -text
 MacApi/PrintCore/PMPrintCoreBase.cs -text
+MacApi/PrintCore/PMPrintSession.cs -text
 MacApi/PrintCore/PMPrintSettings.cs -text
+MacApi/PrintCore/PMPrintSettingsKeys.cs -text
 MacApi/PrintCore/PMStatusCode.cs -text
 MacApi/Properties/AssemblyInfo.cs -text
 MacApi/QuickLook.cs -text
