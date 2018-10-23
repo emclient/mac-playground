@@ -1,9 +1,11 @@
 ﻿using System;
 #if XAMARINMAC
+using AppKit;
 using PrintCore;
 using CoreFoundation;
 using CoreGraphics;
 #elif MONOMAC
+using MonoMac.using AppKit;
 using MonoMac.CoreFoundation;
 using MonoMac.CoreGraphics;
 using MacBridge.MacApi.PrintCore;
@@ -22,8 +24,6 @@ namespace System.Drawing.Printing
 
 		public override void OnStartPrint(PrintDocument document, PrintEventArgs e)
 		{
-			sessionHandle = document.DefaultPageSettings.print_info.GetPMPrintSession();
-
 			var printSettings = new PMPrintSettings();
 			printSettings.Collate = document.PrinterSettings.Collate;
 			switch (document.PrinterSettings.Duplex) {
@@ -38,11 +38,11 @@ namespace System.Drawing.Printing
 				using (var jobName = new CFString(document.DocumentName))
 					PMPrintSettingsSetJobName(printSettings.Handle, jobName.Handle);
 			}
+			var printInfo = document.DefaultPageSettings.print_info;
+			printInfo.Printer = NSPrinter.PrinterWithName(document.PrinterSettings.PrinterName);
 
-			var result = PMSessionBeginCGDocumentNoDialog(
-				sessionHandle,
-				printSettings.Handle,
-				document.DefaultPageSettings.print_info.GetPMPageFormat());
+			sessionHandle = printInfo.GetPMPrintSession();
+			var result = PMSessionBeginCGDocumentNoDialog(sessionHandle, printSettings.Handle, printInfo.GetPMPageFormat());
 		}
 
 		public override void OnEndPrint(PrintDocument document, PrintEventArgs e)
