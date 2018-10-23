@@ -59,6 +59,7 @@ namespace System.Drawing.Printing {
 			printer_name = printer?.Name;
 			page_settings = new PageSettings(this);
 			//PaperSizes = new PaperSizeCollection(new[] { new PaperSize("Letter", (int)(8.5f * 72f), (int)(11f * 72f)) });
+			PaperSources = new PaperSourceCollection(new PaperSource[] { });
 		}
 		
 		public object Clone ()

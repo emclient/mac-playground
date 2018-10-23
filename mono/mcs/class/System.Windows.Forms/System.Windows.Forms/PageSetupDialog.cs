@@ -501,7 +501,7 @@ namespace System.Windows.Forms
 			combobox_source.Items.Clear ();
 			foreach (PaperSource paper_source in InternalPrinterSettings.PaperSources)
 				combobox_source.Items.Add (paper_source.SourceName);
-			combobox_source.SelectedItem = page_settings.PaperSource.SourceName;
+			combobox_source.SelectedItem = page_settings.PaperSource?.SourceName;
 			
 			if (PageSettings.Landscape)
 				radio_landscape.Checked = true;
