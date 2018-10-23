@@ -407,7 +407,14 @@ namespace System.Windows.Forms
 		public override string Text
 		{
 			get { return Imp.Text; }
-			set { Imp.Text = value; }
+			set
+			{
+				if (Imp.Text != value)
+				{
+					Imp.Text = value;
+					OnTextChanged(EventArgs.Empty);
+				}
+			}
 		}
 
 		[Browsable(false)]
