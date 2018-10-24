@@ -77,6 +77,7 @@
     <Compile Include="PrintCore\PMPrintSession.cs" />
     <Compile Include="PrintCore\PMDestinationType.cs" />
     <Compile Include="PrintCore\PMDocumentFormat.cs" />
+    <Compile Include="PrintCore\PMPrinter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppKit\" />

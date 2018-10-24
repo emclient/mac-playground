@@ -35,6 +35,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 #if XAMARINMAC
 using AppKit;
+using MacApi.PrintCore;
+using PrintCore;
 #elif MONOMAC
 using MonoMac.AppKit;
 #endif
@@ -50,12 +52,12 @@ namespace System.Drawing.Printing {
 		private short copies;
 		private PrintRange print_range;
 		private string printer_name;
-		internal NSPrinter printer;
+		internal PMPrinter printer;
 		internal PageSettings page_settings;
 
 		public PrinterSettings ()
 		{
-			printer = NSPrintInfo.DefaultPrinter;
+			printer = PMPrinterEx.DefaultPrinter();
 			printer_name = printer?.Name;
 			page_settings = new PageSettings(this);
 			//PaperSizes = new PaperSizeCollection(new[] { new PaperSize("Letter", (int)(8.5f * 72f), (int)(11f * 72f)) });
@@ -146,7 +148,7 @@ namespace System.Drawing.Printing {
 			get { return printer_name; }
 			set {
 				printer_name = value;
-				printer = NSPrinter.PrinterWithName(value);
+				printer = PMPrinterEx.PrinterWithName(value);
 			}
 		}
 
@@ -159,19 +161,15 @@ namespace System.Drawing.Printing {
 		public int LandscapeAngle { get; internal set; }
 		public bool SupportsColor { get; internal set; }
 		public bool PrintDialogDisplayed { get; set; }
-		public PrinterSettings.PaperSourceCollection PaperSources { get; set; }
+		public PaperSourceCollection PaperSources { get; set; }
 
-
-		public PrinterSettings.PaperSizeCollection PaperSizes {
+		public PaperSizeCollection PaperSizes {
 			get {
-				List<PaperSize> paper_sizes = new List<PaperSize>();
-				if (printer != null) {
-					foreach (var paper_name in printer.StringListForKey("PageSize", "PPD")) {
-						var size = printer.PageSizeForPaper(paper_name);
-						paper_sizes.Add(new PaperSize(paper_name, (int)size.Width, (int)size.Height));
-					}
-				}
-				return new PaperSizeCollection(paper_sizes.ToArray());
+				var sizes = new PaperSizeCollection();
+				if (printer != null)
+					foreach (var paper in printer.PaperList)
+						sizes.Add(new PaperSize(paper.GetLocalizedName(printer), (int)paper.Width, (int)paper.Height));
+				return sizes;
 			}
 		}
 		public PrinterResolutionCollection PrinterResolutions { get; internal set; }
@@ -239,6 +237,10 @@ namespace System.Drawing.Printing {
 			public PaperSizeCollection(PaperSize[] array) {
 				foreach (PaperSize ps in array)
 					_PaperSizes.Add(ps);
+			}
+
+			internal PaperSizeCollection()
+			{
 			}
 
 			public int Count { get { return _PaperSizes.Count; } }

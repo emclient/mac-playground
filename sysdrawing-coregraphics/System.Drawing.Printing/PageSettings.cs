@@ -57,7 +57,7 @@ namespace System.Drawing.Printing {
 		{
 			this.PrinterSettings = printerSettings;
 			print_info = new NSPrintInfo(NSPrintInfo.SharedPrintInfo.Dictionary);
-			print_info.Printer = printerSettings.printer;
+			print_info.Printer = NSPrinter.PrinterWithName(printerSettings.PrinterName);
 			paper_size = new PaperSize(print_info.PaperName, (int)print_info.PaperSize.Width, (int)print_info.PaperSize.Height);
 		}
 
@@ -65,7 +65,7 @@ namespace System.Drawing.Printing {
 		{
 			this.PrinterSettings = pageSettings.PrinterSettings;
 			print_info = new NSPrintInfo(pageSettings.print_info.Dictionary);
-			print_info.Printer = PrinterSettings.printer;
+			print_info.Printer = NSPrinter.PrinterWithName(PrinterSettings.PrinterName);
 			paper_size = pageSettings.PaperSize;
 		} 
 
