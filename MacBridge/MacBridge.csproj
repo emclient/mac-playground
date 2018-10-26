@@ -132,6 +132,10 @@
     <Compile Include="..\..\..\WinApi\Usp10.Structs.cs">
       <Link>WinApi\Usp10.Structs.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\WinApi\ShCore.Structs.cs">
+      <Link>WinApi\ShCore.Structs.cs</Link>
+    </Compile>
+    <Compile Include="WinApi\ShCore.cs" />
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>

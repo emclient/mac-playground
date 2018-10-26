@@ -820,5 +820,10 @@ namespace WinApi
 			return 0u;
 		}
 
+		public static IntPtr MonitorFromRect(ref RECT lprc, int dwFlags)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return IntPtr.Zero;
+		}
 	}
 }
