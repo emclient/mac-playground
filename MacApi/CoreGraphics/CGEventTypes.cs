@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 //using XamCore.Foundation;
 
 
-namespace MacBridge.CoreGraphics
+namespace MacApi.CoreGraphics
 {
 	// CGEventTypes.h:typedef uint32_t CGEventTapLocation;
 	public enum CGEventTapLocation : int

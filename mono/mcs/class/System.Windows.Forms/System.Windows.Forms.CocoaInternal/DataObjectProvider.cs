@@ -5,7 +5,7 @@ using System.Drawing.Mac;
 using System.Drawing.Imaging;
 using System.Windows.Forms.Mac;
 
-using MacBridge.LaunchServices;
+using MacApi.LaunchServices;
 
 #if MONOMAC
 using MonoMac.AppKit;

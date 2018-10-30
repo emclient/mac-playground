@@ -8,7 +8,7 @@ using CoreGraphics;
 using MonoMac.using AppKit;
 using MonoMac.CoreFoundation;
 using MonoMac.CoreGraphics;
-using MacBridge.MacApi.PrintCore;
+using MacApi.PrintCore;
 #endif
 
 namespace System.Drawing.Printing

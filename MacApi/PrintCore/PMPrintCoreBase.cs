@@ -9,7 +9,7 @@ using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
 #endif
 
-namespace MacBridge.MacApi.PrintCore
+namespace MacApi.PrintCore
 {
 	public class PMPrintCoreBase : NSObject
 	{

@@ -11,7 +11,7 @@ using Foundation;
 using AppKit;
 #endif
 
-namespace MacBridge.AppKit
+namespace MacApi.AppKit
 {
     public static class NSWorkspaceEx
     {

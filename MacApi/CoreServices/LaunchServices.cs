@@ -6,7 +6,7 @@ using Foundation;
 using MonoMac.Foundation;
 #endif
 
-namespace MacBridge.CoreServices
+namespace MacApi.CoreServices
 {
 	public class LaunchServices
 	{

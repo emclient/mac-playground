@@ -7,7 +7,7 @@ using MonoMac.Foundation;
 using Foundation;
 #endif
 
-namespace MacBridge.LaunchServices
+namespace MacApi.LaunchServices
 {
 	public class UTType
 	{
