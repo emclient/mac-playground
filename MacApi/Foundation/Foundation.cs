@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MacBridge
+namespace MacApi
 {
 	public static partial class FoundationStatic
 	{

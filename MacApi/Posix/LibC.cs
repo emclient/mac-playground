@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace MacBridge.Posix
+namespace MacApi.Posix
 {
     public static class LibC
     {

@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.CocoaInternal;
-using MacBridge;
+using MacApi;
 #if XAMARINMAC
 using AppKit;
 using CoreGraphics;
@@ -15,7 +15,7 @@ using CoreGraphics;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using ObjCRuntime = MonoMac.ObjCRuntime;
-using MacBridge.CoreGraphics;
+using MacApi.CoreGraphics;
 #endif
 
 namespace WinApi

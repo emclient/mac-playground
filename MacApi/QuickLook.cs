@@ -5,7 +5,7 @@ using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MonoMac.CoreFoundation;
 
-namespace MacBridge.QuickLook
+namespace MacApi.QuickLook
 {
     public static partial class QLThumbnailImage
     {

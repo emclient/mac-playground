@@ -1344,6 +1344,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms/PreProcessControlState.
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/PreviewKeyDownEventArgs.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/PreviewKeyDownEventHandler.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/PrintControllerWithStatusDialog.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms/PrintDialog.Mac.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/PrintDialog.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/PrintPreviewControl.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms/PrintPreviewDialog.cs -text

@@ -1,4 +1,4 @@
-﻿namespace MacBridge.MacApi.PrintCore
+﻿namespace MacApi.PrintCore
 {
 	public enum PMDestinationType : ushort
 	{

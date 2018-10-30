@@ -6,7 +6,7 @@ using Foundation;
 using MonoMac.Foundation;
 #endif
 
-namespace MacBridge
+namespace MacApi
 {
 	public static partial class FoundationStatic
 	{

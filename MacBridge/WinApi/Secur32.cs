@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Reflection;
-using System.Security.Principal;
-using MacBridge;
+using MacApi;
 
 namespace WinApi
 {
