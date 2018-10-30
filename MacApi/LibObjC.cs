@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 
 #if MONOMAC
@@ -7,7 +7,7 @@ using MonoMac.ObjCRuntime;
 using ObjCRuntime;
 #endif
 
-namespace MacBridge.MacApi
+namespace MacApi
 {
 	public class LibObjc
 	{

@@ -1281,7 +1281,6 @@
     <Compile Include="System.Windows.Forms\ScrollBar.Mac.cs" />
     <Compile Include="System.Windows.Forms\ProgressBar.Mac.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\XplatUICocoa.Dnd.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\LibObjc.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoEditView.cs" />
     <Compile Include="System.Windows.Forms\ToolStripItem.Mac.cs">
       <SubType>Component</SubType>
@@ -1309,9 +1308,10 @@
     <Compile Include="System.Windows.Forms\TextBoxBase-NSTextView.cs" />
     <Compile Include="System.Windows.Forms\TextBoxBase-NSSecureTextField.cs" />
     <Compile Include="System.Windows.Forms\DateTimeUtility.cs" />
-    <Compile Include="resources\Strings.Designer.cs" >
+    <Compile Include="resources\Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="System.Windows.Forms\PrintDialog.Mac.cs" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

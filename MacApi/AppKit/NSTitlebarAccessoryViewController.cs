@@ -1,7 +1,7 @@
 ﻿#if MONOMAC using System; using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime; 
-namespace MacBridge.AppKit { 	[Register("NSTitlebarAccessoryViewController", true)] 	public class NSTitlebarAccessoryViewController : NSViewController 	{ 		static readonly IntPtr classHandle = Class.GetHandle("NSTitlebarAccessoryViewController"); 		public override IntPtr ClassHandle { get { return classHandle; } }  		static readonly IntPtr selLayoutAttributeHandle = Selector.GetHandle("layoutAttribute"); 		static readonly IntPtr selSetLayoutAttributeHandle = Selector.GetHandle("setLayoutAttribute:");  		public virtual NSLayoutAttribute LayoutAttribute
+namespace MacApi.AppKit { 	[Register("NSTitlebarAccessoryViewController", true)] 	public class NSTitlebarAccessoryViewController : NSViewController 	{ 		static readonly IntPtr classHandle = Class.GetHandle("NSTitlebarAccessoryViewController"); 		public override IntPtr ClassHandle { get { return classHandle; } }  		static readonly IntPtr selLayoutAttributeHandle = Selector.GetHandle("layoutAttribute"); 		static readonly IntPtr selSetLayoutAttributeHandle = Selector.GetHandle("setLayoutAttribute:");  		public virtual NSLayoutAttribute LayoutAttribute
 		{ 			[Export("layoutAttribute")] 			get { return (NSLayoutAttribute)Messaging.int_objc_msgSend(Handle, selLayoutAttributeHandle); }
 			[Export("setLayoutAttribute:")]
 			set { Messaging.void_objc_msgSend_int(Handle, selSetLayoutAttributeHandle, (int)value); } 		}

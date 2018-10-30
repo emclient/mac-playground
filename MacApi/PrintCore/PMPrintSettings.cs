@@ -1,7 +1,7 @@
 ﻿/*using System;
 using System.Runtime.InteropServices;
 
-namespace MacBridge.MacApi.PrintCore
+namespace MacApi.PrintCore
 {
 	public class PMPrintSettings : PMPrintCoreBase
 	{

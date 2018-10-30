@@ -1,4 +1,4 @@
-﻿namespace MacBridge
+﻿namespace MacApi
 {
 	public static class Constants
 	{

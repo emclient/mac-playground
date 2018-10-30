@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using Foundation;
 using PrintCore;
 
-namespace MacBridge.MacApi.PrintCore
+namespace MacApi.PrintCore
 {
 	public static class PMPrintSessionExtensions
 	{

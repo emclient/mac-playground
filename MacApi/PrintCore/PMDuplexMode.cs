@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MacBridge.MacApi.PrintCore
+namespace MacApi.PrintCore
 {
 	public enum PMDuplexMode : uint
 	{
