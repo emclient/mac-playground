@@ -17,6 +17,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
     <Optimize>false</Optimize>
@@ -24,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>DEBUG; NET_4_5; NET_4_0; MAC</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin - Debug|AnyCPU' ">
     <Optimize>false</Optimize>
@@ -32,6 +34,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>DEBUG; NET_4_5; NET_4_0; MAC;XAMARINMAC;__UNIFIED__</DefineConstants>
     <PlatformTarget>anycpu</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin-Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -40,11 +43,13 @@
     <DebugSymbols>false</DebugSymbols>
     <DefineConstants>NET_4_5; NET_4_0; MAC;XAMARINMAC;__UNIFIED__</DefineConstants>
     <PlatformTarget>anycpu</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
@@ -226,6 +231,7 @@
     <Compile Include="Controls\ProgressIndicator.cs" />
     <Compile Include="Controls\HatchedBar.cs" />
     <Compile Include="Controls\RunningDots.cs" />
+    <Compile Include="NSBackgroundActivityScheduler.cs" />
   </ItemGroup>
   <ItemGroup>
     <!--<EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">

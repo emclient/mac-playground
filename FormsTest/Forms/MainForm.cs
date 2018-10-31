@@ -9,6 +9,7 @@ using System.Diagnostics;
 namespace FormsTest
 {
 	using System.Collections.Generic;
+	using Foundation;
 	//using MailClient.UI.Forms;
 	//using CocoaMessageBox = MessageBox;
 	using FormsMessageBox = System.Windows.Forms.MessageBox;
@@ -121,6 +122,19 @@ namespace FormsTest
 			});*/
 
 			AddButton("Animations", () => { new AnimationsForm().Show(); });
+			AddButton("Bg activity", () => { StartBgActivity(); });
+			AddButton("Print dialog", () => { ShowPrintDialog(); });
+		}
+
+		void StartBgActivity()
+		{
+			var activity = new NSBackgroundActivityScheduler("com.emclient.FormsTest.TestActivity");
+			activity.Repeats = true;
+			activity.Interval = 1;
+			activity.Schedule((completionHandler) => {
+				Console.WriteLine("Background activity!");
+				//completionHandler(NSNumber.FromInt32(1));
+			});
 		}
 
 		List<Button> buttons = new List<Button>();
@@ -257,5 +271,14 @@ namespace FormsTest
 
             base.WndProc(ref m);
         }
-    }
+
+		void ShowPrintDialog()
+		{
+			var dialog = new PrintDialog();
+			//dialog.PrinterSettings = 
+			dialog.ShowDialog(this);
+		}
+
+
+	}
 }
