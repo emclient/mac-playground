@@ -74,5 +74,11 @@ namespace MacApi
 
 		[DllImport(libobjc, EntryPoint = objc_msgSend)]
 		public extern static IntPtr IntPtr_objc_msgSend_Int32(IntPtr receiver, IntPtr selector, Int32 arg1);
+
+		[DllImport(libobjc, EntryPoint = objc_msgSend)]
+		public static extern double double_objc_msgSend(IntPtr receiver, IntPtr selector);
+
+		[DllImport(libobjc, EntryPoint = objc_msgSend)]
+		public static extern void void_objc_msgSend_Double(IntPtr receiver, IntPtr selector, double value);
 	}
 }

@@ -143,6 +143,7 @@ FormsTest/Msg.cs -text
 FormsTest/MyListBox.cs -text
 FormsTest/MyTextBox.cs -text
 FormsTest/MyView.cs -text
+FormsTest/NSBackgroundActivityScheduler.cs -text
 FormsTest/Program.cs -text
 FormsTest/Properties/AssemblyInfo.cs -text
 FormsTest/Properties/Resources.Designer.cs -text

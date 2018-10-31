@@ -13,7 +13,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 #if MAC
-using MacBridge.Posix;
+using MacApi.Posix;
 #if XAMARINMAC
 using AppKit;
 #else //MONOMAC
