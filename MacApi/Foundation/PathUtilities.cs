@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 #if XAMARINMAC
 using Foundation;
@@ -46,6 +48,23 @@ namespace MacApi
 			return NSArray.StringArrayFromHandle(handle);
 		}
 
+		public static string ApplicationSupportDirectory
+		{
+			get
+			{
+				var paths = SearchPathForDirectoriesInDomains(NSSearchPathDirectory.NSApplicationSupportDirectory, NSSearchPathDomainMask.NSUserDomainMask, true);
+				if (paths.Length > 0)
+					return paths[0];
+
+				Debug.Assert(false, "NSApplicationSupportDirectory not found");
+
+				paths = SearchPathForDirectoriesInDomains(NSSearchPathDirectory.NSLibraryDirectory, NSSearchPathDomainMask.NSUserDomainMask, true);
+				if (paths.Length > 0)
+					return Path.Combine(paths[0], "Application Support");
+
+				return Path.Combine(HomeDirectory, "Library/Application Support");
+			}
+		}
 
 		[Serializable]
 		public enum NSSearchPathDirectory : uint
