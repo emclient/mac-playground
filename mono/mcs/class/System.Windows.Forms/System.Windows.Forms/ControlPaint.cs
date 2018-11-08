@@ -35,7 +35,13 @@ namespace System.Windows.Forms {
 		#region Local Variables
 		static int		RGBMax=255;
 		static int		HLSMax=255;
-		#endregion	// Local Variables
+
+				//use these value to signify ANY of the right, top, left, center, or bottom alignments with the ContentAlignment enum.
+		private static readonly ContentAlignment anyRight = ContentAlignment.TopRight | ContentAlignment.MiddleRight | ContentAlignment.BottomRight;
+		private static readonly ContentAlignment anyBottom = ContentAlignment.BottomLeft | ContentAlignment.BottomCenter | ContentAlignment.BottomRight;
+		private static readonly ContentAlignment anyCenter = ContentAlignment.TopCenter | ContentAlignment.MiddleCenter | ContentAlignment.BottomCenter;
+		private static readonly ContentAlignment anyMiddle = ContentAlignment.MiddleLeft | ContentAlignment.MiddleCenter | ContentAlignment.MiddleRight;
+		#endregion  // Local Variables
 
 		#region Private Enumerations
 
@@ -489,6 +495,86 @@ namespace System.Windows.Forms {
 		{
 			ThemeEngine.Current.CPDrawVisualStyleBorder (graphics, bounds);
 		}
-		#endregion	// Public Static Methods
+		#endregion // Public Static Methods
+
+		internal static TextFormatFlags CreateTextFormatFlags(Control ctl, ContentAlignment textAlign, bool showEllipsis, bool useMnemonic)
+		{
+			//textAlign = ctl.RtlTranslateContent(textAlign);
+			TextFormatFlags flags = ControlPaint.TextFormatFlagsForAlignmentGDI(textAlign);
+
+			// The effect of the TextBoxControl flag is that in-word line breaking will occur if needed, this happens when AutoSize 
+			// is false and a one-word line still doesn't fit the binding box (width).  The other effect is that partially visible 
+			// lines are clipped; this is how GDI+ works by default.
+			flags |= TextFormatFlags.WordBreak | TextFormatFlags.TextBoxControl;
+
+			if (showEllipsis)
+			{
+				flags |= TextFormatFlags.EndEllipsis;
+			}
+
+			// Adjust string format for Rtl controls
+			if (ctl.RightToLeft == RightToLeft.Yes)
+			{
+				flags |= TextFormatFlags.RightToLeft;
+			}
+
+			//if we don't use mnemonic, set formatFlag to NoPrefix as this will show the ampersand
+			if (!useMnemonic)
+			{
+				flags |= TextFormatFlags.NoPrefix;
+			}
+			//else if we don't show keyboard cues, set formatFlag to HidePrefix as this will hide
+			//the ampersand if we don't press down the alt key
+			else if (!ctl.ShowKeyboardCues)
+			{
+				flags |= TextFormatFlags.HidePrefix;
+			}
+
+			return flags;
+		}
+
+		internal static TextFormatFlags TextFormatFlagsForAlignmentGDI(ContentAlignment align)
+		{
+			TextFormatFlags output = new TextFormatFlags();
+			output |= TranslateAlignmentForGDI(align);
+			output |= TranslateLineAlignmentForGDI(align);
+			return output;
+		}
+
+		internal static TextFormatFlags TranslateLineAlignmentForGDI(ContentAlignment align)
+		{
+			TextFormatFlags result;
+			if ((align & anyRight) != 0)
+				result = TextFormatFlags.Right;
+			else if ((align & anyCenter) != 0)
+				result = TextFormatFlags.HorizontalCenter;
+			else
+				result = TextFormatFlags.Left;
+			return result;
+		}
+
+		internal static TextFormatFlags TranslateAlignmentForGDI(ContentAlignment align)
+		{
+			TextFormatFlags result;
+			if ((align & anyBottom) != 0)
+				result = TextFormatFlags.Bottom;
+			else if ((align & anyMiddle) != 0)
+				result = TextFormatFlags.VerticalCenter;
+			else
+				result = TextFormatFlags.Top;
+			return result;
+		}
+
+		internal static StringAlignment TranslateLineAlignment(ContentAlignment align)
+		{
+			StringAlignment result;
+			if ((align & anyBottom) != 0)
+				result = StringAlignment.Far;
+			else if ((align & anyMiddle) != 0)
+				result = StringAlignment.Center;
+			else
+				result = StringAlignment.Near;
+			return result;
+		}
 	}
 }
