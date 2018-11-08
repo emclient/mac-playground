@@ -741,5 +741,61 @@ namespace System.Windows.Forms
 		{
 			base.OnHandleDestroyed (e);
 		}
+
+		// For compatibility with WinForms (for use with Reflection)
+		private TextFormatFlags CreateTextFormatFlags()
+		{
+			return CreateTextFormatFlags(this.Size - GetBordersAndPadding());
+		}
+
+		// For compatibility with WinForms (for use with Reflection)
+		internal virtual TextFormatFlags CreateTextFormatFlags(Size constrainingSize)
+		{
+			TextFormatFlags flags = ControlPaint.CreateTextFormatFlags(this, this.TextAlign, this.AutoEllipsis, this.UseMnemonic);
+
+			// FIXME:
+			// Remove WordBreak if the size is large enough to display all the text.
+			//if (!MeasureTextCache.TextRequiresWordBreak(Text, Font, constrainingSize, flags))
+			{
+				// The effect of the TextBoxControl flag is that in-word line breaking will occur if needed, this happens when AutoSize 
+				// is false and a one-word line still doesn't fit the binding box (width).  The other effect is that partially visible 
+				// lines are clipped; this is how GDI+ works by default.
+				flags &= ~(TextFormatFlags.WordBreak | TextFormatFlags.TextBoxControl);
+			}
+
+			return flags;
+		}
+
+		private Size GetBordersAndPadding()
+		{
+			Size bordersAndPadding = Padding.Size;
+
+			// COMPAT VSW 248415: Everett added random numbers to the height of the label               
+			if (UseCompatibleTextRendering)
+			{
+				//Always return the Fontheight + some buffer else the Text gets clipped for Autosize = true..
+				//(bug 118909)
+				if (BorderStyle != BorderStyle.None)
+				{
+					bordersAndPadding.Height += 6; // taken from Everett.PreferredHeight
+					bordersAndPadding.Width += 2; // taken from Everett.PreferredWidth
+				}
+				else
+				{
+					bordersAndPadding.Height += 3; // taken from Everett.PreferredHeight
+				}
+			}
+			else
+			{
+				// in Whidbey we'll actually ask the control the border size.
+
+				bordersAndPadding += SizeFromClientSize(Size.Empty);
+				if (BorderStyle == BorderStyle.Fixed3D)
+				{
+					bordersAndPadding += new Size(2, 2);
+				}
+			}
+			return bordersAndPadding;
+		}
 	}
 }
