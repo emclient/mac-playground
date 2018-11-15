@@ -1652,10 +1652,10 @@ namespace System.Windows.Forms {
 			Form owner_to_be = null;
 
 			if ((owner == null) && (Application.MWFThread.Current.Context != null)) {
-				IntPtr active = XplatUI.GetActive ();
-				if (active != IntPtr.Zero) {
-					owner = Control.FromHandle (active) as Form;
-				}
+				//IntPtr active = XplatUI.GetActive ();
+				//if (active != IntPtr.Zero) {
+				//	owner = Control.FromHandle (active) as Form;
+				//}
 			}
 
 			if (owner != null) {

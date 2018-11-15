@@ -5693,6 +5693,8 @@ namespace System.Windows.Forms
 			if (frm != null)
 				frm.waiting_showwindow = false;
 
+			is_visible = m.WParam != IntPtr.Zero;
+
 			// If the form is Max/Min, it got its OnVisibleChanged in SetVisibleCore
 			if (frm != null) {
 				if (!IsRecreating && (frm.IsMdiChild || frm.WindowState == FormWindowState.Normal)) /* XXX make sure this works for mdi forms */

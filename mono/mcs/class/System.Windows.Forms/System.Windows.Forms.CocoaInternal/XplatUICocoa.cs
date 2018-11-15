@@ -621,7 +621,7 @@ namespace System.Windows.Forms {
 		{
 			if (handle != IntPtr.Zero) {
 				var vuWrap = handle.ToNSView();
-				if (vuWrap != null && vuWrap.Window != null && !vuWrap.Window.IsKeyWindow) {
+				if (vuWrap != null && vuWrap.Window != null) { // && !vuWrap.Window.IsKeyWindow) {
 					vuWrap.Window.MakeKeyAndOrderFront(vuWrap);
 				}
 			}
@@ -1817,6 +1817,8 @@ namespace System.Windows.Forms {
 			NSWindow winWrap = vuWrap.Window;
 			if (Modal)
 			{
+				if (winWrap.ParentWindow == null)
+					winWrap.Center();
 				IntPtr session = NSApplication.SharedApplication.BeginModalSession(winWrap);
 				ModalSessions.Push(session);
 			}
