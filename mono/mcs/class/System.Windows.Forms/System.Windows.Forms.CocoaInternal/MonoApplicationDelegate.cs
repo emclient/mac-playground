@@ -66,12 +66,16 @@ namespace System.Windows.Forms.CocoaInternal
 			if (Application.MessageLoop)
 			{
 				var form = Application.MWFThread.Current.Context.MainForm;
-				if (form != null && form.IsHandleCreated && !form.Disposing && !form.IsDisposed && !form.Modal)
+				if (form != null && form.IsHandleCreated && !form.Disposing && !form.IsDisposed && !form.Modal && form.Visible)
 				{
 					form.CloseReason = CloseReason.ApplicationExitCall;
 					XplatUI.PostMessage(form.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+					return NSApplicationTerminateReply.Cancel;
 				}
-				return NSApplicationTerminateReply.Cancel;
+				else
+				{
+					return NSApplicationTerminateReply.Now;
+				}
 			}
 
 			return NSApplicationTerminateReply.Now;
@@ -185,6 +189,13 @@ namespace System.Windows.Forms.CocoaInternal
 					gch.Free();
 			}
 			return dockMenu;
+		}
+
+		public override bool ApplicationShouldHandleReopen(NSApplication sender, bool hasVisibleWindows)
+		{
+			XplatUICocoa.UpdateModifiers(NSEvent.CurrentModifierFlags);
+			var result = driver.SendMessage(XplatUI.GetActive(), Msg.WM_APP_REOPEN, new IntPtr(hasVisibleWindows ? 1 : 0), IntPtr.Zero);
+			return result.ToInt32() != 0;
 		}
 	}
 }

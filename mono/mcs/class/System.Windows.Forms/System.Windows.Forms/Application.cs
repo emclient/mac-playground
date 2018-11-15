@@ -837,6 +837,7 @@ namespace System.Windows.Forms
 			}
 
 			Object queue_id = XplatUI.StartLoop(Thread.CurrentThread);
+			var prevMessageLoop = thread.MessageLoop;
 			thread.MessageLoop = true;
 
 			bool quit = false, drop = false;
@@ -870,7 +871,7 @@ namespace System.Windows.Forms
 				Console.WriteLine ("   RunLoop loop left");
 			#endif
 
-			thread.MessageLoop = false;
+			thread.MessageLoop = prevMessageLoop;
 			XplatUI.EndLoop (Thread.CurrentThread);
 
 			if (Modal) {
