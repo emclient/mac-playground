@@ -679,6 +679,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/IMacNativ
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/KeysConverter.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/LibObjc.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/ModalDialogContext.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoApplication.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoApplicationDelegate.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoContentView.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/MonoEditView.cs -text
