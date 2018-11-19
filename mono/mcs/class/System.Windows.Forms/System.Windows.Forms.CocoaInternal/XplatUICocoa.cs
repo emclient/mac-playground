@@ -93,6 +93,7 @@ namespace System.Windows.Forms {
 		// Internal members available to the event handler sub-system
 		internal static NSWindow ReverseWindow;
 		internal static NSView CaretView;
+		internal static MonoApplication NSApp;
 
 		// Instance members
 		internal static NSEventModifierMask key_modifiers_internal = 0;
@@ -100,9 +101,6 @@ namespace System.Windows.Forms {
 		internal bool translate_modifier = false;
 		internal NSEvent evtRef; // last/current message
 
-		// Event handlers
-		private Cocoa.MonoApplicationDelegate applicationDelegate;
-		
 		// Cocoa Specific
 		internal GrabStruct Grab;
 		internal IntPtr LastEnteredHwnd;
@@ -176,9 +174,10 @@ namespace System.Windows.Forms {
 			if (-1 != Array.IndexOf(NSProcessInfo.ProcessInfo.Arguments, "-wrapNSUrlInitWithString"))
 				urlSwizzle = new Swizzle<InitWithStringDelegate>(typeof(NSUrl), "initWithString:", NSUrlInitWithString);
 
+			NSApp = MonoApplication.CreateShared();
+
 			// Initialize the event handlers
-			applicationDelegate = new Cocoa.MonoApplicationDelegate (this);
-			NSApplication.SharedApplication.Delegate = applicationDelegate;
+			NSApp.Delegate = new MonoApplicationDelegate(this);
 
 			// Make sure the Apple event handlers get registered
 			using (new NSAutoreleasePool())
@@ -442,7 +441,6 @@ namespace System.Windows.Forms {
 			msg.message = Msg.WM_NULL;
 
 			NSDate timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
-			NSApplication NSApp = NSApplication.SharedApplication;
 
 #if MONOMAC
 			evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, dequeue);
@@ -490,6 +488,7 @@ namespace System.Windows.Forms {
 							NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
 					}
 				}
+
 				NSApp.UpdateWindows();
 			}
 
