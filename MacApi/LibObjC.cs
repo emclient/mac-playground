@@ -16,7 +16,13 @@ namespace MacApi
 		const string objc_msgSendSuper = "objc_msgSendSuper";
 
 		[DllImport(libobjc)]
+		extern public static IntPtr class_getClassMethod(IntPtr classHandle, IntPtr Selector);
+
+		[DllImport(libobjc)]
 		extern public static IntPtr class_getInstanceMethod(IntPtr classHandle, IntPtr Selector);
+
+		[DllImport(libobjc)]
+		extern public static void class_exchangeImplementations(IntPtr originalMethod, IntPtr swizzledMethod);
 
 		[DllImport(libobjc)]
 		extern public static IntPtr method_getImplementation(IntPtr method);
@@ -59,6 +65,9 @@ namespace MacApi
 
 		[DllImport(libobjc, EntryPoint = objc_msgSendSuper)]
 		public static extern IntPtr IntPtr_objc_msgSendSuper_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2);
+
+		[DllImport(libobjc, EntryPoint = objc_msgSend)]
+		public static extern IntPtr IntPtr_objc_msgSend_IntPtr_IntPtr_Int32(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2, Int32 arg3);
 
 		[DllImport(libobjc, EntryPoint = objc_msgSend)]
 		public extern static void void_objc_msgSend_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1);
