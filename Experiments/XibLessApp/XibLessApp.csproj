@@ -29,6 +29,7 @@
     <HttpClientHandler>HttpClientHandler</HttpClientHandler>
     <TlsProvider>Default</TlsProvider>
     <LinkMode>None</LinkMode>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -45,6 +46,7 @@
     <LinkMode>SdkOnly</LinkMode>
     <HttpClientHandler>HttpClientHandler</HttpClientHandler>
     <TlsProvider>Default</TlsProvider>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,6 +66,7 @@
     <HttpClientHandler>HttpClientHandler</HttpClientHandler>
     <TlsProvider>Default</TlsProvider>
     <LinkMode>None</LinkMode>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin - Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -83,6 +86,7 @@
     <HttpClientHandler>HttpClientHandler</HttpClientHandler>
     <TlsProvider>Default</TlsProvider>
     <LinkMode>None</LinkMode>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin-Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -102,6 +106,7 @@
     <HttpClientHandler>HttpClientHandler</HttpClientHandler>
     <TlsProvider>Default</TlsProvider>
     <LinkMode>None</LinkMode>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -116,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
+    <Compile Include="Window.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

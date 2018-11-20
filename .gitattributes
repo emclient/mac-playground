@@ -25,6 +25,7 @@ Experiments/FakeMailApp/Info.plist -text
 Experiments/FakeMailApp/ViewController.swift -text
 Experiments/XibLessApp/Info.plist -text
 Experiments/XibLessApp/Main.cs -text
+Experiments/XibLessApp/Window.cs -text
 Experiments/XibLessApp/XibLessApp.csproj -text
 Experiments/XibLessSwiftApp/XibLessSwiftApp.xcodeproj/project.pbxproj -text
 Experiments/XibLessSwiftApp/XibLessSwiftApp.xcodeproj/project.xcworkspace/contents.xcworkspacedata -text
