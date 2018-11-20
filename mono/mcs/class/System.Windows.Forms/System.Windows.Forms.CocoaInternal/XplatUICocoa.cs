@@ -2366,8 +2366,9 @@ namespace System.Windows.Forms {
 			get
 			{
 				var defaults = NSUserDefaults.StandardUserDefaults;
-				var repeat = Math.Max(defaults.IntForKey("KeyRepeat"), 2); //2 ~ 30ms, 1 ~ 15mss
-				return ToWindowsKeyboardSpeed((int)repeat);
+				var repeat = Math.Max(defaults.IntForKey("KeyRepeat"), 2); //2 ~ 30ms, 1 ~ 15ms
+				var value = repeat > 10000 ? 0 : (int)Math.Round((repeat * 15.0 - 400.0) * 31.0 / -(400.0 - 33.3));
+				return repeat < 10000 ? Math.Max(0, value) : 0; // 10000 and more means "repeat is off"
 			}
 		}
 
@@ -2377,18 +2378,9 @@ namespace System.Windows.Forms {
 			{
 				var defaults = NSUserDefaults.StandardUserDefaults;
 				var delay = defaults.IntForKey("InitialKeyRepeat");
-				return ToWindowsKeyboardSpeed((int)delay);
+				var value = (int)Math.Round((delay * 15.0 - 250.0) * 3.0 / 750.0);
+				return Math.Max(0, value);
 			}
-		}
-
-		internal int ToWindowsKeyboardSpeed(int repeat)
-		{
-			double ms = 15.0 * repeat;
-			double rps = 1000.0 / ms;
-			const double a = 31.0 / (30.0 - 2.5);
-			const double b = -a * 2.5;
-			double speed = a * rps + b;
-			return (int)Math.Round(speed);
 		}
 
 		internal override int CaptionHeight {
