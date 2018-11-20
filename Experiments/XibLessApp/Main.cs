@@ -35,8 +35,8 @@ namespace XibLessApp
             app.FinishLaunching();
 			//app.Run()
 
-			var dialog = Program.WindowWithTitle("Modal");
-			Program.RunModalWindow(dialog);
+			//var dialog = Program.WindowWithTitle("Modal");
+			//Program.RunModalWindow(dialog);
 
 			var window = Program.WindowWithTitle("Normal");
 			window.MakeKeyAndOrderFront(app);
@@ -79,7 +79,7 @@ namespace XibLessApp
 		static NSWindow WindowWithTitle(String title)
 		{
 			var style = NSWindowStyle.Titled | NSWindowStyle.Closable | NSWindowStyle.Resizable;
-			var window = new NSWindow(new RectangleF(0, 0, 480, 320), style, NSBackingStore.Buffered, false);
+			var window = new Window(new RectangleF(0, 0, 480, 320), style, NSBackingStore.Buffered, false);
 			window.Title = title;
 			return window;
 		}
