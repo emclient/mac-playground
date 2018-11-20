@@ -39,34 +39,35 @@ namespace System.Windows.Forms
 	//		}
 	//	}
 
-	internal class Swizzle<TDelegate> : IDisposable where TDelegate : class
+	public class Swizzle<TDelegate> : IDisposable where TDelegate : class
 	{
 		protected IntPtr originalMethod;
 		protected IntPtr originalImpl;
 		protected IntPtr victimSel;
 		protected IntPtr newImpl;
+		protected bool isClassMethod;
 
 		protected TDelegate dlg; // Your delegate
 
-		public Swizzle(Class victim, IntPtr selector, TDelegate del)
+		public Swizzle(Class victim, IntPtr selector, TDelegate del, bool isClassMethod = false)
 		{
 		    dlg = del;
 			victimSel = selector;
 
-			originalMethod = LibObjc.class_getInstanceMethod(victim.Handle, victimSel);
+			originalMethod = isClassMethod ? LibObjc.class_getClassMethod(victim.Handle, victimSel) : LibObjc.class_getInstanceMethod(victim.Handle, victimSel);
 			originalImpl = LibObjc.method_getImplementation(originalMethod);
 
 			newImpl = Marshal.GetFunctionPointerForDelegate(del as System.Delegate);
 			LibObjc.method_setImplementation(originalMethod, newImpl);
 		}
 
-		public Swizzle(Type victim, string selector, TDelegate del)
-			: this(victim.GetClass(), Selector.GetHandle(selector), del)
+		public Swizzle(Type victim, string selector, TDelegate del, bool isClassMethod = false)
+			: this(victim.GetClass(), Selector.GetHandle(selector), del, isClassMethod)
 		{
 		}
 
-		public Swizzle(NSObject victim, string selector, TDelegate del)
-			: this(victim.Class, Selector.GetHandle(selector), del)
+		public Swizzle(NSObject victim, string selector, TDelegate del, bool isClassMethod = false)
+			: this(victim.Class, Selector.GetHandle(selector), del, isClassMethod)
 		{
 		}
 
