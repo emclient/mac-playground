@@ -516,11 +516,21 @@ namespace System.Windows.Forms
 			case Msg.WM_KILLFOCUS:
 				ActiveControl = null;
 				break;
+			case Msg.WM_SELECT_ALL:
+				SelectAll();
+				break;
 			default:
 				base.WndProc (ref m);
 				break;
 			}
 		}
+
+		internal virtual void SelectAll()
+		{
+			if (txtView != null && txtView.Visible)
+				txtView.SelectAllNoScroll();
+		}
+
 		#endregion	// Protected Instance Methods
 
 		#region Events
