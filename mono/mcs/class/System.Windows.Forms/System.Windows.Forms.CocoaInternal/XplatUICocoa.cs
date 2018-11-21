@@ -168,11 +168,7 @@ namespace System.Windows.Forms {
 
 		internal override IntPtr InitializeDriver()
 		{
-			ObjCRuntime.Class.ThrowOnInitFailure = false;
-
-			// Troubleshooting NSUrl crashes
-			if (-1 != Array.IndexOf(NSProcessInfo.ProcessInfo.Arguments, "-wrapNSUrlInitWithString"))
-				urlSwizzle = new Swizzle<InitWithStringDelegate>(typeof(NSUrl), "initWithString:", NSUrlInitWithString);
+			Troubleshooter.Initialize();
 
 			NSApp = MonoApplication.CreateShared();
 
@@ -211,28 +207,6 @@ namespace System.Windows.Forms {
 			nextWindowLocation = CGPoint.Empty;
 
 			return IntPtr.Zero;
-		}
-
-		delegate IntPtr InitWithStringDelegate(IntPtr @this, IntPtr @selector, IntPtr @string);
-		Swizzle<InitWithStringDelegate> urlSwizzle;
-
-		IntPtr NSUrlInitWithString(IntPtr @this, IntPtr @selector, IntPtr @string)
-		{
-			var o = ObjCRuntime.Runtime.GetNSObject(@string);
-			Console.WriteLine($"# NSUrl({o?.ToString() ?? @"<null>" })");
-			Console.WriteLine(new StackTrace());
-
-			var result = IntPtr.Zero;
-			using (var unswizzle = urlSwizzle.Restore())
-				result = unswizzle.Delegate(@this, @selector, @string);
-
-			if (result == IntPtr.Zero)
-			{
-				Console.WriteLine($"initWithString: failed!");
-				return new NSUrl("").Handle;
-			}
-
-			return result;
 		}
 
 		internal void ScreenToClientWindow (IntPtr handle, ref CGPoint point)

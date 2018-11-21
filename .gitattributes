@@ -691,6 +691,7 @@ mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/NSKeyEx.c
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Pasteboard.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Structs.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Swizzle.cs -text
+mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/Troubleshooter.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/WindowsEventResponder.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/XplatUICocoa.Dnd.cs -text
 mono/mcs/class/System.Windows.Forms/System.Windows.Forms.CocoaInternal/XplatUICocoa.cs -text
