@@ -31,7 +31,8 @@ namespace System.Windows.Forms.CocoaInternal
 
 			// Troubleshooting NSUrl crashes
 			if (args.Contains("-wrapNSUrlInitWithString"))
-				urlSwizzle = new Swizzle<InitWithStringDelegate>(typeof(NSUrl), "initWithString:", NSUrlInitWithString);
+				urlSwizzle = new Swizzle<InitWithStringDelegate>(new Class("NSURL"), Selector.GetHandle("initWithString:"), NSUrlInitWithString);
+				//urlSwizzle = new Swizzle<InitWithStringDelegate>(typeof(NSUrl), "initWithString:", NSUrlInitWithString);
 
 			if (args.Contains("-wrapNSDictionaryInitWithObjectsForKeysCount"))
 				initDictSwizzle = new Swizzle<InitDictWithObjectsForKeysCountDelegate>(typeof(NSDictionary), "dictionaryWithObjects:forKeys:count:", InitDictWithObjectsForKeysCount, true);
@@ -51,7 +52,6 @@ namespace System.Windows.Forms.CocoaInternal
 			var o = ObjCRuntime.Runtime.GetNSObject(@string);
 			Console.WriteLine(Separator);
 			Console.WriteLine($"# NSUrl({o.ToStr()})");
-			Console.WriteLine(new StackTrace());
 
 			var result = IntPtr.Zero;
 			using (var unswizzle = urlSwizzle.Restore())
@@ -60,6 +60,7 @@ namespace System.Windows.Forms.CocoaInternal
 			if (result == IntPtr.Zero)
 			{
 				Console.WriteLine($"initWithString: failed!");
+				Console.WriteLine(new StackTrace());
 				return new NSUrl("").Handle;
 			}
 

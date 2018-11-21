@@ -43,6 +43,7 @@ namespace System.Windows.Forms {
 		// to not auto select their child when they are activated
 		internal bool 		auto_select_child = true;
 		private SizeF		auto_scale_dimensions;
+		private SizeF		current_auto_scale_dimensions; 
 		private AutoScaleMode	auto_scale_mode;
 		private bool		auto_scale_mode_set;
 		private bool		auto_scale_pending;
@@ -416,15 +417,24 @@ namespace System.Windows.Forms {
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		public SizeF CurrentAutoScaleDimensions {
 			get {
-				switch(auto_scale_mode) {
-					case AutoScaleMode.Dpi:
-						return TextRenderer.GetDpi ();
+				if (current_auto_scale_dimensions.IsEmpty)
+				{
+					switch (auto_scale_mode)
+					{
+						case AutoScaleMode.Dpi:
+							current_auto_scale_dimensions = TextRenderer.GetDpi();
+							break;
 
-					case AutoScaleMode.Font:
-						Size s = TextRenderer.MeasureText ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890", Font);
-						int width = (int)Math.Round ((float)s.Width / 62f);
-						
-						return new SizeF (width, s.Height);
+						case AutoScaleMode.Font:
+							Size s = TextRenderer.MeasureText("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890", Font);
+							int width = (int)Math.Round((float)s.Width / 62f);
+							current_auto_scale_dimensions = new SizeF(width, s.Height);
+							break;
+
+						default:
+							current_auto_scale_dimensions = AutoScaleDimensions;
+							break;
+					}
 				}
 
 				return auto_scale_dimensions;
@@ -650,6 +660,14 @@ namespace System.Windows.Forms {
 
 		protected virtual bool ProcessTabKey(bool forward) {
 			return SelectNextControl(active_control, forward, true, true, false);
+
+			//Control prev = active_control;
+			//bool activated = SelectNextControl(active_control, forward, true, true, false);
+			//Control active = ActiveControl;
+			//if (activated && prev != active && active != null && (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix))
+			//	XplatUI.SendMessage(active.Handle, Msg.WM_SELECT_ALL, IntPtr.Zero, IntPtr.Zero);
+
+			//return activated;
 		}
 
 		protected override void Select(bool directed, bool forward)
