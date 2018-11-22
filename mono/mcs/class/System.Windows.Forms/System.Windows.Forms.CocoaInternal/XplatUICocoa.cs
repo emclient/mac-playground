@@ -1212,7 +1212,10 @@ namespace System.Windows.Forms {
 		{
 			if (handle == IntPtr.Zero)
 				return IntPtr.Zero;
-			NSView vuWrap = handle.ToNSView();
+			var obj = handle.ToNSObject();
+			var vuWrap = obj as NSView ?? (obj as NSWindow)?.ContentView;
+			if (vuWrap == null)
+				return IntPtr.Zero;
 			MonoWindow monoWindow;
 			if (vuWrap.Window != null && vuWrap == vuWrap.Window.ContentView)
 				return with_owner && (monoWindow = vuWrap.Window as MonoWindow) != null && monoWindow.Owner != null ? monoWindow.Owner.ContentView.Handle : IntPtr.Zero;
