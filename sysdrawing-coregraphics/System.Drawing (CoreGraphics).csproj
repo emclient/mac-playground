@@ -58,7 +58,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DebugSymbols>false</DebugSymbols>
     <OutputPath>bin\Xamarin-Release</OutputPath>
-    <DefineConstants>MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5;XAMARINMAC;__UNIFIED__</DefineConstants>
+    <DefineConstants>MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5;XAMARINMAC;__UNIFIED__;TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>none</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
