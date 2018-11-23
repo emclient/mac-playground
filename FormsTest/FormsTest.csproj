@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -41,7 +41,7 @@
     <OutputPath>bin\Xamarin-Release</OutputPath>
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>false</DebugSymbols>
-    <DefineConstants>NET_4_5; NET_4_0; MAC;XAMARINMAC;__UNIFIED__</DefineConstants>
+    <DefineConstants>NET_4_5; NET_4_0; MAC;XAMARINMAC;__UNIFIED__;TRACE</DefineConstants>
     <PlatformTarget>anycpu</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>

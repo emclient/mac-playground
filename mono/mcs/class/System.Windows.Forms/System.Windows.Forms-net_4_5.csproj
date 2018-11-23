@@ -1,4 +1,4 @@
-﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -70,7 +70,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DebugSymbols>false</DebugSymbols>
     <OutputPath>bin\Xamarin-Release\</OutputPath>
-    <DefineConstants>NO_CARBON;NO_GTK;NO_X11; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5;XAMARINMAC;__UNIFIED__;MACOS_THEME</DefineConstants>
+    <DefineConstants>NO_CARBON;NO_GTK;NO_X11; MACDIALOGS; MAISONABE; STATIC_PREMULTIPLY_TABLES1;NET_4_5;XAMARINMAC;__UNIFIED__;MACOS_THEME;TRACE</DefineConstants>
     <DebugType>none</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
