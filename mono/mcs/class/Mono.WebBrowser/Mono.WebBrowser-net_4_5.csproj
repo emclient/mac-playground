@@ -60,7 +60,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin-Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
     <OutputPath>bin\Xamarin-Release\</OutputPath>
-    <DefineConstants>NET_4_0;NET_4_5;MONO;DISABLE_CAS_USE;XAMARINMAC;__UNIFIED__</DefineConstants>
+    <DefineConstants>NET_4_0;NET_4_5;MONO;DISABLE_CAS_USE;XAMARINMAC;__UNIFIED__;TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <NoWarn>1699</NoWarn>
     <DebugType>none</DebugType>
