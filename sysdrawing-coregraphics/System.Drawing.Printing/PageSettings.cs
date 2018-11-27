@@ -57,7 +57,7 @@ namespace System.Drawing.Printing {
 		{
 			this.PrinterSettings = printerSettings;
 			print_info = new NSPrintInfo(NSPrintInfo.SharedPrintInfo.Dictionary);
-			print_info.Printer = NSPrinter.PrinterWithName(printerSettings.PrinterName);
+			print_info.Printer = PrinterWithNameOrDefaultPrinter(printerSettings.PrinterName);
 			paper_size = new PaperSize(print_info.PaperName, (int)print_info.PaperSize.Width, (int)print_info.PaperSize.Height);
 		}
 
@@ -65,9 +65,17 @@ namespace System.Drawing.Printing {
 		{
 			this.PrinterSettings = pageSettings.PrinterSettings;
 			print_info = new NSPrintInfo(pageSettings.print_info.Dictionary);
-			print_info.Printer = NSPrinter.PrinterWithName(PrinterSettings.PrinterName);
+			print_info.Printer = PrinterWithNameOrDefaultPrinter(PrinterSettings.PrinterName);
 			paper_size = pageSettings.PaperSize;
-		} 
+		}
+
+		internal static NSPrinter PrinterWithNameOrDefaultPrinter(string printerName)
+		{
+			NSPrinter printer = null;
+			if (!string.IsNullOrEmpty(printerName))
+				try { printer = NSPrinter.PrinterWithName(printerName); } catch { }
+			return printer ?? new NSPrinter();
+		}
 
 		public Rectangle Bounds
 		{
