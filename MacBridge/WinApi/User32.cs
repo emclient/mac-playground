@@ -10,9 +10,11 @@ using System.Windows.Forms.CocoaInternal;
 using MacApi;
 #if XAMARINMAC
 using AppKit;
+using Foundation;
 using CoreGraphics;
 #else
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 using MonoMac.CoreGraphics;
 using ObjCRuntime = MonoMac.ObjCRuntime;
 using MacApi.CoreGraphics;
@@ -323,14 +325,21 @@ namespace WinApi
 
 		public static IntPtr SetWindowLongPtr64(IntPtr hWnd, GWL nIndex, IntPtr dwNewLong)
         {
+			switch (nIndex)
+			{
+				case GWL.EXSTYLE:
+					return SetWindowExStyle(hWnd, dwNewLong);
+				default:
+					break;
+			}
+
 			NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
         }
 
         public static int SetWindowLongPtr32(IntPtr hWnd, GWL nIndex, int dwNewLong)
         {
-			NotImplemented(MethodBase.GetCurrentMethod());
-            return 0;
+            return SetWindowLongPtr64(hWnd, nIndex, new IntPtr(dwNewLong)).ToInt32();
         }
 
         public static IntPtr GetSystemMenu(IntPtr hWnd, [MarshalAs(UnmanagedType.Bool)] bool bRevert)
@@ -580,6 +589,28 @@ namespace WinApi
 			WS style = 0;
 			NotImplemented(MethodBase.GetCurrentMethod());
 			return (int)style;
+		}
+
+		internal static IntPtr SetWindowExStyle(IntPtr hWnd, IntPtr dwNewLong)
+		{
+			IntPtr result = IntPtr.Zero;
+			if (ObjCRuntime.Runtime.GetNSObject(hWnd) is NSObject o)
+			{
+				if (o is MonoView mview)
+				{
+					result = (IntPtr)mview.ExStyle;
+					mview.ExStyle = (WindowExStyles)dwNewLong;
+				}
+				else if (o is MonoWindow mwin)
+				{
+					if (mwin.ContentView is MonoView cview)
+					{
+						result = (IntPtr)cview.ExStyle;
+						cview.ExStyle = (WindowExStyles)dwNewLong;
+					}
+				}
+			}
+			return result;
 		}
 
 		#region Graphics
