@@ -566,7 +566,7 @@ namespace System.Drawing {
 			bitmap.DrawImage (new CGRect (0, 0, image.Width, image.Height), image);
 
 			this.bitmapBlock = bitmapBlock;
-			this.dataProvider = new CGDataProvider (bitmapBlock, size);
+			this.dataProvider = new CGDataProvider (bitmapBlock, size, true);
 			NativeCGImage = new CGImage (width, height, bitsPerComponent, 
 			                             bitsPerPixel, bytesPerRow, 
 			                             colorSpace,
@@ -678,8 +678,10 @@ namespace System.Drawing {
 			// Set our transform for this image for the new height
 			imageTransform = new CGAffineTransform(1, 0, 0, -1, 0, height);
 
-			if (bitmapBlock != IntPtr.Zero)
-				Marshal.FreeHGlobal(bitmapBlock);
+			// bitmapBlock is owned by dataProvider and freed implicitly
+			if (dataProvider != null)
+				dataProvider.Dispose();
+
 			if (cachedContext != null)
 				cachedContext.Dispose();
 			NativeCGImage.Dispose();
