@@ -204,6 +204,32 @@ namespace System.Windows.Forms.CocoaInternal
 			base.UpdateTrackingAreas();
 		}
 
+		#region Mouse clicks
+
+		// The WindowsEventResponder should handle this stuff, but there are cases when it doesn't (buttonImageOptions in ControlHtmlEditor).
+
+		public override void MouseDown(NSEvent theEvent)
+		{
+			eventResponder.MouseDown(theEvent);
+		}
+
+		public override void MouseUp(NSEvent theEvent)
+		{
+			eventResponder.MouseUp(theEvent);
+		}
+
+		public override void OtherMouseUp(NSEvent theEvent)
+		{
+			eventResponder.OtherMouseUp(theEvent);
+		}
+
+		public override void OtherMouseDown(NSEvent theEvent)
+		{
+			eventResponder.OtherMouseDown(theEvent);
+		}
+
+		#endregion
+
 		public override void DrawRect(CGRect dirtyRect)
 		{
 			if (!dirtyRect.IsEmpty)
@@ -219,7 +245,7 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-        public override void SetFrameSize(CGSize newSize)
+		public override void SetFrameSize(CGSize newSize)
         {
 			base.SetFrameSize(newSize);
 
