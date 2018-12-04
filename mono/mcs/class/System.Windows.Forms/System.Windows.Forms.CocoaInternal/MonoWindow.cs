@@ -280,7 +280,12 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.SendMessage(ContentView.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
 
 			if (IsKeyWindow && FirstResponder != null) // For the case that previous WM_ACTIVATE in fact did not activate this window.
-				driver.SendMessage(FirstResponder.Handle, Msg.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
+			{
+				if (FirstResponder == this)
+					MakeFirstResponder(ContentView); // InitialResponder?
+				else
+					driver.SendMessage(FirstResponder.Handle, Msg.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
+			}
 
 			/*foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
 			{
