@@ -42,28 +42,31 @@ namespace MacApi
 			get { return NSString.FromHandle(NSOpenStepRootDirectory()); }
 		}
 
-		public static string[] SearchPathForDirectoriesInDomains(NSSearchPathDirectory directory, NSSearchPathDomainMask domainMask, bool expandTilde)
+		public static string LibraryDirectory
 		{
-			var handle = NSSearchPathForDirectoriesInDomains(directory, domainMask, expandTilde);
-			return NSArray.StringArrayFromHandle(handle);
+			get { return FirstSearchPathFor(NSSearchPathDirectory.NSLibraryDirectory) ?? Path.Combine(HomeDirectory, "Library"); }
+		}
+
+		public static string CachesDirectory
+		{
+			get { return FirstSearchPathFor(NSSearchPathDirectory.NSCachesDirectory) ?? Path.Combine(LibraryDirectory, "Caches"); }
 		}
 
 		public static string ApplicationSupportDirectory
 		{
-			get
-			{
-				var paths = SearchPathForDirectoriesInDomains(NSSearchPathDirectory.NSApplicationSupportDirectory, NSSearchPathDomainMask.NSUserDomainMask, true);
-				if (paths.Length > 0)
-					return paths[0];
+			get { return FirstSearchPathFor(NSSearchPathDirectory.NSApplicationSupportDirectory) ?? Path.Combine(LibraryDirectory, "Application Support"); }
+		}
 
-				Debug.Assert(false, "NSApplicationSupportDirectory not found");
+		internal static string FirstSearchPathFor(NSSearchPathDirectory directory, NSSearchPathDomainMask domainMask = NSSearchPathDomainMask.NSUserDomainMask, bool expandTilde = true)
+		{
+			var paths = SearchPathForDirectoriesInDomains(directory, domainMask, expandTilde);
+			return paths.Length > 0 ? paths[0] : null;
+		}
 
-				paths = SearchPathForDirectoriesInDomains(NSSearchPathDirectory.NSLibraryDirectory, NSSearchPathDomainMask.NSUserDomainMask, true);
-				if (paths.Length > 0)
-					return Path.Combine(paths[0], "Application Support");
-
-				return Path.Combine(HomeDirectory, "Library/Application Support");
-			}
+		public static string[] SearchPathForDirectoriesInDomains(NSSearchPathDirectory directory, NSSearchPathDomainMask domainMask, bool expandTilde)
+		{
+			var handle = NSSearchPathForDirectoriesInDomains(directory, domainMask, expandTilde);
+			return NSArray.StringArrayFromHandle(handle);
 		}
 
 		[Serializable]
