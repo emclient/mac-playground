@@ -50,6 +50,13 @@ namespace System.Windows.Forms
 				textField.DoCommandBySelector = DoCommandBySelector;
 				textField.GetCompletions = TextFieldGetCompletions;
 				textField.Formatter = formatter = new Formatter(this);
+				textField.UsesSingleLineMode = true;
+				if (textField.Cell is NSTextFieldCell cell)
+				{
+					// This is what makes the field really "single-line" - with horizontal scrolling.
+					cell.Wraps = false;
+					cell.Scrollable = true;
+				}
 
 				ApplyBorderStyle(owner.BorderStyle);
 				ApplyForeColor(owner.ForeColor, owner.forecolor_set);
