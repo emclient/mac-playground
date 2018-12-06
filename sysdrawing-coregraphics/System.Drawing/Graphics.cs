@@ -58,7 +58,7 @@ namespace System.Drawing {
 		private PointF renderingOrigin = PointF.Empty;
 		private static Region infinitRegion = new Region();
 		private Region clip;
-		//private float screenScale;
+		internal nfloat screenScale;
 
 		internal Graphics (CGContext context, bool flipped = true)
 		{
@@ -66,10 +66,11 @@ namespace System.Drawing {
 				throw new ArgumentNullException ("context");
 			
 			this.isFlipped = flipped;
-			//screenScale = 1;
 			this.context = context;
 
 			context.SaveState();
+
+			this.screenScale = 1f;
 
 			modelMatrix = new Matrix();
 
@@ -169,6 +170,8 @@ namespace System.Drawing {
 					g.hasClientTransform = true;
 				}
 			}
+
+			g.screenScale = g.context.GetCTM().xx; // view.Layer?.ContentsScale ?? 1f;
 
 			return g;
 		}
