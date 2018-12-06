@@ -15,16 +15,34 @@ namespace System.Windows.Forms
 			var nsMenuItem = base.ToNSMenuItem();
 			if (HasDropDownItems)
 				nsMenuItem.Submenu = DropDown.ToNSMenu();
-			if (nsMenuItem.Image == null && ShowMargin)
-			{
+
+			if (PaintCheck)
 				if (CheckState == CheckState.Checked)
 					nsMenuItem.State = NSCellStateValue.On;
 				else if (CheckState == CheckState.Indeterminate)
 					nsMenuItem.State = NSCellStateValue.Mixed;
-				else
-					nsMenuItem.State = NSCellStateValue.Off;
-			}
+
 			return nsMenuItem;
+		}
+
+		internal bool ShowCheckMargin
+		{
+			get { return Owner is ToolStripDropDownMenu menu && menu.ShowCheckMargin; }
+		}
+
+		internal bool ShowImageMargin
+		{
+			get { return Owner is ToolStripDropDownMenu menu && menu.ShowImageMargin; }
+		}
+
+		internal bool PaintCheck
+		{
+			get { return ShowCheckMargin || ShowImageMargin; }
+		}
+
+		internal bool PaintImage
+		{
+			get { return ShowImageMargin; }
 		}
 	}
 }
