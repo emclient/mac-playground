@@ -519,6 +519,13 @@ namespace System.Windows.Forms
 			}
 		}
 
+		internal static FormCollection OpenFormsInternal
+		{
+			get {
+				return forms;
+			}
+		}
+
 		[MonoNotSupported ("Only applies when Winforms is being hosted by an unmanaged app.")]
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		public static void RegisterMessageLoop (MessageLoopCallback callback)
