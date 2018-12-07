@@ -2564,7 +2564,94 @@ namespace System.Windows.Forms {
 
 			base.WndProc (ref m);
 		}
-		
+
+		// Added for better compatibility with SWF when using reflection.
+		// Raises the FormClosed event for this form when Application.Exit is called.
+		internal void RaiseFormClosedOnAppExit()
+		{
+			if (!Modal)
+			{
+				/* This is not required because Application.ExitPrivate() loops through all forms in the Application.OpenForms collection
+                // Fire FormClosed event on all MDI children
+                if (IsMdiContainer) {
+                    FormClosedEventArgs fce = new FormClosedEventArgs(CloseReason.MdiFormClosing);
+                    foreach(Form mdiChild in MdiChildren) {
+                        if (mdiChild.IsHandleCreated) {
+                            mdiChild.OnFormClosed(fce);
+                        }
+                    }
+                }
+                */
+
+				// Fire FormClosed event on all the forms that this form owns and are not in the Application.OpenForms collection
+				// This is to be consistent with what WmClose does.
+				int ownedFormsCount = owned_forms.Count;
+				if (ownedFormsCount > 0)
+				{
+					Form[] ownedForms = this.OwnedForms;
+					FormClosedEventArgs fce = new FormClosedEventArgs(CloseReason.FormOwnerClosing);
+					for (int i = ownedFormsCount - 1; i >= 0; i--)
+					{
+						if (ownedForms[i] != null && !Application.OpenFormsInternal.Contains(ownedForms[i]))
+						{
+							ownedForms[i].OnFormClosed(fce);
+						}
+					}
+				}
+			}
+			OnFormClosed(new FormClosedEventArgs(CloseReason.ApplicationExitCall));
+		}
+
+		// Added for better compatibility with SWF when using reflection.
+		// Raises the FormClosing event for this form when Application.Exit is called.
+		// Returns e.Cancel returned by the event handler.
+		internal bool RaiseFormClosingOnAppExit()
+		{
+			FormClosingEventArgs e = new FormClosingEventArgs(CloseReason.ApplicationExitCall, false);
+			// e.Cancel = !Validate(true);    This would cause a breaking change between v2.0 and v1.0/v1.1 in case validation fails.
+			if (!Modal)
+			{
+				/* This is not required because Application.ExitPrivate() loops through all forms in the Application.OpenForms collection
+                // Fire FormClosing event on all MDI children
+                if (IsMdiContainer) {
+                    FormClosingEventArgs fce = new FormClosingEventArgs(CloseReason.MdiFormClosing, e.Cancel);
+                    foreach(Form mdiChild in MdiChildren) {
+                        if (mdiChild.IsHandleCreated) {
+                            mdiChild.OnFormClosing(fce);
+                            if (fce.Cancel) {
+                                e.Cancel = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                */
+
+				// Fire FormClosing event on all the forms that this form owns and are not in the Application.OpenForms collection
+				// This is to be consistent with what WmClose does.
+				int ownedFormsCount = owned_forms.Count;
+				if (ownedFormsCount > 0)
+				{
+					Form[] ownedForms = this.OwnedForms;
+					FormClosingEventArgs fce = new FormClosingEventArgs(CloseReason.FormOwnerClosing, false);
+					for (int i = ownedFormsCount - 1; i >= 0; i--)
+					{
+						if (ownedForms[i] != null && !Application.OpenFormsInternal.Contains(ownedForms[i]))
+						{
+							ownedForms[i].OnFormClosing(fce);
+							if (fce.Cancel)
+							{
+								e.Cancel = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+			OnFormClosing(e);
+			return e.Cancel;
+		}
+
 		internal bool RaiseCloseEvents (bool last_check, bool cancel)
 		{
 			if (last_check && Visible) {
@@ -2629,7 +2716,7 @@ namespace System.Windows.Forms {
 					Hide ();
 				} else {
 					Dispose ();					
-					if (act != null && act != this)
+					if (act != null && act != this && act.Enabled && act.Visible)
 						act.SelectActiveControl ();
 				}
 				mdi_parent = null;

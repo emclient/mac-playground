@@ -69,5 +69,10 @@ namespace System.Windows.Forms
 			base.InnerList.Remove (form);
 		}
 		#endregion
+
+		internal bool Contains(Form form)
+		{
+			return base.InnerList.Contains(form);
+		}
 	}
 }
