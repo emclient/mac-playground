@@ -1516,7 +1516,15 @@ namespace System.Windows.Forms {
 		internal override bool PeekMessage(Object queue_id, ref MSG msg, IntPtr hWnd, int wFilterMin, int wFilterMax, uint flags)
 		{
 			bool peeking = 0 == ((uint) PeekMessageFlags.PM_REMOVE & flags);
-			PumpNativeEvent (false, ref msg, false);
+
+			if (!peeking && hWnd == IntPtr.Zero && wFilterMin == 0 && wFilterMax == 0)
+			{
+				// NSApp.NextEvent(dequeue:=true) triggers ApplicationShouldTerminate, false does not not
+				// and neither returns msg so PumpNativeEvent(dequeue:=true) is not called in the if block below
+				return PumpNativeEvent(false, ref msg, true);
+			}
+
+ 			PumpNativeEvent (false, ref msg, false);
 			if (msg.message != Msg.WM_NULL && wFilterMin <= (int)msg.message && (int)msg.message <= wFilterMax && (hWnd == IntPtr.Zero || hWnd == msg.hwnd)) {
 				if (!peeking) {
 					PumpNativeEvent (false, ref msg, true); // Pop
