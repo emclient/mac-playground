@@ -1138,7 +1138,7 @@ namespace System.Windows.Forms {
 		
 		internal override void DoEvents() {
             MSG msg = new MSG ();
-			while (PeekMessage (null, ref msg, IntPtr.Zero, 0, int.MaxValue, (uint)PeekMessageFlags.PM_REMOVE)) {
+			while (PeekMessage (null, ref msg, IntPtr.Zero, 0, 0, (uint)PeekMessageFlags.PM_REMOVE)) {
 				Application.SendMessage(ref msg);
             }
 		}
@@ -1517,9 +1517,10 @@ namespace System.Windows.Forms {
 		{
 			bool peeking = 0 == ((uint) PeekMessageFlags.PM_REMOVE & flags);
 
-			if (!peeking && hWnd == IntPtr.Zero && wFilterMin == 0 && wFilterMax == int.MaxValue)
+			if (!peeking && hWnd == IntPtr.Zero && wFilterMin == 0 && wFilterMax == 0)
 			{
 				// NSApp.NextEvent(dequeue:=true) triggers ApplicationShouldTerminate, false does not not
+				// and neither returns msg so PumpNativeEvent(dequeue:=true) is not called in the if block below
 				return PumpNativeEvent(false, ref msg, true);
 			}
 
