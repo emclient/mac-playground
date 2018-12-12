@@ -1513,10 +1513,26 @@ namespace System.Windows.Forms {
 			pevent.Dispose();
 		}
 
+		private bool IsMessageInFilter(int msg, int wFilterMin, int wFilterMax)
+		{
+			if (wFilterMin <= msg && msg <= wFilterMax) {
+				return true;
+			}
+			if (wFilterMin == 0 && wFilterMax == 0) {
+				return true;
+			}
+			if (msg == (int)Msg.WM_NULL) {
+				// Native messages
+				return true;
+			}
+			return false;
+		}
+
 		internal override bool PeekMessage(Object queue_id, ref MSG msg, IntPtr hWnd, int wFilterMin, int wFilterMax, uint flags)
 		{
 			bool peeking = 0 == ((uint) PeekMessageFlags.PM_REMOVE & flags);
 
+			// Optimized case
 			if (!peeking && hWnd == IntPtr.Zero && wFilterMin == 0 && wFilterMax == 0)
 			{
 				// NSApp.NextEvent(dequeue:=true) triggers ApplicationShouldTerminate, false does not not
@@ -1524,13 +1540,17 @@ namespace System.Windows.Forms {
 				return PumpNativeEvent(false, ref msg, true);
 			}
 
- 			PumpNativeEvent (false, ref msg, false);
-			if (msg.message != Msg.WM_NULL && wFilterMin <= (int)msg.message && (int)msg.message <= wFilterMax && (hWnd == IntPtr.Zero || hWnd == msg.hwnd)) {
-				if (!peeking) {
-					PumpNativeEvent (false, ref msg, true); // Pop
+			if (PumpNativeEvent(false, ref msg, false)) {
+				// NOTE: We may need to dequeue native messages (WM_NULL) here and loop, but the change would require
+				// more testing. In fact this whole case is not properly tested and it may misbehave (eg. always return
+				// the same message that doesn't satisfy the filter). The current code never reaches it since the
+				// only call to PeekMessage is from DoEvents method.
+				if (!peeking && IsMessageInFilter((int)msg.message, wFilterMin, wFilterMax) && (hWnd == IntPtr.Zero || hWnd == msg.hwnd)) {
+					PumpNativeEvent(false, ref msg, true); // Pop
 				}
 				return true;
 			}
+
 			return false;
 		}
 
