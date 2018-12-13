@@ -1082,6 +1082,9 @@ namespace System.Windows.Forms {
 				}
 				case Msg.WM_MOUSEACTIVATE:
 					return new IntPtr((int)MouseActivate.MA_ACTIVATE); // Shoudn't we send it to the parent?
+
+				case Msg.WM_QUERYENDSESSION:
+					return new IntPtr(1);
 			}
 			return IntPtr.Zero;
 		}
