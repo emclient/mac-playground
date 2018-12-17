@@ -97,6 +97,7 @@ namespace System.Windows.Forms {
 		internal ApplicationContext	context;
 		Color				transparency_key;
 		private bool			is_loaded;
+		internal bool			show_window_on_create;
 		internal int			is_changing_visible_state;
 		internal bool			has_been_visible;
 		private bool			shown_raised;
@@ -1511,7 +1512,25 @@ namespace System.Windows.Forms {
 				if (!ControlBox && Text == string.Empty) {
 					cp.WindowStyle &= ~WindowStyles.WS_DLGFRAME;
 				}
-				
+
+				if (TopLevel || IsMdiChild)
+				{
+					//FillInCreateParamsStartPosition(cp);
+					// Delay setting to visible until after the handle gets created
+					// to allow applyClientSize to adjust the size before displaying
+					// the form.
+					//
+					if ((cp.Style & (int)WindowStyles.WS_VISIBLE) != 0)
+					{
+						show_window_on_create = true;
+						cp.Style &= (int)(~WindowStyles.WS_VISIBLE);
+					}
+					else
+					{
+						show_window_on_create = false;
+					}
+				}
+
 				return cp;
 			}
 		}
@@ -1930,6 +1949,11 @@ namespace System.Windows.Forms {
 
 			if ((owner != null) && (owner.IsHandleCreated)) {
 				XplatUI.SetOwner(window.Handle, owner.window.Handle);
+			}
+
+			if (show_window_on_create) {
+				this.is_visible = false;
+				Visible = true;
 			}
 
 			if (topmost) {
