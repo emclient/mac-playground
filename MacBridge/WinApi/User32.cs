@@ -104,14 +104,18 @@ namespace WinApi
             if (move || size)
                 XplatUI.SetWindowPos(hWnd, x, y, cx, cy);
 
+            bool visible = XplatUI.IsVisible(hWnd);
+            
             bool show = 0 != (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_SHOWWINDOW);
             bool hide = 0 != (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_HIDEWINDOW);
             bool activate = 0 == (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOACTIVATE);
 
-            if (show || hide || activate)
-                XplatUI.SetVisible(hWnd, show || !hide, activate);
+			if ((show && !visible))
+                XplatUI.SetVisible(hWnd, true, activate);
+			else if ((hide && visible))
+				XplatUI.SetVisible(hWnd, false, false);
 
-            bool redraw = 0 == (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOREDRAW);
+			bool redraw = 0 == (uFlags & (uint)XplatUIWin32.SetWindowPosFlags.SWP_NOREDRAW);
             if (redraw)
                 XplatUI.UpdateWindow(hWnd);
         }
