@@ -375,24 +375,38 @@ namespace System.Windows.Forms
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual string SelectedText
 		{
-			get { NotImplemented(MethodBase.GetCurrentMethod()); return string.Empty; }
-			set { NotImplemented(MethodBase.GetCurrentMethod(), value); }
+			get { return Imp.SelectedText; }
+			set { Imp.SelectedText = value; }
 		}
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual int SelectionLength
 		{
-			get { NotImplemented(MethodBase.GetCurrentMethod()); return 0; }
-			set { NotImplemented(MethodBase.GetCurrentMethod(), value); }
+			get { return Imp.SelectionLength; }
+			set {
+				if (value < 0)
+					throw new ArgumentOutOfRangeException();
+
+				int start = SelectionStart;
+				int length = Math.Min(Text.Length - start, value);
+				Imp.Select(start, length);
+			}
 		}
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public int SelectionStart
 		{
-			get { NotImplemented(MethodBase.GetCurrentMethod()); return 0; }
-			set { NotImplemented(MethodBase.GetCurrentMethod(), value); }
+			get { return Imp.SelectionStart; }
+			set {
+				if (value < 0)
+					throw new ArgumentOutOfRangeException();
+
+				int start = Math.Min(Text.Length, value);
+				int length = Math.Min(Text.Length - start, SelectionLength);
+				Imp.Select(start, length);
+			}
 		}
 
 		[DefaultValue(true)]
@@ -545,10 +559,7 @@ namespace System.Windows.Forms
 
 		public void Select(int start, int length)
 		{
-			SelectionStart = start;
-			SelectionLength = length;
-
-			NotImplemented(MethodBase.GetCurrentMethod());
+			Imp.Select(start, length);
 		}
 
 		public void SelectAll()
@@ -1041,6 +1052,12 @@ namespace System.Windows.Forms
 		bool CanRedo();
 		bool Undo();
 		bool Redo();
+
+		string SelectedText { get; set; }
+		int SelectionStart { get; }
+		int SelectionLength { get; }
+		void Select(int start, int length);
+		Color SelectionColor { get; set; }
 	}
 
 	internal class TextBoxBase_Dummy : ITextBoxBaseImp
@@ -1071,6 +1088,12 @@ namespace System.Windows.Forms
 		public bool CanRedo() { return false; }
 		public bool Undo() { return false; }
 		public bool Redo() { return false; }
+
+		public string SelectedText { get; set; }
+		public int SelectionStart { get; }
+		public int SelectionLength { get; }
+		public void Select(int start, int length) { }
+		public Color SelectionColor { get; set; }
 	}
 }
 

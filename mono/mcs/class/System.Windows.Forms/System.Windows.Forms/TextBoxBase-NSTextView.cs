@@ -22,6 +22,9 @@ namespace System.Windows.Forms
 	{
 		internal class TextBoxBase_NSTextView : ITextBoxBaseImp
 		{
+			private const string NSForegroundColorAttributeName = "NSColor";
+			private const string NSBackgroundColorAttributeName = "NSBackgroundColor";
+
 			TextBoxBase owner;
 			NSScrollView scrollView;
 			NSTextView textView;
@@ -222,6 +225,86 @@ namespace System.Windows.Forms
 						scrollView.HasHorizontalScroller = true;
 						scrollView.AutohidesScrollers = false;
 						break;
+				}
+			}
+
+			public string SelectedText
+			{
+				get
+				{
+					return Text.Substring(SelectionStart, SelectionLength);
+				}
+				set
+				{
+					if (textView == null)
+						return;
+
+					NSRange selectedRange = textView.SelectedRange;
+					if (selectedRange.Length > 0)
+						textView.TextStorage.DeleteRange(selectedRange);
+
+					textView.TextStorage.Insert(new NSAttributedString(value), selectedRange.Location);
+					Select((int)selectedRange.Location, value.Length);
+				}
+			}
+
+			public Color SelectionColor
+			{
+				get
+				{
+					if (textView == null)
+						return owner.ForeColor;
+
+					NSDictionary attributes = textView.SelectedTextAttributes;
+					foreach (NSObject key in attributes.Keys)
+					{
+						if (key.ToString() == NSForegroundColorAttributeName)
+						{
+							return ((NSColor)attributes[key]).ToSDColor();
+						}
+					}
+					return textView.TextColor.ToSDColor();
+				}
+				set
+				{
+					if (textView == null)
+						return;
+
+					NSColor nsColor = NSColor.FromRgba(value.R, value.G, value.B, value.A);
+					textView.SetTextColor(nsColor, textView.SelectedRange);
+				}
+			}
+
+			public virtual int SelectionStart
+			{
+				get
+				{
+					if (textView != null)
+						return (int)textView.SelectedRange.Location;
+
+					return 0;
+				}
+			}
+
+			public virtual int SelectionLength
+			{
+				get
+				{
+					if (textView != null)
+						return (int)textView.SelectedRange.Length;
+
+					return 0;
+				}
+			}
+
+			public virtual void Select(int start, int length)
+			{
+				if (textView != null)
+				{
+					NSRange range;
+					range.Location = start;
+					range.Length = length;
+					textView.SelectedRange = range;
 				}
 			}
 

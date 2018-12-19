@@ -191,15 +191,6 @@ namespace System.Windows.Forms
 		}
 
 		[Browsable(false)]
-		[DefaultValue("")]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public override string SelectedText
-		{
-			get { NotImplemented(MethodBase.GetCurrentMethod()); return String.Empty; }
-			set { NotImplemented(MethodBase.GetCurrentMethod(), value); }
-		}
-
-		[Browsable(false)]
 		[DefaultValue(HorizontalAlignment.Left)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public HorizontalAlignment SelectionAlignment
@@ -239,8 +230,8 @@ namespace System.Windows.Forms
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Color SelectionColor
 		{
-			get { NotImplemented(MethodBase.GetCurrentMethod()); return ForeColor; }
-			set { NotImplemented(MethodBase.GetCurrentMethod(), value); }
+			get { return Imp.SelectionColor; }
+			set { Imp.SelectionColor = value; }
 		}
 
 		[Browsable(false)]
@@ -267,14 +258,6 @@ namespace System.Windows.Forms
 		public int SelectionIndent
 		{
 			get; set;
-		}
-
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public override int SelectionLength
-		{
-			get { NotImplemented(MethodBase.GetCurrentMethod()); return 0; }
-			set { NotImplemented(MethodBase.GetCurrentMethod(), value); }
 		}
 
 		[Browsable(false)]
