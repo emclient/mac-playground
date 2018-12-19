@@ -250,9 +250,10 @@ namespace System.Windows.Forms
 
 			public Color SelectionColor
 			{
-				get {
+				get
+				{
 					if (textView == null)
-						return Color.Black;
+						return owner.ForeColor;
 
 					NSDictionary attributes = textView.SelectedTextAttributes;
 					foreach (NSObject key in attributes.Keys)
@@ -264,7 +265,8 @@ namespace System.Windows.Forms
 					}
 					return textView.TextColor.ToSDColor();
 				}
-				set {
+				set
+				{
 					if (textView == null)
 						return;
 

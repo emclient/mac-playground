@@ -186,6 +186,8 @@ namespace System.Windows.Forms
 
 			public Color SelectionColor
 			{
+				// SelectionColor is currently only implemented for TextBoxBase_NSTextView which is used
+				// for multi-line and RTF input
 				get { 
 					NotImplemented(MethodBase.GetCurrentMethod());
 					return textField != null ? textField.TextColor.ToSDColor() : owner.ForeColor;
