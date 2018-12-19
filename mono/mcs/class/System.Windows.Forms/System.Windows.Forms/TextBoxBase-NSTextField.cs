@@ -170,6 +170,64 @@ namespace System.Windows.Forms
 				// No scrollbars in this implementation
 			}
 
+			public virtual string SelectedText
+			{
+				get
+				{
+					return Text.Substring(SelectionStart, SelectionLength);
+				}
+				set
+				{
+					int selectionStart = SelectionStart;
+					Text = Text.Substring(0, selectionStart) + value + Text.Substring(selectionStart + SelectionLength);
+					Select(selectionStart + value.Length, 0);
+				}
+			}
+
+			public Color SelectionColor
+			{
+				// SelectionColor is currently only implemented for TextBoxBase_NSTextView which is used
+				// for multi-line and RTF input
+				get { 
+					NotImplemented(MethodBase.GetCurrentMethod());
+					return textField != null ? textField.TextColor.ToSDColor() : owner.ForeColor;
+				}
+				set { NotImplemented(MethodBase.GetCurrentMethod(), value); }
+			}
+
+			public virtual int SelectionStart
+			{
+				get
+				{
+					if (textField != null && textField.CurrentEditor != null)
+						return (int)textField.CurrentEditor.SelectedRange.Location;
+
+					return 0;
+				}
+			}
+
+			public virtual int SelectionLength
+			{
+				get
+				{
+					if (textField != null && textField.CurrentEditor != null)
+						return (int)textField.CurrentEditor.SelectedRange.Length;
+
+					return 0;
+				}
+			}
+
+			public virtual void Select(int start, int length)
+			{
+				if (textField != null && textField.CurrentEditor != null)
+				{
+					NSRange range;
+					range.Location = start;
+					range.Length = length;
+					textField.CurrentEditor.SelectedRange = range;
+				}
+			}
+
 			public virtual void SelectAll()
 			{
 				if (textField != null)
@@ -248,9 +306,9 @@ namespace System.Windows.Forms
 			internal virtual void Complete()
 			{
 				if (!completing 
-				    && owner.auto_complete_mode != AutoCompleteMode.None && owner.auto_complete_source == AutoCompleteSource.CustomSource && owner.auto_complete_custom_source != null
+					&& owner.auto_complete_mode != AutoCompleteMode.None && owner.auto_complete_source == AutoCompleteSource.CustomSource && owner.auto_complete_custom_source != null
 					&& textField.StringValue.Length > 0 && owner.auto_complete_custom_source.Count != 0
-				    && textField.Window.FirstResponder is NSTextView textView)
+					&& textField.Window.FirstResponder is NSTextView textView)
 				{
 						completing = true;
 						textView.Complete(textField);
