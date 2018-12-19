@@ -1960,6 +1960,8 @@ namespace System.Windows.Forms {
 						monoWindow.Owner.AddChildWindow(winWrap, NSWindowOrderingMode.Above);
 					if (Control.FromHandle(handle).ActivateOnShow)
 						winWrap.MakeKeyAndOrderFront(winWrap);
+					else if (winWrap.IgnoresMouseEvents)
+						winWrap.OrderFront(winWrap);
 					else
 						winWrap.IsVisible = true;
 				} else {
