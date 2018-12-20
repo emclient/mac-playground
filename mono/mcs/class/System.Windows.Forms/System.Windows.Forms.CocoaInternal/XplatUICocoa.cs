@@ -1961,7 +1961,7 @@ namespace System.Windows.Forms {
 					if (Control.FromHandle(handle).ActivateOnShow)
 						winWrap.MakeKeyAndOrderFront(winWrap);
 					else
-						winWrap.IsVisible = true;
+						winWrap.OrderFront(winWrap);
 				} else {
 					winWrap.OrderOut(winWrap);
 					if (winWrap is MonoWindow monoWindow && monoWindow.Owner != null)
