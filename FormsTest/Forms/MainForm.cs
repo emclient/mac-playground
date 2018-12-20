@@ -126,6 +126,7 @@ namespace FormsTest
 			AddButton("Bg activity", () => { StartBgActivity(); });
 			AddButton("Print dialog", () => { ShowPrintDialog(); });
 			AddButton("Swizzle (cls)", () => { SwizzleCls(); });
+			AddButton("Toolstrip form", () => { new ToolstripForm().Show(); });
 		}
 
 		void StartBgActivity()
