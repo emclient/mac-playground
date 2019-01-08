@@ -1880,6 +1880,9 @@ namespace System.Windows.Forms {
 			});
 			//nstimer.Retain();
 			timer.window = nstimer.Handle;
+
+			NSRunLoop.Main.AddTimer(nstimer, NSRunLoopMode.Common);
+			NSRunLoop.Main.AddTimer(nstimer, NSRunLoopMode.EventTracking);
 		}
 #elif MONOMAC
 		internal override void SetTimer (Timer timer) {
@@ -1894,6 +1897,9 @@ namespace System.Windows.Forms {
 			});
 			nstimer.Retain();
 			timer.window = nstimer.Handle;
+
+			NSRunLoop.Main.AddTimer(nstimer, NSRunLoopMode.Common);
+			NSRunLoop.Main.AddTimer(nstimer, NSRunLoopMode.EventTracking);
 		}
 #endif
 
