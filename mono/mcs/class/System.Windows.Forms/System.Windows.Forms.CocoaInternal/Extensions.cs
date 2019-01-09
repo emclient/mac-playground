@@ -18,6 +18,8 @@ using ObjCRuntime;
 
 namespace System.Windows.Forms.Mac
 {
+	using KeysConverter = CocoaInternal.KeysConverter;
+
 	public static class Extensions
 	{
 		static DateTime reference = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
@@ -35,6 +37,23 @@ namespace System.Windows.Forms.Mac
 		public static DateTime ToDateTime(this NSDate date)
 		{
 			return reference.AddSeconds(date.SecondsSinceReferenceDate).ToLocalTime();
+		}
+
+		internal static void ToKeyMsg(this NSEvent e, out Msg msg, out IntPtr wParam, out IntPtr lParam)
+		{
+			var key = KeysConverter.GetKeys(e);
+			var isExtendedKey = XplatUICocoa.IsCtrlDown || XplatUICocoa.IsCmdDown || e.Characters.Length == 0 || !KeysConverter.IsChar(e.Characters[0], key) && KeysConverter.DeadKeyState == 0;
+
+			ulong lp = 0;
+			lp |= e.IsARepeat ? 1ul : 0ul;
+			lp |= ((ulong)e.KeyCode) << 16; // OEM-dependent scanCode
+			lp |= (isExtendedKey ? 1ul : 0ul) << 24;
+			lp |= (e.IsARepeat ? 1ul : 0ul) << 30;
+			lParam = (IntPtr)lp;
+			wParam = (IntPtr)key;
+
+			var isSysKey = false;// altDown && !cmdDown
+			msg = isSysKey ? (e.Type == NSEventType.KeyDown ? Msg.WM_SYSKEYDOWN : Msg.WM_SYSKEYUP) : (e.Type == NSEventType.KeyDown ? Msg.WM_KEYDOWN : Msg.WM_KEYUP);
 		}
 
 		public static bool IsMouse(this NSEvent e)

@@ -152,6 +152,19 @@ namespace System.Windows.Forms.CocoaInternal
 							return;
 						}
 					}
+
+					// Deliver key messages also to SWF controls that are wrappers of native controls.
+					// This gives them a the chance to handle special keys
+					if (!(FirstResponder is MonoView) && !(FirstResponder is WindowsEventResponder))
+					{
+						var control = Control.FromChildHandle(FirstResponder.Handle);
+						if (control != null && control.Handle.ToNSObject() is NSView obj)
+						{
+							theEvent.ToKeyMsg(out Msg msg, out IntPtr wParam, out IntPtr lParam);
+							driver.SendMessage(control.Handle, msg, wParam, lParam);
+						}
+					}
+
 					break;
 			}
 

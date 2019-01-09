@@ -309,7 +309,6 @@ namespace System.Windows.Forms.CocoaInternal
 
 		#region Keyboard
 
-		static int repeatCount = 0;
 		internal IntPtr wmCharLParam;
 
 		public override void KeyDown(NSEvent theEvent)
@@ -342,24 +341,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		void TranslateKeyboardEvent(NSEvent e)
 		{
-			repeatCount = e.IsARepeat ? 1 + repeatCount : 0;
-
-			Keys key = KeysConverter.GetKeys(e);
-			bool isExtendedKey = XplatUICocoa.IsCtrlDown || XplatUICocoa.IsCmdDown || e.Characters.Length == 0 || !KeysConverter.IsChar(e.Characters[0], key) && KeysConverter.DeadKeyState == 0;
-
-			ulong lp = 0;
-			lp |= ((ulong)(uint)repeatCount);
-			lp |= ((ulong)e.KeyCode) << 16; // OEM-dependent scanCode
-			lp |= ((ulong)(isExtendedKey ? 1 : 0)) << 24;
-			lp |= ((ulong)(e.IsARepeat ? 1 : 0)) << 30;
-			IntPtr lParam = (IntPtr)lp;
-			IntPtr wParam = (IntPtr)key;
-
-			bool isSysKey = false;// altDown && !cmdDown
-			Msg msg = isSysKey
-				? (e.Type == NSEventType.KeyDown ? Msg.WM_SYSKEYDOWN : Msg.WM_SYSKEYUP)
-				: (e.Type == NSEventType.KeyDown ? Msg.WM_KEYDOWN : Msg.WM_KEYUP);
-
+			e.ToKeyMsg(out Msg msg, out IntPtr wParam, out IntPtr lParam);
 			//Debug.WriteLine ("keyCode={0}, characters=\"{1}\", key='{2}', chars='{3}'", e.KeyCode, chars, key, chars);
 
 			// See the comment above SendPendingWmKeyDown() if you want to ask 'what the hell is this?'.
