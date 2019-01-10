@@ -161,7 +161,8 @@ namespace System.Windows.Forms.CocoaInternal
 						if (control != null && control.Handle.ToNSObject() is NSView obj)
 						{
 							theEvent.ToKeyMsg(out Msg msg, out IntPtr wParam, out IntPtr lParam);
-							driver.SendMessage(control.Handle, msg, wParam, lParam);
+							if (IntPtr.Zero != driver.SendMessage(control.Handle, msg, wParam, lParam))
+								return;
 						}
 					}
 

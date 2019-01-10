@@ -995,7 +995,7 @@ namespace System.Windows.Forms
 					{
 						goto default;
 					}
-					break;
+					return new IntPtr(1); // Drop
 
 				case Msg.WM_LBUTTONDOWN:
 				case Msg.WM_MBUTTONDOWN:
