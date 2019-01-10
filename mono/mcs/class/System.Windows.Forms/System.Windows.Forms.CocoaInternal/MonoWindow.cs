@@ -70,7 +70,7 @@ namespace System.Windows.Forms.CocoaInternal
 				// to update the ActiveControl chain in Form to match it using similar approach as in Control.WmSetFocus. 
 				var wrapperControl = Control.FromChildHandle(next);
 				if (wrapperControl != null && wrapperControl.Handle != next)
-					(wrapperControl.Parent ?? wrapperControl).Select(wrapperControl);
+					wrapperControl.Select(wrapperControl);
 
 				return true;
 			}
