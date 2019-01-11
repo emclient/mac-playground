@@ -216,7 +216,6 @@ MacBridge/WinApi/Shell32.Wrappers.cs -text
 MacBridge/WinApi/Shell32.cs -text
 MacBridge/WinApi/ShlWapi.cs -text
 MacBridge/WinApi/User32.cs -text
-MacBridge/WinApi/Usp10.cs -text
 MacBridge/WinApi/Uxtheme.cs -text
 MacBridge/WinApi/Win32.cs -text
 /MacPlayground.sln -text

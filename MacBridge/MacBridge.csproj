@@ -77,9 +77,6 @@
       <Link>WinApi\User32.Structs.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\..\..\WinApi\ComCtl32.Structs.cs">
-      <Link>WinApi\ComCtl32.Structs.cs</Link>
-    </Compile>
     <Compile Include="WinApi\ComDlg32.cs" />
     <Compile Include="WinApi\GdiPlus.cs" />
     <Compile Include="WinApi\Kernel32.cs" />
@@ -99,7 +96,6 @@
     <Compile Include="..\..\..\WinApi\Uxtheme.Structs.cs">
       <Link>WinApi\Uxtheme.Structs.cs</Link>
     </Compile>
-    <Compile Include="WinApi\Usp10.cs" />
     <Compile Include="WinApi\Uxtheme.cs" />
     <Compile Include="..\..\..\WinApi\WinGdi.Structs.cs">
       <Link>WinApi\WinGdi.Structs.cs</Link>
@@ -128,9 +124,6 @@
     <Compile Include="WinApi\AdvApi32.cs" />
     <Compile Include="..\..\..\WinApi\AdvApi32.Structs.cs">
       <Link>WinApi\AdvApi32.Structs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\WinApi\Usp10.Structs.cs">
-      <Link>WinApi\Usp10.Structs.cs</Link>
     </Compile>
     <Compile Include="..\..\..\WinApi\ShCore.Structs.cs">
       <Link>WinApi\ShCore.Structs.cs</Link>
