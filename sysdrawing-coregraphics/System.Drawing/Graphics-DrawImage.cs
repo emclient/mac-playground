@@ -213,7 +213,8 @@ namespace System.Drawing
 				height = ConversionHelpers.GraphicsUnitConversion (GraphicsUnit.Pixel, graphicsUnit, image.VerticalResolution, height);
 			}
 
-			DrawImage (image, new RectangleF(x,y,width,height));
+			var uss = context.ConvertSizeToUserSpace(new CGSize(width, height));
+			DrawImage (image, new RectangleF(x,y,(float)uss.Width,(float)uss.Height));
 		}
 
 		/// <summary>
