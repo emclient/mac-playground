@@ -192,8 +192,15 @@ namespace System.Windows.Forms
 						var unique = GenerateUniqueFilename(folder, filename);
 						var path = Path.Combine(folder, unique);
 						var stream = GetStream(cdata, dndCurrentFileIndex);
-						using (var outputStream = File.Create(path))
-							stream.CopyTo(outputStream);
+						try
+						{
+							using (var outputStream = File.Create(path))
+								stream.CopyTo(outputStream);
+						}
+						catch (IOException)
+						{
+							// TODO: Handle this
+						}
 					}
 				}
 			}
