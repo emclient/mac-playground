@@ -28,7 +28,7 @@ namespace FormsTest
 	{
 		//public static Settings Settings { get; private set; }
 
-		#if INCLUDE_CEF_TEST
+#if INCLUDE_CEF_TEST
 		static CefApp a = new MyCefApp();
 
 		class MyCefRenderProcessHandler : CefRenderProcessHandler
@@ -42,7 +42,7 @@ namespace FormsTest
 				return new MyCefRenderProcessHandler();
 			}
 		}
-		#endif
+#endif
 
 		/// <summary>
 		/// The main entry point for the application.
@@ -64,7 +64,32 @@ namespace FormsTest
 			//Marshalling.Initialize();
 			//CefApp.
 
-			Application.Run(new MainForm());
+			var menuBar = new NSMenu("");
+
+			var appMenuItem = new NSMenuItem("");
+			var appMenu = new NSMenu("FormsTest");
+			var quitItem = new NSMenuItem("Quit") { KeyEquivalent = "q" };
+			quitItem.Activated += (sender, e) => { Terminate(); };
+			appMenu.AddItem(quitItem);
+			menuBar.AddItem(appMenuItem);
+			menuBar.SetSubmenu(appMenu, appMenuItem);
+
+			var editMenuItem = new NSMenuItem();
+			var editMenu = new NSMenu("Edit");
+			var selectAllItem = new NSMenuItem("Select All") { Action = new ObjCRuntime.Selector("selectAll:"), KeyEquivalent = "a" };
+			editMenu.AddItem(selectAllItem);
+			var copyItem = new NSMenuItem("Copy") { Action = new ObjCRuntime.Selector("copy:"), KeyEquivalent="c" };
+			editMenu.AddItem(copyItem);
+			var pasteItem = new NSMenuItem("Paste") { Action = new ObjCRuntime.Selector("paste:") , KeyEquivalent="v" };
+			editMenu.AddItem(pasteItem);
+			menuBar.AddItem(editMenuItem);
+			menuBar.SetSubmenu(editMenu, editMenuItem);
+
+			NSApplication.SharedApplication.Menu = menuBar;
+
+			var f = new MainForm();
+			f.Show();
+			Application.Run();
 
 			var threads = Process.GetCurrentProcess().Threads;
 

@@ -21,7 +21,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
     <Optimize>false</Optimize>
-    <OutputPath>bin\Xamarin - Debug</OutputPath>
+    <OutputPath>bin\Mono - Debug</OutputPath>
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>DEBUG; NET_4_5; NET_4_0; MAC</DefineConstants>
@@ -53,8 +53,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
-    <IntermediateOutputPath>$(SolutionDir)\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
-    <OutputPath>$(SolutionDir)\bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
     <OutDir>$(OutputPath)</OutDir>
   </PropertyGroup>
   <ItemGroup>
