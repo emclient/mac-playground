@@ -98,6 +98,7 @@ namespace System.Windows.Forms {
 		// Instance members
 		internal static NSEventModifierMask key_modifiers_internal = 0;
 		internal static NSEventModifierMask key_modifiers_mask = 0; // mask of the latest change of key_modifiers
+		internal static bool last_message_is_hscroll;
 		internal bool translate_modifier = false;
 		internal NSEvent evtRef; // last/current message
 
@@ -415,18 +416,19 @@ namespace System.Windows.Forms {
 			msg.message = Msg.WM_NULL;
 
 			NSDate timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
+			NSEvent evt;
 
 #if MONOMAC
-			evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, dequeue);
+			evt = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, dequeue);
 #else
-			evtRef = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoopMode.Default, dequeue);
+			evt = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoopMode.Default, dequeue);
 #endif
-			if (evtRef == null)
+			if (evt == null)
 				return false;
 
 			// Is it Windows message?
-			if (evtRef.Type == NSEventType.ApplicationDefined && evtRef.Subtype == NSEventTypeWindowsMessage) {
-				msg = evtRef.ToMSG();
+			if (evt.Type == NSEventType.ApplicationDefined && evt.Subtype == NSEventTypeWindowsMessage) {
+				msg = evt.ToMSG();
 				return true;
 			}
 
@@ -437,28 +439,28 @@ namespace System.Windows.Forms {
 					ReverseWindowMapped = false;
 				}
 
-				UpdateModifiers(evtRef);
+				UpdateModifiers(evt);
 
-				if (evtRef.Type == NSEventType.LeftMouseDown)
-					LastMouseDown = evtRef; // Drag'n'Drop support
+				if (evt.Type == NSEventType.LeftMouseDown)
+					LastMouseDown = evt; // Drag'n'Drop support
 
-				bool isMouseEvt = evtRef.IsMouse();
-				if (Grab.Hwnd != IntPtr.Zero && isMouseEvt && evtRef.Window != null) {
+				bool isMouseEvt = evt.IsMouse();
+				if (Grab.Hwnd != IntPtr.Zero && isMouseEvt && evt.Window != null) {
 					var grabView = Grab.Hwnd.ToNSView();
-					if (grabView.Window.WindowNumber != evtRef.WindowNumber && evtRef.Type != NSEventType.ScrollWheel)
-						evtRef = evtRef.RetargetMouseEvent(grabView);
-					grabView.DispatchMouseEvent(evtRef);
+					if (grabView.Window.WindowNumber != evt.WindowNumber && evt.Type != NSEventType.ScrollWheel)
+						evt = evt.RetargetMouseEvent(grabView);
+					grabView.DispatchMouseEvent(evt);
 				} else {
 					// When KeyboardCapture is set (ToolStrip menus), deliver key events directly, to avoid filtering, such as in case of HTMLWebView which eats KeyDown.
-					if (Application.KeyboardCapture != null && (evtRef.Type == NSEventType.KeyUp || evtRef.Type == NSEventType.KeyDown) && evtRef.Window != null)
-						evtRef.Window.SendEvent(evtRef);
+					if (Application.KeyboardCapture != null && (evt.Type == NSEventType.KeyUp || evt.Type == NSEventType.KeyDown) && evt.Window != null)
+						evt.Window.SendEvent(evt);
 					else {
 						// Discard mouse events for other windows if we have a modal one...
-						if (!isMouseEvt || NSApp.ModalWindow == null || NSApp.ModalWindow == evtRef.Window  || evtRef.Window == null || evtRef.Window.WorksWhenModal() || evtRef.Window.IsChildOf(NSApp.ModalWindow))
-							NSApp.SendEvent(evtRef);
+						if (!isMouseEvt || NSApp.ModalWindow == null || NSApp.ModalWindow == evt.Window  || evt.Window == null || evt.Window.WorksWhenModal() || evt.Window.IsChildOf(NSApp.ModalWindow))
+							NSApp.SendEvent(evt);
 
 						// ... but still use mouse click to activate the app if necessary.
-						if (evtRef.IsMouseDown() && NSApp.ModalWindow != evtRef.Window && NSApp.ModalWindow != null && !NSApp.Active)
+						if (evt.IsMouseDown() && NSApp.ModalWindow != evt.Window && NSApp.ModalWindow != null && !NSApp.Active)
 							NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
 					}
 				}
@@ -481,6 +483,8 @@ namespace System.Windows.Forms {
 					UpdateModifiers(e.ModifierFlags);
 					break;
 			}
+
+			last_message_is_hscroll = e.Type == NSEventType.ScrollWheel && e.ScrollingDeltaX != 0 && e.ScrollingDeltaY == 0;
 		}
 
 		static internal void UpdateModifiers(NSEventModifierMask flags)
@@ -2434,8 +2438,7 @@ namespace System.Windows.Forms {
 
 		internal override Keys ModifierKeys {
 			get {
-				var hscroll = evtRef != null && evtRef.Type == NSEventType.ScrollWheel && evtRef.ScrollingDeltaX != 0 && evtRef.ScrollingDeltaY == 0;
-				return (key_modifiers | (hscroll ? NSEventModifierMask.ShiftKeyMask : 0)).ToKeys();
+				return (key_modifiers | (last_message_is_hscroll ? NSEventModifierMask.ShiftKeyMask : 0)).ToKeys();
 			}
 		}
 		internal override Size SmallIconSize { get{ return new Size(16, 16); } }
