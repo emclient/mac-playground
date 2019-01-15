@@ -126,6 +126,7 @@ namespace FormsTest
 			AddButton("Bg activity", () => { StartBgActivity(); });
 			AddButton("Print dialog", () => { ShowPrintDialog(); });
 			AddButton("Swizzle (cls)", () => { SwizzleCls(); });
+			AddButton("NSException", () => { NativeException(); });
 			AddButton("Toolstrip form", () => { new ToolstripForm().Show(); });
 		}
 
@@ -349,5 +350,23 @@ namespace FormsTest
 			return result;
 		}
 
+		public void NativeException()
+		{
+			try
+			{
+				new NSMutableDictionary().LowlevelSetObject(IntPtr.Zero, IntPtr.Zero);
+
+				var nat = new NSException("Beautiful exception", "Just so", null);
+				MacApi.LibObjc.bool_objc_msgSend(nat.Handle, Selector.GetHandle("raise"));
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine($"Native exception caught:{e}");
+			}
+			finally
+			{
+				Console.WriteLine($"Finally block called");
+			}
+		}
 	}
 }
