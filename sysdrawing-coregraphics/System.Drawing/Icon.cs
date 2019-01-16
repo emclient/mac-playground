@@ -36,6 +36,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
+using System.Runtime.InteropServices;
 #if XAMARINMAC
 using ImageIO;
 using CoreGraphics;
@@ -251,24 +252,33 @@ namespace System.Drawing
 		private bool LoadImageWithSize(Size size)
 		{
 			var imageSource = imageData.ImageSource;
-			int bestIndex = (int)imageSource.ImageCount - 1;
+			int bestIndex = (int)imageSource.ImageCount; // intentionally out of range
+			int highestGoodIndex = -1;
 			Size bestSize = Size.Empty;
 			for (int imageIndex = 0; imageIndex < imageSource.ImageCount; imageIndex++)
 			{
-				var properties = imageSource.GetProperties(imageIndex);
-				if (properties.PixelWidth.Value <= size.Width && properties.PixelHeight.Value <= size.Height)
+				var properties = imageSource.GetPropertiesSafe(imageIndex);
+				if (properties != null && properties.PixelWidth.Value <= size.Width && properties.PixelHeight.Value <= size.Height)
 				{
 					if (properties.PixelWidth.Value > bestSize.Width || properties.PixelHeight.Value > bestSize.Height)
 					{
 						bestSize = new Size(properties.PixelWidth.Value, properties.PixelHeight.Value);
 						bestIndex = imageIndex;
 					}
+					highestGoodIndex = imageIndex;
 				}
 				if (bestSize == size)
 					break;
 			}
+
 			if (bestIndex >= imageSource.ImageCount)
-				return false;
+			{
+				if (highestGoodIndex >= 0)
+					bestIndex = highestGoodIndex;
+				else
+					return false;
+			}
+
 			this.image = imageSource.CreateImage(bestIndex, null);
 			return this.image != null;
 		}
@@ -315,5 +325,22 @@ namespace System.Drawing
 				return this;
 			}
 		}
+	}
+
+	static class CGImageSourceExtensions
+	{
+		// Does not throw, but returns null if properties can't be retrieved. 
+		public static CoreGraphics.CGImageProperties GetPropertiesSafe(this CGImageSource imageSource, int imageIndex)
+		{
+			var ptr = CGImageSourceCopyPropertiesAtIndex(imageSource.Handle, imageIndex, IntPtr.Zero);
+			if (ptr == IntPtr.Zero)
+				return null;
+
+			var dictionary = ObjCRuntime.Runtime.GetNSObject<NSDictionary>(ptr, true);
+			return new CoreGraphics.CGImageProperties(dictionary);
+		}
+
+		[DllImport("/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/CoreGraphics")]
+		internal extern static IntPtr CGImageSourceCopyPropertiesAtIndex(IntPtr cgImageSource, nint index, IntPtr cfDictionaryOptions); // -> CFDictionaryRef
 	}
 }
