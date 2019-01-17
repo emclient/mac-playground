@@ -2236,7 +2236,7 @@ namespace System.Windows.Forms {
 
 		[MonoTODO]
 		internal override bool SystrayAdd(IntPtr hwnd, string tip, Icon icon, out ToolTip tt) {
-			//throw new NotImplementedException();
+			NSApplication.SharedApplication.RequestUserAttention(NSRequestUserAttentionType.InformationalRequest);
 			tt = null;
 			return false;
 		}
