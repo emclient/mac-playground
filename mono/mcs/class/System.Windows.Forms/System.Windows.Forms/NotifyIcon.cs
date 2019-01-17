@@ -668,10 +668,12 @@ namespace System.Windows.Forms {
 				if (visible != value) {
 					visible = value;
 
+#if !(MONOMAC || XAMARINMAC)
 					// Let our control know, too
 					window.is_visible = value;
+#endif
 
-					if (visible) {
+					if (value) {
 						ShowSystray ();
 					} else {
 						HideSystray();
