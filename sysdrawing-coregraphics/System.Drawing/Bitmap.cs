@@ -891,15 +891,25 @@ namespace System.Drawing {
 			if (NativeCGImage == null)
 				throw new ObjectDisposedException("cgimage");
 
+			int framesSaved = 0;
 			int savedFrame = currentFrame;
 			for (int frame = 0; frame < frameCount; frame++)
 			{
-				if (frame != currentFrame && imageSource != null)
+				var corrupted = imageSource != null && imageSource.GetPropertiesSafe(frame) == null;
+				if (frame != currentFrame && imageSource != null && !corrupted)
 					InitializeImageFrame(frame);
-				dest.AddImage(NativeCGImage, (NSDictionary)null);
+
+				if (!corrupted)
+				{
+					dest.AddImage(NativeCGImage, (NSDictionary)null);
+					++framesSaved;
+				}
 			}
 			if (currentFrame != savedFrame)
 				InitializeImageFrame(savedFrame);
+
+			if (framesSaved == 0)
+				throw new ArgumentException("no frame could be saved");
 
 			dest.Close();
 		}
