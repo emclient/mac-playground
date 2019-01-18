@@ -495,6 +495,7 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 
 			// TODO: Add more conversions/wrappers - for files, images etc.
+			// See DataObjectPasteboard - merge somehow?
 
 			return null;
 		}

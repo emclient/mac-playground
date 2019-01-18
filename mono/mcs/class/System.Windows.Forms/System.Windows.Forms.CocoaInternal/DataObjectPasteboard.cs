@@ -111,8 +111,15 @@ namespace System.Windows.Forms.CocoaInternal
 					case Pasteboard.NSPasteboardTypeTIFF:
 						types.Add(DataFormats.Bitmap);
 						break;
+					case Pasteboard.NSPasteboardTypeFileURL:
+						types.Add(DataFormats.FileDrop);
+						break;
 				}
 			}
+
+			// Special rules that decrease chance for misinterpretation of data in SWF apps
+			if (types.Contains(DataFormats.FileDrop))
+				types.Remove(DataFormats.Bitmap);
 
 			return types.ToArray();
 		}
@@ -134,6 +141,8 @@ namespace System.Windows.Forms.CocoaInternal
 					return GetUri(pboard);
 				case DataFormats.Bitmap:
 					return GetBitmap(pboard);
+				case DataFormats.FileDrop:
+					return GetFileDrop(pboard);
 			}
 
 			return null;
@@ -171,6 +180,24 @@ namespace System.Windows.Forms.CocoaInternal
 
 			if (html != null)
 				return HtmlClip.AddMetadata(html);
+
+			return null;
+		}
+
+		internal string[] GetFileDrop(NSPasteboard pboard)
+		{
+			var s = pboard.GetStringForType(Pasteboard.NSPasteboardTypeFileURL);
+			if (s != null)
+			{
+				var paths = new List<string>();
+				foreach (var item in pboard.PasteboardItems)
+				{
+					var url = item.GetStringForType(Pasteboard.NSPasteboardTypeFileURL);
+					paths.Add(NSUrl.FromString(url).Path);
+				}
+
+				return paths.ToArray();
+			}
 
 			return null;
 		}

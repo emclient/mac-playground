@@ -77,6 +77,7 @@ namespace System.Windows.Forms.CocoaInternal {
 		internal const string NSHTMLTextDocumentType = "NSHTML";
 		internal const string NSRTFTextDocumentType = "NSRTF";
 		internal const string NSPasteboardTypeURL = "public.url";
+		internal const string NSPasteboardTypeFileURL = "public.file-url";
 		internal const string NSPasteboardTypeUrlName = "public.url-name";
 		internal const string NSPasteboardTypeRTF = "public.rtf";
 		internal const string NSPasteboardTypeText = "public.utf8-plain-text";
