@@ -400,11 +400,7 @@ namespace System.Windows.Forms
 			Control source = Control.FromHandle (m.HWnd);
 			Form f = source == null ? null : source.TopLevelControl as Form;
 
-			if (this.Enabled && keyData == this.shortcut_keys
-#if !(MONOMAC || XAMARINMAC) // ToolStrip can be embedded in ToolbarAccessoryView
-				&& GetTopLevelControl () == f
-#endif
-				)
+			if (this.Enabled && keyData == this.shortcut_keys && GetTopLevelControl () == f)
 			{
 				this.FireEvent (EventArgs.Empty, ToolStripItemEventType.Click);
 				return true;
