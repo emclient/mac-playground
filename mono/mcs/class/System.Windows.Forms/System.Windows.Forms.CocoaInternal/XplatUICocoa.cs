@@ -1160,7 +1160,7 @@ namespace System.Windows.Forms {
 
 		internal override void EndLoop (Thread thread) {
 			var stack = pools[thread];
-			stack.Pop().Dispose();
+			stack.Pop();
 			if (stack.Count == 0)
 				pools.Remove(thread);
 		}
