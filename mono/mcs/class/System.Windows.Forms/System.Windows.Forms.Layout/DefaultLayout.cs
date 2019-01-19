@@ -237,6 +237,8 @@ namespace System.Windows.Forms.Layout
 
 		internal override Size GetPreferredSize(object container, Size proposedConstraints)
 		{
+			proposedConstraints = FixConstraints(proposedConstraints);
+
 			Control parent = container as Control;
 			IList controls = parent.Controls;
 			Size retsize = Size.Empty;
@@ -293,6 +295,12 @@ namespace System.Windows.Forms.Layout
 			}
 
 			return retsize;
+		}
+
+		Size FixConstraints(Size s)
+		{
+			// Workaround for an issue with laying out anchored autosized controls, when the original proposedSize is Size(Int32.MaxValue, Int32.MaxValue)
+			return new Size(s.Width > Int32.MaxValue / 2 ? 0 : s.Width, s.Height > Int32.MaxValue / 2 ? 0 : s.Height);
 		}
 	}
 }
