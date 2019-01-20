@@ -385,7 +385,7 @@ namespace System.Windows.Forms.CocoaInternal
 			// emulate replacement by sending backspace and then typing.
 			// Not doing this would result in not deleting the originally typed character, event if it should have been replaced by IME.
 			if (replacementRange.Location == 0)
-				SendKey(view.Handle, VirtualKeys.VK_BACK, IntPtr.Zero);
+				SendKey(view.Handle, (IntPtr)VirtualKeys.VK_BACK, IntPtr.Zero);
 
 			string str = text.ToString();
 			if (!String.IsNullOrEmpty(str))
@@ -470,7 +470,7 @@ namespace System.Windows.Forms.CocoaInternal
 			if (view.Window.FirstResponder is NSTextView textView) // Make use of NSTextView's undo/redo caps.
 				SuppressAndResendAction("redo:", sender);
 			else
-				SendCmdKey(view.Handle, VirtualKeys.VK_Z); // Shift modifier added automatically if pressed
+				SendCmdKey(view.Handle, VirtualKeys.VK_Z, NSEventModifierMask.ShiftKeyMask);
 		}
 
 		static string suppressedAction = null;
@@ -490,23 +490,25 @@ namespace System.Windows.Forms.CocoaInternal
 			return base.RespondsToSelector(sel);
 		}
 
-		void SendCmdKey(IntPtr hwnd, VirtualKeys key)
+		void SendCmdKey(IntPtr hwnd, VirtualKeys key, NSEventModifierMask moreModifiers = 0)
 		{
-			var emulateCmd = !XplatUICocoa.IsCmdDown;
-			if (emulateCmd)
+			// Emulate (and then restore) only modifiers of not currently pressed keys
+			var affected = XplatUICocoa.SetModifiers(NSEventModifierMask.CommandKeyMask | moreModifiers, true);
+			if (affected != 0)
 			{
-				XplatUICocoa.IsCmdDown = true;
 				ProcessModifiers(XplatUICocoa.key_modifiers);
 			}
-			SendKey(hwnd, key, (IntPtr)0x1080000);
-			if (emulateCmd)
+
+			SendKey(hwnd, (IntPtr)key, (IntPtr)0x1080000);
+
+			if (affected != 0)
 			{
-				XplatUICocoa.IsCmdDown = false;
+				XplatUICocoa.SetModifiers(affected, false); 
 				ProcessModifiers(XplatUICocoa.key_modifiers);
 			}
 		}
 
-		void SendKey(IntPtr hwnd, VirtualKeys key, IntPtr lParam)
+		void SendKey(IntPtr hwnd, IntPtr key, IntPtr lParam)
 		{
 			driver.SendMessage(hwnd, Msg.WM_KEYDOWN, (IntPtr)key, lParam);
 			driver.SendMessage(hwnd, Msg.WM_KEYUP, (IntPtr)key, lParam);

@@ -493,6 +493,16 @@ namespace System.Windows.Forms {
 			key_modifiers_internal = flags;
 		}
 
+		// Sets (keys pressed) or unsets (keys released) modifiers given by the mask.
+		// Returns mask of affected modifiers.
+		static internal NSEventModifierMask SetModifiers(NSEventModifierMask mask, bool set)
+		{
+			var value = set ? (key_modifiers_internal | mask) : (key_modifiers_internal & ~mask);
+			var affected = value ^ key_modifiers;
+			UpdateModifiers(value);
+			return affected;
+		}
+
 		internal static bool IsShiftDown { get { return 0 != (key_modifiers & NSEventModifierMask.ShiftKeyMask); } }
 		internal static bool IsCtrlDown { get { return 0 != (key_modifiers & NSEventModifierMask.ControlKeyMask); } }
 		internal static bool IsAltDown { get { return 0 != (key_modifiers & NSEventModifierMask.AlternateKeyMask); } }
@@ -1160,7 +1170,7 @@ namespace System.Windows.Forms {
 
 		internal override void EndLoop (Thread thread) {
 			var stack = pools[thread];
-			stack.Pop();
+			stack.Pop().Dispose();
 			if (stack.Count == 0)
 				pools.Remove(thread);
 		}
