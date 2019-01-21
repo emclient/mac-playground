@@ -849,28 +849,33 @@ namespace System.Windows.Forms
 
 			bool quit = false, drop = false;
 			MSG msg = new MSG();
-			while (!quit && XplatUI.GetMessage(queue_id, ref msg, IntPtr.Zero, 0, 0)) {
+			while (!quit) {
+				using (var cleanup = XplatUI.StartCycle(queue_id)) {
 
-				if (msg.message != Msg.WM_NULL)
-					Application.SendMessage(ref msg, out drop, out quit);
-				if (drop)
-					continue;
+					if ((quit = !XplatUI.GetMessage(queue_id, ref msg, IntPtr.Zero, 0, 0)))
+						continue;
 
-				var mainForm = context.MainForm;
-				if (mainForm == null)
-					continue;
-				
-				// If our Form doesn't have a handle anymore, it means it was destroyed and we need to *wait* for WM_QUIT.
-				if (!mainForm.IsHandleCreated)
-					continue;
+					if (msg.message != Msg.WM_NULL)
+						Application.SendMessage(ref msg, out drop, out quit);
+					if (drop)
+						continue;
 
-				// Handle exit, Form might have received WM_CLOSE and set 'closing' in response.
-				if (mainForm.closing || (Modal && !mainForm.Visible))
-				{
-					if (!Modal)
-						XplatUI.PostQuitMessage(0);
-					else
-						break;
+					var mainForm = context.MainForm;
+					if (mainForm == null)
+						continue;
+					
+					// If our Form doesn't have a handle anymore, it means it was destroyed and we need to *wait* for WM_QUIT.
+					if (!mainForm.IsHandleCreated)
+						continue;
+
+					// Handle exit, Form might have received WM_CLOSE and set 'closing' in response.
+					if (mainForm.closing || (Modal && !mainForm.Visible))
+					{
+						if (!Modal)
+							XplatUI.PostQuitMessage(0);
+						else
+							break;
+					}
 				}
 			}
 

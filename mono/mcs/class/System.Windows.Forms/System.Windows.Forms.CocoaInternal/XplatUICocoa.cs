@@ -109,8 +109,6 @@ namespace System.Windows.Forms {
 		internal readonly Stack<IntPtr> ModalSessions = new Stack<IntPtr>();
 		internal Size initialScreenSize;
 
-		private Dictionary<Thread, Stack<NSAutoreleasePool>> pools = new Dictionary<Thread, Stack<NSAutoreleasePool>>();
-
 		// Message loop
 		private static bool GetMessageResult;
 
@@ -1169,10 +1167,6 @@ namespace System.Windows.Forms {
 		}
 
 		internal override void EndLoop (Thread thread) {
-			var stack = pools[thread];
-			stack.Pop().Dispose();
-			if (stack.Count == 0)
-				pools.Remove(thread);
 		}
 
 		internal void Exit () {
@@ -2236,12 +2230,12 @@ namespace System.Windows.Forms {
 				NSProcessInfo.ProcessInfo.ProcessName = Application.ProductName;
 			}
 
-			Stack<NSAutoreleasePool> stack;
-			if (!pools.TryGetValue(thread, out stack))
-				pools.Add(thread, stack = new Stack<NSAutoreleasePool>());
-			stack.Push(new NSAutoreleasePool());
-
 			return new object ();
+		}
+
+		internal override IDisposable StartCycle(object loop)
+		{
+			return new NSAutoreleasePool();
 		}
 
 		[MonoTODO]
