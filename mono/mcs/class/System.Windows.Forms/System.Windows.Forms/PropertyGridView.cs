@@ -993,24 +993,26 @@ namespace System.Windows.Forms.PropertyGridInternal {
 			object queue_id = XplatUI.StartLoop (Thread.CurrentThread);
 			control.Focus ();
 			while (dropdown_form.Visible && XplatUI.GetMessage (queue_id, ref msg, IntPtr.Zero, 0, 0)) {
-				switch (msg.message) {
-					case Msg.WM_NCLBUTTONDOWN:
-				    case Msg.WM_NCMBUTTONDOWN:
-				    case Msg.WM_NCRBUTTONDOWN:
-				    case Msg.WM_LBUTTONDOWN:
-				    case Msg.WM_MBUTTONDOWN:
-				    case Msg.WM_RBUTTONDOWN:
-				    	if (!HwndInControl (dropdown_form, msg.hwnd))
-							CloseDropDown ();
-					break;
-					case Msg.WM_ACTIVATE:
-					case Msg.WM_NCPAINT:
-				 		if (owner.window.Handle == msg.hwnd)
-							CloseDropDown ();
-					break;						
+				using (var cleanup = XplatUI.StartCycle(queue_id)) {
+					switch (msg.message) {
+						case Msg.WM_NCLBUTTONDOWN:
+					    case Msg.WM_NCMBUTTONDOWN:
+					    case Msg.WM_NCRBUTTONDOWN:
+					    case Msg.WM_LBUTTONDOWN:
+					    case Msg.WM_MBUTTONDOWN:
+					    case Msg.WM_RBUTTONDOWN:
+					    	if (!HwndInControl (dropdown_form, msg.hwnd))
+								CloseDropDown ();
+						break;
+						case Msg.WM_ACTIVATE:
+						case Msg.WM_NCPAINT:
+					 		if (owner.window.Handle == msg.hwnd)
+								CloseDropDown ();
+						break;						
+					}
+					XplatUI.TranslateMessage (ref msg);
+					XplatUI.DispatchMessage (ref msg);
 				}
-				XplatUI.TranslateMessage (ref msg);
-				XplatUI.DispatchMessage (ref msg);
 			}
 			XplatUI.EndLoop (Thread.CurrentThread);			
 		}
