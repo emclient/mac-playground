@@ -1109,6 +1109,12 @@ namespace System.Windows.Forms {
 			return driver.StartLoop (thread);
 		}
 
+		internal static IDisposable StartCycle(object loop)
+		{
+			DriverDebug("StartCycle({0:X}): Called", loop.GetHashCode());
+			return driver.StartCycle(loop);
+		}
+
 		internal static TransparencySupport SupportsTransparency ()
 		{
 			DriverDebug ("SupportsTransparency (): Called, result={0}", driver.SupportsTransparency ());

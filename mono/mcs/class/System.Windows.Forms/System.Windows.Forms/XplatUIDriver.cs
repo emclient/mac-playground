@@ -419,6 +419,11 @@ namespace System.Windows.Forms {
 		internal abstract object StartLoop(Thread thread);
 		internal abstract void EndLoop(Thread thread);
 
+        internal virtual IDisposable StartCycle(object loop)
+        {
+			return null;
+        }
+
 		internal abstract void RequestNCRecalc(IntPtr hwnd);
 		internal abstract void ResetMouseHover(IntPtr hwnd);
 		internal abstract void RequestAdditionalWM_NCMessages(IntPtr hwnd, bool hover, bool leave);
