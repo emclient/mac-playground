@@ -1640,8 +1640,7 @@ namespace System.Windows.Forms
 			{
 				owner.BeginInvoke((Action)delegate
 				{
-					if (indexofCompleted != -1)
-						owner.OnImpSelectedItemChanged(sender, e);
+					owner.OnImpSelectedItemChanged(sender, e);
 
 					owner.OnTextUpdate(e);
 					owner.OnTextChanged(e);
