@@ -255,6 +255,17 @@ namespace System.Windows.Forms.Mac
 			}
 		}
 
+		public static NSCellStateValue ToCellState(this CheckState checkState)
+		{
+			switch (checkState)
+			{
+				case CheckState.Checked: return NSCellStateValue.On;
+				case CheckState.Unchecked: return NSCellStateValue.Off;
+				case CheckState.Indeterminate: return NSCellStateValue.Mixed;
+			}
+			return NSCellStateValue.Off;
+		}
+
 		internal static Selector classSel = new Selector("class");
 		internal static Selector cellClassSel = new Selector("cellClass");
 		internal static Selector setCellClassSel = new Selector("setCellClass:");
