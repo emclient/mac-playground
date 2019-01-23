@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing.Mac;
+using System.Windows.Forms.Mac;
 #if XAMARINMAC
 using AppKit;
 #else
@@ -13,15 +14,8 @@ namespace System.Windows.Forms
 		protected internal override NSMenuItem ToNSMenuItem()
 		{
 			var nsMenuItem = base.ToNSMenuItem();
-			if (HasDropDownItems)
-				nsMenuItem.Submenu = DropDown.ToNSMenu();
-
-			if (PaintCheck)
-				if (CheckState == CheckState.Checked)
-					nsMenuItem.State = NSCellStateValue.On;
-				else if (CheckState == CheckState.Indeterminate)
-					nsMenuItem.State = NSCellStateValue.Mixed;
-
+			nsMenuItem.Submenu = HasDropDownItems ? DropDown.ToNSMenu() : null;
+			nsMenuItem.State = PaintCheck ? CheckState.ToCellState() : NSCellStateValue.Off;
 			return nsMenuItem;
 		}
 
