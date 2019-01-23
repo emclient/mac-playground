@@ -158,21 +158,24 @@ namespace System.Windows.Forms
 				using (var reader = new BinaryReader(stream))
 				{
 					var count = reader.ReadInt32();
-					var firstItemOffset = stream.Position;
-					var itemSize = (stream.Length - firstItemOffset) / count;
-					const int filenameOffset = 72;
-					const int filenameFieldLength = 520;
-
-					var filenames = new string[count];
-					for (int i = 0; i < count; ++i)
+					if (count > 0)
 					{
-						stream.Position = firstItemOffset + i * itemSize + filenameOffset;
-						var bytes = reader.ReadBytes(filenameFieldLength);
-						var filename = Encoding.Unicode.GetString(bytes, 0, bytes.GetUnicodeStringLength());
-						filenames[i] = filename;
-					}
+						var firstItemOffset = stream.Position;
+						var itemSize = (stream.Length - firstItemOffset) / count;
+						const int filenameOffset = 72;
+						const int filenameFieldLength = 520;
 
-					return filenames;
+						var filenames = new string[count];
+						for (int i = 0; i < count; ++i)
+						{
+							stream.Position = firstItemOffset + i * itemSize + filenameOffset;
+							var bytes = reader.ReadBytes(filenameFieldLength);
+							var filename = Encoding.Unicode.GetString(bytes, 0, bytes.GetUnicodeStringLength());
+							filenames[i] = filename;
+						}
+
+						return filenames;
+					}
 				}
 			}
 			return new string[] { };
