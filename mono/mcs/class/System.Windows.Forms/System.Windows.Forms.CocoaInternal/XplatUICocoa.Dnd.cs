@@ -200,10 +200,8 @@ namespace System.Windows.Forms
 							using (var outputStream = File.Create(path))
 								stream.CopyTo(outputStream);
 						}
-						catch (IOException)
-						{
-							// TODO: Handle this
-						}
+						catch (IOException) { } // TODO: Handle this
+						catch (UnauthorizedAccessException) { }
 					}
 				}
 			}
