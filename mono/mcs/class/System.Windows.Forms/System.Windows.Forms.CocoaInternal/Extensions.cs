@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Windows.Forms.CocoaInternal;
 using MacApi;
+using System.Runtime.InteropServices.ComTypes;
 
 #if MONOMAC
 using MonoMac.ObjCRuntime;
@@ -399,6 +400,21 @@ namespace System.Windows.Forms.Mac
 				if (read == 0)
 					return;
 				output.Write(buffer, 0, (int)read);
+			}
+		}
+
+		public unsafe static NSData ToNSData(this IStream stream)
+		{
+			var data = new NSMutableData();
+			byte[] buffer = new byte[32768];
+			while (true)
+			{
+				ulong read;
+				stream.Read(buffer, buffer.Length, (IntPtr)(&read));
+				if (read == 0)
+					return data;
+				fixed (byte* value = &buffer[0])
+					data.AppendBytes((IntPtr)(void*)value, (nuint)read);
 			}
 		}
 
