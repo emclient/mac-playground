@@ -1152,9 +1152,14 @@ namespace System.Windows.Forms {
 		}
 		
 		internal override void DoEvents() {
+			var loop = new object(); // fake
             MSG msg = new MSG ();
-			while (PeekMessage (null, ref msg, IntPtr.Zero, 0, 0, (uint)PeekMessageFlags.PM_REMOVE)) {
-				Application.SendMessage(ref msg);
+			while (true) {
+				using (var cleanup = StartCycle(loop)) {
+					if (!PeekMessage(null, ref msg, IntPtr.Zero, 0, 0, (uint)PeekMessageFlags.PM_REMOVE))
+						break;
+					Application.SendMessage(ref msg);
+				}
             }
 		}
 
