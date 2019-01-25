@@ -265,7 +265,7 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("windowDidChangeScreen:")]
 		internal virtual void windowDidChangeScreen(NSNotification notification)
 		{
-			BeginInvokeOnMainThread((Action)delegate { resizeWinForm(); });
+			BeginInvokeOnMainThread((Action)delegate { if (Handle != IntPtr.Zero) resizeWinForm(); });
 		}
 
 #if XAMARINMAC
