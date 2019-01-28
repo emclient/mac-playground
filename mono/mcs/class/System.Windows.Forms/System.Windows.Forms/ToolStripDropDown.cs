@@ -566,9 +566,9 @@ namespace System.Windows.Forms
 				((MonoMenuDelegate)currentMenu.Delegate).BeforePopup ();
 				show_point = CalculateShowPoint (position, direction, new Size((int)currentMenu.Size.Width, (int)currentMenu.Size.Height));
 				NSApplication.SharedApplication.BeginInvokeOnMainThread(delegate {
-					Size displaySize;
-					XplatUI.GetDisplaySize(out displaySize);
-					currentMenu.PopUpMenu(null, new CGPoint(show_point.X, displaySize.Height - show_point.Y), null);
+					var mainWindow = NSApplication.SharedApplication.MainWindow;
+					var winPosition = mainWindow.ConvertPointFromScreen(new CGPoint(show_point.X, show_point.Y));
+					currentMenu.PopUpMenu(null, winPosition, mainWindow.ContentView);
 				});
 			}
 
