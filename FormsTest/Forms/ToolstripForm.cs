@@ -15,6 +15,10 @@ namespace FormsTest
         public ToolstripForm()
         {
             InitializeComponent();
+
+			var dd = new ToolStripDropDownButton() { Text = "AAA" };
+			dd.DropDownItems.Add("Menu 1");
+			this.toolStrip1.Items.Add(dd);
         }
     }
 }
