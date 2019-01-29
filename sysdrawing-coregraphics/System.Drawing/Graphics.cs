@@ -32,6 +32,8 @@ using MonoTouch.Foundation;
 using MonoTouch.CoreText;
 #endif
 
+using MatrixOrder = System.Drawing.Drawing2D.MatrixOrder;
+
 namespace System.Drawing {
 
 	public sealed partial class Graphics : MarshalByRefObject, IDisposable, IDeviceContext {

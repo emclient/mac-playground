@@ -22,6 +22,8 @@ using nfloat = System.Double;
 using nfloat = System.Single;
 #endif
 
+using MatrixOrder = System.Drawing.Drawing2D.MatrixOrder;
+
 namespace System.Drawing 
 {
 	/// <summary>
