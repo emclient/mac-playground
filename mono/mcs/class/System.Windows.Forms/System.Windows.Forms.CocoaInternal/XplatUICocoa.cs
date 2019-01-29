@@ -914,18 +914,9 @@ namespace System.Windows.Forms {
 			SendParentNotify (viewWrapper.Handle, Msg.WM_CREATE, int.MaxValue, int.MaxValue);
 
 			if (StyleSet (cp.Style, WindowStyles.WS_VISIBLE)) {
-				if (WindowHandle != IntPtr.Zero) {
-					if (Control.FromHandle(viewWrapper.Handle) is Form f) {
-						if (f.ActivateOnShow)
-							windowWrapper.MakeKeyAndOrderFront (viewWrapper);
-						else
-							windowWrapper.OrderFront (viewWrapper);
-					}
-				}
-
-//				if (!(Control.FromHandle(viewWrapper.Handle) is Form)) {
-//					SendMessage(viewWrapper.Handle, Msg.WM_SHOWWINDOW, (IntPtr)1, IntPtr.Zero);
-//				}
+				if (WindowHandle != IntPtr.Zero)
+					if (Control.FromHandle(viewWrapper.Handle) is Form f)
+						ShowWindow(windowWrapper, f.ActivateOnShow);
 			}
 			else
 			{
@@ -1977,10 +1968,7 @@ namespace System.Windows.Forms {
 				if (visible) {
 					if (winWrap is MonoWindow monoWindow && monoWindow.Owner != null)
 						monoWindow.Owner.AddChildWindow(winWrap, NSWindowOrderingMode.Above);
-					if (Control.FromHandle(handle).ActivateOnShow)
-						winWrap.MakeKeyAndOrderFront(winWrap);
-					else
-						winWrap.OrderFront(winWrap);
+					ShowWindow(winWrap, Control.FromHandle(handle).ActivateOnShow);
 				} else {
 					winWrap.OrderOut(winWrap);
 					if (winWrap is MonoWindow monoWindow && monoWindow.Owner != null)
@@ -2000,6 +1988,16 @@ namespace System.Windows.Forms {
 				SendMessage(handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 
 			return true;
+		}
+
+		void ShowWindow(NSWindow window, bool activate)
+		{
+			if (activate)
+				window.MakeKeyAndOrderFront(window);
+			else if (window.ParentWindow == null)
+				window.OrderFront(window);
+			else
+				window.OrderWindow(NSWindowOrderingMode.Above, window.ParentWindow.WindowNumber);
 		}
 
 		internal override void SetBorderStyle (IntPtr handle, FormBorderStyle border_style) {
