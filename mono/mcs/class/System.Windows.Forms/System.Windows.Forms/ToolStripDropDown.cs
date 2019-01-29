@@ -29,6 +29,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
+using System.Windows.Forms.Mac;
 #if XAMARINMAC
 using AppKit;
 using CoreGraphics;
@@ -422,7 +423,7 @@ namespace System.Windows.Forms
 				throw new ArgumentNullException ("control");
 			
 			XplatUI.SetOwner (Handle, control.Handle);
-			Show (control.PointToScreen (position), DefaultDropDownDirection);
+			ShowInternal (control, control.PointToScreen (position), DefaultDropDownDirection);
 		}
 		
 		public void Show (int x, int y)
@@ -536,49 +537,7 @@ namespace System.Windows.Forms
 
 		public void Show (Point position, ToolStripDropDownDirection direction)
 		{
-			this.PerformLayout ();
-
-			Point show_point = CalculateShowPoint (position, direction, Size);
-
-			if (this.Location != show_point)
-				this.Location = show_point;
-
-			// Prevents recursion
-			if (Visible)
-				return;
-
-			CancelEventArgs e = new CancelEventArgs ();
-			this.OnOpening (e);
-
-			if (e.Cancel)
-				return;
-
-			// The tracker lets us know when the form is clicked or loses focus
-			ToolStripManager.AppClicked += new EventHandler (ToolStripMenuTracker_AppClicked);
-			ToolStripManager.AppFocusChange += new EventHandler (ToolStripMenuTracker_AppFocusChange);
-
-			bool useNativeMenu = true;
-			foreach (var item in this.Items)
-				useNativeMenu &= item is ToolStripMenuItem || item is ToolStripSeparator;
-
-			if (useNativeMenu) {
-				currentMenu = ToNSMenu ();
-				((MonoMenuDelegate)currentMenu.Delegate).BeforePopup ();
-				show_point = CalculateShowPoint (position, direction, new Size((int)currentMenu.Size.Width, (int)currentMenu.Size.Height));
-				NSApplication.SharedApplication.BeginInvokeOnMainThread(delegate {
-					var mainWindow = NSApplication.SharedApplication.MainWindow;
-					var winPosition = mainWindow.ConvertPointFromScreen(new CGPoint(show_point.X, show_point.Y));
-					currentMenu.PopUpMenu(null, winPosition, mainWindow.ContentView);
-				});
-			}
-
-			base.Show ();
-
-			ToolStripManager.SetActiveToolStrip (this, ToolStripManager.ActivatedByKeyboard);
-
-			// Called from NSMenuDelegate for native menus
-			if (!useNativeMenu)
-				this.OnOpened (EventArgs.Empty);
+			ShowInternal (null, position, direction);
 		}
 		
 		public void Show (Control control, int x, int y)
@@ -595,8 +554,62 @@ namespace System.Windows.Forms
 				throw new ArgumentNullException ("control");
 
 			XplatUI.SetOwner (Handle, control.Handle);
-			Show (control.PointToScreen (position), direction);
+			ShowInternal (control, control.PointToScreen (position), direction);
 		}
+
+		private void ShowInternal (Control control, Point screenPosition, ToolStripDropDownDirection direction)
+		{
+			this.PerformLayout();
+
+			Point show_point = CalculateShowPoint(screenPosition, direction, Size);
+
+			if (this.Location != show_point)
+				this.Location = show_point;
+
+			// Prevents recursion
+			if (Visible)
+				return;
+
+			CancelEventArgs e = new CancelEventArgs();
+			this.OnOpening(e);
+
+			if (e.Cancel)
+				return;
+
+			// The tracker lets us know when the form is clicked or loses focus
+			ToolStripManager.AppClicked += new EventHandler(ToolStripMenuTracker_AppClicked);
+			ToolStripManager.AppFocusChange += new EventHandler(ToolStripMenuTracker_AppFocusChange);
+
+			bool useNativeMenu = true;
+			foreach (var item in this.Items)
+				useNativeMenu &= item is ToolStripMenuItem || item is ToolStripSeparator;
+
+			if (useNativeMenu)
+			{
+				currentMenu = ToNSMenu();
+				((MonoMenuDelegate)currentMenu.Delegate).BeforePopup();
+				show_point = CalculateShowPoint(screenPosition, direction, new Size((int)currentMenu.Size.Width, (int)currentMenu.Size.Height));
+				NSApplication.SharedApplication.BeginInvokeOnMainThread(delegate {
+					if (control != null) {
+						var winPosition = control.PointToClient(show_point);
+						currentMenu.PopUpMenu(null, new CGPoint(winPosition.X, winPosition.Y), control.Handle.ToNSView());
+					} else {
+						Size displaySize;
+						XplatUI.GetDisplaySize(out displaySize);
+						currentMenu.PopUpMenu(null, new CGPoint(show_point.X, displaySize.Height - show_point.Y), null);
+					}
+				});
+			}
+
+			base.Show();
+
+			ToolStripManager.SetActiveToolStrip(this, ToolStripManager.ActivatedByKeyboard);
+
+			// Called from NSMenuDelegate for native menus
+			if (!useNativeMenu)
+				this.OnOpened(EventArgs.Empty);
+		}
+
 		#endregion
 
 		#region Protected Methods
