@@ -91,6 +91,11 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 		}
 
+		public override void WillTerminate(NSNotification notification)
+		{
+			Pasteboard.Wipe();
+		}
+
 		public override void DidBecomeActive (NSNotification notification)
 		{
 			if (XplatUICocoa.DraggedData == null)
