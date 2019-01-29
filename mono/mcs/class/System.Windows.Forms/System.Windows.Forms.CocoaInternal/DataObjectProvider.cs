@@ -112,6 +112,16 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void FinishedWithDataProvider(NSPasteboard pasteboard)
 		{
+			Wipe();
+		}
+
+		public void Wipe()
+		{
+			// Get rid of possible references to whatever that cannot be read during app terminaion.
+			if (data is DataObjectWrapper wrapper)
+				wrapper.Wipe();
+			else if (!(data is DataObject))
+				data = new DataObject();
 		}
 
 		#endregion

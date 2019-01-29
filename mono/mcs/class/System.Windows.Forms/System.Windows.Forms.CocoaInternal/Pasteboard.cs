@@ -89,9 +89,16 @@ namespace System.Windows.Forms.CocoaInternal {
 		internal const string UniformResourceLocatorW = "UniformResourceLocatorW";
 
 		internal static Dictionary<string, object> managed = new Dictionary<string, object>();
+		internal static List<DataObjectProvider> providers = new List<DataObjectProvider>();
 
 		static Pasteboard ()
 		{
+		}
+
+		internal static void Wipe()
+		{
+			foreach (var provider in providers)
+				provider.Wipe();
 		}
 
 		internal static object Retrieve(NSPasteboard pboard, int id)
@@ -116,6 +123,7 @@ namespace System.Windows.Forms.CocoaInternal {
 			{
 				pboard.ClearContents();
 				managed.Clear();
+				providers.Clear();
 				return;
 			}
 			if (data == null)
@@ -131,6 +139,7 @@ namespace System.Windows.Forms.CocoaInternal {
 				var item = new NSPasteboardItem();
 				item.SetDataProviderForTypes(provider, provider.Types);
 				pboard.WriteObject(item);
+				providers.Add(provider);
 			}
 		}
 

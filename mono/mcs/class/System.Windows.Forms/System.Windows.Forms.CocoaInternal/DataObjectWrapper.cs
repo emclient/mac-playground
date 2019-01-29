@@ -79,6 +79,13 @@ namespace System.Windows.Forms.CocoaInternal
 
 		#endregion
 
+		public void Wipe()
+		{
+			// Get rid of possible references to whatever that cannot be read during app terminaion.
+			if (!(innerData is DataObject))
+				innerData = new DataObject();
+		}
+
 		#region internals
 
 		string AlterFormat(string format)
