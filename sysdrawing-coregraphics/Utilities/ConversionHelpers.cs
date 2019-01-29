@@ -10,6 +10,8 @@ using MonoMac.CoreGraphics;
 using MonoTouch.CoreGraphics;
 #endif
 
+using MatrixOrder = System.Drawing.Drawing2D.MatrixOrder;
+
 namespace System.Drawing
 {
 	internal static class ConversionHelpers
