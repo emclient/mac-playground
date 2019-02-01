@@ -35,7 +35,6 @@ using MonoMac.AppKit;
 using MonoMac.Foundation;
 #endif
 using System.Drawing.Mac;
-using System.Collections.Generic;
 
 namespace System.Drawing {
 
