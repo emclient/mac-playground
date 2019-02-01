@@ -600,8 +600,8 @@ namespace System.Windows.Forms
 					}
 				});
 			}
-
-			base.Show();
+			else 
+				base.Show();
 
 			ToolStripManager.SetActiveToolStrip(this, ToolStripManager.ActivatedByKeyboard);
 
