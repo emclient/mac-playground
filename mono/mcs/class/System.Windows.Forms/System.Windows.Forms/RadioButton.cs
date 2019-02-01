@@ -322,14 +322,9 @@ namespace System.Windows.Forms {
 		}
 
 		protected override void OnClick(EventArgs e) {
-			if (auto_check) {
-				if (!Checked) {
-					Checked = true;
-				}
-			} else {
-				Checked = !Checked;
-			}
-			
+			if (auto_check)
+				Checked = true;
+
 			base.OnClick (e);
 		}
 
