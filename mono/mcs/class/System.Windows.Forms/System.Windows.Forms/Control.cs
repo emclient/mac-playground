@@ -54,6 +54,7 @@ using System.Threading;
 #if XAMARINMAC
 using AppKit;
 #else
+using MonoMac;
 using MonoMac.AppKit;
 #endif
 #endif
@@ -3261,6 +3262,15 @@ namespace System.Windows.Forms
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Control TopLevelControl {
 			get {
+#if __MACOS__
+				// This method finds the top level control (form) also if @this is a part of titlebar accessory view
+				if (IsHandleCreated) {
+					var contentView = (ObjCRuntime.Runtime.GetNSObject(Handle) as NSView)?.Window?.ContentView;
+					if (contentView != null)
+						if (Control.FromHandle(contentView.Handle) is Form f)
+							return f;
+				}
+#endif
 				Control	p = this;
 				while (p.parent != null) {
 					p = p.parent;
@@ -6893,7 +6903,7 @@ namespace System.Windows.Forms
 			remove { Events.RemoveHandler (VisibleChangedEvent, value); }
 		}
 
-		#endregion	// Events
+#endregion  // Events
 
 		[Conditional("DEBUG")]
 		internal static void NotImplemented(MethodBase method, object value = null)
