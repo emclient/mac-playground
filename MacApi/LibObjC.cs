@@ -79,6 +79,9 @@ namespace MacApi
 		public extern static void void_objc_msgSend_Bool(IntPtr receiver, IntPtr selector, bool arg1);
 
 		[DllImport(libobjc, EntryPoint = objc_msgSend)]
+		public extern static void void_objc_msgSend_Int(IntPtr receiver, IntPtr selector, Int32 arg1);
+
+		[DllImport(libobjc, EntryPoint = objc_msgSend)]
 		public extern static Int32 Int32_objc_msgSend_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1);
 
 		[DllImport(libobjc, EntryPoint = objc_msgSend)]
