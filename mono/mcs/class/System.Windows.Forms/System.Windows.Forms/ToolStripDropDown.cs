@@ -357,7 +357,7 @@ namespace System.Windows.Forms
 
 		protected override void SetVisibleCore(bool visible)
 		{
-			if (this.Visible == visible)
+			if (UseNativeMenu || this.Visible == visible)
 				return;
 
 			if (visible)
@@ -557,6 +557,17 @@ namespace System.Windows.Forms
 			ShowInternal (control, control.PointToScreen (position), direction);
 		}
 
+		private bool UseNativeMenu
+		{
+			get
+			{
+					bool useNativeMenu = true;
+					foreach (var item in this.Items)
+						useNativeMenu &= item is ToolStripMenuItem || item is ToolStripSeparator;
+					return useNativeMenu;
+			}
+		}
+
 		private void ShowInternal (Control control, Point screenPosition, ToolStripDropDownDirection direction)
 		{
 			this.PerformLayout();
@@ -580,9 +591,7 @@ namespace System.Windows.Forms
 			ToolStripManager.AppClicked += new EventHandler(ToolStripMenuTracker_AppClicked);
 			ToolStripManager.AppFocusChange += new EventHandler(ToolStripMenuTracker_AppFocusChange);
 
-			bool useNativeMenu = true;
-			foreach (var item in this.Items)
-				useNativeMenu &= item is ToolStripMenuItem || item is ToolStripSeparator;
+			bool useNativeMenu = UseNativeMenu;
 
 			if (useNativeMenu)
 			{
