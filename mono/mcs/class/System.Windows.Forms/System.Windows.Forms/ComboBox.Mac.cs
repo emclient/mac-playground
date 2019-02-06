@@ -1523,7 +1523,6 @@ namespace System.Windows.Forms
 				combo.Font = owner.Font.ToNSFont();
 				combo.DoCommandBySelector = ComboDoCommandBySelector;
 				combo.Changed += ComboTextFieldChanged;
-				combo.SelectionChanged += ComboSelectionChanged;
 				combo.WillPopUp += ComboWillPopUp;
 				combo.WillDismiss += ComboWillDismiss;
 				combo.Completes = true;
@@ -1534,6 +1533,8 @@ namespace System.Windows.Forms
 
 				if (owner.selected_index >= 0 && owner.selected_index < combo.Count)
 					combo.SelectItem(owner.selected_index);
+					
+				combo.SelectionChanged += ComboSelectionChanged;
 			}
 
 			public NSControl Control
