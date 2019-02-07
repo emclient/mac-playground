@@ -1,4 +1,4 @@
-﻿#if MACDIALOGS
+#if MACDIALOGS
 
 using System;
 using System.ComponentModel;
@@ -34,9 +34,14 @@ namespace System.Windows.Forms
 				var panel = new NSOpenPanel();
 				panel.CanChooseFiles = false;
 				panel.CanChooseDirectories = true;
+				panel.CanCreateDirectories = ShowNewFolderButton;
 				panel.AllowsMultipleSelection = false;
 				panel.ResolvesAliases = true;
 				panel.Title = Description ?? String.Empty;
+
+				if (Prompt != null)
+					panel.Prompt = Prompt;
+
 				if (!String.IsNullOrWhiteSpace(SelectedPath) && System.IO.Directory.Exists(SelectedPath) && IsSubfolderOf(SelectedPath, RootFolder))
 					panel.DirectoryUrl = NSUrl.FromFilename(SelectedPath);
 
@@ -50,6 +55,8 @@ namespace System.Windows.Forms
 
 		#endregion
 
+		internal string Prompt { get; set; }
+
 		public string Description { get; set; }
 
 		// Gets or sets the root folder where the browsing starts from.
@@ -59,7 +66,7 @@ namespace System.Windows.Forms
 		public string SelectedPath { get; set; }
 
 		// Gets or sets a value indicating whether the New Folder button appears in the folder browser dialog box.
-		public bool ShowNewFolderButton	{ get; set; }
+		public bool ShowNewFolderButton { get; set; } = true;
 
 		protected virtual bool IsSubfolderOf(string subpath, Environment.SpecialFolder root)
 		{
