@@ -1,4 +1,4 @@
-﻿#if MACOS_THEME
+#if MACOS_THEME
 using System;
 using System.Windows.Forms.Mac;
 using System.Drawing.Mac;
@@ -81,8 +81,15 @@ namespace System.Windows.Forms
 			{
 				if (textView != null)
 				{
+					textView.LinkClicked = null;
 					textView.TextDidChange -= TextViewTextDidChange;
 					textView.DoCommandBySelector = null;
+					textView = null;
+
+					scrollView.RemoveFromSuperviewWithoutNeedingDisplay(); // This prevents crash when destroying the window under Xamarin 5.6.0.10
+					scrollView = null;
+
+					owner = null;
 				}
 			}
 
