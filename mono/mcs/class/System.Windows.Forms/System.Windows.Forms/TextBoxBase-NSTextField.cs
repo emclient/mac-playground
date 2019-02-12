@@ -1,4 +1,4 @@
-﻿#if MACOS_THEME
+#if MACOS_THEME
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Mac;
@@ -27,7 +27,6 @@ namespace System.Windows.Forms
 		{
 			protected TextBoxBase owner;
 			protected NSTextField textField;
-			protected NSTextFieldDelegate textFieldDelegate;
 			protected string text;
 			protected Formatter formatter;
 			internal static Class fieldClass;
@@ -76,10 +75,19 @@ namespace System.Windows.Forms
 				if (textField != null)
 				{
 					textField.AbortEditing();
-					textField.TextShouldBeginEditing -= TextFieldShouldBeginEditing;
+					textField.TextShouldBeginEditing = null;
 					textField.Changed -= TextFieldChanged;
 					textField.DoCommandBySelector = null;
 					textField.GetCompletions = null;
+					textField = null;
+
+					if (formatter != null)
+					{
+						formatter.owner = null;
+						formatter = null;
+					}
+
+					owner = null;
 				}
 			}
 
@@ -407,7 +415,7 @@ namespace System.Windows.Forms
 
 		internal class Formatter : NSFormatter
 		{
-			TextBoxBase_NSTextField owner;
+			internal TextBoxBase_NSTextField owner;
 
 			public Formatter(TextBoxBase_NSTextField owner)
 			{
