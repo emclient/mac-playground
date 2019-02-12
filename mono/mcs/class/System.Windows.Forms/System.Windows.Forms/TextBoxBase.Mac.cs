@@ -1,4 +1,4 @@
-﻿#if MACOS_THEME
+#if MACOS_THEME
 
 using System.Collections;
 using System.ComponentModel;
@@ -674,6 +674,17 @@ namespace System.Windows.Forms
 						if ((keyData & Keys.Control) == 0)
 							return true;
 					return false;
+
+				case Keys.Home:
+				case Keys.End:
+				case Keys.Left:
+				case Keys.Right:
+				case Keys.Up:
+				case Keys.Down:
+					return Enabled;
+				case Keys.PageUp:
+				case Keys.PageDown:
+					return Enabled && Multiline;
 			}
 			return false;
 		}
