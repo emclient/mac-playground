@@ -1,4 +1,4 @@
-﻿#if MACOS_THEME
+#if MACOS_THEME
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -211,6 +211,19 @@ namespace System.Windows.Forms {
 		protected override void Dispose(bool disposing)
 		{
 			base.Dispose(disposing);
+		}
+
+		protected override void WndProc(ref Message m)
+		{
+			switch ((Msg)m.Msg)
+			{
+				case Msg.WM_DESTROY:
+					if (imp != null)
+						imp.Release();
+					break;
+			}
+
+			base.WndProc(ref m);
 		}
 
 		protected virtual void OnTextAlignChanged(EventArgs e)
