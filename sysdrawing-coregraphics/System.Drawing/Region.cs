@@ -86,48 +86,30 @@ namespace System.Drawing
 		internal struct RegionEntry
 		{
 			public RegionType regionType;
-			public object regionObject;
 			public Paths regionPath;
 			public RegionClipType regionClipType;
 
 			public RegionEntry (RegionType type) :
-				this (type, null, new Paths(), RegionClipType.None)
+				this (type, new Paths(), RegionClipType.None)
 			{   }
 
-			public RegionEntry (RegionType type, object obj) : 
-				this (type, obj, new Paths(), RegionClipType.None)
-			{	}
-
-			public RegionEntry (RegionType type, object obj, Path path) :
-				this (type, obj, path, RegionClipType.None)
+			public RegionEntry (RegionType type, Path path) :
+				this (type, path, RegionClipType.None)
 			{ 	}
 
-			public RegionEntry (RegionType type, object obj, Path path, RegionClipType clipType) //:
-				//this (type, obj, new Paths<List<IntPoint>>(path), clipType)
+			public RegionEntry (RegionType type, Path path, RegionClipType clipType)
 			{	
 				regionType = type;
-				regionObject = obj;
 				regionPath = new Paths() { path };
 				regionClipType = clipType;
 			}
 
-			public RegionEntry (RegionType type, object obj, Paths path, RegionClipType clipType)
+			public RegionEntry (RegionType type, Paths path, RegionClipType clipType)
 			{
-
 				regionType = type;
-				regionObject = obj;
 				regionPath = path;
 				regionClipType = clipType;
 			}
-
-//			public RegionEntry (RegionType type, object obj, Paths path, RegionClipType clipType)
-//			{
-//
-//				regionType = type;
-//				regionObject = obj;
-//				regionPath = path;
-//				regionClipType = clipType;
-//			}
 		}
 		
 		internal enum RegionType
@@ -159,7 +141,7 @@ namespace System.Drawing
 			var path = RectangleToPath (new RectangleF((float)infinite.X, (float)infinite.Y, (float)infinite.Width, (float)infinite.Height));
 			solution.Add (path);
 
-			regionList.Add (new RegionEntry (RegionType.Infinity, infinite, path));
+			regionList.Add (new RegionEntry (RegionType.Infinity, path));
 
 			regionPath = new CGPath ();
 			regionPath.MoveToPoint (infinite.Left, infinite.Top);
@@ -179,7 +161,7 @@ namespace System.Drawing
 			regionObject = rect;
 			var path = RectangleToPath (rect);
 			solution.Add (path);
-			regionList.Add (new RegionEntry (RegionType.Rectangle, rect, path));
+			regionList.Add (new RegionEntry (RegionType.Rectangle, path));
 			regionPath = new CGPath ();
 			regionPath.MoveToPoint (rect.Left, rect.Top);
 			regionPath.AddLineToPoint (rect.Right, rect.Top);
@@ -200,7 +182,7 @@ namespace System.Drawing
 			clonePath.Flatten ();
 			var flatPath = PointFArrayToIntArray (clonePath.PathPoints, scale);
 			solution.Add (flatPath);
-			regionList.Add (new RegionEntry (RegionType.Path, clonePath, flatPath));
+			regionList.Add (new RegionEntry (RegionType.Path, flatPath));
 			regionBounds = regionPath.BoundingBox;
 		}
 
@@ -335,8 +317,7 @@ namespace System.Drawing
 				{
 					regionType = r.regionType,
 					regionClipType = r.regionClipType,
-					regionPath = Copy(r.regionPath),
-					regionObject = CopyRegionObject(r.regionObject)
+					regionPath = Copy(r.regionPath)
 				});
 			return dst;
 		}
@@ -391,7 +372,7 @@ namespace System.Drawing
 			solution.Clear ();
 
 			solution.Add (path);
-			regionList.Add (new RegionEntry (RegionType.Infinity, infinite, path));
+			regionList.Add (new RegionEntry (RegionType.Infinity, path));
 
 			regionPath = new CGPath ();
 			regionPath.MoveToPoint (infinite.Left, infinite.Top);
@@ -413,7 +394,7 @@ namespace System.Drawing
 			solution.Clear ();
 
 			solution.Add (path);
-			regionList.Add (new RegionEntry (RegionType.Empty, RectangleF.Empty, path));
+			regionList.Add (new RegionEntry (RegionType.Empty, path));
 
 			regionPath = new CGPath ();
 
@@ -458,7 +439,6 @@ namespace System.Drawing
 		public void Translate(int dx,int dy)
 		{
 			Translate ((float)dx, (float)dy);
-
 		}
 
 		public void Translate(float dx, float dy)
@@ -474,18 +454,15 @@ namespace System.Drawing
 
 		public void Intersect(RectangleF rect)
 		{
-
-			regionList.Add(new RegionEntry(RegionType.Rectangle, rect, RectangleToPath(rect), RegionClipType.Intersection));
+			regionList.Add(new RegionEntry(RegionType.Rectangle, RectangleToPath(rect), RegionClipType.Intersection));
 			calculateRegionPath (ClipType.ctIntersection);
 		}
 
 		public void Intersect(Region region)
 		{
-
-			regionList.Add(new RegionEntry(RegionType.Path, region.solution, region.solution, RegionClipType.Intersection));
+			regionList.Add(new RegionEntry(RegionType.Path, region.solution, RegionClipType.Intersection));
 			calculateRegionPath (ClipType.ctIntersection);
 		}
-
 
 		public void Union(Rectangle rect)
 		{
@@ -494,14 +471,13 @@ namespace System.Drawing
 
 		public void Union(RectangleF rect)
 		{
-			regionList.Add(new RegionEntry(RegionType.Rectangle, rect, RectangleToPath(rect), RegionClipType.Union));
+			regionList.Add(new RegionEntry(RegionType.Rectangle, RectangleToPath(rect), RegionClipType.Union));
 			calculateRegionPath (ClipType.ctUnion);
 		}
 
 		public void Union(Region region)
 		{
-
-			regionList.Add(new RegionEntry(RegionType.Path, region.solution, region.solution, RegionClipType.Union));
+			regionList.Add(new RegionEntry(RegionType.Path, region.solution, RegionClipType.Union));
 			calculateRegionPath (ClipType.ctUnion);
 		}
 
@@ -512,14 +488,13 @@ namespace System.Drawing
 
 		public void Xor(RectangleF rect)
 		{
-			regionList.Add(new RegionEntry(RegionType.Rectangle, rect, RectangleToPath(rect), RegionClipType.Xor));
+			regionList.Add(new RegionEntry(RegionType.Rectangle, RectangleToPath(rect), RegionClipType.Xor));
 			calculateRegionPath (ClipType.ctXor);
 		}
 
 		public void Xor(Region region)
 		{
-
-			regionList.Add(new RegionEntry(RegionType.Path, region.solution, region.solution, RegionClipType.Xor));
+			regionList.Add(new RegionEntry(RegionType.Path, region.solution, RegionClipType.Xor));
 			calculateRegionPath (ClipType.ctXor);
 		}
 
@@ -530,14 +505,13 @@ namespace System.Drawing
 
 		public void Exclude(RectangleF rect)
 		{
-			regionList.Add(new RegionEntry(RegionType.Rectangle, rect, RectangleToPath(rect), RegionClipType.Difference));
+			regionList.Add(new RegionEntry(RegionType.Rectangle, RectangleToPath(rect), RegionClipType.Difference));
 			calculateRegionPath (ClipType.ctDifference);
 		}
 
 		public void Exclude(Region region)
 		{
-
-			regionList.Add(new RegionEntry(RegionType.Path, region.solution, region.solution, RegionClipType.Difference));
+			regionList.Add(new RegionEntry(RegionType.Path, region.solution, RegionClipType.Difference));
 			calculateRegionPath (ClipType.ctDifference);
 		}
 
