@@ -1127,7 +1127,6 @@ namespace System.Windows.Forms {
 				NSView vuWrap = h.ToNSView();
 				NSWindow winWrap = vuWrap.Window;
 				if (winWrap != null && winWrap.ContentView == vuWrap) { 
-					winWrap.ReleasedWhenClosed = true;
 					winWrap.Close ();
 					NSApplication.SharedApplication.RemoveWindowsItem(winWrap);
 					keepAlivePool.Remove(winWrap.Handle);
