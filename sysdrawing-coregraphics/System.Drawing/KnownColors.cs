@@ -430,6 +430,7 @@ namespace System.Drawing {
 			// KnownColor.ActiveCaption
 			// KnownColor.ActiveCaptionText
 			// KnownColor.AppWorkspace
+
 			ArgbValues[(int)KnownColor.Control] = NSColor.Control.ToUArgb();
 			ArgbValues[(int)KnownColor.ControlText] = NSColor.ControlText.ToUArgb();
 			ArgbValues[(int)KnownColor.ControlDark] = NSColor.ControlShadow.ToUArgb();
@@ -446,14 +447,14 @@ namespace System.Drawing {
 			// KnownColor.InactiveBorder
 			// KnownColor.InactiveCaption
 			// KnownColor.InactiveCaptionText
-			// KnownColor.Info
-			// KnownColor.InfoText
+			//ArgbValues[(int)KnownColor.Info] = NSColor.WindowBackground.ToUArgb();
+			//ArgbValues[(int)KnownColor.InfoText] = NSColor.ControlText.ToUArgb();
 			// KnownColor.Menu
 			// KnownColor.MenuText
 			ArgbValues[(int)KnownColor.ScrollBar] = NSColor.ScrollBar.ToUArgb();
-			//ArgbValues[(int)KnownColor.Window] = NSColor.WindowBackground.ToUArgb();
-			//ArgbValues[(int)KnownColor.WindowFrame] = NSColor.WindowFrame.ToUArgb();
-			//ArgbValues[(int)KnownColor.WindowText] = NSColor.WindowFrameText.ToUArgb();
+			ArgbValues[(int)KnownColor.Window] = NSColor.WindowBackground.ToUArgb();
+			ArgbValues[(int)KnownColor.WindowText] = NSColor.WindowFrameText.ToUArgb();
+			ArgbValues[(int)KnownColor.WindowFrame] = NSColor.WindowFrame.ToUArgb();
 			ArgbValues[(int)KnownColor.ButtonFace] = NSColor.Control.ToUArgb();
 			ArgbValues[(int)KnownColor.ButtonHighlight] = NSColor.ControlHighlight.ToUArgb();
 			ArgbValues[(int)KnownColor.ButtonShadow] = NSColor.ControlShadow.ToUArgb();
