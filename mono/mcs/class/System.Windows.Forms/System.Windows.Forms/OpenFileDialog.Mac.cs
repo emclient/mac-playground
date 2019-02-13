@@ -1,4 +1,4 @@
-﻿#if MONOMAC || XAMARINMAC
+#if MONOMAC || XAMARINMAC
 
 using System.Windows.Forms.CocoaInternal;
 using System.ComponentModel;
@@ -72,6 +72,14 @@ namespace System.Windows.Forms
 			for (int i = 0; i < filenames.Length; ++i)
 				filenames[i] = panel.Urls[i].Path;
 			return filenames;
+		}
+
+		public Stream OpenFile()
+		{
+			if (FileName.Length == 0)
+				throw new ArgumentNullException("OpenFile", "FileName is null");
+
+			return new FileStream(FileName, FileMode.Open, FileAccess.Read);
 		}
 	}
 }

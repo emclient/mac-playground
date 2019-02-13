@@ -1,4 +1,4 @@
-﻿#if MONOMAC || XAMARINMAC
+#if MONOMAC || XAMARINMAC
 
 using System;
 using System.Windows.Forms;
@@ -68,6 +68,25 @@ namespace System.Windows.Forms
 				if (RestoreDirectory && currentDirectory != null && Directory.Exists(currentDirectory))
 					Environment.CurrentDirectory = currentDirectory;
 			}
+		}
+
+		public Stream OpenFile()
+		{
+			if (FileName == null)
+				throw new ArgumentNullException("OpenFile", "FileName is null");
+
+			Stream retValue;
+
+			try
+			{
+				retValue = new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite);
+			}
+			catch (Exception)
+			{
+				retValue = null;
+			}
+
+			return retValue;
 		}
 	}
 }
