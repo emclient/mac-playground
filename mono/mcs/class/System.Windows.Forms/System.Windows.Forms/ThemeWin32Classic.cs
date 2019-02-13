@@ -71,7 +71,7 @@ namespace System.Windows.Forms
 		}
 
 		public override void ResetDefaults() {
-			defaultWindowBackColor = this.ColorWindow;
+			defaultWindowBackColor = this.ColorControl;
 			defaultWindowForeColor = this.ColorControlText;
 			window_border_font = null;
 			
