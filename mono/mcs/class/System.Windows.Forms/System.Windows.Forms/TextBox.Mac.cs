@@ -213,19 +213,6 @@ namespace System.Windows.Forms {
 			base.Dispose(disposing);
 		}
 
-		protected override void WndProc(ref Message m)
-		{
-			switch ((Msg)m.Msg)
-			{
-				case Msg.WM_DESTROY:
-					if (imp != null)
-						imp.Release();
-					break;
-			}
-
-			base.WndProc(ref m);
-		}
-
 		protected virtual void OnTextAlignChanged(EventArgs e)
 		{
 			EventHandler eh = (EventHandler)(Events[TextAlignChangedEvent]);
