@@ -85,10 +85,7 @@ namespace System.Windows.Forms
 					textView.TextDidChange -= TextViewTextDidChange;
 					textView.DoCommandBySelector = null;
 					textView = null;
-
-					scrollView.RemoveFromSuperviewWithoutNeedingDisplay(); // This prevents crash when destroying the window under Xamarin 5.6.0.10
 					scrollView = null;
-
 					owner = null;
 				}
 			}
