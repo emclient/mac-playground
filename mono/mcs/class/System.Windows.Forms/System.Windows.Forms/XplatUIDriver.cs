@@ -41,18 +41,6 @@ namespace System.Windows.Forms {
 		#region XplatUI Driver Properties
 		internal virtual int ActiveWindowTrackingDelay { get { return 0; } }
 
-		internal virtual Color ForeColor {
-			get {
-				return ThemeEngine.Current.DefaultWindowForeColor;
-			}
-		}
-
-		internal virtual  Color BackColor { 
-			get {
-				return ThemeEngine.Current.DefaultWindowBackColor;
-			}
-		}
-
 		internal virtual Size Border3DSize {
 			get {
 				return new Size (2, 2);
