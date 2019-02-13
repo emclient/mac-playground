@@ -1,4 +1,4 @@
-﻿//
+//
 //MonoView.cs
 // 
 //Author:
@@ -305,7 +305,15 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 			else if (Style.HasFlag(WindowStyles.WS_BORDER))
 			{
-				Color color = NSColor.Grid.ToSDColor(); // Color.Black
+				Color color = NSColor.SeparatorColor.ToSDColor(); // Color.Black
+				if (color.A != 0xff) {
+					// HACK
+					Color baseColor = NSColor.WindowBackground.ToSDColor();
+					color = Color.FromArgb(
+						(((int)baseColor.R * (0xff - color.A)) + ((int)color.R * color.A)) / 0xff,
+						(((int)baseColor.G * (0xff - color.A)) + ((int)color.G * color.A)) / 0xff,
+						(((int)baseColor.B * (0xff - color.A)) + ((int)color.B * color.A)) / 0xff);
+				}
 				using (var g = Graphics.FromHwnd(Handle, false))
 					ControlPaint.DrawBorder(g, new Rectangle(0, 0, (int)Frame.Width, (int)Frame.Height), color, ButtonBorderStyle.Solid);
 			}

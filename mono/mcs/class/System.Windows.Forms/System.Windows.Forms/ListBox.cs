@@ -1,4 +1,4 @@
-﻿/// Permission is hereby granted, free of charge, to any person obtaining
+/// Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
 // without limitation the rights to use, copy, modify, merge, publish,
@@ -102,7 +102,6 @@ namespace System.Windows.Forms
 
 			requested_height = bounds.Height;
 			InternalBorderStyle = BorderStyle.Fixed3D;
-			BackColor = ThemeEngine.Current.ColorWindow;
 
 			/* Vertical scrollbar */
 			vscrollbar = new ImplicitVScrollBar ();
@@ -246,12 +245,15 @@ namespace System.Windows.Forms
 
 		#region Public Properties
 		public override Color BackColor {
-			get { return base.BackColor; }
+			get {
+				if (ShouldSerializeBackColor ()) {
+					return base.BackColor;
+				} else {
+					return ThemeEngine.Current.ColorWindow;
+				}
+			}
 			set {
-				if (base.BackColor == value)
-					return;
-
-    				base.BackColor = value;
+				base.BackColor = value;
 				base.Refresh ();	// Careful. Calling the base method is not the same that calling 
 			}				// the overriden one that refresh also all the items
 		}

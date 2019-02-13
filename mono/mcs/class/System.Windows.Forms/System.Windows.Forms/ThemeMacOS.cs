@@ -146,8 +146,12 @@ namespace System.Windows.Forms
 		}
 
 		public override void ResetDefaults() {
-			defaultWindowBackColor = this.ColorWindow;
-			defaultWindowForeColor = this.ColorWindowText;
+			defaultWindowBackColor = SystemColors.Window;
+			defaultWindowForeColor = SystemColors.WindowText;
+
+			this.ColorWindow = NSColor.TextBackground.ToSDColor();
+			this.ColorWindowText = NSColor.Text.ToSDColor();
+
 			window_border_font = null;
 			
 			/* Menu string formats */

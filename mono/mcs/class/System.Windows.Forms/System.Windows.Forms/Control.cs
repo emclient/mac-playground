@@ -2212,7 +2212,7 @@ namespace System.Windows.Forms
 
 		internal bool ShouldSerializeBackColor ()
 		{
-			return this.BackColor != DefaultBackColor;
+			return !this.background_color.IsEmpty;
 		}
 
 		[Localizable(true)]
@@ -2754,7 +2754,7 @@ namespace System.Windows.Forms
 
 		internal bool ShouldSerializeForeColor ()
 		{
-			return this.ForeColor != DefaultForeColor;
+			return !this.foreground_color.IsEmpty;
 		}
 
 		[DispId(-515)]
