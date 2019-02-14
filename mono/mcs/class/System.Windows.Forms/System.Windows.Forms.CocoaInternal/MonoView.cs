@@ -305,7 +305,7 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 			else if (Style.HasFlag(WindowStyles.WS_BORDER))
 			{
-				Color color = NSColor.SeparatorColor.ToSDColor(); // Color.Black
+				var color = (NSProcessInfo.ProcessInfo.IsMojaveOrHigher() ? NSColor.SeparatorColor : NSColor.Grid).ToSDColor();
 				if (color.A != 0xff) {
 					// HACK
 					Color baseColor = NSColor.WindowBackground.ToSDColor();
