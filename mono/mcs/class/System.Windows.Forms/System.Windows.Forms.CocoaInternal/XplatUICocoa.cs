@@ -1825,15 +1825,24 @@ namespace System.Windows.Forms {
 		{
 			NSView vuWrap = handle.ToNSView();
 			NSWindow winWrap = vuWrap.Window;
+			IntPtr session;
 			if (Modal)
 			{
+				// Don't make the main window modal
+				// Cannot go fullscreen or receive Quit event otherwise
 				if (winWrap.ParentWindow == null)
+				{
 					winWrap.Center();
-				IntPtr session = NSApplication.SharedApplication.BeginModalSession(winWrap);
-				ModalSessions.Push(session);
+					ModalSessions.Push(IntPtr.Zero);
+				}
+				else
+				{
+					session = NSApplication.SharedApplication.BeginModalSession(winWrap);
+					ModalSessions.Push(session);
+				}
 			}
-			else
-				NSApplication.SharedApplication.EndModalSession (ModalSessions.Pop ());
+			else if ((session = ModalSessions.Pop()) != IntPtr.Zero)
+				NSApplication.SharedApplication.EndModalSession(session);
 		}
 
 		internal override IntPtr SetParent (IntPtr handle, IntPtr parent)
