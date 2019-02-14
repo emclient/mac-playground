@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using System.Windows.Forms.CocoaInternal;
 using MacApi;
 using System.Runtime.InteropServices.ComTypes;
@@ -416,6 +416,12 @@ namespace System.Windows.Forms.Mac
 				fixed (byte* value = &buffer[0])
 					data.AppendBytes((IntPtr)(void*)value, (nuint)read);
 			}
+		}
+
+		public static bool IsMojaveOrHigher(this NSProcessInfo info)
+		{
+			var version = info.OperatingSystemVersion;
+			return (version.Major == 10 && version.Minor >= 14) || version.Major > 10;
 		}
 
 		internal const string FoundationDll = "/System/Library/Frameworks/Foundation.framework/Foundation";
