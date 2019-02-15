@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Drawing.Mac;
 using System.Windows.Forms.Mac;
 #if XAMARINMAC
@@ -27,6 +27,9 @@ namespace System.Windows.Forms.CocoaInternal
 
 		internal double preciseDeltaScale = 5.0;
 		internal double rawDeltaScale = 40.0;
+
+		// For emulating MouseUp in ToolStripDropDown when using native menu (that swallows it):
+		internal static MSG LastMouseDownMsg;
 
 		public WindowsEventResponder(IntPtr instance) : base(instance)
 		{
@@ -157,12 +160,15 @@ namespace System.Windows.Forms.CocoaInternal
 				case NSEventType.LeftMouseDown:
 				case NSEventType.RightMouseDown:
 				case NSEventType.OtherMouseDown:
+					msg.wParam = (IntPtr)(e.ModifiersToWParam() | e.ButtonNumberToWParam());
 					// FIXME: Should be elsewhere
 					if (e.ClickCount > 1)
 						msg.message = (client ? Msg.WM_LBUTTONDBLCLK : Msg.WM_NCLBUTTONDBLCLK) + MsgOffset4Button(e);
 					else
+					{
 						msg.message = (client ? Msg.WM_LBUTTONDOWN : Msg.WM_NCLBUTTONDOWN) + MsgOffset4Button(e);
-					msg.wParam = (IntPtr)(e.ModifiersToWParam() | e.ButtonNumberToWParam());
+						LastMouseDownMsg = msg;
+					}
 					break;
 
 				case NSEventType.LeftMouseUp:
@@ -170,6 +176,7 @@ namespace System.Windows.Forms.CocoaInternal
 				case NSEventType.OtherMouseUp:
 					msg.message = (client ? Msg.WM_LBUTTONUP : Msg.WM_NCLBUTTONUP) + MsgOffset4Button(e);
 					msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | e.ButtonNumberToWParam());
+					LastMouseDownMsg.hwnd = IntPtr.Zero;
 					break;
 
 				case NSEventType.MouseMoved:
