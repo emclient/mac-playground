@@ -78,23 +78,22 @@ namespace System.Windows.Forms
 				if (preferredCulture == null)
 				{
 					var locale = PreferredLocale;
-					var identifier = locale.Identifier;
-					try
-					{
-						preferredCulture = CultureInfo.GetCultureInfo(identifier);
-					}
-					catch
+					var identifiers = new string[] { locale.Identifier, $"{locale.LanguageCode}-{locale.ScriptCode}", $"{locale.LanguageCode}", };
+
+					foreach (var identifier in identifiers)
 					{
 						try
 						{
-							preferredCulture = CultureInfo.GetCultureInfo(locale.LanguageCode);
+							var id = identifier.Replace("zh-Hans", "zh-CN"); // We have obsolete code zh-CN in our translation
+							preferredCulture = CultureInfo.GetCultureInfo(id);
+							return preferredCulture;
 						}
 						catch
 						{
-							System.Diagnostics.Debug.Assert(false, $"Failed to get CultureInfo for {identifier}");
-							preferredCulture = CultureInfo.CurrentCulture;
 						}
 					}
+					Diagnostics.Debug.Assert(false, $"Failed to get CultureInfo for {locale.Identifier}");
+					preferredCulture = CultureInfo.CurrentCulture;
 				}
 				return preferredCulture;
 			}
