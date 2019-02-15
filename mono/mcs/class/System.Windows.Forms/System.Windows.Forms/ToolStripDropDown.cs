@@ -1,4 +1,4 @@
-﻿//
+//
 // ToolStripDropDown.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -589,6 +589,7 @@ namespace System.Windows.Forms
 				currentMenu = ToNSMenu();
 				((MonoMenuDelegate)currentMenu.Delegate).BeforePopup();
 				show_point = CalculateShowPoint(screenPosition, direction, new Size((int)currentMenu.Size.Width, (int)currentMenu.Size.Height));
+				PostMouseUp(control, show_point);
 				NSApplication.SharedApplication.BeginInvokeOnMainThread(delegate {
 					if (control != null) {
 						var winPosition = control.PointToClient(show_point);

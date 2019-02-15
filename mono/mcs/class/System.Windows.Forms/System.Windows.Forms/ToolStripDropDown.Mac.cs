@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing;
+using System.Windows.Forms.CocoaInternal;
+using System.Windows.Forms.Mac;
 #if XAMARINMAC
 using AppKit;
 using Foundation;
@@ -218,6 +220,13 @@ namespace System.Windows.Forms
 		{
 			if (currentMenu == null)
 				base.OnPaint(e);
+		}
+
+		internal void PostMouseUp(Control control, Point p)
+		{
+			var msg = WindowsEventResponder.LastMouseDownMsg;
+			if (msg.hwnd != IntPtr.Zero)
+				XplatUI.PostMessage(msg.hwnd,(Msg)( ((int)msg.message) - (int)Msg.WM_LBUTTONDOWN + (int)Msg.WM_LBUTTONUP), msg.wParam, msg.lParam);
 		}
 	}
 }
