@@ -78,22 +78,11 @@ namespace System.Windows.Forms
 				if (preferredCulture == null)
 				{
 					var locale = PreferredLocale;
-					var identifiers = new string[] { locale.Identifier, $"{locale.LanguageCode}-{locale.ScriptCode}", $"{locale.LanguageCode}", };
-
-					foreach (var identifier in identifiers)
-					{
-						try
-						{
-							var id = identifier.Replace("zh-Hans", "zh-CN"); // We have obsolete code zh-CN in our translation
-							preferredCulture = CultureInfo.GetCultureInfo(id);
-							return preferredCulture;
-						}
-						catch
-						{
-						}
-					}
-					Diagnostics.Debug.Assert(false, $"Failed to get CultureInfo for {locale.Identifier}");
-					preferredCulture = CultureInfo.CurrentCulture;
+					try { return preferredCulture = CultureInfo.GetCultureInfo(locale.Identifier); } catch { }
+					if (locale.ScriptCode != null)
+						try { return preferredCulture = CultureInfo.GetCultureInfo($"{locale.LanguageCode}-{locale.ScriptCode}".Replace("zh-Hans", "zh-CN")); } catch { }
+					try { return preferredCulture = CultureInfo.CreateSpecificCulture(locale.LanguageCode); } catch { }
+					return preferredCulture = CultureInfo.CurrentCulture;
 				}
 				return preferredCulture;
 			}
