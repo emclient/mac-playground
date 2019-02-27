@@ -369,41 +369,58 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override NSDragOperation DraggingEntered(NSDraggingInfo sender)
 		{
-			var control = Control.FromHandle(Handle);
-			if (null != control && control.AllowDrop)
+			try
 			{
-				var e = ToDragEventArgs(sender);
-				control.DndEnter(e);
-				if (e.Effect != UnusedDndEffect)
-					return (XplatUICocoa.DraggingEffects = e.Effect).ToDragOperation();
+				var control = Control.FromHandle(Handle);
+				if (null != control && control.AllowDrop)
+				{
+					var e = ToDragEventArgs(sender);
+					control.DndEnter(e);
+					if (e.Effect != UnusedDndEffect)
+						return (XplatUICocoa.DraggingEffects = e.Effect).ToDragOperation();
 
-				XplatUICocoa.DraggingEffects = DragDropEffects.None;
+					XplatUICocoa.DraggingEffects = DragDropEffects.None;
+				}
+			}
+			catch
+			{
+				return NSDragOperation.None;
 			}
 			return NSDragOperation.Generic;
 		}
 
 		public override NSDragOperation DraggingUpdated(NSDraggingInfo sender)
 		{
-			var control = Control.FromHandle(Handle);
-			if (null != control && control.AllowDrop)
+			try
 			{
-				var e = ToDragEventArgs(sender);
-				control.DndOver(e);
-				if (e.Effect != UnusedDndEffect)
-					XplatUICocoa.DraggingEffects = e.Effect;
+				var control = Control.FromHandle(Handle);
+				if (null != control && control.AllowDrop)
+				{
+					var e = ToDragEventArgs(sender);
+					control.DndOver(e);
+					if (e.Effect != UnusedDndEffect)
+						XplatUICocoa.DraggingEffects = e.Effect;
 
-				return XplatUICocoa.DraggingEffects.ToDragOperation();
+					return XplatUICocoa.DraggingEffects.ToDragOperation();
+				}
+			}
+			catch
+			{
+				return NSDragOperation.None;
 			}
 			return NSDragOperation.Generic;
 		}
 
 		public override void DraggingExited(NSDraggingInfo sender)
 		{
-			var control = Control.FromHandle(Handle);
-			if (null != control && control.AllowDrop)
+			try
 			{
-				var e = ToDragEventArgs(sender);
-				control.DndLeave(e);
+				var control = Control.FromHandle(Handle);
+				if (null != control && control.AllowDrop)
+					control.DndLeave(ToDragEventArgs(sender));
+			}
+			catch
+			{
 			}
 		}
 
@@ -435,6 +452,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void DraggingEnded(NSDraggingInfo sender)
 		{
+			// Intentionally not calling base
 			XplatUICocoa.DraggedData = null; // Clear data box for next dragging session
 		}
 
@@ -456,15 +474,21 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override bool PerformDragOperation(NSDraggingInfo sender)
 		{
-			var c = Control.FromHandle(Handle);
-			if (c is IDropTarget dt)
+			try
 			{
-				var e = ToDragEventArgs(sender, XplatUICocoa.DraggingEffects);
-				if (e != null)
+				var c = Control.FromHandle(Handle);
+				if (c is IDropTarget dt)
 				{
-					dt.OnDragDrop(e);
-					return true;
+					var e = ToDragEventArgs(sender, XplatUICocoa.DraggingEffects);
+					if (e != null)
+					{
+						dt.OnDragDrop(e);
+						return true;
+					}
 				}
+			}
+			catch
+			{
 			}
 			return false;
 		}

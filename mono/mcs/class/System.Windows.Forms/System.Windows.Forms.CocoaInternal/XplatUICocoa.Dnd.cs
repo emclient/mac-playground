@@ -1,4 +1,4 @@
-﻿﻿using System.Windows.Forms.CocoaInternal;
+﻿using System.Windows.Forms.CocoaInternal;
 using System.Windows.Forms.Mac;
 using System.Collections.Generic;
 using System.IO;
@@ -44,6 +44,7 @@ namespace System.Windows.Forms
 		internal static DragDropEffects DraggingEffects = DragDropEffects.None;
 		internal static event EventHandler DraggingEnded;
 
+		internal NSDraggingSession draggingSession;
 		internal DraggingSource draggingSource = new DraggingSource();
 		internal FileProvider dndFileProvider;
 		internal string[] dndFilenames;
@@ -74,8 +75,15 @@ namespace System.Windows.Forms
 				{
 					DraggingAllowedEffects = allowedEffects;
 					DraggingEffects = DragDropEffects.None;
-					view.BeginDraggingSession(items, LastMouseDown, draggingSource);
-					DoEvents();
+					try
+					{
+						draggingSession = view.BeginDraggingSession(items, LastMouseDown, draggingSource);
+						DoEvents();
+					}
+					finally
+					{
+						draggingSession = null;
+					}
 					return DraggingEffects;
 				}
 			}
