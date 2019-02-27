@@ -1,4 +1,4 @@
-﻿﻿//
+﻿//
 //EventHandler.cs
 // 
 //Author:
@@ -416,11 +416,8 @@ namespace System.Windows.Forms {
 			NSDate timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
 			NSEvent evt;
 
-#if MONOMAC
-			evt = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoop.NSDefaultRunLoopMode, dequeue);
-#else
-			evt = NSApp.NextEvent (NSEventMask.AnyEvent, timeout, NSRunLoopMode.Default, dequeue);
-#endif
+			var mode = draggingSession == null ? NSRunLoop.NSDefaultRunLoopMode : NSRunLoop.NSRunLoopEventTracking;
+			evt = NSApp.NextEvent(NSEventMask.AnyEvent, timeout, mode, dequeue);
 			if (evt == null)
 				return false;
 

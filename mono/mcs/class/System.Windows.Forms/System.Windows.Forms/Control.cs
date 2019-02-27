@@ -3672,7 +3672,16 @@ namespace System.Windows.Forms
 		public DragDropEffects DoDragDrop(object data, DragDropEffects allowedEffects) {
 			DragDropEffects result = DragDropEffects.None;
 			if (IsHandleCreated)
-				result = XplatUI.StartDrag(Handle, data, allowedEffects);
+			{
+				try
+				{
+					result = XplatUI.StartDrag(Handle, data, allowedEffects);
+				}
+				catch
+				{
+					//Debug.Assert(false, "Exception while dragging");
+				}
+			}
 			OnDragDropEnd (result);
 			return result;
 		}
