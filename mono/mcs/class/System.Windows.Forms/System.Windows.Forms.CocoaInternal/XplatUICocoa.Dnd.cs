@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms.CocoaInternal;
+using System.Windows.Forms.CocoaInternal;
 using System.Windows.Forms.Mac;
 using System.Collections.Generic;
 using System.IO;
@@ -202,9 +202,9 @@ namespace System.Windows.Forms
 						var filename = dndFilenames[dndCurrentFileIndex];
 						var unique = GenerateUniqueFilename(folder, filename);
 						var path = Path.Combine(folder, unique);
-						var stream = GetStream(cdata, dndCurrentFileIndex);
 						try
 						{
+							var stream = GetStream(cdata, dndCurrentFileIndex);
 							using (var outputStream = File.Create(path))
 								stream.CopyTo(outputStream);
 						}
