@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Drawing.Mac;
@@ -114,7 +114,7 @@ namespace System.Drawing
 			}
 
 			if (font == null)
-				throw new ArgumentNullException(nameof(font));
+				font = SystemFonts.DefaultFont;
 
 			var c = MeasureStringCache.GetOrCreate(text, font, area, format ?? StringFormat.GenericDefault, CreateMeasureStringCacheEntry);
 			charactersFitted = c.charactersFitted;
