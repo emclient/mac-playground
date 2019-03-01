@@ -176,4 +176,183 @@ namespace WinApi
 			Win32.NotImplemented(MethodBase.GetCurrentMethod());
 		}
 	}
+
+
+	public class NativeFileSaveDialog : IFileSaveDialog
+	{
+		public int Show([In] IntPtr parent)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
+		}
+
+		public void SetFileTypes([In] uint cFileTypes, [In] ref Win32.COMDLG_FILTERSPEC rgFilterSpec)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void SetFileTypeIndex([In] uint iFileType)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void GetFileTypeIndex(out uint piFileType)
+		{
+			piFileType = 0;
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void Advise([In, MarshalAs(UnmanagedType.Interface)] IFileDialogEvents pfde, out uint pdwCookie)
+		{
+			pdwCookie = 0;
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void Unadvise([In] uint dwCookie)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void SetOptions([In] Win32.FOS fos)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void GetOptions(out Win32.FOS pfos)
+		{
+			pfos = Win32.FOS.FOS_DEFAULTNOMINIMODE;
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void SetDefaultFolder([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void SetFolder([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void GetFolder([MarshalAs(UnmanagedType.Interface)] out IShellItem ppsi)
+		{
+			ppsi = null;
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void GetCurrentSelection([MarshalAs(UnmanagedType.Interface)] out IShellItem ppsi)
+		{
+			ppsi = null;
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void SetFileName([In, MarshalAs(UnmanagedType.LPWStr)] string pszName)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void GetFileName([MarshalAs(UnmanagedType.LPWStr)] out string pszName)
+		{
+			pszName = string.Empty;
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void SetTitle([In, MarshalAs(UnmanagedType.LPWStr)] string pszTitle)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void SetOkButtonLabel([In, MarshalAs(UnmanagedType.LPWStr)] string pszText)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void SetFileNameLabel([In, MarshalAs(UnmanagedType.LPWStr)] string pszLabel)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void GetResult([MarshalAs(UnmanagedType.Interface)] out IShellItem ppsi)
+		{
+			ppsi = null;
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void AddPlace([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi, Win32.FDAP fdap)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void SetDefaultExtension([In, MarshalAs(UnmanagedType.LPWStr)] string pszDefaultExtension)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void Close([MarshalAs(UnmanagedType.Error)] int hr)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void SetClientGuid([In] ref Guid guid)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void ClearClientData()
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		// Not supported:  IShellItemFilter is not defined, converting to IntPtr
+		public void SetFilter([MarshalAs(UnmanagedType.Interface)] IntPtr pFilter)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		// Defined by IFileSaveDialog interface
+		// -----------------------------------------------------------------------------------
+
+		public void SetSaveAsItem([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		// Not currently supported: IPropertyStore
+		public void SetProperties([In, MarshalAs(UnmanagedType.Interface)] IntPtr pStore)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		// Not currently supported: IPropertyDescriptionList
+		public void SetCollectedProperties([In, MarshalAs(UnmanagedType.Interface)] IntPtr pList, [In] int fAppendDefault)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		// Not currently supported: IPropertyStore
+		public void GetProperties([MarshalAs(UnmanagedType.Interface)] out IntPtr ppStore)
+		{
+			ppStore = IntPtr.Zero;
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		// Not currently supported: IPropertyStore, IFileOperationProgressSink
+		public void ApplyProperties([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi, [In, MarshalAs(UnmanagedType.Interface)] IntPtr pStore, [In, ComAliasName("Interop.wireHWND")] ref IntPtr hwnd, [In, MarshalAs(UnmanagedType.Interface)] IntPtr pSink)
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public void SetFileTypes([In] uint cFileTypes, [In, MarshalAs(UnmanagedType.LPArray)] Win32.COMDLG_FILTERSPEC[] rgFilterSpec)
+		{
+			throw new NotImplementedException();
+		}
+	}
+
+	public class FileSaveDialogRCW
+	{
+		public FileSaveDialogRCW()
+		{
+			Win32.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+	}
 }
