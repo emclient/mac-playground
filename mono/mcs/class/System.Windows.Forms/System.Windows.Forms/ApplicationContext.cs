@@ -115,4 +115,16 @@ namespace System.Windows.Forms {
 		public event EventHandler ThreadExit;
 		#endregion	// Events
 	}
+
+	internal class ModalApplicationContext : ApplicationContext
+	{
+		public ModalApplicationContext(Form mainForm) : base(mainForm)
+		{
+		}
+
+		protected override void ExitThreadCore()
+		{
+			// Do nothing. The base would call PostQuitMessage, but dialogs just return DialogResult.
+		}
+	}
 }
