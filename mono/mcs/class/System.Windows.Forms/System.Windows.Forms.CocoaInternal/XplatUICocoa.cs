@@ -1,4 +1,4 @@
-﻿//
+//
 //EventHandler.cs
 // 
 //Author:
@@ -1123,9 +1123,12 @@ namespace System.Windows.Forms {
 			foreach (IntPtr h in windows) {
 				NSView vuWrap = h.ToNSView();
 				NSWindow winWrap = vuWrap.Window;
-				if (winWrap != null && winWrap.ContentView == vuWrap) { 
+				if (winWrap != null && winWrap.ContentView == vuWrap) {
+					var app = NSApplication.SharedApplication;
+					if (winWrap == app.ModalWindow)
+						EndModal(winWrap);
 					winWrap.Close ();
-					NSApplication.SharedApplication.RemoveWindowsItem(winWrap);
+					app.RemoveWindowsItem(winWrap);
 					keepAlivePool.Remove(winWrap.Handle);
 				} else {
 					vuWrap.RemoveFromSuperviewWithoutNeedingDisplay ();
@@ -1817,20 +1820,25 @@ namespace System.Windows.Forms {
 			}
 #endif
 		}
-		
-		internal override void SetModal (IntPtr handle, bool Modal)
+
+		internal override void SetModal(IntPtr handle, bool Modal)
 		{
-			NSView vuWrap = handle.ToNSView();
-			NSWindow winWrap = vuWrap.Window;
+			var window = handle.ToNSView().Window;
 			if (Modal)
-			{
-				if (winWrap.ParentWindow == null)
-					winWrap.Center();
-				IntPtr session = NSApplication.SharedApplication.BeginModalSession(winWrap);
-				ModalSessions.Push(session);
-			}
+				BeginModal(window);
 			else
-				NSApplication.SharedApplication.EndModalSession (ModalSessions.Pop ());
+				EndModal(window);
+		}
+
+		void BeginModal(NSWindow window)
+		{
+			IntPtr session = NSApplication.SharedApplication.BeginModalSession(window);
+			ModalSessions.Push(session);
+		}
+
+		void EndModal(NSWindow window)
+		{
+			NSApplication.SharedApplication.EndModalSession(ModalSessions.Pop());
 		}
 
 		internal override IntPtr SetParent (IntPtr handle, IntPtr parent)

@@ -866,7 +866,10 @@ namespace System.Windows.Forms
 					
 					// If our Form doesn't have a handle anymore, it means it was destroyed and we need to *wait* for WM_QUIT.
 					if (!mainForm.IsHandleCreated)
-						continue;
+						if (Modal) // ... but not in case of a modal dialog
+							break;
+						else
+							continue;
 
 					// Handle exit, Form might have received WM_CLOSE and set 'closing' in response.
 					if (mainForm.closing || (Modal && !mainForm.Visible))

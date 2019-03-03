@@ -1774,7 +1774,7 @@ namespace System.Windows.Forms {
 
 			Debug.WriteLine("ShowDialog");
 
-			Application.RunLoop(true, new ApplicationContext(this));
+			Application.RunLoop(true, new ModalApplicationContext(this));
 
 			if (this.owner != null) {
 				// Cannot use Activate(), it has a check for the current active window...
