@@ -28,6 +28,10 @@ namespace System.Windows.Forms
 		{
 			richtext = true;
 			accepts_return = true;
+			multiline = true;
+
+			DetectUrls = true;
+			ScrollBars = RichTextBoxScrollBars.Both;
 		}
 
 		#endregion // Public Constructors
