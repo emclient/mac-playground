@@ -1269,7 +1269,11 @@ namespace System.Windows.Forms {
 				return mwin.ContentView.Handle;
 			if (o is WindowsEventResponder wer)
 				return wer.view.Handle;
-			return o.Handle;
+			if (o is MonoView)
+				return o.Handle;
+
+			// wrapped native control or text field with the field editor
+			return Control.FromChildHandle(o.Handle)?.Handle ?? IntPtr.Zero;
 		}
 
 		internal override bool GetFontMetrics (Graphics g, Font font, out int ascent, out int descent) {

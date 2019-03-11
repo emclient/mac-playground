@@ -60,21 +60,12 @@ namespace System.Windows.Forms.CocoaInternal
 			{
 				var prev = XplatUICocoa.GetHandle(prevFirstResponder);
 				var next = XplatUICocoa.GetHandle(aResponder);
-
 				if (prev != IntPtr.Zero)
 					driver.SendMessage(prev, Msg.WM_KILLFOCUS, next, IntPtr.Zero);
 				if (next != IntPtr.Zero && FirstResponder == aResponder)
 					driver.SendMessage(next, Msg.WM_SETFOCUS, prev, IntPtr.Zero);
-
-				// If the newly focused control is not a MWF control's view, then it must be some embedded native control. Try
-				// to update the ActiveControl chain in Form to match it using similar approach as in Control.WmSetFocus. 
-				var wrapperControl = Control.FromChildHandle(next);
-				if (wrapperControl != null && wrapperControl.Handle != next)
-					wrapperControl.Select(wrapperControl);
-
 				return true;
 			}
-
 			return false;
 		}
 
