@@ -45,6 +45,18 @@ namespace MacApi
 		[DllImport(libobjc, EntryPoint = objc_msgSend)]
 		public extern static void void_objc_msgSend_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2);
 
+		[DllImport(libobjc, EntryPoint = objc_msgSend)]
+		public extern static void void_objc_msgSend_IntPtr_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2, IntPtr arg3);
+
+		[DllImport(libobjc, EntryPoint = objc_msgSendSuper)]
+		public extern static void void_objc_msgSendSuper_IntPtr_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2, IntPtr arg3);
+
+		[DllImport(libobjc, EntryPoint = objc_msgSend)]
+		public extern static void void_objc_msgSend_IntPtr_IntPtr_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2, IntPtr arg3, IntPtr arg4);
+
+		[DllImport(libobjc, EntryPoint = objc_msgSendSuper)]
+		public extern static void void_objc_msgSendSuper_IntPtr_IntPtr_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2, IntPtr arg3, IntPtr arg4);
+
 		[DllImport(libobjc, EntryPoint = objc_msgSendSuper)]
 		public static extern void void_objc_msgSendSuper_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2);
 
