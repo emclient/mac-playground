@@ -549,9 +549,10 @@ namespace System.Windows.Forms.CocoaInternal
 	{
 		public static T ClosestParentOfType<T>(this NSView view) where T : NSView
 		{
-			while (view != null && !(view is T))
-				view = view.Superview;
-			return view as T;
+			while (null != (view = view?.Superview))
+				if (view is T t)
+					return t;
+			return null;
 		}
 	}
 }
