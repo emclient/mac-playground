@@ -35,7 +35,8 @@ namespace System.Windows.Forms.CocoaInternal
 {
 	class MonoWindow : NSWindow
 	{
-		private XplatUICocoa driver;
+		XplatUICocoa driver;
+		IntPtr prevFocus;
 
 		public MonoWindow(IntPtr handle) : base(handle)
 		{
@@ -55,27 +56,21 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override bool MakeFirstResponder(NSResponder aResponder)
 		{
-			var prevFirstResponder = FirstResponder;
-			if (base.MakeFirstResponder(aResponder) && IsKeyWindow && prevFirstResponder != FirstResponder)
+			var ok = base.MakeFirstResponder(aResponder);
+			var next = FirstResponder;
+			if (ok)
 			{
-				var prev = XplatUICocoa.GetHandle(prevFirstResponder);
-				var next = XplatUICocoa.GetHandle(aResponder);
-				if (prev != IntPtr.Zero)
-					driver.SendMessage(prev, Msg.WM_KILLFOCUS, next, IntPtr.Zero);
-				if (next != IntPtr.Zero && FirstResponder == aResponder)
-					driver.SendMessage(next, Msg.WM_SETFOCUS, prev, IntPtr.Zero);
-				return true;
+				var c = XplatUICocoa.GetHandle(next);
+				if (prevFocus != c && !(next is MonoWindow))
+				{
+					if (prevFocus != IntPtr.Zero)
+						driver.SendMessage(prevFocus, Msg.WM_KILLFOCUS, c, IntPtr.Zero);
+					if (c != IntPtr.Zero)
+						driver.SendMessage(c, Msg.WM_SETFOCUS, prevFocus, IntPtr.Zero);
+				}
+				prevFocus = c;
 			}
-			return false;
-		}
-
-		public override void EndEditingFor(NSObject anObject)
-		{
-			// Commenting this out prevents calling Window.MakeFirstResponder(Window), 
-			// which would cause infinite switching focus back and forth when pressing tab key
-			// under certain circumstances.
-
-			//base.EndEditingFor(anObject);
+			return ok;
 		}
 
 		public override bool CanBecomeKeyWindow
