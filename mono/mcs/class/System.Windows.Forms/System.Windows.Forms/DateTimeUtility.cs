@@ -73,16 +73,48 @@ namespace System.Windows.Forms
 		static CultureInfo preferredCulture = null;
 		public static CultureInfo PreferredCulture
 		{
+			// The tests for neutral culture are here to prevent crash when getting the current region
 			get
 			{
 				if (preferredCulture == null)
 				{
 					var locale = PreferredLocale;
-					try { return preferredCulture = CultureInfo.GetCultureInfo(locale.Identifier); } catch { }
+					try
+					{
+						var c = CultureInfo.GetCultureInfo(locale.Identifier);
+						if (!c.IsNeutralCulture)
+							return preferredCulture = c;
+					}
+					catch { }
+
 					if (locale.ScriptCode != null)
-						try { return preferredCulture = CultureInfo.GetCultureInfo($"{locale.LanguageCode}-{locale.ScriptCode}".Replace("zh-Hans", "zh-CN")); } catch { }
-					try { return preferredCulture = CultureInfo.CreateSpecificCulture(locale.LanguageCode); } catch { }
-					return preferredCulture = CultureInfo.CurrentCulture;
+					{
+						try
+						{
+							var c = CultureInfo.GetCultureInfo($"{locale.LanguageCode}-{locale.ScriptCode}".Replace("zh-Hans", "zh-CN"));
+							if (!c.IsNeutralCulture)
+								return preferredCulture = c;
+						}
+						catch { }
+					}
+
+					try
+					{
+						var c = CultureInfo.CreateSpecificCulture(locale.LanguageCode);
+						if (!c.IsNeutralCulture)
+							return preferredCulture = c;
+					}
+					catch { }
+
+					try
+					{
+						var c = CultureInfo.CurrentCulture;
+						if (!c.IsNeutralCulture)
+							return preferredCulture = c;
+					}
+					catch { }
+
+					preferredCulture = CultureInfo.GetCultureInfo("en-US");
 				}
 				return preferredCulture;
 			}
