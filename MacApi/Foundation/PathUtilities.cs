@@ -52,6 +52,11 @@ namespace MacApi
 			get { return FirstSearchPathFor(NSSearchPathDirectory.NSCachesDirectory) ?? Path.Combine(LibraryDirectory, "Caches"); }
 		}
 
+		public static string CookiesDirectory
+		{
+			get { return Path.Combine(LibraryDirectory, "Cookies"); }
+		}
+
 		public static string ApplicationSupportDirectory
 		{
 			get { return FirstSearchPathFor(NSSearchPathDirectory.NSApplicationSupportDirectory) ?? Path.Combine(LibraryDirectory, "Application Support"); }
