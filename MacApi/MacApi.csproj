@@ -78,6 +78,7 @@
     <Compile Include="PrintCore\PMDestinationType.cs" />
     <Compile Include="PrintCore\PMDocumentFormat.cs" />
     <Compile Include="PrintCore\PMPrinter.cs" />
+    <Compile Include="Foundation\NSBackgroundActivityScheduler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppKit\" />

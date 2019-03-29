@@ -16,10 +16,28 @@ namespace MacApi
 		const string objc_msgSendSuper = "objc_msgSendSuper";
 
 		[DllImport(libobjc)]
+		extern public static IntPtr objc_getClass(string name);
+
+		[DllImport(libobjc)]
+		extern public static IntPtr objc_getMetaClass(string name);
+
+		[DllImport(libobjc)]
+		extern public static IntPtr class_getSuperclass(IntPtr cls);
+
+		[DllImport(libobjc)]
+		extern public static bool class_isMetaClass(IntPtr cls);
+
+		[DllImport(libobjc)]
 		extern public static IntPtr class_getClassMethod(IntPtr classHandle, IntPtr Selector);
 
 		[DllImport(libobjc)]
 		extern public static IntPtr class_getInstanceMethod(IntPtr classHandle, IntPtr Selector);
+
+		[DllImport(libobjc)]
+		extern public static bool class_addMethod(IntPtr cls, IntPtr sel, IntPtr imp, string argTypes);
+
+		[DllImport(libobjc)]
+		extern public static bool class_addMethod(IntPtr cls, IntPtr sel, Delegate imp, string argTypes);
 
 		[DllImport(libobjc)]
 		extern public static void class_exchangeImplementations(IntPtr originalMethod, IntPtr swizzledMethod);
@@ -28,13 +46,34 @@ namespace MacApi
 		extern public static IntPtr method_getImplementation(IntPtr method);
 
 		[DllImport(libobjc)]
+		extern public static string method_getTypeEncoding(IntPtr method);
+
+		[DllImport(libobjc)]
+		extern public static IntPtr method_getName(IntPtr method);
+
+		[DllImport(libobjc)]
+		extern public static IntPtr imp_implementationWithBlock(IntPtr block);
+
+		[DllImport(libobjc)]
 		extern public static IntPtr imp_implementationWithBlock(ref BlockLiteral block);
+
+		[DllImport(libobjc)]
+		extern public static bool imp_removeBlock(IntPtr imp);
+
+		[DllImport(libobjc)]
+		extern public static IntPtr _Block_copy(IntPtr ptr);
+
+		[DllImport(libobjc)]
+		extern public static void _Block_release(IntPtr ptr);
 
 		[DllImport(libobjc)]
 		extern public static void method_setImplementation(IntPtr method, IntPtr imp);
 
 		[DllImport(libobjc)]
 		extern public static void method_exchangeImplementations(IntPtr originalMethod, IntPtr swizzledMethod);
+
+		[DllImport(libobjc)]
+		extern public static bool sel_isEqual(IntPtr selLhs, IntPtr selRhs);
 
 		[DllImport(libobjc, EntryPoint = objc_msgSend)]
 		public extern static bool bool_objc_msgSend_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2);
@@ -59,6 +98,9 @@ namespace MacApi
 
 		[DllImport(libobjc, EntryPoint = objc_msgSendSuper)]
 		public static extern void void_objc_msgSendSuper_IntPtr_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, IntPtr arg2);
+
+		[DllImport(libobjc, EntryPoint = objc_msgSend)]
+		public static extern void void_objc_msgSend(IntPtr receiver, IntPtr selector);
 
 		[DllImport(libobjc, EntryPoint = objc_msgSend)]
 		public static extern IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector);

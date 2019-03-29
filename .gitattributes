@@ -144,7 +144,6 @@ FormsTest/Msg.cs -text
 FormsTest/MyListBox.cs -text
 FormsTest/MyTextBox.cs -text
 FormsTest/MyView.cs -text
-FormsTest/NSBackgroundActivityScheduler.cs -text
 FormsTest/Program.cs -text
 FormsTest/Properties/AssemblyInfo.cs -text
 FormsTest/Properties/Resources.Designer.cs -text
@@ -178,6 +177,7 @@ MacApi/CoreGraphics/CGEventTypes.cs -text
 MacApi/CoreServices/LaunchServices.cs -text
 MacApi/CoreServices/UTType.cs -text
 MacApi/Foundation/Foundation.cs -text
+MacApi/Foundation/NSBackgroundActivityScheduler.cs -text
 MacApi/Foundation/PathUtilities.cs -text
 MacApi/LibObjC.cs -text
 MacApi/MacApi.csproj -text
