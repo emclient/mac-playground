@@ -9,7 +9,9 @@ using System.Diagnostics;
 namespace FormsTest
 {
 	using System.Collections.Generic;
+	using System.Runtime.InteropServices;
 	using Foundation;
+	using MacApi.Foundation;
 	using ObjCRuntime;
 	//using MailClient.UI.Forms;
 	//using CocoaMessageBox = MessageBox;
@@ -123,21 +125,37 @@ namespace FormsTest
 			});*/
 
 			AddButton("Animations", () => { new AnimationsForm().Show(); });
-			AddButton("Bg activity", () => { StartBgActivity(); });
+			AddButton("Bg activity", () => { ToggleBgActivity(); });
 			AddButton("Print dialog", () => { ShowPrintDialog(); });
 			AddButton("Swizzle (cls)", () => { SwizzleCls(); });
 			AddButton("NSException", () => { NativeException(); });
 			AddButton("Toolstrip form", () => { new ToolstripForm().Show(); });
 		}
 
-		void StartBgActivity()
+		int round = 5;
+		int counter = 0;
+		NSBackgroundActivityScheduler activity;
+
+		void ToggleBgActivity()
 		{
-			var activity = new NSBackgroundActivityScheduler("com.emclient.FormsTest.TestActivity");
+			if (activity != null)
+			{
+				Console.WriteLine($"Invalidating background activity");
+				activity.Invalidate();
+				activity = null;
+				return;
+			}
+
+			Console.WriteLine($"Scheduling background activity");
+			activity = new NSBackgroundActivityScheduler("com.emclient.FormsTest.BgActivity");
+			activity.QualityOfService = NSBackgroundActivityScheduler.QoS.Utility;
+			activity.Interval = 2.0;
 			activity.Repeats = true;
-			activity.Interval = 1;
+
 			activity.Schedule((completionHandler) => {
-				Console.WriteLine("Background activity!");
-				//completionHandler(NSNumber.FromInt32(1));
+				Console.WriteLine($"Background activity - round:{counter}!");
+				counter = (counter + 1) % round;
+				activity.InvokeNativeCompletionBlock(completionHandler, counter == 0 ? 1 : 2);
 			});
 		}
 

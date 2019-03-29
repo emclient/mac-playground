@@ -240,7 +240,6 @@
     <Compile Include="Controls\ProgressIndicator.cs" />
     <Compile Include="Controls\HatchedBar.cs" />
     <Compile Include="Controls\RunningDots.cs" />
-    <Compile Include="NSBackgroundActivityScheduler.cs" />
   </ItemGroup>
   <ItemGroup>
     <!--<EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">
