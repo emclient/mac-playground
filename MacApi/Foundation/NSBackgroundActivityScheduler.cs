@@ -81,6 +81,9 @@ namespace MacApi.Foundation
 			LibObjc.void_objc_msgSend(Handle, selInvalidate);
 		}
 
+		public delegate void CompletionHandler(Result result);
+		public delegate void ScheduleBlock(CompletionHandler completion);
+
 		public virtual void Schedule(ScheduleBlock block)
 		{
 			if (block == null)
@@ -102,31 +105,34 @@ namespace MacApi.Foundation
 			}
 		}
 
-		public delegate void ScheduleBlock(IntPtr callback);
 		delegate void ScheduleBlockProxy(IntPtr blockLiteral, IntPtr callback);
 		static readonly ScheduleBlockProxy scheduleBlockProxy = ScheduleBlockWrapper;
 
 		[MonoPInvokeCallback(typeof(ScheduleBlockProxy))]
 		static void ScheduleBlockWrapper(IntPtr blockptr, IntPtr callback)
 		{
-			BlockLiteral.GetTarget<ScheduleBlock>(blockptr)?.Invoke(callback);
+			var completion = (CompletionHandler) ((Result result) => {
+				InvokeNativeCompletionBlock(callback, (int)result);
+			});
+
+			BlockLiteral.GetTarget<ScheduleBlock>(blockptr)?.Invoke(completion);
 		}
 
 		// https://forums.xamarin.com/discussion/40246/binding-methods-with-block-parameters
 
-		public virtual void InvokeNativeCompletionBlock(IntPtr block, int value)
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+		delegate void NativeCompletionHandlerDelegate(IntPtr block, int arg);
+
+		static void InvokeNativeCompletionBlock(IntPtr block, int value)
 		{
 			unsafe
 			{
 				var literal = (BlockLiteral*)block;
 				var copy = LibObjc._Block_copy(block);
-				var invoker = literal->GetDelegateForBlock<ActionCallbackDelegate>();
+				var invoker = literal->GetDelegateForBlock<NativeCompletionHandlerDelegate>();
 				invoker(copy, value);
 				LibObjc._Block_release(copy);
 			}
 		}
-
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		internal delegate void ActionCallbackDelegate(IntPtr block, int arg);
 	}
 }
