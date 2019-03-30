@@ -152,10 +152,10 @@ namespace FormsTest
 			activity.Interval = 2.0;
 			activity.Repeats = true;
 
-			activity.Schedule((completionHandler) => {
+			activity.Schedule((completion) => {
 				Console.WriteLine($"Background activity - round:{counter}!");
 				counter = (counter + 1) % round;
-				activity.InvokeNativeCompletionBlock(completionHandler, counter == 0 ? 1 : 2);
+				completion(counter == 0 ? NSBackgroundActivityScheduler.Result.Finished : NSBackgroundActivityScheduler.Result.Deferred);
 			});
 		}
 
