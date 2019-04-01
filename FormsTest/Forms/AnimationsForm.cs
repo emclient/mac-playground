@@ -43,20 +43,21 @@ namespace FormsTest
 			pbar.Location = Right(d);
 			Controls.Add(pbar);
 
+			Button g;
+#if MAC
 			var f = new Button();
 			f.Text = "CALayer";
 			f.Location = Below();
 			f.Click += (sender, evt) => { pind.Enabled = !pind.Enabled; };
 			Controls.Add(f);
 
-# if MAC
 			pind = new ProgressIndicator();
 			pind.Size = new Size(16, 16);
 			pind.Location = Right(f);
 			pind.BackColor = Color.White;
 			Controls.Add(pind);
 
-			var g = new Button();
+			g = new Button();
 			g.Text = "HatchedBar";
 			g.Location = Below();
 			g.Click += (sender, evt) => { hbar.Enabled = !hbar.Enabled; };
