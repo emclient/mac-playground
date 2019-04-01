@@ -1,4 +1,4 @@
-﻿// #define INCLUDE_CEF_TEST
+// #define INCLUDE_CEF_TEST
 
 using System;
 using System.Windows.Forms;
@@ -64,6 +64,21 @@ namespace FormsTest
 			//Marshalling.Initialize();
 			//CefApp.
 
+			CreateMacMenu();
+
+			var f = new MainForm();
+			f.Show();
+			Application.Run();
+
+			var threads = Process.GetCurrentProcess().Threads;
+
+			Terminate();
+		}
+
+#if MAC
+
+		static void CreateMacMenu()
+		{
 			var menuBar = new NSMenu("");
 
 			var appMenuItem = new NSMenuItem("");
@@ -86,17 +101,8 @@ namespace FormsTest
 			menuBar.SetSubmenu(editMenu, editMenuItem);
 
 			NSApplication.SharedApplication.Menu = menuBar;
-
-			var f = new MainForm();
-			f.Show();
-			Application.Run();
-
-			var threads = Process.GetCurrentProcess().Threads;
-
-			Terminate();
 		}
 
-#if MAC
 		static void Terminate()
 		{
 			// Workaround for not exiting the app because of pending threads related to UrlProtocol subclass.
@@ -145,6 +151,10 @@ namespace FormsTest
 			Console.WriteLine($"#{i}");
 		}
 #else
+		static void CreateMacMenu()
+		{
+		}
+
 		static void Terminate()
 		{
 		}
