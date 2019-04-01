@@ -13,9 +13,12 @@ namespace FormsTest
 		ControlWaiting dots;
 		ControlStatusBar bar;
 		ProgressBar pbar;
+
+#if MAC
 		ProgressIndicator pind;
 		HatchedBar hbar;
 		RunningDots spheres;
+#endif
 
 		protected override void Dispose(bool disposing)
 		{
@@ -46,6 +49,7 @@ namespace FormsTest
 			f.Click += (sender, evt) => { pind.Enabled = !pind.Enabled; };
 			Controls.Add(f);
 
+# if MAC
 			pind = new ProgressIndicator();
 			pind.Size = new Size(16, 16);
 			pind.Location = Right(f);
@@ -74,7 +78,7 @@ namespace FormsTest
 			spheres.Size = new Size(100, 3);
 			spheres.Location = Right(g);
 			Controls.Add(spheres);
-
+#endif
 			var c = new Button();
 			c.Text = "Don't Inval";
 			c.Location = Below();
