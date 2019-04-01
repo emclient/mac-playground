@@ -102,6 +102,10 @@ FormsTest/Forms/LayoutForm.Designer.cs -text
 FormsTest/Forms/LayoutForm.cs -text
 FormsTest/Forms/LayoutForm.resx -text
 FormsTest/Forms/MainForm.Designer.cs -text
+FormsTest/Forms/MainForm.NSBackgroundActivity.cs -text
+FormsTest/Forms/MainForm.NSException.cs -text
+FormsTest/Forms/MainForm.QuickLook.cs -text
+FormsTest/Forms/MainForm.Swizzle.cs -text
 FormsTest/Forms/MainForm.cs -text
 FormsTest/Forms/MainForm.resx -text
 FormsTest/Forms/TextBoxForm.Designer.cs -text

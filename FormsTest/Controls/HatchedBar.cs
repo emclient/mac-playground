@@ -1,3 +1,4 @@
+# if MAC
 using System;
 using System.Drawing;
 using System.Drawing.Mac;
@@ -125,3 +126,4 @@ namespace FormsTest
 		#endregion
 	}
 }
+#endif

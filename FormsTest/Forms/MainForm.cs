@@ -1,21 +1,16 @@
-﻿using System.Drawing;
-using System.Drawing.Text;
-using System.Windows.Forms;
-using System;
-using System.Linq;
+﻿using System;
 //using MailClient.Common.UI;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Text;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace FormsTest
 {
 	using System.Collections.Generic;
-	using System.Runtime.InteropServices;
-	using Foundation;
-	using MacApi.Foundation;
-	using ObjCRuntime;
 	//using MailClient.UI.Forms;
 	//using CocoaMessageBox = MessageBox;
-	using FormsMessageBox = System.Windows.Forms.MessageBox;
 	using MessageBox = System.Windows.Forms.MessageBox;
 
 	public partial class MainForm : Form
@@ -125,38 +120,14 @@ namespace FormsTest
 			});*/
 
 			AddButton("Animations", () => { new AnimationsForm().Show(); });
-			AddButton("Bg activity", () => { ToggleBgActivity(); });
 			AddButton("Print dialog", () => { ShowPrintDialog(); });
+			AddButton("Toolstrip form", () => { new ToolstripForm().Show(); });
+#if MAC
+			AddButton("Bg activity", () => { ToggleBgActivity(); });
 			AddButton("Swizzle (cls)", () => { SwizzleCls(); });
 			AddButton("NSException", () => { NativeException(); });
-			AddButton("Toolstrip form", () => { new ToolstripForm().Show(); });
-		}
-
-		int round = 5;
-		int counter = 0;
-		NSBackgroundActivityScheduler activity;
-
-		void ToggleBgActivity()
-		{
-			if (activity != null)
-			{
-				Console.WriteLine($"Invalidating background activity");
-				activity.Invalidate();
-				activity = null;
-				return;
-			}
-
-			Console.WriteLine($"Scheduling background activity");
-			activity = new NSBackgroundActivityScheduler("com.emclient.FormsTest.BgActivity");
-			activity.QualityOfService = NSBackgroundActivityScheduler.QoS.Utility;
-			activity.Interval = 2.0;
-			activity.Repeats = true;
-
-			activity.Schedule((completion) => {
-				Console.WriteLine($"Background activity - round:{counter}!");
-				counter = (counter + 1) % round;
-				completion(counter == 0 ? NSBackgroundActivityScheduler.Result.Finished : NSBackgroundActivityScheduler.Result.Deferred);
-			});
+			AddButton("QuickLook panel", () => { ToggleQuickLookPanel(); });
+#endif
 		}
 
 		List<Button> buttons = new List<Button>();
@@ -311,80 +282,6 @@ namespace FormsTest
 		{
 			e.Cancel = true;
 			Visible = false;
-		}
-
-		// Swizzling
-
-		public delegate IntPtr NativeEventHandler(IntPtr @this, IntPtr selector, IntPtr a, IntPtr b);
-		Swizzle<NativeEventHandler> swizzle;
-
-		void SwizzleDict()
-		{
-			var selName = "initWithObjects:forKeys:";
-			using (swizzle = new Swizzle<NativeEventHandler>(typeof(NSDictionary), selName, HijackedInitWithObjectsForKeys))
-			{
-				var type = typeof(NSDictionary);
-				var d = new NSDictionary((NSString)"key1", (NSString)"obj1", (NSString)"key2", (NSString)"obj2");
-			}
-		}
-
-		public IntPtr HijackedInitWithObjectsForKeys(IntPtr @this, IntPtr selector, IntPtr objects, IntPtr keys)
-		{
-			Console.WriteLine("HijackedInitWithObjectsForKeys");
-			var objArray = Runtime.GetNSObject(objects);
-			var keyArray = Runtime.GetNSObject(keys);
-
-			var result = IntPtr.Zero;
-			using (var orig = swizzle.Restore())
-				result = orig.Delegate(@this, selector, objects, keys);
-
-			return result;
-		}
-
-		public delegate IntPtr NativeEventHandlerCls(IntPtr @this, IntPtr selector, IntPtr a, IntPtr b, Int32 count);
-		Swizzle<NativeEventHandlerCls> swizzleCls;
-
-		void SwizzleCls()
-		{
-			var selName = "dictionaryWithObjects:forKeys:count:";
-			using (swizzleCls = new Swizzle<NativeEventHandlerCls>(typeof(NSDictionary), selName, HijackedDictionaryWithObjectsForKeysCount, true))
-			{
-				var classHandle = Class.GetHandle(typeof(NSDictionary));
-				var keys = IntPtr.Zero;
-				var objects = IntPtr.Zero;
-				var sel = new Selector(selName);
-				var instanceHandle = MacApi.LibObjc.IntPtr_objc_msgSend_IntPtr_IntPtr_Int32(classHandle, sel.Handle, IntPtr.Zero, IntPtr.Zero, 0);
-			}
-		}
-
-		public IntPtr HijackedDictionaryWithObjectsForKeysCount(IntPtr @this, IntPtr selector, IntPtr objects, IntPtr keys, Int32 count)
-		{
-			Console.WriteLine("HijackedDictionaryWithObjectsForKeysCount");
-
-			var result = IntPtr.Zero;
-			using (var orig = swizzleCls.Restore())
-				result = orig.Delegate(@this, selector, objects, keys, count);
-
-			return result;
-		}
-
-		public void NativeException()
-		{
-			try
-			{
-				new NSMutableDictionary().LowlevelSetObject(IntPtr.Zero, IntPtr.Zero);
-
-				var nat = new NSException("Beautiful exception", "Just so", null);
-				MacApi.LibObjc.bool_objc_msgSend(nat.Handle, Selector.GetHandle("raise"));
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine($"Native exception caught:{e}");
-			}
-			finally
-			{
-				Console.WriteLine($"Finally block called");
-			}
 		}
 	}
 }

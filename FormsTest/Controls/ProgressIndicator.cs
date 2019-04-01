@@ -1,3 +1,4 @@
+#if MAC
 using System;
 using System.Windows.Forms;
 using AppKit;
@@ -131,3 +132,4 @@ namespace FormsTest
 		#endregion
 	}
 }
+#endif
