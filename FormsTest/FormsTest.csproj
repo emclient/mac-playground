@@ -248,6 +248,7 @@
     <Compile Include="Forms\MainForm.NSException.cs" />
     <Compile Include="Forms\MainForm.Swizzle.cs" />
     <Compile Include="Forms\MainForm.NSBackgroundActivity.cs" />
+    <Compile Include="Forms\MainForm.NCPrefs.cs" />
   </ItemGroup>
   <ItemGroup>
     <!--<EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">
