@@ -127,6 +127,7 @@ namespace FormsTest
 			AddButton("Swizzle (cls)", () => { SwizzleCls(); });
 			AddButton("NSException", () => { NativeException(); });
 			AddButton("QuickLook panel", () => { ToggleQuickLookPanel(); });
+			AddButton("NC Preferences", () => { ReadNotificationCenterPreferences(); });
 #endif
 		}
 

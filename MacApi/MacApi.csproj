@@ -79,6 +79,14 @@
     <Compile Include="PrintCore\PMDocumentFormat.cs" />
     <Compile Include="PrintCore\PMPrinter.cs" />
     <Compile Include="Foundation\NSBackgroundActivityScheduler.cs" />
+    <Compile Include="Foundation\NotificationCenterPreferences.cs" />
+    <Compile Include="CoreGraphics\Quartz.cs" />
+    <Compile Include="CoreFoundation\CFArray.cs" />
+    <Compile Include="CoreFoundation\CFString.cs" />
+    <Compile Include="CoreFoundation\CFDictionary.cs" />
+    <Compile Include="CoreFoundation\NativeObject.cs" />
+    <Compile Include="CoreFoundation\CFBoolean.cs" />
+    <Compile Include="Libraries.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppKit\" />
