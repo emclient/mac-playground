@@ -41,6 +41,7 @@ using System.Runtime.Serialization;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 #if XAMARINMAC
 using CoreGraphics;
@@ -273,8 +274,7 @@ namespace System.Drawing {
 			rawFormat = ImageFormat.MemoryBmp;
 			pixelFormat = format;
 
-			if (premultiplied) { // make compiler happy
-			}
+			if (premultiplied) { } // make compiler happy
 		}
 
 		public Bitmap (int width, int height, int stride, PixelFormat format, IntPtr scan0)
@@ -455,34 +455,22 @@ namespace System.Drawing {
 
 			// Set the raw image format
 			// We will use the UTI from the image source
-			switch (imageSource.TypeIdentifier) 
-			{
-			case "public.png":
-				rawFormat = ImageFormat.Png;
-				break;
-			case "com.microsoft.bmp":
-				rawFormat = ImageFormat.Bmp;
-				break;
-			case "com.compuserve.gif":
-				rawFormat = ImageFormat.Gif;
-				break;
-			case "public.jpeg":
-				rawFormat = ImageFormat.Jpeg;
-				break;
-			case "public.tiff":
-				rawFormat = ImageFormat.Tiff;
-				break;
-			case "com.microsoft.ico":
-				rawFormat = ImageFormat.Icon;
-				break;
-			case "com.adobe.pdf":
-				rawFormat = ImageFormat.Wmf;
-				break;
-			default:
-				rawFormat = ImageFormat.Png;
-				break;
-			}
+			rawFormat = ImageFormatFromUTI(imageSource.TypeIdentifier);
+		}
 
+		internal static ImageFormat ImageFormatFromUTI(string uti)
+		{
+			switch (uti)
+			{
+				case "public.png":return ImageFormat.Png;
+				case "com.microsoft.bmp": return ImageFormat.Bmp;
+				case "com.compuserve.gif": return ImageFormat.Gif;
+				case "public.jpeg": return ImageFormat.Jpeg;
+				case "public.tiff": return ImageFormat.Tiff;
+				case "com.microsoft.ico": return ImageFormat.Icon;
+				case "com.adobe.pdf": return ImageFormat.Wmf;
+				default: return ImageFormat.Png;
+			}
 		}
 
 		private void InitWithCGImage (CGImage image)
@@ -891,27 +879,39 @@ namespace System.Drawing {
 			if (NativeCGImage == null)
 				throw new ObjectDisposedException("cgimage");
 
-			int framesSaved = 0;
-			int savedFrame = currentFrame;
+			bool lastOK = true;
+			int savedFrame = currentFrame, framesSaved = 0;
 			for (int frame = 0; frame < frameCount; frame++)
+				if (lastOK = TryAddFrame(dest, frame))
+					++framesSaved;
+
+			if (currentFrame != savedFrame || !lastOK)
+				InitializeImageFrame(savedFrame);
+
+			if (framesSaved == 0)
+				throw new ArgumentException("No frame could be saved");
+
+			dest.Close();
+		}
+
+		bool TryAddFrame(CGImageDestination dest, int frame)
+		{
+			try
 			{
 				var corrupted = imageSource != null && imageSource.GetPropertiesSafe(frame) == null;
 				if (frame != currentFrame && imageSource != null && !corrupted)
 					InitializeImageFrame(frame);
 
 				if (!corrupted)
-				{
 					dest.AddImage(NativeCGImage, (NSDictionary)null);
-					++framesSaved;
-				}
+
+				return true;
 			}
-			if (currentFrame != savedFrame)
-				InitializeImageFrame(savedFrame);
-
-			if (framesSaved == 0)
-				throw new ArgumentException("no frame could be saved");
-
-			dest.Close();
+			catch (Exception e)
+			{
+				Debug.Assert(false, "Failed adding destination: " + e.ToString());
+				return false;
+			}
 		}
 
 		public new void Save(string path, ImageCodecInfo encoder, EncoderParameters parameters)
