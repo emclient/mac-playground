@@ -1838,6 +1838,9 @@ namespace System.Windows.Forms {
 		{
 			IntPtr session = NSApplication.SharedApplication.BeginModalSession(window);
 			ModalSessions.Push(session);
+
+			if (window.ParentWindow == null)
+				window.Center();
 		}
 
 		void EndModal(NSWindow window)
