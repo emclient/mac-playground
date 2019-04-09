@@ -65,10 +65,18 @@ namespace System.Windows.Forms.CocoaInternal
 				{
 					if (prevFocus != IntPtr.Zero)
 						driver.SendMessage(prevFocus, Msg.WM_KILLFOCUS, c, IntPtr.Zero);
+
+					// If sending WM_SETFOCUS causes another immediate change of focus, we need to have prevFocus updated
+					var oldPrefFocus = prevFocus;
+					prevFocus = c;
+
 					if (c != IntPtr.Zero)
-						driver.SendMessage(c, Msg.WM_SETFOCUS, prevFocus, IntPtr.Zero);
+						driver.SendMessage(c, Msg.WM_SETFOCUS, oldPrefFocus, IntPtr.Zero);
 				}
-				prevFocus = c;
+				else
+				{
+					prevFocus = c;
+				}
 			}
 			return ok;
 		}
