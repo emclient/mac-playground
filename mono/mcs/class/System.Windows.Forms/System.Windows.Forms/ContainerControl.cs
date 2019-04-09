@@ -688,25 +688,57 @@ namespace System.Windows.Forms {
 			// MS Internal
 		}
 
-		[EditorBrowsable (EditorBrowsableState.Advanced)]
-		protected override void WndProc(ref Message m) {
-			switch ((Msg) m.Msg) {
-
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected override void WndProc(ref Message m)
+		{
+			switch ((Msg)m.Msg) {
 				case Msg.WM_SETFOCUS:
-					if (active_control != null && active_control.Visible)
-						Select (active_control);
-					else
-						base.WndProc (ref m);
-				break;
-
+					WmSetFocus(ref m);
+					break;
 				default:
 					base.WndProc(ref m);
 					break;
 			}
 		}
-		#endregion	// Protected Instance Methods
+		#endregion // Protected Instance Methods
 
 		#region Internal Methods
+
+		private void WmSetFocus(ref Message m)
+		{
+			if (active_control != null) {
+				if (!ActiveControl.Visible)
+					OnGotFocus(EventArgs.Empty);
+
+				FocusActiveControlInternal();
+			} else {
+				Select(active_control);
+				base.WndProc(ref m);
+			}
+		}
+
+		internal void FocusActiveControlInternal()
+		{
+			if (active_control != null && active_control.Visible) {
+				// Avoid focus loops, especially with ComboBoxes, on Win98/ME.
+				IntPtr focusHandle = XplatUI.GetFocus();
+				if (focusHandle == IntPtr.Zero || Control.FromChildHandle(focusHandle) != active_control)
+					XplatUI.SetFocus(active_control.Handle);
+			} else {
+				// Determine and focus closest visible parent
+				ContainerControl cc = this;
+				while (cc != null && !cc.Visible) {
+					Control parent = cc.Parent;
+					if (parent != null)
+						cc = parent.GetContainerControl() as ContainerControl;
+					else
+						break;
+				}
+				if (cc != null && cc.Visible)
+					XplatUI.SetFocus(cc.Handle);
+			}
+		}
+
 		internal void ChildControlRemoved (Control control)
 		{
 			ContainerControl top_container = FindForm ();
