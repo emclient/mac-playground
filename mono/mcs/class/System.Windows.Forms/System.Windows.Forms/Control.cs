@@ -4922,12 +4922,30 @@ namespace System.Windows.Forms
 			is_toplevel = value;
 		}
 
-		protected virtual void SetVisibleCore(bool value) {
+		bool in_set_visible;
+
+		protected virtual void SetVisibleCore(bool value)
+		{
+			// FIXME:
+			// This is to prevent SO that currently happens when visibility gets flipped from OnLeave.
+			if (!in_set_visible) {
+				in_set_visible = true;
+				try {
+					SetVisibleCoreInternal(value);
+				} finally {
+					in_set_visible = false;
+				}
+			}
+		}
+
+		internal virtual void SetVisibleCoreInternal(bool value) {
+
 			if (value != is_visible) {
-				is_visible = value;
 
 				if (!value)
 					SelectNextIfFocused();
+
+				is_visible = value;
 
 				if (is_visible && ((window.Handle == IntPtr.Zero) || !is_created)) {
 					CreateControl();
