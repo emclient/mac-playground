@@ -28,6 +28,11 @@ namespace System.Windows.Forms
 					nsImage.Size = new CGSize(nsImage.Size.Width / 2, nsImage.Size.Height / 2);
 				nsMenuItem.Image = nsImage;
 			}
+
+			VisibleChanged += (sender, e) => { nsMenuItem.Hidden = !InternalVisible; };
+			EnabledChanged += (sender, e) => { nsMenuItem.Enabled = Enabled; };
+			TextChanged += (sender, e) => { nsMenuItem.Title = (Text ?? String.Empty).Replace("&", ""); };
+
 			return nativeMenuItem = nsMenuItem;
 		}
 	}
