@@ -16,6 +16,9 @@ namespace System.Windows.Forms
 			var nsMenuItem = base.ToNSMenuItem();
 			nsMenuItem.Submenu = HasDropDownItems ? DropDown.ToNSMenu() : null;
 			nsMenuItem.State = PaintCheck ? CheckState.ToCellState() : NSCellStateValue.Off;
+
+			CheckedChanged += (sender, e) => { nsMenuItem.State = PaintCheck ? CheckState.ToCellState() : NSCellStateValue.Off; };
+
 			return nsMenuItem;
 		}
 
