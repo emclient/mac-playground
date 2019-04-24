@@ -87,7 +87,6 @@ namespace System.Windows.Forms
 		internal bool		is_entered;		// is the mouse inside the control?
 		internal bool		is_enabled;		// true if control is enabled (usable/not grayed out)
 		bool                    is_accessible; // true if the control is visible to accessibility applications
-		bool                    is_captured; // tracks if the control has captured the mouse
 		internal bool			is_toplevel;		// tracks if the control is a toplevel window
 		bool                    is_recreating; // tracks if the handle for the control is being recreated
 		bool                    causes_validation; // tracks if validation is executed on changes
@@ -909,7 +908,6 @@ namespace System.Windows.Forms
 
 			is_created = false;
 			is_visible = true;
-			is_captured = false;
 			is_disposed = false;
 			is_enabled = true;
 			is_entered = false;
@@ -1680,8 +1678,7 @@ namespace System.Windows.Forms
 		}
 		
 		internal void CaptureWithConfine (Control ConfineWindow) {
-			if (this.IsHandleCreated && !is_captured) {
-				is_captured = true;
+			if (this.IsHandleCreated && GetCapture() != Handle) {
 				XplatUI.GrabWindow (this.window.Handle, ConfineWindow.Handle);
 			}
 		}
@@ -2330,13 +2327,27 @@ namespace System.Windows.Forms
 			}
 		}
 
-		internal virtual bool InternalCapture {
+		internal IntPtr GetCapture()
+		{
+			XplatUI.GrabInfo(out IntPtr hwnd, out bool confined, out Rectangle area);
+			return hwnd;
+		}
+
+		internal virtual bool CaptureInternal {
 			get {
-				return Capture;
+				return IsHandleCreated && GetCapture() == Handle;
 			}
 
 			set {
-				Capture = value;
+				if (value != CaptureInternal) {
+					if (value) {
+						XplatUI.GrabWindow(Handle, IntPtr.Zero);
+					}
+					else {
+						if (IsHandleCreated)
+							XplatUI.UngrabWindow(Handle);
+					}
+				}
 			}
 		}
 
@@ -2345,21 +2356,11 @@ namespace System.Windows.Forms
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool Capture {
 			get {
-				return this.is_captured;
+				return CaptureInternal;
 			}
 
 			set {
-				// Call OnMouseCaptureChanged when we get WM_CAPTURECHANGED.
-				if (value != is_captured) {
-					if (value) {
-						is_captured = true;
-						XplatUI.GrabWindow(Handle, IntPtr.Zero);
-					} else {
-						if (IsHandleCreated)
-							XplatUI.UngrabWindow(Handle);
-						is_captured = false;
-					}
-				}
+				CaptureInternal = value;
 			}
 		}
 
@@ -5450,8 +5451,8 @@ namespace System.Windows.Forms
 
 			OnMouseUp(me);
 
-			if (InternalCapture) {
-				InternalCapture = false;
+			if (CaptureInternal) {
+				CaptureInternal = false;
 			}
 
 			if (mouse_clicks > 1) {
@@ -5482,7 +5483,7 @@ namespace System.Windows.Forms
 					Select(true, true);
 			}
 
-			InternalCapture = true;
+			CaptureInternal = true;
 
 			if (Enabled && !ValidationFailed) {
 				OnMouseDown (new MouseEventArgs (FromParamToMouseButtons ((int) m.WParam.ToInt32()), 
@@ -5492,7 +5493,7 @@ namespace System.Windows.Forms
 		}
 
 		private void WmLButtonDblClick (ref Message m) {
-			InternalCapture = true;
+			CaptureInternal = true;
 			mouse_clicks++;
 			if (Enabled && !ValidationFailed)
 			{
@@ -5512,8 +5513,8 @@ namespace System.Windows.Forms
 
 			HandleClick(mouse_clicks, me);
 			OnMouseUp (me);
-			if (InternalCapture) {
-				InternalCapture = false;
+			if (CaptureInternal) {
+				CaptureInternal = false;
 			}
 			if (mouse_clicks > 1) {
 				mouse_clicks = 1;
@@ -5521,7 +5522,7 @@ namespace System.Windows.Forms
 		}
 
 		private void WmMButtonDown (ref Message m) {
-			InternalCapture = true;
+			CaptureInternal = true;
 			if (Enabled)
 			{
 				OnMouseDown(new MouseEventArgs(FromParamToMouseButtons((int)m.WParam.ToInt32()),
@@ -5531,7 +5532,7 @@ namespace System.Windows.Forms
 		}
 
 		private void WmMButtonDblClick (ref Message m) {
-			InternalCapture = true;
+			CaptureInternal = true;
 			mouse_clicks++;
 			if (Enabled)
 			{
@@ -5565,8 +5566,8 @@ namespace System.Windows.Forms
 			XplatUI.SendMessage(m.HWnd, Msg.WM_CONTEXTMENU, m.HWnd, (IntPtr)(pt.X + (pt.Y << 16)));
 			OnMouseUp (me);
 
-			if (InternalCapture) {
-				InternalCapture = false;
+			if (CaptureInternal) {
+				CaptureInternal = false;
 			}
 
 			if (mouse_clicks > 1) {
@@ -5582,7 +5583,7 @@ namespace System.Windows.Forms
 				return;
 			}
 
-			InternalCapture = true;
+			CaptureInternal = true;
 			if (Enabled)
 			{
 				OnMouseDown(new MouseEventArgs(FromParamToMouseButtons((int)m.WParam.ToInt32()),
@@ -5592,7 +5593,7 @@ namespace System.Windows.Forms
 		}
 
 		private void WmRButtonDblClick (ref Message m) {
-			InternalCapture = true;
+			CaptureInternal = true;
 			mouse_clicks++;
 			if (Enabled)
 			{
@@ -5816,9 +5817,8 @@ namespace System.Windows.Forms
 		}
 
 		private void WmCaptureChanged (ref Message m) {
-			is_captured = false;
 			OnMouseCaptureChanged (EventArgs.Empty);
-			m.Result = (IntPtr) 0;
+			DefWndProc(ref m);
 		}
 
 		private void WmChangeUIState (ref Message m) {
