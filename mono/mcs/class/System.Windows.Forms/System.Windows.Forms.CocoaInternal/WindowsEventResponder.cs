@@ -180,8 +180,12 @@ namespace System.Windows.Forms.CocoaInternal
 					break;
 
 				case NSEventType.MouseMoved:
-					msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam());
-					msg.message = (client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE);
+					if (driver.LastEnteredHwnd != view.Handle && driver.Grab.Hwnd == IntPtr.Zero)
+						return;
+					if (driver.Grab.Hwnd != IntPtr.Zero)
+						msg.hwnd = driver.Grab.Hwnd;
+					msg.wParam = (IntPtr)e.ModifierFlags.ToWParam();
+					msg.message = client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE;
 					break;
 				case NSEventType.LeftMouseDragged:
 					msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | (uint)MsgButtons.MK_LBUTTON);

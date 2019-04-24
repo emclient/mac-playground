@@ -208,6 +208,11 @@ namespace System.Windows.Forms.CocoaInternal
 
 		// The WindowsEventResponder should handle this stuff, but there are cases when it doesn't (buttonImageOptions in ControlHtmlEditor).
 
+		public override void MouseMoved(NSEvent theEvent)
+		{
+			eventResponder.MouseMoved(theEvent);
+		}
+
 		public override void MouseDown(NSEvent theEvent)
 		{
 			eventResponder.MouseDown(theEvent);
