@@ -1406,7 +1406,7 @@ namespace System.Windows.Forms {
 				// lparam should be the handle to the window gaining the mouse capture,
 				// but we dont have that information like X11.
 				// Also only generate WM_CAPTURECHANGED if the window actually was grabbed.
-				SendMessage (hwnd, Msg.WM_CAPTURECHANGED, IntPtr.Zero, IntPtr.Zero);
+				SendMessage (hwnd, Msg.WM_CAPTURECHANGED, IntPtr.Zero, LastEnteredHwnd);
 
 				// Send artificial Leave & Enter messages
 				if (LastEnteredHwnd != IntPtr.Zero && LastEnteredHwnd != grabbed)
@@ -1738,10 +1738,10 @@ namespace System.Windows.Forms {
 		}
 		
 		internal override void SetCursor (IntPtr window, IntPtr cursor) {
-			var vuWrap = window.AsMonoView();
-			if (vuWrap != null && vuWrap.Cursor != cursor) {
+			if (window.ToNSObject() is MonoView vuWrap && vuWrap.Cursor != cursor) {
 				vuWrap.Cursor = cursor;
-				OverrideCursor(cursor);
+				if (LastEnteredHwnd == window && (Grab.Hwnd == IntPtr.Zero || Grab.Hwnd == window))
+					OverrideCursor(cursor);
 			}
 		}
 

@@ -2301,15 +2301,15 @@ namespace System.Windows.Forms {
 			ThemeEngine.Current.DrawMonthCalendar (dc, clip_rect, this);
 		}
 
-		internal override bool InternalCapture {
+		internal override bool CaptureInternal {
 			get {
-				return base.InternalCapture;
+				return base.CaptureInternal;
 			}
 			set {
 				// Don't allow internal capture when DateTimePicker is using us
 				// Control sets this on MouseDown 
 				if (owner == null)
-					base.InternalCapture = value;
+					base.CaptureInternal = value;
 			}
 		}
 
