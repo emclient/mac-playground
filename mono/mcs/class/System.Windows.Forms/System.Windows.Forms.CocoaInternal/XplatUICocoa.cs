@@ -795,8 +795,8 @@ namespace System.Windows.Forms {
 			int X = cp.X;
 			int Y = cp.Y;
 
-			int Width = Math.Max(1, cp.Width);
-			int Height = Math.Max(1, cp.Height);
+			int Width = Math.Max(0, cp.Width);
+			int Height = Math.Max(0, cp.Height);
 			IntPtr WindowHandle = IntPtr.Zero;
 			IntPtr wholeHandle = IntPtr.Zero;
 
