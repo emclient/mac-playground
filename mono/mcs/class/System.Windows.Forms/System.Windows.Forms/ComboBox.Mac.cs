@@ -892,12 +892,6 @@ namespace System.Windows.Forms
 			//FIXME: handle add, remove and refresh events in AutoComplete algorithm.
 		}
 
-		internal override bool CaptureInternal
-		{
-			get { return Capture; }
-			set { }
-		}
-
 		void LayoutComboBox()
 		{
 		}
