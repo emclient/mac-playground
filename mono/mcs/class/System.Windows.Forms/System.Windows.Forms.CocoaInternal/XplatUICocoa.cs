@@ -1730,9 +1730,14 @@ namespace System.Windows.Forms {
 						vuWrap.Window.BackgroundColor = NSColor.WindowBackground;
 						vuWrap.Window.IsOpaque = true;
 					}
-					vuWrap.Display();
-					if (vuWrap.Window.HasShadow)
+					vuWrap.NeedsDisplay = true;
+					if (vuWrap.Window.HasShadow && vuWrap.Window.IsVisible)
+					{
 						vuWrap.Window.InvalidateShadow();
+						//The following hack ensures updating the shadow. InvalidateShadow is not sufficient under certain circumstances
+						vuWrap.Window.IsOpaque = !vuWrap.Window.IsOpaque;
+						vuWrap.Window.IsOpaque = !vuWrap.Window.IsOpaque;
+					}
 				}
 			}
 		}
