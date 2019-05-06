@@ -3893,11 +3893,11 @@ namespace System.Windows.Forms
 			// Win32 invalidates control including when Width and Height is equal 0
 			// or is not visible, only Paint event must be care about this.
 
-			if (!IsHandleCreated || !Visible)
+			if (!IsHandleCreated)
 				return;
 
 			if (rc.IsEmpty)
-				return;//rc = ClientRectangle;
+				rc = ClientRectangle;
 				
 			if  (rc.Width > 0 && rc.Height > 0) {
 
