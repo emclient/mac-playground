@@ -225,8 +225,8 @@ namespace System.Drawing
 			lock (creatingCached) {
 				if (cached != null)
 					return cached;
-				Array colors = Array.CreateInstance (typeof (Color), KnownColors.ArgbValues.Length - 1);
-				for (int i=1; i < KnownColors.ArgbValues.Length; i++) {
+				Array colors = Array.CreateInstance (typeof (Color), KnownColors.Count - 1);
+				for (int i=1; i < KnownColors.Count; i++) {
 					colors.SetValue (KnownColors.FromKnownColor ((KnownColor)i), i - 1);
 				}
 
