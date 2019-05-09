@@ -166,53 +166,103 @@ namespace System.Drawing.Mac
 
 		public static CGColor ToCGColor(this Color c)
 		{
-			return new CGColor(c.R / 255f, c.G / 255f, c.B / 255f, c.A / 255f);
+			return c.CGColor;
 		}
 
 		public static NSColor ToNSColor(this Color c)
 		{
-			return NSColor.FromDeviceRgba(c.R / 255f, c.G / 255f, c.B / 255f, c.A / 255f);
+			return c.NSColor;
 		}
 
-		public static Color ToSDColor(this NSColor color)
+		public static CGColor ToCGColor(this int value)
 		{
-			var convertedColor = color.UsingColorSpace(NSColorSpace.GenericRGBColorSpace);
-			if (convertedColor != null)
-			{
-				nfloat r, g, b, a;
-				convertedColor.GetRgba(out r, out g, out b, out a);
-				return Color.FromArgb((int)(a * 255), (int)(r * 255), (int)(g * 255), (int)(b * 255));
-			}
+			value.ToArgb(out nfloat a, out nfloat r, out nfloat g, out nfloat b);
+			return new CGColor(r, g, b, a);
+		}
 
-			var cgColor = color.CGColor; // 10.8+
-			if (cgColor != null)
-			{
-				if (cgColor.NumberOfComponents == 4)
-					return Color.FromArgb(
-						(int)(cgColor.Components[3] * 255),
-						(int)(cgColor.Components[0] * 255),
-						(int)(cgColor.Components[1] * 255),
-						(int)(cgColor.Components[2] * 255));
+		public static NSColor ToNSColor(this int value)
+		{
+			value.ToArgb(out int a, out int r, out int g, out int b);
+			return NSColor.FromDeviceRgba(r, g, b, a);
+		}
 
-				if (cgColor.NumberOfComponents == 2)
-					return Color.FromArgb(
-						(int)(cgColor.Components[1] * 255),
-						(int)(cgColor.Components[0] * 255),
-						(int)(cgColor.Components[0] * 255),
-						(int)(cgColor.Components[0] * 255));
-			}
+		public static void ToArgb(this int argb, out int a, out int r, out int g, out int b)
+		{
+			a = (byte)(argb >> 24);
+			r = (byte)(argb >> 16);
+			g = (byte)(argb >> 8);
+			b = (byte)argb;
+		}
 
-			return Color.Transparent;
+		public static void ToArgb(this int argb, out nfloat a, out nfloat r, out nfloat g, out nfloat b)
+		{
+			a = ((byte)(argb >> 24)) / 255f;
+			r = ((byte)(argb >> 16)) / 255f;
+			g = ((byte)(argb >> 8)) / 255f;
+			b = ((byte)argb) / 255f;
 		}
 
 		public static int ToArgb(this NSColor color)
 		{
-			return color.ToSDColor().ToArgb();
+			color.ToArgb(out int a, out int r, out int g, out int b);
+			return (int)((uint)a << 24) + (r << 16) + (g << 8) + b;
 		}
-	
+
+		public static bool ToArgb(this NSColor color, out int a, out int r, out int g, out int b)
+		{
+			var result = ToArgb(color, out float af, out float rf, out float gf, out float bf);
+			a = (int)(af * 255);
+			r = (int)(rf * 255);
+			g = (int)(gf * 255);
+			b = (int)(bf * 255);
+			return result;
+		}
+
+		public static bool ToArgb(this NSColor color, out float a, out float r, out float g, out float b)
+		{
+			var rgba = color.UsingColorSpace(NSColorSpace.GenericRGBColorSpace);
+			if (rgba != null)
+			{
+				rgba.GetRgba(out nfloat nr, out nfloat ng, out nfloat nb, out nfloat na);
+				a = (float)na;
+				r = (float)nr;
+				g = (float)ng;
+				b = (float)nb;
+				return true;
+			}
+
+			var cgc = color.CGColor; // 10.8+
+			if (cgc != null)
+			{
+				if (cgc.NumberOfComponents == 4)
+				{
+					a = (float)cgc.Components[3];
+					r = (float)cgc.Components[0];
+					g = (float)cgc.Components[1];
+					b = (float)cgc.Components[2];
+					return true;
+				}
+
+				if (cgc.NumberOfComponents == 2)
+				{
+					a = (float)cgc.Components[1];
+					r = g = b = (float)cgc.Components[0];
+					return true;
+				}
+			}
+
+			a = r = g = b = 0;
+			return false;
+		}
+
+		public static Color ToSDColor(this NSColor color)
+		{
+			return new Color(color);
+		}
+
 		public static uint ToUArgb(this NSColor color)
 		{
-			return (uint)color.ToSDColor().ToArgb();
+			return (uint)color.ToArgb();
 		}
 
 		public static NSData ToNSData(this Image image, Imaging.ImageFormat format)
@@ -244,6 +294,32 @@ namespace System.Drawing.Mac
 #elif XAMARINMAC
 			return context.CGContext;
 #endif
+		}
+
+		public static void SetStrokeColor(this CGContext context, Color color)
+		{
+			if (color.IsNSColor)
+			{
+				context.SetStrokeColor(color.CGColor);
+			}
+			else
+			{
+				color.Value.ToArgb(out nfloat a, out nfloat r, out nfloat g, out nfloat b);
+				context.SetStrokeColor(r, g, b, a);
+			}
+		}
+
+		public static void SetFillColor(this CGContext context, Color color)
+		{
+			if (color.IsNSColor)
+			{
+				context.SetFillColor(color.CGColor);
+			}
+			else
+			{
+				color.Value.ToArgb(out nfloat a, out nfloat r, out nfloat g, out nfloat b);
+				context.SetFillColor(r, g, b, a);
+			}
 		}
 	}
 
@@ -279,4 +355,4 @@ namespace System.Drawing.Mac
 	}
 
 #endif
-}
+	}

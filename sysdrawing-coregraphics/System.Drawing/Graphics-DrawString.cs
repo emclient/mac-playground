@@ -414,7 +414,7 @@ namespace System.Drawing
 						var sy = textPosition.Y + ascent - c.font.nativeFont.XHeightMetric / (nfloat)2.0;
 						context.MoveTo(x, sy);
 						context.AddLineToPoint(x + (nfloat)lineWidth, sy);
-						context.SetStrokeColor(lastBrushColor.ToCGColor());
+						context.SetStrokeColor(lastBrushColor);
 						context.SetLineWidth(1);
 						context.StrokePath();
 					}

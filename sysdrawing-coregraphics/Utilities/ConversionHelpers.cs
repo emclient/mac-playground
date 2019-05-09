@@ -24,7 +24,7 @@ namespace System.Drawing
 		
 		internal static CGColor ToCGColor (this Color color)
 		{				
-			return new CGColor(color.R / 255f, color.G/255f, color.B/255f, color.A/255f );
+			return color.CGColor;
 		}
 		
 		internal static float ToRadians (this float degrees) 

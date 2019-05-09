@@ -1373,8 +1373,7 @@ namespace System.Drawing {
 		public void Clear (Color color)
 		{
 			context.SaveState ();
-			//context.SetFillColorWithColor(new CGColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f));
-			context.SetFillColor(new CGColor(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f));
+			context.SetFillColor(color);
 			context.FillRect(context.GetClipBoundingBox());
 			context.RestoreState ();
 		}
