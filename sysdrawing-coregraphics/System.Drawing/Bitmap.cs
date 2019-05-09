@@ -42,6 +42,7 @@ using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing.Mac;
 
 #if XAMARINMAC
 using CoreGraphics;
@@ -766,7 +767,7 @@ namespace System.Drawing {
 			cachedContext.SaveState ();
 			cachedContext.ConcatCTM (cachedContext.GetCTM ().Invert ());
 			cachedContext.ConcatCTM (imageTransform);
-			cachedContext.SetFillColor(color.ToCGColor());
+			cachedContext.SetFillColor(color);
 			cachedContext.FillRect (new CGRect(x,y, 1,1));
 			cachedContext.FillPath ();
 			cachedContext.RestoreState();

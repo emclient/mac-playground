@@ -7,6 +7,7 @@
 // Copyright 2012
 //
 using System;
+using System.Drawing.Mac;
 #if XAMARINMAC
 using CoreGraphics;
 #elif MONOMAC
@@ -154,7 +155,7 @@ namespace System.Drawing.Drawing2D
 
 		void drawBackground(CGContext context, Color color, float width, float height) 
 		{
-			context.SetFillColor(color.ToCGColor());
+			context.SetFillColor(color);
 			context.FillRect(new CGRect(HALF_PIXEL_X, HALF_PIXEL_Y, width+HALF_PIXEL_X, height+HALF_PIXEL_Y));
 			context.FillPath();
 		}
@@ -185,7 +186,7 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchSize, hatchSize);
 
 			/* draw horizontal line in the foreground color */
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 
@@ -207,7 +208,7 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchSize, hatchSize);
 			
 			/* draw horizontal line in the foreground color */
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 
@@ -231,7 +232,7 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchSize, hatchSize);
 
 			/* draw lines in the foreground color */
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 
@@ -279,11 +280,11 @@ namespace System.Drawing.Drawing2D
 			case HatchStyle.Percent25:
 			case HatchStyle.Percent30:
 				drawBackground (context, backColor, hatchWidth, hatchWidth);
-				context.SetFillColor(foreColor.ToCGColor());
+				context.SetFillColor(foreColor);
 				break;
 			default:
 				drawBackground (context, foreColor, hatchWidth, hatchWidth);
-				context.SetFillColor(backColor.ToCGColor());
+				context.SetFillColor(backColor);
 				break;
 			}
 
@@ -395,8 +396,8 @@ namespace System.Drawing.Drawing2D
 
 
 			/* draw lines in the foreground color */
-			context.SetStrokeColor(foreColor.ToCGColor());
-			context.SetFillColor(foreColor.ToCGColor());
+			context.SetStrokeColor(foreColor);
+			context.SetFillColor(foreColor);
 
 			context.SetLineWidth(1);
 			context.SetLineCap(CGLineCap.Square);
@@ -440,7 +441,7 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
 			/* draw lines in the foreground color */
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 			
@@ -469,8 +470,8 @@ namespace System.Drawing.Drawing2D
 			/* draw background in fore ground color*/
 			drawBackground (context, backColor, hatchSize, hatchSize);
 			
-			context.SetStrokeColor(foreColor.ToCGColor());
-			context.SetFillColor(foreColor.ToCGColor());
+			context.SetStrokeColor(foreColor);
+			context.SetFillColor(foreColor);
 			
 			context.SetLineWidth(1);
 			context.SetLineCap(CGLineCap.Square);
@@ -515,7 +516,7 @@ namespace System.Drawing.Drawing2D
 
 			// Now we fill in some corner bits with background
 			// This is a bad hack but now sure what else to do
-			context.SetFillColor(backColor.ToCGColor());
+			context.SetFillColor(backColor);
 
 			rect.Height = 1;
 			rect.Width = 1;
@@ -588,7 +589,7 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
 			/* draw lines in the foreground color */
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 
@@ -611,7 +612,7 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
 			/* draw lines in the foreground color */
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 			
@@ -641,7 +642,7 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
 			/* draw confetti Rectangles in the foreground color */
-			context.SetFillColor(foreColor.ToCGColor());
+			context.SetFillColor(foreColor);
 
 			CGRect rect = new CGRect(0,0,2,2);
 
@@ -721,7 +722,7 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
 			/* draw lines in the foreground color */
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 			
@@ -750,7 +751,7 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
 			/* draw lines in the foreground color */
-			context.SetFillColor(foreColor.ToCGColor());
+			context.SetFillColor(foreColor);
 
 			CGRect rect = new CGRect(0,0,1,1);
 			
@@ -792,10 +793,10 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
 			/* draw lines in the foreground color */
-			context.SetFillColor(foreColor.ToCGColor());
+			context.SetFillColor(foreColor);
 			
 			/* draw lines in the foreground color */
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 
@@ -823,7 +824,7 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
 			/* draw lines in the foreground color */
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 
@@ -851,10 +852,10 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
 			/* draw lines in the foreground color */
-			context.SetFillColor(foreColor.ToCGColor());
+			context.SetFillColor(foreColor);
 			
 			/* draw lines in the foreground color */
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 			
@@ -897,7 +898,7 @@ namespace System.Drawing.Drawing2D
 			/* draw background */
 			drawBackground (context, foreColor, hatchWidth, hatchHeight);
 			
-			context.SetFillColor(backColor.ToCGColor());
+			context.SetFillColor(backColor);
 
 			CGRect rect = new CGRect(0,0,2,1);
 			setPixels(context, rect);
@@ -918,7 +919,7 @@ namespace System.Drawing.Drawing2D
 			/* draw background */
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
-			context.SetFillColor(foreColor.ToCGColor());
+			context.SetFillColor(foreColor);
 			
 			CGRect rect = new CGRect(0,0,hatchWidth / 2.0f,hatchHeight / 2.0f);
 			setPixels(context, rect);
@@ -940,8 +941,8 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
 			/* draw lines in the foreground color */
-			context.SetFillColor(foreColor.ToCGColor());
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetFillColor(foreColor);
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 
@@ -967,8 +968,8 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
 			/* draw lines in the foreground color */
-			context.SetFillColor(foreColor.ToCGColor());
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetFillColor(foreColor);
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 
@@ -1003,8 +1004,8 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
 			/* draw lines in the foreground color */
-			context.SetFillColor(foreColor.ToCGColor());
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetFillColor(foreColor);
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 
@@ -1047,8 +1048,8 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
 			/* draw lines in the foreground color */
-			context.SetFillColor(foreColor.ToCGColor());
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetFillColor(foreColor);
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 			
@@ -1092,8 +1093,8 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
 			/* draw lines in the foreground color */
-			context.SetFillColor(foreColor.ToCGColor());
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetFillColor(foreColor);
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 			
@@ -1138,8 +1139,8 @@ namespace System.Drawing.Drawing2D
 			drawBackground (context, backColor, hatchWidth, hatchHeight);
 			
 			/* draw lines in the foreground color */
-			context.SetFillColor(foreColor.ToCGColor());
-			context.SetStrokeColor(foreColor.ToCGColor());
+			context.SetFillColor(foreColor);
+			context.SetStrokeColor(foreColor);
 			context.SetLineWidth(lineWidth);
 			context.SetLineCap(CGLineCap.Square);
 			
@@ -1192,7 +1193,7 @@ namespace System.Drawing.Drawing2D
 		// Purple poka dots test
 		private void DrawPolkaDotPattern (CGContext context)
 		{
-			context.SetFillColor(Color.Purple.ToCGColor());
+			context.SetFillColor(Color.Purple);
 			context.FillEllipseInRect (new CGRect (4, 4, 8, 8));
 		}
 
