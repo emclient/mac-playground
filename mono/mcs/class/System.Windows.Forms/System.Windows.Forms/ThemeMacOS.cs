@@ -2106,17 +2106,49 @@ namespace System.Windows.Forms
 			}
 		}
 
-		#endregion	// HScrollBar
+		#endregion // HScrollBar
 
 		#region ListBox
+
+		// Background color of the active (focused) highlited item in lists (not text)
+		Color? colorHighlightItem = NSColor.SelectedContentBackgroundColor.ToSDColor();
+
+		public virtual Color ColorHighlightItem
+		{
+			get { return colorHighlightItem ?? ColorHighlight; }
+			set { colorHighlightItem = value; }
+		}
+
+		// Background color of the inactive (not focused) highlited item in lists (not text)
+		Color? colorInactiveHighlightItem = NSColor.UnemphasizedSelectedContentBackgroundColor.ToSDColor();
+
+		public virtual Color ColorInactiveHighlightItem
+		{
+			get { return colorInactiveHighlightItem ?? ColorHighlight; }
+			set { colorInactiveHighlightItem = value; }
+		}
+
+		// Text color of the active highlited item text in lists (not text)
+		Color? colorHighlightItemText = NSColor.SelectedMenuItemText.ToSDColor();
+
+		public virtual Color ColorHighlightItemText
+		{
+			get { return colorHighlightItemText ?? ColorHighlightText; }
+			set { colorHighlightItemText = value; }
+		}
 
 		public override void DrawListBoxItem (ListBox ctrl, DrawItemEventArgs e)
 		{
 			Color back_color, fore_color;
-			
+
 			if ((e.State & DrawItemState.Selected) == DrawItemState.Selected) {
-				back_color = ColorHighlight;
-				fore_color = ColorHighlightText;
+				if ((e.State & DrawItemState.Focus) == DrawItemState.Focus) {
+					fore_color = ColorHighlightItemText;
+					back_color = ColorHighlightItem;
+				} else { 
+					fore_color = e.ForeColor;
+					back_color = ColorInactiveHighlightItem;
+				}
 			} else {
 				back_color = e.BackColor;
 				fore_color = e.ForeColor;
@@ -2128,8 +2160,8 @@ namespace System.Windows.Forms
 					       ResPool.GetSolidBrush (fore_color),
 					       e.Bounds, ctrl.StringFormat);
 					
-			if ((e.State & DrawItemState.Focus) == DrawItemState.Focus)
-				CPDrawFocusRectangle (e.Graphics, e.Bounds, fore_color, back_color);
+			//if ((e.State & DrawItemState.Focus) == DrawItemState.Focus)
+				//CPDrawFocusRectangle (e.Graphics, e.Bounds, fore_color, back_color);
 		}
 		
 		#endregion ListBox
