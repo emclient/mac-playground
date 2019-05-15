@@ -52,6 +52,19 @@ namespace System.Windows.Forms.CocoaInternal
 			var setTabbingModeSelector = new ObjCRuntime.Selector("setTabbingMode:");
 			if (this.RespondsToSelector(setTabbingModeSelector))
 				this.SetValueForKey(NSNumber.FromInt32(2), new NSString("tabbingMode"));
+
+			RegisterEventHandlers();
+		}
+
+		void RegisterEventHandlers()
+		{
+			WindowShouldClose += ShouldClose;
+			WillResize += WindowWillResize;
+			DidResize += WindowDidResize;
+			WillStartLiveResize += WindowWillStartLiveResize;
+			DidEndLiveResize += WindowDidEndLiveResize;
+			DidMove += WindowDidMove;
+			DidChangeScreen += WindowDidChangeScreen;
 		}
 
 		public override bool MakeFirstResponder(NSResponder aResponder)
@@ -174,16 +187,6 @@ namespace System.Windows.Forms.CocoaInternal
 			base.SendEvent(theEvent);
 		}
 
-		[Export("windowShouldClose:")]
-		internal virtual bool shouldClose(NSObject sender)
-		{
-			if (Control.FromHandle(ContentView.Handle) is Form form)
-				form.Close(); // Sets CloseReason, among other things
-			else
-				driver.SendMessage(ContentView.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
-			return false;
-		}
-
 		public override void OrderWindow(NSWindowOrderingMode place, nint relativeTo)
 		{
 			var wasVisible = IsVisible;
@@ -208,8 +211,16 @@ namespace System.Windows.Forms.CocoaInternal
 				driver.SendMessage(ContentView.Handle, Msg.WM_SHOWWINDOW, (IntPtr)(wasVisible ? 0 : 1), IntPtr.Zero);
 		}
 
-		[Export("windowWillResize:toSize:")]
-		internal virtual NSSize willResize(NSWindow sender, NSSize toFrameSize)
+		internal virtual bool ShouldClose(NSObject sender)
+		{
+			if (Control.FromHandle(ContentView.Handle) is Form form)
+				form.Close(); // Sets CloseReason, among other things
+			else
+				driver.SendMessage(ContentView.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+			return false;
+		}
+
+		internal virtual NSSize WindowWillResize(NSWindow sender, NSSize toFrameSize)
 		{
 			var rect = new XplatUIWin32.RECT(0, 0, (int)toFrameSize.Width, (int)toFrameSize.Height);
 			IntPtr lpRect = Marshal.AllocHGlobal(Marshal.SizeOf(rect));
@@ -228,36 +239,31 @@ namespace System.Windows.Forms.CocoaInternal
 			return toFrameSize;
 		}
 
-		[Export("windowDidResize:")]
-		internal virtual void windowDidResize(NSNotification notification)
+		internal virtual void WindowDidResize(object sender, EventArgs e)
 		{
 			// resizeWinForm, invalidate and update?
 			resizeWinForm();
 		}
 
-		[Export("windowWillStartLiveResize:")]
-		internal virtual void windowWillStartLiveResize(NSNotification notification)
+		internal virtual void WindowWillStartLiveResize(object sender, EventArgs e)
 		{
 			//var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
 			NativeWindow.WndProc(ContentView.Handle, Msg.WM_ENTERSIZEMOVE, IntPtr.Zero, IntPtr.Zero);
 		}
 
-		[Export("windowDidEndLiveResize:")]
-		internal virtual void windowDidEndLiveResize(NSNotification notification)
+		internal virtual void WindowDidEndLiveResize(object sender, EventArgs e)
 		{
 			//var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
 			resizeWinForm();
 			NativeWindow.WndProc(ContentView.Handle, Msg.WM_EXITSIZEMOVE, IntPtr.Zero, IntPtr.Zero);
 		}
 
-		[Export("windowDidMove:")]
-		internal virtual void windowDidMove(NSNotification notification)
+		internal virtual void WindowDidMove(object sender, EventArgs e)
 		{
 			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
 
-		[Export("windowDidChangeScreen:")]
-		internal virtual void windowDidChangeScreen(NSNotification notification)
+		internal virtual void WindowDidChangeScreen(object sender, EventArgs e)
 		{
 			BeginInvokeOnMainThread((Action)delegate { if (Handle != IntPtr.Zero) resizeWinForm(); });
 		}

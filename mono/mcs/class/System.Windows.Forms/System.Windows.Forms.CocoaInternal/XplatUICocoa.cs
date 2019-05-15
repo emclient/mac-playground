@@ -844,7 +844,6 @@ namespace System.Windows.Forms {
 				//ParentHandle = WindowView;
 				windowWrapper = new MonoWindow(WholeRect, attributes, NSBackingStore.Buffered, true, this);
 				WindowHandle = (IntPtr) windowWrapper.Handle;
-				windowWrapper.WeakDelegate = windowWrapper;
 
 				if ((cp.ClassStyle & 0x20000) != 0) // CS_DROPSHADOW
 					windowWrapper.HasShadow = true;
