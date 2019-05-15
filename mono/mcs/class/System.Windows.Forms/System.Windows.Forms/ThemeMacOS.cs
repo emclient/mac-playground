@@ -240,7 +240,7 @@ namespace System.Windows.Forms
 		NSButtonCell GetButtonCell(ButtonBase b)
 		{
 			var cell = new SWFCell();
-			cell.AttributedTitle = GetAttributedString(b.Text, '&', b.font, b.TextAlign);
+			cell.AttributedTitle = System.Drawing.Mac.Extensions.GetAttributedString(b.Text, '&', b.font, b.TextAlign);
 			cell.Alignment = b.TextAlign.ToNSTextAlignment();
 			cell.Highlighted = b.ButtonState == ButtonState.Pushed;
 			cell.Bezeled = false;
@@ -611,37 +611,6 @@ namespace System.Windows.Forms
 		#endregion // ButtonBase
 
 		#region CheckBox
-
-
-		public static NSAttributedString GetAttributedString(string s, char? hotKey = '&', Font font = null, ContentAlignment? alignment = null)
-		{
-			var attributes = new NSMutableDictionary();
-
-			if (font != null)
-				attributes.Add(NSStringAttributeKey.Font, font.ToNSFont());
-
-			if (alignment.HasValue)
-			{
-				var style = new NSMutableParagraphStyle();
-				style.Alignment = alignment.Value.ToNSTextAlignment();
-
-				attributes.Add(NSStringAttributeKey.ParagraphStyle, style);
-			}
-
-			int hotKeyIndex = -1;
-			if (hotKey.HasValue)
-			{
-				hotKeyIndex = s.IndexOf(hotKey.Value);
-				if (hotKeyIndex != -1)
-					s = s.Substring(0, hotKeyIndex) + s.Substring(1 + hotKeyIndex);
-			}
-
-			var astr = new NSMutableAttributedString(s, attributes);
-			if (hotKeyIndex != -1)
-				astr.AddAttribute(NSStringAttributeKey.UnderlineStyle, new NSNumber((int)NSUnderlineStyle.Single), new NSRange(hotKeyIndex, 1));
-
-			return astr;
-		}
 
 		NSButtonCell sharedCheckBoxCell;
 		NSButtonCell SharedCheckBoxCell(CheckBox cb = null)

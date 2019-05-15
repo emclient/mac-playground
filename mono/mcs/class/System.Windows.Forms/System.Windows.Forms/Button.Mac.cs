@@ -28,7 +28,7 @@ namespace System.Windows.Forms
 			cell.Enabled = b.Enabled;
 			cell.isFocused = b.Focused;*/
 			button.BezelStyle = NSBezelStyle.Rounded;
-			button.AttributedTitle = ThemeMacOS.GetAttributedString(Text, '&', Font, TextAlign);
+			button.AttributedTitle = System.Drawing.Mac.Extensions.GetAttributedString(Text, '&', Font, TextAlign);
 			button.Alignment = TextAlign.ToNSTextAlignment();
 			button.Activated += (sender, e) => PerformClick();
 			button.Enabled = Enabled;
@@ -49,7 +49,7 @@ namespace System.Windows.Forms
 			{
 				base.Text = value;
 				if (button != null)
-					button.AttributedTitle = ThemeMacOS.GetAttributedString(value, '&', Font, TextAlign);
+					button.AttributedTitle = System.Drawing.Mac.Extensions.GetAttributedString(value, '&', Font, TextAlign);
 			}
 		}
 
@@ -63,7 +63,7 @@ namespace System.Windows.Forms
 			{
 				base.Font = value;
 				if (button != null)
-					button.AttributedTitle = ThemeMacOS.GetAttributedString(Text, '&', value, TextAlign);
+					button.AttributedTitle = System.Drawing.Mac.Extensions.GetAttributedString(Text, '&', value, TextAlign);
 			}
 		}
 
@@ -78,7 +78,7 @@ namespace System.Windows.Forms
 				base.TextAlign = value;
 				if (button != null)
 				{
-					button.AttributedTitle = ThemeMacOS.GetAttributedString(Text, '&', Font, value);
+					button.AttributedTitle = System.Drawing.Mac.Extensions.GetAttributedString(Text, '&', Font, value);
 					button.Alignment = value.ToNSTextAlignment();
 				}
 			}
