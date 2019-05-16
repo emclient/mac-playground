@@ -66,8 +66,9 @@ namespace MacApi.Foundation
 			for (nuint i = 0; i < apps.Count && shouldContinue; ++i)
 			{
 				var item = apps.GetItem<NSDictionary>(i);
-				var flags = ((NSNumber)item["flags"]).UInt32Value;
-				shouldContinue = handler(item["bundle-id"].ToString(), item["path"].ToString(), (AlertStyle)(flags & (uint)AlertStyle.Mask), (Options)(flags) & Options.Mask);
+				var flagsItem = item["flags"];
+				var flags = flagsItem != null ? ((NSNumber)flagsItem).UInt32Value : 0;
+				shouldContinue = handler(item["bundle-id"]?.ToString(), item["path"]?.ToString(), (AlertStyle)(flags & (uint)AlertStyle.Mask), (Options)(flags) & Options.Mask);
 			}
 		}
 	}
