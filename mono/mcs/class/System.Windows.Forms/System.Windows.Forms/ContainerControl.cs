@@ -71,12 +71,19 @@ namespace System.Windows.Forms {
 			}
 
 			set {
-				if (value==null || (active_control == value && active_control.Focused)) {
+				if (active_control == value && (value == null || value.Focused)) {
 					return;
 				}
 
-				if (!Contains(value)) {
+				if (value != null && !Contains(value)) {
 					throw new ArgumentException("Cannot activate invisible or disabled control.");
+				}
+
+				if (value == null) {
+					Control previous_active_control = active_control;
+					active_control = null;
+					previous_active_control?.FireLeave();
+					return;
 				}
 
 				// Fire the enter and leave events if possible
