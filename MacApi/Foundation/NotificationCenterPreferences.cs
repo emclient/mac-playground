@@ -7,6 +7,7 @@ namespace MacApi.Foundation
 	public class NotificationCenterPreferences
 	{
 		public static NotificationCenterPreferences Shared { get; } = new NotificationCenterPreferences();
+		public static string DefaultPath {  get { return Path.Combine(FoundationStatic.LibraryDirectory, "Preferences", "com.apple.ncprefs.plist"); } }
 
 		public enum AlertStyle
 		{
@@ -39,6 +40,15 @@ namespace MacApi.Foundation
 			}
 		}
 
+		protected string path;
+		protected NSDictionary cache;
+		protected long lastModifiedUtc = 0;
+
+		public NotificationCenterPreferences(string path = null)
+		{
+			this.path = path ?? DefaultPath;
+		}
+
 		public virtual bool ReadPreferencesForBundleId(string bundleId, out Item prefs)
 		{
 			Item found = null;
@@ -57,10 +67,9 @@ namespace MacApi.Foundation
 
 		public delegate bool IterationDelegate(string bundleId, string path, AlertStyle style, Options options);
 
-		public virtual void Iterate(IterationDelegate handler, string path = null)
+		public virtual void Iterate(IterationDelegate handler)
 		{
-			path = path ?? Path.Combine(FoundationStatic.LibraryDirectory, "Preferences", "com.apple.ncprefs.plist");
-			var plist = NSDictionary.FromFile(path);
+			var plist = Read();
 			var apps = (NSArray)plist["apps"];
 			var shouldContinue = true;
 			for (nuint i = 0; i < apps.Count && shouldContinue; ++i)
@@ -70,6 +79,17 @@ namespace MacApi.Foundation
 				var flags = flagsItem != null ? ((NSNumber)flagsItem).UInt32Value : 0;
 				shouldContinue = handler(item["bundle-id"]?.ToString(), item["path"]?.ToString(), (AlertStyle)(flags & (uint)AlertStyle.Mask), (Options)(flags) & Options.Mask);
 			}
+		}
+
+		protected virtual NSDictionary Read()
+		{
+			var t = File.GetLastWriteTimeUtc(path).ToFileTimeUtc();
+			if (cache == null || lastModifiedUtc < t)
+			{
+				lastModifiedUtc = t;
+				cache = NSDictionary.FromFile(path);
+			}
+			return cache;
 		}
 	}
 }
