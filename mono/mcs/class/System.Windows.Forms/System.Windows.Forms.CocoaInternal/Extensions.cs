@@ -296,6 +296,17 @@ namespace System.Windows.Forms.Mac
 			return handle != IntPtr.Zero ? new Class(handle) : null;
 		}
 
+		public static bool RespondsToSelector(this Type type, string selector)
+		{
+			return type.GetClass()?.RespondsToSelector(new Selector(selector)) ?? false;
+		}
+
+		public static bool RespondsToSelector(this Class @class, Selector selector)
+		{
+			var obj = ObjCRuntime.Runtime.GetNSObject(@class.Handle);
+			return obj?.RespondsToSelector(selector) ?? false;
+		}
+
 		public static NSObject ToNSObject(this IntPtr handle)
 		{
 			return ObjCRuntime.Runtime.GetNSObject(handle);

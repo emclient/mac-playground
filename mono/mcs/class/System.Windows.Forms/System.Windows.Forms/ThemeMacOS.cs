@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.Drawing.Text;
 using System.Text;
+using System.Windows.Forms.Mac;
 using System.Windows.Forms.Theming;
 using System.Windows.Forms.resources;
 using System.Drawing.Mac;
@@ -2080,18 +2081,18 @@ namespace System.Windows.Forms
 		#region ListBox
 
 		// Background color of the active (focused) highlited item in lists (not text)
-		Color? colorHighlightItem = NSColor.SelectedContentBackgroundColor.ToSDColor();
+		Color? colorHighlightItem = typeof(NSColor).RespondsToSelector("selectedContentBackgroundColor") ? NSColor.SelectedContentBackgroundColor.ToSDColor() : (Color?)null;
 
-		public virtual Color ColorHighlightItem
+		internal virtual Color ColorHighlightItem
 		{
 			get { return colorHighlightItem ?? ColorHighlight; }
 			set { colorHighlightItem = value; }
 		}
 
 		// Background color of the inactive (not focused) highlited item in lists (not text)
-		Color? colorInactiveHighlightItem = NSColor.UnemphasizedSelectedContentBackgroundColor.ToSDColor();
+		Color? colorInactiveHighlightItem = typeof(NSColor).RespondsToSelector("unemphasizedSelectedContentBackgroundColor") ? NSColor.UnemphasizedSelectedContentBackgroundColor.ToSDColor() : (Color?)null;
 
-		public virtual Color ColorInactiveHighlightItem
+		internal virtual Color ColorInactiveHighlightItem
 		{
 			get { return colorInactiveHighlightItem ?? ColorHighlight; }
 			set { colorInactiveHighlightItem = value; }
