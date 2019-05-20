@@ -213,8 +213,7 @@ namespace System.Drawing
 				height = ConversionHelpers.GraphicsUnitConversion (GraphicsUnit.Pixel, graphicsUnit, image.VerticalResolution, height);
 			}
 
-			var uss = context.ConvertSizeToUserSpace(new CGSize(width, height));
-			DrawImage (image, new RectangleF(x,y,(float)uss.Width,(float)uss.Height));
+			DrawImage (image, new RectangleF(x, y, width, height));
 		}
 
 		/// <summary>
@@ -234,8 +233,8 @@ namespace System.Drawing
 				width = ConversionHelpers.GraphicsUnitConversion (GraphicsUnit.Pixel, graphicsUnit, image.HorizontalResolution, width);
 				height = ConversionHelpers.GraphicsUnitConversion (GraphicsUnit.Pixel, graphicsUnit, image.VerticalResolution, height);
 			}
-			var uss = context.ConvertSizeToUserSpace(new CGSize(width, height));
-			DrawImage(image, new RectangleF(x, y, (float)uss.Width, (float)uss.Height));
+
+			DrawImage(image, new RectangleF(x, y, width, height));
 		}
 
 		/// <summary>
