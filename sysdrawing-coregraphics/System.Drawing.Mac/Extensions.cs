@@ -186,6 +186,16 @@ namespace System.Drawing.Mac
 			return NSColor.FromDeviceRgba(r, g, b, a);
 		}
 
+		static IntPtr selGenericRgbColorSpace;
+		public static NSColorSpace GenericRgbColorSpace()
+		{
+			if (selGenericRgbColorSpace == IntPtr.Zero)
+				selGenericRgbColorSpace = ObjCRuntime.Selector.GetHandle("genericRGBColorSpace");
+			var classHandle = ObjCRuntime.Class.GetHandle(typeof(NSColorSpace));
+			var handle = MacApi.LibObjc.IntPtr_objc_msgSend(classHandle, selGenericRgbColorSpace);
+			return (NSColorSpace)ObjCRuntime.Runtime.GetNSObject(handle);
+		}
+
 		public static void ToArgb(this int argb, out int a, out int r, out int g, out int b)
 		{
 			a = (byte)(argb >> 24);
@@ -220,7 +230,7 @@ namespace System.Drawing.Mac
 
 		public static bool ToArgb(this NSColor color, out float a, out float r, out float g, out float b)
 		{
-			var rgba = color.UsingColorSpace(NSColorSpace.GenericRGBColorSpace);
+			NSColor rgba = color.UsingColorSpace(GenericRgbColorSpace());
 			if (rgba != null)
 			{
 				rgba.GetRgba(out nfloat nr, out nfloat ng, out nfloat nb, out nfloat na);

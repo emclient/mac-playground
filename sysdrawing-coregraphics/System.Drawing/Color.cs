@@ -91,10 +91,13 @@ namespace System.Drawing
 		//
 		public string Name {
 			get {
-				if (this.name != null)
-					return this.name;
+				if (name != null)
+					return name;
 
-				return KnownColors.NameByArgb.TryGetValue((uint)value, out string name) ? name : String.Empty;
+				if (nsColor?.ColorNameComponent != null)
+					return nsColor?.ColorNameComponent;
+
+				return KnownColors.NameByArgb.TryGetValue((uint)value, out string s) ? s: String.Empty;
 			}
 		}
 
@@ -258,8 +261,7 @@ namespace System.Drawing
 				if ((Flags.HasValue & flags) != 0)
 					return value;
 				if (nsColor != null) {
-					value = nsColor.ToArgb();
-					flags |= Flags.HasValue;
+					return nsColor.ToArgb();
 				}
 				return value;
 			}
@@ -288,10 +290,10 @@ namespace System.Drawing
 
 		internal bool EqualsTo(Color c)
 		{
-			if (nsColor != null && c.nsColor != null)
-				return nsColor.Equals(c.nsColor);
+			//if (nsColor != null && c.nsColor != null)
+				//return nsColor.Equals(c.nsColor);
 
-			return value == c.value;
+			return Value == c.Value;
 		}
 
 		public override int GetHashCode ()
