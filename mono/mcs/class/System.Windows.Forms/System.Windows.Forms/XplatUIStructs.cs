@@ -379,8 +379,9 @@ namespace System.Windows.Forms
 		WM_IME_GETCURRENTPOSITION = 0x0412, // Temporary support for positioning Apple'sn IME
 		WM_OPEN_URLS              = 0x0413, // NSApplicationDelegate support
 		WM_APP_REOPEN             = 0x0414, // NSApplicationDelegate support
+		WM_EFFECTIVE_APPEARANCE_CHANGED = 0x0415, // Dark mode support (NSView)
 
-		WM_REFLECT                = WM_USER + 0x1c00,
+		WM_REFLECT = WM_USER + 0x1c00,
 		WM_CLOSE_INTERNAL         = WM_USER + 0x1c01,
 
 		// private messages to support on-the-spot IME editing.
