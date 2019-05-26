@@ -69,6 +69,8 @@ namespace System.Windows.Forms
 			FontChanged += HandleFontChanged;
 			EnabledChanged += HandleEnabled;
 			MultilineChanged += HandleMultilineChanged;
+
+			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 		}
 
 		#region IMacNativeControl

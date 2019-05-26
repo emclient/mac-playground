@@ -235,6 +235,13 @@ namespace System.Windows.Forms.CocoaInternal
 
 		#endregion
 
+		public override void ViewDidChangeEffectiveAppearance()
+		{
+			base.ViewDidChangeEffectiveAppearance();
+
+			driver.SendMessage(Handle, Msg.WM_EFFECTIVE_APPEARANCE_CHANGED, IntPtr.Zero, IntPtr.Zero);
+		}
+
 		public override void DrawRect(CGRect dirtyRect)
 		{
 			if (!dirtyRect.IsEmpty)
