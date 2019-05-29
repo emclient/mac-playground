@@ -58,9 +58,16 @@ namespace System.Drawing.Text
 				var fontdescs = nativeFontCollection.GetMatchingFontDescriptors();
 				foreach (var fontdesc in fontdescs)
 				{
-					var name = fontdesc.GetAttribute(CTFontDescriptorAttributeKey.FamilyName).ToString();
-					if (!nativeFontDescriptors.ContainsKey(name))
-						nativeFontDescriptors.Add(name, fontdesc);
+					try
+					{
+						var name = fontdesc.GetAttribute(CTFontDescriptorAttributeKey.FamilyName)?.ToString();
+						if (name != null && !nativeFontDescriptors.ContainsKey(name))
+							nativeFontDescriptors.Add(name, fontdesc);
+					}
+					catch
+					{
+						Diagnostics.Debug.Assert(false, $"Failed getting FamilyName attribute from font descriptor '{fontdesc}'.");
+					}
 				}
 			}
 
