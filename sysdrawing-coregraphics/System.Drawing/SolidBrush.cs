@@ -83,5 +83,10 @@ namespace System.Drawing {
 		{
 			return (obj is SolidBrush sb) && color.Equals(sb.Color);
 		}
+
+		public override string ToString()
+		{
+			return $"[SolidBrush color={Color}]";
+		}
 	}
 }

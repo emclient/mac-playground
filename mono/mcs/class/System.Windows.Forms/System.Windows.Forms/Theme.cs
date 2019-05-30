@@ -29,6 +29,12 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Reflection;
 
+#if XAMARINMAC
+using Foundation;
+#elif MONOMAC
+using MonoMac.Foundation;
+#endif
+
 namespace System.Windows.Forms
 {
 	internal enum UIIcon {
@@ -64,9 +70,26 @@ namespace System.Windows.Forms
 		private Hashtable hatchbrushes = new Hashtable ();
 		private Hashtable uiImages = new Hashtable();
 		private Hashtable cpcolors = new Hashtable ();
-		
-		public SystemResPool () {}
-		
+
+#if XAMARINMAC || MONOMAC
+		public SystemResPool()
+		{
+			NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSSystemColorsDidChangeNotification"), (obj) => { Invalidate(); });
+			NSDistributedNotificationCenter.GetDefaultCenter().AddObserver(new NSString("AppleInterfaceThemeChangedNotification"), (obj) => { Invalidate(); });
+		}
+
+		internal void Invalidate()
+		{
+			lock (pens) pens = new Hashtable();
+			lock (dashpens) dashpens = new Hashtable();
+			lock (sizedpens) sizedpens = new Hashtable();
+			lock (solidbrushes) solidbrushes = new Hashtable();
+			lock (hatchbrushes) hatchbrushes = new Hashtable();
+			lock (uiImages) uiImages = new Hashtable();
+			lock (cpcolors) cpcolors = new Hashtable();
+		}
+#endif
+
 		public Pen GetPen (Color color)
 		{
 			int hash = color.ToArgb ();

@@ -437,7 +437,7 @@ namespace System.Drawing {
 			NativeColors[(int)KnownColor.ControlDark] = NSColor.ControlShadow;
 			NativeColors[(int)KnownColor.ControlDarkDark] = NSColor.ControlDarkShadow;
 			NativeColors[(int)KnownColor.ControlLight] = NSColor.ControlHighlight;
-			NativeColors[(int)KnownColor.ControlLightLight] = NSColor.ControlLightHighlight;
+			NativeColors[(int)KnownColor.ControlLightLight] = NSColor.ControlBackground;
 			// KnownColor.Desktop
 			NativeColors[(int)KnownColor.GrayText] = NSColor.DisabledControlText;
 			//ArgbValues[(int)KnownColor.Highlight] = NSColor.Highlight.ToUArgb();
