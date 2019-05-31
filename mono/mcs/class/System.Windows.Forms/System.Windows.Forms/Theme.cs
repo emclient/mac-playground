@@ -92,7 +92,7 @@ namespace System.Windows.Forms
 
 		public Pen GetPen (Color color)
 		{
-			int hash = color.ToArgb ();
+			string hash = color.ToString();
 
 			lock (pens) {
 				Pen res = pens [hash] as Pen;
@@ -138,7 +138,7 @@ namespace System.Windows.Forms
 		
 		public SolidBrush GetSolidBrush (Color color)
 		{
-			int hash = color.ToArgb ();
+			string hash = color.ToString();
 
 			lock (solidbrushes) {
 				SolidBrush res = solidbrushes [hash] as SolidBrush;
