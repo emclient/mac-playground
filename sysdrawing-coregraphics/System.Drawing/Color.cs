@@ -64,13 +64,22 @@ namespace System.Drawing
 		string name;
 
 		internal Color(int value, string name = null) {
-			this.value = value;
-			flags = Flags.HasValue;
-			nsColor = null;
+			value.ToArgb(out int a, out int r, out int g, out int b);
+			this.nsColor = NSColor.FromRgba(r, g, b, a);
 			this.name = name;
+			this.value = 0;
+			this.flags = 0;
 		}
 
-		internal Color(NSColor color, string name = null)
+		internal Color(int a, int r, int g, int b, string name = null)
+		{
+			this.nsColor = NSColor.FromRgba(r, g, b, a);
+			this.name = name;
+			this.value = 0;
+			this.flags = 0;
+		}
+
+	internal Color(NSColor color, string name = null)
 		{
 			value = 0;
 			flags = 0;
@@ -94,8 +103,8 @@ namespace System.Drawing
 				if (name != null)
 					return name;
 
-				if (nsColor?.ColorNameComponent != null)
-					return nsColor?.ColorNameComponent;
+				if (nsColor != null && nsColor.ColorSpaceName.Equals(NSColorSpace.Named.ToString(), StringComparison.Ordinal))
+					return nsColor.ColorNameComponent;
 
 				return KnownColors.NameByArgb.TryGetValue((uint)value, out string s) ? s: String.Empty;
 			}
@@ -136,7 +145,7 @@ namespace System.Drawing
 			if((alpha > 255) || (alpha < 0))
 				throw CreateColorArgumentException (alpha, "alpha");
 
-			return new Color { value = (int)((uint)alpha << 24) + (red << 16) + (green << 8) + blue };
+			return new Color(alpha, red, green, blue);
 		}
 
 		internal NSColor NSColor
@@ -290,8 +299,8 @@ namespace System.Drawing
 
 		internal bool EqualsTo(Color c)
 		{
-			//if (nsColor != null && c.nsColor != null)
-				//return nsColor.Equals(c.nsColor);
+			if (nsColor != null && c.nsColor != null)
+				return nsColor.Equals(c.nsColor);
 
 			return Value == c.Value;
 		}
@@ -308,7 +317,7 @@ namespace System.Drawing
 			if (nsColor != null)
 				return $"Color [NSColor = {nsColor}]";
 
-			return String.Format ("Color [A={0}, R={1}, G={2}, B={3}]", A, R, G, B);
+			return String.Format ("Color [A={0}, R={1}, G={2}, B={3}, Name={4}, Named={5}, System={6}]", A, R, G, B, Name, IsNamedColor, IsSystemColor);
 		}
  
 		private static ArgumentException CreateColorArgumentException (int value, string color)
