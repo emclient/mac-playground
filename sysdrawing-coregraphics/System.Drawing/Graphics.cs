@@ -581,28 +581,26 @@ namespace System.Drawing {
 		{
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
-			RectanglePath (new CGRect(rect.X, rect.Y, rect.Width, rect.Height));
-			FillBrush (brush);
+			brush.Setup (this, true);
+			context.FillRect (new CGRect (rect.X, rect.Y, rect.Width, rect.Height));
 		}
 		
 		public void FillRectangle (Brush brush, RectangleF rect)
 		{
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
-			RectanglePath (new CGRect(rect.X, rect.Y, rect.Width, rect.Height));
-			FillBrush (brush);
+			brush.Setup (this, true);
+			context.FillRect (new CGRect (rect.X, rect.Y, rect.Width, rect.Height));
 		}
 
 		public void FillRectangle (Brush brush, int x, int y, int w, int h)
 		{
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
-
-			RectanglePath (new CGRect(x, y, w, h));
-			FillBrush (brush);
+			brush.Setup (this, true);
+			context.FillRect (new CGRect (x, y, w, h));
 		}
 
-		
 		public void FillRegion (Brush brush, Region region)
 		{
 			if (brush == null)
