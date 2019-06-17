@@ -133,13 +133,16 @@ namespace System.Windows.Forms.CocoaInternal {
 			if (name == Clipboard.IDataObjectFormat)
 			{
 				managed[name] = data;
-				pboard.SetStringForType(name, name); // Set flag that clipboard contains our data
 
 				var provider = new DataObjectProvider((IDataObject)data);
 				var item = new NSPasteboardItem();
 				item.SetDataProviderForTypes(provider, provider.Types);
 				pboard.WriteObject(item);
 				providers.Add(provider);
+
+				// Set flag that clipboard contains our data
+				// Do it as the last step, to avoid fooling the FileMaker (and possibly other apps).
+				pboard.SetStringForType(name, name);
 			}
 		}
 
