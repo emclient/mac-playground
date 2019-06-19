@@ -93,7 +93,7 @@ namespace System.Windows.Forms {
 		// Internal members available to the event handler sub-system
 		internal static NSWindow ReverseWindow;
 		internal static NSView CaretView;
-		internal static MonoApplication NSApp;
+		internal static NSApplication NSApp;
 
 		// Instance members
 		internal static NSEventModifierMask key_modifiers_internal = 0;
@@ -176,7 +176,7 @@ namespace System.Windows.Forms {
 
 			// Make sure the Apple event handlers get registered
 			using (new NSAutoreleasePool())
-				NSApplication.SharedApplication.FinishLaunching();
+				NSApp.FinishLaunching();
 
 			// Cache main screen height for flipping screen coordinates.
 			GetDisplaySize(out initialScreenSize);
