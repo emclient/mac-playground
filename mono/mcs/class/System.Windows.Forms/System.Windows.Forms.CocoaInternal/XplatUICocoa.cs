@@ -416,7 +416,7 @@ namespace System.Windows.Forms {
 			NSDate timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
 			NSEvent evt;
 
-			var mode = draggingSession == null ? NSRunLoop.NSDefaultRunLoopMode : NSRunLoop.NSRunLoopEventTracking;
+			var mode = draggingSession == null ? (ModalSessions.Count == 0 ? NSRunLoop.NSDefaultRunLoopMode : NSRunLoop.NSRunLoopModalPanelMode) : NSRunLoop.NSRunLoopEventTracking;
 			evt = NSApp.NextEvent(NSEventMask.AnyEvent, timeout, mode, dequeue);
 			if (evt == null)
 				return false;
