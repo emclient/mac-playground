@@ -1,3 +1,5 @@
+using MacApi;
+using System.Diagnostics;
 #if XAMARINMAC
 using AppKit;
 using Foundation;
@@ -13,20 +15,58 @@ namespace System.Windows.Forms.CocoaInternal
 	[Register("MonoApplication")]
 	internal class MonoApplication : NSApplication
 	{
-		public static MonoApplication CreateShared()
+		internal delegate IntPtr CreateSharedApplicationDelegate();
+		internal static Swizzle<CreateSharedApplicationDelegate> shared;
+		internal static NSApplication instance;
+
+		public static NSApplication CreateShared()
 		{
-			var classHandle = Class.GetHandle(typeof(MonoApplication));
-			var selector = new Selector("sharedApplication");
-			var instanceHandle = MacApi.LibObjc.IntPtr_objc_msgSend(classHandle, selector.Handle);
-			return new MonoApplication(instanceHandle);
+			if (instance == null)
+			{
+				instance = CreateFromInfoPlist() ?? new MonoApplication(New(typeof(MonoApplication)));
+				shared = new Swizzle<CreateSharedApplicationDelegate>(typeof(NSApplication), "sharedApplication", GetSharedApplication, true);
+			}
+			return instance;
 		}
 
-		[BindingImpl(BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
-		protected internal MonoApplication(IntPtr handle) : base(handle)
+		public MonoApplication(IntPtr handle) : base(handle)
 		{
 		}
 
-		// This is necessary for proper window behavior in case we do not use "run" method, which is our case
+		internal static IntPtr New(Type type)
+		{
+			return LibObjc.IntPtr_objc_msgSend(Class.GetHandle(type), Selector.GetHandle("new"));
+		}
+
+		public static IntPtr GetSharedApplication()
+		{
+			return instance.Handle;
+		}
+
+		internal static NSApplication CreateFromInfoPlist()
+		{
+			string name = null;
+			Exception exception = null;
+			try
+			{
+				name = (NSBundle.MainBundle.InfoDictionary["NSPrincipalClass"] as NSString)?.ToString();
+				if (string.IsNullOrEmpty(name) || name == "NSApplication" || name == "MonoApplication" )
+					return null;
+
+				if (Type.GetType(name) is Type type)
+					if (Activator.CreateInstance(type, new object[] { New(type) }) is NSApplication app)
+						return app;
+			}
+			catch (Exception e)
+			{
+				exception = e;
+			}
+
+			Debug.Assert(false, $"Failed creating principal class from Info.plist: \"{name}\". Exception: {exception}");
+			return null;
+		}
+
+		// This is necessary for proper window behavior if we do not use the "run" method, which is our case
 		[Export("isRunning")]
 		public bool IsRunning
 		{
