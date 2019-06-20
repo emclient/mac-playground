@@ -91,12 +91,12 @@ namespace System.Windows.Forms
 			base.OnEnabledChanged(e);
 		}
 
-		public override Drawing.Size GetPreferredSize(Drawing.Size proposedSize)
+		internal override Drawing.Size GetPreferredSizeCore(Drawing.Size proposedSize)
 		{
 			if (this.AutoSize)
 				return NativeButton.SizeThatFits(proposedSize.ToCGSize()).ToSDSize();
 
-			return base.GetPreferredSize(proposedSize);
+			return base.GetPreferredSizeCore(proposedSize);
 		}
 
 		internal virtual NSButton NativeButton
