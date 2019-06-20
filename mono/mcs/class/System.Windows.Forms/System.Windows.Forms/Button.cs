@@ -186,13 +186,15 @@ namespace System.Windows.Forms {
 				ThemeEngine.Current.DrawPopupButton (pevent.Graphics, this, text_rectangle, image_rectangle, pevent.ClipRectangle);
 		}
 
-		internal override Size GetPreferredSizeCore (Size proposedSize)
-		{
+#if !XAMARINMAC
+		internal override Size GetPreferredSizeCore (Size proposedSiz		{
 			if (this.AutoSize)
 				return ThemeEngine.Current.CalculateButtonAutoSize (this);
 				
 			return base.GetPreferredSizeCore (proposedSize);
 		}
-		#endregion	// Internal methods
+#endif
+		
+#endregion  /	Internal methods
 	}
 }
