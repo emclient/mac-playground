@@ -124,6 +124,14 @@ namespace System.Drawing
 
 		internal MeasureStringCache.Entry CreateMeasureStringCacheEntry(string text, Font font, SizeF area, StringFormat format)
 		{
+			var e = CreateMeasureStringCacheEntryCore(text, font, area, format);
+			if (Math.Abs(e.measure.Width) < float.Epsilon && e.measure.Height > 0) // Nothing can fit => measure again with unlimited space.
+				e = CreateMeasureStringCacheEntryCore(text, font, new SizeF(float.MaxValue, float.MaxValue), format);
+			return e;
+		}
+
+		internal MeasureStringCache.Entry CreateMeasureStringCacheEntryCore(string text, Font font, SizeF area, StringFormat format)
+		{
 			var c = new MeasureStringCache.Entry(text, font, area, format);
 			if (String.IsNullOrEmpty(text))
 				return c;
@@ -139,8 +147,9 @@ namespace System.Drawing
 			{
 				if (line != null)
 				{
-					nfloat ascent, descent, leading;
-					var lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
+					var lineWidth = (StringFormatFlags.FitBlackBox & format.FormatFlags) != 0
+						? line.GetBounds(CTLineBoundsOptions.UseOpticalBounds).Width
+						: line.GetTypographicBounds(out _, out _, out _);
 					if ((format.FormatFlags & StringFormatFlags.MeasureTrailingSpaces) != 0)
 						lineWidth += line.TrailingWhitespaceWidth;
 					c.measure.Width = Math.Max(c.measure.Width, (float)NMath.Ceiling((float)lineWidth));
@@ -314,8 +323,9 @@ namespace System.Drawing
                     float maxLineWidth = 0;
 					foreach (var line in c.lines) {
                         if (line != null) {
-                            nfloat ascent, descent, leading;
-                            var lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
+							var lineWidth = (StringFormatFlags.FitBlackBox & format.FormatFlags) != 0
+								? line.GetBounds(CTLineBoundsOptions.UseOpticalBounds).Width
+								: line.GetTypographicBounds(out _, out _, out _);
                             if ((format.FormatFlags & StringFormatFlags.MeasureTrailingSpaces) != 0)
                                 lineWidth += line.TrailingWhitespaceWidth;
                             maxLineWidth = Math.Max(maxLineWidth, (float)NMath.Ceiling((float)lineWidth));
@@ -373,9 +383,10 @@ namespace System.Drawing
 				// Make sure that the line still exists, it may be null if it's too small to render any text and wants StringTrimming
 				if (line != null)
 				{
-					nfloat ascent, descent, leading;
-					var lineWidth = line.GetTypographicBounds(out ascent, out descent, out leading);
-
+					nfloat ascent = 0;
+					double lineWidth = ((StringFormatFlags.FitBlackBox & c.format.FormatFlags) != 0)
+						? line.GetBounds(CTLineBoundsOptions.UseOpticalBounds).Width
+						: line.GetTypographicBounds(out ascent, out _, out _);
 					// Calculate the string format if need be
 					nfloat x = textPosition.X;
 					if (c.layoutAvailable)
