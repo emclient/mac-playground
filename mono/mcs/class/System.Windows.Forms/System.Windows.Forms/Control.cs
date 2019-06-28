@@ -5450,7 +5450,10 @@ namespace System.Windows.Forms
 				HandleClick(mouse_clicks, me);
 
 			if (this.IsRunningOnMac && 0 != (MsgButtons.MK_CONTROL & (MsgButtons)m.WParam.ToInt32()))
+			{
+				PointToScreen(ref x, ref y);
 				XplatUI.SendMessage(m.HWnd, Msg.WM_CONTEXTMENU, m.HWnd, (IntPtr)(x + (y << 16)));
+			}
 			OnMouseUp(me);
 
 			if (CaptureInternal) {
