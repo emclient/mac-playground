@@ -303,8 +303,6 @@ namespace System.Windows.Forms.CocoaInternal
 			int button = (int)e.ButtonNumber;
 			if (button >= (int)NSMouseButtons.Excessive)
 				button = (int)NSMouseButtons.X;
-			else if (button == (int)NSMouseButtons.Left && ((driver.ModifierKeys & Keys.Control) != 0))
-				button = (int)NSMouseButtons.Right;
 			int msgOffset4Button = 3 * (button - (int)NSMouseButtons.Left);
 			if (button >= (int)NSMouseButtons.X)
 				++msgOffset4Button;
