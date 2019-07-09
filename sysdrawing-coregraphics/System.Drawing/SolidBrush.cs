@@ -79,6 +79,12 @@ namespace System.Drawing {
 			graphics.lastBrushColor = color;
 		}
 
+		internal override void FillRect(Graphics graphics, CGRect rect)
+		{
+			Setup(graphics, true);
+			graphics.context.FillRect(rect);
+		}
+
 		public override bool Equals(object obj)
 		{
 			return (obj is SolidBrush sb) && color.Equals(sb.Color);
