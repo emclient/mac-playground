@@ -13,6 +13,7 @@ using System.Drawing;
 
 #if XAMARINMAC
 using CoreGraphics;
+using System.Drawing.Mac;
 #elif MONOMAC
 using MonoMac.AppKit;
 using MonoMac.Foundation;
@@ -645,6 +646,38 @@ namespace System.Drawing.Drawing2D
 			graphics.LastPen = null;
 			// I am setting this to be used for Text coloring in DrawString
 			graphics.lastBrushColor = colors[0];
+		}
+
+		internal void SetupSolid(Graphics graphics, bool fill)
+		{
+			if (graphics.LastBrush == this && !changed)
+				return;
+
+			if (fill)
+				graphics.context.SetFillColor(colors[0]);
+			else
+				graphics.context.SetStrokeColor(colors[0]);
+
+			graphics.LastBrush = this;
+			changed = false;
+
+			graphics.LastPen = null;
+			// I am setting this to be used for Text coloring in DrawString
+			graphics.lastBrushColor = colors[0];
+		}
+
+		internal override void FillRect(Graphics graphics, CGRect rect)
+		{
+			if (colors[0] == colors[1])
+			{
+				SetupSolid(graphics, true);
+				graphics.context.FillRect(rect);
+				return;
+			}
+
+			graphics.RectanglePath(rect);
+			Setup(graphics, true);
+			graphics.context.EOFillPath();
 		}
 
 		// Based on CreateRepetingGradientFunction from cairo-quartz-surface.c

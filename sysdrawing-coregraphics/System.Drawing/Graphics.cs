@@ -312,15 +312,6 @@ namespace System.Drawing {
 			// FIXME: draw custom start/end caps
 		}
 
-		void FillBrush (Brush brush, FillMode fillMode = FillMode.Alternate)
-		{
-			brush.Setup (this, true);
-			if (fillMode == FillMode.Alternate)
-				context.EOFillPath ();
-			else
-				context.FillPath ();
-		}
-		
 		public void DrawArc (Pen pen, Rectangle rect, float startAngle, float sweepAngle)
 		{
 			DrawArc (pen, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle);
@@ -524,7 +515,7 @@ namespace System.Drawing {
 
 		}
 
-		void RectanglePath (float x1, float y1, float x2, float y2)
+		internal void RectanglePath (float x1, float y1, float x2, float y2)
 		{
 			MoveTo (x1, y1);
 			LineTo (x1, y2);
@@ -533,7 +524,7 @@ namespace System.Drawing {
 			context.ClosePath ();
 		}
 			
-		void RectanglePath (CGRect rectangle) 
+		internal void RectanglePath (CGRect rectangle) 
 		{
 			//context.AddRect(rectangle);
 			RectanglePath((float)rectangle.Left, (float)rectangle.Top, (float)rectangle.Right, (float)rectangle.Bottom);
@@ -569,36 +560,32 @@ namespace System.Drawing {
 			StrokePen (pen);
 		}
 
-		public void FillRectangle (Brush brush, float x1, float y1, float x2, float y2)
+		public void FillRectangle (Brush brush, float x, float y, float w, float h)
 		{
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
-			RectanglePath (new CGRect(x1, y1, x2, y2));
-			FillBrush (brush);
+			brush.FillRect(this, new CGRect(x, y, w, h));
 		}
 
 		public void FillRectangle (Brush brush, Rectangle rect)
 		{
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
-			brush.Setup (this, true);
-			context.FillRect (new CGRect (rect.X, rect.Y, rect.Width, rect.Height));
+			brush.FillRect(this, new CGRect(rect.X, rect.Y, rect.Width, rect.Height));
 		}
 		
 		public void FillRectangle (Brush brush, RectangleF rect)
 		{
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
-			brush.Setup (this, true);
-			context.FillRect (new CGRect (rect.X, rect.Y, rect.Width, rect.Height));
+			brush.FillRect(this, new CGRect(rect.X, rect.Y, rect.Width, rect.Height));
 		}
 
 		public void FillRectangle (Brush brush, int x, int y, int w, int h)
 		{
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
-			brush.Setup (this, true);
-			context.FillRect (new CGRect (x, y, w, h));
+			brush.FillRect(this, new CGRect(x, y, w, h));
 		}
 
 		public void FillRegion (Brush brush, Region region)
@@ -618,7 +605,7 @@ namespace System.Drawing {
 			}
 
 			context.AddPath (region.regionPath);
-			FillBrush (brush);
+			brush.FillPath(this);
 		}
 
 		public void DrawEllipse (Pen pen, RectangleF rect)
@@ -659,7 +646,7 @@ namespace System.Drawing {
 				throw new ArgumentNullException ("brush");
 
 			context.AddEllipseInRect(new CGRect(rect.X, rect.Y, rect.Width, rect.Height));
-			FillBrush(brush);
+			brush.FillPath(this);
 		}
 
 		public void FillEllipse (Brush brush, int x1, int y1, int x2, int y2)
@@ -914,7 +901,7 @@ namespace System.Drawing {
 			if (path.isReverseWindingOnFill)
 				fillMode = (fillMode == FillMode.Alternate) ? FillMode.Winding : FillMode.Alternate;
 
-			FillBrush (brush, fillMode);
+			brush.FillPath(this, fillMode);
 		}
 		
 		CompositingMode compositing_mode;
@@ -1513,7 +1500,7 @@ namespace System.Drawing {
 				
 				var tangents = GeomUtilities.GetCurveTangents (GraphicsPath.CURVE_MIN_TERMS, points, count, tension, CurveType.Close);
 				MakeCurve (points, tangents, 0, segments, CurveType.Close);
-				FillBrush(brush);
+				brush.FillPath(this);
 			}
 		}
 
@@ -1577,7 +1564,7 @@ namespace System.Drawing {
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
 			DrawEllipticalArc(rect, startAngle, sweepAngle, true);
-			FillBrush(brush);
+			brush.FillPath(this);
 		}
 
 		public void FillPie (Brush brush, int x, int y, int width, int height, int startAngle, int sweepAngle)
@@ -1585,7 +1572,7 @@ namespace System.Drawing {
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
 			DrawEllipticalArc(x,y,width,height, startAngle, sweepAngle, true);
-			FillBrush(brush);
+			brush.FillPath(this);
 		}
 
 		public void FillPie (Brush brush, float x, float y, float width, float height, float startAngle, float sweepAngle)
@@ -1593,7 +1580,7 @@ namespace System.Drawing {
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
 			DrawEllipticalArc(x,y,width,height, startAngle, sweepAngle, true);
-			FillBrush(brush);
+			brush.FillPath(this);
 		}
 
 		void PolygonSetup (PointF [] points)
@@ -1645,7 +1632,7 @@ namespace System.Drawing {
 				throw new ArgumentNullException ("points");
 
 			PolygonSetup (points);
-			FillBrush (brush, fillMode);
+			brush.FillPath(this, fillMode);
 		}
 		
 		public void DrawRectangles (Pen pen, RectangleF [] rects)
@@ -1683,7 +1670,7 @@ namespace System.Drawing {
 
 			foreach (var rect in rects)
 				RectanglePath (rect.X, rect.Y, rect.Right, rect.Bottom);
-			FillBrush (brush);
+			brush.FillPath(this);
 		}
 
 		public void FillRectangles (Brush brush, RectangleF [] rects)
@@ -1696,7 +1683,7 @@ namespace System.Drawing {
 			foreach (var rect in rects)
 				RectanglePath (rect.X, rect.Y, rect.Right, rect.Bottom);
 
-			FillBrush (brush);
+			brush.FillPath(this);
 		}
 
 
