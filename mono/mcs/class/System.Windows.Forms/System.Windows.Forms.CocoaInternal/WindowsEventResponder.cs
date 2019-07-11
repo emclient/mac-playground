@@ -67,235 +67,214 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override void MouseEntered(NSEvent theEvent)
 		{
-			TranslateMouseEvent(theEvent);
+			TranslateMouseEnterExit(theEvent);
 		}
 
 		public override void MouseExited(NSEvent theEvent)
 		{
-			TranslateMouseEvent(theEvent);
+			TranslateMouseEnterExit(theEvent);
+		}
+
+		internal void TranslateMouseEnterExit(NSEvent e)
+		{
+			// We use overlapping track rectanges on every control, so the Entered/Exited events
+			// are sent not only to the top-level visible view, but also to its superviews.
+			// This has to be converted to the the model where only the top-level control receives
+			// the messages.
+			//
+			// The conversion is by performing the hit test. Note that e.LocationInWindow is NOT
+			// updated by the time the tracking events are received and thus e.Window.
+			// MouseLocationOutsideOfEventStream has to be used instead.
+			//
+			// The Exited event has to be handled the same way as the entered event to cover the
+			// following scenario:
+			//  ___________________________
+			// | Panel                     |
+			// |  ______________           |
+			// | |    Button    |          |
+			// 
+			// When you move the mouse over the Button you will receive the Entered event for
+			// it. At the same time the Panel already had Entered called for its own tracking area.
+			// Now moving the mouse away from the Button into the Panel area will cause an
+			// Exited event on the Button's tracking rectangle, but it will NOT generate any
+			// Entered event. In the System.Windows.Forms world we want to receive WM_MOUSELEAVE
+			// on the Button and WM_MOUSE_ENTERED on the Panel.
+			//
+			// Further reading:
+			// https://stackoverflow.com/questions/9986267/mouse-enter-exit-events-on-partially-hidden-nsviews
+
+			var msg = TranslateMouseCore(e, out bool client);
+			var newMouseView = e.Window?.ContentView.HitTest(e.LocationInWindow) ?? e.Window?.ContentView.Superview?.HitTest(e.LocationInWindow);
+			var newMouseViewHandle = newMouseView is MonoView ? newMouseView.Handle : IntPtr.Zero;
+
+#if DEBUG_MOUSE_ENTER_EXIT
+			{
+				// DEBUG
+				Console.Write(e.Type == NSEventType.MouseEntered ? "ENTER " : "EXIT ");
+				if (newMouseView != null)
+					Console.Write("NEW: " + DebugUtility.ControlInfo(newMouseView));
+				else
+					Console.Write("NO NEW");
+			}
+#endif
+
+			if (newMouseViewHandle == driver.LastEnteredHwnd)
+				return;
+
+			// Keep track of the last entered window during grab, but don't send messages. The
+			// messages are sent by XplatUICocoa.GrabWindow and XplatUICocoa.UngrabWindow when
+			// the grabbing state is entered/exited.
+			if (driver.Grab.Hwnd != IntPtr.Zero)
+			{
+				driver.LastEnteredHwnd = newMouseViewHandle;
+				return;
+			}
+
+			msg.wParam = (IntPtr)(e.ModifiersToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
+			// First notify the old window that mouse left it
+			if (driver.LastEnteredHwnd != IntPtr.Zero)
+			{
+				msg.hwnd = driver.LastEnteredHwnd;
+				msg.message = Msg.WM_MOUSELEAVE;
+				driver.LastEnteredHwnd = IntPtr.Zero;
+				Application.SendMessage(ref msg);
+			}
+			// And then notify the new window that mouse entered it
+			if (newMouseViewHandle != IntPtr.Zero)
+			{
+				msg.hwnd = newMouseViewHandle;
+				msg.message = Msg.WM_MOUSE_ENTER;
+				driver.LastEnteredHwnd = newMouseViewHandle;
+				Application.SendMessage(ref msg);
+			}
 		}
 
 		public override void MouseDown(NSEvent theEvent)
 		{
-			TranslateMouseEvent(theEvent);
+			TranslateMouseDown(theEvent);
 		}
 
 		public override void RightMouseDown(NSEvent theEvent)
 		{
-			TranslateMouseEvent(theEvent);
+			TranslateMouseDown(theEvent);
 		}
 
 		public override void OtherMouseDown(NSEvent theEvent)
 		{
-			TranslateMouseEvent(theEvent);
+			TranslateMouseDown(theEvent);
+		}
+
+		internal void TranslateMouseDown(NSEvent e)
+		{
+			var msg = TranslateMouseCore(e, out bool client);
+			msg.wParam = (IntPtr)(e.ModifiersToWParam() | e.ButtonNumberToWParam());
+			// FIXME: Should be elsewhere
+			if (e.ClickCount > 1)
+				msg.message = (client ? Msg.WM_LBUTTONDBLCLK : Msg.WM_NCLBUTTONDBLCLK) + MsgOffset4Button(e);
+			else
+			{
+				msg.message = (client ? Msg.WM_LBUTTONDOWN : Msg.WM_NCLBUTTONDOWN) + MsgOffset4Button(e);
+				LastMouseDownMsg = msg;
+			}
+			Application.SendMessage(ref msg);
 		}
 
 		public override void MouseUp(NSEvent theEvent)
 		{
-			TranslateMouseEvent(theEvent);
+			TranslateMouseUp(theEvent);
 		}
 
 		public override void RightMouseUp(NSEvent theEvent)
 		{
-			TranslateMouseEvent(theEvent);
+			TranslateMouseUp(theEvent);
 		}
 
 		public override void OtherMouseUp(NSEvent theEvent)
 		{
-			TranslateMouseEvent(theEvent);
+			TranslateMouseUp(theEvent);
+		}
+
+		internal void TranslateMouseUp(NSEvent e)
+		{
+			var msg = TranslateMouseCore(e, out bool client);
+			msg.message = (client ? Msg.WM_LBUTTONUP : Msg.WM_NCLBUTTONUP) + MsgOffset4Button(e);
+			msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | e.ButtonNumberToWParam());
+			LastMouseDownMsg.hwnd = IntPtr.Zero;
+			Application.SendMessage(ref msg);
 		}
 
 		public override void MouseMoved(NSEvent theEvent)
 		{
-			TranslateMouseEvent(theEvent);
+			var msg = TranslateMouseCore(theEvent, out bool client);
+			if (driver.LastEnteredHwnd != view.Handle && driver.Grab.Hwnd == IntPtr.Zero)
+				return;
+			if (driver.Grab.Hwnd != IntPtr.Zero)
+				msg.hwnd = driver.Grab.Hwnd;
+			msg.wParam = (IntPtr)theEvent.ModifierFlags.ToWParam();
+			msg.message = client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE;
+			Application.SendMessage(ref msg);
 		}
 
 		public override void MouseDragged(NSEvent theEvent)
 		{
-			TranslateMouseEvent(theEvent);
+			TranslateMouseDragged(theEvent, MsgButtons.MK_LBUTTON);
 		}
 
 		public override void RightMouseDragged(NSEvent theEvent)
 		{
-			TranslateMouseEvent(theEvent);
+			TranslateMouseDragged(theEvent, MsgButtons.MK_RBUTTON);
 		}
 
 		public override void OtherMouseDragged(NSEvent theEvent)
 		{
-			TranslateMouseEvent(theEvent);
+			TranslateMouseDragged(theEvent, MsgButtons.MK_MBUTTON);
 		}
 
-		public override void ScrollWheel(NSEvent theEvent)
+		internal void TranslateMouseDragged(NSEvent e, MsgButtons button)
 		{
-			TranslateMouseEvent(theEvent);
+			var msg = TranslateMouseCore(e, out bool client);
+			msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | (uint)button);
+			msg.message = client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE;
+			Application.SendMessage(ref msg);
 		}
 
-		void TranslateMouseEvent(NSEvent e)
+		public override void ScrollWheel(NSEvent e)
+		{
+			var msg = TranslateMouseCore(e, out bool _);
+			bool horizontal = e.ScrollingDeltaY == 0 && e.ScrollingDeltaX != 0;
+			int delta = ScaleAndQuantizeDelta((float)(horizontal ? -e.ScrollingDeltaX : e.ScrollingDeltaY), e.HasPreciseScrollingDeltas);
+			if (delta != 0 && e.Phase == NSEventPhase.None && e.MomentumPhase == NSEventPhase.None || e.Phase == NSEventPhase.Changed || e.MomentumPhase == NSEventPhase.Changed)
+			{
+				msg.message = horizontal ? Msg.WM_MOUSEHWHEEL : Msg.WM_MOUSEWHEEL;
+				msg.wParam = (IntPtr)(((int)e.ModifiersToWParam() & 0xFFFF) | (delta << 16));
+				msg.lParam = (IntPtr)((msg.pt.x & 0xFFFF) | (msg.pt.y << 16));
+				Application.SendMessage(ref msg);
+			}
+		}
+
+		internal MSG TranslateMouseCore(NSEvent e, out bool client)
 		{
 			var clientView = view as IClientView;
-			bool client = clientView == null;
-
 			var nspoint = view.ConvertPointFromView(e.LocationInWindow, null);
 			var localMonoPoint = driver.NativeToMonoFramed(nspoint, view);
+			var clientRect = clientView.ClientBounds.ToRectangle();
 
-			if ((clientView != null && clientView.ClientBounds.ToRectangle().Contains(localMonoPoint)) ||
-				driver.Grab.Hwnd != IntPtr.Zero)
+			if ((clientView != null && clientRect.Contains(localMonoPoint)) || driver.Grab.Hwnd != IntPtr.Zero)
 			{
 				client = true;
-				localMonoPoint.X -= (int)clientView.ClientBounds.X;
-				localMonoPoint.Y -= (int)clientView.ClientBounds.Y;
+				localMonoPoint.Offset(-clientRect.X, -clientRect.Y);
 			}
+			else client = false;
 
-			MSG msg = new MSG();
-			msg.hwnd = view.Handle;
-			msg.lParam = (IntPtr)(localMonoPoint.Y << 16 | (localMonoPoint.X & 0xFFFF));
-			if (e.Window == null)
-				msg.pt = driver.NativeToMonoScreen(NSEvent.CurrentMouseLocation).ToPOINT();
-			else
-				msg.pt = driver.NativeToMonoScreen(e.Window.ConvertBaseToScreen(e.LocationInWindow)).ToPOINT();
-			msg.refobject = view;
-
-			switch (e.Type)
+			return new MSG
 			{
-				case NSEventType.LeftMouseDown:
-				case NSEventType.RightMouseDown:
-				case NSEventType.OtherMouseDown:
-					msg.wParam = (IntPtr)(e.ModifiersToWParam() | e.ButtonNumberToWParam());
-					// FIXME: Should be elsewhere
-					if (e.ClickCount > 1)
-						msg.message = (client ? Msg.WM_LBUTTONDBLCLK : Msg.WM_NCLBUTTONDBLCLK) + MsgOffset4Button(e);
-					else
-					{
-						msg.message = (client ? Msg.WM_LBUTTONDOWN : Msg.WM_NCLBUTTONDOWN) + MsgOffset4Button(e);
-						LastMouseDownMsg = msg;
-					}
-					break;
-
-				case NSEventType.LeftMouseUp:
-				case NSEventType.RightMouseUp:
-				case NSEventType.OtherMouseUp:
-					msg.message = (client ? Msg.WM_LBUTTONUP : Msg.WM_NCLBUTTONUP) + MsgOffset4Button(e);
-					msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | e.ButtonNumberToWParam());
-					LastMouseDownMsg.hwnd = IntPtr.Zero;
-					break;
-
-				case NSEventType.MouseMoved:
-					if (driver.LastEnteredHwnd != view.Handle && driver.Grab.Hwnd == IntPtr.Zero)
-						return;
-					if (driver.Grab.Hwnd != IntPtr.Zero)
-						msg.hwnd = driver.Grab.Hwnd;
-					msg.wParam = (IntPtr)e.ModifierFlags.ToWParam();
-					msg.message = client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE;
-					break;
-				case NSEventType.LeftMouseDragged:
-					msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | (uint)MsgButtons.MK_LBUTTON);
-					msg.message = (client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE);
-					break;
-				case NSEventType.RightMouseDragged:
-					msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | (uint)MsgButtons.MK_RBUTTON);
-					msg.message = (client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE);
-					break;
-				case NSEventType.OtherMouseDragged:
-					msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | (uint)MsgButtons.MK_MBUTTON);
-					msg.message = (client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE);
-					break;
-
-				case NSEventType.ScrollWheel:
-					bool horizontal = e.ScrollingDeltaY == 0 && e.ScrollingDeltaX != 0;
-					int delta = ScaleAndQuantizeDelta((float)(horizontal ? e.ScrollingDeltaX : e.ScrollingDeltaY), e.HasPreciseScrollingDeltas);
-					if (delta == 0)
-						return;
-
-					if (e.Phase == NSEventPhase.None && e.MomentumPhase == NSEventPhase.None || e.Phase == NSEventPhase.Changed || e.MomentumPhase == NSEventPhase.Changed)
-					{
-						msg.message = Msg.WM_MOUSEWHEEL;
-						msg.wParam = (IntPtr)(e.ModifiersToWParam());
-						msg.wParam = (IntPtr)(((int)msg.wParam & 0xFFFF) | (delta << 16));
-						msg.lParam = (IntPtr)((msg.pt.x & 0xFFFF) | (msg.pt.y << 16));
-						break;
-					}
-					return;
-
-				case NSEventType.MouseEntered:
-				case NSEventType.MouseExited:
-					// We use overlapping track rectanges on every control, so the Entered/Exited events
-					// are sent not only to the top-level visible view, but also to its superviews.
-					// This has to be converted to the the model where only the top-level control receives
-					// the messages.
-					//
-					// The conversion is by performing the hit test. Note that e.LocationInWindow is NOT
-					// updated by the time the tracking events are received and thus e.Window.
-					// MouseLocationOutsideOfEventStream has to be used instead.
-					//
-					// The Exited event has to be handled the same way as the entered event to cover the
-					// following scenario:
-					//  ___________________________
-					// | Panel                     |
-					// |  ______________           |
-					// | |    Button    |          |
-					// 
-					// When you move the mouse over the Button you will receive the Entered event for
-					// it. At the same time the Panel already had Entered called for its own tracking area.
-					// Now moving the mouse away from the Button into the Panel area will cause an
-					// Exited event on the Button's tracking rectangle, but it will NOT generate any
-					// Entered event. In the System.Windows.Forms world we want to receive WM_MOUSELEAVE
-					// on the Button and WM_MOUSE_ENTERED on the Panel.
-					//
-					// Further reading:
-					// https://stackoverflow.com/questions/9986267/mouse-enter-exit-events-on-partially-hidden-nsviews
-
-					var newMouseView = e.Window?.ContentView.HitTest(e.LocationInWindow) ?? e.Window?.ContentView.Superview?.HitTest(e.LocationInWindow);
-					var newMouseViewHandle = newMouseView is MonoView ? newMouseView.Handle : IntPtr.Zero;
-
-#if DEBUG_MOUSE_ENTER_EXIT
-					{
-						// DEBUG
-						Console.Write(e.Type == NSEventType.MouseEntered ? "ENTER " : "EXIT ");
-						if (newMouseView != null)
-							Console.Write("NEW: " + DebugUtility.ControlInfo(newMouseView));
-						else
-							Console.Write("NO NEW");
-					}
-#endif
-
-					if (newMouseViewHandle == driver.LastEnteredHwnd)
-						return;
-
-					// Keep track of the last entered window during grab, but don't send messages. The
-					// messages are sent by XplatUICocoa.GrabWindow and XplatUICocoa.UngrabWindow when
-					// the grabbing state is entered/exited.
-					if (driver.Grab.Hwnd != IntPtr.Zero)
-					{
-						driver.LastEnteredHwnd = newMouseViewHandle;
-						return;
-					}
-
-					msg.wParam = (IntPtr)(e.ModifiersToWParam() | Mac.Extensions.ButtonMaskToWParam(NSEvent.CurrentPressedMouseButtons));
-					// First notify the old window that mouse left it
-					if (driver.LastEnteredHwnd != IntPtr.Zero)
-					{
-						msg.hwnd = driver.LastEnteredHwnd;
-						msg.message = Msg.WM_MOUSELEAVE;
-						driver.LastEnteredHwnd = IntPtr.Zero;
-						Application.SendMessage(ref msg);
-					}
-					// And then notify the new window that mouse entered it
-					if (newMouseViewHandle != IntPtr.Zero)
-					{
-						msg.hwnd = newMouseViewHandle;
-						msg.message = Msg.WM_MOUSE_ENTER;
-						driver.LastEnteredHwnd = newMouseViewHandle;
-						Application.SendMessage(ref msg);
-					}
-					return;
-
-				//case NSEventType.TabletPoint:
-				//case NSEventType.TabletProximity:
-				default:
-					return;
-			}
-
-			Application.SendMessage(ref msg);
+				hwnd = view.Handle,
+				lParam = (IntPtr)(localMonoPoint.Y << 16 | (localMonoPoint.X & 0xFFFF)),
+				pt = e.Window == null
+					? driver.NativeToMonoScreen(NSEvent.CurrentMouseLocation).ToPOINT()
+					: driver.NativeToMonoScreen(e.Window.ConvertBaseToScreen(e.LocationInWindow)).ToPOINT(),
+				refobject = view
+			};
 		}
 
 		internal int MsgOffset4Button(NSEvent e)
