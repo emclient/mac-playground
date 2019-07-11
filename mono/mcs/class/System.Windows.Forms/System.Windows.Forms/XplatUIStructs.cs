@@ -281,7 +281,7 @@ namespace System.Windows.Forms
 		WM_CTLCOLORSCROLLBAR      = 0x0137,
 		WM_CTLCOLORSTATIC         = 0x0138,
 		WM_MOUSEMOVE              = 0x0200,
-		WM_MOUSEFIRST                     = 0x0200,
+		WM_MOUSEFIRST             = 0x0200,
 		WM_LBUTTONDOWN            = 0x0201,
 		WM_LBUTTONUP              = 0x0202,
 		WM_LBUTTONDBLCLK          = 0x0203,
@@ -292,10 +292,11 @@ namespace System.Windows.Forms
 		WM_MBUTTONUP              = 0x0208,
 		WM_MBUTTONDBLCLK          = 0x0209,
 		WM_MOUSEWHEEL             = 0x020A,
-		WM_MOUSELAST             = 0x020D,
-		//              public const uint WM_XBUTTONDOWN      = 0x020B;
-		//              public const uint WM_XBUTTONUP        = 0x020C;
-		//              public const uint WM_XBUTTONDBLCLK    = 0x020D;
+		WM_XBUTTONDOWN            = 0x020B,
+		WM_XBUTTONUP              = 0x020C,
+		WM_XBUTTONDBLCLK          = 0x020D,
+		WM_MOUSEHWHEEL            = 0x020E,
+		WM_MOUSELAST              = 0x020E,
 		WM_PARENTNOTIFY           = 0x0210,
 		WM_ENTERMENULOOP          = 0x0211,
 		WM_EXITMENULOOP           = 0x0212,
