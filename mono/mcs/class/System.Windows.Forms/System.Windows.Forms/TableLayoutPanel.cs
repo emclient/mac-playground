@@ -280,8 +280,7 @@ namespace System.Windows.Forms
 		protected override void OnLayout (LayoutEventArgs levent)
 		{
 			base.OnLayout (levent);
-            if (CellBorderStyle != TableLayoutPanelCellBorderStyle.None)
-                Invalidate();
+            Invalidate();
 		}
 
 		protected override void OnPaintBackground (PaintEventArgs e)
