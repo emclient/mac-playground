@@ -124,6 +124,8 @@ namespace System.Drawing
 
 		internal MeasureStringCache.Entry CreateMeasureStringCacheEntry(string text, Font font, SizeF area, StringFormat format)
 		{
+			if (area.Width > 0 && Math.Abs(area.Height) < float.Epsilon)
+				area.Height = float.MaxValue;
 			var e = CreateMeasureStringCacheEntryCore(text, font, area, format);
 			if (Math.Abs(e.measure.Width) < float.Epsilon && e.measure.Height > 0) // Nothing can fit => measure again with unlimited space.
 				e = CreateMeasureStringCacheEntryCore(text, font, new SizeF(float.MaxValue, float.MaxValue), format);
