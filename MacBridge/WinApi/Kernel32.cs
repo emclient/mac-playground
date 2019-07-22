@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -12,10 +12,10 @@ namespace WinApi
 		static Dictionary<IntPtr, UIntPtr> globalHeap = new Dictionary<IntPtr, UIntPtr>();
 
 		public static void GetStartupInfo([In, Out] STARTUPINFO lpStartupInfo)
-        {
-            // TODO
-            NotImplemented(MethodBase.GetCurrentMethod());
-        }
+		{
+			// TODO
+			NotImplemented(MethodBase.GetCurrentMethod());
+		}
 
 		public static int WideCharToMultiByte(int codePage, int flags, string wideStr, int chars, byte[] pOutBytes, int bufferBytes, IntPtr defaultChar, IntPtr pDefaultUsed)
 		{
@@ -126,6 +126,18 @@ namespace WinApi
 
 		public static bool GlobalUnlock(IntPtr hMem)
 		{
+			return true;
+		}
+
+		public static extern bool GetPhysicallyInstalledSystemMemory(out ulong memoryInKilobytes)
+		{
+			memoryInKilobytes = 0;
+			return true;
+		}
+
+		public static extern bool GetLogicalProcessorInformation(SYSTEM_LOGICAL_PROCESSOR_INFORMATION[] buffer, ref uint returnedLength)
+		{
+			returnedLength = 0;
 			return true;
 		}
 	}
