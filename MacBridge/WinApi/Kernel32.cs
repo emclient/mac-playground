@@ -129,13 +129,13 @@ namespace WinApi
 			return true;
 		}
 
-		public static extern bool GetPhysicallyInstalledSystemMemory(out ulong memoryInKilobytes)
+		public static bool GetPhysicallyInstalledSystemMemory(out ulong memoryInKilobytes)
 		{
 			memoryInKilobytes = 0;
 			return true;
 		}
 
-		public static extern bool GetLogicalProcessorInformation(SYSTEM_LOGICAL_PROCESSOR_INFORMATION[] buffer, ref uint returnedLength)
+		public static bool GetLogicalProcessorInformation(SYSTEM_LOGICAL_PROCESSOR_INFORMATION[] buffer, ref uint returnedLength)
 		{
 			returnedLength = 0;
 			return true;
