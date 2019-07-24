@@ -134,11 +134,5 @@ namespace WinApi
 			memoryInKilobytes = 0;
 			return true;
 		}
-
-		public static bool GetLogicalProcessorInformation(SYSTEM_LOGICAL_PROCESSOR_INFORMATION[] buffer, ref uint returnedLength)
-		{
-			returnedLength = 0;
-			return true;
-		}
 	}
 }
