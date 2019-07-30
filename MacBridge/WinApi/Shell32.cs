@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -7,7 +7,9 @@ namespace WinApi
 {
     public static partial class Win32
     {
-        public static IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbFileInfo, uint uFlags)
+		public static int SHGetImageList(int iImageList, ref Guid riid, ref IImageList ppv);
+
+		public static IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbFileInfo, uint uFlags)
         {
             // TODO
             NotImplemented(MethodBase.GetCurrentMethod());
