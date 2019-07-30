@@ -11,7 +11,7 @@ namespace WinApi
 		{
 			// TODO
 			NotImplemented(MethodBase.GetCurrentMethod());
-			return IntPtr.Zero;
+			return 0;
 		}
 
 		public static IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbFileInfo, uint uFlags)
