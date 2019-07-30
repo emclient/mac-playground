@@ -7,7 +7,12 @@ namespace WinApi
 {
     public static partial class Win32
     {
-		public static int SHGetImageList(int iImageList, ref Guid riid, ref IImageList ppv);
+		public static int SHGetImageList(int iImageList, ref Guid riid, ref IImageList ppv)
+		{
+			// TODO
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return IntPtr.Zero;
+		}
 
 		public static IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbFileInfo, uint uFlags)
         {
