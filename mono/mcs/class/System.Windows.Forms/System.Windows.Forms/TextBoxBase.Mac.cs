@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 
 #if MONOMAC
 using MonoMac.AppKit;
@@ -270,8 +271,59 @@ namespace System.Windows.Forms
 		[MWFCategory("Appearance")]
 		public string[] Lines
 		{
-			get { NotImplemented(MethodBase.GetCurrentMethod()); return new string[] {}; }
-			set { NotImplemented(MethodBase.GetCurrentMethod(), value); }
+			get
+			{
+				var text = Text;
+				var list = new ArrayList();
+
+				int lineStart = 0;
+				while (lineStart < text.Length)
+				{
+					int lineEnd = lineStart;
+					for (; lineEnd < text.Length; lineEnd++)
+					{
+						char c = text[lineEnd];
+						if (c == '\r' || c == '\n')
+							break;
+					}
+
+					string line = text.Substring(lineStart, lineEnd - lineStart);
+					list.Add(line);
+
+					// Treat "\r", "\r\n", and "\n" as new lines
+					if (lineEnd < text.Length && text[lineEnd] == '\r')
+						lineEnd++;
+					if (lineEnd < text.Length && text[lineEnd] == '\n')
+						lineEnd++;
+
+					lineStart = lineEnd;
+				}
+
+				// Corner case -- last character in Text is a new line; need to add blank line to list
+				if (text.Length > 0 && (text[text.Length - 1] == '\r' || text[text.Length - 1] == '\n'))
+					list.Add("");
+
+				return (string[])list.ToArray(typeof(string));
+			}
+
+			set
+			{
+				if (value != null && value.Length > 0)
+				{
+					var text = new StringBuilder(value[0]);
+					for (int i = 1; i < value.Length; ++i)
+					{
+						//text.Append("\r\n");
+						text.Append(Environment.NewLine);
+						text.Append(value[i]);
+					}
+					Text = text.ToString();
+				}
+				else
+				{
+					Text = "";
+				}
+			}
 		}
 
 		[DefaultValue(32767)]
