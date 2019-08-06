@@ -903,8 +903,7 @@ namespace System.Windows.Forms {
 			EnableWindow (viewWrapper.Handle, !StyleSet(cp.Style, WindowStyles.WS_DISABLED));
 			
 			SendMessage (viewWrapper.Handle, Msg.WM_NCCREATE, (IntPtr)1, IntPtr.Zero /* XXX unused */);
-			if (viewWrapper is MonoView)
-				((MonoView)viewWrapper).PerformNCCalc(viewWrapper.Frame.Size);
+			(viewWrapper as MonoView)?.PerformNCCalc(viewWrapper.Frame.Size);
 
 			SendMessage (viewWrapper.Handle, Msg.WM_CREATE, (IntPtr)1, IntPtr.Zero /* XXX unused */);
 			SendParentNotify (viewWrapper.Handle, Msg.WM_CREATE, int.MaxValue, int.MaxValue);
@@ -929,6 +928,8 @@ namespace System.Windows.Forms {
 			keepAlivePool.Add(viewWrapper.Handle, viewWrapper);
 			if (isTopLevel)
 				keepAlivePool.Add(windowWrapper.Handle, windowWrapper);
+
+			(viewWrapper as MonoView)?.FinishCreateWindow();
 
 			return viewWrapper.Handle;
 		}
@@ -1796,11 +1797,16 @@ namespace System.Windows.Forms {
 				// already focused.
 				if (view.Window != null && GetSWFFirstResponder(view.Window) != view.Handle)
 				{
-					if (view is MonoView)
-						((MonoView)view).inSetFocus = true;
-					view.Window.MakeFirstResponder(view);
-					if (view is MonoView)
-						((MonoView)view).inSetFocus = false;
+					if (view is MonoView monoView)
+					{
+						monoView.flags |= MonoView.Flags.InSetFocus;
+						view.Window.MakeFirstResponder(monoView);
+						monoView.flags &= ~MonoView.Flags.InSetFocus;
+					}
+					else
+					{
+						view.Window.MakeFirstResponder(view);
+					}
 				}
 			}
 		}
