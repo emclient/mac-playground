@@ -50,12 +50,19 @@ namespace System.Windows.Forms.CocoaInternal
 	//[ExportClass("MonoView", "NSView")]
 	partial class MonoView : NSView, System.Drawing.IClientView
 	{
+		[Flags]
+		internal enum Flags
+		{
+			InCreateWindow = 1,
+			InSetFocus = 2,
+		}
+
 		protected XplatUICocoa driver;
 		protected NSTrackingArea clientArea;
 		protected NSTrackingArea clientAreaEnterExit;
 		internal WindowsEventResponder eventResponder;
 		protected CGRect clientBounds;
-		internal bool inSetFocus;
+		internal Flags flags;
 		private WindowExStyles exStyle;
 
 		public MonoView(IntPtr instance) : base(instance)
@@ -65,6 +72,7 @@ namespace System.Windows.Forms.CocoaInternal
 		public MonoView(XplatUICocoa driver, CGRect frameRect, WindowStyles style, WindowExStyles exStyle) : base(frameRect)
 		{
 			this.driver = driver;
+			this.flags = Flags.InCreateWindow;
 			this.Style = style;
 			this.ExStyle = exStyle;
 			this.eventResponder = new WindowsEventResponder(driver, this);
@@ -109,7 +117,7 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			// Skip the normal processing to bypass setting it as first responder. Our
 			// controls will do that by themselves by calling SetFocus.
-			return Enabled && inSetFocus;
+			return Enabled && flags.HasFlag(Flags.InSetFocus);
 		}
 
 		public override bool CanBecomeKeyView
@@ -142,15 +150,22 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			base.ViewDidMoveToWindow();
 			UpdateTrackingAreas();
-
-			PerformNCCalc(Frame.Size);
-			driver.SendMessage(Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
+			SendWindowPosChanged(Frame.Size, true);
 		}
 
-		internal void SendWindowPosChanged(CGSize newSize)
+		internal virtual void FinishCreateWindow()
 		{
-			PerformNCCalc(newSize);
-			driver.SendMessage(Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
+			//eventResponder.InitGestures(Handle);
+			flags &= ~Flags.InCreateWindow;
+		}
+
+		internal void SendWindowPosChanged(CGSize newSize, bool force = false)
+		{
+			if (!flags.HasFlag(Flags.InCreateWindow) || force)
+			{
+				PerformNCCalc(newSize);
+				driver.SendMessage(Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
+			}
 		}
 
 		public override bool Hidden
@@ -260,9 +275,20 @@ namespace System.Windows.Forms.CocoaInternal
 		public override void SetFrameSize(CGSize newSize)
         {
 			base.SetFrameSize(newSize);
+			SendWindowPosChanged(newSize);
+		}
 
-			if (Window != null) // in CreateWindow()
-				SendWindowPosChanged(newSize);
+		public override CGRect Frame
+		{
+			get { return base.Frame; }
+			set
+			{
+				if (base.Frame != value)
+				{
+					base.Frame = value;
+					SendWindowPosChanged(Frame.Size);
+				}
+			}
 		}
 
 		public void PerformNCCalc(CGSize newSize)
