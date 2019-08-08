@@ -731,19 +731,32 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		private NSWindowStyle NSStyleFromStyle(WindowStyles style)
+		private NSWindowStyle NSStyleFromStyle(WindowStyles style, NSWindowStyle native = NSWindowStyle.Borderless)
 		{
-			NSWindowStyle attributes = NSWindowStyle.Borderless;
 			if (style.HasFlag(WindowStyles.WS_CAPTION)) {
-				attributes = NSWindowStyle.Titled;
+
+				native |= NSWindowStyle.Titled;
+
 				if (style.HasFlag(WindowStyles.WS_MINIMIZEBOX))
-					attributes |= NSWindowStyle.Miniaturizable;
+					native |= NSWindowStyle.Miniaturizable;
+				else
+					native &= ~NSWindowStyle.Miniaturizable;
+
 				if (style.HasFlag(WindowStyles.WS_THICKFRAME))
-					attributes |= NSWindowStyle.Resizable;
+					native |= NSWindowStyle.Resizable;
+				else
+					native &= ~NSWindowStyle.Resizable;
+
 				if (style.HasFlag(WindowStyles.WS_SYSMENU))
-					attributes |= NSWindowStyle.Closable;
+					native |= NSWindowStyle.Closable;
+				else
+					native &= ~NSWindowStyle.Closable;
 			}
-			return attributes;
+			else
+			{
+				native &= ~(NSWindowStyle.Titled | NSWindowStyle.Miniaturizable | NSWindowStyle.Resizable | NSWindowStyle.Closable);
+			}
+			return native;
 		}
 
 		/*private bool IsUtilityWindow(NSView view)
@@ -2146,7 +2159,7 @@ namespace System.Windows.Forms {
 			}
 				
 			if (vuWrap.Window != null && vuWrap.Window.ContentView == vuWrap) {
-				vuWrap.Window.StyleMask = NSStyleFromStyle(cp.WindowStyle) | (vuWrap.Window.StyleMask & NSWindowStyle.FullScreenWindow);
+				vuWrap.Window.StyleMask = NSStyleFromStyle(cp.WindowStyle, vuWrap.Window.StyleMask);
 				vuWrap.Window.CollectionBehavior = !cp.WindowStyle.HasFlag(WindowStyles.WS_MAXIMIZEBOX) ? NSWindowCollectionBehavior.FullScreenAuxiliary : NSWindowCollectionBehavior.Default;
 			}
 		}
