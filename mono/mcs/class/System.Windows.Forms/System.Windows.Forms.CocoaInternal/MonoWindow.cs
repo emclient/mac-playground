@@ -60,11 +60,9 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			WindowShouldClose += ShouldClose;
 			WillResize += WindowWillResize;
-			DidResize += WindowDidResize;
 			WillStartLiveResize += WindowWillStartLiveResize;
 			DidEndLiveResize += WindowDidEndLiveResize;
 			DidMove += WindowDidMove;
-			DidChangeScreen += WindowDidChangeScreen;
 		}
 
 		public override bool MakeFirstResponder(NSResponder aResponder)
@@ -239,22 +237,13 @@ namespace System.Windows.Forms.CocoaInternal
 			return toFrameSize;
 		}
 
-		internal virtual void WindowDidResize(object sender, EventArgs e)
-		{
-			// resizeWinForm, invalidate and update?
-			resizeWinForm();
-		}
-
 		internal virtual void WindowWillStartLiveResize(object sender, EventArgs e)
 		{
-			//var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
 			NativeWindow.WndProc(ContentView.Handle, Msg.WM_ENTERSIZEMOVE, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		internal virtual void WindowDidEndLiveResize(object sender, EventArgs e)
 		{
-			//var hwnd = Hwnd.GetObjectFromWindow (this.ContentView.Handle);
-			resizeWinForm();
 			NativeWindow.WndProc(ContentView.Handle, Msg.WM_EXITSIZEMOVE, IntPtr.Zero, IntPtr.Zero);
 		}
 
@@ -262,25 +251,6 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
-
-		internal virtual void WindowDidChangeScreen(object sender, EventArgs e)
-		{
-			BeginInvokeOnMainThread((Action)delegate { if (Handle != IntPtr.Zero) resizeWinForm(); });
-		}
-
-#if XAMARINMAC
-		public override void AddTitlebarAccessoryViewController(NSTitlebarAccessoryViewController childViewController)
-		{
-			base.AddTitlebarAccessoryViewController(childViewController);
-			resizeWinForm();
-		}
-
-		public override void RemoveTitlebarAccessoryViewControllerAtIndex(nint index)
-		{
-			base.RemoveTitlebarAccessoryViewControllerAtIndex(index);
-			resizeWinForm();
-		}
-#endif
 
 		public override void BecomeKeyWindow()
 		{
@@ -325,20 +295,6 @@ namespace System.Windows.Forms.CocoaInternal
 				if (utility_window != this && utility_window.IsVisible)
 					utility_window.OrderOut(utility_window);
 			}*/
-		}
-
-		// TODO: expanding, collapsing
-
-		internal virtual void resizeWinForm()
-		{
-			/*	resizeWinForm(Hwnd.GetObjectFromWindow(this.ContentView.Handle));
-			}
-
-			// Tells win form to update it's content
-			internal virtual void resizeWinForm(Hwnd contentViewHandle)
-			{*/
-			//driver.HwndPositionFromNative(ContentView.Handle);
-			driver.RequestNCRecalc(ContentView.Handle);
 		}
 
 		internal virtual void ActivateNextWindow()
