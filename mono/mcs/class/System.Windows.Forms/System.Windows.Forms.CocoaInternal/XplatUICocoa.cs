@@ -1602,11 +1602,7 @@ namespace System.Windows.Forms {
 		}
 
 		internal override void RequestNCRecalc (IntPtr handle) {
-			var view = handle.ToNSView();
-			if (view is MonoView)
-				((MonoView)view).PerformNCCalc(view.Frame.Size);
-			SendMessage (handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
-			InvalidateNC (handle);
+			// Handled by MonoView
 		}
 
 		[MonoTODO]
