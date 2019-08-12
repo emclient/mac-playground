@@ -106,13 +106,13 @@ namespace System.Drawing
 				if (nsColor != null && nsColor.ColorSpaceName.Equals(NSColorSpace.Named.ToString(), StringComparison.Ordinal))
 					return nsColor.ColorNameComponent;
 
-				return KnownColors.NameByArgb.TryGetValue((uint)value, out string s) ? s: String.Empty;
+				return KnownColors.NameByArgb.TryGetValue((uint)Value, out string s) ? s: String.Empty;
 			}
 		}
 
 		public bool IsKnownColor {
 			get {
-				return KnownColors.NameByArgb.ContainsKey((uint)value);
+				return KnownColors.NameByArgb.ContainsKey((uint)Value);
 			}
 		}
 
