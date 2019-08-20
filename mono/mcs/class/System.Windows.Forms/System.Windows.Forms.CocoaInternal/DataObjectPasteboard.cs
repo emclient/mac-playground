@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Mac;
 using System.Windows.Forms.Extensions.IO;
 using System.Windows.Forms.CocoaInternal;
+using CoreGraphics;
 
 #if XAMARINMAC
 using Foundation;
@@ -167,11 +168,15 @@ namespace System.Windows.Forms.CocoaInternal
 
 		internal Image GetBitmap(NSPasteboard pboard)
 		{
-			var cgimage = new NSImage(pboard)?.CGImage;
-			if (cgimage != null)
-				return cgimage.ToBitmap();
+			var nsimage = new NSImage(pboard);
+			var cgimage = nsimage?.CGImage;
+			if (cgimage == null)
+			{
+				var rect = new CGRect(0, 0, nsimage.Size.Width, nsimage.Size.Height);
+				cgimage = nsimage.AsCGImage(ref rect, null, null);
+			}
 
-			return null;
+			return cgimage?.ToBitmap();
 		}
 
 		internal string GetHtml(NSPasteboard pboard)
