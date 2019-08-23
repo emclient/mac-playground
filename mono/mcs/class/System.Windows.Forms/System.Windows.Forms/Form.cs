@@ -1679,6 +1679,12 @@ namespace System.Windows.Forms {
 			bool		confined;
 			IntPtr		capture_window;
 
+			// Dialogs having owner cause problems on mac:
+			// (1) They move with their owner
+			// (2) They disappear when moved to another screen the first time
+			// (3) They disappear and then create artefacts when moved partially to another screen
+			owner = null;
+
 			IWin32Window original_owner = owner;
 			Form owner_to_be = null;
 
