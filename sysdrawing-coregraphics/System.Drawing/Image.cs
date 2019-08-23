@@ -268,16 +268,29 @@ namespace System.Drawing {
 
 		public void Save(Stream stream, ImageFormat format)
 		{
-			var b = this as Bitmap ?? new Bitmap(this);
-			if (b != null)
+			if (this is Bitmap b)
 				b.Save(stream, format);
+			else
+				using (b = new Bitmap(this))
+					b.Save(stream, format);
+		}
+
+		public void Save(Stream stream, ImageFormat format, EncoderParameters parameters)
+		{
+			if (this is Bitmap b)
+				b.Save(stream, format, parameters);
+			else
+				using (b = new Bitmap(this))
+					b.Save(stream, format, parameters);
 		}
 
 		public void Save(string path, ImageCodecInfo encoder, EncoderParameters parameters)
 		{
-			// FIXME: Workaround
-			using (Bitmap b = new Bitmap(this))
+			if (this is Bitmap b)
 				b.Save(path, encoder, parameters);
+			else
+				using (b = new Bitmap(this))
+					b.Save(path, encoder, parameters);
 		}
 
 		public void Save (Stream stream)
@@ -287,16 +300,20 @@ namespace System.Drawing {
 		
 		public void Save (string filename, ImageFormat format)
 		{
-			var b = this as Bitmap ?? new Bitmap(this);
-			if (b != null)
+			if (this is Bitmap b)
 				b.Save(filename, format);
+			else
+				using (b = new Bitmap(this))
+					b.Save(filename, format);
 		}
 
 		public void Save (string filename)
 		{
-			var b = this as Bitmap ?? new Bitmap(this);
-			if (b != null)
+			if (this is Bitmap b)
 				b.Save(filename);
+			else
+				using (b = new Bitmap(this))
+					b.Save(filename);
 		}
 			
 		public static Bitmap FromHbitmap (IntPtr handle)
