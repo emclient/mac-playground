@@ -275,13 +275,13 @@ namespace System.Drawing {
 					b.Save(stream, format);
 		}
 
-		public void Save(Stream stream, ImageFormat format, EncoderParameters parameters)
+		public void Save(Stream stream, ImageCodecInfo encoder, EncoderParameters parameters)
 		{
 			if (this is Bitmap b)
-				b.Save(stream, format, parameters);
+				b.Save(stream, encoder, parameters);
 			else
 				using (b = new Bitmap(this))
-					b.Save(stream, format, parameters);
+					b.Save(stream, encoder, parameters);
 		}
 
 		public void Save(string path, ImageCodecInfo encoder, EncoderParameters parameters)
