@@ -118,13 +118,14 @@ namespace System.Windows.Forms.CocoaInternal
 		IntPtr hitTestHandle = IntPtr.Zero;
 		MouseActivate mouseActivate = MouseActivate.MA_ACTIVATE;
 		NSEventType lastEventType = NSEventType.ApplicationDefined;
+		NSEvent currentEvent;
 
 		public override void SendEvent(NSEvent theEvent)
 		{
 			DebugUtility.WriteInfoIfChanged(theEvent);
 
 			lastEventType = theEvent.Type;
-			var monoContentView = (MonoContentView)ContentView;
+			currentEvent = theEvent;
 
 			switch (theEvent.Type)
 			{
@@ -183,7 +184,26 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 
 			base.SendEvent(theEvent);
+			currentEvent = null;
 		}
+
+		public override bool IsKeyWindow
+		{
+			// This allows WebView to change cursor when hovering over DOM nodes even if it's window is not key (pop-ups etc).
+			get { return base.IsKeyWindow || IsDeliveringMouseMovedToWebHTMLView(); }
+		}
+
+		protected bool IsDeliveringMouseMovedToWebHTMLView()
+		{
+			if (currentEvent?.Type == NSEventType.MouseMoved)
+			{
+				var view = (ContentView.Superview ?? ContentView).HitTest(currentEvent.LocationInWindow);
+				return view?.Class.Handle == WebHTMLViewClassHandle;
+			}
+			return false;
+		}
+
+		static IntPtr WebHTMLViewClassHandle = MacApi.LibObjc.objc_getClass("WebHTMLView");
 
 		public override void OrderWindow(NSWindowOrderingMode place, nint relativeTo)
 		{
