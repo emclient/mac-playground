@@ -52,14 +52,16 @@ namespace MacApi
 			get { return FirstSearchPathFor(NSSearchPathDirectory.NSLibraryDirectory, NSSearchPathDomainMask.NSLocalDomainMask) ?? Path.Combine(OpenStepRootDirectory, "Library"); }
 		}
 
-		public static string CachesDirectory
+		public static string CachesDirectory(bool shouldCreate = true)
 		{
-			get { return FirstSearchPathFor(NSSearchPathDirectory.NSCachesDirectory) ?? Path.Combine(LibraryDirectory, "Caches"); }
+			var url = NSFileManager.DefaultManager.GetUrl(global::Foundation.NSSearchPathDirectory.CachesDirectory, NSSearchPathDomain.User, null, shouldCreate, out NSError _);
+			return url?.Path ?? Path.Combine(LibraryDirectory, "Caches");
 		}
 
-		public static string GlobalCachesDirectory
+		public static string GlobalCachesDirectory(bool shouldCreate = true)
 		{
-			get { return FirstSearchPathFor(NSSearchPathDirectory.NSCachesDirectory, NSSearchPathDomainMask.NSLocalDomainMask) ?? Path.Combine(GlobalLibraryDirectory, "Caches"); }
+			var url = NSFileManager.DefaultManager.GetUrl(global::Foundation.NSSearchPathDirectory.CachesDirectory,  NSSearchPathDomain.Local, null, shouldCreate, out NSError _);
+			return url?.Path ?? CachesDirectory(shouldCreate);
 		}
 
 		public static string CookiesDirectory
