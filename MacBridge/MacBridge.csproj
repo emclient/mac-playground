@@ -129,6 +129,10 @@
       <Link>WinApi\ShCore.Structs.cs</Link>
     </Compile>
     <Compile Include="WinApi\ShCore.cs" />
+	<Compile Include="WinApi\Mpr.cs" />
+	<Compile Include="..\..\..\WinApi\Mpr.Structs.cs">
+      <Link>WinApi\Mpr.Structs.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
