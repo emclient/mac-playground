@@ -164,18 +164,22 @@ namespace System.Windows.Forms.CocoaInternal
 			TranslateMouseDown(theEvent);
 		}
 
+		NSEvent prevMouseDown = null;
+
 		internal void TranslateMouseDown(NSEvent e)
 		{
 			var msg = TranslateMouseCore(e, out bool client);
 			msg.wParam = (IntPtr)(e.ModifiersToWParam() | e.ButtonNumberToWParam());
-			// FIXME: Should be elsewhere
-			if (e.ClickCount > 1)
+
+			if (e.ClickCount > 1 && prevMouseDown?.Type == e.Type)
 				msg.message = (client ? Msg.WM_LBUTTONDBLCLK : Msg.WM_NCLBUTTONDBLCLK) + MsgOffset4Button(e);
 			else
 			{
 				msg.message = (client ? Msg.WM_LBUTTONDOWN : Msg.WM_NCLBUTTONDOWN) + MsgOffset4Button(e);
 				LastMouseDownMsg = msg;
 			}
+
+			prevMouseDown = e;
 			Application.SendMessage(ref msg);
 		}
 
