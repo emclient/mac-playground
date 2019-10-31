@@ -1633,7 +1633,7 @@ namespace System.Windows.Forms {
 			Font font = node.NodeFont;
 			if (node.NodeFont == null)
 				font = Font;
-			return (int)TextRenderer.MeasureString (node.Text, font, 0, string_format).Width + 3;
+			return (int)TextRenderer.MeasureString (node.Text, font, int.MaxValue, string_format).Width + 3;
 		}
 
 		private void DrawSelectionAndFocus(TreeNode node, Graphics dc, Rectangle r)
