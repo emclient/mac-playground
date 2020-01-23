@@ -28,7 +28,7 @@
 //
 
 using System.ComponentModel;
-using System.Data;
+//using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -1934,8 +1934,8 @@ namespace System.Windows.Forms
 			text_format.Alignment = StringAlignment.Near;
 
 			string table_name = "";
-			if (row.view is DataRowView)
-				table_name = ((ITypedList)((DataRowView)row.view).DataView).GetListName (null) + ": ";
+			//if (row.view is DataRowView)
+			//	table_name = ((ITypedList)((DataRowView)row.view).DataView).GetListName (null) + ": ";
 			// XXX else?
 
 			Rectangle	text_rect;
