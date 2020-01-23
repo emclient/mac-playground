@@ -128,7 +128,9 @@ namespace MailClient.UI.Controls
 			setColors();
 			createInfiniteBrush();
 
+#if !MAC
 			SystemEvents.TimeChanged += SystemEvents_TimeChanged;
+#endif
 		}
 
 		private void SystemEvents_TimeChanged(object sender, EventArgs e)
@@ -201,7 +203,9 @@ namespace MailClient.UI.Controls
 					components = null;
 				}
 
+#if !MAC
 				SystemEvents.TimeChanged -= SystemEvents_TimeChanged;
+#endif
 			}
 
 			base.Dispose(disposing);

@@ -131,7 +131,7 @@ namespace FormsTest
 			AddButton("Back color", () => { ChangeBackColor(); });
 #endif
 
-			AddButton("Data Grid", () => { new DataGridForm().Show(); });
+			//AddButton("Data Grid", () => { new DataGridForm().Show(); });
 		}
 
 		List<Button> buttons = new List<Button>();
@@ -288,9 +288,9 @@ namespace FormsTest
 			Visible = false;
 		}
 
-		AppKit.NSTitlebarAccessoryViewController tbc;
 		void ChangeBackColor()
 		{
+#if MAC
 			var view = ObjCRuntime.Runtime.GetNSObject<AppKit.NSView>(Handle);
 			var window = view.Window;
 
@@ -313,6 +313,7 @@ namespace FormsTest
 				window.BackgroundColor = AppKit.NSColor.WindowBackground;
 				//window.RemoveTitlebarAccessoryViewControllerAtIndex(0);
 			}
+#endif
 		}
 	}
 }
