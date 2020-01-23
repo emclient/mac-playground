@@ -261,9 +261,7 @@
     <Compile Include="System.Windows.Forms\ColumnWidthChangedEventHandler.cs" />
     <Compile Include="System.Windows.Forms\ColumnWidthChangingEventArgs.cs" />
     <Compile Include="System.Windows.Forms\ColumnWidthChangingEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\ComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\ComboBox.cs" />
     <Compile Include="System.Windows.Forms\ComboBoxRenderer.cs" />
     <Compile Include="System.Windows.Forms\ComboBoxStyle.cs" />
     <Compile Include="System.Windows.Forms\CommonDialog.cs">
@@ -456,9 +454,7 @@
     <Compile Include="System.Windows.Forms\DateBoldEventHandler.cs" />
     <Compile Include="System.Windows.Forms\DateRangeEventArgs.cs" />
     <Compile Include="System.Windows.Forms\DateRangeEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\DateTimePicker.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\DateTimePicker.cs" />
     <Compile Include="System.Windows.Forms\DateTimePickerFormat.cs" />
     <Compile Include="System.Windows.Forms\Day.cs" />
     <Compile Include="System.Windows.Forms\DialogResult.cs" />
@@ -777,9 +773,7 @@
     <Compile Include="System.Windows.Forms\PreviewKeyDownEventArgs.cs" />
     <Compile Include="System.Windows.Forms\PreviewKeyDownEventHandler.cs" />
     <Compile Include="System.Windows.Forms\PrintControllerWithStatusDialog.cs" />
-    <Compile Include="System.Windows.Forms\PrintDialog.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\PrintDialog.cs" />
     <Compile Include="System.Windows.Forms\PrintPreviewControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -788,9 +782,7 @@
     </Compile>
     <Compile Include="System.Windows.Forms\ProfessionalColors.cs" />
     <Compile Include="System.Windows.Forms\ProfessionalColorTable.cs" />
-    <Compile Include="System.Windows.Forms\ProgressBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\ProgressBar.cs" />
     <Compile Include="System.Windows.Forms\ProgressBarRenderer.cs" />
     <Compile Include="System.Windows.Forms\ProgressBarStyle.cs" />
     <Compile Include="System.Windows.Forms\PropertyGrid.cs">
@@ -824,9 +816,7 @@
     <Compile Include="System.Windows.Forms\RelatedPropertyManager.cs" />
     <Compile Include="System.Windows.Forms\RetrieveVirtualItemEventArgs.cs" />
     <Compile Include="System.Windows.Forms\RetrieveVirtualItemEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\RichTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\RichTextBox.cs" />
     <Compile Include="System.Windows.Forms\RichTextBoxFinds.cs" />
     <Compile Include="System.Windows.Forms\RichTextBoxLanguageOptions.cs" />
     <Compile Include="System.Windows.Forms\RichTextBoxScrollBars.cs" />
@@ -843,9 +833,7 @@
     <Compile Include="System.Windows.Forms\ScrollableControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="System.Windows.Forms\ScrollBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\ScrollBar.cs" />
     <Compile Include="System.Windows.Forms\ScrollBarRenderer.cs" />
     <Compile Include="System.Windows.Forms\ScrollBars.cs" />
     <Compile Include="System.Windows.Forms\ScrollButton.cs" />
@@ -933,12 +921,8 @@
     </Compile>
     <Compile Include="System.Windows.Forms\TabRenderer.cs" />
     <Compile Include="System.Windows.Forms\TabSizeMode.cs" />
-    <Compile Include="System.Windows.Forms\TextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\TextBoxBase.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\TextBox.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase.cs" />
     <Compile Include="System.Windows.Forms\TextBoxBase.Mac.cs" />
     <Compile Include="System.Windows.Forms\TextBoxRenderer.cs" />
     <Compile Include="System.Windows.Forms\TextBoxTextRenderer.cs" />
@@ -1181,18 +1165,12 @@
     </Compile>
     <Compile Include="System.Windows.Forms\MessageBoxForm.Mac.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\ModalDialogContext.cs" />
-    <Compile Include="System.Windows.Forms\FileDialog.Mac.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\FileDialog.Mac.cs" />
     <Compile Include="System.Windows.Forms\OpenFileDialog.Mac.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="System.Windows.Forms\FolderBrowserDialog.Mac.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\SaveFileDialog.Mac.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\FolderBrowserDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\SaveFileDialog.Mac.cs" />
     <Compile Include="System.Windows.Forms\DebugUtility.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Swizzle.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\KeysConverter.cs" />
@@ -1206,9 +1184,7 @@
     <Compile Include="System.Windows.Forms\ComboBox.Mac.cs" />
     <Compile Include="System.Windows.Forms\DateTimePicker.Mac.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Extensions.cs" />
-    <Compile Include="System.Windows.Forms\UpDownBase.Mono.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\UpDownBase.Mono.cs" />
     <Compile Include="System.Windows.Forms\UpDownBase.Mac.cs" />
     <Compile Include="System.Windows.Forms\ScrollBar.Mac.cs" />
     <Compile Include="System.Windows.Forms\ProgressBar.Mac.cs" />
