@@ -1,0 +1,44 @@
+<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup>
+	<TargetFramework>xamarinmac20</TargetFramework>
+    <DefineConstants>NET_4_0;NET_4_5;MONO;DISABLE_CAS_USE;XAMARINMAC;__UNIFIED__</DefineConstants>
+    <AssemblyName>Mono.WebBrowser</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Assembly\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\build\common\Consts.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\EventArgs.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\EventHandlers.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\IAttribute.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\IAttributeCollection.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\IDocument.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\IDocumentType.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\IDOMImplementation.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\IElement.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\IElementCollection.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\IHistory.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\IMediaList.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\INamedNodeMap.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\INavigation.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\INode.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\INodeList.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\IStylesheet.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\IStylesheetList.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\IWindow.cs" />
+    <Compile Include="Mono.WebBrowser\DOM\IWindowCollection.cs" />
+    <Compile Include="Mono.WebBrowser\Exception.cs" />
+    <Compile Include="Mono.WebBrowser\IWebBrowser.cs" />
+    <Compile Include="Mono.WebBrowser\Manager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+    <Folder Include="Assembly\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+</Project>

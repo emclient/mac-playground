@@ -1,72 +1,11 @@
-﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DBFDDBD7-E236-444C-98E5-736A4F22C8A5}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>FormsTest</RootNamespace>
-    <StartupObject>FormsTest.Program</StartupObject>
-    <ApplicationIcon>application.ico</ApplicationIcon>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <AssemblyName>FormsTest</AssemblyName>
+	<TargetFrameworks>net48;xamarinmac20</TargetFrameworks>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+	<DisableExtraReferences>true</DisableExtraReferences>
+    <DefineConstants Condition=" '$(TargetFramework)' == 'xamarinmac20'">$(DefineConstants);MAC;XAMARINMAC</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\..\bin\Debug</OutputPath>
-    <PlatformTarget>anycpu</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <WarningLevel>4</WarningLevel>
-    <Optimize>false</Optimize>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\Mono - Debug</OutputPath>
-    <WarningLevel>4</WarningLevel>
-    <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>DEBUG; NET_4_5; NET_4_0; MAC</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin - Debug|AnyCPU' ">
-  	<Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\Xamarin - Debug</OutputPath>
-    <WarningLevel>4</WarningLevel>
-    <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>DEBUG; NET_4_5; NET_4_0; MAC;XAMARINMAC;__UNIFIED__</DefineConstants>
-    <PlatformTarget>anycpu</PlatformTarget>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin-Release|AnyCPU' ">
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\..\bin\Xamarin-Release</OutputPath>
-    <WarningLevel>4</WarningLevel>
-    <DebugSymbols>false</DebugSymbols>
-    <DefineConstants>NET_4_5; NET_4_0; MAC;XAMARINMAC;__UNIFIED__;TRACE</DefineConstants>
-    <PlatformTarget>anycpu</PlatformTarget>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\Release</OutputPath>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup>
-<!--
-	<UseCommonOutputDirectory>true</UseCommonOutputDirectory>
-    <IntermediateOutputPath>obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <OutDir>$(OutputPath)</OutDir>
--->
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" Condition=" '$(Configuration)' == 'Debug' " />
-    <Reference Include="System.Windows.Forms" Condition=" '$(Configuration)' == 'Debug' " />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Net" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="Forms\ToolstripForm.cs">
       <SubType>Form</SubType>
@@ -75,9 +14,7 @@
       <DependentUpon>ToolstripForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs" />
-    <Compile Include="Properties\Settings.Designer.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="MyListBox.cs">
       <SubType>Component</SubType>
@@ -251,7 +188,7 @@
     <Compile Include="Forms\MainForm.Swizzle.cs" />
     <Compile Include="Forms\MainForm.NSBackgroundActivity.cs" />
     <Compile Include="Forms\MainForm.NCPrefs.cs" />
-    <Compile Include="Forms\DataGridForm.cs" />
+    <!--<Compile Include="Forms\DataGridForm.cs" />-->
   </ItemGroup>
   <ItemGroup>
     <!--<EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">
@@ -286,7 +223,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Resources.resx" />
-    <None Include="Properties\Settings.settings" />
     <None Include="application.ico" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
@@ -311,23 +247,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj" Condition=" '$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release' ">
-      <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
-      <Name>System.Windows.Forms-net_4_5</Name>
-    </ProjectReference>
-    <!--<ProjectReference Include="..\MacBridge\MacBridge.csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'">
-      <Project>{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}</Project>
-      <Name>MacBridge</Name>
-    </ProjectReference>-->
-    <!--<ProjectReference Include="..\..\..\MailClient.Collections\MailClient.Collections.csproj">
-      <Project>{C69A5715-2180-4C49-8AD0-150697A81790}</Project>
-      <Name>MailClient.Collections</Name>
-    </ProjectReference>-->
-    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'">
-      <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
-      <Name>System.Drawing (CoreGraphics)</Name>
-    </ProjectReference>
+  <ItemGroup Condition="'$(TargetFramework)'=='net48'">
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'xamarinmac20'">
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms.csproj" />
+    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing.csproj" />
     <!--<ProjectReference Include="..\..\..\MailClient.Common.UI\MailClient.Common.UI.csproj">
       <Project>{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}</Project>
       <Name>MailClient.Common.UI</Name>
@@ -348,25 +274,6 @@
       <Project>{5873DE0F-6853-4C8E-91A4-7A6861069A9A}</Project>
       <Name>HTMLEditorControl</Name>
     </ProjectReference>-->
-    <ProjectReference Include="..\MacApi\MacApi.csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'">
-      <Project>{981DC886-42D2-496B-B6E1-1EF6FE3EE78A}</Project>
-      <Name>MacApi</Name>
-    </ProjectReference>
-    <!-- Include Mac API libraries -->
-    <Reference Include="MonoMac" Condition=" '$(Configuration)' == 'Mono - Debug' ">
-      <HintPath>$(SolutionDir)\Dependencies\Mac\MonoMac.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Mac" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release' " />
-    <ProjectReference Include="..\..\..\MailClient.Common.UI\MailClient.Common.UI.csproj">
-      <Project>{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}</Project>
-      <Name>MailClient.Common.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\MailClient.Collections\MailClient.Collections.csproj">
-      <Project>{C69A5715-2180-4C49-8AD0-150697A81790}</Project>
-      <Name>MailClient.Collections</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\MacApi\MacApi.csproj" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" Condition=" '$(Configuration)' != 'Xamarin - Debug' and '$(Configuration)' != 'Xamarin-Release'" />
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'" />
 </Project>
