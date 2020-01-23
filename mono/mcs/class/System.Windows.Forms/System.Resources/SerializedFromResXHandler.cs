@@ -34,7 +34,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Text;
-using System.Runtime.Serialization.Formatters.Soap;
+//using System.Runtime.Serialization.Formatters.Soap;
 
 namespace System.Resources {
 	internal class SerializedFromResXHandler : ResXDataNodeHandler, IWritableHandler {
@@ -97,7 +97,8 @@ namespace System.Resources {
 		object DeserializeObject (ITypeResolutionService typeResolver)
 		{
 			try {
-				if (mime_type == ResXResourceWriter.SoapSerializedObjectMimeType) {
+				// NOTE: SOAP formatter is obsolete since .NET 2.0
+				/*if (mime_type == ResXResourceWriter.SoapSerializedObjectMimeType) {
 					//FIXME: theres a test in the suite to check that a type converter converts from invariant string
 					//do i need to take the string culture into consideration here?
 					SoapFormatter soapF = new SoapFormatter ();
@@ -108,7 +109,8 @@ namespace System.Resources {
 					using (MemoryStream s = new MemoryStream (data)) {
 						return soapF.Deserialize (s);
 					}
-				} else if (mime_type == ResXResourceWriter.BinSerializedObjectMimeType) {
+				} else */
+				if (mime_type == ResXResourceWriter.BinSerializedObjectMimeType) {
 					BinaryFormatter binF = new BinaryFormatter ();
 					if (binder == null)
 						binder = new CustomBinder (typeResolver);
