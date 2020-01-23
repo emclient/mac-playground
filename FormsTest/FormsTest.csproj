@@ -1,10 +1,11 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
 	<TargetFrameworks>net48;xamarinmac20</TargetFrameworks>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
-	<DisableExtraReferences>true</DisableExtraReferences>
+    <DisableExtraReferences>true</DisableExtraReferences>
     <DefineConstants Condition=" '$(TargetFramework)' == 'xamarinmac20'">$(DefineConstants);MAC;XAMARINMAC</DefineConstants>
+    <OutputType Condition=" '$(TargetFramework)' == 'net48'">WinExe</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Forms\ToolstripForm.cs">
