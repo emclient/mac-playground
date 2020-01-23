@@ -72,7 +72,6 @@
     <Optimize>false</Optimize>
     <NoStdLib>false</NoStdLib>
   </PropertyGroup>
-  <Import Project="..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
     <Compile Include="..\..\build\common\Consts.cs" />
     <Compile Include="..\..\build\common\Locale.cs" />
