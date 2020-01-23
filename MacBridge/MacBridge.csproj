@@ -1,67 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>MacBridge</RootNamespace>
-    <AssemblyName>MacBridge</AssemblyName>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>MacBridge.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <IncludeXamarinMac>true</IncludeXamarinMac>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Mono - Debug</OutputPath>
-    <DefineConstants>DEBUG;MONOMAC;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin - Debug|AnyCPU' ">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Xamarin - Debug</OutputPath>
-    <DefineConstants>DEBUG;XAMARINMAC;__UNIFIED__</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin-Release|AnyCPU' ">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DebugSymbols>false</DebugSymbols>
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Xamarin-Release</OutputPath>
-    <DefineConstants>XAMARINMAC;__UNIFIED__;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <TargetFramework>xamarinmac20</TargetFramework>
+    <DefineConstants>XAMARINMAC;__UNIFIED__</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DisableExtraReferences>true</DisableExtraReferences>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\..\WinApi\GdiPlus.Structs.cs">
@@ -76,83 +18,52 @@
     <Compile Include="..\..\..\WinApi\User32.Structs.cs">
       <Link>WinApi\User32.Structs.cs</Link>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WinApi\ComDlg32.cs" />
-    <Compile Include="WinApi\GdiPlus.cs" />
-    <Compile Include="WinApi\Kernel32.cs" />
-    <Compile Include="WinApi\NetApi32.cs" />
-    <Compile Include="WinApi\Ole32.cs" />
-    <Compile Include="WinApi\Shell32.cs" />
-    <Compile Include="WinApi\ShlWapi.cs" />
-    <Compile Include="WinApi\User32.cs" />
-    <Compile Include="WinApi\Secur32.cs" />
     <Compile Include="..\..\..\WinApi\Secur32.Struct.cs">
       <Link>WinApi\Secur32.Struct.cs</Link>
     </Compile>
-    <Compile Include="WinApi\Imm32.cs" />
     <Compile Include="..\..\..\WinApi\Imm32.Structs.cs">
       <Link>WinApi\Imm32.Structs.cs</Link>
     </Compile>
     <Compile Include="..\..\..\WinApi\Uxtheme.Structs.cs">
       <Link>WinApi\Uxtheme.Structs.cs</Link>
     </Compile>
-    <Compile Include="WinApi\Uxtheme.cs" />
     <Compile Include="..\..\..\WinApi\WinGdi.Structs.cs">
       <Link>WinApi\WinGdi.Structs.cs</Link>
     </Compile>
     <Compile Include="..\..\..\WinApi\ComDlg32.Structs.cs">
       <Link>WinApi\ComDlg32.Structs.cs</Link>
     </Compile>
-    <Compile Include="WinApi\Win32.cs" />
     <Compile Include="..\..\..\WinApi\Ole32.Structs.cs">
       <Link>WinApi\Ole32.Structs.cs</Link>
     </Compile>
     <Compile Include="..\..\..\WinApi\DwmApi.Structs.cs">
       <Link>WinApi\Dwmapi.Structs.cs</Link>
     </Compile>
-    <Compile Include="WinApi\DwmApi.cs" />
     <Compile Include="..\..\..\WinApi\Shell32.Interfaces.cs">
       <Link>WinApi\Shell32.Interfaces.cs</Link>
     </Compile>
     <Compile Include="..\..\..\WinApi\Win32.Structs.cs">
       <Link>WinApi\Win32.Structs.cs</Link>
     </Compile>
-    <Compile Include="WinApi\Shell32.Wrappers.cs" />
     <Compile Include="..\..\..\WinApi\ObjIdl.Types.cs">
       <Link>WinApi\ObjIdl.Types.cs</Link>
     </Compile>
-    <Compile Include="WinApi\AdvApi32.cs" />
     <Compile Include="..\..\..\WinApi\AdvApi32.Structs.cs">
       <Link>WinApi\AdvApi32.Structs.cs</Link>
     </Compile>
     <Compile Include="..\..\..\WinApi\ShCore.Structs.cs">
       <Link>WinApi\ShCore.Structs.cs</Link>
     </Compile>
-    <Compile Include="WinApi\ShCore.cs" />
-	<Compile Include="WinApi\Mpr.cs" />
-	<Compile Include="..\..\..\WinApi\Mpr.Structs.cs">
+    <Compile Include="..\..\..\WinApi\Mpr.Structs.cs">
       <Link>WinApi\Mpr.Structs.cs</Link>
     </Compile>
   </ItemGroup>
-  <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
-    <Reference Include="System" />
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms.csproj" />
+    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing.csproj" />
+    <ProjectReference Include="..\MacApi\MacApi.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_5.csproj">
-      <Project>{B102F27C-1A07-487F-BA5B-D5155D201112}</Project>
-      <Name>System.Windows.Forms-net_4_5</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj">
-      <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
-      <Name>System.Drawing (CoreGraphics)</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MacApi\MacApi.csproj">
-      <Project>{981DC886-42D2-496B-B6E1-1EF6FE3EE78A}</Project>
-      <Name>MacApi</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="WinApi\" />
+    <Folder Include="Properties\" />
   </ItemGroup>
 </Project>
