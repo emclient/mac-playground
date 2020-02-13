@@ -5,10 +5,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -49,7 +49,7 @@ namespace System.Windows.Forms.Layout
 			return base.CanConvertFrom (context, sourceType);
 		}
 
-		
+
 
 		public override object ConvertTo (ITypeDescriptorContext context,
 						  CultureInfo culture,
@@ -66,7 +66,7 @@ namespace System.Windows.Forms.Layout
 			List<ControlInfo> list = settings.GetControls ();
 			xw.WriteStartElement ("TableLayoutSettings");
 			xw.WriteStartElement ("Controls");
-			
+
 			foreach (ControlInfo info in list) {
 				xw.WriteStartElement ("Control");
 				xw.WriteAttributeString ("Name", info.Control.ToString ());
@@ -80,17 +80,17 @@ namespace System.Windows.Forms.Layout
 
 
 			List<string> styles = new List<string> ();
-			
+
 			foreach (ColumnStyle style in settings.ColumnStyles) {
 				styles.Add (style.SizeType.ToString ());
 				styles.Add (style.Width.ToString (CultureInfo.InvariantCulture));
 			}
 
-			
+
 			xw.WriteStartElement ("Columns");
 			xw.WriteAttributeString ("Styles", String.Join (",", styles.ToArray ()));
 			xw.WriteEndElement ();
-			
+
 			styles.Clear();
 			foreach (RowStyle style in settings.RowStyles) {
 				styles.Add (style.SizeType.ToString ());
@@ -119,11 +119,12 @@ namespace System.Windows.Forms.Layout
 			XmlDocument xmldoc = new XmlDocument();
 			xmldoc.LoadXml (value as string);
 			TableLayoutSettings settings = new TableLayoutSettings(null);
+			settings.isSerialized = true;
 			int count = ParseControl (xmldoc, settings);
 			ParseColumnStyle (xmldoc, settings);
 			ParseRowStyle (xmldoc, settings);
 			settings.RowCount = count;
-			
+
 
 			return settings;
 		}
@@ -164,7 +165,7 @@ namespace System.Windows.Forms.Layout
 					SizeType type = (SizeType) Enum.Parse (typeof (SizeType), list[i]);
 					float.TryParse (list[i+1], NumberStyles.Float, CultureInfo.InvariantCulture, out width);
 					settings.ColumnStyles.Add (new ColumnStyle (type, width));
-				}				
+				}
 			}
 		}
 
@@ -202,9 +203,9 @@ namespace System.Windows.Forms.Layout
 		private string[] BuggySplit (string s)
 		{
 			List<string> l = new List<string> ();
-			
+
 			string[] split = s.Split (',');
-			
+
 			for (int i = 0; i < split.Length; i++) {
 				switch (split[i].ToLowerInvariant ()) {
 					case "autosize":
@@ -215,10 +216,10 @@ namespace System.Windows.Forms.Layout
 					default:
 						if (i + 1 < split.Length) {
 							float test;
-							
+
 							if (float.TryParse (split[i + 1], out test)) {
 								l.Add (string.Format ("{0}.{1}", split[i], split[i + 1]));
-								i++;	
+								i++;
 							} else
 								l.Add (split[i]);
 						} else
@@ -226,7 +227,7 @@ namespace System.Windows.Forms.Layout
 						break;
 				}
 			}
-			
+
 			return l.ToArray ();
 		}
 	}
