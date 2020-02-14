@@ -1595,7 +1595,8 @@ namespace System.Windows.Forms {
 			NSWindow winWrap = NSApplication.SharedApplication.MainWindow;
 			if (winWrap != null)
 				PostMessage (winWrap.ContentView.Handle, Msg.WM_QUIT, IntPtr.Zero, IntPtr.Zero);
-			PostMessage (IntPtr.Zero, Msg.WM_QUIT, IntPtr.Zero, IntPtr.Zero);
+			else
+				PostMessage (IntPtr.Zero, Msg.WM_QUIT, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		internal override void RequestAdditionalWM_NCMessages (IntPtr hwnd, bool hover, bool leave) {
