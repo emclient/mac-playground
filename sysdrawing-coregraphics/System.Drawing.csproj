@@ -1,14 +1,18 @@
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-	<TargetFramework>xamarinmac20</TargetFramework>
+    <TargetFramework>xamarinmac20</TargetFramework>
+    <TargetFramework Condition="'$(OS)' == 'Windows_NT'">netstandard2.0</TargetFramework>
     <DefineConstants>MAISONABE;STATIC_PREMULTIPLY_TABLES1;NET_4_5;XAMARINMAC;__UNIFIED__</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <RootNamespace>System.Drawing</RootNamespace>
     <AssemblyName>System.Drawing</AssemblyName>
-	<DisableExtraReferences>true</DisableExtraReferences>
+    <DisableExtraReferences>true</DisableExtraReferences>
+    <EnableDefaultItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultItems>
+    <EnableDefaultCompileItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
     <Compile Include="..\mono\mcs\class\System.Drawing\System.Drawing.Imaging\BitmapData.cs">
       <Link>External\BitmapData.cs</Link>
     </Compile>

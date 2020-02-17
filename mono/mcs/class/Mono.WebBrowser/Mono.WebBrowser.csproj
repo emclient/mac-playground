@@ -1,15 +1,19 @@
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-	<TargetFramework>xamarinmac20</TargetFramework>
+    <TargetFramework>xamarinmac20</TargetFramework>
+    <TargetFramework Condition="'$(OS)' == 'Windows_NT'">netstandard2.0</TargetFramework>
     <DefineConstants>NET_4_0;NET_4_5;MONO;DISABLE_CAS_USE;XAMARINMAC;__UNIFIED__</DefineConstants>
     <AssemblyName>Mono.WebBrowser</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultItems>
+    <EnableDefaultCompileItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Assembly\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
     <Compile Include="..\..\build\common\Consts.cs" />
     <Compile Include="Mono.WebBrowser\DOM\EventArgs.cs" />
     <Compile Include="Mono.WebBrowser\DOM\EventHandlers.cs" />
@@ -34,11 +38,11 @@
     <Compile Include="Mono.WebBrowser\IWebBrowser.cs" />
     <Compile Include="Mono.WebBrowser\Manager.cs" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
     <Folder Include="Properties\" />
     <Folder Include="Assembly\" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
     <Reference Include="System" />
   </ItemGroup>
 </Project>
