@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{981DC886-42D2-496B-B6E1-1EF6FE3EE78A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MacApi</RootNamespace>
+    <AssemblyName>MacApi</AssemblyName>
+    <AssemblyOriginatorKeyFile>MacApi.snk</AssemblyOriginatorKeyFile>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Mono - Debug</OutputPath>
+    <DefineConstants>DEBUG;MONOMAC;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin - Debug|AnyCPU' ">
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Xamarin - Debug</OutputPath>
+    <DefineConstants>__MACOS__;DEBUG;XAMARINMAC;__UNIFIED__</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin-Release|AnyCPU' ">
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Xamarin-Release</OutputPath>
+    <DefineConstants>XAMARINMAC;__UNIFIED__;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LibObjC.cs" />
+    <Compile Include="PrintCore\PMPrintSettingsKeys.cs" />
+    <Compile Include="PrintCore\PMPrintSession.cs" />
+    <Compile Include="PrintCore\PMDestinationType.cs" />
+    <Compile Include="PrintCore\PMDocumentFormat.cs" />
+    <Compile Include="PrintCore\PMPrinter.cs" />
+    <Compile Include="Foundation\NSBackgroundActivityScheduler.cs" />
+    <Compile Include="Foundation\NotificationCenterPreferences.cs" />
+    <Compile Include="CoreGraphics\Quartz.cs" />
+    <Compile Include="CoreFoundation\CFArray.cs" />
+    <Compile Include="CoreFoundation\CFString.cs" />
+    <Compile Include="CoreFoundation\CFDictionary.cs" />
+    <Compile Include="CoreFoundation\NativeObject.cs" />
+    <Compile Include="CoreFoundation\CFBoolean.cs" />
+    <Compile Include="Libraries.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AppKit\" />
+    <Folder Include="CoreGraphics\" />
+    <Folder Include="CoreServices\" />
+    <Folder Include="Foundation\" />
+    <Folder Include="Posix\" />
+    <Folder Include="PrintCore\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants.cs" />
+    <Compile Include="AppKit\NSWorkspace.cs" />
+    <Compile Include="AppKit\NSApplication.cs" />
+    <Compile Include="AppKit\NSTitlebarAccessoryViewController.cs" />
+    <Compile Include="CoreGraphics\CGEventTypes.cs" />
+    <Compile Include="CoreServices\UTType.cs" />
+    <Compile Include="CoreServices\LaunchServices.cs" />
+    <Compile Include="Foundation\PathUtilities.cs" />
+    <Compile Include="Foundation\Foundation.cs" />
+    <Compile Include="Posix\LibC.cs" />
+    <Compile Include="PrintCore\PMStatusCode.cs" />
+    <Compile Include="PrintCore\PMPrintSettings.cs" />
+    <Compile Include="PrintCore\PMPrintCoreBase.cs" />
+    <Compile Include="PrintCore\PMDuplexMode.cs" />
+    <Compile Include="QuickLook.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Include Mac API libraries -->
+    <Reference Include="MonoMac" Condition=" '$(Configuration)' == 'Mono - Debug' ">
+      <HintPath>..\MonoMac.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Mac" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release' " />
+  </ItemGroup>	
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" Condition=" '$(Configuration)' != 'Xamarin - Debug' and '$(Configuration)' != 'Xamarin-Release'" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" Condition=" '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'" />
+</Project>

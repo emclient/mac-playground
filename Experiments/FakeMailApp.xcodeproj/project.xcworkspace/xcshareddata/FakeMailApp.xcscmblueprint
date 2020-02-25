@@ -1,0 +1,35 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "80ec5edc-652c-9b4c-9526-21b1b3dffb85++505",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505" : {
+
+    },
+    "80ec5edc-652c-9b4c-9526-21b1b3dffb85++505" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505" : 0,
+    "80ec5edc-652c-9b4c-9526-21b1b3dffb85++505" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "0B428D24-3273-4A4F-8603-E2D73B00A30D",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505" : "",
+    "80ec5edc-652c-9b4c-9526-21b1b3dffb85++505" : "Mac"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "FakeMailApp",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Experiments\/FakeMailApp.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/svn.emclient.com\/emclient",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/svn.emclient.com\/osx-playground",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "80ec5edc-652c-9b4c-9526-21b1b3dffb85++505"
+    }
+  ]
+}
