@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8652B30E-2AB4-4D41-8795-31B68DB84B74}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MacBridge.Test</RootNamespace>
+    <AssemblyName>MacBridge.Test</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono - Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Mono - Debug</OutputPath>
+    <DefineConstants>DEBUG;MONOMAC</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin - Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Xamarin - Debug</OutputPath>
+    <DefineConstants>DEBUG;XAMARINMAC;__UNIFIED__</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Xamarin-Release|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Xamarin-Release</OutputPath>
+    <DefineConstants>XAMARINMAC;__UNIFIED__</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <!--<Reference Include="MonoMac">
+      <HintPath>..\MonoMac.dll</HintPath>
+    </Reference>-->
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CGImageExtensionsTest.cs" />
+    <Compile Include="LaunchServicesTest.cs" />
+    <Compile Include="TLSTest.cs" />
+  </ItemGroup>
+  <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MacBridge\MacBridge.csproj">
+      <Project>{00D3BAED-F1D5-4AE5-A479-A7E55BB08530}</Project>
+      <Name>MacBridge</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing (CoreGraphics).csproj">
+      <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
+      <Name>System.Drawing (CoreGraphics)</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MacApi\MacApi.csproj">
+      <Project>{981DC886-42D2-496B-B6E1-1EF6FE3EE78A}</Project>
+      <Name>MacApi</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

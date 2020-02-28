@@ -1,0 +1,1620 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="panel_General.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="check_IncludeInGlobalOperations.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="check_IncludeInGlobalOperations.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="check_IncludeInGlobalOperations.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.5953.27253, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="check_IncludeInGlobalOperations.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 489</value>
+  </data>
+  <data name="check_IncludeInGlobalOperations.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 20, 0, 3</value>
+  </data>
+  <data name="check_IncludeInGlobalOperations.Size" type="System.Drawing.Size, System.Drawing">
+    <value>346, 40</value>
+  </data>
+  <data name="check_IncludeInGlobalOperations.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="check_IncludeInGlobalOperations.Text" xml:space="preserve">
+    <value>&amp;Include when sending/receiving emails</value>
+  </data>
+  <data name="&gt;&gt;check_IncludeInGlobalOperations.Name" xml:space="preserve">
+    <value>check_IncludeInGlobalOperations</value>
+  </data>
+  <data name="&gt;&gt;check_IncludeInGlobalOperations.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;check_IncludeInGlobalOperations.Parent" xml:space="preserve">
+    <value>panel_General</value>
+  </data>
+  <data name="&gt;&gt;check_IncludeInGlobalOperations.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="group_Services.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="group_Services.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="panel_Services_TopMarginPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="panel_Services_TopMarginPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 19</value>
+  </data>
+  <data name="panel_Services_TopMarginPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>340, 5</value>
+  </data>
+  <data name="panel_Services_TopMarginPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;panel_Services_TopMarginPanel.Name" xml:space="preserve">
+    <value>panel_Services_TopMarginPanel</value>
+  </data>
+  <data name="&gt;&gt;panel_Services_TopMarginPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel_Services_TopMarginPanel.Parent" xml:space="preserve">
+    <value>group_Services</value>
+  </data>
+  <data name="&gt;&gt;panel_Services_TopMarginPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="dataGrid_Services.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="dataGrid_Services.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="dataGrid_Services.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 24</value>
+  </data>
+  <data name="dataGrid_Services.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 8, 4, 4</value>
+  </data>
+  <data name="dataGrid_Services.NoItemsText" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="dataGrid_Services.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 10, 0, 0</value>
+  </data>
+  <data name="dataGrid_Services.Size" type="System.Drawing.Size, System.Drawing">
+    <value>340, 2</value>
+  </data>
+  <data name="dataGrid_Services.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;dataGrid_Services.Name" xml:space="preserve">
+    <value>dataGrid_Services</value>
+  </data>
+  <data name="&gt;&gt;dataGrid_Services.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.ControlDataGrid.ControlDataGrid, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;dataGrid_Services.Parent" xml:space="preserve">
+    <value>group_Services</value>
+  </data>
+  <data name="&gt;&gt;dataGrid_Services.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="group_Services.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="group_Services.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 463</value>
+  </data>
+  <data name="group_Services.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 6, 3, 3</value>
+  </data>
+  <data name="group_Services.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>6, 6, 0, 0</value>
+  </data>
+  <data name="group_Services.Size" type="System.Drawing.Size, System.Drawing">
+    <value>346, 26</value>
+  </data>
+  <data name="group_Services.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="group_Services.Text" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="&gt;&gt;group_Services.Name" xml:space="preserve">
+    <value>group_Services</value>
+  </data>
+  <data name="&gt;&gt;group_Services.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.SeparatorBox, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;group_Services.Parent" xml:space="preserve">
+    <value>panel_General</value>
+  </data>
+  <data name="&gt;&gt;group_Services.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="group_AutoBCC.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="group_AutoBCC.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="table_General_AutoBCC.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="table_General_AutoBCC.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label_AutoBCC.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="label_AutoBCC.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_AutoBCC.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_AutoBCC.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 14</value>
+  </data>
+  <data name="label_AutoBCC.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 3, 0</value>
+  </data>
+  <data name="label_AutoBCC.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 13</value>
+  </data>
+  <data name="label_AutoBCC.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="label_AutoBCC.Text" xml:space="preserve">
+    <value>&amp;Bcc address:</value>
+  </data>
+  <data name="&gt;&gt;label_AutoBCC.Name" xml:space="preserve">
+    <value>label_AutoBCC</value>
+  </data>
+  <data name="&gt;&gt;label_AutoBCC.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_AutoBCC.Parent" xml:space="preserve">
+    <value>table_General_AutoBCC</value>
+  </data>
+  <data name="&gt;&gt;label_AutoBCC.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="text_AutoBCC.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="text_AutoBCC.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="text_AutoBCC.Location" type="System.Drawing.Point, System.Drawing">
+    <value>75, 10</value>
+  </data>
+  <data name="text_AutoBCC.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 0, 5</value>
+  </data>
+  <data name="text_AutoBCC.Size" type="System.Drawing.Size, System.Drawing">
+    <value>251, 21</value>
+  </data>
+  <data name="text_AutoBCC.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;text_AutoBCC.Name" xml:space="preserve">
+    <value>text_AutoBCC</value>
+  </data>
+  <data name="&gt;&gt;text_AutoBCC.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.ControlContactTextBox, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_AutoBCC.Parent" xml:space="preserve">
+    <value>table_General_AutoBCC</value>
+  </data>
+  <data name="&gt;&gt;text_AutoBCC.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="table_General_AutoBCC.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="table_General_AutoBCC.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 19</value>
+  </data>
+  <data name="table_General_AutoBCC.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 0</value>
+  </data>
+  <data name="table_General_AutoBCC.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="table_General_AutoBCC.Size" type="System.Drawing.Size, System.Drawing">
+    <value>326, 36</value>
+  </data>
+  <data name="table_General_AutoBCC.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;table_General_AutoBCC.Name" xml:space="preserve">
+    <value>table_General_AutoBCC</value>
+  </data>
+  <data name="&gt;&gt;table_General_AutoBCC.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;table_General_AutoBCC.Parent" xml:space="preserve">
+    <value>group_AutoBCC</value>
+  </data>
+  <data name="&gt;&gt;table_General_AutoBCC.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="table_General_AutoBCC.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label_AutoBCC" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="text_AutoBCC" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="group_AutoBCC.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="group_AutoBCC.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 398</value>
+  </data>
+  <data name="group_AutoBCC.Size" type="System.Drawing.Size, System.Drawing">
+    <value>346, 65</value>
+  </data>
+  <data name="group_AutoBCC.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="group_AutoBCC.Text" xml:space="preserve">
+    <value>Copies</value>
+  </data>
+  <data name="&gt;&gt;group_AutoBCC.Name" xml:space="preserve">
+    <value>group_AutoBCC</value>
+  </data>
+  <data name="&gt;&gt;group_AutoBCC.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.SeparatorBox, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;group_AutoBCC.Parent" xml:space="preserve">
+    <value>panel_General</value>
+  </data>
+  <data name="&gt;&gt;group_AutoBCC.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="group_General_Scheduling.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="group_General_Scheduling.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="table_General_DefaultFolders.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="table_General_DefaultFolders.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="table_General_DefaultFolders.ColumnCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="text_General_CalendarFolder.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="text_General_CalendarFolder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>58, 8</value>
+  </data>
+  <data name="text_General_CalendarFolder.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 2, 3, 4</value>
+  </data>
+  <data name="text_General_CalendarFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 20</value>
+  </data>
+  <data name="text_General_CalendarFolder.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;text_General_CalendarFolder.Name" xml:space="preserve">
+    <value>text_General_CalendarFolder</value>
+  </data>
+  <data name="&gt;&gt;text_General_CalendarFolder.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_General_CalendarFolder.Parent" xml:space="preserve">
+    <value>table_General_DefaultFolders</value>
+  </data>
+  <data name="&gt;&gt;text_General_CalendarFolder.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="text_General_ContactFolder.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="text_General_ContactFolder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>58, 69</value>
+  </data>
+  <data name="text_General_ContactFolder.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 2</value>
+  </data>
+  <data name="text_General_ContactFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 20</value>
+  </data>
+  <data name="text_General_ContactFolder.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;text_General_ContactFolder.Name" xml:space="preserve">
+    <value>text_General_ContactFolder</value>
+  </data>
+  <data name="&gt;&gt;text_General_ContactFolder.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_General_ContactFolder.Parent" xml:space="preserve">
+    <value>table_General_DefaultFolders</value>
+  </data>
+  <data name="&gt;&gt;text_General_ContactFolder.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="button_General_SelectCalendarFolder.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="button_General_SelectCalendarFolder.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="button_General_SelectCalendarFolder.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="button_General_SelectCalendarFolder.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="button_General_SelectCalendarFolder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>273, 8</value>
+  </data>
+  <data name="button_General_SelectCalendarFolder.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 0, 3</value>
+  </data>
+  <data name="button_General_SelectCalendarFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 23</value>
+  </data>
+  <data name="button_General_SelectCalendarFolder.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="button_General_SelectCalendarFolder.Text" xml:space="preserve">
+    <value>&amp;Select…</value>
+  </data>
+  <data name="&gt;&gt;button_General_SelectCalendarFolder.Name" xml:space="preserve">
+    <value>button_General_SelectCalendarFolder</value>
+  </data>
+  <data name="&gt;&gt;button_General_SelectCalendarFolder.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_General_SelectCalendarFolder.Parent" xml:space="preserve">
+    <value>table_General_DefaultFolders</value>
+  </data>
+  <data name="&gt;&gt;button_General_SelectCalendarFolder.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label_General_ContactFolder.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="label_General_ContactFolder.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_General_ContactFolder.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_General_ContactFolder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 74</value>
+  </data>
+  <data name="label_General_ContactFolder.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 3, 3, 0</value>
+  </data>
+  <data name="label_General_ContactFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 13</value>
+  </data>
+  <data name="label_General_ContactFolder.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="label_General_ContactFolder.Text" xml:space="preserve">
+    <value>Co&amp;ntacts:</value>
+  </data>
+  <data name="&gt;&gt;label_General_ContactFolder.Name" xml:space="preserve">
+    <value>label_General_ContactFolder</value>
+  </data>
+  <data name="&gt;&gt;label_General_ContactFolder.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_General_ContactFolder.Parent" xml:space="preserve">
+    <value>table_General_DefaultFolders</value>
+  </data>
+  <data name="&gt;&gt;label_General_ContactFolder.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label_General_CalendarFolder.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="label_General_CalendarFolder.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_General_CalendarFolder.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_General_CalendarFolder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 13</value>
+  </data>
+  <data name="label_General_CalendarFolder.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 3, 0</value>
+  </data>
+  <data name="label_General_CalendarFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 13</value>
+  </data>
+  <data name="label_General_CalendarFolder.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label_General_CalendarFolder.Text" xml:space="preserve">
+    <value>&amp;Calendar:</value>
+  </data>
+  <data name="&gt;&gt;label_General_CalendarFolder.Name" xml:space="preserve">
+    <value>label_General_CalendarFolder</value>
+  </data>
+  <data name="&gt;&gt;label_General_CalendarFolder.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_General_CalendarFolder.Parent" xml:space="preserve">
+    <value>table_General_DefaultFolders</value>
+  </data>
+  <data name="&gt;&gt;label_General_CalendarFolder.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="label_General_TaskFolder.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="label_General_TaskFolder.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_General_TaskFolder.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_General_TaskFolder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 44</value>
+  </data>
+  <data name="label_General_TaskFolder.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 3, 3, 0</value>
+  </data>
+  <data name="label_General_TaskFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>39, 13</value>
+  </data>
+  <data name="label_General_TaskFolder.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label_General_TaskFolder.Text" xml:space="preserve">
+    <value>&amp;Tasks:</value>
+  </data>
+  <data name="&gt;&gt;label_General_TaskFolder.Name" xml:space="preserve">
+    <value>label_General_TaskFolder</value>
+  </data>
+  <data name="&gt;&gt;label_General_TaskFolder.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_General_TaskFolder.Parent" xml:space="preserve">
+    <value>table_General_DefaultFolders</value>
+  </data>
+  <data name="&gt;&gt;label_General_TaskFolder.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="button_General_SelectTaskFolder.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="button_General_SelectTaskFolder.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="button_General_SelectTaskFolder.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="button_General_SelectTaskFolder.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="button_General_SelectTaskFolder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>273, 39</value>
+  </data>
+  <data name="button_General_SelectTaskFolder.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 0, 2</value>
+  </data>
+  <data name="button_General_SelectTaskFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 23</value>
+  </data>
+  <data name="button_General_SelectTaskFolder.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="button_General_SelectTaskFolder.Text" xml:space="preserve">
+    <value>&amp;Select…</value>
+  </data>
+  <data name="&gt;&gt;button_General_SelectTaskFolder.Name" xml:space="preserve">
+    <value>button_General_SelectTaskFolder</value>
+  </data>
+  <data name="&gt;&gt;button_General_SelectTaskFolder.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_General_SelectTaskFolder.Parent" xml:space="preserve">
+    <value>table_General_DefaultFolders</value>
+  </data>
+  <data name="&gt;&gt;button_General_SelectTaskFolder.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="button_General_SelectContactFolder.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="button_General_SelectContactFolder.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="button_General_SelectContactFolder.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="button_General_SelectContactFolder.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="button_General_SelectContactFolder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>273, 69</value>
+  </data>
+  <data name="button_General_SelectContactFolder.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 0, 2</value>
+  </data>
+  <data name="button_General_SelectContactFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 23</value>
+  </data>
+  <data name="button_General_SelectContactFolder.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="button_General_SelectContactFolder.Text" xml:space="preserve">
+    <value>&amp;Select…</value>
+  </data>
+  <data name="&gt;&gt;button_General_SelectContactFolder.Name" xml:space="preserve">
+    <value>button_General_SelectContactFolder</value>
+  </data>
+  <data name="&gt;&gt;button_General_SelectContactFolder.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_General_SelectContactFolder.Parent" xml:space="preserve">
+    <value>table_General_DefaultFolders</value>
+  </data>
+  <data name="&gt;&gt;button_General_SelectContactFolder.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="text_General_TaskFolder.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="text_General_TaskFolder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>58, 39</value>
+  </data>
+  <data name="text_General_TaskFolder.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 2</value>
+  </data>
+  <data name="text_General_TaskFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 20</value>
+  </data>
+  <data name="text_General_TaskFolder.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;text_General_TaskFolder.Name" xml:space="preserve">
+    <value>text_General_TaskFolder</value>
+  </data>
+  <data name="&gt;&gt;text_General_TaskFolder.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_General_TaskFolder.Parent" xml:space="preserve">
+    <value>table_General_DefaultFolders</value>
+  </data>
+  <data name="&gt;&gt;text_General_TaskFolder.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="table_General_DefaultFolders.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="table_General_DefaultFolders.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 19</value>
+  </data>
+  <data name="table_General_DefaultFolders.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 0</value>
+  </data>
+  <data name="table_General_DefaultFolders.RowCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="table_General_DefaultFolders.Size" type="System.Drawing.Size, System.Drawing">
+    <value>326, 94</value>
+  </data>
+  <data name="table_General_DefaultFolders.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;table_General_DefaultFolders.Name" xml:space="preserve">
+    <value>table_General_DefaultFolders</value>
+  </data>
+  <data name="&gt;&gt;table_General_DefaultFolders.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;table_General_DefaultFolders.Parent" xml:space="preserve">
+    <value>group_General_Scheduling</value>
+  </data>
+  <data name="&gt;&gt;table_General_DefaultFolders.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="table_General_DefaultFolders.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="text_General_CalendarFolder" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="text_General_ContactFolder" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="button_General_SelectCalendarFolder" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label_General_ContactFolder" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label_General_CalendarFolder" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label_General_TaskFolder" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="button_General_SelectTaskFolder" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="button_General_SelectContactFolder" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="text_General_TaskFolder" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="group_General_Scheduling.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="group_General_Scheduling.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 275</value>
+  </data>
+  <data name="group_General_Scheduling.Size" type="System.Drawing.Size, System.Drawing">
+    <value>346, 123</value>
+  </data>
+  <data name="group_General_Scheduling.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="group_General_Scheduling.Text" xml:space="preserve">
+    <value>Default Folders</value>
+  </data>
+  <data name="&gt;&gt;group_General_Scheduling.Name" xml:space="preserve">
+    <value>group_General_Scheduling</value>
+  </data>
+  <data name="&gt;&gt;group_General_Scheduling.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.SeparatorBox, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;group_General_Scheduling.Parent" xml:space="preserve">
+    <value>panel_General</value>
+  </data>
+  <data name="&gt;&gt;group_General_Scheduling.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="group_Server_Authentication.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="group_Server_Authentication.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="table_General_Authentication.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="table_General_Authentication.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label_LoginName.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="label_LoginName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_LoginName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_LoginName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 11</value>
+  </data>
+  <data name="label_LoginName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 3, 0</value>
+  </data>
+  <data name="label_LoginName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 13</value>
+  </data>
+  <data name="label_LoginName.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="label_LoginName.Text" xml:space="preserve">
+    <value>&amp;Login name:</value>
+  </data>
+  <data name="&gt;&gt;label_LoginName.Name" xml:space="preserve">
+    <value>label_LoginName</value>
+  </data>
+  <data name="&gt;&gt;label_LoginName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_LoginName.Parent" xml:space="preserve">
+    <value>table_General_Authentication</value>
+  </data>
+  <data name="&gt;&gt;label_LoginName.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label_Password.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="label_Password.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Password.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Password.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 43</value>
+  </data>
+  <data name="label_Password.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 9, 3, 3</value>
+  </data>
+  <data name="label_Password.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 13</value>
+  </data>
+  <data name="label_Password.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="label_Password.Text" xml:space="preserve">
+    <value>&amp;Password:</value>
+  </data>
+  <data name="&gt;&gt;label_Password.Name" xml:space="preserve">
+    <value>label_Password</value>
+  </data>
+  <data name="&gt;&gt;label_Password.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Password.Parent" xml:space="preserve">
+    <value>table_General_Authentication</value>
+  </data>
+  <data name="&gt;&gt;label_Password.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="text_Password.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="text_Password.Location" type="System.Drawing.Point, System.Drawing">
+    <value>71, 40</value>
+  </data>
+  <data name="text_Password.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 9, 0, 3</value>
+  </data>
+  <data name="text_Password.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="text_Password.Size" type="System.Drawing.Size, System.Drawing">
+    <value>255, 20</value>
+  </data>
+  <data name="text_Password.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;text_Password.Name" xml:space="preserve">
+    <value>text_Password</value>
+  </data>
+  <data name="&gt;&gt;text_Password.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_Password.Parent" xml:space="preserve">
+    <value>table_General_Authentication</value>
+  </data>
+  <data name="&gt;&gt;text_Password.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="text_LoginName.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="text_LoginName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>71, 8</value>
+  </data>
+  <data name="text_LoginName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 0, 3</value>
+  </data>
+  <data name="text_LoginName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>255, 20</value>
+  </data>
+  <data name="text_LoginName.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;text_LoginName.Name" xml:space="preserve">
+    <value>text_LoginName</value>
+  </data>
+  <data name="&gt;&gt;text_LoginName.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_LoginName.Parent" xml:space="preserve">
+    <value>table_General_Authentication</value>
+  </data>
+  <data name="&gt;&gt;text_LoginName.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="table_General_Authentication.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="table_General_Authentication.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 70</value>
+  </data>
+  <data name="table_General_Authentication.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 0</value>
+  </data>
+  <data name="table_General_Authentication.RowCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="table_General_Authentication.Size" type="System.Drawing.Size, System.Drawing">
+    <value>326, 63</value>
+  </data>
+  <data name="table_General_Authentication.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;table_General_Authentication.Name" xml:space="preserve">
+    <value>table_General_Authentication</value>
+  </data>
+  <data name="&gt;&gt;table_General_Authentication.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;table_General_Authentication.Parent" xml:space="preserve">
+    <value>group_Server_Authentication</value>
+  </data>
+  <data name="&gt;&gt;table_General_Authentication.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="table_General_Authentication.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label_LoginName" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label_Password" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="text_Password" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="text_LoginName" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="flowLayoutPanel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="flowLayoutPanel1.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="radio_UseSSO.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radio_UseSSO.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radio_UseSSO.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 8</value>
+  </data>
+  <data name="radio_UseSSO.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 17</value>
+  </data>
+  <data name="radio_UseSSO.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="radio_UseSSO.Text" xml:space="preserve">
+    <value>Use &amp;Integrated Windows authentication (SSO)</value>
+  </data>
+  <data name="&gt;&gt;radio_UseSSO.Name" xml:space="preserve">
+    <value>radio_UseSSO</value>
+  </data>
+  <data name="&gt;&gt;radio_UseSSO.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radio_UseSSO.Parent" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;radio_UseSSO.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="radio_UseAccountCredentials.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radio_UseAccountCredentials.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radio_UseAccountCredentials.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 31</value>
+  </data>
+  <data name="radio_UseAccountCredentials.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 17</value>
+  </data>
+  <data name="radio_UseAccountCredentials.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="radio_UseAccountCredentials.Text" xml:space="preserve">
+    <value>&amp;Use these credentials:</value>
+  </data>
+  <data name="&gt;&gt;radio_UseAccountCredentials.Name" xml:space="preserve">
+    <value>radio_UseAccountCredentials</value>
+  </data>
+  <data name="&gt;&gt;radio_UseAccountCredentials.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radio_UseAccountCredentials.Parent" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;radio_UseAccountCredentials.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="flowLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 19</value>
+  </data>
+  <data name="flowLayoutPanel1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 0</value>
+  </data>
+  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>326, 51</value>
+  </data>
+  <data name="flowLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.Name" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.Parent" xml:space="preserve">
+    <value>group_Server_Authentication</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="group_Server_Authentication.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="group_Server_Authentication.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 132</value>
+  </data>
+  <data name="group_Server_Authentication.Size" type="System.Drawing.Size, System.Drawing">
+    <value>346, 143</value>
+  </data>
+  <data name="group_Server_Authentication.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="group_Server_Authentication.Text" xml:space="preserve">
+    <value>Authentication</value>
+  </data>
+  <data name="&gt;&gt;group_Server_Authentication.Name" xml:space="preserve">
+    <value>group_Server_Authentication</value>
+  </data>
+  <data name="&gt;&gt;group_Server_Authentication.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.SeparatorBox, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;group_Server_Authentication.Parent" xml:space="preserve">
+    <value>panel_General</value>
+  </data>
+  <data name="&gt;&gt;group_Server_Authentication.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="group_General_UserInfo.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="group_General_UserInfo.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="table_General_UserInformation.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="table_General_UserInformation.ColumnCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="label_General_Name.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="label_General_Name.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_General_Name.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_General_Name.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 11</value>
+  </data>
+  <data name="label_General_Name.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 3, 0</value>
+  </data>
+  <data name="label_General_Name.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
+  </data>
+  <data name="label_General_Name.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label_General_Name.Text" xml:space="preserve">
+    <value>&amp;Name:</value>
+  </data>
+  <data name="&gt;&gt;label_General_Name.Name" xml:space="preserve">
+    <value>label_General_Name</value>
+  </data>
+  <data name="&gt;&gt;label_General_Name.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_General_Name.Parent" xml:space="preserve">
+    <value>table_General_UserInformation</value>
+  </data>
+  <data name="&gt;&gt;label_General_Name.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="text_Name.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="text_Name.Location" type="System.Drawing.Point, System.Drawing">
+    <value>44, 8</value>
+  </data>
+  <data name="text_Name.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 0, 3</value>
+  </data>
+  <data name="text_Name.Size" type="System.Drawing.Size, System.Drawing">
+    <value>282, 20</value>
+  </data>
+  <data name="text_Name.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;text_Name.Name" xml:space="preserve">
+    <value>text_Name</value>
+  </data>
+  <data name="&gt;&gt;text_Name.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_Name.Parent" xml:space="preserve">
+    <value>table_General_UserInformation</value>
+  </data>
+  <data name="&gt;&gt;text_Name.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label_General_Email.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="label_General_Email.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_General_Email.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_General_Email.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 42</value>
+  </data>
+  <data name="label_General_Email.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 6, 3, 0</value>
+  </data>
+  <data name="label_General_Email.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 13</value>
+  </data>
+  <data name="label_General_Email.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label_General_Email.Text" xml:space="preserve">
+    <value>&amp;Email:</value>
+  </data>
+  <data name="&gt;&gt;label_General_Email.Name" xml:space="preserve">
+    <value>label_General_Email</value>
+  </data>
+  <data name="&gt;&gt;label_General_Email.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_General_Email.Parent" xml:space="preserve">
+    <value>table_General_UserInformation</value>
+  </data>
+  <data name="&gt;&gt;label_General_Email.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="text_Email.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="text_Email.Location" type="System.Drawing.Point, System.Drawing">
+    <value>44, 37</value>
+  </data>
+  <data name="text_Email.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 6, 3, 3</value>
+  </data>
+  <data name="text_Email.Size" type="System.Drawing.Size, System.Drawing">
+    <value>206, 20</value>
+  </data>
+  <data name="text_Email.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;text_Email.Name" xml:space="preserve">
+    <value>text_Email</value>
+  </data>
+  <data name="&gt;&gt;text_Email.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_Email.Parent" xml:space="preserve">
+    <value>table_General_UserInformation</value>
+  </data>
+  <data name="&gt;&gt;text_Email.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="button_General_Aliases.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="button_General_Aliases.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="button_General_Aliases.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="button_General_Aliases.Location" type="System.Drawing.Point, System.Drawing">
+    <value>256, 36</value>
+  </data>
+  <data name="button_General_Aliases.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 0, 2</value>
+  </data>
+  <data name="button_General_Aliases.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 23</value>
+  </data>
+  <data name="button_General_Aliases.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="button_General_Aliases.Text" xml:space="preserve">
+    <value>Aliases…</value>
+  </data>
+  <data name="&gt;&gt;button_General_Aliases.Name" xml:space="preserve">
+    <value>button_General_Aliases</value>
+  </data>
+  <data name="&gt;&gt;button_General_Aliases.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_General_Aliases.Parent" xml:space="preserve">
+    <value>table_General_UserInformation</value>
+  </data>
+  <data name="&gt;&gt;button_General_Aliases.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="table_General_UserInformation.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="table_General_UserInformation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 19</value>
+  </data>
+  <data name="table_General_UserInformation.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 0</value>
+  </data>
+  <data name="table_General_UserInformation.RowCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="table_General_UserInformation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>326, 61</value>
+  </data>
+  <data name="table_General_UserInformation.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;table_General_UserInformation.Name" xml:space="preserve">
+    <value>table_General_UserInformation</value>
+  </data>
+  <data name="&gt;&gt;table_General_UserInformation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;table_General_UserInformation.Parent" xml:space="preserve">
+    <value>group_General_UserInfo</value>
+  </data>
+  <data name="&gt;&gt;table_General_UserInformation.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="table_General_UserInformation.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label_General_Name" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="text_Name" Row="0" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="label_General_Email" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="text_Email" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="button_General_Aliases" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="group_General_UserInfo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="group_General_UserInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 42</value>
+  </data>
+  <data name="group_General_UserInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>346, 90</value>
+  </data>
+  <data name="group_General_UserInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="group_General_UserInfo.Text" xml:space="preserve">
+    <value>User Information</value>
+  </data>
+  <data name="&gt;&gt;group_General_UserInfo.Name" xml:space="preserve">
+    <value>group_General_UserInfo</value>
+  </data>
+  <data name="&gt;&gt;group_General_UserInfo.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.SeparatorBox, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;group_General_UserInfo.Parent" xml:space="preserve">
+    <value>panel_General</value>
+  </data>
+  <data name="&gt;&gt;group_General_UserInfo.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="table_IdentityName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="table_IdentityName.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label_General_AccountName.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="label_General_AccountName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_General_AccountName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_General_AccountName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 12</value>
+  </data>
+  <data name="label_General_AccountName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 3, 3, 3</value>
+  </data>
+  <data name="label_General_AccountName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 13</value>
+  </data>
+  <data name="label_General_AccountName.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label_General_AccountName.Text" xml:space="preserve">
+    <value>Account &amp;name:</value>
+  </data>
+  <data name="&gt;&gt;label_General_AccountName.Name" xml:space="preserve">
+    <value>label_General_AccountName</value>
+  </data>
+  <data name="&gt;&gt;label_General_AccountName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_General_AccountName.Parent" xml:space="preserve">
+    <value>table_IdentityName</value>
+  </data>
+  <data name="&gt;&gt;label_General_AccountName.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="text_IdentityName.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="text_IdentityName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>95, 9</value>
+  </data>
+  <data name="text_IdentityName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 0, 3</value>
+  </data>
+  <data name="text_IdentityName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>241, 20</value>
+  </data>
+  <data name="text_IdentityName.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;text_IdentityName.Name" xml:space="preserve">
+    <value>text_IdentityName</value>
+  </data>
+  <data name="&gt;&gt;text_IdentityName.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_IdentityName.Parent" xml:space="preserve">
+    <value>table_IdentityName</value>
+  </data>
+  <data name="&gt;&gt;text_IdentityName.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="table_IdentityName.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="table_IdentityName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 0</value>
+  </data>
+  <data name="table_IdentityName.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 6, 10, 10</value>
+  </data>
+  <data name="table_IdentityName.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="table_IdentityName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>346, 42</value>
+  </data>
+  <data name="table_IdentityName.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;table_IdentityName.Name" xml:space="preserve">
+    <value>table_IdentityName</value>
+  </data>
+  <data name="&gt;&gt;table_IdentityName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;table_IdentityName.Parent" xml:space="preserve">
+    <value>panel_General</value>
+  </data>
+  <data name="&gt;&gt;table_IdentityName.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="table_IdentityName.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label_General_AccountName" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="text_IdentityName" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,Absolute,26" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="panel_General.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panel_General.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panel_General.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>6, 0, 6, 0</value>
+  </data>
+  <data name="panel_General.Size" type="System.Drawing.Size, System.Drawing">
+    <value>358, 864</value>
+  </data>
+  <data name="panel_General.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panel_General.Name" xml:space="preserve">
+    <value>panel_General</value>
+  </data>
+  <data name="&gt;&gt;panel_General.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.ScrollPanel, MailClient.Common.UI, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;panel_General.Parent" xml:space="preserve">
+    <value>tab_General</value>
+  </data>
+  <data name="&gt;&gt;panel_General.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tab_General.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tab_General.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1, 29</value>
+  </data>
+  <data name="tab_General.Size" type="System.Drawing.Size, System.Drawing">
+    <value>358, 864</value>
+  </data>
+  <data name="tab_General.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tab_General.Text" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="&gt;&gt;tab_General.Name" xml:space="preserve">
+    <value>tab_General</value>
+  </data>
+  <data name="&gt;&gt;tab_General.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.ControlPanelSwitcher.SwitchPanel, MailClient.Common.UI, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;tab_General.Parent" xml:space="preserve">
+    <value>controlPanelTabSwitcher1</value>
+  </data>
+  <data name="&gt;&gt;tab_General.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="checkEncryptMessages.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkEncryptMessages.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkEncryptMessages.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 45</value>
+  </data>
+  <data name="checkEncryptMessages.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 17</value>
+  </data>
+  <data name="checkEncryptMessages.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="checkEncryptMessages.Text" xml:space="preserve">
+    <value>Require message encryption</value>
+  </data>
+  <data name="&gt;&gt;checkEncryptMessages.Name" xml:space="preserve">
+    <value>checkEncryptMessages</value>
+  </data>
+  <data name="&gt;&gt;checkEncryptMessages.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkEncryptMessages.Parent" xml:space="preserve">
+    <value>tab_Security</value>
+  </data>
+  <data name="&gt;&gt;checkEncryptMessages.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="checkSignMessages.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkSignMessages.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkSignMessages.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 20</value>
+  </data>
+  <data name="checkSignMessages.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 17</value>
+  </data>
+  <data name="checkSignMessages.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="checkSignMessages.Text" xml:space="preserve">
+    <value>Digitally sign messages (by default)</value>
+  </data>
+  <data name="&gt;&gt;checkSignMessages.Name" xml:space="preserve">
+    <value>checkSignMessages</value>
+  </data>
+  <data name="&gt;&gt;checkSignMessages.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkSignMessages.Parent" xml:space="preserve">
+    <value>tab_Security</value>
+  </data>
+  <data name="&gt;&gt;checkSignMessages.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="checkIncludeCertificates.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkIncludeCertificates.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkIncludeCertificates.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 70</value>
+  </data>
+  <data name="checkIncludeCertificates.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 17</value>
+  </data>
+  <data name="checkIncludeCertificates.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="checkIncludeCertificates.Text" xml:space="preserve">
+    <value>Include these certificates with outgoing messages</value>
+  </data>
+  <data name="&gt;&gt;checkIncludeCertificates.Name" xml:space="preserve">
+    <value>checkIncludeCertificates</value>
+  </data>
+  <data name="&gt;&gt;checkIncludeCertificates.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkIncludeCertificates.Parent" xml:space="preserve">
+    <value>tab_Security</value>
+  </data>
+  <data name="&gt;&gt;checkIncludeCertificates.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tab_Security.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tab_Security.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1, 29</value>
+  </data>
+  <data name="tab_Security.Size" type="System.Drawing.Size, System.Drawing">
+    <value>358, 524</value>
+  </data>
+  <data name="tab_Security.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tab_Security.Text" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="&gt;&gt;tab_Security.Name" xml:space="preserve">
+    <value>tab_Security</value>
+  </data>
+  <data name="&gt;&gt;tab_Security.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.ControlPanelSwitcher.SwitchPanel, MailClient.Common.UI, Version=7.0.25037.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;tab_Security.Parent" xml:space="preserve">
+    <value>controlPanelTabSwitcher1</value>
+  </data>
+  <data name="&gt;&gt;tab_Security.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="controlPanelTabSwitcher1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="controlPanelTabSwitcher1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="controlPanelTabSwitcher1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>6, 6, 6, 6</value>
+  </data>
+  <data name="controlPanelTabSwitcher1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>360, 894</value>
+  </data>
+  <data name="controlPanelTabSwitcher1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;controlPanelTabSwitcher1.Name" xml:space="preserve">
+    <value>controlPanelTabSwitcher1</value>
+  </data>
+  <data name="&gt;&gt;controlPanelTabSwitcher1.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.ControlPanelSwitcher.ControlPanelTabSwitcher, MailClient.Common.UI, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;controlPanelTabSwitcher1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;controlPanelTabSwitcher1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>360, 894</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>MailOptionsControl</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>MailClient.Accounts.OptionsControl, MailClient, Version=7.0.25732.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+</root>
