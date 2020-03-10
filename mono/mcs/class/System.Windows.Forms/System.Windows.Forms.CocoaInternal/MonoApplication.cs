@@ -14,7 +14,7 @@ using MonoMac.ObjCRuntime;
 namespace System.Windows.Forms.CocoaInternal
 {
 	[Register("MonoApplication")]
-	internal class MonoApplication : NSApplication
+	internal partial class MonoApplication : NSApplication
 	{
 		internal delegate IntPtr CreateSharedApplicationDelegate();
 		internal static Swizzle<CreateSharedApplicationDelegate> shared;
@@ -32,6 +32,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public MonoApplication(IntPtr handle) : base(handle)
 		{
+			SetupDelegate();
 		}
 
 		internal static IntPtr New(Type type)
