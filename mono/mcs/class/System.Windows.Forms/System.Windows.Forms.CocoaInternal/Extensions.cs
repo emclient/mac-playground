@@ -392,12 +392,13 @@ namespace System.Windows.Forms.Mac
 
 		public static CGPoint ConvertPointFromWindow(this NSWindow window, CGPoint point, NSWindow source)
 		{
-			return window.ConvertPointFromScreenSafe(source.ConvertPointToScreenSafe(point));
+			return window.ConvertPointFromScreenSafe(source?.ConvertPointToScreenSafe(point) ?? point);
 		}
 
 		public static CGPoint ConvertPointToWindow(this NSWindow window, CGPoint point, NSWindow target)
 		{
-			return target.ConvertPointFromScreenSafe(window.ConvertPointToScreenSafe(point));
+			var spoint = window.ConvertPointToScreenSafe(point);
+			return target?.ConvertPointFromScreenSafe(spoint) ?? spoint;
 		}
 
 		public static NSDragOperation ToDragOperation(this DragDropEffects e)
