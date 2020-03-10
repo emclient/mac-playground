@@ -171,9 +171,6 @@ namespace System.Windows.Forms {
 
 			NSApp = MonoApplication.CreateShared();
 
-			// Initialize the event handlers
-			NSApp.Delegate = new MonoApplicationDelegate(this);
-
 			// Make sure the Apple event handlers get registered
 			using (new NSAutoreleasePool())
 				NSApp.FinishLaunching();
