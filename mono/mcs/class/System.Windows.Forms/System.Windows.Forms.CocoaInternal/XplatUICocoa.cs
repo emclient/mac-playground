@@ -1177,8 +1177,6 @@ namespace System.Windows.Forms {
 
 		internal void Exit () {
 			GetMessageResult = false;
-			NSApplication.SharedApplication.Delegate = null;
-			// NSApplication.SharedApplication.Terminate(this);
 		}
 
 		internal override IntPtr GetActive() {
