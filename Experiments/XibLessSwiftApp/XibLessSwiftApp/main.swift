@@ -22,7 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 class Program {
 
-    static let app:NSApplication = NSApplication.shared()
+    static let app = NSApplication.shared
     
     static func runNative()
     {
@@ -62,8 +62,8 @@ class Program {
     }
 
     static func windowWithTitle(_ title:String) -> NSWindow {
-        let style = NSTitledWindowMask.rawValue | NSClosableWindowMask.rawValue | NSResizableWindowMask.rawValue
-        let window = NSWindow(contentRect:NSMakeRect(0, 0, 480, 320), styleMask:NSWindowStyleMask(rawValue: style), backing:.buffered, defer:false)
+        let style:NSWindow.StyleMask = [.titled, .closable, .resizable]
+        let window = NSWindow(contentRect:NSMakeRect(0, 0, 480, 320), styleMask:style, backing:.buffered, defer:false)
         window.title = title
         return window
     }
@@ -92,12 +92,11 @@ class Program {
     static func run() {
         repeat
         {
-            let mask = UInt.init(truncatingBitPattern: NSEventMask.any.rawValue)
-            let event = app.nextEvent(matching: NSEventMask(rawValue: UInt64(mask)), until: Date.distantFuture, inMode: RunLoopMode.defaultRunLoopMode, dequeue: true)
-            if event == nil {
+            if let event = app.nextEvent(matching: .any, until: .distantFuture, inMode: .default, dequeue: true) {
+                app.sendEvent(event)
+            } else {
                 break
             }
-            app.sendEvent(event!)
         } while true
     }
     
@@ -107,13 +106,13 @@ class Program {
 
         repeat
         {
-            let mask = UInt.init(truncatingBitPattern: NSEventMask.any.rawValue)
-            let event = app.nextEvent(matching: NSEventMask(rawValue: UInt64(mask)), until: Date.distantFuture, inMode: RunLoopMode.defaultRunLoopMode, dequeue: true)
-            if event != nil {
-                app.sendEvent(event!)
+            if let event = app.nextEvent(matching: .any, until: .distantFuture, inMode: .default, dequeue: true) {
+                app.sendEvent(event)
                 if !theWindow.isVisible {
                     break
                 }
+            } else {
+                break
             }
         } while true
 
@@ -122,5 +121,5 @@ class Program {
     
 }
 
-//Program.runNative()
-Program.runCustom()
+Program.runNative()
+//Program.runCustom()

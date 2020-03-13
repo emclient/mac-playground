@@ -3,21 +3,25 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6360BD5B1CDFE17100422368 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6360BD581CDFE17100422368 /* main.swift */; };
+		631A63FD241A628D000A5021 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 631A63FC241A628D000A5021 /* AppDelegate.m */; };
+		631A6408241A6292000A5021 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 631A6407241A6292000A5021 /* main.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6360BD421CDB6D2000422368 /* XibLessSwiftApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XibLessSwiftApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6360BD571CDFE17100422368 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = XibLessSwiftApp/Info.plist; sourceTree = SOURCE_ROOT; };
-		6360BD581CDFE17100422368 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = main.swift; path = XibLessSwiftApp/main.swift; sourceTree = SOURCE_ROOT; };
+		631A63F8241A628D000A5021 /* Backup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Backup.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		631A63FB241A628D000A5021 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		631A63FC241A628D000A5021 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		631A6406241A6292000A5021 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		631A6407241A6292000A5021 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		631A6409241A6292000A5021 /* Backup.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Backup.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		6360BD3F1CDB6D2000422368 /* Frameworks */ = {
+		631A63F5241A628D000A5021 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -27,87 +31,88 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6360BD391CDB6D2000422368 = {
+		631A63EF241A628D000A5021 = {
 			isa = PBXGroup;
 			children = (
-				6360BD441CDB6D2000422368 /* XibLessSwiftApp */,
-				6360BD431CDB6D2000422368 /* Products */,
+				631A63FA241A628D000A5021 /* Backup */,
+				631A63F9241A628D000A5021 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		6360BD431CDB6D2000422368 /* Products */ = {
+		631A63F9241A628D000A5021 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6360BD421CDB6D2000422368 /* XibLessSwiftApp.app */,
+				631A63F8241A628D000A5021 /* Backup.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6360BD441CDB6D2000422368 /* XibLessSwiftApp */ = {
+		631A63FA241A628D000A5021 /* Backup */ = {
 			isa = PBXGroup;
 			children = (
-				6360BD571CDFE17100422368 /* Info.plist */,
-				6360BD581CDFE17100422368 /* main.swift */,
+				631A63FB241A628D000A5021 /* AppDelegate.h */,
+				631A63FC241A628D000A5021 /* AppDelegate.m */,
+				631A6406241A6292000A5021 /* Info.plist */,
+				631A6407241A6292000A5021 /* main.m */,
+				631A6409241A6292000A5021 /* Backup.entitlements */,
 			);
-			path = XibLessSwiftApp;
+			path = Backup;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6360BD411CDB6D2000422368 /* XibLessSwiftApp */ = {
+		631A63F7241A628D000A5021 /* Backup */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6360BD4F1CDB6D2000422368 /* Build configuration list for PBXNativeTarget "XibLessSwiftApp" */;
+			buildConfigurationList = 631A640C241A6292000A5021 /* Build configuration list for PBXNativeTarget "Backup" */;
 			buildPhases = (
-				6360BD3E1CDB6D2000422368 /* Sources */,
-				6360BD3F1CDB6D2000422368 /* Frameworks */,
-				6360BD401CDB6D2000422368 /* Resources */,
+				631A63F4241A628D000A5021 /* Sources */,
+				631A63F5241A628D000A5021 /* Frameworks */,
+				631A63F6241A628D000A5021 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = XibLessSwiftApp;
-			productName = XibLessSwiftApp;
-			productReference = 6360BD421CDB6D2000422368 /* XibLessSwiftApp.app */;
+			name = Backup;
+			productName = Backup;
+			productReference = 631A63F8241A628D000A5021 /* Backup.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		6360BD3A1CDB6D2000422368 /* Project object */ = {
+		631A63F0241A628D000A5021 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "eM Client";
 				TargetAttributes = {
-					6360BD411CDB6D2000422368 = {
-						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 0820;
+					631A63F7241A628D000A5021 = {
+						CreatedOnToolsVersion = 11.3.1;
 					};
 				};
 			};
-			buildConfigurationList = 6360BD3D1CDB6D2000422368 /* Build configuration list for PBXProject "XibLessSwiftApp" */;
-			compatibilityVersion = "Xcode 3.2";
+			buildConfigurationList = 631A63F3241A628D000A5021 /* Build configuration list for PBXProject "Backup" */;
+			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 6360BD391CDB6D2000422368;
-			productRefGroup = 6360BD431CDB6D2000422368 /* Products */;
+			mainGroup = 631A63EF241A628D000A5021;
+			productRefGroup = 631A63F9241A628D000A5021 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6360BD411CDB6D2000422368 /* XibLessSwiftApp */,
+				631A63F7241A628D000A5021 /* Backup */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		6360BD401CDB6D2000422368 /* Resources */ = {
+		631A63F6241A628D000A5021 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -117,32 +122,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		6360BD3E1CDB6D2000422368 /* Sources */ = {
+		631A63F4241A628D000A5021 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6360BD5B1CDFE17100422368 /* main.swift in Sources */,
+				631A6408241A6292000A5021 /* main.m in Sources */,
+				631A63FD241A628D000A5021 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		6360BD4D1CDB6D2000422368 /* Debug */ = {
+		631A640A241A6292000A5021 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -154,14 +163,14 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -175,29 +184,32 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		6360BD4E1CDB6D2000422368 /* Release */ = {
+		631A640B241A6292000A5021 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -209,14 +221,14 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -224,64 +236,79 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
-		6360BD501CDB6D2000422368 /* Debug */ = {
+		631A640D241A6292000A5021 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Backup/Backup.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = XibLessSwiftApp/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.emclient.XibLessSwiftApp;
-				PRODUCT_NAME = XibLessSwiftApp;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				DEVELOPMENT_TEAM = 2ED6AKD5KA;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Backup/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.emclient.mail.backup;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
-		6360BD511CDB6D2000422368 /* Release */ = {
+		631A640E241A6292000A5021 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Backup/Backup.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = XibLessSwiftApp/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.emclient.XibLessSwiftApp;
-				PRODUCT_NAME = XibLessSwiftApp;
-				SWIFT_VERSION = 5.0;
+				DEVELOPMENT_TEAM = 2ED6AKD5KA;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Backup/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.emclient.mail.backup;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6360BD3D1CDB6D2000422368 /* Build configuration list for PBXProject "XibLessSwiftApp" */ = {
+		631A63F3241A628D000A5021 /* Build configuration list for PBXProject "Backup" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6360BD4D1CDB6D2000422368 /* Debug */,
-				6360BD4E1CDB6D2000422368 /* Release */,
+				631A640A241A6292000A5021 /* Debug */,
+				631A640B241A6292000A5021 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6360BD4F1CDB6D2000422368 /* Build configuration list for PBXNativeTarget "XibLessSwiftApp" */ = {
+		631A640C241A6292000A5021 /* Build configuration list for PBXNativeTarget "Backup" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6360BD501CDB6D2000422368 /* Debug */,
-				6360BD511CDB6D2000422368 /* Release */,
+				631A640D241A6292000A5021 /* Debug */,
+				631A640E241A6292000A5021 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 6360BD3A1CDB6D2000422368 /* Project object */;
+	rootObject = 631A63F0241A628D000A5021 /* Project object */;
 }
