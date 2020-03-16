@@ -282,12 +282,6 @@ namespace FormsTest
 			dialog.ShowDialog(this);
 		}
 
-		protected override void OnFormClosing(FormClosingEventArgs e)
-		{
-			e.Cancel = true;
-			Visible = false;
-		}
-
 		AppKit.NSTitlebarAccessoryViewController tbc;
 		void ChangeBackColor()
 		{
