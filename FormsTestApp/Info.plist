@@ -23,7 +23,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>${AuthorCopyright}</string>
 	<key>NSPrincipalClass</key>
-	<string>FormsTest.App.FormsTestApplication, FormsTestApp</string>
+	<string>NSApplication</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSAppTransportSecurity</key>
