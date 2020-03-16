@@ -23,7 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <EnableCodeSigning>false</EnableCodeSigning>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
-    <CreatePackage>true</CreatePackage>
+    <CreatePackage>false</CreatePackage>
     <EnablePackageSigning>false</EnablePackageSigning>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <UseSGen>true</UseSGen>
@@ -44,8 +44,8 @@
     <DefineConstants>;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <EnableCodeSigning>false</EnableCodeSigning>
-    <CodeSigningKey>Mac Developer</CodeSigningKey>
+    <EnableCodeSigning>true</EnableCodeSigning>
+    <CodeSigningKey>Developer ID Application: eM Client s.r.o. (2ED6AKD5KA)</CodeSigningKey>
     <CreatePackage>true</CreatePackage>
     <EnablePackageSigning>false</EnablePackageSigning>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
@@ -58,6 +58,8 @@
     <MonoBundlingExtraArgs>--registrar:dynamic --marshal-objectivec-exceptions=throwmanagedexception</MonoBundlingExtraArgs>
     <EnableSGenConc>true</EnableSGenConc>
     <AOTMode>None</AOTMode>
+    <UseHardenedRuntime>true</UseHardenedRuntime>
+    <CodeSignEntitlements>Entitlements.plist</CodeSignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <UseSGen>false</UseSGen>
@@ -93,6 +95,10 @@
       <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
       <Name>System.Drawing (CoreGraphics)</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MacApi\MacApi.csproj">
+      <Project>{981DC886-42D2-496B-B6E1-1EF6FE3EE78A}</Project>
+      <Name>MacApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -104,7 +110,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="FormsTestApplication.cs" />
   </ItemGroup>
   <!--<Import Project="..\..\..\Tools\BuildTasks\MailClient.BuildTasks.targets" />-->
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
