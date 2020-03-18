@@ -133,6 +133,115 @@
 	<Compile Include="..\..\..\WinApi\Mpr.Structs.cs">
       <Link>WinApi\Mpr.Structs.cs</Link>
     </Compile>
+	<Compile Include="WinApi\UIAutomationCore.cs" />
+	<Compile Include="..\..\..\WinApi\UIAutomationCore.Structs.cs">
+	  <Link>WinApi\UIAutomationCore.Structs.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\AsyncContentLoadedState.cs">
+	  <Link>WinApi\UIAutomation\AsyncContentLoadedState.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\StructureChangeType.cs">
+	  <Link>WinApi\UIAutomation\StructureChangeType.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Enums\NavigateDirection.cs">
+	  <Link>WinApi\UIAutomation\Enums\NavigateDirection.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Enums\ProviderOptions.cs">
+	  <Link>WinApi\UIAutomation\Enums\ProviderOptions.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Enums\ToggleState.cs">
+	  <Link>WinApi\UIAutomation\Enums\ToggleState.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Enums\WindowVisualState.cs">
+	  <Link>WinApi\UIAutomation\Enums\WindowVisualState.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Enums\SupportedTextSelection.cs">
+	  <Link>WinApi\UIAutomation\Enums\SupportedTextSelection.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Enums\OrientationType.cs">
+	  <Link>WinApi\UIAutomation\Enums\OrientationType.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Enums\ExpandCollapseState.cs">
+	  <Link>WinApi\UIAutomation\Enums\ExpandCollapseState.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Enums\RowOrColumnMajor.cs">
+	  <Link>WinApi\UIAutomation\Enums\RowOrColumnMajor.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Enums\WindowInteractionState.cs">
+	  <Link>WinApi\UIAutomation\Enums\WindowInteractionState.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Enums\ScrollAmount.cs">
+	  <Link>WinApi\UIAutomation\Enums\ScrollAmount.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\IRawElementProviderHwndOverride.cs">
+	  <Link>WinApi\UIAutomation\Provider\IRawElementProviderHwndOverride.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\IValueProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\IValueProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\IExpandCollapseProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\IExpandCollapseProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\IToggleProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\IToggleProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\IRawElementProviderFragment.cs">
+	  <Link>WinApi\UIAutomation\Provider\IRawElementProviderFragment.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\IRawElementProviderSimple.cs">
+	  <Link>WinApi\UIAutomation\Provider\IRawElementProviderSimple.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\ISelectionProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\ISelectionProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\ITableItemProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\ITableItemProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\ISelectionItemProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\ISelectionItemProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\IScrollProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\IScrollProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\IInvokeProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\IInvokeProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\ITableProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\ITableProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\IRawElementProviderAdviseEvents.cs">
+	  <Link>WinApi\UIAutomation\Provider\IRawElementProviderAdviseEvents.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\IGridProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\IGridProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\ITextRangeProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\ITextRangeProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\IScrollItemProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\IScrollItemProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\IWindowProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\IWindowProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\IRangeValueProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\IRangeValueProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\IRawElementProviderFragmentRoot.cs">
+	  <Link>WinApi\UIAutomation\Provider\IRawElementProviderFragmentRoot.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\IGridItemProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\IGridItemProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Provider\ITextProvider.cs">
+	  <Link>WinApi\UIAutomation\Provider\ITextProvider.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Text\TextUnit.cs">
+	  <Link>WinApi\UIAutomation\Text\TextUnit.cs</Link>
+	</Compile>
+	<Compile Include="..\..\..\WinApi\UIAutomation\Text\TextPatternRangeEndpoint.cs">
+	  <Link>WinApi\UIAutomation\Text\TextPatternRangeEndpoint.cs</Link>
+	</Compile>
   </ItemGroup>
   <Import Project="..\..\..\Tools\BuildTasks\Unified.targets" />
   <ItemGroup>
