@@ -1,0 +1,897 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="group_Confirmations.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="group_Confirmations.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="table_Confirmations_JunkInbox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="table_Confirmations_JunkInbox.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="table_Confirmations_JunkInbox.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="combo_Confirmations_MoveToJunk.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="combo_Confirmations_MoveToJunk.Location" type="System.Drawing.Point, System.Drawing">
+    <value>114, 2</value>
+  </data>
+  <data name="combo_Confirmations_MoveToJunk.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 2, 0, 3</value>
+  </data>
+  <data name="combo_Confirmations_MoveToJunk.Size" type="System.Drawing.Size, System.Drawing">
+    <value>295, 21</value>
+  </data>
+  <data name="combo_Confirmations_MoveToJunk.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;combo_Confirmations_MoveToJunk.Name" xml:space="preserve">
+    <value>combo_Confirmations_MoveToJunk</value>
+  </data>
+  <data name="&gt;&gt;combo_Confirmations_MoveToJunk.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.ComboBoxEx, MailClient.Common.UI, Version=7.1.28890.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;combo_Confirmations_MoveToJunk.Parent" xml:space="preserve">
+    <value>table_Confirmations_JunkInbox</value>
+  </data>
+  <data name="&gt;&gt;combo_Confirmations_MoveToJunk.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label_Confirmations_MoveToJunk.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Confirmations_MoveToJunk.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Confirmations_MoveToJunk.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 6</value>
+  </data>
+  <data name="label_Confirmations_MoveToJunk.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 6, 3, 0</value>
+  </data>
+  <data name="label_Confirmations_MoveToJunk.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 13</value>
+  </data>
+  <data name="label_Confirmations_MoveToJunk.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label_Confirmations_MoveToJunk.Text" xml:space="preserve">
+    <value>Move to Junk Action:</value>
+  </data>
+  <data name="&gt;&gt;label_Confirmations_MoveToJunk.Name" xml:space="preserve">
+    <value>label_Confirmations_MoveToJunk</value>
+  </data>
+  <data name="&gt;&gt;label_Confirmations_MoveToJunk.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Confirmations_MoveToJunk.Parent" xml:space="preserve">
+    <value>table_Confirmations_JunkInbox</value>
+  </data>
+  <data name="&gt;&gt;label_Confirmations_MoveToJunk.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="table_Confirmations_JunkInbox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="table_Confirmations_JunkInbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 353</value>
+  </data>
+  <data name="table_Confirmations_JunkInbox.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 10</value>
+  </data>
+  <data name="table_Confirmations_JunkInbox.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="table_Confirmations_JunkInbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>409, 36</value>
+  </data>
+  <data name="table_Confirmations_JunkInbox.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;table_Confirmations_JunkInbox.Name" xml:space="preserve">
+    <value>table_Confirmations_JunkInbox</value>
+  </data>
+  <data name="&gt;&gt;table_Confirmations_JunkInbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;table_Confirmations_JunkInbox.Parent" xml:space="preserve">
+    <value>group_Confirmations</value>
+  </data>
+  <data name="&gt;&gt;table_Confirmations_JunkInbox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="table_Confirmations_JunkInbox.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="combo_Confirmations_MoveToJunk" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label_Confirmations_MoveToJunk" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="flowLayoutPanel_Confirmations_.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="flowLayoutPanel_Confirmations_.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="check_Confirmations_NotifyLargeMessage.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="check_Confirmations_NotifyLargeMessage.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Confirmations_NotifyLargeMessage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="check_Confirmations_NotifyLargeMessage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 1</value>
+  </data>
+  <data name="check_Confirmations_NotifyLargeMessage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 17</value>
+  </data>
+  <data name="check_Confirmations_NotifyLargeMessage.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="check_Confirmations_NotifyLargeMessage.Text" xml:space="preserve">
+    <value>Notify if sending a message larger than</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifyLargeMessage.Name" xml:space="preserve">
+    <value>check_Confirmations_NotifyLargeMessage</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifyLargeMessage.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.WrappingCheckBox, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifyLargeMessage.Parent" xml:space="preserve">
+    <value>flowLayoutPanel_Confirmations_</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifyLargeMessage.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="numeric_Confirmations_NotifyLargeMessage.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="numeric_Confirmations_NotifyLargeMessage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>214, 0</value>
+  </data>
+  <data name="numeric_Confirmations_NotifyLargeMessage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="numeric_Confirmations_NotifyLargeMessage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 20</value>
+  </data>
+  <data name="numeric_Confirmations_NotifyLargeMessage.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;numeric_Confirmations_NotifyLargeMessage.Name" xml:space="preserve">
+    <value>numeric_Confirmations_NotifyLargeMessage</value>
+  </data>
+  <data name="&gt;&gt;numeric_Confirmations_NotifyLargeMessage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;numeric_Confirmations_NotifyLargeMessage.Parent" xml:space="preserve">
+    <value>flowLayoutPanel_Confirmations_</value>
+  </data>
+  <data name="&gt;&gt;numeric_Confirmations_NotifyLargeMessage.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label_Confirmations_MB.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="label_Confirmations_MB.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Confirmations_MB.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Confirmations_MB.Location" type="System.Drawing.Point, System.Drawing">
+    <value>258, 5</value>
+  </data>
+  <data name="label_Confirmations_MB.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 3, 0, 0</value>
+  </data>
+  <data name="label_Confirmations_MB.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 13</value>
+  </data>
+  <data name="label_Confirmations_MB.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label_Confirmations_MB.Text" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="&gt;&gt;label_Confirmations_MB.Name" xml:space="preserve">
+    <value>label_Confirmations_MB</value>
+  </data>
+  <data name="&gt;&gt;label_Confirmations_MB.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Confirmations_MB.Parent" xml:space="preserve">
+    <value>flowLayoutPanel_Confirmations_</value>
+  </data>
+  <data name="&gt;&gt;label_Confirmations_MB.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="check_Confirmations_NotifyMissingAttachment.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="check_Confirmations_NotifyMissingAttachment.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Confirmations_NotifyMissingAttachment.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 23</value>
+  </data>
+  <data name="check_Confirmations_NotifyMissingAttachment.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 2, 3, 1</value>
+  </data>
+  <data name="check_Confirmations_NotifyMissingAttachment.Size" type="System.Drawing.Size, System.Drawing">
+    <value>349, 30</value>
+  </data>
+  <data name="check_Confirmations_NotifyMissingAttachment.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="check_Confirmations_NotifyMissingAttachment.Text" xml:space="preserve">
+    <value>Notify if sending an email without an attachment and words similar to "attachment" were found in the email body</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifyMissingAttachment.Name" xml:space="preserve">
+    <value>check_Confirmations_NotifyMissingAttachment</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifyMissingAttachment.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.WrappingCheckBox, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifyMissingAttachment.Parent" xml:space="preserve">
+    <value>flowLayoutPanel_Confirmations_</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifyMissingAttachment.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="flowLayoutPanel_Confirmations_.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="flowLayoutPanel_Confirmations_.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 299</value>
+  </data>
+  <data name="flowLayoutPanel_Confirmations_.Size" type="System.Drawing.Size, System.Drawing">
+    <value>409, 54</value>
+  </data>
+  <data name="flowLayoutPanel_Confirmations_.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel_Confirmations_.Name" xml:space="preserve">
+    <value>flowLayoutPanel_Confirmations_</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel_Confirmations_.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel_Confirmations_.Parent" xml:space="preserve">
+    <value>group_Confirmations</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel_Confirmations_.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="flowLayoutPanel37.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="flowLayoutPanel37.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingFolder.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingFolder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 2</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingFolder.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 2, 3, 1</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 17</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingFolder.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingFolder.Text" xml:space="preserve">
+    <value>Ask before deleting &amp;folder</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingFolder.Name" xml:space="preserve">
+    <value>check_Confirmations_AskDeletingFolder</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingFolder.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.WrappingCheckBox, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingFolder.Parent" xml:space="preserve">
+    <value>flowLayoutPanel37</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingFolder.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="check_Confirmations_AskAfterDroppingFolder.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Confirmations_AskAfterDroppingFolder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 24</value>
+  </data>
+  <data name="check_Confirmations_AskAfterDroppingFolder.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 1</value>
+  </data>
+  <data name="check_Confirmations_AskAfterDroppingFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 17</value>
+  </data>
+  <data name="check_Confirmations_AskAfterDroppingFolder.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="check_Confirmations_AskAfterDroppingFolder.Text" xml:space="preserve">
+    <value>Ask before Drag &amp;&amp; Dropping folder</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskAfterDroppingFolder.Name" xml:space="preserve">
+    <value>check_Confirmations_AskAfterDroppingFolder</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskAfterDroppingFolder.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.WrappingCheckBox, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskAfterDroppingFolder.Parent" xml:space="preserve">
+    <value>flowLayoutPanel37</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskAfterDroppingFolder.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingMail.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingMail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 45</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingMail.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 1</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingMail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 17</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingMail.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingMail.Text" xml:space="preserve">
+    <value>Ask before deleting &amp;mail</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingMail.Name" xml:space="preserve">
+    <value>check_Confirmations_AskDeletingMail</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingMail.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.WrappingCheckBox, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingMail.Parent" xml:space="preserve">
+    <value>flowLayoutPanel37</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingMail.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingMailPermanently.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingMailPermanently.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 66</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingMailPermanently.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 1</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingMailPermanently.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 17</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingMailPermanently.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingMailPermanently.Text" xml:space="preserve">
+    <value>Ask before deleting &amp;mail permanently</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingMailPermanently.Name" xml:space="preserve">
+    <value>check_Confirmations_AskDeletingMailPermanently</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingMailPermanently.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.WrappingCheckBox, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingMailPermanently.Parent" xml:space="preserve">
+    <value>flowLayoutPanel37</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingMailPermanently.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingEvent.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingEvent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 87</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingEvent.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 1</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 17</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingEvent.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingEvent.Text" xml:space="preserve">
+    <value>Ask before deleting &amp;event</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingEvent.Name" xml:space="preserve">
+    <value>check_Confirmations_AskDeletingEvent</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingEvent.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.WrappingCheckBox, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingEvent.Parent" xml:space="preserve">
+    <value>flowLayoutPanel37</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingEvent.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingTask.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingTask.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 108</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingTask.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 1</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingTask.Size" type="System.Drawing.Size, System.Drawing">
+    <value>140, 17</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingTask.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingTask.Text" xml:space="preserve">
+    <value>Ask before deleting &amp;task</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingTask.Name" xml:space="preserve">
+    <value>check_Confirmations_AskDeletingTask</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingTask.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.WrappingCheckBox, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingTask.Parent" xml:space="preserve">
+    <value>flowLayoutPanel37</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingTask.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingContact.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingContact.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 129</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingContact.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 1</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingContact.Size" type="System.Drawing.Size, System.Drawing">
+    <value>156, 17</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingContact.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="check_Confirmations_AskDeletingContact.Text" xml:space="preserve">
+    <value>Ask before deleting &amp;contact</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingContact.Name" xml:space="preserve">
+    <value>check_Confirmations_AskDeletingContact</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingContact.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.WrappingCheckBox, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingContact.Parent" xml:space="preserve">
+    <value>flowLayoutPanel37</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskDeletingContact.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="check_Confirmations_AskEmptyingTrash.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Confirmations_AskEmptyingTrash.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 150</value>
+  </data>
+  <data name="check_Confirmations_AskEmptyingTrash.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 1</value>
+  </data>
+  <data name="check_Confirmations_AskEmptyingTrash.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 17</value>
+  </data>
+  <data name="check_Confirmations_AskEmptyingTrash.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="check_Confirmations_AskEmptyingTrash.Text" xml:space="preserve">
+    <value>Ask before emptying &amp;trash </value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskEmptyingTrash.Name" xml:space="preserve">
+    <value>check_Confirmations_AskEmptyingTrash</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskEmptyingTrash.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.WrappingCheckBox, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskEmptyingTrash.Parent" xml:space="preserve">
+    <value>flowLayoutPanel37</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskEmptyingTrash.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="check_Confirmations_AskWhenNewDocumentation.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Confirmations_AskWhenNewDocumentation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 171</value>
+  </data>
+  <data name="check_Confirmations_AskWhenNewDocumentation.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 1</value>
+  </data>
+  <data name="check_Confirmations_AskWhenNewDocumentation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 17</value>
+  </data>
+  <data name="check_Confirmations_AskWhenNewDocumentation.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="check_Confirmations_AskWhenNewDocumentation.Text" xml:space="preserve">
+    <value>Ask when new or updated &amp;documentation is present</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskWhenNewDocumentation.Name" xml:space="preserve">
+    <value>check_Confirmations_AskWhenNewDocumentation</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskWhenNewDocumentation.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.WrappingCheckBox, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskWhenNewDocumentation.Parent" xml:space="preserve">
+    <value>flowLayoutPanel37</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskWhenNewDocumentation.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="check_Confirmations_AskApplyingRule.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Confirmations_AskApplyingRule.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 192</value>
+  </data>
+  <data name="check_Confirmations_AskApplyingRule.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 1</value>
+  </data>
+  <data name="check_Confirmations_AskApplyingRule.Size" type="System.Drawing.Size, System.Drawing">
+    <value>213, 17</value>
+  </data>
+  <data name="check_Confirmations_AskApplyingRule.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="check_Confirmations_AskApplyingRule.Text" xml:space="preserve">
+    <value>Ask before applying a rule on messages</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskApplyingRule.Name" xml:space="preserve">
+    <value>check_Confirmations_AskApplyingRule</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskApplyingRule.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.WrappingCheckBox, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskApplyingRule.Parent" xml:space="preserve">
+    <value>flowLayoutPanel37</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskApplyingRule.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="check_Confirmations_AskMailModification.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Confirmations_AskMailModification.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 213</value>
+  </data>
+  <data name="check_Confirmations_AskMailModification.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 1</value>
+  </data>
+  <data name="check_Confirmations_AskMailModification.Size" type="System.Drawing.Size, System.Drawing">
+    <value>210, 17</value>
+  </data>
+  <data name="check_Confirmations_AskMailModification.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="check_Confirmations_AskMailModification.Text" xml:space="preserve">
+    <value>Ask before modifying a mail's properties</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskMailModification.Name" xml:space="preserve">
+    <value>check_Confirmations_AskMailModification</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskMailModification.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.WrappingCheckBox, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskMailModification.Parent" xml:space="preserve">
+    <value>flowLayoutPanel37</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_AskMailModification.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="check_Confirmations_NotifySubjectNotSet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Confirmations_NotifySubjectNotSet.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 234</value>
+  </data>
+  <data name="check_Confirmations_NotifySubjectNotSet.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 1</value>
+  </data>
+  <data name="check_Confirmations_NotifySubjectNotSet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>254, 17</value>
+  </data>
+  <data name="check_Confirmations_NotifySubjectNotSet.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="check_Confirmations_NotifySubjectNotSet.Text" xml:space="preserve">
+    <value>Notify if subject is not set when sending an email</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifySubjectNotSet.Name" xml:space="preserve">
+    <value>check_Confirmations_NotifySubjectNotSet</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifySubjectNotSet.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.WrappingCheckBox, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifySubjectNotSet.Parent" xml:space="preserve">
+    <value>flowLayoutPanel37</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifySubjectNotSet.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="check_Confirmations_NotifyGroupHeaderSelected.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Confirmations_NotifyGroupHeaderSelected.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 255</value>
+  </data>
+  <data name="check_Confirmations_NotifyGroupHeaderSelected.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 1</value>
+  </data>
+  <data name="check_Confirmations_NotifyGroupHeaderSelected.Size" type="System.Drawing.Size, System.Drawing">
+    <value>394, 17</value>
+  </data>
+  <data name="check_Confirmations_NotifyGroupHeaderSelected.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="check_Confirmations_NotifyGroupHeaderSelected.Text" xml:space="preserve">
+    <value>Notify if there are unselected items when group header is selected in data lists.</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifyGroupHeaderSelected.Name" xml:space="preserve">
+    <value>check_Confirmations_NotifyGroupHeaderSelected</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifyGroupHeaderSelected.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.WrappingCheckBox, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifyGroupHeaderSelected.Parent" xml:space="preserve">
+    <value>flowLayoutPanel37</value>
+  </data>
+  <data name="&gt;&gt;check_Confirmations_NotifyGroupHeaderSelected.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="flowLayoutPanel37.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="flowLayoutPanel37.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 26</value>
+  </data>
+  <data name="flowLayoutPanel37.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="flowLayoutPanel37.Size" type="System.Drawing.Size, System.Drawing">
+    <value>409, 273</value>
+  </data>
+  <data name="flowLayoutPanel37.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel37.Name" xml:space="preserve">
+    <value>flowLayoutPanel37</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel37.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel37.Parent" xml:space="preserve">
+    <value>group_Confirmations</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel37.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="group_Confirmations.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="group_Confirmations.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="group_Confirmations.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 6, 10, 0</value>
+  </data>
+  <data name="group_Confirmations.Size" type="System.Drawing.Size, System.Drawing">
+    <value>429, 382</value>
+  </data>
+  <data name="group_Confirmations.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="group_Confirmations.Text" xml:space="preserve">
+    <value>Confirmations</value>
+  </data>
+  <data name="&gt;&gt;group_Confirmations.Name" xml:space="preserve">
+    <value>group_Confirmations</value>
+  </data>
+  <data name="&gt;&gt;group_Confirmations.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.SeparatorBox, MailClient.Common.UI, Version=7.1.28890.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;group_Confirmations.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;group_Confirmations.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>435, 392</value>
+  </data>
+  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="group_Confirmations" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>96, 96</value>
+  </data>
+  <data name="$this.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>435, 392</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ControlSettingsConfirmations</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>MailClient.UI.Controls.SettingsControls.ControlSettingsBase, MailClient, Version=7.1.28895.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+</root>
