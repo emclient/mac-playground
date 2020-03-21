@@ -14,7 +14,7 @@ using MonoMac.ObjCRuntime;
 namespace System.Windows.Forms.CocoaInternal
 {
 	[Register("MonoApplication")]
-	internal class MonoApplication : NSApplication
+	internal partial class MonoApplication : NSApplication
 	{
 		internal delegate IntPtr CreateSharedApplicationDelegate();
 		internal static Swizzle<CreateSharedApplicationDelegate> shared;
@@ -32,6 +32,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public MonoApplication(IntPtr handle) : base(handle)
 		{
+			SetupDelegate();
 		}
 
 		internal static IntPtr New(Type type)
@@ -68,8 +69,7 @@ namespace System.Windows.Forms.CocoaInternal
 		}
 
 		// This is necessary for proper window behavior if we do not use the "run" method, which is our case
-		[Export("isRunning")]
-		public bool IsRunning
+		public override bool Running
 		{
 			get { return Application.MessageLoop; }
 		}

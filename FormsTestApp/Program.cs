@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using MacApi.Posix;
 
 [assembly: AssemblyTitle("FormsTest")]
 [assembly: AssemblyProduct("FormsTest")]
@@ -12,7 +13,8 @@ namespace FormsTestApp
 	{
 		public static void Main(string[] args)
 		{
-			FormsTest.Program.Main(args);
+			var code = FormsTest.Program.Main(args);
+			LibC.exit(code);
 		}
 	}
 }

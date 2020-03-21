@@ -171,9 +171,6 @@ namespace System.Windows.Forms {
 
 			NSApp = MonoApplication.CreateShared();
 
-			// Initialize the event handlers
-			NSApp.Delegate = new MonoApplicationDelegate(this);
-
 			// Make sure the Apple event handlers get registered
 			using (new NSAutoreleasePool())
 				NSApp.FinishLaunching();
@@ -554,15 +551,16 @@ namespace System.Windows.Forms {
 			if (c != null) {
 				Control[] controls = c.Controls.GetAllControls ();
 
+				for (int i = 0; i < controls.Length; i++)
+				{
+					AccumulateDestroyedHandles(controls[i], list);
+				}
+
 				if (c.IsHandleCreated && !c.IsDisposed) {
 					//Hwnd hwnd = Hwnd.ObjectFromHandle (c.Handle);
 
 					list.Add (c.Handle);
 					CleanupCachedWindows (c.Handle);
-				}
-
-				for (int  i = 0; i < controls.Length; i ++) {
-					AccumulateDestroyedHandles (controls[i], list);
 				}
 			}
 		}
@@ -938,9 +936,9 @@ namespace System.Windows.Forms {
 				SetWindowState(viewWrapper.Handle, FormWindowState.Maximized);
 			}
 
-			keepAlivePool.Add(viewWrapper.Handle, viewWrapper);
+			keepAlivePool[viewWrapper.Handle] = viewWrapper;
 			if (isTopLevel)
-				keepAlivePool.Add(windowWrapper.Handle, windowWrapper);
+				keepAlivePool[windowWrapper.Handle] = windowWrapper;
 
 			(viewWrapper as MonoView)?.FinishCreateWindow();
 
@@ -1140,9 +1138,9 @@ namespace System.Windows.Forms {
 					var app = NSApplication.SharedApplication;
 					if (winWrap == app.ModalWindow)
 						EndModal(winWrap);
+					app.RemoveWindowsItem (winWrap);
+					keepAlivePool.Remove (winWrap.Handle);
 					winWrap.Close ();
-					app.RemoveWindowsItem(winWrap);
-					keepAlivePool.Remove(winWrap.Handle);
 				} else {
 					vuWrap.RemoveFromSuperviewWithoutNeedingDisplay ();
 				}
@@ -1179,8 +1177,6 @@ namespace System.Windows.Forms {
 
 		internal void Exit () {
 			GetMessageResult = false;
-			NSApplication.SharedApplication.Delegate = null;
-			// NSApplication.SharedApplication.Terminate(this);
 		}
 
 		internal override IntPtr GetActive() {
@@ -1592,11 +1588,9 @@ namespace System.Windows.Forms {
 
 		internal override void PostQuitMessage (int exitCode)
 		{
-			NSWindow winWrap = NSApplication.SharedApplication.MainWindow;
-			if (winWrap != null)
-				PostMessage (winWrap.ContentView.Handle, Msg.WM_QUIT, IntPtr.Zero, IntPtr.Zero);
-			else
-				PostMessage (IntPtr.Zero, Msg.WM_QUIT, IntPtr.Zero, IntPtr.Zero);
+			var window = NSApplication.SharedApplication.MainWindow;
+			var hwnd = window?.ContentView.Handle ?? IntPtr.Zero;
+			PostMessage(hwnd, Msg.WM_QUIT, new IntPtr(exitCode), IntPtr.Zero);
 		}
 
 		internal override void RequestAdditionalWM_NCMessages (IntPtr hwnd, bool hover, bool leave) {
