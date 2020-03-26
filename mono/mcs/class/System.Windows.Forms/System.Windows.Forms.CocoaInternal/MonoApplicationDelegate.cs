@@ -78,9 +78,10 @@ namespace System.Windows.Forms.CocoaInternal
 		   {
 			   foreach (Form form in forms)
 			   {
-				   XplatUI.SendMessage(form.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
-				   if (form.IsHandleCreated)
-					   return NSApplicationTerminateReply.Cancel;
+					form.CloseReason = CloseReason.TaskManagerClosing;
+					XplatUI.SendMessage(form.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+					if (form.IsHandleCreated)
+						return NSApplicationTerminateReply.Cancel;
 			   }
 		   }
 
