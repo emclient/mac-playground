@@ -69,8 +69,7 @@ namespace System.Windows.Forms.CocoaInternal
 		}
 
 		// This is necessary for proper window behavior if we do not use the "run" method, which is our case
-		[Export("isRunning")]
-		public bool IsRunning
+		public override bool Running
 		{
 			get { return Application.MessageLoop; }
 		}

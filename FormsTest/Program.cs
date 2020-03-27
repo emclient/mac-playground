@@ -48,7 +48,7 @@ namespace FormsTest
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		public static void Main(string[] args)
+		public static int Main(string[] args)
 		{
 			MaxOpenFiles();
 
@@ -72,7 +72,7 @@ namespace FormsTest
 
 			var threads = Process.GetCurrentProcess().Threads;
 
-			Terminate();
+			return 0;
 		}
 
 #if MAC
@@ -106,7 +106,11 @@ namespace FormsTest
 		static void Terminate()
 		{
 			// Workaround for not exiting the app because of pending threads related to UrlProtocol subclass.
-			NSApplication.SharedApplication.Terminate(NSApplication.SharedApplication);
+			var app = NSApplication.SharedApplication;
+			if (app.Running)
+				app.Terminate(NSApplication.SharedApplication);
+			else
+				LibC.exit(0);
 		}
 
 		static void MaxOpenFiles()

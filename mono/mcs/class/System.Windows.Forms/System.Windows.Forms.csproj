@@ -1,50 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B102F27C-1A07-487F-BA5B-D5155D201112}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <NoWarn>1699,618,612,809</NoWarn>
-    <OutputPath>./../../class/lib/net_4_5</OutputPath>
-    <NoStdLib>True</NoStdLib>
-    <NoConfig>True</NoConfig>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>xamarinmac20</TargetFramework>
+    <TargetFramework Condition="'$(OS)' == 'Windows_NT'">netstandard2.0</TargetFramework>
+    <DefineConstants>__MACOS__;NET_4_5;XAMARINMAC;NO_CARBON;NO_GTK;NO_X11;MACDIALOGS;MACOS_THEME</DefineConstants>
+    <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <RootNamespace>System.Windows.Forms</RootNamespace>
     <AssemblyName>System.Windows.Forms</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <UseMSBuildEngine>False</UseMSBuildEngine>
+    <DisableExtraReferences>true</DisableExtraReferences>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <EnableDefaultItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultItems>
+    <EnableDefaultCompileItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE;NET_4_0;NET_4_5;MONO;DISABLE_CAS_USE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <OutputPath>..\lib\net_4_5</OutputPath>
-    <NoStdLib>false</NoStdLib>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <DefineConstants>NET_4_0;NET_4_5;MONO;DISABLE_CAS_USE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <OutputPath>..\lib\net_4_5</OutputPath>
-    <NoStdLib>false</NoStdLib>
-  </PropertyGroup>
-  <!-- Set AddAdditionalExplicitAssemblyReferences to false, otherwise if targetting .NET4.0, 
-  Microsoft.NETFramework.props will force a dependency on the assembly System.Core. This
-  is a problem to compile the Mono mscorlib.dll -->
-  <PropertyGroup>
-    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
-  </PropertyGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Compile Include="..\Consts.cs" />
-    <Compile Include="..\MonoTODOAttribute.cs" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
+    <Compile Include="..\..\build\common\Consts.cs" />
+    <Compile Include="..\..\build\common\MonoTODOAttribute.cs" />
     <Compile Include="Assembly\AssemblyInfo.cs" />
     <Compile Include="Assembly\Locale.cs" />
     <Compile Include="System.Resources\AssemblyNamesTypeResolutionService.cs" />
@@ -75,6 +47,7 @@
     <Compile Include="System.Windows.Forms.CarbonInternal\Pasteboard.cs" />
     <Compile Include="System.Windows.Forms.CarbonInternal\Structs.cs" />
     <Compile Include="System.Windows.Forms.CarbonInternal\WindowHandler.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoApplicationDelegate.cs" />
     <Compile Include="System.Windows.Forms.Design\ComponentEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -292,9 +265,7 @@
     <Compile Include="System.Windows.Forms\ColumnWidthChangedEventHandler.cs" />
     <Compile Include="System.Windows.Forms\ColumnWidthChangingEventArgs.cs" />
     <Compile Include="System.Windows.Forms\ColumnWidthChangingEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\ComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\ComboBox.cs" />
     <Compile Include="System.Windows.Forms\ComboBoxRenderer.cs" />
     <Compile Include="System.Windows.Forms\ComboBoxStyle.cs" />
     <Compile Include="System.Windows.Forms\CommonDialog.cs">
@@ -487,9 +458,7 @@
     <Compile Include="System.Windows.Forms\DateBoldEventHandler.cs" />
     <Compile Include="System.Windows.Forms\DateRangeEventArgs.cs" />
     <Compile Include="System.Windows.Forms\DateRangeEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\DateTimePicker.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\DateTimePicker.cs" />
     <Compile Include="System.Windows.Forms\DateTimePickerFormat.cs" />
     <Compile Include="System.Windows.Forms\Day.cs" />
     <Compile Include="System.Windows.Forms\DialogResult.cs" />
@@ -539,9 +508,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="System.Windows.Forms\FlowLayoutSettings.cs" />
-    <Compile Include="System.Windows.Forms\FolderBrowserDialog.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\FolderBrowserDialog.cs" />
     <Compile Include="System.Windows.Forms\FontDialog.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -747,6 +714,11 @@
     <Compile Include="System.Windows.Forms\MessageBox.cs" />
     <Compile Include="System.Windows.Forms\MessageBoxButtons.cs" />
     <Compile Include="System.Windows.Forms\MessageBoxDefaultButton.cs" />
+    <Compile Include="System.Windows.Forms\MessageBoxFormResourcesMac.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessageBoxFormResourcesMac.resx</DependentUpon>
+    </Compile>
     <Compile Include="System.Windows.Forms\MessageBoxIcon.cs" />
     <Compile Include="System.Windows.Forms\MessageBoxOptions.cs" />
     <Compile Include="System.Windows.Forms\MethodInvoker.cs" />
@@ -777,9 +749,7 @@
     <Compile Include="System.Windows.Forms\NumericUpDownAcceleration.cs" />
     <Compile Include="System.Windows.Forms\NumericUpDownAccelerationCollection.cs" />
     <Compile Include="System.Windows.Forms\OpacityConverter.cs" />
-    <Compile Include="System.Windows.Forms\OpenFileDialog.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\OpenFileDialog.cs" />
     <Compile Include="System.Windows.Forms\OpenTreeNodeEnumerator.cs" />
     <Compile Include="System.Windows.Forms\Orientation.cs" />
     <Compile Include="System.Windows.Forms\OSFeature.cs" />
@@ -807,9 +777,7 @@
     <Compile Include="System.Windows.Forms\PreviewKeyDownEventArgs.cs" />
     <Compile Include="System.Windows.Forms\PreviewKeyDownEventHandler.cs" />
     <Compile Include="System.Windows.Forms\PrintControllerWithStatusDialog.cs" />
-    <Compile Include="System.Windows.Forms\PrintDialog.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\PrintDialog.cs" />
     <Compile Include="System.Windows.Forms\PrintPreviewControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -818,9 +786,7 @@
     </Compile>
     <Compile Include="System.Windows.Forms\ProfessionalColors.cs" />
     <Compile Include="System.Windows.Forms\ProfessionalColorTable.cs" />
-    <Compile Include="System.Windows.Forms\ProgressBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\ProgressBar.cs" />
     <Compile Include="System.Windows.Forms\ProgressBarRenderer.cs" />
     <Compile Include="System.Windows.Forms\ProgressBarStyle.cs" />
     <Compile Include="System.Windows.Forms\PropertyGrid.cs">
@@ -854,9 +820,7 @@
     <Compile Include="System.Windows.Forms\RelatedPropertyManager.cs" />
     <Compile Include="System.Windows.Forms\RetrieveVirtualItemEventArgs.cs" />
     <Compile Include="System.Windows.Forms\RetrieveVirtualItemEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\RichTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\RichTextBox.cs" />
     <Compile Include="System.Windows.Forms\RichTextBoxFinds.cs" />
     <Compile Include="System.Windows.Forms\RichTextBoxLanguageOptions.cs" />
     <Compile Include="System.Windows.Forms\RichTextBoxScrollBars.cs" />
@@ -867,17 +831,13 @@
     <Compile Include="System.Windows.Forms\RightToLeft.cs" />
     <Compile Include="System.Windows.Forms\RootGridEntry.cs" />
     <Compile Include="System.Windows.Forms\RowStyle.cs" />
-    <Compile Include="System.Windows.Forms\SaveFileDialog.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\SaveFileDialog.cs" />
     <Compile Include="System.Windows.Forms\Screen.cs" />
     <Compile Include="System.Windows.Forms\ScreenOrientation.cs" />
     <Compile Include="System.Windows.Forms\ScrollableControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="System.Windows.Forms\ScrollBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\ScrollBar.cs" />
     <Compile Include="System.Windows.Forms\ScrollBarRenderer.cs" />
     <Compile Include="System.Windows.Forms\ScrollBars.cs" />
     <Compile Include="System.Windows.Forms\ScrollButton.cs" />
@@ -965,12 +925,9 @@
     </Compile>
     <Compile Include="System.Windows.Forms\TabRenderer.cs" />
     <Compile Include="System.Windows.Forms\TabSizeMode.cs" />
-    <Compile Include="System.Windows.Forms\TextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\TextBoxBase.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\TextBox.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase.Mac.cs" />
     <Compile Include="System.Windows.Forms\TextBoxRenderer.cs" />
     <Compile Include="System.Windows.Forms\TextBoxTextRenderer.cs" />
     <Compile Include="System.Windows.Forms\TextControl.cs" />
@@ -1183,7 +1140,6 @@
     <Compile Include="System.Windows.Forms\WebBrowserRefreshOption.cs" />
     <Compile Include="System.Windows.Forms\WebBrowserSiteBase.cs" />
     <Compile Include="System.Windows.Forms\Win32DnD.cs" />
-    <Compile Include="System.Windows.Forms\WindowsFormsSection.cs" />
     <Compile Include="System.Windows.Forms\WindowsFormsSynchronizationContext.cs" />
     <Compile Include="System.Windows.Forms\X11Clipboard.cs" />
     <Compile Include="System.Windows.Forms\X11DesktopColors.cs" />
@@ -1197,41 +1153,80 @@
     <Compile Include="System.Windows.Forms\XplatUIStructs.cs" />
     <Compile Include="System.Windows.Forms\XplatUIWin32.cs" />
     <Compile Include="System.Windows.Forms\XplatUIX11.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\ApplicationHandler.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\ControlHandler.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Cursor.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\Dnd.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Enums.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\EventHandler.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\EventHandlerBase.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\IEventHandler.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\KeyboardHandler.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\MonoMenuItem.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\MonoNSDelegate.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoView.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\MouseHandler.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Pasteboard.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Structs.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\WindowHandler.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\XplatUICocoa.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoWindow.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoView.Debug.cs">
+      <DependentUpon>MonoView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoContentView.cs" />
+    <Compile Include="System.Windows.Forms\MessageBoxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="System.Windows.Forms\MessageBoxForm.Mac.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\ModalDialogContext.cs" />
+    <Compile Include="System.Windows.Forms\FileDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\OpenFileDialog.Mac.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="System.Windows.Forms\FolderBrowserDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\SaveFileDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\DebugUtility.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\Swizzle.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\KeysConverter.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\NSKeyEx.cs" />
+    <Compile Include="System.Windows.Forms\ThemeMacOS.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\IMacNativeControl.cs" />
+    <Compile Include="System.Windows.Forms\Button.Mac.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="System.Windows.Forms.CocoaInternal\WindowsEventResponder.cs" />
+    <Compile Include="System.Windows.Forms\ComboBox.Mac.cs" />
+    <Compile Include="System.Windows.Forms\DateTimePicker.Mac.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\Extensions.cs" />
+    <Compile Include="System.Windows.Forms\UpDownBase.Mono.cs" />
+    <Compile Include="System.Windows.Forms\UpDownBase.Mac.cs" />
+    <Compile Include="System.Windows.Forms\ScrollBar.Mac.cs" />
+    <Compile Include="System.Windows.Forms\ProgressBar.Mac.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\XplatUICocoa.Dnd.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoEditView.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItem.Mac.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="System.Windows.Forms\ToolStripSeparator.Mac.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="System.Windows.Forms\ToolStripControlHost.Mac.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="System.Windows.Forms\ToolStripDropDown.Mac.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="System.Windows.Forms\ToolStripMenuItem.Mac.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="System.Windows.Forms.Extensions\IOExtensions.cs" />
+    <Compile Include="System.Windows.Forms\HtmlClip.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectProvider.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectPasteboard.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectWrapper.cs" />
+    <Compile Include="System.Windows.Forms\RichTextBox.Mac.cs" />
+    <Compile Include="System.Windows.Forms\TextBox.Mac.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase-NSTextField.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase-NSTextView.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase-NSSecureTextField.cs" />
+    <Compile Include="System.Windows.Forms\DateTimeUtility.cs" />
+    <Compile Include="resources\Strings.Designer.cs">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="System.Windows.Forms\PrintDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoApplication.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\Troubleshooter.cs" />
   </ItemGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <PropertyGroup>
-    <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">
-    </PreBuildEvent>
-    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">
-    </PreBuildEvent>
-    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">
-    </PostBuildEvent>
-    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">
-    </PostBuildEvent>
-  </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
@@ -1407,21 +1402,80 @@
     <EmbeddedResource Include="resources\errorProvider.ico">
       <LogicalName>errorProvider.ico</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="System.Windows.Forms\MessageBoxFormResourcesMac.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MessageBoxFormResourcesMac.Designer.cs</LastGenOutput>
+      <LogicalName>System.Windows.Forms.MessageBoxFormResourcesMac.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.cs.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.da.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.de.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.el.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.es.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+      <LastGenOutput>Strings.cs.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.fr.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.hu.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.it.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.ja.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.ko.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.nl.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.no.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.pl.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.pt.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.ru.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.sk.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.sv.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.tr.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\Strings.zh.resx">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Accessibility" />
-    <Reference Include="MonoMac">
-      <HintPath>..\MonoMac.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="System.Windows.Forms.CocoaInternal\.DS_Store" />
     <None Include="System.Windows.Forms.CocoaInternal\ChangeLog" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mono.WebBrowser\Mono.WebBrowser.csproj" />
+    <ProjectReference Include="..\..\..\..\sysdrawing-coregraphics\System.Drawing.csproj" />
+    <ProjectReference Include="..\..\..\..\MacApi\MacApi.csproj" />
   </ItemGroup>
 </Project>
