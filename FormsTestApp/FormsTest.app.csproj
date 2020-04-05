@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7777BF55-B639-4078-BDD4-A1B541B89274}</ProjectGuid>
+    <ProjectTypeGuids>{A3F8F2AB-B479-4A4A-A458-A89E7DC349F1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>FormsTest.App</RootNamespace>
+    <AssemblyName>FormsTestApp</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
+    <StartupObject>FormsTestApp.Program</StartupObject>
+    <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\bin\Xamarin - Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <CodeSigningKey>Mac Developer</CodeSigningKey>
+    <CreatePackage>false</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <UseSGen>true</UseSGen>
+    <UseRefCounting>true</UseRefCounting>
+    <Profiling>true</Profiling>
+    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <I18n>cjk,mideast,other,rare,west</I18n>
+    <HttpClientHandler>NSUrlSessionHandler</HttpClientHandler>
+    <MonoBundlingExtraArgs>--registrar:dynamic --marshal-objectivec-exceptions=throwmanagedexception</MonoBundlingExtraArgs>
+    <EnableSGenConc>true</EnableSGenConc>
+    <AOTMode>None</AOTMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\bin\Xamarin-Release</OutputPath>
+    <DefineConstants>;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <EnableCodeSigning>true</EnableCodeSigning>
+    <CodeSigningKey>Developer ID Application: eM Client s.r.o. (2ED6AKD5KA)</CodeSigningKey>
+    <CreatePackage>true</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <UseSGen>true</UseSGen>
+    <UseRefCounting>true</UseRefCounting>
+    <Profiling>false</Profiling>
+    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <I18n>cjk,mideast,other,rare,west</I18n>
+    <HttpClientHandler>NSUrlSessionHandler</HttpClientHandler>
+    <MonoBundlingExtraArgs>--registrar:dynamic --marshal-objectivec-exceptions=throwmanagedexception</MonoBundlingExtraArgs>
+    <EnableSGenConc>true</EnableSGenConc>
+    <AOTMode>None</AOTMode>
+    <UseHardenedRuntime>true</UseHardenedRuntime>
+    <CodeSignEntitlements>Entitlements.plist</CodeSignEntitlements>
+  </PropertyGroup>
+<!--
+  <PropertyGroup>
+	<UseCommonOutputDirectory>true</UseCommonOutputDirectory>
+    <IntermediateOutputPath>obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <OutDir>$(OutputPath)</OutDir>
+  </PropertyGroup>
+-->
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.Mac" />
+    <ProjectReference Include="..\FormsTest\FormsTest.csproj">
+      <Project>{DBFDDBD7-E236-444C-98E5-736A4F22C8A5}</Project>
+      <Name>FormsTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms.csproj">
+      <Project>{9F564D46-D86A-4E62-9E84-238C7352D4D6}</Project>
+      <Name>System.Windows.Forms-net_4_5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing.csproj">
+      <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
+      <Name>System.Drawing (CoreGraphics)</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MacApi\MacApi.csproj">
+      <Project>{981DC886-42D2-496B-B6E1-1EF6FE3EE78A}</Project>
+      <Name>MacApi</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Entitlements.plist" />
+    <None Include="Info.plist" />
+    <!--<None Include="InfoTemplate.plist" />-->
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+  <!--<Import Project="..\..\..\Tools\BuildTasks\MailClient.BuildTasks.targets" />-->
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
+</Project>
