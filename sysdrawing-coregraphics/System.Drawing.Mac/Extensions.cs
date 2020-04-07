@@ -20,6 +20,11 @@ namespace System.Drawing.Mac
 {
 	public static class Extensions
 	{
+		public static int ToInt(this nfloat f)
+		{
+			return (int)(f >= int.MaxValue ? int.MaxValue : f <= int.MinValue ? int.MinValue : Math.Round(f));
+		}
+
 		public static CGRect ToCGRect(this Rectangle r)
 		{
 			return new CGRect(r.X, r.Y, r.Width, r.Height);
@@ -32,7 +37,12 @@ namespace System.Drawing.Mac
 
 		public static Rectangle ToRectangle(this CGRect r)
 		{
-			return new Rectangle((int)Math.Round(r.X), (int)Math.Round(r.Y), (int)Math.Round(r.Width), (int)Math.Round(r.Height));
+			return new Rectangle(r.X.ToInt(), r.Y.ToInt(), r.Width.ToInt(), r.Height.ToInt());
+		}
+
+		public static CGRect Flipped(this CGRect r, nfloat height)
+		{
+			return new CGRect(r.X, height - r.Y, r.Width, r.Height);
 		}
 
 		public static CGRect Inflate(this CGRect r, float w, float h)
@@ -72,7 +82,17 @@ namespace System.Drawing.Mac
 
 		public static Size ToSDSize(this CGSize s)
 		{
-			return new Size((int)Math.Round(s.Width), (int)Math.Round(s.Height));
+			return new Size(s.Width.ToInt(), s.Height.ToInt());
+		}
+
+		public static Point ToSDPoint(this CGPoint p)
+		{
+			return new Point(p.X.ToInt(), p.Y.ToInt());
+		}
+
+		public static CGPoint Flipped(this CGPoint p, nfloat height)
+		{
+			return new CGPoint(p.X, height - p.Y);
 		}
 
 		public static CGSize Inflate(this CGSize s, float w, float h)
