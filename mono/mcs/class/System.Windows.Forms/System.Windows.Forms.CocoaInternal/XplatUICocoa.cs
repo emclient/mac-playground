@@ -280,16 +280,12 @@ namespace System.Windows.Forms {
 
 		internal Point NativeToMonoScreen (CGPoint nativePoint)
 		{
-			return new Point ((int) nativePoint.X, (int) (initialScreenSize.Height - nativePoint.Y));
+			return new CGPoint(nativePoint.X, initialScreenSize.Height - nativePoint.Y).ToSDPoint();
 		}
 
 		internal Point NativeToMonoFramed (CGPoint nativePoint, NSView view)
 		{
-			if (view.IsFlipped) {
-				return new Point((int)nativePoint.X, (int)nativePoint.Y);
-			} else {
-				return new Point((int)nativePoint.X, (int)(view.Frame.Height - nativePoint.Y));
-			}
+			return view.IsFlipped ? nativePoint.ToSDPoint() : nativePoint.Flipped(view.Frame.Height).ToSDPoint();
 		}
 
 		internal CGRect MonoToNativeScreen (Rectangle monoRect)
@@ -314,11 +310,7 @@ namespace System.Windows.Forms {
 
 		internal Rectangle NativeToMonoFramed (CGRect nativeRect, NSView view)
 		{
-			if (view.IsFlipped) {
-				return new Rectangle((int)nativeRect.X, (int)nativeRect.Y, (int)nativeRect.Width, (int)nativeRect.Height);
-			} else {
-				return new Rectangle((int)nativeRect.X, (int)(view.Frame.Height - nativeRect.Y), (int)nativeRect.Width, (int)nativeRect.Height);
-			}
+			return view.IsFlipped ? nativeRect.ToRectangle() : nativeRect.Flipped(view.Frame.Height).ToRectangle();
 		}
 #endregion
 		
