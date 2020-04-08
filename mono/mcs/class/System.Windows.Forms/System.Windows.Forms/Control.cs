@@ -3889,12 +3889,12 @@ namespace System.Windows.Forms
 
 				if (invalidateChildren) {
 					foreach (var control in child_controls.GetAllControls())
-						if (IntersectBoundsAndConvertTo(control, rc, out Rectangle r))
+						if (control.IsHandleCreated && IntersectBoundsAndConvertTo(control, rc, out Rectangle r))
 							control.Invalidate(r);
 				} else {
 					// If any of our children are transparent, we have to invalidate them anyways
 					foreach (Control c in Controls)
-						if (IntersectBoundsAndConvertTo(c, rc, out Rectangle r) && c.BackColor.A != 255)
+						if (c.IsHandleCreated && IntersectBoundsAndConvertTo(c, rc, out Rectangle r) && c.BackColor.A != 255)
 							c.Invalidate(r);
 				}
 			}
