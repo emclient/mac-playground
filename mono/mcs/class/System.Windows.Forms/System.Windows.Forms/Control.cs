@@ -3833,6 +3833,16 @@ namespace System.Windows.Forms
 			return proposedSize;
 		}
 
+		internal void ApplyBoundsConstraints(ref int x, ref int y, ref int width, ref int height)
+		{
+            if (MaximumSize != Size.Empty || MinimumSize != Size.Empty) {
+				var maxWidth = MaximumSize.Width == 0 ? int.MaxValue : MaximumSize.Width;
+				var maxHeight = MaximumSize.Height == 0 ? int.MaxValue : MaximumSize.Height;
+				width = Math.Max(MinimumSize.Width, Math.Min(width, maxWidth));
+				height = Math.Max(MinimumSize.Height, Math.Min(height, maxHeight));
+            }
+        }
+
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		public virtual Size GetPreferredSize (Size proposedSize) {
 #if !DebugPreferredSizeCache
@@ -4855,6 +4865,8 @@ namespace System.Windows.Forms
 
 			if (bounds.X == x && bounds.Y == y && bounds.Width == width && bounds.Height == height)
 				return;
+
+			ApplyBoundsConstraints(ref x, ref y, ref width, ref height);
 
 			// SetBoundsCore updates the Win32 control itself. UpdateBounds updates the controls variables and fires events, I'm guessing - pdb
 			if (IsHandleCreated) {
