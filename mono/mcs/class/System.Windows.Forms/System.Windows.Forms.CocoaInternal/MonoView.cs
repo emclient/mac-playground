@@ -399,11 +399,7 @@ namespace System.Windows.Forms.CocoaInternal
 		// Experimental
 		public override void DrawFocusRingMask()
 		{
-			var control = Control.FromHandle(Handle);
-			if (control != null && control.Enabled && control.Focused && control.ShowFocusCues)
-			{
-				NSBezierPath.FillRect(Bounds);
-			}
+			driver.SendMessage(Handle, Msg.WM_DRAW_FOCUS_RING_MASK, IntPtr.Zero, IntPtr.Zero).ToInt32();
 		}
 
 		public override CGRect FocusRingMaskBounds

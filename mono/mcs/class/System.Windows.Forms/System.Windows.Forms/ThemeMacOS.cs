@@ -6178,29 +6178,8 @@ namespace System.Windows.Forms
 				
 
 		public override void CPDrawFocusRectangle (Graphics graphics, Rectangle rectangle, Color foreColor, Color backColor) 
-		{			
-			Rectangle rect = rectangle;
-			Pen pen;
-			HatchBrush brush;
-				
-			if (backColor.GetBrightness () >= 0.5) {
-				foreColor = Color.Transparent;
-				backColor = Color.Black;
-				
-			} else {
-				backColor = Color.FromArgb (255 - backColor.R, 255 - backColor.G, 255 - backColor.B);
-				foreColor = Color.Black;
-			}
-
-			// FIXME: The focus rectangle should always fill the corner
-			brush = ResPool.GetHatchBrush (HatchStyle.Percent50, foreColor, backColor);
-			pen = new Pen (brush, 1);
-						
-			rect.Width--;
-			rect.Height--;			
-			
-			graphics.DrawRectangle (pen, rect);
-			pen.Dispose ();
+		{
+			// Do nothing, we make use of native focus ring.
 		}
 		
 		public override void CPDrawGrabHandle (Graphics graphics, Rectangle rectangle, bool primary, bool enabled)
