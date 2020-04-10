@@ -51,6 +51,7 @@ using System.Security;
 using System.Threading;
 
 #if __MACOS__
+using System.Windows.Forms.Mac;
 #if XAMARINMAC
 using AppKit;
 #else
@@ -5324,6 +5325,11 @@ namespace System.Windows.Forms
 					return;
 				}
 
+				case Msg.WM_DRAW_FOCUS_RING_MASK: {
+					WmDrawFocusRingMask(ref m);
+					return;
+				}
+
 				default:
 					DefWndProc(ref m);
 					return;
@@ -5333,7 +5339,15 @@ namespace System.Windows.Forms
 		#endregion	// Public Instance Methods
 
 		#region WM methods
-		
+
+		internal virtual void WmDrawFocusRingMask(ref Message m)
+		{
+#if __MACOS__
+			if (ShowFocusCues)
+				NSBezierPath.FillRect(Handle.ToNSView().Bounds);
+#endif
+		}
+
 		private void WmDestroy (ref Message m) {
 			OnHandleDestroyed(EventArgs.Empty);
 
