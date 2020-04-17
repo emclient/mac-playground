@@ -243,7 +243,11 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			Dispose(false);
 		}
-
+/*
+ * 
+ *	Commented out until we figure out why it causes crashes on some systems (seen on Mojave).
+ *
+ * 
 		public override bool IsKeyWindow
 		{
 			get
@@ -264,7 +268,7 @@ namespace System.Windows.Forms.CocoaInternal
 				return base.IsKeyWindow || IsDeliveringMouseMovedToWebHTMLView();
 			}
 		}
-
+*/
 		protected bool IsDeliveringMouseMovedToWebHTMLView()
 		{
 			if (currentEvent?.Type == NSEventType.MouseMoved)
