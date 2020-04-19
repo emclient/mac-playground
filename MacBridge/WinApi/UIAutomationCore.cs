@@ -48,9 +48,9 @@ namespace WinApi
 			return false;
 		}
 
-		public static bool UiaDisconnectProvider(IRawElementProviderSimple provider)
+		public static int UiaDisconnectProvider(IRawElementProviderSimple provider)
 		{
-			return true;
+			return 0;
 		}
 
 		public static int UiaLookupId(AutomationIdentifierType type, ref Guid guid)
