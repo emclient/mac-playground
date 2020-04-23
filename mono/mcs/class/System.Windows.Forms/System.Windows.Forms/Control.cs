@@ -2589,7 +2589,7 @@ namespace System.Windows.Forms
 				}
 
 				dock_style = value;
-				anchor_style = AnchorStyles.None;
+				anchor_style = AnchorStyles.Top | AnchorStyles.Left;
 
 				if (dock_style == DockStyle.None) {
 					bounds = explicit_bounds;
