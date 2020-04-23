@@ -619,7 +619,7 @@ namespace System.Windows.Forms.Layout
 							new_height = Math.Min (preferred.Height, column_height - c.Margin.Top - c.Margin.Bottom);
 
 						// Figure out the left location of the control
-						if (c.Dock == DockStyle.Left || c.Dock == DockStyle.Fill || (c.Anchor & AnchorStyles.Left) == AnchorStyles.Left)
+						if (c.Dock == DockStyle.Left || c.Dock == DockStyle.Fill || ((c.Anchor & AnchorStyles.Left) == AnchorStyles.Left) && c.Dock == DockStyle.None)
 							new_x = current_pos.X + c.Margin.Left;
 						else if (c.Dock == DockStyle.Right || (c.Anchor & AnchorStyles.Right) == AnchorStyles.Right)
 							new_x = (current_pos.X + column_width) - new_width - c.Margin.Right;
@@ -627,7 +627,7 @@ namespace System.Windows.Forms.Layout
 							new_x = (current_pos.X + (column_width - c.Margin.Left - c.Margin.Right) / 2) + c.Margin.Left - (new_width / 2);
 
 						// Figure out the top location of the control
-						if (c.Dock == DockStyle.Top || c.Dock == DockStyle.Fill || (c.Anchor & AnchorStyles.Top) == AnchorStyles.Top)
+						if (c.Dock == DockStyle.Top || c.Dock == DockStyle.Fill || ((c.Anchor & AnchorStyles.Top) == AnchorStyles.Top) && c.Dock == DockStyle.None)
 							new_y = current_pos.Y + c.Margin.Top;
 						else if (c.Dock == DockStyle.Bottom || (c.Anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom)
 							new_y = (current_pos.Y + column_height) - new_height - c.Margin.Bottom;
