@@ -2676,7 +2676,7 @@ namespace System.Windows.Forms
 					UpdateCursor ();
 
 				if (old_value != value && !value && this.Focused)
-					SelectNextControl(this, true, true, true, true);
+					SelectNextIfFocused();
 
 				OnEnabledChanged (EventArgs.Empty);
 			}
