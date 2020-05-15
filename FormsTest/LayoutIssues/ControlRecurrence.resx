@@ -1,0 +1,2616 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="radio_Recurrence_FrequencyNone.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="radio_Recurrence_FrequencyNone.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="radio_Recurrence_FrequencyNone.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 26</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyNone.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 3, 6</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyNone.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 17</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyNone.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyNone.Text" xml:space="preserve">
+    <value>N&amp;one</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyNone.Name" xml:space="preserve">
+    <value>radio_Recurrence_FrequencyNone</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyNone.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyNone.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_Frequency</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyNone.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyYearly.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyYearly.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyYearly.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 130</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyYearly.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 3, 6</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyYearly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 17</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyYearly.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyYearly.Text" xml:space="preserve">
+    <value>&amp;Yearly</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyYearly.Name" xml:space="preserve">
+    <value>radio_Recurrence_FrequencyYearly</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyYearly.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyYearly.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_Frequency</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyYearly.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyMonthly.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyMonthly.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyMonthly.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 104</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyMonthly.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 3, 6</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyMonthly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 17</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyMonthly.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyMonthly.Text" xml:space="preserve">
+    <value>&amp;Monthly</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyMonthly.Name" xml:space="preserve">
+    <value>radio_Recurrence_FrequencyMonthly</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyMonthly.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyMonthly.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_Frequency</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyMonthly.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyWeekly.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyWeekly.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyWeekly.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 78</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyWeekly.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 3, 6</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyWeekly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 17</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyWeekly.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyWeekly.Text" xml:space="preserve">
+    <value>&amp;Weekly</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyWeekly.Name" xml:space="preserve">
+    <value>radio_Recurrence_FrequencyWeekly</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyWeekly.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyWeekly.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_Frequency</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyWeekly.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyDaily.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyDaily.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyDaily.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 52</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyDaily.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 3, 6</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyDaily.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 17</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyDaily.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="radio_Recurrence_FrequencyDaily.Text" xml:space="preserve">
+    <value>&amp;Daily</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyDaily.Name" xml:space="preserve">
+    <value>radio_Recurrence_FrequencyDaily</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyDaily.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyDaily.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_Frequency</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_FrequencyDaily.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label_Recurrence_NoneThisEvent.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="label_Recurrence_NoneThisEvent.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Recurrence_NoneThisEvent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="label_Recurrence_NoneThisEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>365, 87</value>
+  </data>
+  <data name="label_Recurrence_NoneThisEvent.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label_Recurrence_NoneThisEvent.Text" xml:space="preserve">
+    <value>This event doesn't recur.</value>
+  </data>
+  <data name="label_Recurrence_NoneThisEvent.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_NoneThisEvent.Name" xml:space="preserve">
+    <value>label_Recurrence_NoneThisEvent</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_NoneThisEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_NoneThisEvent.Parent" xml:space="preserve">
+    <value>panel_Recurrence_None</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_NoneThisEvent.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panel_Recurrence_None.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panel_Recurrence_None.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panel_Recurrence_None.Size" type="System.Drawing.Size, System.Drawing">
+    <value>365, 87</value>
+  </data>
+  <data name="panel_Recurrence_None.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_None.Name" xml:space="preserve">
+    <value>panel_Recurrence_None</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_None.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.ControlPanelSwitcher.SwitchPanel, MailClient.Common.UI, Version=7.0.25764.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_None.Parent" xml:space="preserve">
+    <value>controlPanelSwitcher1</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_None.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panel_Recurrence_Daily.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="panel_Recurrence_Daily.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="flowLayoutPanel_Event_Recurrence_DailyPattern.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="flowLayoutPanel_Event_Recurrence_DailyPattern.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="label_Recurrence_DailyRecurEvery.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Recurrence_DailyRecurEvery.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Recurrence_DailyRecurEvery.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 5</value>
+  </data>
+  <data name="label_Recurrence_DailyRecurEvery.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 3, 0</value>
+  </data>
+  <data name="label_Recurrence_DailyRecurEvery.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 13</value>
+  </data>
+  <data name="label_Recurrence_DailyRecurEvery.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label_Recurrence_DailyRecurEvery.Text" xml:space="preserve">
+    <value>&amp;Recur every </value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_DailyRecurEvery.Name" xml:space="preserve">
+    <value>label_Recurrence_DailyRecurEvery</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_DailyRecurEvery.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_DailyRecurEvery.Parent" xml:space="preserve">
+    <value>flowLayoutPanel_Event_Recurrence_DailyPattern</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_DailyRecurEvery.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="text_Recurrence_DailyIntervalDays.Location" type="System.Drawing.Point, System.Drawing">
+    <value>71, 3</value>
+  </data>
+  <data name="text_Recurrence_DailyIntervalDays.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 3, 0, 3</value>
+  </data>
+  <data name="text_Recurrence_DailyIntervalDays.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 20</value>
+  </data>
+  <data name="text_Recurrence_DailyIntervalDays.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="text_Recurrence_DailyIntervalDays.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_DailyIntervalDays.Name" xml:space="preserve">
+    <value>text_Recurrence_DailyIntervalDays</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_DailyIntervalDays.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx, MailClient, Version=7.0.25764.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_DailyIntervalDays.Parent" xml:space="preserve">
+    <value>flowLayoutPanel_Event_Recurrence_DailyPattern</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_DailyIntervalDays.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label_Recurrence_DailyDays.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Recurrence_DailyDays.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Recurrence_DailyDays.Location" type="System.Drawing.Point, System.Drawing">
+    <value>109, 5</value>
+  </data>
+  <data name="label_Recurrence_DailyDays.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 0, 0</value>
+  </data>
+  <data name="label_Recurrence_DailyDays.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 13</value>
+  </data>
+  <data name="label_Recurrence_DailyDays.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label_Recurrence_DailyDays.Text" xml:space="preserve">
+    <value>day(s)</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_DailyDays.Name" xml:space="preserve">
+    <value>label_Recurrence_DailyDays</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_DailyDays.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_DailyDays.Parent" xml:space="preserve">
+    <value>flowLayoutPanel_Event_Recurrence_DailyPattern</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_DailyDays.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="flowLayoutPanel_Event_Recurrence_DailyPattern.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="flowLayoutPanel_Event_Recurrence_DailyPattern.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="flowLayoutPanel_Event_Recurrence_DailyPattern.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="flowLayoutPanel_Event_Recurrence_DailyPattern.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 26</value>
+  </data>
+  <data name="flowLayoutPanel_Event_Recurrence_DailyPattern.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel_Event_Recurrence_DailyPattern.Name" xml:space="preserve">
+    <value>flowLayoutPanel_Event_Recurrence_DailyPattern</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel_Event_Recurrence_DailyPattern.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel_Event_Recurrence_DailyPattern.Parent" xml:space="preserve">
+    <value>panel_Recurrence_Daily</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel_Event_Recurrence_DailyPattern.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panel_Recurrence_Daily.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panel_Recurrence_Daily.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panel_Recurrence_Daily.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 150</value>
+  </data>
+  <data name="panel_Recurrence_Daily.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Daily.Name" xml:space="preserve">
+    <value>panel_Recurrence_Daily</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Daily.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.ControlPanelSwitcher.SwitchPanel, MailClient.Common.UI, Version=7.0.25764.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Daily.Parent" xml:space="preserve">
+    <value>controlPanelSwitcher1</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Daily.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panel_Recurrence_Weekly.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="panel_Recurrence_Weekly.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="tableLayoutPanel4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel4.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="tableLayoutPanel4.ColumnCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="check_Recurrence_WeeklyMonday.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="check_Recurrence_WeeklyMonday.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Recurrence_WeeklyMonday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 3</value>
+  </data>
+  <data name="check_Recurrence_WeeklyMonday.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 3, 6</value>
+  </data>
+  <data name="check_Recurrence_WeeklyMonday.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>85, 0</value>
+  </data>
+  <data name="check_Recurrence_WeeklyMonday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 17</value>
+  </data>
+  <data name="check_Recurrence_WeeklyMonday.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="check_Recurrence_WeeklyMonday.Text" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyMonday.Name" xml:space="preserve">
+    <value>check_Recurrence_WeeklyMonday</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyMonday.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyMonday.Parent" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyMonday.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="check_Recurrence_WeeklyThursday.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="check_Recurrence_WeeklyThursday.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Recurrence_WeeklyThursday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 29</value>
+  </data>
+  <data name="check_Recurrence_WeeklyThursday.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 3, 3</value>
+  </data>
+  <data name="check_Recurrence_WeeklyThursday.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>85, 0</value>
+  </data>
+  <data name="check_Recurrence_WeeklyThursday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 17</value>
+  </data>
+  <data name="check_Recurrence_WeeklyThursday.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="check_Recurrence_WeeklyThursday.Text" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyThursday.Name" xml:space="preserve">
+    <value>check_Recurrence_WeeklyThursday</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyThursday.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyThursday.Parent" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyThursday.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="check_Recurrence_WeeklyTuesday.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="check_Recurrence_WeeklyTuesday.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Recurrence_WeeklyTuesday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>95, 3</value>
+  </data>
+  <data name="check_Recurrence_WeeklyTuesday.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 6</value>
+  </data>
+  <data name="check_Recurrence_WeeklyTuesday.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>85, 0</value>
+  </data>
+  <data name="check_Recurrence_WeeklyTuesday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 17</value>
+  </data>
+  <data name="check_Recurrence_WeeklyTuesday.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="check_Recurrence_WeeklyTuesday.Text" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyTuesday.Name" xml:space="preserve">
+    <value>check_Recurrence_WeeklyTuesday</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyTuesday.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyTuesday.Parent" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyTuesday.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="check_Recurrence_WeeklySaturday.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="check_Recurrence_WeeklySaturday.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Recurrence_WeeklySaturday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>186, 29</value>
+  </data>
+  <data name="check_Recurrence_WeeklySaturday.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>85, 0</value>
+  </data>
+  <data name="check_Recurrence_WeeklySaturday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 17</value>
+  </data>
+  <data name="check_Recurrence_WeeklySaturday.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="check_Recurrence_WeeklySaturday.Text" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklySaturday.Name" xml:space="preserve">
+    <value>check_Recurrence_WeeklySaturday</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklySaturday.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklySaturday.Parent" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklySaturday.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="check_Recurrence_WeeklyFriday.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="check_Recurrence_WeeklyFriday.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Recurrence_WeeklyFriday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>95, 29</value>
+  </data>
+  <data name="check_Recurrence_WeeklyFriday.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>85, 0</value>
+  </data>
+  <data name="check_Recurrence_WeeklyFriday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 17</value>
+  </data>
+  <data name="check_Recurrence_WeeklyFriday.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="check_Recurrence_WeeklyFriday.Text" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyFriday.Name" xml:space="preserve">
+    <value>check_Recurrence_WeeklyFriday</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyFriday.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyFriday.Parent" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyFriday.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="check_Recurrence_WeeklyWednesday.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="check_Recurrence_WeeklyWednesday.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Recurrence_WeeklyWednesday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>186, 3</value>
+  </data>
+  <data name="check_Recurrence_WeeklyWednesday.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 6</value>
+  </data>
+  <data name="check_Recurrence_WeeklyWednesday.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>85, 0</value>
+  </data>
+  <data name="check_Recurrence_WeeklyWednesday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 17</value>
+  </data>
+  <data name="check_Recurrence_WeeklyWednesday.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="check_Recurrence_WeeklyWednesday.Text" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyWednesday.Name" xml:space="preserve">
+    <value>check_Recurrence_WeeklyWednesday</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyWednesday.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyWednesday.Parent" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklyWednesday.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="check_Recurrence_WeeklySunday.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="check_Recurrence_WeeklySunday.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_Recurrence_WeeklySunday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>277, 29</value>
+  </data>
+  <data name="check_Recurrence_WeeklySunday.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>85, 0</value>
+  </data>
+  <data name="check_Recurrence_WeeklySunday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 17</value>
+  </data>
+  <data name="check_Recurrence_WeeklySunday.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="check_Recurrence_WeeklySunday.Text" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklySunday.Name" xml:space="preserve">
+    <value>check_Recurrence_WeeklySunday</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklySunday.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklySunday.Parent" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
+  </data>
+  <data name="&gt;&gt;check_Recurrence_WeeklySunday.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="tableLayoutPanel4.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tableLayoutPanel4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 44</value>
+  </data>
+  <data name="tableLayoutPanel4.RowCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 106</value>
+  </data>
+  <data name="tableLayoutPanel4.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel4.Name" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel4.Parent" xml:space="preserve">
+    <value>panel_Recurrence_Weekly</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel4.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel4.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="check_Recurrence_WeeklyMonday" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="check_Recurrence_WeeklyThursday" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="check_Recurrence_WeeklyTuesday" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="check_Recurrence_WeeklySaturday" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="check_Recurrence_WeeklyFriday" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="check_Recurrence_WeeklyWednesday" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="check_Recurrence_WeeklySunday" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="flowLayoutPanel_Event_Recurrence_WeeklyPattern.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Recurrence_WeeklyRecurEvery.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Recurrence_WeeklyRecurEvery.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Recurrence_WeeklyRecurEvery.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 5</value>
+  </data>
+  <data name="label_Recurrence_WeeklyRecurEvery.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 3, 0</value>
+  </data>
+  <data name="label_Recurrence_WeeklyRecurEvery.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 13</value>
+  </data>
+  <data name="label_Recurrence_WeeklyRecurEvery.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label_Recurrence_WeeklyRecurEvery.Text" xml:space="preserve">
+    <value>&amp;Recur every </value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_WeeklyRecurEvery.Name" xml:space="preserve">
+    <value>label_Recurrence_WeeklyRecurEvery</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_WeeklyRecurEvery.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_WeeklyRecurEvery.Parent" xml:space="preserve">
+    <value>flowLayoutPanel_Event_Recurrence_WeeklyPattern</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_WeeklyRecurEvery.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="text_Recurrence_WeeklyInterval.Location" type="System.Drawing.Point, System.Drawing">
+    <value>71, 3</value>
+  </data>
+  <data name="text_Recurrence_WeeklyInterval.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 3, 0, 3</value>
+  </data>
+  <data name="text_Recurrence_WeeklyInterval.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 20</value>
+  </data>
+  <data name="text_Recurrence_WeeklyInterval.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="text_Recurrence_WeeklyInterval.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_WeeklyInterval.Name" xml:space="preserve">
+    <value>text_Recurrence_WeeklyInterval</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_WeeklyInterval.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx, MailClient, Version=7.0.25764.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_WeeklyInterval.Parent" xml:space="preserve">
+    <value>flowLayoutPanel_Event_Recurrence_WeeklyPattern</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_WeeklyInterval.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label_Recurrence_Weeks.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Recurrence_Weeks.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Recurrence_Weeks.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 31</value>
+  </data>
+  <data name="label_Recurrence_Weeks.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 0, 0</value>
+  </data>
+  <data name="label_Recurrence_Weeks.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 13</value>
+  </data>
+  <data name="label_Recurrence_Weeks.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label_Recurrence_Weeks.Text" xml:space="preserve">
+    <value>week(s)</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_Weeks.Name" xml:space="preserve">
+    <value>label_Recurrence_Weeks</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_Weeks.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_Weeks.Parent" xml:space="preserve">
+    <value>flowLayoutPanel_Event_Recurrence_WeeklyPattern</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_Weeks.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="flowLayoutPanel_Event_Recurrence_WeeklyPattern.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="flowLayoutPanel_Event_Recurrence_WeeklyPattern.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="flowLayoutPanel_Event_Recurrence_WeeklyPattern.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 44</value>
+  </data>
+  <data name="flowLayoutPanel_Event_Recurrence_WeeklyPattern.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel_Event_Recurrence_WeeklyPattern.Name" xml:space="preserve">
+    <value>flowLayoutPanel_Event_Recurrence_WeeklyPattern</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel_Event_Recurrence_WeeklyPattern.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel_Event_Recurrence_WeeklyPattern.Parent" xml:space="preserve">
+    <value>panel_Recurrence_Weekly</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel_Event_Recurrence_WeeklyPattern.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panel_Recurrence_Weekly.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panel_Recurrence_Weekly.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panel_Recurrence_Weekly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 150</value>
+  </data>
+  <data name="panel_Recurrence_Weekly.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Weekly.Name" xml:space="preserve">
+    <value>panel_Recurrence_Weekly</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Weekly.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.ControlPanelSwitcher.SwitchPanel, MailClient.Common.UI, Version=7.0.25764.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Weekly.Parent" xml:space="preserve">
+    <value>controlPanelSwitcher1</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Weekly.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="panel_Recurrence_Monthly.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="panel_Recurrence_Monthly.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="tableLayoutPanel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel1.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel7.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel7.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="tableLayoutPanel7.ColumnCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label_Recurrence_PositionOfTheMonth.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Recurrence_PositionOfTheMonth.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Recurrence_PositionOfTheMonth.Location" type="System.Drawing.Point, System.Drawing">
+    <value>210, 7</value>
+  </data>
+  <data name="label_Recurrence_PositionOfTheMonth.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 7, 3, 0</value>
+  </data>
+  <data name="label_Recurrence_PositionOfTheMonth.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 13</value>
+  </data>
+  <data name="label_Recurrence_PositionOfTheMonth.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="label_Recurrence_PositionOfTheMonth.Text" xml:space="preserve">
+    <value>of the month</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_PositionOfTheMonth.Name" xml:space="preserve">
+    <value>label_Recurrence_PositionOfTheMonth</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_PositionOfTheMonth.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_PositionOfTheMonth.Parent" xml:space="preserve">
+    <value>tableLayoutPanel7</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_PositionOfTheMonth.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="combo_Recurrence_MonthPositionDay.Items" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="combo_Recurrence_MonthPositionDay.Items1" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="combo_Recurrence_MonthPositionDay.Items2" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="combo_Recurrence_MonthPositionDay.Items3" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+  <data name="combo_Recurrence_MonthPositionDay.Items4" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="combo_Recurrence_MonthPositionDay.Items5" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="combo_Recurrence_MonthPositionDay.Items6" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="combo_Recurrence_MonthPositionDay.Location" type="System.Drawing.Point, System.Drawing">
+    <value>112, 5</value>
+  </data>
+  <data name="combo_Recurrence_MonthPositionDay.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 3, 3</value>
+  </data>
+  <data name="combo_Recurrence_MonthPositionDay.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 21</value>
+  </data>
+  <data name="combo_Recurrence_MonthPositionDay.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_MonthPositionDay.Name" xml:space="preserve">
+    <value>combo_Recurrence_MonthPositionDay</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_MonthPositionDay.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_MonthPositionDay.Parent" xml:space="preserve">
+    <value>tableLayoutPanel7</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_MonthPositionDay.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="combo_Recurrence_MonthPosition.Items" xml:space="preserve">
+    <value>first</value>
+  </data>
+  <data name="combo_Recurrence_MonthPosition.Items1" xml:space="preserve">
+    <value>second</value>
+  </data>
+  <data name="combo_Recurrence_MonthPosition.Items2" xml:space="preserve">
+    <value>third</value>
+  </data>
+  <data name="combo_Recurrence_MonthPosition.Items3" xml:space="preserve">
+    <value>fourth</value>
+  </data>
+  <data name="combo_Recurrence_MonthPosition.Items4" xml:space="preserve">
+    <value>last</value>
+  </data>
+  <data name="combo_Recurrence_MonthPosition.Location" type="System.Drawing.Point, System.Drawing">
+    <value>24, 5</value>
+  </data>
+  <data name="combo_Recurrence_MonthPosition.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 3, 3</value>
+  </data>
+  <data name="combo_Recurrence_MonthPosition.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 21</value>
+  </data>
+  <data name="combo_Recurrence_MonthPosition.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_MonthPosition.Name" xml:space="preserve">
+    <value>combo_Recurrence_MonthPosition</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_MonthPosition.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_MonthPosition.Parent" xml:space="preserve">
+    <value>tableLayoutPanel7</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_MonthPosition.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="radio_Recurrence_MonthOnPosition.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radio_Recurrence_MonthOnPosition.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radio_Recurrence_MonthOnPosition.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 9</value>
+  </data>
+  <data name="radio_Recurrence_MonthOnPosition.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 9, 3, 3</value>
+  </data>
+  <data name="radio_Recurrence_MonthOnPosition.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="radio_Recurrence_MonthOnPosition.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_MonthOnPosition.Name" xml:space="preserve">
+    <value>radio_Recurrence_MonthOnPosition</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_MonthOnPosition.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_MonthOnPosition.Parent" xml:space="preserve">
+    <value>tableLayoutPanel7</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_MonthOnPosition.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 48</value>
+  </data>
+  <data name="tableLayoutPanel7.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tableLayoutPanel7.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>279, 29</value>
+  </data>
+  <data name="tableLayoutPanel7.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel7.Name" xml:space="preserve">
+    <value>tableLayoutPanel7</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel7.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel7.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel7.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label_Recurrence_PositionOfTheMonth" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="combo_Recurrence_MonthPositionDay" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="combo_Recurrence_MonthPosition" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="radio_Recurrence_MonthOnPosition" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tableLayoutPanel5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel5.ColumnCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="label_Recurrence_MonthlyMonths.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Recurrence_MonthlyMonths.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Recurrence_MonthlyMonths.Location" type="System.Drawing.Point, System.Drawing">
+    <value>109, 5</value>
+  </data>
+  <data name="label_Recurrence_MonthlyMonths.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 0, 0</value>
+  </data>
+  <data name="label_Recurrence_MonthlyMonths.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 13</value>
+  </data>
+  <data name="label_Recurrence_MonthlyMonths.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label_Recurrence_MonthlyMonths.Text" xml:space="preserve">
+    <value>month(s) on</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_MonthlyMonths.Name" xml:space="preserve">
+    <value>label_Recurrence_MonthlyMonths</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_MonthlyMonths.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_MonthlyMonths.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_MonthlyMonths.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="text_Recurrence_MonthlyIntervalMonths.Location" type="System.Drawing.Point, System.Drawing">
+    <value>71, 3</value>
+  </data>
+  <data name="text_Recurrence_MonthlyIntervalMonths.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 3, 0, 3</value>
+  </data>
+  <data name="text_Recurrence_MonthlyIntervalMonths.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 20</value>
+  </data>
+  <data name="text_Recurrence_MonthlyIntervalMonths.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="text_Recurrence_MonthlyIntervalMonths.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_MonthlyIntervalMonths.Name" xml:space="preserve">
+    <value>text_Recurrence_MonthlyIntervalMonths</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_MonthlyIntervalMonths.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx, MailClient, Version=7.0.25764.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_MonthlyIntervalMonths.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_MonthlyIntervalMonths.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label_Recurrence_MonthlyRecurEvery.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Recurrence_MonthlyRecurEvery.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Recurrence_MonthlyRecurEvery.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 5</value>
+  </data>
+  <data name="label_Recurrence_MonthlyRecurEvery.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 3, 0</value>
+  </data>
+  <data name="label_Recurrence_MonthlyRecurEvery.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 13</value>
+  </data>
+  <data name="label_Recurrence_MonthlyRecurEvery.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label_Recurrence_MonthlyRecurEvery.Text" xml:space="preserve">
+    <value>&amp;Recur every </value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_MonthlyRecurEvery.Name" xml:space="preserve">
+    <value>label_Recurrence_MonthlyRecurEvery</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_MonthlyRecurEvery.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_MonthlyRecurEvery.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_MonthlyRecurEvery.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tableLayoutPanel5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tableLayoutPanel5.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 26</value>
+  </data>
+  <data name="tableLayoutPanel5.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel5.Name" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel5.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel5.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel5.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label_Recurrence_MonthlyMonths" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="text_Recurrence_MonthlyIntervalMonths" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label_Recurrence_MonthlyRecurEvery" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tableLayoutPanel6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel6.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="tableLayoutPanel6.ColumnCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="label_Recurrence_DayOfMonth.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Recurrence_DayOfMonth.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Recurrence_DayOfMonth.Location" type="System.Drawing.Point, System.Drawing">
+    <value>87, 4</value>
+  </data>
+  <data name="label_Recurrence_DayOfMonth.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 4, 0, 0</value>
+  </data>
+  <data name="label_Recurrence_DayOfMonth.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 13</value>
+  </data>
+  <data name="label_Recurrence_DayOfMonth.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="label_Recurrence_DayOfMonth.Text" xml:space="preserve">
+    <value>of the month</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_DayOfMonth.Name" xml:space="preserve">
+    <value>label_Recurrence_DayOfMonth</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_DayOfMonth.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_DayOfMonth.Parent" xml:space="preserve">
+    <value>tableLayoutPanel6</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_DayOfMonth.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="text_Recurrence_MonthDay.Location" type="System.Drawing.Point, System.Drawing">
+    <value>49, 1</value>
+  </data>
+  <data name="text_Recurrence_MonthDay.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 1, 0, 0</value>
+  </data>
+  <data name="text_Recurrence_MonthDay.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 20</value>
+  </data>
+  <data name="text_Recurrence_MonthDay.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="text_Recurrence_MonthDay.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_MonthDay.Name" xml:space="preserve">
+    <value>text_Recurrence_MonthDay</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_MonthDay.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx, MailClient, Version=7.0.25764.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_MonthDay.Parent" xml:space="preserve">
+    <value>tableLayoutPanel6</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_MonthDay.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="radio_Recurrence_MonthlyOnMonthDay.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radio_Recurrence_MonthlyOnMonthDay.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radio_Recurrence_MonthlyOnMonthDay.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 2</value>
+  </data>
+  <data name="radio_Recurrence_MonthlyOnMonthDay.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 2, 3, 3</value>
+  </data>
+  <data name="radio_Recurrence_MonthlyOnMonthDay.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 17</value>
+  </data>
+  <data name="radio_Recurrence_MonthlyOnMonthDay.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="radio_Recurrence_MonthlyOnMonthDay.Text" xml:space="preserve">
+    <value>day</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_MonthlyOnMonthDay.Name" xml:space="preserve">
+    <value>radio_Recurrence_MonthlyOnMonthDay</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_MonthlyOnMonthDay.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_MonthlyOnMonthDay.Parent" xml:space="preserve">
+    <value>tableLayoutPanel6</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_MonthlyOnMonthDay.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 26</value>
+  </data>
+  <data name="tableLayoutPanel6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tableLayoutPanel6.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 22</value>
+  </data>
+  <data name="tableLayoutPanel6.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel6.Name" xml:space="preserve">
+    <value>tableLayoutPanel6</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel6.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel6.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel6.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label_Recurrence_DayOfMonth" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="text_Recurrence_MonthDay" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="radio_Recurrence_MonthlyOnMonthDay" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 77</value>
+  </data>
+  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
+    <value>panel_Recurrence_Monthly</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel7" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel5" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel6" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="panel_Recurrence_Monthly.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panel_Recurrence_Monthly.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panel_Recurrence_Monthly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 150</value>
+  </data>
+  <data name="panel_Recurrence_Monthly.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Monthly.Name" xml:space="preserve">
+    <value>panel_Recurrence_Monthly</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Monthly.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.ControlPanelSwitcher.SwitchPanel, MailClient.Common.UI, Version=7.0.25764.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Monthly.Parent" xml:space="preserve">
+    <value>controlPanelSwitcher1</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Monthly.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="panel_Recurrence_Yearly.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="panel_Recurrence_Yearly.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="tableLayoutPanel2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel2.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel10.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel10.ColumnCount" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.Items" xml:space="preserve">
+    <value>January</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.Items1" xml:space="preserve">
+    <value>February</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.Items2" xml:space="preserve">
+    <value>March</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.Items3" xml:space="preserve">
+    <value>April</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.Items4" xml:space="preserve">
+    <value>May</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.Items5" xml:space="preserve">
+    <value>June</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.Items6" xml:space="preserve">
+    <value>July</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.Items7" xml:space="preserve">
+    <value>August</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.Items8" xml:space="preserve">
+    <value>September</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.Items9" xml:space="preserve">
+    <value>October</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.Items10" xml:space="preserve">
+    <value>November</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.Items11" xml:space="preserve">
+    <value>December</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.Location" type="System.Drawing.Point, System.Drawing">
+    <value>238, 5</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 3, 3</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 21</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionMonth.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyPositionMonth.Name" xml:space="preserve">
+    <value>combo_Recurrence_YearlyPositionMonth</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyPositionMonth.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyPositionMonth.Parent" xml:space="preserve">
+    <value>tableLayoutPanel10</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyPositionMonth.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label_Recurrence_YearlyOf.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Recurrence_YearlyOf.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Recurrence_YearlyOf.Location" type="System.Drawing.Point, System.Drawing">
+    <value>213, 7</value>
+  </data>
+  <data name="label_Recurrence_YearlyOf.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 7, 3, 0</value>
+  </data>
+  <data name="label_Recurrence_YearlyOf.Size" type="System.Drawing.Size, System.Drawing">
+    <value>19, 13</value>
+  </data>
+  <data name="label_Recurrence_YearlyOf.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="label_Recurrence_YearlyOf.Text" xml:space="preserve">
+    <value>of </value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_YearlyOf.Name" xml:space="preserve">
+    <value>label_Recurrence_YearlyOf</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_YearlyOf.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_YearlyOf.Parent" xml:space="preserve">
+    <value>tableLayoutPanel10</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_YearlyOf.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionDay.Items" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionDay.Items1" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionDay.Items2" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionDay.Items3" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionDay.Items4" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionDay.Items5" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionDay.Items6" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionDay.Location" type="System.Drawing.Point, System.Drawing">
+    <value>112, 5</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionDay.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 3, 3</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionDay.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 21</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPositionDay.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyPositionDay.Name" xml:space="preserve">
+    <value>combo_Recurrence_YearlyPositionDay</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyPositionDay.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyPositionDay.Parent" xml:space="preserve">
+    <value>tableLayoutPanel10</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyPositionDay.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPosition.Items" xml:space="preserve">
+    <value>first</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPosition.Items1" xml:space="preserve">
+    <value>second</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPosition.Items2" xml:space="preserve">
+    <value>third</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPosition.Items3" xml:space="preserve">
+    <value>fourth</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPosition.Items4" xml:space="preserve">
+    <value>last</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPosition.Location" type="System.Drawing.Point, System.Drawing">
+    <value>24, 5</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPosition.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 3, 3</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPosition.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 21</value>
+  </data>
+  <data name="combo_Recurrence_YearlyPosition.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyPosition.Name" xml:space="preserve">
+    <value>combo_Recurrence_YearlyPosition</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyPosition.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyPosition.Parent" xml:space="preserve">
+    <value>tableLayoutPanel10</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyPosition.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="radio_Recurrence_YearlyOnMonthDayPosition.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radio_Recurrence_YearlyOnMonthDayPosition.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radio_Recurrence_YearlyOnMonthDayPosition.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 9</value>
+  </data>
+  <data name="radio_Recurrence_YearlyOnMonthDayPosition.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 9, 3, 3</value>
+  </data>
+  <data name="radio_Recurrence_YearlyOnMonthDayPosition.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="radio_Recurrence_YearlyOnMonthDayPosition.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_YearlyOnMonthDayPosition.Name" xml:space="preserve">
+    <value>radio_Recurrence_YearlyOnMonthDayPosition</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_YearlyOnMonthDayPosition.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_YearlyOnMonthDayPosition.Parent" xml:space="preserve">
+    <value>tableLayoutPanel10</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_YearlyOnMonthDayPosition.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="tableLayoutPanel10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 50</value>
+  </data>
+  <data name="tableLayoutPanel10.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tableLayoutPanel10.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 29</value>
+  </data>
+  <data name="tableLayoutPanel10.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel10.Name" xml:space="preserve">
+    <value>tableLayoutPanel10</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel10.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel10.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel10.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="combo_Recurrence_YearlyPositionMonth" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="label_Recurrence_YearlyOf" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="combo_Recurrence_YearlyPositionDay" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="combo_Recurrence_YearlyPosition" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="radio_Recurrence_YearlyOnMonthDayPosition" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tableLayoutPanel9.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel9.ColumnCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="text_Recurrence_YearlyDayNumber.Location" type="System.Drawing.Point, System.Drawing">
+    <value>112, 1</value>
+  </data>
+  <data name="text_Recurrence_YearlyDayNumber.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 1, 3, 0</value>
+  </data>
+  <data name="text_Recurrence_YearlyDayNumber.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 20</value>
+  </data>
+  <data name="text_Recurrence_YearlyDayNumber.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="text_Recurrence_YearlyDayNumber.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_YearlyDayNumber.Name" xml:space="preserve">
+    <value>text_Recurrence_YearlyDayNumber</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_YearlyDayNumber.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx, MailClient, Version=7.0.25764.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_YearlyDayNumber.Parent" xml:space="preserve">
+    <value>tableLayoutPanel9</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_YearlyDayNumber.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.Items" xml:space="preserve">
+    <value>January</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.Items1" xml:space="preserve">
+    <value>February</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.Items2" xml:space="preserve">
+    <value>March</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.Items3" xml:space="preserve">
+    <value>April</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.Items4" xml:space="preserve">
+    <value>May</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.Items5" xml:space="preserve">
+    <value>June</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.Items6" xml:space="preserve">
+    <value>July</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.Items7" xml:space="preserve">
+    <value>August</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.Items8" xml:space="preserve">
+    <value>September</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.Items9" xml:space="preserve">
+    <value>October</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.Items10" xml:space="preserve">
+    <value>November</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.Items11" xml:space="preserve">
+    <value>December</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.Location" type="System.Drawing.Point, System.Drawing">
+    <value>24, 1</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 1, 3, 0</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 21</value>
+  </data>
+  <data name="combo_Recurrence_YearlyDayMonth.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyDayMonth.Name" xml:space="preserve">
+    <value>combo_Recurrence_YearlyDayMonth</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyDayMonth.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyDayMonth.Parent" xml:space="preserve">
+    <value>tableLayoutPanel9</value>
+  </data>
+  <data name="&gt;&gt;combo_Recurrence_YearlyDayMonth.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="radio_Recurrence_YearlyOnYearDay.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radio_Recurrence_YearlyOnYearDay.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radio_Recurrence_YearlyOnYearDay.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 5</value>
+  </data>
+  <data name="radio_Recurrence_YearlyOnYearDay.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 3, 6</value>
+  </data>
+  <data name="radio_Recurrence_YearlyOnYearDay.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="radio_Recurrence_YearlyOnYearDay.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_YearlyOnYearDay.Name" xml:space="preserve">
+    <value>radio_Recurrence_YearlyOnYearDay</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_YearlyOnYearDay.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_YearlyOnYearDay.Parent" xml:space="preserve">
+    <value>tableLayoutPanel9</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_YearlyOnYearDay.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 26</value>
+  </data>
+  <data name="tableLayoutPanel9.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tableLayoutPanel9.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 24</value>
+  </data>
+  <data name="tableLayoutPanel9.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel9.Name" xml:space="preserve">
+    <value>tableLayoutPanel9</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel9.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel9.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel9.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="text_Recurrence_YearlyDayNumber" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="combo_Recurrence_YearlyDayMonth" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="radio_Recurrence_YearlyOnYearDay" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tableLayoutPanel8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel8.ColumnCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="label_Recurrence_YearlyYears.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Recurrence_YearlyYears.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Recurrence_YearlyYears.Location" type="System.Drawing.Point, System.Drawing">
+    <value>109, 5</value>
+  </data>
+  <data name="label_Recurrence_YearlyYears.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 0, 0</value>
+  </data>
+  <data name="label_Recurrence_YearlyYears.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 13</value>
+  </data>
+  <data name="label_Recurrence_YearlyYears.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label_Recurrence_YearlyYears.Text" xml:space="preserve">
+    <value>years(s) on</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_YearlyYears.Name" xml:space="preserve">
+    <value>label_Recurrence_YearlyYears</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_YearlyYears.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_YearlyYears.Parent" xml:space="preserve">
+    <value>tableLayoutPanel8</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_YearlyYears.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="text_Recurrence_YearlyInterval.Location" type="System.Drawing.Point, System.Drawing">
+    <value>71, 3</value>
+  </data>
+  <data name="text_Recurrence_YearlyInterval.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 3, 0, 3</value>
+  </data>
+  <data name="text_Recurrence_YearlyInterval.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 20</value>
+  </data>
+  <data name="text_Recurrence_YearlyInterval.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="text_Recurrence_YearlyInterval.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_YearlyInterval.Name" xml:space="preserve">
+    <value>text_Recurrence_YearlyInterval</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_YearlyInterval.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx, MailClient, Version=7.0.25764.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_YearlyInterval.Parent" xml:space="preserve">
+    <value>tableLayoutPanel8</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_YearlyInterval.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label_Recurrence_YearlyRecurEvery.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Recurrence_YearlyRecurEvery.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Recurrence_YearlyRecurEvery.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 5</value>
+  </data>
+  <data name="label_Recurrence_YearlyRecurEvery.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 3, 0</value>
+  </data>
+  <data name="label_Recurrence_YearlyRecurEvery.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 13</value>
+  </data>
+  <data name="label_Recurrence_YearlyRecurEvery.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label_Recurrence_YearlyRecurEvery.Text" xml:space="preserve">
+    <value>&amp;Recur every </value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_YearlyRecurEvery.Name" xml:space="preserve">
+    <value>label_Recurrence_YearlyRecurEvery</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_YearlyRecurEvery.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_YearlyRecurEvery.Parent" xml:space="preserve">
+    <value>tableLayoutPanel8</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_YearlyRecurEvery.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tableLayoutPanel8.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tableLayoutPanel8.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 26</value>
+  </data>
+  <data name="tableLayoutPanel8.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel8.Name" xml:space="preserve">
+    <value>tableLayoutPanel8</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel8.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel8.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel8.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label_Recurrence_YearlyYears" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="text_Recurrence_YearlyInterval" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label_Recurrence_YearlyRecurEvery" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tableLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tableLayoutPanel2.RowCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 79</value>
+  </data>
+  <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Name" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Parent" xml:space="preserve">
+    <value>panel_Recurrence_Yearly</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel10" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel9" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel8" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="panel_Recurrence_Yearly.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panel_Recurrence_Yearly.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panel_Recurrence_Yearly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 150</value>
+  </data>
+  <data name="panel_Recurrence_Yearly.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Yearly.Name" xml:space="preserve">
+    <value>panel_Recurrence_Yearly</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Yearly.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.ControlPanelSwitcher.SwitchPanel, MailClient.Common.UI, Version=7.0.25764.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Yearly.Parent" xml:space="preserve">
+    <value>controlPanelSwitcher1</value>
+  </data>
+  <data name="&gt;&gt;panel_Recurrence_Yearly.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="controlPanelSwitcher1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="controlPanelSwitcher1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>210, 23</value>
+  </data>
+  <data name="controlPanelSwitcher1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="controlPanelSwitcher1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>365, 87</value>
+  </data>
+  <data name="controlPanelSwitcher1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;controlPanelSwitcher1.Name" xml:space="preserve">
+    <value>controlPanelSwitcher1</value>
+  </data>
+  <data name="&gt;&gt;controlPanelSwitcher1.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.ControlPanelSwitcher.ControlPanelSwitcher, MailClient.Common.UI, Version=7.0.25764.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;controlPanelSwitcher1.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_Main</value>
+  </data>
+  <data name="&gt;&gt;controlPanelSwitcher1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="radio_Recurrence_RangeEndAfter.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radio_Recurrence_RangeEndAfter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radio_Recurrence_RangeEndAfter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 29</value>
+  </data>
+  <data name="radio_Recurrence_RangeEndAfter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 0, 6</value>
+  </data>
+  <data name="radio_Recurrence_RangeEndAfter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 17</value>
+  </data>
+  <data name="radio_Recurrence_RangeEndAfter.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="radio_Recurrence_RangeEndAfter.Text" xml:space="preserve">
+    <value>End &amp;after</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_RangeEndAfter.Name" xml:space="preserve">
+    <value>radio_Recurrence_RangeEndAfter</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_RangeEndAfter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_RangeEndAfter.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_RecurrenceRange</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_RangeEndAfter.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label_Recurrence_RangeOccurrences.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Recurrence_RangeOccurrences.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Recurrence_RangeOccurrences.Location" type="System.Drawing.Point, System.Drawing">
+    <value>107, 31</value>
+  </data>
+  <data name="label_Recurrence_RangeOccurrences.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 3, 0</value>
+  </data>
+  <data name="label_Recurrence_RangeOccurrences.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 13</value>
+  </data>
+  <data name="label_Recurrence_RangeOccurrences.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="label_Recurrence_RangeOccurrences.Text" xml:space="preserve">
+    <value>occurrences</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_RangeOccurrences.Name" xml:space="preserve">
+    <value>label_Recurrence_RangeOccurrences</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_RangeOccurrences.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_RangeOccurrences.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_RecurrenceRange</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_RangeOccurrences.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="radio_Recurrence_RangeNoEnd.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel_RecurrenceRange.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel_RecurrenceRange.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="tableLayoutPanel_RecurrenceRange.ColumnCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="radio_Recurrence_RangeEndBy.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radio_Recurrence_RangeEndBy.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radio_Recurrence_RangeEndBy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 55</value>
+  </data>
+  <data name="radio_Recurrence_RangeEndBy.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 0, 6</value>
+  </data>
+  <data name="radio_Recurrence_RangeEndBy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 17</value>
+  </data>
+  <data name="radio_Recurrence_RangeEndBy.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="radio_Recurrence_RangeEndBy.Text" xml:space="preserve">
+    <value>End &amp;by</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_RangeEndBy.Name" xml:space="preserve">
+    <value>radio_Recurrence_RangeEndBy</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_RangeEndBy.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_RangeEndBy.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_RecurrenceRange</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_RangeEndBy.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="date_Recurrence_RangeDay.Location" type="System.Drawing.Point, System.Drawing">
+    <value>72, 53</value>
+  </data>
+  <data name="date_Recurrence_RangeDay.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 1, 3, 3</value>
+  </data>
+  <data name="date_Recurrence_RangeDay.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 20</value>
+  </data>
+  <data name="date_Recurrence_RangeDay.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="date_Recurrence_RangeDay.PickerTodayButtonTitle" xml:space="preserve">
+    <value>Dnešek</value>
+  </data>
+  <data name="date_Recurrence_RangeDay.PickerClearButtonTitle" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="&gt;&gt;date_Recurrence_RangeDay.Name" xml:space="preserve">
+    <value>date_Recurrence_RangeDay</value>
+  </data>
+  <data name="&gt;&gt;date_Recurrence_RangeDay.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;date_Recurrence_RangeDay.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_RecurrenceRange</value>
+  </data>
+  <data name="&gt;&gt;date_Recurrence_RangeDay.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="text_Recurrence_RangeOccurrences.Location" type="System.Drawing.Point, System.Drawing">
+    <value>72, 29</value>
+  </data>
+  <data name="text_Recurrence_RangeOccurrences.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 3, 0, 0</value>
+  </data>
+  <data name="text_Recurrence_RangeOccurrences.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 20</value>
+  </data>
+  <data name="text_Recurrence_RangeOccurrences.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_RangeOccurrences.Name" xml:space="preserve">
+    <value>text_Recurrence_RangeOccurrences</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_RangeOccurrences.Type" xml:space="preserve">
+    <value>MailClient.Common.UI.Controls.TextBoxEx.TextBoxEx, MailClient, Version=7.0.25764.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_RangeOccurrences.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_RecurrenceRange</value>
+  </data>
+  <data name="&gt;&gt;text_Recurrence_RangeOccurrences.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="tableLayoutPanel_RecurrenceRange.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="tableLayoutPanel_RecurrenceRange.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 23</value>
+  </data>
+  <data name="tableLayoutPanel_RecurrenceRange.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tableLayoutPanel_RecurrenceRange.RowCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="tableLayoutPanel_RecurrenceRange.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 78</value>
+  </data>
+  <data name="tableLayoutPanel_RecurrenceRange.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel_RecurrenceRange.Name" xml:space="preserve">
+    <value>tableLayoutPanel_RecurrenceRange</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel_RecurrenceRange.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel_RecurrenceRange.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_Main</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel_RecurrenceRange.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel_RecurrenceRange.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="radio_Recurrence_RangeEndBy" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="radio_Recurrence_RangeEndAfter" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="radio_Recurrence_RangeNoEnd" Row="0" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="date_Recurrence_RangeDay" Row="2" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="label_Recurrence_RangeOccurrences" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="text_Recurrence_RangeOccurrences" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="radio_Recurrence_RangeNoEnd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 3</value>
+  </data>
+  <data name="radio_Recurrence_RangeNoEnd.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 3, 6</value>
+  </data>
+  <data name="radio_Recurrence_RangeNoEnd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 17</value>
+  </data>
+  <data name="radio_Recurrence_RangeNoEnd.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="radio_Recurrence_RangeNoEnd.Text" xml:space="preserve">
+    <value>No end date</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_RangeNoEnd.Name" xml:space="preserve">
+    <value>radio_Recurrence_RangeNoEnd</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_RangeNoEnd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_RangeNoEnd.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_RecurrenceRange</value>
+  </data>
+  <data name="&gt;&gt;radio_Recurrence_RangeNoEnd.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel_Main.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel_Main.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="tableLayoutPanel_Main.ColumnCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tableLayout_Example.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayout_Example.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="tableLayout_Example.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label_Recurrence_Preview.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Recurrence_Preview.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="label_Recurrence_Preview.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Recurrence_Preview.Location" type="System.Drawing.Point, System.Drawing">
+    <value>56, 20</value>
+  </data>
+  <data name="label_Recurrence_Preview.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 6, 0</value>
+  </data>
+  <data name="label_Recurrence_Preview.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>400, 0</value>
+  </data>
+  <data name="label_Recurrence_Preview.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 40</value>
+  </data>
+  <data name="label_Recurrence_Preview.Size" type="System.Drawing.Size, System.Drawing">
+    <value>400, 40</value>
+  </data>
+  <data name="label_Recurrence_Preview.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_Preview.Name" xml:space="preserve">
+    <value>label_Recurrence_Preview</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_Preview.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_Preview.Parent" xml:space="preserve">
+    <value>tableLayout_Example</value>
+  </data>
+  <data name="&gt;&gt;label_Recurrence_Preview.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label_Exmple.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Exmple.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Exmple.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 20</value>
+  </data>
+  <data name="label_Exmple.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 3, 0</value>
+  </data>
+  <data name="label_Exmple.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 13</value>
+  </data>
+  <data name="label_Exmple.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label_Exmple.Text" xml:space="preserve">
+    <value>Example:</value>
+  </data>
+  <data name="&gt;&gt;label_Exmple.Name" xml:space="preserve">
+    <value>label_Exmple</value>
+  </data>
+  <data name="&gt;&gt;label_Exmple.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Exmple.Parent" xml:space="preserve">
+    <value>tableLayout_Example</value>
+  </data>
+  <data name="&gt;&gt;label_Exmple.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tableLayout_Example.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tableLayout_Example.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 110</value>
+  </data>
+  <data name="tableLayout_Example.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tableLayout_Example.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 20, 0, 0</value>
+  </data>
+  <data name="tableLayout_Example.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayout_Example.Size" type="System.Drawing.Size, System.Drawing">
+    <value>575, 60</value>
+  </data>
+  <data name="tableLayout_Example.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;tableLayout_Example.Name" xml:space="preserve">
+    <value>tableLayout_Example</value>
+  </data>
+  <data name="&gt;&gt;tableLayout_Example.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayout_Example.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_Main</value>
+  </data>
+  <data name="&gt;&gt;tableLayout_Example.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayout_Example.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label_Recurrence_Preview" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label_Exmple" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="label_RecurrenceRange.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_RecurrenceRange.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_RecurrenceRange.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="label_RecurrenceRange.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 3, 10</value>
+  </data>
+  <data name="label_RecurrenceRange.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 13</value>
+  </data>
+  <data name="label_RecurrenceRange.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="label_RecurrenceRange.Text" xml:space="preserve">
+    <value>Recurrence range</value>
+  </data>
+  <data name="&gt;&gt;label_RecurrenceRange.Name" xml:space="preserve">
+    <value>label_RecurrenceRange</value>
+  </data>
+  <data name="&gt;&gt;label_RecurrenceRange.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_RecurrenceRange.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_Main</value>
+  </data>
+  <data name="&gt;&gt;label_RecurrenceRange.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label_Pattern.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Pattern.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Pattern.Location" type="System.Drawing.Point, System.Drawing">
+    <value>210, 0</value>
+  </data>
+  <data name="label_Pattern.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 3, 10</value>
+  </data>
+  <data name="label_Pattern.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 13</value>
+  </data>
+  <data name="label_Pattern.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label_Pattern.Text" xml:space="preserve">
+    <value>Pattern</value>
+  </data>
+  <data name="&gt;&gt;label_Pattern.Name" xml:space="preserve">
+    <value>label_Pattern</value>
+  </data>
+  <data name="&gt;&gt;label_Pattern.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Pattern.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_Main</value>
+  </data>
+  <data name="&gt;&gt;label_Pattern.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="tableLayoutPanel_Main.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tableLayoutPanel_Main.Location" type="System.Drawing.Point, System.Drawing">
+    <value>101, 12</value>
+  </data>
+  <data name="tableLayoutPanel_Main.RowCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel_Main.Size" type="System.Drawing.Size, System.Drawing">
+    <value>575, 170</value>
+  </data>
+  <data name="tableLayoutPanel_Main.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel_Main.Name" xml:space="preserve">
+    <value>tableLayoutPanel_Main</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel_Main.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel_Main.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel_Main.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel_Main.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayout_Example" Row="2" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="label_RecurrenceRange" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="controlPanelSwitcher1" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel_RecurrenceRange" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label_Pattern" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Absolute,10,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="label_Frequency.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Frequency.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Frequency.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="label_Frequency.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 3, 10</value>
+  </data>
+  <data name="label_Frequency.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 13</value>
+  </data>
+  <data name="label_Frequency.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label_Frequency.Text" xml:space="preserve">
+    <value>Frequency</value>
+  </data>
+  <data name="&gt;&gt;label_Frequency.Name" xml:space="preserve">
+    <value>label_Frequency</value>
+  </data>
+  <data name="&gt;&gt;label_Frequency.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Frequency.Parent" xml:space="preserve">
+    <value>tableLayoutPanel_Frequency</value>
+  </data>
+  <data name="&gt;&gt;label_Frequency.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel_Frequency.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tableLayoutPanel_Frequency.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="tableLayoutPanel_Frequency.ColumnCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel_Frequency.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="tableLayoutPanel_Frequency.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="tableLayoutPanel_Frequency.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 20, 0</value>
+  </data>
+  <data name="tableLayoutPanel_Frequency.RowCount" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="tableLayoutPanel_Frequency.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 170</value>
+  </data>
+  <data name="tableLayoutPanel_Frequency.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel_Frequency.Name" xml:space="preserve">
+    <value>tableLayoutPanel_Frequency</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel_Frequency.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel_Frequency.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel_Frequency.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel_Frequency.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label_Frequency" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="radio_Recurrence_FrequencyNone" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="radio_Recurrence_FrequencyDaily" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="radio_Recurrence_FrequencyYearly" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="radio_Recurrence_FrequencyWeekly" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="radio_Recurrence_FrequencyMonthly" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>96, 96</value>
+  </data>
+  <data name="$this.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>12, 12, 12, 12</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>688, 194</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ControlRecurrence</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>
