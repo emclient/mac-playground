@@ -362,7 +362,7 @@ namespace System.Drawing.Mac
 			}
 		}
 
-		public static NSAttributedString GetAttributedString(string s, char? hotKey = '&', Font font = null, ContentAlignment? alignment = null)
+		public static NSAttributedString GetAttributedString(this string s, char? hotKey = '&', Font font = null, ContentAlignment? alignment = null)
 		{
 			var attributes = new NSMutableDictionary();
 
