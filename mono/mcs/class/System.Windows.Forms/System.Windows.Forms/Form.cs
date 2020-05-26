@@ -1972,6 +1972,7 @@ namespace System.Windows.Forms {
 			if (show_window_on_create) {
 				this.is_visible = false;
 				Visible = true;
+				this.is_visible = true;
 			}
 
 			if (topmost) {
