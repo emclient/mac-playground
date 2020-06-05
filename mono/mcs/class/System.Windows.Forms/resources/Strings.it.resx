@@ -123,4 +123,13 @@
   <data name="MonthCalClear" xml:space="preserve">
     <value>Originale</value>
   </data>
+  <data name="ChooseButtonTitle" xml:space="preserve">
+    <value>Choose</value>
+  </data>
+  <data name="CancelButtonTitle" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SystemFontButtonTitle" xml:space="preserve">
+    <value>System Font</value>
+  </data>
 </root>
