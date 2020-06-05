@@ -58,5 +58,23 @@ namespace System.Windows.Forms.resources {
                 return ResourceManager.GetString("MonthCalClear", resourceCulture);
             }
         }
+        
+        internal static string ChooseButtonTitle {
+            get {
+                return ResourceManager.GetString("ChooseButtonTitle", resourceCulture);
+            }
+        }
+        
+        internal static string CancelButtonTitle {
+            get {
+                return ResourceManager.GetString("CancelButtonTitle", resourceCulture);
+            }
+        }
+        
+        internal static string SystemFontButtonTitle {
+            get {
+                return ResourceManager.GetString("SystemFontButtonTitle", resourceCulture);
+            }
+        }
     }
 }
