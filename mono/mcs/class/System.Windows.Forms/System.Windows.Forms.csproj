@@ -1478,4 +1478,9 @@
     <ProjectReference Include="..\..\..\..\sysdrawing-coregraphics\System.Drawing.csproj" />
     <ProjectReference Include="..\..\..\..\MacApi\MacApi.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="System.Windows.Forms\FontDialog.Mac.cs">
+      <SubType></SubType>
+    </Compile>
+  </ItemGroup>
 </Project>
