@@ -51,10 +51,12 @@ namespace System.Windows.Forms
 			get; set;
 		}
 
+		Color color = SystemColors.ControlText;
 		[DefaultValue(typeof(Color), "Black")]
 		public Color Color
 		{
-			get; set;
+			get { return color; }
+			set { color = value; }
 		}
 
 		[DefaultValue(false)]
