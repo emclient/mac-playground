@@ -132,6 +132,7 @@ namespace FormsTest
 #endif
 
 			//AddButton("Data Grid", () => { new DataGridForm().Show(); });
+			AddButton("Font Dialog", () => { FontDialogTest(); });
 		}
 
 		List<Button> buttons = new List<Button>();
@@ -282,12 +283,6 @@ namespace FormsTest
 			dialog.ShowDialog(this);
 		}
 
-		protected override void OnFormClosing(FormClosingEventArgs e)
-		{
-			e.Cancel = true;
-			Visible = false;
-		}
-
 		void ChangeBackColor()
 		{
 #if MAC
@@ -307,13 +302,30 @@ namespace FormsTest
 				//window.AddTitlebarAccessoryViewController(tbc);
 			}
 			else
-			{
+			{	
 				window.TitlebarAppearsTransparent = false;
 				window.StyleMask &= ~AppKit.NSWindowStyle.TexturedBackground;
 				window.BackgroundColor = AppKit.NSColor.WindowBackground;
 				//window.RemoveTitlebarAccessoryViewControllerAtIndex(0);
 			}
 #endif
+		}
+
+		void FontDialogTest()
+		{
+			using (var dialog = new FontDialog())
+			{
+				dialog.ShowColor = true;
+				dialog.ShowEffects = true;
+				dialog.Color = Color.Green;
+				dialog.Font = new Font("Geneva", 12);
+
+				if (DialogResult.OK == dialog.ShowDialog())
+				{
+					Debug.WriteLine($"Selected font:{dialog.Font}");
+					Debug.WriteLine($"Selected color:{dialog.Color}");
+				}
+			}
 		}
 	}
 }
