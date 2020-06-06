@@ -9,10 +9,11 @@ namespace FormsTest
 	{
 		int round = 5;
 		int counter = 0;
-		NSBackgroundActivityScheduler activity;
+		//NSBackgroundActivityScheduler activity;
 
 		void ToggleBgActivity()
 		{
+		/*
 			if (activity != null)
 			{
 				Console.WriteLine($"Invalidating background activity");
@@ -32,6 +33,7 @@ namespace FormsTest
 				counter = (counter + 1) % round;
 				completion(counter == 0 ? NSBackgroundActivityScheduler.Result.Finished : NSBackgroundActivityScheduler.Result.Deferred);
 			});
+		*/
 		}
 	}
 }
