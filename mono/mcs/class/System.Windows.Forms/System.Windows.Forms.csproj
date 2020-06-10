@@ -512,6 +512,7 @@
     <Compile Include="System.Windows.Forms\FontDialog.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="System.Windows.Forms\FontDialog.Mac.cs"/>
     <Compile Include="System.Windows.Forms\Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1477,10 +1478,5 @@
     <ProjectReference Include="..\Mono.WebBrowser\Mono.WebBrowser.csproj" />
     <ProjectReference Include="..\..\..\..\sysdrawing-coregraphics\System.Drawing.csproj" />
     <ProjectReference Include="..\..\..\..\MacApi\MacApi.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="System.Windows.Forms\FontDialog.Mac.cs">
-      <SubType></SubType>
-    </Compile>
   </ItemGroup>
 </Project>
