@@ -485,7 +485,7 @@ namespace System.Drawing {
 			CGBitmapFlags bitmapInfo;
 			int bitsPerPixel = 0;
 
-			if (image == null) {
+			if (image == null || image.BitsPerComponent == 0) {
 				throw new ArgumentException (" image is invalid! " );
 			}
 
