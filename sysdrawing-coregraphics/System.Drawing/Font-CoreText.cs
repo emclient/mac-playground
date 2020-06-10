@@ -63,8 +63,8 @@ namespace System.Drawing
 			gdiVerticalFont = false;
 			gdiCharSet = DefaultCharSet;
 			sizeInPoints = (float)(font.Size * 72f / 96f);
-			size = (float)font.Size;
-			unit = GraphicsUnit.Pixel;
+			size = sizeInPoints;
+			unit = GraphicsUnit.Point;
 			nativeFont = font;
 		}
 
