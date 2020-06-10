@@ -326,7 +326,7 @@ namespace System.Drawing
 
 		public override string ToString()
 		{
-			return $"{Name}, {SizeInPoints}pt, {Style}{(Strikeout ? ", Strikeout" : "")}, Height {Height}";
+			return $"{Name}, {SizeInPoints}pt" + (Style != FontStyle.Regular ? $", {Style}" : string.Empty);
 		}
 	}
 }
