@@ -197,7 +197,6 @@ namespace System.Windows.Forms
 
 	internal class FontPanelController : NSWindowDelegate
 	{
-		NSFont font;
 		NSFontPanel panel;
 		FontDialog owner;
 
@@ -210,8 +209,7 @@ namespace System.Windows.Forms
 		public FontPanelController(FontDialog dialog)
 		{
 			owner = dialog;
-			font = dialog.Font.ToNSFont();
-
+			SelectedFont = dialog.Font.ToNSFont();
 			SelectedAttributes = new NSMutableDictionary();
 		}
 
@@ -262,8 +260,7 @@ namespace System.Windows.Forms
 		[Export("changeFont:")]
 		public void ChangeFont(NSObject sender)
 		{
-			SelectedFont = NSFontManager.SharedFontManager.ConvertFont(font);
-			//NSFontManager.SharedFontManager.SetSelectedFont(SelectedFont);
+			SelectedFont = panel.PanelConvertFont(SelectedFont);
 			panel.SetPanelFont(SelectedFont, false);
 		}
 
@@ -287,7 +284,7 @@ namespace System.Windows.Forms
 		[Export("systemFont:")]
 		public void SystemFontClicked(NSObject sender)
 		{
-			var size = NSFontManager.SharedFontManager.ConvertFont(font).PointSize;
+			var size = NSFont.SystemFontSize;
 			SelectedFont = NSFont.SystemFontOfSize(size);
 			panel.SetPanelFont(SelectedFont, false);
 		}
@@ -431,9 +428,8 @@ namespace System.Windows.Forms
 					style |= FontStyle.Underline;
 			}
 
-			var size = (float)font.PointSize;
-			var unit = GraphicsUnit.Pixel;
-			return new Font(font.FamilyName, size, style, unit);
+			var ptSize = (float)font.PointSize * 72f / 96f; // Apple points to rest-of-the-world points
+			return new Font(font.FamilyName, ptSize, style, GraphicsUnit.Point);
 		}
 	}
 }
