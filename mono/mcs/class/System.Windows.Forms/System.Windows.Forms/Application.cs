@@ -957,6 +957,8 @@ namespace System.Windows.Forms
 				case Msg.WM_KEYUP:
 				case Msg.WM_SYSKEYUP:
 					Control c = Control.FromHandle(msg.hwnd);
+					if (!c.Enabled)
+						break;
 
 					// If we have a control with keyboard capture (usually a *Strip)
 					// give it the message, and then drop the message
@@ -1010,9 +1012,9 @@ namespace System.Windows.Forms
 				case Msg.WM_LBUTTONDOWN:
 				case Msg.WM_MBUTTONDOWN:
 				case Msg.WM_RBUTTONDOWN:
+				case Msg.WM_XBUTTONDOWN:
+					Control c2 = Control.FromHandle(msg.hwnd);
 					if (keyboard_capture != null) {
-						Control c2 = Control.FromHandle (msg.hwnd);
-
 						// The target is not a winforms control (an embedded control, perhaps), so
 						// release everything
 						if (c2 == null) {
@@ -1039,8 +1041,16 @@ namespace System.Windows.Forms
 							keyboard_capture.Dismiss ();
 						}
 					}
+					if (!c2.Enabled)
+						break;
 					goto default;
-
+				case Msg.WM_LBUTTONUP:
+				case Msg.WM_RBUTTONUP:
+				case Msg.WM_MBUTTONUP:
+				case Msg.WM_XBUTTONUP:
+					if (!Control.FromHandle(msg.hwnd).Enabled)
+						break;
+					goto default;
 				case Msg.WM_QUIT:
 					quit = true; // make sure we exit
 					break;
