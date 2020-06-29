@@ -125,50 +125,39 @@ namespace System.Drawing
 
 		private bool NativeStyleAvailable(FontStyle style)
 		{
-
 			// we are going to actually have to create a font object here
 			// will not create an actual variable for this yet.  We may
 			// want to do this in the future so that we do not have to keep 
 			// creating it over and over again.
-			var font = new CTFont (nativeFontDescriptor,0);
-
-			switch (style) 
+			using (var baseFont = new CTFont(nativeFontDescriptor, 0))
 			{
-			case FontStyle.Bold:
-				var tMaskBold = CTFontSymbolicTraits.None;
-				tMaskBold |= CTFontSymbolicTraits.Bold;
-				var bFont = font.WithSymbolicTraits (0, tMaskBold, tMaskBold);
-				if (bFont == null)
+				var traits = CTFontSymbolicTraits.None;
+				traits |= style.HasFlag(FontStyle.Bold) ? CTFontSymbolicTraits.Bold : 0;
+				traits |= style.HasFlag(FontStyle.Italic) ? CTFontSymbolicTraits.Italic : 0;
+
+				var font = baseFont.WithSymbolicTraits(0, traits, traits);
+				if (font == null)
 					return false;
-				var bold = (bFont.SymbolicTraits & CTFontSymbolicTraits.Bold) == CTFontSymbolicTraits.Bold;
-				return bold;
 
-			case FontStyle.Italic:
-				//return (font.SymbolicTraits & CTFontSymbolicTraits.Italic) == CTFontSymbolicTraits.Italic; 
-				var tMaskItalic = CTFontSymbolicTraits.None;
-				tMaskItalic |= CTFontSymbolicTraits.Italic;
-				var iFont = font.WithSymbolicTraits (0, tMaskItalic, tMaskItalic);
-				if (iFont == null)
+				if (style.HasFlag(FontStyle.Bold) && !font.SymbolicTraits.HasFlag(CTFontSymbolicTraits.Bold))
 					return false;
-				var italic = (iFont.SymbolicTraits & CTFontSymbolicTraits.Italic) == CTFontSymbolicTraits.Italic;
-				return italic;
 
-			case FontStyle.Regular:
-
-				// Verify if this is correct somehow - we may need to add Bold here as well not sure
-				if ((font.SymbolicTraits & CTFontSymbolicTraits.Condensed) == CTFontSymbolicTraits.Condensed
-					||  (font.SymbolicTraits & CTFontSymbolicTraits.Expanded) == CTFontSymbolicTraits.Expanded)
+				if (style.HasFlag(FontStyle.Italic) && !font.SymbolicTraits.HasFlag(CTFontSymbolicTraits.Italic))
 					return false;
-				else
-					return true;
-			case FontStyle.Underline:
-				return font.UnderlineThickness > 0;
-			case FontStyle.Strikeout:
-				// not implemented yet
-				return false;
 
+				if (style.HasFlag(FontStyle.Regular))
+					if (font.SymbolicTraits.HasFlag(CTFontSymbolicTraits.Condensed) || font.SymbolicTraits.HasFlag(CTFontSymbolicTraits.Expanded))
+						return false;
+
+				if (style.HasFlag(FontStyle.Underline) && font.UnderlineThickness == 0)
+					return false;
+
+				// TODO:
+				//if (font.HasFlag(FontStyle.Strikeout))
+				//	return false;
+
+				return true;
 			}
-			return false;
 		}
 
 		private int GetNativeMetric(Metric metric, FontStyle style)
