@@ -116,8 +116,8 @@ namespace System.Drawing
 				// need to try and create the font to get the family name from the actual font.
 				if (string.IsNullOrEmpty (familyName)) 
 				{
-					var font = new CTFont (nativeFontDescriptor, 0);
-					familyName = font.FamilyName;// extendedName;
+					using (var font = new CTFont(nativeFontDescriptor, 0))
+						familyName = font.FamilyName;// extendedName;
 				}
 			}
 
@@ -135,27 +135,28 @@ namespace System.Drawing
 				traits |= style.HasFlag(FontStyle.Bold) ? CTFontSymbolicTraits.Bold : 0;
 				traits |= style.HasFlag(FontStyle.Italic) ? CTFontSymbolicTraits.Italic : 0;
 
-				var font = baseFont.WithSymbolicTraits(0, traits, traits);
-				if (font == null)
-					return false;
-
-				if (style.HasFlag(FontStyle.Bold) && !font.SymbolicTraits.HasFlag(CTFontSymbolicTraits.Bold))
-					return false;
-
-				if (style.HasFlag(FontStyle.Italic) && !font.SymbolicTraits.HasFlag(CTFontSymbolicTraits.Italic))
-					return false;
-
-				if (style.HasFlag(FontStyle.Regular))
-					if (font.SymbolicTraits.HasFlag(CTFontSymbolicTraits.Condensed) || font.SymbolicTraits.HasFlag(CTFontSymbolicTraits.Expanded))
+				using (var font = baseFont.WithSymbolicTraits(0, traits, traits))
+				{
+					if (font == null)
 						return false;
 
-				if (style.HasFlag(FontStyle.Underline) && font.UnderlineThickness == 0)
-					return false;
+					if (style.HasFlag(FontStyle.Bold) && !font.SymbolicTraits.HasFlag(CTFontSymbolicTraits.Bold))
+						return false;
 
-				// TODO:
-				//if (font.HasFlag(FontStyle.Strikeout))
-				//	return false;
+					if (style.HasFlag(FontStyle.Italic) && !font.SymbolicTraits.HasFlag(CTFontSymbolicTraits.Italic))
+						return false;
 
+					if (style.HasFlag(FontStyle.Regular))
+						if (font.SymbolicTraits.HasFlag(CTFontSymbolicTraits.Condensed) || font.SymbolicTraits.HasFlag(CTFontSymbolicTraits.Expanded))
+							return false;
+
+					if (style.HasFlag(FontStyle.Underline) && font.UnderlineThickness == 0)
+						return false;
+
+					// TODO:
+					//if (font.HasFlag(FontStyle.Strikeout))
+					//	return false;
+				}
 				return true;
 			}
 		}
@@ -174,25 +175,25 @@ namespace System.Drawing
 			if ((style & FontStyle.Italic) == FontStyle.Italic)
 				tMask |= CTFontSymbolicTraits.Italic;
 
-			var font = new CTFont (nativeFontDescriptor,0);
-			font = font.WithSymbolicTraits (0, tMask, tMask);
-
-			switch (metric)
+			using (var baseFont = new CTFont(nativeFontDescriptor, 0))
+			using (var font = baseFont.WithSymbolicTraits(0, tMask, tMask))
 			{
-			case Metric.EMHeight:
-				return (int)font.UnitsPerEmMetric;
-			case Metric.CellAscent:
-				return (int)Math.Round(font.AscentMetric / font.Size * font.UnitsPerEmMetric);
-			case Metric.CellDescent:
-				return (int)Math.Round(font.DescentMetric / font.Size * font.UnitsPerEmMetric);
-			case  Metric.LineSpacing:
-				nfloat lineHeight = 0;
-				lineHeight += font.AscentMetric;
-				lineHeight += font.DescentMetric;
-				lineHeight += font.LeadingMetric;
-				return (int)NMath.Round(lineHeight / font.Size * font.UnitsPerEmMetric);
+				switch (metric)
+				{
+					case Metric.EMHeight:
+						return (int)font.UnitsPerEmMetric;
+					case Metric.CellAscent:
+						return (int)Math.Round(font.AscentMetric / font.Size * font.UnitsPerEmMetric);
+					case Metric.CellDescent:
+						return (int)Math.Round(font.DescentMetric / font.Size * font.UnitsPerEmMetric);
+					case Metric.LineSpacing:
+						nfloat lineHeight = 0;
+						lineHeight += font.AscentMetric;
+						lineHeight += font.DescentMetric;
+						lineHeight += font.LeadingMetric;
+						return (int)NMath.Round(lineHeight / font.Size * font.UnitsPerEmMetric);
+				}
 			}
-
 			return 0;
 		}
 
