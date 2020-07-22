@@ -849,7 +849,7 @@ namespace System.Windows.Forms
 			var prevMessageLoop = thread.MessageLoop;
 			thread.MessageLoop = true;
 
-			bool quit = false, drop = false;
+			bool quit = false;
 			MSG msg = new MSG();
 			while (!quit) {
 				using (var cleanup = XplatUI.StartCycle(queue_id)) {
@@ -857,6 +857,7 @@ namespace System.Windows.Forms
 					if ((quit = !XplatUI.GetMessage(queue_id, ref msg, IntPtr.Zero, 0, 0)))
 						continue;
 
+					bool drop = false;
 					if (msg.message != Msg.WM_NULL)
 						Application.SendMessage(ref msg, out drop, out quit);
 					if (drop)
@@ -865,7 +866,10 @@ namespace System.Windows.Forms
 					var mainForm = context.MainForm;
 					if (mainForm == null)
 						continue;
-					
+
+					if (Modal && mainForm.DialogResult != DialogResult.None)
+						break;
+
 					// If our Form doesn't have a handle anymore, it means it was destroyed and we need to *wait* for WM_QUIT.
 					if (!mainForm.IsHandleCreated)
 						if (Modal) // ... but not in case of a modal dialog
