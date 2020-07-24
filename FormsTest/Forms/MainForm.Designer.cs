@@ -37,7 +37,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.dialogTypeCombo = new System.Windows.Forms.ComboBox();
@@ -45,7 +46,8 @@
             this.filterTextBox = new FormsTest.MyTextBox();
             this.listBox1 = new FormsTest.MyListBox();
             this.panel1.SuspendLayout();
-			this.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.SuspendLayout();
             // 
             // button1
             // 
@@ -85,6 +87,8 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.MinimumSize = new System.Drawing.Size(200, 0);
+            this.label1.MaximumSize = this.label1.MinimumSize;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(14, 10);
             this.label1.Name = "label1";
@@ -134,15 +138,25 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.label7);
+            this.panel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Location = new System.Drawing.Point(256, 36);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Location = new System.Drawing.Point(176, 36);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(384, 366);
+            this.panel1.Size = new System.Drawing.Size(200, 366);
             this.panel1.TabIndex = 8;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.panel2.Location = new System.Drawing.Point(380, 36);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(256, 366);
+            this.panel2.TabIndex = 8;
             // 
             // label7
             // 
@@ -186,7 +200,7 @@
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(17, 36);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(230, 366);
+            this.listBox1.Size = new System.Drawing.Size(150, 366);
             this.listBox1.TabIndex = 20;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
@@ -199,6 +213,7 @@
             this.Controls.Add(this.filterTextBox);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
@@ -209,6 +224,7 @@
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Fonty";
+            this.panel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -227,8 +243,9 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.FlowLayoutPanel panel1;
+        private System.Windows.Forms.FlowLayoutPanel panel2;
+        private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label7;
 		private MyTextBox filterTextBox;
         private System.Windows.Forms.ComboBox dialogTypeCombo;
