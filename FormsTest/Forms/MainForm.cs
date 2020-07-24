@@ -74,10 +74,10 @@ namespace FormsTest
 				"Přihlášení k webovému kalendáři",
 			    "Zadej url kalendáře, ke kterému se chceš přihlásit, třeba http://calndar.org-mycalndar.ics"
 			).Show(); });*/
-			//AddButton("Layout 1", () => { new DebugLayoutForm().Show(); });
-			//AddButton("Layout 2", () => { new DebugLayoutForm2().Show(); });
-			//AddButton("Layout 3", () => { new DebugLayoutForm3().Show(); });
-			//AddButton("Layout 4", () => { new DebugLayoutForm4().Show(); });
+			AddButton("Layout 1", () => { new DebugLayoutForm().Show(); });
+			AddButton("Layout 2", () => { new DebugLayoutForm2().Show(); });
+			AddButton("Layout 3", () => { new DebugLayoutForm3().Show(); });
+			AddButton("Layout 4", () => { new DebugLayoutForm4().Show(); });
 			/*AddButton("Editor", () =>
 			{
 				var f = new Form() { Size = new Size(500, 300), Text = "Editor" };
@@ -133,6 +133,7 @@ namespace FormsTest
 
 			//AddButton("Data Grid", () => { new DataGridForm().Show(); });
 			AddButton("Font Dialog", () => { FontDialogTest(); });
+			AddButton("Date Time", () => { new DateTimeForm().Show(); });
 		}
 
 		List<Button> buttons = new List<Button>();
@@ -145,10 +146,10 @@ namespace FormsTest
 			b.Anchor = AnchorStyles.Right;
 			b.Click += (sender, e) => { a(); };
 			b.Text = text;
-			b.SetBounds(panel1.Width - b.Width - gap, gap + buttons.Count * 28, 0, 0, BoundsSpecified.Y | BoundsSpecified.X);
+			b.SetBounds(panel2.Width - b.Width - gap, gap + buttons.Count * 28, 0, 0, BoundsSpecified.Y | BoundsSpecified.X);
 
 			buttons.Add(b);
-			panel1.Controls.Add(b);
+			panel2.Controls.Add(b);
 		}
 
 		private void FilterTextBox_KeyDown(object sender, KeyEventArgs e)
