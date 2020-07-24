@@ -89,6 +89,17 @@ namespace FormsTest
 			menuBar.AddItem(appMenuItem);
 			menuBar.SetSubmenu(appMenu, appMenuItem);
 
+			var fileMenuItem = new NSMenuItem();
+			var fileMenu = new NSMenu("File");
+			var newWindowItem = new NSMenuItem("New Window") { KeyEquivalent = "n" };
+			newWindowItem.Activated += (sender, e) => { new MainForm().Show(); };
+			var closeWindowItem = new NSMenuItem("Close Window") { KeyEquivalent = "w" };
+			closeWindowItem.Activated += (sender, e) => { if (Application.OpenForms.Count > 0) Application.OpenForms[Application.OpenForms.Count - 1].Close(); };
+			fileMenu.AddItem(newWindowItem);
+			fileMenu.AddItem(closeWindowItem);
+			menuBar.AddItem(fileMenuItem);
+			menuBar.SetSubmenu(fileMenu, fileMenuItem);
+
 			var editMenuItem = new NSMenuItem();
 			var editMenu = new NSMenu("Edit");
 			var selectAllItem = new NSMenuItem("Select All") { Action = new ObjCRuntime.Selector("selectAll:"), KeyEquivalent = "a" };
@@ -101,6 +112,11 @@ namespace FormsTest
 			menuBar.SetSubmenu(editMenu, editMenuItem);
 
 			NSApplication.SharedApplication.Menu = menuBar;
+		}
+
+		private static void CloseWindowItem_Activated(object sender, EventArgs e)
+		{
+			throw new NotImplementedException();
 		}
 
 		static void Terminate()

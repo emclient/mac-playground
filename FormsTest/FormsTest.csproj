@@ -190,6 +190,9 @@
     <Compile Include="Forms\MainForm.NSBackgroundActivity.cs" />
     <Compile Include="Forms\MainForm.NCPrefs.cs" />
     <!--<Compile Include="Forms\DataGridForm.cs" />-->
+    <Compile Include="Forms\DateTimeForm.cs">
+      <SubType></SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <!--<EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">
