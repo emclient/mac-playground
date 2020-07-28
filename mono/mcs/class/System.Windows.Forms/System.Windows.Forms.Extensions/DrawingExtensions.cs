@@ -3,7 +3,7 @@ using System.Drawing.Drawing2D;
 
 namespace System.Windows.Forms.Extensions.Drawing
 {
-	public static class DrawingExtensions
+	static class DrawingExtensions
 	{
 		public static GraphicsPath AddRoundRect(this GraphicsPath path, RectangleF bounds, float radius)
 		{
