@@ -1210,6 +1210,7 @@
     <Compile Include="System.Windows.Forms\ToolStripMenuItem.Mac.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="System.Windows.Forms.Extensions\DrawingExtensions.cs" />
     <Compile Include="System.Windows.Forms.Extensions\IOExtensions.cs" />
     <Compile Include="System.Windows.Forms\HtmlClip.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectProvider.cs" />
@@ -1478,10 +1479,5 @@
     <ProjectReference Include="..\Mono.WebBrowser\Mono.WebBrowser.csproj" />
     <ProjectReference Include="..\..\..\..\sysdrawing-coregraphics\System.Drawing.csproj" />
     <ProjectReference Include="..\..\..\..\MacApi\MacApi.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="System.Windows.Forms.Extensions\DrawingExtensions.cs">
-      <SubType></SubType>
-    </Compile>
   </ItemGroup>
 </Project>
