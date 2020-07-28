@@ -47,6 +47,15 @@ namespace FormsTest
 			//monthCal1
 			monthCal1.AutoSize = true;
 			monthCal1.Size = new Size(100, 27);
+			monthCal1.Padding = new Padding(2);
+			monthCal1.CalendarDimensions = new Size(1, 1);
+			monthCal1.MaxSelectionCount = 1;
+			monthCal1.Margin = Padding.Empty;
+			//monthCal1.Font = calendarFont;
+			//monthCal1.BackColor = monthCalendar.BackColor = calendarBackColor;
+			//monthCal1.TitleBackColor = calendarTitleBackColor;
+			//monthCal1.TitleForeColor = calendarTitleForeColor;
+			//monthCal1.TrailingForeColor = calendarTrailingForeColor;
 
 			panel1.Controls.Add(picker1);
 			panel1.Controls.Add(monthCal1);

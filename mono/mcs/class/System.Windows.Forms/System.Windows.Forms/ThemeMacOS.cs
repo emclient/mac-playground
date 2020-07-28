@@ -12,6 +12,7 @@ using System.Windows.Forms.Mac;
 using System.Windows.Forms.Theming;
 using System.Windows.Forms.resources;
 using System.Drawing.Mac;
+using System.Windows.Forms.Extensions.Drawing;
 
 #if XAMARINMAC
 using AppKit;
@@ -3126,9 +3127,9 @@ namespace System.Windows.Forms
 					{
 						Rectangle today_circle_rect = new Rectangle (
 							client_rectangle.X + 5,
-							Math.Max(client_rectangle.Bottom - date_cell_size.Height - 2, 0),
-							date_cell_size.Width,
-							date_cell_size.Height);
+							Math.Max(client_rectangle.Bottom - date_cell_size.Height, 0),
+							date_cell_size.Width - 2,
+							date_cell_size.Height - 2);
 							DrawTodayCircle (dc, today_circle_rect);
 						today_offset += date_cell_size.Width + 5;
 					}
@@ -3139,8 +3140,8 @@ namespace System.Windows.Forms
 					Rectangle today_rect = new Rectangle (
 							today_offset + client_rectangle.X,
 							Math.Max(client_rectangle.Bottom - date_cell_size.Height, 0),
-							Math.Max(client_rectangle.Width - today_offset, 0),
-							date_cell_size.Height);
+							Math.Max(client_rectangle.Width - 2 - today_offset, 0),
+							date_cell_size.Height - 2);
 					string today = DateTime.Now.ToSafeString("d");
 					string label = Strings.ResourceManager.GetString("MonthCalToday", DateTimeUtility.PreferredCulture);
 					dc.DrawString (label + ": " + today, mc.bold_font, GetControlForeBrush (mc.ForeColor), today_rect, text_format);
@@ -3151,10 +3152,10 @@ namespace System.Windows.Forms
 			Brush border_brush;
 			
 			if (mc.owner == null)
-				border_brush = GetControlBackBrush (mc.BackColor);
+				border_brush = GetControlBackBrush(mc.BackColor);
 			else
-				border_brush = SystemBrushes.ControlDarkDark;
-				
+				border_brush = SystemBrushes.ActiveBorder;
+
 			// finally paint the borders of the calendars as required
 			for (int i = 0; i <= mc.CalendarDimensions.Width; i++) {
 				if (i == 0 && clip_rectangle.X == client_rectangle.X) {
@@ -3228,24 +3229,27 @@ namespace System.Windows.Forms
 			Rectangle title_rect = new Rectangle(rectangle.X, rectangle.Y, title_size.Width, title_size.Height);
 			if (title_rect.IntersectsWith (clip_rectangle)) {
 				dc.FillRectangle (ResPool.GetSolidBrush (mc.TitleBackColor), title_rect);
+
+				Rectangle year_rect, upRect, downRect;
+				mc.GetYearNameRectangles(title_rect, row * mc.CalendarDimensions.Width + col, out year_rect, out upRect, out downRect);
+				year_rect.Inflate(1, 0);
+				if (mc.ShowYearUpDown)
+					dc.FillRoundRect(ResPool.GetSolidBrush(SystemColors.Control), year_rect, 3);
+
 				// draw the title				
 				string title_text = this_month.ToSafeString ("MMMM yyyy");
 				dc.DrawString (title_text, mc.bold_font, ResPool.GetSolidBrush (mc.TitleForeColor), title_rect, mc.centered_format);
 
 				if (mc.ShowYearUpDown) {
-					Rectangle year_rect;
-					Rectangle upRect, downRect;
-					ButtonState upState, downState;
-					
-					mc.GetYearNameRectangles (title_rect, row * mc.CalendarDimensions.Width + col, out year_rect, out upRect, out downRect);
-					dc.FillRectangle (ResPool.GetSolidBrush (SystemColors.Control), year_rect);
-					dc.DrawString (this_month.ToSafeString ("yyyy"), mc.bold_font, ResPool.GetSolidBrush (Color.Black), year_rect, mc.centered_format);
-					
-					upState = mc.IsYearGoingUp ? ButtonState.Pushed : ButtonState.Normal;
-					downState = mc.IsYearGoingDown ? ButtonState.Pushed : ButtonState.Normal;
+					upRect.Inflate(-(upRect.Width - upRect.Height) / 2, -2);
+					dc.FillTriangle(GetArrowBrush(mc, mc.IsYearGoingUp), upRect, 0);
+					//using (var pen = CreateArrowPen(mc, mc.IsYearGoingUp))
+					//	dc.DrawArrow(pen, upRect, 0);
 
-					ControlPaint.DrawScrollButton (dc, upRect, ScrollButton.Up, upState);
-					ControlPaint.DrawScrollButton (dc, downRect, ScrollButton.Down, downState);
+					downRect.Inflate(-(downRect.Width - downRect.Height) / 2, -2);
+					dc.FillTriangle(GetArrowBrush(mc, mc.IsYearGoingDown), downRect, 180);
+					//using (var pen = CreateArrowPen(mc, mc.IsYearGoingDown))
+					//	dc.DrawArrow(pen, downRect, 180);
 				}
 
 				// draw previous and next buttons if it's time
@@ -3304,8 +3308,8 @@ namespace System.Windows.Forms
 				
 				// draw the vertical divider
 				int vert_divider_y = Math.Max(title_size.Height+ date_cell_size.Height-1, 0);
-				dc.DrawLine (
-					ResPool.GetPen (mc.ForeColor),
+				dc.DrawLine(
+					ResPool.GetPen(SystemColors.ActiveBorder),  //mc.ForeColor),
 					rectangle.X + (col_offset * date_cell_size.Width) + mc.divider_line_offset,
 					rectangle.Y + vert_divider_y,
 					rectangle.Right - mc.divider_line_offset,
@@ -3403,86 +3407,62 @@ namespace System.Windows.Forms
 			}
 		}
 
-		// draws the pervious or next button
+		private Brush GetArrowBrush(MonthCalendar mc, bool highlighted)
+		{
+			var color = mc.TitleForeColor.ToNSColor();
+			color = highlighted ? color.ShadowWithLevel(0.2f) : color;
+			return ResPool.GetSolidBrush(color.ToSDColor());
+		}
+
+		private Pen CreateArrowPen(MonthCalendar mc, bool highlighted)
+		{
+			var color = mc.TitleForeColor.ToNSColor();
+			color = highlighted ? color.ShadowWithLevel(0.2f) : color;
+			var pen = new Pen(color.ToSDColor(), 1.5f);
+			pen.SetLineCap(LineCap.Round, LineCap.Round, DashCap.Triangle);
+			return pen;
+		}
+
+		// draws the previous or next button
 		private void DrawMonthCalendarButton (Graphics dc, Rectangle rectangle, MonthCalendar mc, Size title_size, int x_offset, Size button_size, bool is_previous) 
 		{
-			const int arrow_width = 4;
-			const int arrow_height = 7;
-
-			bool is_clicked = false;
-			Rectangle button_rect;
-			PointF arrow_center;
-			PointF [] arrow_path = new PointF [3];
-			
 			// prepare the button
 			if (is_previous) 
 			{
-				is_clicked = mc.is_previous_clicked;
-
-				button_rect = new Rectangle (
+				Rectangle button_rect = new Rectangle (
 					rectangle.X + 1 + x_offset,
 					rectangle.Y + 1 + ((title_size.Height - button_size.Height)/2),
 					Math.Max(button_size.Width - 1, 0),
 					Math.Max(button_size.Height - 1, 0));
+				button_rect.Inflate(-3, -3);
 
-				arrow_center = new PointF (button_rect.X + ((button_rect.Width + arrow_width) / 2.0f), 
-											rectangle.Y + ((button_rect.Height + arrow_height) / 2) + 1);
-				if (is_clicked) {
-					arrow_center.X += 1;
-					arrow_center.Y += 1;
-				}
-
-				arrow_path [0].X = arrow_center.X;
-				arrow_path [0].Y = arrow_center.Y - arrow_height / 2.0f + 0.5f;
-				arrow_path [1].X = arrow_center.X;
-				arrow_path [1].Y = arrow_center.Y + arrow_height / 2.0f + 0.5f;
-				arrow_path [2].X = arrow_center.X - arrow_width;
-				arrow_path [2].Y = arrow_center.Y + 0.5f;
+				var color = mc.TitleForeColor.ToNSColor();
+				color = mc.is_previous_clicked ? color.ShadowWithLevel(0.2f) : color;
+				var brush = ResPool.GetSolidBrush(color.ToSDColor());
+				dc.FillEquilateralTriangle(brush, button_rect, -90);
 			}
 			else
 			{
-				is_clicked = mc.is_next_clicked;
-
-				button_rect = new Rectangle (
+				Rectangle button_rect = new Rectangle (
 					rectangle.Right - 1 - x_offset - button_size.Width,
 					rectangle.Y + 1 + ((title_size.Height - button_size.Height)/2),
 					Math.Max(button_size.Width - 1, 0),
 					Math.Max(button_size.Height - 1, 0));
+				button_rect.Inflate(-3, -3);
 
-				arrow_center = new PointF (button_rect.X + ((button_rect.Width + arrow_width) / 2.0f), 
-											rectangle.Y + ((button_rect.Height + arrow_height) / 2) + 1);
-				if (is_clicked) {
-					arrow_center.X += 1;
-					arrow_center.Y += 1;
-				}
-
-				arrow_path [0].X = arrow_center.X - arrow_width;
-				arrow_path [0].Y = arrow_center.Y - arrow_height / 2.0f + 0.5f;
-				arrow_path [1].X = arrow_center.X - arrow_width;
-				arrow_path [1].Y = arrow_center.Y + arrow_height / 2.0f + 0.5f;
-				arrow_path [2].X = arrow_center.X;
-				arrow_path [2].Y = arrow_center.Y + 0.5f;
+				var color = mc.TitleForeColor.ToNSColor();
+				color = mc.is_next_clicked ? color.ShadowWithLevel(0.2f) : color;
+				var brush = ResPool.GetSolidBrush(color.ToSDColor());
+				dc.FillEquilateralTriangle(brush, button_rect, 90);
 			}
-
-			// fill the background
-			dc.FillRectangle (SystemBrushes.Control, button_rect);
-			// draw the border
-			if (is_clicked) {
-				dc.DrawRectangle (SystemPens.ControlDark, button_rect);
-			}
-			else {
-				CPDrawBorder3D (dc, button_rect, Border3DStyle.Raised, Border3DSide.Left | Border3DSide.Right | Border3DSide.Top | Border3DSide.Bottom);
-			}
-			// draw the arrow
-			dc.FillPolygon (SystemBrushes.ControlText, arrow_path);			
-			//dc.FillPolygon (SystemBrushes.ControlText, arrow_path, FillMode.Winding);
 		}
-		
 
 		// draws one day in the calendar grid
 		private void DrawMonthCalendarDate (Graphics dc, Rectangle rectangle, MonthCalendar mc,	DateTime date, DateTime month, int row, int col) {
+			const int inflate = -1;
+			const int cornerRadius = 3;
 			Color date_color = mc.ForeColor;
-			Rectangle interior = new Rectangle (rectangle.X, rectangle.Y, Math.Max(rectangle.Width - 1, 0), Math.Max(rectangle.Height - 1, 0));
+			Rectangle interior = Rectangle.Inflate(rectangle, inflate, inflate);
 
 			// find out if we are the lead of the first calendar or the trail of the last calendar						
 			if (date.Year != month.Year || date.Month != month.Month) {
@@ -3503,14 +3483,12 @@ namespace System.Windows.Forms
 				date_color = mc.ForeColor;
 			}
 
-			const int inflate = -1;
-
 			if (date == mc.SelectionStart.Date && date == mc.SelectionEnd.Date) {
 				// see if the date is in the start of selection
 				date_color = mc.BackColor;
 				// draw the left hand of the back ground
-				Rectangle selection_rect = Rectangle.Inflate (rectangle, inflate, inflate);				
-				dc.FillPie (ResPool.GetSolidBrush (mc.TitleBackColor), selection_rect, 0, 360);
+				Rectangle selection_rect = Rectangle.Inflate (rectangle, inflate, inflate);
+				dc.FillRoundRect(ResPool.GetSolidBrush(mc.TitleBackColor), selection_rect, cornerRadius);
 			} else if (date == mc.SelectionStart.Date) {
 				// see if the date is in the start of selection
 				date_color = mc.BackColor;
@@ -3564,20 +3542,11 @@ namespace System.Windows.Forms
 		}
 
 		private void DrawTodayCircle (Graphics dc, Rectangle rectangle) {
-			Color circle_color = Color.FromArgb (248, 0, 0);
-			// draw the left hand of the circle 
-			Rectangle lhs_circle_rect = new Rectangle (rectangle.X + 1, rectangle.Y + 4, Math.Max(rectangle.Width - 2, 0), Math.Max(rectangle.Height - 5, 0));
-			Rectangle rhs_circle_rect = new Rectangle (rectangle.X + 1, rectangle.Y + 1, Math.Max(rectangle.Width - 2, 0), Math.Max(rectangle.Height - 2, 0));
-			Point [] curve_points = new Point [3];
-			curve_points [0] = new Point (lhs_circle_rect.X, rhs_circle_rect.Y + rhs_circle_rect.Height/12);
-			curve_points [1] = new Point (lhs_circle_rect.X + lhs_circle_rect.Width/9, rhs_circle_rect.Y);
-			curve_points [2] = new Point (lhs_circle_rect.X + lhs_circle_rect.Width/2 + 1, rhs_circle_rect.Y);
 
-			Pen pen = ResPool.GetSizedPen(circle_color, 2);
-			dc.DrawArc (pen, lhs_circle_rect, 90, 180);
-			dc.DrawArc (pen, rhs_circle_rect, 270, 180);					
-			dc.DrawCurve (pen, curve_points);
-			dc.DrawLine (ResPool.GetPen (circle_color), curve_points [2], new Point (curve_points [2].X, lhs_circle_rect.Y));
+			const int cornerRadius = 3;
+			Color circle_color = NSColor.ControlAccentColor.ToSDColor();
+			using (Pen pen = new Pen(circle_color, 1.5f))
+				dc.DrawRoundRect(pen, rectangle, cornerRadius);
 		}
 
 		#endregion 	// MonthCalendar
