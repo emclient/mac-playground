@@ -3544,9 +3544,12 @@ namespace System.Windows.Forms
 		private void DrawTodayCircle (Graphics dc, Rectangle rectangle) {
 
 			const int cornerRadius = 3;
+			const float strokeWidth = 1.5f;
+			var r = rectangle.ToRectangleF();
+			r.Inflate(-strokeWidth / 2, -strokeWidth / 2);
 			Color circle_color = NSColor.ControlAccentColor.ToSDColor();
-			using (Pen pen = new Pen(circle_color, 1.5f))
-				dc.DrawRoundRect(pen, rectangle, cornerRadius);
+			using (Pen pen = new Pen(circle_color, strokeWidth))
+				dc.DrawRoundRect(pen, r, cornerRadius);
 		}
 
 		#endregion 	// MonthCalendar
