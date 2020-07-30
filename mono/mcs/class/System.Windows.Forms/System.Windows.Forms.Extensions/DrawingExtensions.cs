@@ -3,7 +3,7 @@ using System.Drawing.Drawing2D;
 
 namespace System.Windows.Forms.Extensions.Drawing
 {
-	static class DrawingExtensions
+	internal static class DrawingExtensions
 	{
 		public static GraphicsPath AddRoundRect(this GraphicsPath path, RectangleF bounds, float radius)
 		{
@@ -137,12 +137,12 @@ namespace System.Windows.Forms.Extensions.Drawing
 			return graphics;
 		}
 
-		static RectangleF ToRectangleF(this Rectangle r)
+		internal static RectangleF ToRectangleF(this Rectangle r)
 		{
 			return new RectangleF(r.X, r.Y, r.Width, r.Height);
 		}
 
-		static PointF Mid(this RectangleF r)
+		internal static PointF Mid(this RectangleF r)
 		{
 			return new PointF((r.Left + r.Right) / 2, (r.Top + r.Bottom) / 2);
 		}
