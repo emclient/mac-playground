@@ -146,5 +146,10 @@ namespace System.Windows.Forms.Extensions.Drawing
 		{
 			return new PointF((r.Left + r.Right) / 2, (r.Top + r.Bottom) / 2);
 		}
+
+		internal static Rectangle Inflate(this Rectangle rect, int l, int t, int r, int b)
+		{
+			return Rectangle.FromLTRB(rect.Left - l, rect.Y - t, rect.Right + r, rect.Bottom + b);
+		}
 	}
 }

@@ -746,10 +746,10 @@ namespace System.Windows.Forms {
 		// forecolor for the day of the week text
 		public Color TitleBackColor {
 			set {
-				if (title_back_color != value) {
-					title_back_color = value;
-					this.Invalidate ();
-				}
+				//if (title_back_color != value) {
+				//	title_back_color = value;
+				//	this.Invalidate ();
+				//}
 			}
 			get {
 				return title_back_color;
@@ -759,10 +759,10 @@ namespace System.Windows.Forms {
 		// the fore color for the title of the calendar
 		public Color TitleForeColor {
 			set {
-				if (title_fore_color != value) {
-					title_fore_color = value;
-					this.Invalidate ();
-				}
+				//if (title_fore_color != value) {
+				//	title_fore_color = value;
+				//	this.Invalidate ();
+				//}
 			}
 			get {
 				return title_fore_color;
