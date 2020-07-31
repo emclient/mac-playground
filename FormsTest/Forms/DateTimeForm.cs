@@ -51,6 +51,7 @@ namespace FormsTest
 			monthCal1.CalendarDimensions = new Size(1, 1);
 			monthCal1.MaxSelectionCount = 1;
 			monthCal1.Margin = Padding.Empty;
+			monthCal1.MaxSelectionCount = 10;
 			//monthCal1.Font = calendarFont;
 			//monthCal1.BackColor = monthCalendar.BackColor = calendarBackColor;
 			//monthCal1.TitleBackColor = calendarTitleBackColor;

@@ -428,8 +428,8 @@ namespace System.Drawing {
 			// note: Mono's SWF Theme class will call the static Update method to apply
 			// correct system colors outside Windows
 			NativeColors[(int)KnownColor.ActiveBorder] = NSColor.WindowFrame;
-			// KnownColor.ActiveCaption
-			// KnownColor.ActiveCaptionText
+			NativeColors[(int)KnownColor.ActiveCaption] = NSColor.Grid;
+			NativeColors[(int)KnownColor.ActiveCaptionText] = NSColor.HeaderText;
 			// KnownColor.AppWorkspace
 
 			NativeColors[(int)KnownColor.Control] = NSColor.Control;
