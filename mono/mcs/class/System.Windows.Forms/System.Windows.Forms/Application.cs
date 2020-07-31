@@ -961,7 +961,7 @@ namespace System.Windows.Forms
 				case Msg.WM_KEYUP:
 				case Msg.WM_SYSKEYUP:
 					Control c = Control.FromHandle(msg.hwnd);
-					if (!c.Enabled)
+					if (c != null && !c.Enabled)
 						break;
 
 					// If we have a control with keyboard capture (usually a *Strip)
