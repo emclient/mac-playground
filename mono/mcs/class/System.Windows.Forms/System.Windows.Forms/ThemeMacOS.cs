@@ -3122,15 +3122,26 @@ namespace System.Windows.Forms
 			{
 				dc.FillRectangle (GetControlBackBrush (mc.BackColor), bottom_rect);
 				if (mc.ShowToday) {
+					// draw the vertical divider
+					int col_offset = (mc.ShowWeekNumbers) ? 1 : 0;
+					int vert_divider_y = bottom_rect.Top;
+					dc.DrawLine(
+						ResPool.GetPen(mc.TitleBackColor),
+						client_rectangle.X + (col_offset * date_cell_size.Width) + mc.divider_line_offset,
+						client_rectangle.Y + vert_divider_y,
+						client_rectangle.Right - mc.divider_line_offset,
+						client_rectangle.Y + vert_divider_y);
+
 					int today_offset = 5;
 					if (mc.ShowTodayCircle) 
 					{
-						Rectangle today_circle_rect = new Rectangle (
+						Rectangle today_circle_rect = new Rectangle(
 							client_rectangle.X + 5,
 							Math.Max(client_rectangle.Bottom - date_cell_size.Height, 0),
-							date_cell_size.Width - 2,
-							date_cell_size.Height - 2);
-							DrawTodayCircle (dc, today_circle_rect);
+							date_cell_size.Width,
+							date_cell_size.Height);
+						today_circle_rect.Inflate(-2, -2);
+						DrawTodayCircle (dc, today_circle_rect);
 						today_offset += date_cell_size.Width + 5;
 					}
 					// draw today's date
@@ -3223,7 +3234,7 @@ namespace System.Windows.Forms
 			Size date_cell_size = (Size)((object)mc.date_cell_size);
 			DateTime current_month = (DateTime)((object)mc.current_month);
 			DateTime sunday = new DateTime(2006, 10, 1);
-			
+
 			// draw the title back ground
 			DateTime this_month = current_month.AddMonths (row*mc.CalendarDimensions.Width+col);
 			Rectangle title_rect = new Rectangle(rectangle.X, rectangle.Y, title_size.Width, title_size.Height);
@@ -3303,13 +3314,13 @@ namespace System.Windows.Forms
 						day_name_rect.Y,
 						date_cell_size.Width,
 						date_cell_size.Height);
-					dc.DrawString (sunday.AddDays (i + (int) first_day_of_week).ToSafeString ("ddd"), mc.Font, ResPool.GetSolidBrush (mc.TitleBackColor), day_rect, mc.centered_format);
+					dc.DrawString (sunday.AddDays (i + (int) first_day_of_week).ToSafeString ("ddd"), mc.Font, ResPool.GetSolidBrush (SystemColors.ControlText), day_rect, mc.centered_format);
 				}
 				
 				// draw the vertical divider
 				int vert_divider_y = Math.Max(title_size.Height+ date_cell_size.Height-1, 0);
 				dc.DrawLine(
-					ResPool.GetPen(SystemColors.ActiveBorder),  //mc.ForeColor),
+					ResPool.GetPen(mc.TitleBackColor),
 					rectangle.X + (col_offset * date_cell_size.Width) + mc.divider_line_offset,
 					rectangle.Y + vert_divider_y,
 					rectangle.Right - mc.divider_line_offset,
@@ -3459,7 +3470,7 @@ namespace System.Windows.Forms
 
 		// draws one day in the calendar grid
 		private void DrawMonthCalendarDate (Graphics dc, Rectangle rectangle, MonthCalendar mc,	DateTime date, DateTime month, int row, int col) {
-			const int inflate = -1;
+			const int inflate = -2;
 			const int cornerRadius = 3;
 			Color date_color = mc.ForeColor;
 			Rectangle interior = Rectangle.Inflate(rectangle, inflate, inflate);
@@ -3483,44 +3494,34 @@ namespace System.Windows.Forms
 				date_color = mc.ForeColor;
 			}
 
+			Color selectionBackColor = SystemColors.Highlight;
+			Color selectionForeColor = SystemColors.HighlightText;
+
 			if (date == mc.SelectionStart.Date && date == mc.SelectionEnd.Date) {
 				// see if the date is in the start of selection
-				date_color = mc.BackColor;
+				date_color = selectionForeColor;
 				// draw the left hand of the back ground
 				Rectangle selection_rect = Rectangle.Inflate (rectangle, inflate, inflate);
-				dc.FillRoundRect(ResPool.GetSolidBrush(mc.TitleBackColor), selection_rect, cornerRadius);
+				dc.FillRoundRect(ResPool.GetSolidBrush(selectionBackColor), selection_rect, cornerRadius);
 			} else if (date == mc.SelectionStart.Date) {
 				// see if the date is in the start of selection
-				date_color = mc.BackColor;
+				date_color = selectionForeColor;
 				// draw the left hand of the back ground
-				Rectangle selection_rect = Rectangle.Inflate (rectangle, inflate, inflate);				
-				dc.FillPie (ResPool.GetSolidBrush (mc.TitleBackColor), selection_rect, 90, 180);
-				// fill the other side as a straight rect
-				if (date < mc.SelectionEnd.Date) 
-				{
-					// use rectangle instead of rectangle to go all the way to edge of rect
-					selection_rect.X = (int) Math.Floor((double)(rectangle.X + rectangle.Width / 2));
-					selection_rect.Width = Math.Max(rectangle.Right - selection_rect.X, 0);
-					dc.FillRectangle (ResPool.GetSolidBrush (mc.TitleBackColor), selection_rect);
-				}
+				Rectangle selection_rect = rectangle.Inflate(inflate, inflate, 0, inflate);
+				dc.FillRoundRect(ResPool.GetSolidBrush (selectionBackColor), selection_rect, cornerRadius, 0, 0, cornerRadius);
 			} else if (date == mc.SelectionEnd.Date) {
 				// see if it is the end of selection
-				date_color = mc.BackColor;
+				date_color = selectionForeColor;
 				// draw the left hand of the back ground
-				Rectangle selection_rect = Rectangle.Inflate (rectangle, inflate, inflate);
-				dc.FillPie (ResPool.GetSolidBrush (mc.TitleBackColor), selection_rect, 270, 180);
-				// fill the other side as a straight rect
-				if (date > mc.SelectionStart.Date) {
-					selection_rect.X = rectangle.X;
-					selection_rect.Width = rectangle.Width - (rectangle.Width / 2);
-					dc.FillRectangle (ResPool.GetSolidBrush (mc.TitleBackColor), selection_rect);
-				}
-			} else if (date > mc.SelectionStart.Date && date < mc.SelectionEnd.Date) {
+				Rectangle selection_rect = rectangle.Inflate(0, inflate, inflate, inflate);
+				dc.FillRoundRect(ResPool.GetSolidBrush(selectionBackColor), selection_rect, 0, cornerRadius, cornerRadius, 0);
+			}
+			else if (date > mc.SelectionStart.Date && date < mc.SelectionEnd.Date) {
 				// now see if it's in the middle
-				date_color = mc.BackColor;
+				date_color = selectionForeColor;
 				// draw the left hand of the back ground
 				Rectangle selection_rect = Rectangle.Inflate (rectangle, 0, inflate);
-				dc.FillRectangle (ResPool.GetSolidBrush (mc.TitleBackColor), selection_rect);
+				dc.FillRectangle (ResPool.GetSolidBrush (selectionBackColor), selection_rect);
 			}
 
 			// establish if it's a bolded font
@@ -3535,18 +3536,18 @@ namespace System.Windows.Forms
 			}
 
 			// draw the selection grid
-			if (mc.is_date_clicked && mc.clicked_date == date) {
-				Pen pen = ResPool.GetDashPen (Color.Black, DashStyle.Dot);
-				dc.DrawRectangle (pen, interior);
-			}
+			//if (mc.is_date_clicked && mc.clicked_date == date) {
+			//	Pen pen = ResPool.GetDashPen (Color.Black, DashStyle.Dot);
+			//	dc.DrawRectangle (pen, interior);
+			//}
 		}
 
 		private void DrawTodayCircle (Graphics dc, Rectangle rectangle) {
 
 			const int cornerRadius = 3;
-			const float strokeWidth = 1.5f;
+			const float strokeWidth = 1f;
 			var r = rectangle.ToRectangleF();
-			r.Inflate(-strokeWidth / 2, -strokeWidth / 2);
+			r.Width -= 1; r.Height -= 1;
 			Color circle_color = NSColor.ControlAccentColor.ToSDColor();
 			using (Pen pen = new Pen(circle_color, strokeWidth))
 				dc.DrawRoundRect(pen, r, cornerRadius);
