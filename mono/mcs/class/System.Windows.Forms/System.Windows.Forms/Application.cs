@@ -966,7 +966,7 @@ namespace System.Windows.Forms
 
 					// If we have a control with keyboard capture (usually a *Strip)
 					// give it the message, and then drop the message
-					if (keyboard_capture != null)
+					if (keyboard_capture != null && c != keyboard_capture && !Control.IsChild(keyboard_capture.Handle, c?.Handle ?? IntPtr.Zero))
 					{
 						// WM_SYSKEYUP does not make it into ProcessCmdKey, so do it here
 						if (msg.message == Msg.WM_SYSKEYDOWN)
@@ -980,30 +980,7 @@ namespace System.Windows.Forms
 						}
 
 						m.HWnd = keyboard_capture.Handle;
-
-						switch (keyboard_capture.PreProcessControlMessageInternal(ref m))
-						{
-							case PreProcessControlState.MessageProcessed:
-								drop = true;
-								return IntPtr.Zero;
-							case PreProcessControlState.MessageNeeded:
-							case PreProcessControlState.MessageNotNeeded:
-								if (((msg.message == Msg.WM_KEYDOWN || msg.message == Msg.WM_CHAR) && keyboard_capture != null && !keyboard_capture.ProcessControlMnemonic((char)m.WParam)))
-								{
-									if (c == null || !ControlOnToolStrip(c))
-									{
-										drop = true;
-										return IntPtr.Zero;
-									}
-									m.HWnd = msg.hwnd;
-								}
-								else
-								{
-									drop = true;
-									return IntPtr.Zero;
-								}
-								break;
-						}
+						c = keyboard_capture;
 					}
 
 					if (((c != null) && c.PreProcessControlMessageInternal(ref m) != PreProcessControlState.MessageProcessed) ||
@@ -1141,13 +1118,11 @@ namespace System.Windows.Forms
 
 		private static bool ControlOnToolStrip (Control c)
 		{
-			Control p = c.Parent;
-			
-			while (p != null) {
-				if (p is ToolStrip)
+			while (c != null) {
+				if (c is ToolStrip)
 					return true;
 					
-				p = p.Parent;
+				c = c.Parent;
 			}
 			
 			return false;
