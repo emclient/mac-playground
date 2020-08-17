@@ -631,7 +631,7 @@ namespace System.Drawing
 			var subImage = image.NativeCGImage.WithImageInRect (new CGRect(srcRect1.X, srcRect1.Y, srcRect1.Width, srcRect1.Height));
 
 			// If we do not have anything to draw then we exit here
-			if (subImage.Width == 0 || subImage.Height == 0)
+			if (subImage == null || subImage.Width == 0 || subImage.Height == 0)
 				return;
 
 //			var transform = image.imageTransform;
