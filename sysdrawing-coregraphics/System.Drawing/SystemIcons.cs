@@ -33,6 +33,7 @@ using AppKit;
 #elif MONOMAC
 using MonoMac.AppKit;
 #endif
+using System.IO;
 
 namespace System.Drawing {
 
