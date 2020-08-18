@@ -525,6 +525,9 @@
     <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Shield.ico">
       <LogicalName>Shield.ico</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\mono\mcs\class\System.Drawing\Assembly\Warning.ico">
+      <LogicalName>Warning.ico</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="System.Drawing.Drawing2D\" />
