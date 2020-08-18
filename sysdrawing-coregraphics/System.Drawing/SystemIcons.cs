@@ -48,7 +48,15 @@ namespace System.Drawing {
 				Shield = new Icon(stream) { undisposable = true };
 			Information = new Icon("/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ToolbarInfo.icns") { undisposable = true };
 			Error = new Icon("/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/AlertStopIcon.icns") { undisposable = true };
-			Warning = new Icon("/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/AlertCautionIcon.icns") { undisposable = true };
+			if (File.Exists("/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/AlertCautionIcon.icns"))
+			{
+				Warning = new Icon("/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/AlertCautionIcon.icns") { undisposable = true };
+			}
+			else
+			{
+				using (var stream = typeof(Icon).Assembly.GetManifestResourceStream("Warning.ico"))
+					Warning = new Icon(stream) { undisposable = true };
+			}
 			Question = new Icon("/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/AlertNoteIcon.icns") { undisposable = true };
 		}
 
