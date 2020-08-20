@@ -196,40 +196,46 @@ namespace System.Drawing
 		// test draw pattern
 		private void DrawTexture (CGContext context)
 		{
-			var destRect = context.ConvertRectToUserSpace(new CGRect(0,0,textureImage.Width,textureImage.Height));
-			context.ConcatCTM (textureImage.imageTransform);
+			var destRect = new CGRect(0, 0, textureImage.Width, textureImage.Height);
+			//destRect = context.ConvertRectToUserSpace(destRect);
+
+			// [top] [left] main quadrant
+			context.ConcatCTM(textureImage.imageTransform);
 			context.DrawImage(destRect, textureImage.NativeCGImage);
-			context.ConcatCTM (textureImage.imageTransform.Invert());
+			context.ConcatCTM(textureImage.imageTransform.Invert());
 
 			if (wrapMode == WrapMode.TileFlipX || wrapMode == WrapMode.TileFlipXY) 
 			{
-				context.ConcatCTM(CGAffineTransform.MakeScale(-1,1));
+				// [top] right quadrant, flipped by the x axis
+				var transform = new CGAffineTransform(-1, 0, 0, 1, 2 * destRect.Width, 0);
+				context.ConcatCTM(transform);
 				context.ConcatCTM (textureImage.imageTransform);
 				context.DrawImage(destRect, textureImage.NativeCGImage);
 				context.ConcatCTM (textureImage.imageTransform.Invert());
+				context.ConcatCTM(transform.Invert());
 			}
 
 			if (wrapMode == WrapMode.TileFlipY || wrapMode == WrapMode.TileFlipXY) 
 			{
-				var transformY = new CGAffineTransform(1, 0, 0, -1, 
-					destRect.Width, 
-					destRect.Height);
-				context.ConcatCTM(transformY);
+				// bottom [left] quadrant, flipped by the y axis
+				var transform = new CGAffineTransform(1, 0, 0, -1, 0, 2 * destRect.Height);
+				context.ConcatCTM(transform);
 				context.ConcatCTM (textureImage.imageTransform);
 				context.DrawImage(destRect, textureImage.NativeCGImage);
 				context.ConcatCTM (textureImage.imageTransform.Invert());
+				context.ConcatCTM(transform.Invert());
 			}
 
 
 			if (wrapMode == WrapMode.TileFlipXY) 
 			{
-				// draw the last one of the quadrant which is flipped by both the y and x axis
-				var transform = new CGAffineTransform(-1, 0, 0, -1, 
-					destRect.Width * 2, destRect.Height);
+				// bottom-right quadrant, flipped by both the y and x axis
+				var transform = new CGAffineTransform(-1, 0, 0, -1, 2 * destRect.Width, 2 * destRect.Height);
 				context.ConcatCTM(transform);
 				context.ConcatCTM (textureImage.imageTransform);
 				context.DrawImage(destRect, textureImage.NativeCGImage);
 				context.ConcatCTM (textureImage.imageTransform.Invert());
+				context.ConcatCTM(transform.Invert());
 			}
 		}
 
@@ -249,13 +255,16 @@ namespace System.Drawing
 			float textureWidth = textureImage.Width;
 			float textureHeight = textureImage.Height;
 
-			if (wrapMode == WrapMode.TileFlipX || wrapMode == WrapMode.TileFlipY)
+			if (wrapMode == WrapMode.TileFlipX || wrapMode == WrapMode.TileFlipXY)
 				textureWidth *= 2;
 
-			if (wrapMode == WrapMode.TileFlipXY) 
-			{
-				textureWidth *= 2;
+			if (wrapMode == WrapMode.TileFlipY || wrapMode == WrapMode.TileFlipXY) 
 				textureHeight *= 2;
+
+			if (wrapMode == WrapMode.Clamp)
+			{
+				textureHeight = graphics.ClipBounds.Height;
+				textureWidth = graphics.ClipBounds.Width;
 			}
 
 			//choose the pattern to be filled based on the currentPattern selected

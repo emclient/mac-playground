@@ -1857,6 +1857,9 @@ namespace System.Windows.Forms {
 		internal override IntPtr SetParent (IntPtr handle, IntPtr parent)
 		{
 			NSView newParentWrap = IntPtr.Zero != parent ? parent.ToNSView() : null;
+			if (newParentWrap is NSScrollView scrollView)
+				newParentWrap = (NSView)scrollView.DocumentView;
+
 			NSView vuWrap = handle.ToNSView();
 			NSWindow winWrap = (NSWindow) vuWrap.Window;
 
