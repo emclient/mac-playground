@@ -835,9 +835,8 @@
     <Compile Include="System.Windows.Forms\SaveFileDialog.cs" />
     <Compile Include="System.Windows.Forms\Screen.cs" />
     <Compile Include="System.Windows.Forms\ScreenOrientation.cs" />
-    <Compile Include="System.Windows.Forms\ScrollableControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="System.Windows.Forms\ScrollableControl.cs" />
+    <Compile Include="System.Windows.Forms\ScrollableControl.Mac.cs" />
     <Compile Include="System.Windows.Forms\ScrollBar.cs" />
     <Compile Include="System.Windows.Forms\ScrollBarRenderer.cs" />
     <Compile Include="System.Windows.Forms\ScrollBars.cs" />
