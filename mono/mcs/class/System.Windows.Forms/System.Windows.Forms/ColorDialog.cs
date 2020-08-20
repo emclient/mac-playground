@@ -1468,7 +1468,13 @@ namespace System.Windows.Forms {
 			
 			public void SetCustomColors ()
 			{
+				bool found = false;
 				for (int i = 0; i < colorDialog.customColors.Length; i++) {
+					if (!found && colorDialog.customColors[i] == 16777215)
+					{
+						found = true;
+						currentlyUsedUserSmallColorControl = i;
+					}
 					userSmallColorControl [i].InternalColor = Color.FromArgb (colorDialog.customColors [i]);
 				}
 			}
