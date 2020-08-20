@@ -134,6 +134,7 @@ namespace FormsTest
 			//AddButton("Data Grid", () => { new DataGridForm().Show(); });
 			AddButton("Font Dialog", () => { FontDialogTest(); });
 			AddButton("Date Time", () => { new DateTimeForm().Show(); });
+			AddButton("TextureBrush", () => { new TextureBrushForm().Show(); });
 		}
 
 		List<Button> buttons = new List<Button>();
