@@ -33,7 +33,7 @@ namespace System.Windows.Forms {
 	[Designer ("System.Windows.Forms.Design.ScrollableControlDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[ComVisible (true)]
-	public class ScrollableControl : Control {
+	public partial class ScrollableControl : Control {
 		#region Local Variables
 		private bool			force_hscroll_visible;
 		private bool			force_vscroll_visible;
@@ -779,6 +779,8 @@ namespace System.Windows.Forms {
 
 			canvas_size.Width = width;
 			canvas_size.Height = height;
+
+			ResizeCanvas(canvas_size);
 		}
 
 		// Normally DockPadding is created lazyly, as observed in the test cases, but some children
@@ -1046,5 +1048,11 @@ namespace System.Windows.Forms {
 			add { Events.AddHandler (OnScrollEvent, value); }
 			remove { Events.RemoveHandler (OnScrollEvent, value); }
 		}
+
+#if !MAC
+		internal virtual void ResizeCanvas(Size size)
+		{
+		}
+#endif
 	}
 }
