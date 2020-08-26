@@ -4578,7 +4578,7 @@ namespace System.Windows.Forms
 		{
 			ToolTipDrawBackground (dc, clip_rectangle, control);
 
-			TextFormatFlags flags = TextFormatFlags.HidePrefix;
+			TextFormatFlags flags = TextFormatFlags.HidePrefix | TextFormatFlags.HorizontalCenter;
 
 			Color foreground = control.ForeColor;
 			if (control.title.Length > 0) {
