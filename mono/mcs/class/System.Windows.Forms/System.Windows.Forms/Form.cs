@@ -78,7 +78,7 @@ namespace System.Windows.Forms {
 		private IButtonControl		cancel_button;
 		private DialogResult		dialog_result;
 		private FormStartPosition	start_position;
-		private Form			owner;
+		private Form			owner, dialog_owner;
 		private Form.ControlCollection	owned_forms;
 		private MdiClient		mdi_container;
 		internal InternalWindowManager	window_manager;
@@ -1683,6 +1683,7 @@ namespace System.Windows.Forms {
 			// (1) They move with their owner
 			// (2) They disappear when moved to another screen the first time
 			// (3) They disappear and then create artefacts when moved partially to another screen
+			dialog_owner = owner as Form;
 			owner = null;
 
 			IWin32Window original_owner = owner;
@@ -1899,10 +1900,12 @@ namespace System.Windows.Forms {
 				ctl = Parent;
 			} else if (owner != null) {
 				ctl = owner;
+			} else if (dialog_owner != null) {
+				ctl = dialog_owner;
 			}
 
-			if (owner != null) {
-				this.Location = new Point(ctl.Left + ctl.Width / 2 - w /2, ctl.Top + ctl.Height / 2 - h / 2);
+			if (owner != null || dialog_owner != null) {
+				this.Location = new Point(ctl.Left + ctl.Width / 2 - w /2, ctl.Top + ctl.Height / 4 - h / 4);
 			}
 		}
 
@@ -1935,7 +1938,7 @@ namespace System.Windows.Forms {
 				workingArea = Screen.FromControl (Owner).WorkingArea;
 			}
 			this.Location = new Point (workingArea.Left + workingArea.Width / 2 - w / 2,
-				workingArea.Top + workingArea.Height / 2 - h / 2);
+				workingArea.Top + workingArea.Height / 4 - h / 4);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -3091,8 +3094,11 @@ namespace System.Windows.Forms {
 
 		private void UpdateMinMax()
 		{
-			var min_size = AutoSize ? new Size(Math.Max(minimum_auto_size.Width, minimum_size.Width), Math.Max(minimum_auto_size.Height, minimum_size.Height)) : minimum_size;
-			XplatUI.SetWindowMinMax(Handle, maximized_bounds, min_size, maximum_size);
+			if (IsHandleCreated)
+			{
+				var min_size = AutoSize ? new Size(Math.Max(minimum_auto_size.Width, minimum_size.Width), Math.Max(minimum_auto_size.Height, minimum_size.Height)) : minimum_size;
+				XplatUI.SetWindowMinMax(Handle, maximized_bounds, min_size, maximum_size);
+			}
 		}
 
 		#endregion
