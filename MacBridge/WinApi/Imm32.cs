@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using System.Windows.Forms.CocoaInternal;
+using System.Text;
 #if XAMARINMAC
 using Foundation;
 #else
@@ -13,13 +16,12 @@ namespace WinApi
 	{
 		public static IntPtr ImmGetContext(IntPtr hWnd)
 		{
-			NotImplemented(MethodBase.GetCurrentMethod());
-			return IntPtr.Zero;
+			return hWnd;
 		}
 
 		public static IntPtr ImmReleaseContext(IntPtr hWnd, IntPtr hIMC)
 		{
-			NotImplemented(MethodBase.GetCurrentMethod());
+			// No action needed, because we're using hWnd as hIMC
 			return IntPtr.Zero;
 		}
 
@@ -38,8 +40,42 @@ namespace WinApi
 		public static int ImmGetCompositionStringW(IntPtr hIMC, int dwIndex, byte[] lpBuf, int dwBufLen)
 		{
 			// if lpBuf is null or dwBufLen is 0, only size is returned, but no data gets copied.
+			if (ObjCRuntime.Runtime.GetNSObject(hIMC) is MonoEditView view)
+			{
+				if (view.markedText.Length == 0)
+					return 0;
 
-			NotImplemented(MethodBase.GetCurrentMethod());
+				if (dwIndex == Win32.GCS_RESULTSTR || dwIndex == Win32.GCS_COMPSTR)
+				{
+					if (lpBuf == null || dwBufLen == 0)
+						return 2 * (int)view.markedText.Length;
+
+					var str = view.markedText.Value;
+					var bytes = Encoding.Unicode.GetBytes(str);
+					var count = Math.Min(bytes.Length, Math.Min(lpBuf.Length, dwBufLen));
+					Array.Copy(bytes, lpBuf, count);
+					return count;
+				}
+
+				if (dwIndex == Win32.GCS_COMPCLAUSE)
+				{
+					if (lpBuf != null && dwBufLen != 0)
+						Debug.Assert(false, "Use ImmGetCompositionStringW(IntPtr hIMC, int dwIndex, uint[] lpBuf, int dwBufLen) to get indexes.");
+					return 2 * sizeof(uint);
+				}
+
+				if (dwIndex == Win32.GCS_COMPATTR)
+				{
+					var count = (int)view.markedText.Length;
+					if (lpBuf != null && dwBufLen != 0)
+						for (int i = 0; i < count; i++)
+							lpBuf[i] = Win32.ATTR_INPUT;
+					return count;
+				}
+
+				if (dwIndex == Win32.GCS_CURSORPOS)
+					return (int)view.markedText.Length;
+			}
 			return 0;
 		}
 
@@ -47,7 +83,21 @@ namespace WinApi
 		{
 			// if lpBuf is null or dwBufLen is 0, only size is returned, but no data gets copied.
 
-			NotImplemented(MethodBase.GetCurrentMethod());
+			if (ObjCRuntime.Runtime.GetNSObject(hIMC) is MonoEditView view)
+			{
+				if (view.markedText.Length == 0)
+					return 0;
+
+				if (dwIndex == Win32.GCS_COMPCLAUSE)
+				{
+					if (lpBuf != null && dwBufLen >= 2 * sizeof(uint))
+					{
+						lpBuf[0] = 0;
+						lpBuf[1] = (uint)view.markedText.Length;
+					}
+					return 2 * sizeof(uint);
+				}
+			}
 			return 0;
 		}
 

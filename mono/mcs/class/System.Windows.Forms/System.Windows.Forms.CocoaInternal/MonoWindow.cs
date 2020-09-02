@@ -189,6 +189,7 @@ namespace System.Windows.Forms.CocoaInternal
 						if (control != null && control.Handle.ToNSObject() is NSView obj)
 						{
 							theEvent.ToKeyMsg(out Msg msg, out IntPtr wParam, out IntPtr lParam);
+							if (theEvent.KeyCode != (int)NSKey.Escape) // Preserve ESC for closing IME window 
 							if (IntPtr.Zero != driver.SendMessage(control.Handle, msg, wParam, lParam))
 								return;
 						}
