@@ -47,20 +47,19 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			// Until this returns false, interpretKeyEvents continues to call insertText !
 			[Export("hasMarkedText")]
-			get { return false; }
-			//get { return markedText.Length != 0; }
+			get { return markedText.Length != 0; }
 		}
 
 		public virtual NSRange MarkedRange
 		{
 			[Export("markedRange")]
-			get { return (markedText.Length > 0) ? new NSRange(0, markedText.Length - 1) : new NSRange(); }
+			get { return (markedText.Length > 0) ? new NSRange(0, markedText.Length) : new NSRange(); }
 		}
 
 		public virtual NSRange SelectedRange
 		{
 			[Export("selectedRange")]
-			get { return new NSRange(); }
+			get { return MarkedRange; }// new NSRange(); }
 		}
 
 		public virtual NSString[] ValidAttributesForMarkedText
@@ -78,8 +77,8 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("attributedSubstringForProposedRange:actualRange:")]
 		public virtual NSAttributedString GetAttributedSubstring(NSRange proposedRange, out NSRange actualRange)
 		{
-			actualRange = new NSRange();
-			return null;
+			actualRange = new NSRange(0, (nint)Math.Min(markedText.Length, proposedRange.Length));
+			return markedText.Substring(0, actualRange.Length);
 		}
 
 		[Export("characterIndexForPoint:")]
@@ -118,16 +117,43 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("insertText:replacementRange:")]
 		public virtual void InsertText(NSObject text, NSRange replacementRange)
 		{
-			eventResponder.InsertText(text, replacementRange);
+			if (markedText.Length != 0)
+			{
+				// Commit IME session
+				var lParam = new IntPtr((int)(GCS.GCS_RESULTSTR | GCS.GCS_COMPATTR | GCS.GCS_COMPCLAUSE | GCS.GCS_CURSORPOS));
+				Application.SendMessage(Handle, Msg.WM_IME_ENDCOMPOSITION, IntPtr.Zero, lParam);
+				markedText = new NSAttributedString();
+			}
+			else
+			{
+				eventResponder.InsertText(text, replacementRange);
+			}
 		}
 
 		[Export("setMarkedText:selectedRange:replacementRange:")]
 		public virtual void SetMarkedText(NSObject text, NSRange selectedRange, NSRange replacementRange)
 		{
-			if (text is NSAttributedString a)
-				markedText = (NSAttributedString)a.MutableCopy();
-			else
-				markedText = new NSAttributedString((NSString)text);
+			var value = text is NSAttributedString ? (NSAttributedString)text : new NSAttributedString(text.ToString());
+
+			// Cancel IME session
+			if (value.Length == 0)
+			{
+				Application.SendMessage(Handle, Msg.WM_IME_COMPOSITION, IntPtr.Zero, IntPtr.Zero); // Clears the text
+				Application.SendMessage(Handle, Msg.WM_IME_ENDCOMPOSITION, IntPtr.Zero, IntPtr.Zero);
+				markedText = new NSAttributedString();
+				return;
+			}
+
+			// Srart session
+			if (markedText.Length == 0 && value.Length != 0)
+				Application.SendMessage(Handle, Msg.WM_IME_STARTCOMPOSITION, IntPtr.Zero, IntPtr.Zero);
+
+			markedText = value;
+
+			// Continue session
+			var lParam = new IntPtr((int)(GCS.GCS_COMPSTR | GCS.GCS_COMPATTR | GCS.GCS_COMPCLAUSE | GCS.GCS_CURSORPOS));
+			if (markedText.Length != 0)
+				Application.SendMessage(Handle, Msg.WM_IME_COMPOSITION, IntPtr.Zero, lParam);
 		}
 
 		[Export("unmarkText")]

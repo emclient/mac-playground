@@ -1106,5 +1106,64 @@ namespace System.Windows.Forms
 		public IntPtr idFrom;
 		public int code;
 	}
-}
 
+	[Flags]
+#if PUBLIC_TYPES
+    public
+#else
+	internal
+#endif
+	enum GCS {
+		GCS_COMPREADSTR = 1,
+		GCS_COMPREADATTR = 2,
+		GCS_COMPREADCLAUSE = 4,
+		GCS_COMPSTR = 8,
+		GCS_COMPATTR = 16,
+		GCS_COMPCLAUSE = 32,
+		GCS_CURSORPOS = 128,
+		GCS_DELTASTART = 256,
+		GCS_RESULTREADSTR = 512,
+		GCS_RESULTREADCLAUSE = 1024,
+		GCS_RESULTSTR = 2048,
+		GCS_RESULTCLAUSE = 4096
+	}
+
+	[Flags]
+#if PUBLIC_TYPES
+    public
+#else
+	internal
+#endif
+	enum CS
+	{
+		CS_INSERTCHAR = 0x2000,
+		CS_NOMOVECARET = 0x4000,
+	}
+
+	[Flags]
+#if PUBLIC_TYPES
+    public
+#else
+	internal
+#endif
+	enum CFS
+	{
+		CFS_CANDIDATEPOS = 0x0040,
+	}
+
+	[Flags]
+#if PUBLIC_TYPES
+    public
+#else
+	internal
+#endif
+	enum ATTR
+	{
+		ATTR_INPUT = 0,
+		ATTR_TARGET_CONVERTED = 1,
+		ATTR_CONVERTED = 2,
+		ATTR_TARGET_NOTCONVERTED = 3,
+		ATTR_INPUT_ERROR = 4,
+		ATTR_FIXEDCONVERTED = 5,
+	}
+}
