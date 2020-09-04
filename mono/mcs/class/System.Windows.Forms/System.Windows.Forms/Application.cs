@@ -1022,14 +1022,15 @@ namespace System.Windows.Forms
 							keyboard_capture.Dismiss ();
 						}
 					}
-					if (!c2.Enabled)
+					if (c2 != null && !c2.Enabled)
 						break;
 					goto default;
 				case Msg.WM_LBUTTONUP:
 				case Msg.WM_RBUTTONUP:
 				case Msg.WM_MBUTTONUP:
 				case Msg.WM_XBUTTONUP:
-					if (!Control.FromHandle(msg.hwnd).Enabled)
+					Control up = Control.FromHandle(msg.hwnd);
+					if (up != null && !up.Enabled)
 						break;
 					goto default;
 				case Msg.WM_QUIT:
