@@ -24,18 +24,34 @@
 }
 
 -(BOOL)isEmClientRunning {
-    NSArray* emclients = [NSRunningApplication runningApplicationsWithBundleIdentifier:@"com.emclient.mail.client"];
+
+    NSArray* args = [[NSProcessInfo processInfo] arguments];
+    NSString* bundleIdentifier = [self getValueFromArray:args following:@"-bundleIdentifier" defaultValue:@"com.emclient.mail.client"];
+
+    NSArray* emclients = [NSRunningApplication runningApplicationsWithBundleIdentifier:bundleIdentifier];
     return emclients != nil && emclients.count != 0;
 }
 
 -(void)tellEmClientToBackup {
-    NSURL* url = [NSURL URLWithString:@"emclient:backup"];
+    // If emclient/iwdc is running, invoke backup by opening url with registerd scheme.
+    NSArray* args = [[NSProcessInfo processInfo] arguments];
+    NSString* scheme = [self getValueFromArray:args following:@"-scheme" defaultValue:@"emclient"];
+    NSString* str = [NSString stringWithFormat:@"%@:backup", scheme];
+    NSURL* url = [NSURL URLWithString:str];
     [self openURL:url args:nil terminate:true];
 }
 
 - (void)launchEmClient {
+    // If emclient/iwdc is not running, invoke backup by launching the app with command line arguments.
     NSMutableArray* arguments = [[[NSProcessInfo processInfo] arguments] mutableCopy];
-    [arguments removeObjectAtIndex:0];
+    
+    NSInteger indexOfArgsOption = [arguments indexOfObject:@"-args"];
+    if (indexOfArgsOption < 0) {
+        NSLog(@"Failed to locate \"-args\" option. Forwarding arguments starting at index 1");
+        indexOfArgsOption = -1;
+    }
+    
+    [arguments removeObjectsInRange:NSMakeRange(0, 1 + indexOfArgsOption)];
     [arguments insertObject:@"/dbbackup" atIndex:0];
     
     NSString* backup = [[NSBundle mainBundle] bundlePath];
@@ -72,6 +88,14 @@
 //        NSLog(@"%@", error);
         [NSApplication.sharedApplication terminate:self];
     }
+}
+
+-(NSString*)getValueFromArray:(NSArray*)array following:(NSString*)prev defaultValue:(NSString*)def
+{
+    NSInteger index = [array indexOfObject:prev];
+    if (index >= 0 && array.count > 1 + index)
+        return [array objectAtIndex:1 + index];
+    return def;
 }
 
 @end
