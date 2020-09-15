@@ -327,6 +327,21 @@ namespace System.Drawing.Mac
 			return new Bitmap(cgImage);
 		}
 
+		public static CGBitmapContext ToCGBitmapContext(this Bitmap bitmap)
+		{
+			return bitmap.GetRenderableContext();
+		}
+		
+		public static CGImage ToCGImage(this Image image)
+		{
+			return image.NativeCGImage;
+		}
+
+		public static CGContext ToCGContext(this Graphics graphics)
+		{
+			return graphics.context;
+		}
+
 		public static CGContext CGContext(this NSGraphicsContext context)
 		{
 #if MONOMAC
