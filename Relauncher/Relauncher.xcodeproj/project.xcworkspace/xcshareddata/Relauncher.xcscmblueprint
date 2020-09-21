@@ -1,0 +1,25 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "62A1E716-2177-4496-B887-0AA325858902",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505" : "emclient\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Relauncher",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Dependencies\/Mac\/Relauncher\/Relauncher.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/svn.emclient.com\/emclient",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505"
+    }
+  ]
+}
