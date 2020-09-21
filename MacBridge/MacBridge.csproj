@@ -61,6 +61,9 @@
     <Compile Include="..\..\..\WinApi\Mpr.Structs.cs">
       <Link>WinApi\Mpr.Structs.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\WinApi\Wintrust.Structs.cs">
+      <Link>WinApi\Wintrust.Structs.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\WinApi\UIAutomationCore.Structs.cs">
       <Link>WinApi\UIAutomationCore.Structs.cs</Link>
     </Compile>
@@ -177,5 +180,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="WinApi\Wintrust.cs">
+      <SubType></SubType>
+    </Compile>
   </ItemGroup>
 </Project>
