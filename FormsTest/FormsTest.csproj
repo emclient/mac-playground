@@ -1,0 +1,284 @@
+<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup>
+	<TargetFrameworks>net48;xamarinmac20</TargetFrameworks>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <DisableExtraReferences>true</DisableExtraReferences>
+    <DefineConstants Condition=" '$(TargetFramework)' == 'xamarinmac20'">$(DefineConstants);MAC;XAMARINMAC</DefineConstants>
+    <OutputType Condition=" '$(TargetFramework)' == 'net48'">WinExe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Forms\ToolstripForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ToolstripForm.Designer.cs">
+      <DependentUpon>ToolstripForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="MyListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MyTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Msg.cs" />
+    <Compile Include="UrlProtocol.cs" />
+    <!--<Compile Include="LayoutIssues\ImapOptions\ImapOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\ImapOptions\ImapOptionsControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\ImapOptions\ImapOptionsControl.Designer.cs" />
+    <Compile Include="..\..\..\MailClient\UI\Controls\WrappingCheckBox.cs">
+      <Link>WrappingCheckBox.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\..\..\MailClient\UI\Controls\WrappingCheckBox.Mac.cs">
+      <Link>WrappingCheckBox.Mac.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\ImapOptions\ImapOptionsForm.Designer.cs" />
+    <Compile Include="LayoutIssues\MailOptions\MailOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\MailOptions\MailOptionsForm.Designer.cs" />
+    <Compile Include="LayoutIssues\MailOptions\MailOptionsControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\MailOptions\MailOptionsControl.Designer.cs" />-->
+    <!--<Compile Include="LayoutIssues\FormInputBox\FormInputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\FormInputBox\FormInputBox.Designer.cs" />-->
+    <!--<Compile Include="LayoutIssues\ControlRecurrence.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\ControlRecurrence.Designer.cs">
+      <DependentUpon>ControlRecurrence.cs</DependentUpon>
+    </Compile>-->
+    <!--<Compile Include="LayoutIssues\ControlSettingsConfirmations.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\ControlSettingsConfirmations.Designer.cs">
+      <DependentUpon>ControlSettingsConfirmations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LayoutIssues\ControlSettingsSpellChecker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\ControlSettingsSpellChecker.Designer.cs">
+      <DependentUpon>ControlSettingsSpellChecker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LayoutIssues\FormLinkMessageBox\FormLinkMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\FormLinkMessageBox\FormLinkMessageBox.Designer.cs">
+      <DependentUpon>FormLinkMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LayoutIssues\ControlExpandablePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\ControlExpandablePanelAutodiscover.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LayoutIssues\ControlExpandablePanelAutodiscover.Designer.cs">
+      <DependentUpon>ControlExpandablePanelAutodiscover.cs</DependentUpon>
+    </Compile>-->
+    <Compile Include="Forms\DebugLayoutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DebugLayoutForm.Designer.cs">
+      <DependentUpon>DebugLayoutForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\DebugLayoutForm.resx">
+      <DependentUpon>DebugLayoutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Forms\DebugLayoutForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DebugLayoutForm2.Designer.cs">
+      <DependentUpon>DebugLayoutForm2.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\DebugLayoutForm2.resx">
+      <DependentUpon>DebugLayoutForm2.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Forms\DebugLayoutForm3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DebugLayoutForm3.Designer.cs">
+      <DependentUpon>DebugLayoutForm3.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\DebugLayoutForm3.resx">
+      <DependentUpon>DebugLayoutForm3.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Forms\DebugLayoutForm4.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DebugLayoutForm4.Designer.cs">
+      <DependentUpon>DebugLayoutForm4.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\DebugLayoutForm4.resx">
+      <DependentUpon>DebugLayoutForm4.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Forms\ImageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ImageForm.Designer.cs">
+      <DependentUpon>ImageForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\ImageForm.resx">
+      <DependentUpon>ImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <!--<Compile Include="Forms\LayoutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LayoutForm.Designer.cs">
+      <DependentUpon>LayoutForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\LayoutForm.resx">
+      <DependentUpon>LayoutForm.cs</DependentUpon>
+    </EmbeddedResource>-->
+    <Compile Include="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Forms\TextBoxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TextBoxForm.Designer.cs">
+      <DependentUpon>TextBoxForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\TextBoxForm.resx">
+      <DependentUpon>TextBoxForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Forms\WebForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Resources\Providers.Designer.cs">
+      <DependentUpon>Providers.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\ToolstripForm.resx">
+      <DependentUpon>ToolstripForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Providers.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Providers.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="ControlDebugUtils.cs" />
+    <Compile Include="Forms\AnimationsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlStatusBar.cs" />
+    <Compile Include="Controls\ControlStatusBar.Designer.cs" />
+    <Compile Include="Controls\ControlWaiting.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlWaiting.designer.cs" />
+    <Compile Include="Controls\ProgressIndicator.cs" />
+    <Compile Include="Controls\HatchedBar.cs" />
+    <Compile Include="Controls\RunningDots.cs" />
+    <Compile Include="Forms\MainForm.QuickLook.cs" />
+    <Compile Include="Forms\MainForm.NSException.cs" />
+    <Compile Include="Forms\MainForm.Swizzle.cs" />
+    <Compile Include="Forms\MainForm.NSBackgroundActivity.cs" />
+    <Compile Include="Forms\MainForm.NCPrefs.cs" />
+    <!--<Compile Include="Forms\DataGridForm.cs" />-->
+    <Compile Include="Forms\DateTimeForm.cs" />
+    <Compile Include="Forms\TextureBrushForm.cs "/>
+    <Compile Include="Controls\TextureBrushControl.cs" />
+    <Compile Include="Controls\TextureBrushControl2.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <!--<EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">
+      <LogicalName>MailClient.Protocols.Imap.ImapOptionsControl.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayoutIssues\MailOptions\MailOptionsControl.resx">
+      <LogicalName>MailClient.Accounts.Mail.MailOptionsControl.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayoutIssues\FormInputBox\FormInputBox.resx">
+      <LogicalName>MailClient.UI.Forms.FormInputBox.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayoutIssues\ControlRecurrence.resx">
+      <DependentUpon>ControlRecurrence.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayoutIssues\ControlSettingsConfirmations.resx">
+      <DependentUpon>ControlSettingsConfirmations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayoutIssues\ControlSettingsSpellChecker.resx">
+      <DependentUpon>ControlSettingsSpellChecker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayoutIssues\FormLinkMessageBox\FormLinkMessageBox.resx">
+      <DependentUpon>FormLinkMessageBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayoutIssues\ControlExpandablePanel.resx">
+      <DependentUpon>ControlExpandablePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayoutIssues\ControlExpandablePanelAutodiscover.resx">
+      <DependentUpon>ControlExpandablePanelAutodiscover.cs</DependentUpon>
+    </EmbeddedResource>-->
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\Resources.resx" />
+    <None Include="application.ico" />
+    <None Include="Entitlements.plist" />
+    <None Include="Info.plist" />
+    <None Include="Resources\Hotmail_Small.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Hotmail.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\iCloud_Small.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\iCloud.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Controls\ControlWaiting.resx" />
+    <None Include="Controls\ControlStatusBar.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.ico" />
+    <Content Include="car.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net48'">
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'xamarinmac20'">
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms.csproj" />
+    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing.csproj" />
+    <!--<ProjectReference Include="..\..\..\MailClient.Common.UI\MailClient.Common.UI.csproj">
+      <Project>{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}</Project>
+      <Name>MailClient.Common.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\CefGlue.WindowsForms\CefGlue.WindowsForms.csproj">
+      <Project>{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}</Project>
+      <Name>CefGlue.WindowsForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\CefGlue\CefGlue.csproj" Condition="'$(Configuration)' != 'Mono - Debug' and '$(Configuration)' != 'Xamarin - Debug' and '$(Configuration)' != 'Xamarin-Release'">
+      <Project>{703FF300-34B9-48D4-A5D6-E741F48D5F95}</Project>
+      <Name>CefGlue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\CefGlue.Mac\CefGlue.Mac.csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'">
+      <Project>{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}</Project>
+      <Name>CefGlue.Mac</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\MailClient\UI\htmlcontrol\HtmlEditorControl\HTMLEditorControl.csproj">
+      <Project>{5873DE0F-6853-4C8E-91A4-7A6861069A9A}</Project>
+      <Name>HTMLEditorControl</Name>
+    </ProjectReference>-->
+    <ProjectReference Include="..\MacApi\MacApi.csproj" />
+  </ItemGroup>
+</Project>
