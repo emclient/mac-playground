@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>0B428D24-3273-4A4F-8603-E2D73B00A30D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>FakeMailApp</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505</key>
+		<string>svn://svn.emclient.com/emclient/trunk</string>
+		<key>80ec5edc-652c-9b4c-9526-21b1b3dffb85++505</key>
+		<string>svn://svn.emclient.com/osx-playground/trunk</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Experiments/FakeMailApp.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505</key>
+		<string>../../../..</string>
+		<key>80ec5edc-652c-9b4c-9526-21b1b3dffb85++505</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505</key>
+		<string>svn://svn.emclient.com/emclient</string>
+		<key>80ec5edc-652c-9b4c-9526-21b1b3dffb85++505</key>
+		<string>svn://svn.emclient.com/osx-playground</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>svn://svn.emclient.com/osx-playground/trunk/Experiments/FakeMailApp.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>80ec5edc-652c-9b4c-9526-21b1b3dffb85++505</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>5e7379b0-43b9-9b44-9d0f-9e204b9f16e6++505</string>
+			<key>IDESourceControlWCCName</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>80ec5edc-652c-9b4c-9526-21b1b3dffb85++505</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Mac</string>
+		</dict>
+	</array>
+</dict>
+</plist>
