@@ -215,7 +215,7 @@ namespace System.Drawing
 					var line = typesetter.GetLine(new NSRange(start, count));
 
 					// Note: trimming may return a null line i.e. not enough space for any characters
-					var trim = (CTLine)null;
+					var trim = line;
 					switch (format.Trimming)
 					{
 						case StringTrimming.Character:
@@ -223,17 +223,20 @@ namespace System.Drawing
 							break;
 						case StringTrimming.EllipsisWord: // Fall thru for now
 						case StringTrimming.EllipsisCharacter:
-							if (count > 1)
+							using (CTLine ellipsisToken = EllipsisToken(font, format))
 							{
-								using (CTLine ellipsisToken = EllipsisToken(font, format))
+								// Trimming when not necessary causes bad results
+								if (line.GetBounds(CTLineBoundsOptions.UseOpticalBounds).Width <= layoutBox.Width)
+									break;
+
+								trim = line.GetTruncatedLine(layoutBox.Width, CTLineTruncation.End, ellipsisToken);
+
+								//Put back the first letter if we got ellipsis only.
+ 								if (trim == null || trim.GlyphCount == 1 && trim.GetGlyphRuns()[0].GetGlyphs()[0] == ellipsisToken.GetGlyphRuns()[0].GetGlyphs()[0])
 								{
-									trim = line.GetTruncatedLine(layoutBox.Width, CTLineTruncation.End, ellipsisToken);
-									if (trim == null || trim.GlyphCount == 1 && trim.GetGlyphRuns()[0].GetGlyphs()[0] == ellipsisToken.GetGlyphRuns()[0].GetGlyphs()[0])
-									{
-										var plain = attributedString.ToString().Substring(0, 1) + "\u2026";
-										var attributed = buildAttributedString(plain, font, format, lastBrushColor);
-										trim = new CTLine(attributed);
-									}
+									var plain = attributedString.Value.Substring(0, 1) + "\u2026";
+									var attributed = buildAttributedString(plain, font, format, lastBrushColor);
+									trim = new CTLine(attributed);
 								}
 							}
 							break;
