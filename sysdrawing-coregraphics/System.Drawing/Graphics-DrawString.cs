@@ -212,29 +212,43 @@ namespace System.Drawing
 					// This also will take into account line feeds embedded in the text.
 					//  Example: "This is text \n with a line feed embedded inside it"
 					var count = (int)typesetter.SuggestLineBreak(start, noWrap ? double.MaxValue : layoutBox.Width);
+					var line = typesetter.GetLine(new NSRange(start, count));
 
 					// Note: trimming may return a null line i.e. not enough space for any characters
-					var line = typesetter.GetLine(new NSRange(start, count));
+					var trim = (CTLine)null;
 					switch (format.Trimming)
 					{
 						case StringTrimming.Character:
-							using (var oldLine = line)
-								line = line.GetTruncatedLine(noWrap ? nfloat.MaxValue : layoutBox.Width, CTLineTruncation.End, null);
+							trim = line.GetTruncatedLine(noWrap ? nfloat.MaxValue : layoutBox.Width, CTLineTruncation.End, null);
 							break;
 						case StringTrimming.EllipsisWord: // Fall thru for now
 						case StringTrimming.EllipsisCharacter:
-							using (var oldLine = line)
-							using (CTLine ellipsisToken = EllipsisToken(font, format))
-								line = line.GetTruncatedLine(layoutBox.Width, CTLineTruncation.End, ellipsisToken);
+							if (count > 1)
+							{
+								using (CTLine ellipsisToken = EllipsisToken(font, format))
+								{
+									trim = line.GetTruncatedLine(layoutBox.Width, CTLineTruncation.End, ellipsisToken);
+									if (trim == null || trim.GlyphCount == 1 && trim.GetGlyphRuns()[0].GetGlyphs()[0] == ellipsisToken.GetGlyphRuns()[0].GetGlyphs()[0])
+									{
+										var plain = attributedString.ToString().Substring(0, 1) + "\u2026";
+										var attributed = buildAttributedString(plain, font, format, lastBrushColor);
+										trim = new CTLine(attributed);
+									}
+								}
+							}
 							break;
 						case StringTrimming.EllipsisPath:
-							using (var oldLine = line)
 							using (CTLine ellipsisToken = EllipsisToken(font, format))
-								line = line.GetTruncatedLine(layoutBox.Width, CTLineTruncation.Middle, ellipsisToken);
+								trim = line.GetTruncatedLine(layoutBox.Width, CTLineTruncation.Middle, ellipsisToken) ?? line;
 							break;
 					}
 
-					lines.Add(line);
+					if (trim != null)
+						lines.Add(trim);
+
+					if (line != trim)
+						line.Dispose();
+
 					start += (int)count;
 					y += (float)lineHeight;
 				}
