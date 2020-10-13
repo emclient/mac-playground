@@ -2197,7 +2197,12 @@ namespace System.Windows.Forms
 
 			set {
 				if (!value.IsEmpty && (value.A != 0xff) && !GetStyle(ControlStyles.SupportsTransparentBackColor)) {
-					throw new ArgumentException("Transparent background colors are not supported on this control");
+					ArgumentException e = new ArgumentException("Transparent background colors are not supported on this control");
+					e.Data["ControlType"] = GetType().Name;
+					e.Data["ControlName"] = Name;
+					e.Data["ColorName"] = value.Name;
+					e.Data["ColorValue"] = value.ToString();
+					throw e;
 				}
 
 				if (background_color != value) {
