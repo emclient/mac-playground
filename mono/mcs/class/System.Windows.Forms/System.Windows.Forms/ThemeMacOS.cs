@@ -13,6 +13,7 @@ using System.Windows.Forms.Theming;
 using System.Windows.Forms.resources;
 using System.Drawing.Mac;
 using System.Windows.Forms.Extensions.Drawing;
+using System.Windows.Forms.CocoaInternal;
 
 #if XAMARINMAC
 using AppKit;
@@ -3548,7 +3549,8 @@ namespace System.Windows.Forms
 			const float strokeWidth = 1f;
 			var r = rectangle.ToRectangleF();
 			r.Width -= 1; r.Height -= 1;
-			Color circle_color = NSColor.ControlAccentColor.ToSDColor();
+			var circle_color = typeof(NSColor).GetClass().RespondsToSelector(new ObjCRuntime.Selector("controlAccentColor"))
+				? NSColor.ControlAccentColor.ToSDColor() : Color.FromArgb(10, 96, 254);
 			using (Pen pen = new Pen(circle_color, strokeWidth))
 				dc.DrawRoundRect(pen, r, cornerRadius);
 		}
