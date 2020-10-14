@@ -24,8 +24,8 @@ namespace System.Windows.Forms
 			if (Image != null && (DisplayStyle == ToolStripItemDisplayStyle.ImageAndText || DisplayStyle == ToolStripItemDisplayStyle.Image))
 			{
 				var nsImage = Image.ToNSImage();
-				if (Image.Size.Width > 16)
-					nsImage.Size = new CGSize(nsImage.Size.Width / 2, nsImage.Size.Height / 2);
+				if (nsImage.Size.Height > 18)
+					nsImage.Size = new CGSize(nsImage.Size.Width * 16 / nsImage.Size.Height, 16);
 				nsMenuItem.Image = nsImage;
 			}
 
