@@ -24,8 +24,7 @@ namespace System.Windows.Forms
 			if (Image != null && (DisplayStyle == ToolStripItemDisplayStyle.ImageAndText || DisplayStyle == ToolStripItemDisplayStyle.Image))
 			{
 				var nsImage = Image.ToNSImage();
-				if (nsImage.Size.Height > 18)
-					nsImage.Size = new CGSize(nsImage.Size.Width * 16 / nsImage.Size.Height, 16);
+				nsImage.Size = AdjustImageSize(nsImage.Size);
 				nsMenuItem.Image = nsImage;
 			}
 
@@ -34,6 +33,20 @@ namespace System.Windows.Forms
 			TextChanged += (sender, e) => { nsMenuItem.Title = (Text ?? String.Empty).Replace("&", ""); };
 
 			return nativeMenuItem = nsMenuItem;
+		}
+
+		protected virtual CGSize AdjustImageSize(CGSize size)
+		{
+			// Use the size reduced by a suitable integer, if the result's height is close enough to 16.
+			// Otherwise, scale 'size' so that the result's height equals to 16.
+
+			int k = (int)(size.Height / 16);
+			k = k < 1 ? 1 : k;
+			for (int i = k; i <= 1 + k; ++i)
+				if (Math.Abs(size.Height / i - 16) <= 2)
+					return new CGSize(size.Height / i, size.Width / i);
+
+			return new CGSize(size.Width * 16 / size.Height, 16);
 		}
 	}
 }
