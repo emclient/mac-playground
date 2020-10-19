@@ -55,6 +55,8 @@ namespace System.Drawing
 			if (image == null)
 				throw new ArgumentNullException ("image");
 
+			image = GetVariation(image);
+
 			if (image.nativeMetafilePage != null) {
 				var cgrect = new CGRect(rect.X, rect.Y, rect.Width, rect.Height);
 				var transformation = image.nativeMetafilePage.GetDrawingTransform(CGPDFBox.Media, cgrect, 0, false);
@@ -804,6 +806,19 @@ namespace System.Drawing
 			int height = (image.Height > rect.Height) ? rect.Height : image.Height;
 
 			DrawImageUnscaled (image, rect.X, rect.Y, width, height);			
+		}
+
+		internal Image GetVariation(Image image)
+		{
+			Image best = image;
+			if (image.variations != null)
+			{
+				var size = context.ConvertSizeToDeviceSpace(new CGSize(image.Size.Width, image.Size.Height));
+				foreach (Image img in image.variations)
+					if (Math.Abs(img.Height - size.Height) < Math.Abs(best.Height - size.Height))
+						best = img;
+			}
+			return best;
 		}
 
 		private void InitializeImagingContext ()
