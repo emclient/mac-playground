@@ -40,6 +40,7 @@ using System.ComponentModel;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
+using System.Collections;
 
 #if XAMARINMAC
 using CoreGraphics;
@@ -77,6 +78,7 @@ namespace System.Drawing {
 		internal CGAffineTransform imageTransform;
 		protected ImageFlags pixelFlags;
 
+		internal ArrayList variations;
 
 		~Image ()
 		{
@@ -450,6 +452,11 @@ namespace System.Drawing {
 			}
 
 			return ThumbNail;
+		}
+
+		internal void AddResolution(Image image)
+		{
+			(variations ?? (variations = new ArrayList())).Add(image);
 		}
 	}
 }
