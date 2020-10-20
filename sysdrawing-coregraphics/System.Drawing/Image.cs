@@ -240,7 +240,11 @@ namespace System.Drawing {
 		/// </summary>
 		public object Clone ()
 		{
-			return new Bitmap (this);
+			var clone = new Bitmap(this);
+			if (variations != null)
+				foreach (Image rep in variations)
+					clone.AddResolution((Image)rep.Clone());
+			return clone;
 		}
 
 		public void Dispose ()
@@ -456,7 +460,30 @@ namespace System.Drawing {
 
 		internal void AddResolution(Image image)
 		{
-			(variations ?? (variations = new ArrayList())).Add(image);
+			if (variations == null)
+				variations = new ArrayList();
+#if DEBUG
+			foreach (Image sub in variations)
+			{
+				if (sub.Size == image.Size)
+				{
+					Diagnostics.Debug.WriteLine($"Adding existing variation ({image.Size}) to image {image}");
+					return;
+				}
+			}
+#endif
+
+			variations.Add(image);
+		}
+
+		internal IList GetResolutions()
+		{
+			return variations;
+		}
+
+		public override string ToString()
+		{
+			return $"Image Size={Size}, Tag={Tag}, {NativeCGImage?.ToString()}";
 		}
 	}
 }
