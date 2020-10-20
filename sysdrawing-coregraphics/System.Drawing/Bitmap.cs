@@ -96,6 +96,9 @@ namespace System.Drawing {
 					throw new FileNotFoundException ("File {0} not found.", filename);
 
 				InitializeImageFrame (0);
+#if DEBUG
+				Tag = filename;
+#endif
 			}
 			catch (Exception) 
 			{
