@@ -462,18 +462,12 @@ namespace System.Drawing {
 		{
 			if (variations == null)
 				variations = new ArrayList();
-#if DEBUG
-			foreach (Image sub in variations)
-			{
-				if (sub.Size == image.Size)
-				{
-					Diagnostics.Debug.WriteLine($"Adding existing variation ({image.Size}) to image {image}");
-					return;
-				}
-			}
-#endif
 
-			variations.Add(image);
+			int i = IndexOfResolution(image.Size);
+			if (i >= 0)
+				variations[i] = image;
+			else
+				variations.Add(image);
 		}
 
 		internal IList GetResolutions()
@@ -481,9 +475,18 @@ namespace System.Drawing {
 			return variations;
 		}
 
+		private int IndexOfResolution(Size size)
+		{
+			if (variations != null)
+				for (int i = 0; i < variations.Count; ++i)
+					if (((Image)variations[i]).Size == size)
+						return i;
+			return -1;
+		}
+
 		public override string ToString()
 		{
-			return $"Image Size={Size}, Tag={Tag}, {NativeCGImage?.ToString()}";
+			return $"Image Size={Width}x{Height}, Tag={Tag}";
 		}
 	}
 }
