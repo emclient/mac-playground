@@ -55,7 +55,7 @@ namespace System.Drawing
 			if (image == null)
 				throw new ArgumentNullException ("image");
 
-			image = GetVariation(image);
+			image = GetVariation(context, image);
 
 			if (image.nativeMetafilePage != null) {
 				var cgrect = new CGRect(rect.X, rect.Y, rect.Width, rect.Height);
@@ -808,7 +808,7 @@ namespace System.Drawing
 			DrawImageUnscaled (image, rect.X, rect.Y, width, height);			
 		}
 
-		internal Image GetVariation(Image image)
+		internal static Image GetVariation(CGContext context, Image image)
 		{
 			Image best = image;
 			if (image.variations != null)

@@ -41,6 +41,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
 using System.Collections;
+using System.Diagnostics;
 
 #if XAMARINMAC
 using CoreGraphics;
@@ -487,6 +488,12 @@ namespace System.Drawing {
 		public override string ToString()
 		{
 			return $"Image Size={Width}x{Height}, Tag={Tag}";
+		}
+
+		[Conditional("DEBUG")]
+		internal void DebugSetTag(string tag)
+		{
+			Tag = tag;
 		}
 	}
 }

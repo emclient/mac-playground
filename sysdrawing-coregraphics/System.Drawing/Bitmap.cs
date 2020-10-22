@@ -163,6 +163,7 @@ namespace System.Drawing {
 			using (Graphics graphics = Graphics.FromImage (this)) {
 				graphics.DrawImage (original, 0, 0, newSize.Width, newSize.Height);
 			}
+			DebugSetTag($"Bitmap({original.Tag})");
 		}
 
 		public Bitmap (int width, int height, Graphics g) :
@@ -707,6 +708,7 @@ namespace System.Drawing {
 			using (Graphics g = Graphics.FromImage (tmpImg)) {
 				g.DrawImage (this, new Rectangle(0,0, width, height), rect, GraphicsUnit.Pixel );
 			}
+			tmpImg.DebugSetTag($"Bitmap.Clone({Tag})");
 			return tmpImg;
 		}
 
