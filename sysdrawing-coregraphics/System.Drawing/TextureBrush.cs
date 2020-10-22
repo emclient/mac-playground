@@ -201,7 +201,7 @@ namespace System.Drawing
 
 			// [top] [left] main quadrant
 			context.ConcatCTM(textureImage.imageTransform);
-			context.DrawImage(destRect, textureImage.NativeCGImage);
+			context.DrawImage(destRect, variation.NativeCGImage);
 			context.ConcatCTM(textureImage.imageTransform.Invert());
 
 			if (wrapMode == WrapMode.TileFlipX || wrapMode == WrapMode.TileFlipXY) 
@@ -210,7 +210,7 @@ namespace System.Drawing
 				var transform = new CGAffineTransform(-1, 0, 0, 1, 2 * destRect.Width, 0);
 				context.ConcatCTM(transform);
 				context.ConcatCTM (textureImage.imageTransform);
-				context.DrawImage(destRect, textureImage.NativeCGImage);
+				context.DrawImage(destRect, variation.NativeCGImage);
 				context.ConcatCTM (textureImage.imageTransform.Invert());
 				context.ConcatCTM(transform.Invert());
 			}
@@ -221,7 +221,7 @@ namespace System.Drawing
 				var transform = new CGAffineTransform(1, 0, 0, -1, 0, 2 * destRect.Height);
 				context.ConcatCTM(transform);
 				context.ConcatCTM (textureImage.imageTransform);
-				context.DrawImage(destRect, textureImage.NativeCGImage);
+				context.DrawImage(destRect, variation.NativeCGImage);
 				context.ConcatCTM (textureImage.imageTransform.Invert());
 				context.ConcatCTM(transform.Invert());
 			}
@@ -233,7 +233,7 @@ namespace System.Drawing
 				var transform = new CGAffineTransform(-1, 0, 0, -1, 2 * destRect.Width, 2 * destRect.Height);
 				context.ConcatCTM(transform);
 				context.ConcatCTM (textureImage.imageTransform);
-				context.DrawImage(destRect, textureImage.NativeCGImage);
+				context.DrawImage(destRect, variation.NativeCGImage);
 				context.ConcatCTM (textureImage.imageTransform.Invert());
 				context.ConcatCTM(transform.Invert());
 			}
@@ -243,6 +243,7 @@ namespace System.Drawing
 		static float HALF_PIXEL_X = 0.5f;
 		static float HALF_PIXEL_Y = 0.5f;
 
+		Image variation;
 		internal override void Setup (Graphics graphics, bool fill)
 		{
 			
@@ -250,7 +251,9 @@ namespace System.Drawing
 			// then return.
 			if (graphics.LastBrush == this && !changed)
 				return;
-			
+
+			variation = Graphics.GetVariation(graphics.context, textureImage);
+
 			// obtain our width and height so we can set the pattern rectangle
 			float textureWidth = textureImage.Width;
 			float textureHeight = textureImage.Height;
@@ -271,12 +274,15 @@ namespace System.Drawing
 			var patternSpace = CGColorSpace.CreatePattern(null);
 			graphics.context.SetFillColorSpace(patternSpace);
 			patternSpace.Dispose();
-			
-			// Pattern default work variables
-			var patternRect = new CGRect(HALF_PIXEL_X,HALF_PIXEL_Y,
-			                                 textureWidth+HALF_PIXEL_X,
-			                                 textureHeight+HALF_PIXEL_Y);
 
+			var sz = graphics.context.ConvertSizeToDeviceSpace(new CGSize(textureWidth, textureHeight));
+
+			// Pattern default work variables
+			//var patternRect = new CGRect(HALF_PIXEL_X,HALF_PIXEL_Y,
+			//                                 textureWidth+HALF_PIXEL_X,
+			//                                 textureHeight+HALF_PIXEL_Y);
+
+			var patternRect = new CGRect(CGPoint.Empty, sz);
 			var patternTransform = graphics.context.GetCTM();
 			patternTransform = CGAffineTransform.Multiply(patternTransform, new CGAffineTransform(1f / graphics.screenScale, 0, 0, 1f / graphics.screenScale, 0, 0));
 			patternTransform = CGAffineTransform.Multiply(textureTransform.transform, patternTransform);
@@ -291,7 +297,6 @@ namespace System.Drawing
 			                            patternTransform,
 			                            textureWidth,
 			                            textureHeight,
-			                            //textureHeight,
 			                            CGPatternTiling.NoDistortion,
 			                            true, drawPattern);
 			//we dont need to set any color, as the pattern cell itself has chosen its own color

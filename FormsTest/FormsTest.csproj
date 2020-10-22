@@ -158,6 +158,9 @@
     <EmbeddedResource Include="Forms\TextBoxForm.resx">
       <DependentUpon>TextBoxForm.cs</DependentUpon>
     </EmbeddedResource>
+    <Compile Include="Forms\TextureBrushForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\WebForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,7 +194,6 @@
     <Compile Include="Forms\MainForm.NCPrefs.cs" />
     <!--<Compile Include="Forms\DataGridForm.cs" />-->
     <Compile Include="Forms\DateTimeForm.cs" />
-    <Compile Include="Forms\TextureBrushForm.cs "/>
     <Compile Include="Controls\TextureBrushControl.cs" />
     <Compile Include="Controls\TextureBrushControl2.cs" />
   </ItemGroup>
