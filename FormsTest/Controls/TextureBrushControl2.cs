@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Reflection;
 
 #if MAC
 using AppKit;
@@ -31,13 +32,23 @@ namespace FormsTest.Controls
 
 		protected virtual Image CreateImage(Size size, string text)
 		{
+			var image = CreateImageSingleRes(size, text);
+
+			var addResolution = typeof(Image).GetMethod("AddResolution", BindingFlags.Instance | BindingFlags.NonPublic);
+			addResolution?.Invoke(image, new object[] { CreateImageSingleRes(new Size(2 * size.Width, 2 * size.Height), text) });
+			return image;
+		}
+
+		protected virtual Image CreateImageSingleRes(Size size, string text)
+		{
 			Size dim = new Size(size.Width, size.Height);
 			var bitmap = new Bitmap(dim.Width, dim.Height);
+			var font = new Font(this.Font.FontFamily.Name, size.Height / 3, GraphicsUnit.Pixel);
 			using (var g = Graphics.FromImage(bitmap))
 			{
 				g.FillRectangle(Brushes.White, 0, 0, dim.Width, dim.Height);
 				g.FillEllipse(Brushes.DarkBlue, dim.Width / 2, dim.Height / 2, dim.Width / 2, dim.Height / 2);
-				g.DrawString($"{text}", Font, Brushes.Black, new Rectangle(0, 0, dim.Width, dim.Height));
+				g.DrawString($"{text}", font, Brushes.Black, new Rectangle(0, 0, dim.Width, dim.Height));
 			}
 			return bitmap;
 		}
