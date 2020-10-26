@@ -252,7 +252,7 @@ namespace System.Drawing
 			if (graphics.LastBrush == this && !changed)
 				return;
 
-			variation = Graphics.GetVariation(graphics.context, textureImage, textureImage.Size);
+			variation = Graphics.GetRepresentation(graphics.context, textureImage, textureImage.Size);
 
 			// obtain our width and height so we can set the pattern rectangle
 			float textureWidth = textureImage.Width;
