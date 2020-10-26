@@ -1,9 +1,16 @@
 ﻿using System;
+using System.Drawing;
 using System.Drawing.Mac;
+using System.Windows.Forms.Mac;
+using System.Collections;
+using System.Reflection;
+using Foundation;
 #if XAMARINMAC
+using ObjCRuntime;
 using AppKit;
 using CoreGraphics;
 #else
+using MonoMac.ObjCRuntime;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 #endif
@@ -23,9 +30,10 @@ namespace System.Windows.Forms
 			nsMenuItem.Hidden = !InternalVisible;
 			if (Image != null && (DisplayStyle == ToolStripItemDisplayStyle.ImageAndText || DisplayStyle == ToolStripItemDisplayStyle.Image))
 			{
-				var nsImage = Image.ToNSImage();
-				nsImage.Size = AdjustImageSize(nsImage.Size);
-				nsMenuItem.Image = nsImage;
+				var size = AdjustImageSize(new CGSize(Image.Width, Image.Width));
+				var variation = GetRepresentationForDevice(Image, size.ToSDSize());
+				nsMenuItem.Image = variation.ToNSImage();
+				nsMenuItem.Image.Size = size;
 			}
 
 			VisibleChanged += (sender, e) => { nsMenuItem.Hidden = !InternalVisible; };
@@ -40,13 +48,20 @@ namespace System.Windows.Forms
 			// Use the size reduced by a suitable integer, if the result's height is close enough to 16.
 			// Otherwise, scale 'size' so that the result's height equals to 16.
 
-			int k = (int)(size.Height / 16);
-			k = k < 1 ? 1 : k;
+			int k = Math.Max(1, (int)(size.Height / 16));
 			for (int i = k; i <= 1 + k; ++i)
 				if (Math.Abs(size.Height / i - 16) <= 2)
 					return new CGSize(size.Height / i, size.Width / i);
 
 			return new CGSize(size.Width * 16 / size.Height, 16);
+		}
+
+		private Image GetRepresentationForDevice(Image image, Size size)
+		{
+			var dpi = Parent?.GetDeviceDpi() ?? new Size(72, 72);
+			var scale = (float)dpi.Width / 72f;
+			var devSize = new Size((int)(scale * size.Width), (int)(scale * size.Height));
+			return image.GetRepresentation(devSize);
 		}
 	}
 }
