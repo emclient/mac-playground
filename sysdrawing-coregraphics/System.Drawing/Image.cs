@@ -42,6 +42,8 @@ using System.IO;
 using System.Reflection;
 using System.Collections;
 using System.Diagnostics;
+using System.Drawing.Mac;
+using System.Text;
 
 #if XAMARINMAC
 using CoreGraphics;
@@ -79,7 +81,7 @@ namespace System.Drawing {
 		internal CGAffineTransform imageTransform;
 		protected ImageFlags pixelFlags;
 
-		internal ArrayList variations;
+		internal ArrayList representations;
 
 		~Image ()
 		{
@@ -242,9 +244,9 @@ namespace System.Drawing {
 		public object Clone ()
 		{
 			var clone = new Bitmap(this);
-			if (variations != null)
-				foreach (Image rep in variations)
-					clone.AddResolution((Image)rep.Clone());
+			if (representations != null)
+				foreach (Image rep in representations)
+					clone.AddRepresentation((Image)rep.Clone());
 			return clone;
 		}
 
@@ -459,35 +461,18 @@ namespace System.Drawing {
 			return ThumbNail;
 		}
 
-		internal void AddResolution(Image image)
-		{
-			if (variations == null)
-				variations = new ArrayList();
-
-			int i = IndexOfResolution(image.Size);
-			if (i >= 0)
-				variations[i] = image;
-			else
-				variations.Add(image);
-		}
-
-		internal IList GetResolutions()
-		{
-			return variations;
-		}
-
-		private int IndexOfResolution(Size size)
-		{
-			if (variations != null)
-				for (int i = 0; i < variations.Count; ++i)
-					if (((Image)variations[i]).Size == size)
-						return i;
-			return -1;
-		}
-
 		public override string ToString()
 		{
-			return $"Image Size={Width}x{Height}, Tag={Tag}";
+			StringBuilder s = new StringBuilder($"Image Size={Width}x{Height}, Tag={Tag}");
+			if (representations != null && representations.Count != 0)
+			{
+				const string comma = ",", nothing = "";
+				s.Append(", Reps:[");
+				for (int i = 0; i < representations.Count; ++i)
+					s.Append($"{(i > 0 ? comma : nothing)}{((Image)representations[i]).Width}x{((Image)representations[i]).Height}");
+				s.Append("]");
+			}
+			return s.ToString();
 		}
 
 		[Conditional("DEBUG")]

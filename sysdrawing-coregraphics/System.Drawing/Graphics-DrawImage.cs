@@ -55,7 +55,7 @@ namespace System.Drawing
 			if (image == null)
 				throw new ArgumentNullException ("image");
 
-			image = GetVariation(context, image, rect.Size.ToSize());
+			image = GetRepresentation(context, image, rect.Size.ToSize());
 
 			if (image.nativeMetafilePage != null) {
 				var cgrect = new CGRect(rect.X, rect.Y, rect.Width, rect.Height);
@@ -808,13 +808,13 @@ namespace System.Drawing
 			DrawImageUnscaled (image, rect.X, rect.Y, width, height);			
 		}
 
-		internal static Image GetVariation(CGContext context, Image image, Size destSize)
+		internal static Image GetRepresentation(CGContext context, Image image, Size destSize)
 		{
 			Image best = image;
-			if (image.variations != null)
+			if (image.representations != null)
 			{
 				var size = context.ConvertSizeToDeviceSpace(new CGSize(destSize.Width, destSize.Height));
-				foreach (Image img in image.variations)
+				foreach (Image img in image.representations)
 					if (Math.Abs(img.Height - size.Height) < Math.Abs(best.Height - size.Height))
 						best = img;
 			}

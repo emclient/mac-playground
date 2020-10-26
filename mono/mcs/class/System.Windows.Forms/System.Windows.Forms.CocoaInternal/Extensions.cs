@@ -2,6 +2,8 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms.CocoaInternal;
 using MacApi;
 using System.Runtime.InteropServices.ComTypes;
+using System.Drawing.Mac;
+using System.Drawing;
 
 #if MONOMAC
 using MonoMac.ObjCRuntime;
@@ -476,6 +478,13 @@ namespace System.Windows.Forms.Mac
 		{
 			var version = info.OperatingSystemVersion;
 			return (version.Major == 10 && version.Minor >= 14) || version.Major > 10;
+		}
+
+		public static Size GetDeviceDpi(this Control control)
+		{
+			var view = ObjCRuntime.Runtime.GetNSObject(control?.Handle ?? IntPtr.Zero) as NSView;
+			var screen = view?.Window?.Screen ?? NSApplication.SharedApplication.MainWindow?.Screen;
+			return screen?.DeviceDPI().ToSDSize() ?? new Size(72, 72);
 		}
 
 		internal const string FoundationDll = "/System/Library/Frameworks/Foundation.framework/Foundation";

@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using System.Diagnostics;
+using System.Collections;
 
 #if MONOMAC
 using MonoMac.AppKit;
@@ -335,6 +337,60 @@ namespace System.Drawing.Mac
 		public static CGImage ToCGImage(this Image image)
 		{
 			return image.NativeCGImage;
+		}
+
+		public static IList GetRepresentations(this Image image)
+		{
+			return image.representations;
+		}
+
+		public static bool ContainsRepresentation(this Image image, Size size)
+		{
+			return image.GetRepresentation(size).Size == size;
+		}
+
+		public static Image GetRepresentation(this Image image, Size size)
+		{
+			var best = image;
+			if (image.representations != null)
+				foreach (Image rep in image.representations)
+					if (rep.Size == size)
+						return rep;
+					else if (Math.Abs(rep.Height - size.Height) < Math.Abs(best.Height - size.Height))
+						best = rep;
+			return best;
+		}
+
+		public static void AddRepresentation(this Image image, Image rep)
+		{
+			if (image.representations == null)
+				image.representations = new ArrayList();
+
+			int i = image.IndexOfRepresentation(rep.Size);
+			if (i >= 0)
+				image.representations[i] = rep;
+			else
+				image.representations.Add(rep);
+		}
+
+		public static int IndexOfRepresentation(this Image image, Size size)
+		{
+			if (image.representations != null)
+				for (int i = 0; i < image.representations.Count; ++i)
+					if (((Image)image.representations[i]).Size == size)
+						return i;
+			return -1;
+		}
+
+		public static CGSize DeviceDPI(this NSScreen screen)
+		{
+			var desc = screen.DeviceDescription;
+			if (desc != null)
+				if (desc["NSDeviceResolution"] is NSValue value)
+					return value.CGSizeValue;
+
+			Debug.Assert(false, $"Failed to get screen resolution for '{screen.LocalizedName}'");
+			return new CGSize(72, 72);
 		}
 
 		public static CGContext ToCGContext(this Graphics graphics)
