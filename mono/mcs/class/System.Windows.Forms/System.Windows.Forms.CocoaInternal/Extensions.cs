@@ -482,7 +482,8 @@ namespace System.Windows.Forms.Mac
 
 		public static Size GetDeviceDpi(this Control control)
 		{
-			var view = ObjCRuntime.Runtime.GetNSObject(control?.Handle ?? IntPtr.Zero) as NSView;
+			var form = control?.FindForm() ?? Form.ActiveForm;
+			var view = ObjCRuntime.Runtime.GetNSObject(form?.Handle ?? IntPtr.Zero) as NSView;
 			var screen = view?.Window?.Screen ?? NSApplication.SharedApplication.MainWindow?.Screen;
 			return screen?.DeviceDPI().ToSDSize() ?? new Size(72, 72);
 		}
