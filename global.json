@@ -1,6 +1,9 @@
 {
+  "sdk": {
+    "version": "5.0.100"
+  },
   "msbuild-sdks": {
-    "MSBuild.Sdk.Extras": "2.0.54"
+    "Microsoft.NET.Sdk": "2.1.2"
   }
 }
 
