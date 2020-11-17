@@ -1,0 +1,16 @@
+<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup>
+    <TargetFrameworks>xamarinmac20;netstandard20</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">netstandard20</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">xamarinmac20</TargetFrameworks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' != 'xamarinmac20'">
+    <AssemblyName>Dummy.System.Drawing.Primitives</AssemblyName>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
+    <ProjectReference Include="..\..\sysdrawing-coregraphics\System.Drawing.csproj" />
+  </ItemGroup>
+</Project>
