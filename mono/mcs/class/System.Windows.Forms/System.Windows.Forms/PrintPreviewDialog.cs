@@ -45,15 +45,14 @@ namespace System.Windows.Forms {
 	[ToolboxItemFilter ("System.Windows.Forms.Control.TopLevel", ToolboxItemFilterType.Allow)]
 	public class PrintPreviewDialog : Form {
 		PrintPreviewControl print_preview;
-		MenuItem previous_checked_menu_item;
-		Menu mag_menu;
-		MenuItem auto_zoom_item;
+		ToolStripMenuItem previous_checked_menu_item;
+		ToolStripMenuItem auto_zoom_item;
 		NumericUpDown pageUpDown;
 
 		public PrintPreviewDialog()
 		{
 			this.ClientSize = new Size (400, 300);
-			ToolBar toolbar = CreateToolBar ();
+			ToolStrip toolbar = CreateToolBar ();
 
 			toolbar.Location = new Point (0, 0);
 			toolbar.Dock = DockStyle.Top;
@@ -69,7 +68,7 @@ namespace System.Windows.Forms {
 			print_preview.Show ();
 		}
 
-		ToolBar CreateToolBar ()
+		ToolStrip CreateToolBar ()
 		{
 			ImageList image_list = new ImageList ();
 			image_list.Images.Add (ResourceImageLoader.Get ("32_printer.png"));
@@ -80,20 +79,19 @@ namespace System.Windows.Forms {
 			image_list.Images.Add (ResourceImageLoader.Get ("4-up.png"));
 			image_list.Images.Add (ResourceImageLoader.Get ("6-up.png"));
 
-			MenuItem mi;
-			mag_menu = new ContextMenu ();
+			ToolStripMenuItem mi;
 
-			ToolBar toolbar = new PrintToolBar();
-			ToolBarButton print = new ToolBarButton();
-			ToolBarButton zoom = new ToolBarButton();
-			ToolBarButton separator1 = new ToolBarButton();
+			ToolStrip toolbar = new ToolStrip();
+			ToolStripButton print = new ToolStripButton();
+			ToolStripDropDownButton zoom = new ToolStripDropDownButton();
+			ToolStripSeparator separator1 = new ToolStripSeparator();
 
-			ToolBarButton one_page = new ToolBarButton();
-			ToolBarButton two_page = new ToolBarButton();
-			ToolBarButton three_page = new ToolBarButton();
-			ToolBarButton four_page = new ToolBarButton();
-			ToolBarButton six_page = new ToolBarButton();
-			ToolBarButton separator2 = new ToolBarButton();
+			ToolStripButton one_page = new ToolStripButton();
+			ToolStripButton two_page = new ToolStripButton();
+			ToolStripButton three_page = new ToolStripButton();
+			ToolStripButton four_page = new ToolStripButton();
+			ToolStripButton six_page = new ToolStripButton();
+			ToolStripSeparator separator2 = new ToolStripSeparator();
 
 			Button close = new Button();
 			Label label = new Label();
@@ -102,13 +100,10 @@ namespace System.Windows.Forms {
 			toolbar.ImageList = image_list;
 			toolbar.Size = new Size(792, 26);
 			toolbar.Dock = DockStyle.Top;
-			toolbar.Appearance = ToolBarAppearance.Flat;
-			toolbar.ShowToolTips = true;
-			toolbar.DropDownArrows = true;
+			toolbar.ShowItemToolTips = true;
 			toolbar.TabStop = true;
-			toolbar.Buttons.AddRange(new ToolBarButton[] { print, zoom, separator1, 
-														   one_page, two_page, three_page, four_page, six_page, separator2 });
-			toolbar.ButtonClick += new ToolBarButtonClickEventHandler (OnClickToolBarButton);
+			toolbar.Items.AddRange(new ToolStripItem[] { print, zoom, separator1, one_page, two_page, three_page, four_page, six_page, separator2 });
+			toolbar.ItemClicked += new ToolStripItemClickedEventHandler (OnClickToolBarButton);
 
 			/* print button */
 			print.ImageIndex = 0;
@@ -119,26 +114,20 @@ namespace System.Windows.Forms {
 			zoom.ImageIndex = 1;
 			zoom.Tag = 1;
 			zoom.ToolTipText = "Zoom";
-			zoom.Style = ToolBarButtonStyle.DropDownButton;
-			zoom.DropDownMenu = mag_menu;
 		
-			mi = mag_menu.MenuItems.Add ("Auto", new EventHandler (OnClickPageMagnifierItem)); mi.RadioCheck = true;
+			mi = (ToolStripMenuItem) zoom.DropDownItems.Add ("Auto", null, new EventHandler (OnClickPageMagnifierItem));
 			mi.Checked = true;
 			previous_checked_menu_item = mi;
 			auto_zoom_item = mi;
 
-			mi = mag_menu.MenuItems.Add ("500%", new EventHandler (OnClickPageMagnifierItem)); mi.RadioCheck = true;
-			mi = mag_menu.MenuItems.Add ("200%", new EventHandler (OnClickPageMagnifierItem)); mi.RadioCheck = true;
-			mi = mag_menu.MenuItems.Add ("150%", new EventHandler (OnClickPageMagnifierItem)); mi.RadioCheck = true;
-			mi = mag_menu.MenuItems.Add ("100%", new EventHandler (OnClickPageMagnifierItem)); mi.RadioCheck = true;
-			mi = mag_menu.MenuItems.Add ("75%", new EventHandler (OnClickPageMagnifierItem)); mi.RadioCheck = true;
-			mi = mag_menu.MenuItems.Add ("50%", new EventHandler (OnClickPageMagnifierItem)); mi.RadioCheck = true;
-			mi = mag_menu.MenuItems.Add ("25%", new EventHandler (OnClickPageMagnifierItem)); mi.RadioCheck = true;
-			mi = mag_menu.MenuItems.Add ("10%", new EventHandler (OnClickPageMagnifierItem)); mi.RadioCheck = true;
-
-
-			/* separator */
-			separator1.Style = ToolBarButtonStyle.Separator;
+			zoom.DropDownItems.Add ("500%", null, new EventHandler (OnClickPageMagnifierItem));
+			zoom.DropDownItems.Add ("200%", null, new EventHandler (OnClickPageMagnifierItem));
+			zoom.DropDownItems.Add ("150%", null, new EventHandler (OnClickPageMagnifierItem));
+			zoom.DropDownItems.Add ("100%", null, new EventHandler (OnClickPageMagnifierItem));
+			zoom.DropDownItems.Add ("75%", null, new EventHandler (OnClickPageMagnifierItem));
+			zoom.DropDownItems.Add ("50%", null, new EventHandler (OnClickPageMagnifierItem));
+			zoom.DropDownItems.Add ("25%", null, new EventHandler (OnClickPageMagnifierItem));
+			zoom.DropDownItems.Add ("10%", null, new EventHandler (OnClickPageMagnifierItem));
 
 			/* n-up icons */
 			one_page.ImageIndex = 2;
@@ -160,10 +149,6 @@ namespace System.Windows.Forms {
 			six_page.ImageIndex = 6;
 			six_page.Tag = 6;
 			six_page.ToolTipText = "Six pages";
-			
-
-			/* separator */
-			separator2.Style = ToolBarButtonStyle.Separator;
 
 			/* Page label */
 			label.Text = "Page";
@@ -203,117 +188,6 @@ namespace System.Windows.Forms {
 			return toolbar;
 		}
 
-		class PrintToolBar : ToolBar
-		{
-			bool left_pressed;
-
-			public int GetNext (int pos)
-			{
-				// Select the next button that is *not* a separator
-				while (++pos < items.Length && items [pos].Button.Style == ToolBarButtonStyle.Separator)
-					;
-
-				return pos;
-			}
-
-			public int GetPrev (int pos)
-			{
-				// Select the previous button that is *not* a separator
-				while (--pos > -1 && items [pos].Button.Style == ToolBarButtonStyle.Separator)
-					;
-
-				return pos;
-			}
-
-			void SelectNextOnParent (bool forward)
-			{
-				ContainerControl container = Parent as ContainerControl;
-				if (container != null && container.ActiveControl != null)
-					container.SelectNextControl (container.ActiveControl, forward, true, true, true);
-			}
-
-			protected override void OnGotFocus (EventArgs args)
-			{
-				base.OnGotFocus (args);
-
-				// Select either the last one or the first one, depending on the direction
-				CurrentItem = (Control.ModifierKeys & Keys.Shift) != 0 || left_pressed ? GetPrev (items.Length) : 0;
-				left_pressed = false;
-			}
-
-			// We need to handle Left/Right for our controls by ourselves, as opposed to
-			// Tab
-			protected override bool ProcessDialogKey (Keys keyData)
-			{
-				switch ((keyData & Keys.KeyCode)) {
-					case Keys.Left:
-						left_pressed = true; // Simulate Tab+Alt if focus goes to our buttons
-						SelectNextOnParent (false);
-						return true;
-					case Keys.Right:
-						SelectNextOnParent (true);
-						return true;
-				}
-
-				return base.ProcessDialogKey (keyData);
-			}
-
-			void NavigateItems (Keys key)
-			{
-				bool forward = true;
-				switch ((key & Keys.KeyCode)) {
-					case Keys.Left:
-						forward = false;
-						break;
-					case Keys.Right:
-						forward = true;
-						break;
-					case Keys.Tab:
-						forward = (Control.ModifierKeys & Keys.Shift) == 0;
-						break;
-				}
-
-				int pos = forward ? GetNext (CurrentItem) : GetPrev (CurrentItem);
-				if (pos < 0 || pos >= items.Length) { // go to the prev/next control
-					CurrentItem = -1;
-					SelectNextOnParent (forward);
-					return;
-				}
-				
-				CurrentItem = pos;
-			}
-
-			bool OnDropDownButton {
-				get {
-					return CurrentItem != -1 && items [CurrentItem].Button.Style == ToolBarButtonStyle.DropDownButton;
-				}
-			}
-
-			internal override bool InternalPreProcessMessage (ref Message msg)
-			{
-				Keys key = (Keys)msg.WParam.ToInt32 ();
-				switch (key) {
-					// Up/Down keys are processed only if we are
-					// on a dropdown button, and ignored otherwise.
-					case Keys.Up:
-					case Keys.Down:
-						if (OnDropDownButton)
-							break; // process base impl.
-						return true;
-					case Keys.Left:
-					case Keys.Right:
-					case Keys.Tab:
-						if (OnDropDownButton)
-							((ContextMenu)(items [CurrentItem].Button.DropDownMenu)).Hide ();
-
-						NavigateItems (key);
-						return true;
-				}
-
-				return base.InternalPreProcessMessage (ref msg);
-			}
-		}
-
 		void CloseButtonClicked (object sender, EventArgs e)
 		{
 			Close ();
@@ -324,12 +198,12 @@ namespace System.Windows.Forms {
 			print_preview.StartPage = (int)pageUpDown.Value;
 		}
 
-		void OnClickToolBarButton (object sender, ToolBarButtonClickEventArgs e)
+		void OnClickToolBarButton (object sender, ToolStripItemClickedEventArgs e)
 		{
-			if (e.Button.Tag == null || !(e.Button.Tag is int))
+			if (e.ClickedItem.Tag == null || !(e.ClickedItem.Tag is int))
 				return;
 
-			switch ((int)e.Button.Tag)
+			switch ((int)e.ClickedItem.Tag)
 			{
 			case 0:
 				Console.WriteLine ("do print here");
@@ -362,11 +236,11 @@ namespace System.Windows.Forms {
 
 		void OnClickPageMagnifierItem (object sender, EventArgs e)
 		{
-			MenuItem clicked_item = (MenuItem)sender;
+			ToolStripMenuItem clicked_item = (ToolStripMenuItem)sender;
 
 			previous_checked_menu_item.Checked = false;
 
-			switch (clicked_item.Index) {
+			switch (clicked_item.Parent.Items.IndexOf(clicked_item)) {
 			case 0:
 				print_preview.AutoZoom = true;
 				break;
@@ -574,18 +448,6 @@ namespace System.Windows.Forms {
 			get { return base.CausesValidation; }
 			set { base.CausesValidation = value; }
 		}
- 
-		[Browsable(false)]
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public override ContextMenu ContextMenu {
-			get {
-				return base.ContextMenu;
-			}
-
-			set {
-				base.ContextMenu = value;
-			}
-		}
 
 		[Browsable (false)]
 		[EditorBrowsable (EditorBrowsableState.Never)]
@@ -756,7 +618,7 @@ namespace System.Windows.Forms {
 			get { return base.MaximizeBox; }
 			set { base.MaximizeBox = value; }
 		}
- 
+
 		// new property so we can set EditorBrowsable to never.
 		[Browsable(false)]
 		[EditorBrowsable(EditorBrowsableState.Never)]
@@ -764,15 +626,7 @@ namespace System.Windows.Forms {
 			get { return base.MaximumSize; }
 			set { base.MaximumSize = value; }
 		}
- 
-		// new property so we can set EditorBrowsable to never.
-		[Browsable(false)]
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public new MainMenu Menu {
-			get { return base.Menu; }
-			set { base.Menu = value; }
-		}
- 
+
 		// new property so we can set EditorBrowsable to never.
 		[Browsable(false)]
 		[DefaultValue(false)]
@@ -781,7 +635,7 @@ namespace System.Windows.Forms {
 			get { return base.MinimizeBox; }
 			set { base.MinimizeBox = value; }
 		}
- 
+
 		// new property so we can set EditorBrowsable to never.
 		[Browsable(false)]
 		[EditorBrowsable(EditorBrowsableState.Never)]
@@ -1017,14 +871,6 @@ namespace System.Windows.Forms {
 		public new event EventHandler CausesValidationChanged {
 			add { base.CausesValidationChanged += value; }
 			remove { base.CausesValidationChanged -= value; }
-		}
- 
-		// new event so we can set Browsable/EditorBrowsable
-		[Browsable(false)]
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public new event EventHandler ContextMenuChanged {
-			add { base.ContextMenuChanged += value; }
-			remove { base.ContextMenuChanged -= value; }
 		}
 
 		[Browsable (false)]

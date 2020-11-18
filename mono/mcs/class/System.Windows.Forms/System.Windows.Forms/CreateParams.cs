@@ -43,7 +43,6 @@ namespace System.Windows.Forms {
 		private int	style;
 		private object	param;
 		private IntPtr	parent;
-		internal Menu	menu;
 		internal Control	control;
 		#endregion 	// Local variables
 

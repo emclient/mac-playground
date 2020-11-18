@@ -269,20 +269,6 @@ namespace System.Windows.Forms.X11Internal {
 			}
 		}
 
-		public void MenuToScreen (ref int x, ref int y)
-		{
-			int	dest_x_return;
-			int	dest_y_return;
-			IntPtr	child;
-
-			Xlib.XTranslateCoordinates (display.Handle,
-						    WholeWindow, display.RootWindow.Handle,
-						    x, y, out dest_x_return, out dest_y_return, out child);
-
-			x = dest_x_return;
-			y = dest_y_return;
-		}
-
 		public virtual void PropertyChanged (XEvent xevent)
 		{
 			if (xevent.PropertyEvent.atom == display.Atoms._NET_WM_WINDOW_TYPE) {
@@ -1144,21 +1130,6 @@ namespace System.Windows.Forms.X11Internal {
 			y = dest_y_return;
 		}
 
-
-		public void ScreenToMenu (ref int x, ref int y)
-		{
-			int	dest_x_return;
-			int	dest_y_return;
-			IntPtr	child;
-
-			Xlib.XTranslateCoordinates (display.Handle,
-						    display.RootWindow.Handle, WholeWindow,
-						    x, y, out dest_x_return, out dest_y_return, out child);
-
-			x = dest_x_return;
-			y = dest_y_return;
-		}
-
 		public void ScrollWindow (Rectangle area, int XAmount, int YAmount, bool with_children)
 		{
 			IntPtr		gc;
@@ -1265,13 +1236,6 @@ namespace System.Windows.Forms.X11Internal {
 		public Region GetClipRegion ()
 		{
 			return UserClip;
-		}
-
-		public void SetMenu (Menu menu)
-		{
-			Menu = menu;
-
-			RequestNCRecalc ();
 		}
 
 		public void SetMinMax (Rectangle maximized, Size min, Size max)

@@ -762,43 +762,6 @@ namespace System.Windows.Forms
 		#region Control
 		public abstract Font GetLinkFont (Control control);
 		#endregion	// Control
-		
-		#region Datagrid
-		public abstract int DataGridPreferredColumnWidth { get; }
-		public abstract int DataGridMinimumColumnCheckBoxHeight { get; }
-		public abstract int DataGridMinimumColumnCheckBoxWidth { get; }
-		
-		// Default colours
-		public abstract Color DataGridAlternatingBackColor { get; }
-		public abstract Color DataGridBackColor { get; }
-		public abstract Color DataGridBackgroundColor { get; }
-		public abstract Color DataGridCaptionBackColor { get; }
-		public abstract Color DataGridCaptionForeColor { get; }
-		public abstract Color DataGridGridLineColor { get; }
-		public abstract Color DataGridHeaderBackColor { get; }
-		public abstract Color DataGridHeaderForeColor { get; }
-		public abstract Color DataGridLinkColor { get; }
-		public abstract Color DataGridLinkHoverColor { get; }
-		public abstract Color DataGridParentRowsBackColor { get; }
-		public abstract Color DataGridParentRowsForeColor { get; }
-		public abstract Color DataGridSelectionBackColor { get; }
-		public abstract Color DataGridSelectionForeColor { get; }
-		// Paint		
-		public abstract void DataGridPaint (PaintEventArgs pe, DataGrid grid);
-		public abstract void DataGridPaintCaption (Graphics g, Rectangle clip, DataGrid grid);
-		public abstract void DataGridPaintColumnHeaders (Graphics g, Rectangle clip, DataGrid grid);
-		public abstract void DataGridPaintColumnHeader (Graphics g, Rectangle bounds, DataGrid grid, int col);
-		public abstract void DataGridPaintRowContents (Graphics g, int row, Rectangle row_rect, bool is_newrow, Rectangle clip, DataGrid grid);
-		public abstract void DataGridPaintRowHeader (Graphics g, Rectangle bounds, int row, DataGrid grid);
-		public abstract void DataGridPaintRowHeaderArrow (Graphics g, Rectangle bounds, DataGrid grid);
-		public abstract void DataGridPaintRowHeaderStar (Graphics g, Rectangle bounds, DataGrid grid);
-		public abstract void DataGridPaintParentRows (Graphics g, Rectangle bounds, DataGrid grid);
-		public abstract void DataGridPaintParentRow (Graphics g, Rectangle bounds, DataGridDataSource row, DataGrid grid);
-		public abstract void DataGridPaintRows (Graphics g, Rectangle cells, Rectangle clip, DataGrid grid);
-		public abstract void DataGridPaintRow (Graphics g, int row, Rectangle row_rect, bool is_newrow, Rectangle clip, DataGrid grid);
-		public abstract void DataGridPaintRelationRow (Graphics g, int row, Rectangle row_rect, bool is_newrow, Rectangle clip, DataGrid grid);
-		
-		#endregion // Datagrid
 
 		#region DataGridView
 		#region DataGridViewHeaderCell
@@ -862,15 +825,6 @@ namespace System.Windows.Forms
 		public abstract int ListViewTileWidthFactor { get; }
 		public abstract int ListViewTileHeightFactor { get; }
 		#endregion	// ListView
-		
-		#region Menus
-		public abstract void CalcItemSize (Graphics dc, MenuItem item, int y, int x, bool menuBar);
-		public abstract void CalcPopupMenuSize (Graphics dc, Menu menu);
-		public abstract int CalcMenuBarSize (Graphics dc, Menu menu, int width);
-		public abstract void DrawMenuBar (Graphics dc, Menu menu, Rectangle rect);
-		public abstract void DrawMenuItem (MenuItem item, DrawItemEventArgs e);
-		public abstract void DrawPopupMenu (Graphics dc, Menu menu, Rectangle cliparea, Rectangle rect);
-		#endregion 	// Menus
 
 		#region MonthCalendar
 		public abstract void DrawMonthCalendar(Graphics dc, Rectangle clip_rectangle, MonthCalendar month_calendar);
@@ -929,16 +883,6 @@ namespace System.Windows.Forms
 		public abstract bool ScrollBarHasHoverArrowButtonStyle { get; }
 		#endregion	// ScrollBar
 
-		#region StatusBar
-		// Drawing
-		public abstract void DrawStatusBar (Graphics dc, Rectangle clip_rectangle, StatusBar sb);
-
-		// Sizing
-		public abstract int StatusBarSizeGripWidth {get;}		// Size of Resize area
-		public abstract int StatusBarHorzGapWidth {get;}	// Gap between panels
-		public abstract Size StatusBarDefaultSize{get;}
-		#endregion	// StatusBar
-
 		#region TabControl
 		public abstract Size TabControlDefaultItemSize {get; }
 		public abstract Point TabControlDefaultPadding {get; }
@@ -962,23 +906,6 @@ namespace System.Windows.Forms
 		public abstract bool TextBoxBaseHandleWmNcPaint (TextBoxBase textBoxBase, ref Message m);
 		public abstract bool TextBoxBaseShouldPaintBackground (TextBoxBase textBoxBase);
 		#endregion
-
-		#region	ToolBar
-		// Drawing
-		public abstract void DrawToolBar (Graphics dc, Rectangle clip_rectangle, ToolBar control);
-
-		// Sizing
-		public abstract int ToolBarGripWidth {get;}		 // Grip width for the ToolBar
-		public abstract int ToolBarImageGripWidth {get;}	 // Grip width for the Image on the ToolBarButton
-		public abstract int ToolBarSeparatorWidth {get;}	 // width of the separator
-		public abstract int ToolBarDropDownWidth { get; }	 // width of the dropdown arrow rect
-		public abstract int ToolBarDropDownArrowWidth { get; }	 // width for the dropdown arrow on the ToolBarButton
-		public abstract int ToolBarDropDownArrowHeight { get; }	 // height for the dropdown arrow on the ToolBarButton
-		public abstract Size ToolBarDefaultSize{get;}
-
-		public abstract bool ToolBarHasHotElementStyles (ToolBar toolBar);
-		public abstract bool ToolBarHasHotCheckedElementStyles { get; }
-		#endregion	// ToolBar
 
 		#region ToolTip
 		public abstract void DrawToolTip(Graphics dc, Rectangle clip_rectangle, ToolTip.ToolTipWindow control);

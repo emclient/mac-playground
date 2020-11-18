@@ -83,8 +83,8 @@ namespace System.Windows.Forms
 		private Panel help_panel;
 		private Label help_title_label;
 		private Label help_description_label;
-		private MenuItem reset_menuitem;
-		private MenuItem description_menuitem;
+		private ToolStripMenuItem reset_menuitem;
+		private ToolStripMenuItem description_menuitem;
 
 		private Color category_fore_color;
 		private Color commands_active_link_color;
@@ -144,7 +144,7 @@ namespace System.Windows.Forms
 			alphabetic_toolbarbutton = new PropertyToolBarButton ();
 			propertypages_toolbarbutton = new PropertyToolBarButton ();
 			separator_toolbarbutton = new PropertyToolBarSeparator ();
-			ContextMenu context_menu = new ContextMenu();
+			ContextMenuStrip context_menu = new ContextMenuStrip();
 			context_menu_default_location = Point.Empty;
 
 			categorized_image = new Bitmap (typeof (PropertyGrid), "propertygrid-categorized.png");
@@ -156,7 +156,6 @@ namespace System.Windows.Forms
 			toolbar_imagelist.ImageSize = new System.Drawing.Size(16, 16);
 			toolbar_imagelist.TransparentColor = System.Drawing.Color.Transparent;
 
-			toolbar.Appearance = ToolBarAppearance.Flat;
 			toolbar.AutoSize = false;
 			
 			toolbar.ImageList = toolbar_imagelist;
@@ -174,28 +173,28 @@ namespace System.Windows.Forms
 			alphabetic_toolbarbutton.Click += new EventHandler (toolbarbutton_clicked);
 			propertypages_toolbarbutton.Click += new EventHandler (toolbarbutton_clicked);
 
-			categorized_toolbarbutton.Style = ToolBarButtonStyle.ToggleButton;
+			categorized_toolbarbutton.CheckOnClick = true;
 			categorized_toolbarbutton.ToolTipText = Locale.GetText ("Categorized");
 
-			alphabetic_toolbarbutton.Style = ToolBarButtonStyle.ToggleButton;
+			alphabetic_toolbarbutton.CheckOnClick = true;
 			alphabetic_toolbarbutton.ToolTipText = Locale.GetText ("Alphabetic");
 
 			propertypages_toolbarbutton.Enabled = false;
-			propertypages_toolbarbutton.Style = ToolBarButtonStyle.ToggleButton;
+			propertypages_toolbarbutton.CheckOnClick = true;
 			propertypages_toolbarbutton.ToolTipText = "Property Pages";
 
 			properties_tab = CreatePropertyTab (this.DefaultTabType);
 			selected_tab = properties_tab;
 			RefreshToolbar (property_tabs);
 			
-			reset_menuitem = context_menu.MenuItems.Add("Reset");
+			reset_menuitem = (ToolStripMenuItem) context_menu.Items.Add("Reset");
 			reset_menuitem.Click +=new EventHandler(OnResetPropertyClick);
-			context_menu.MenuItems.Add("-");
-			description_menuitem = context_menu.MenuItems.Add("Description");
+			context_menu.Items.Add("-");
+			description_menuitem = (ToolStripMenuItem) context_menu.Items.Add("Description");
 			description_menuitem.Click += new EventHandler(OnDescriptionClick);
 			description_menuitem.Checked = this.HelpVisible;
-			this.ContextMenu = context_menu;
-			toolbar.ContextMenu = context_menu;
+			this.ContextMenuStrip = context_menu;
+			toolbar.ContextMenuStrip = context_menu;
 			
 			BorderHelperControl helper = new BorderHelperControl ();
 			helper.Dock = DockStyle.Fill;
@@ -731,16 +730,6 @@ namespace System.Windows.Forms
 		[DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden)]
 		protected virtual Type DefaultTabType {
 			get { return typeof(PropertiesTab); }
-		}
-		
-		protected bool DrawFlatToolbar {
-			get { return (toolbar.Appearance == ToolBarAppearance.Flat); }			
-			set {
-				if (value) 
-					toolbar.Appearance = ToolBarAppearance.Flat;
-				else
-					toolbar.Appearance = ToolBarAppearance.Normal;
-			}
 		}
 
 		protected internal override bool ShowFocusCues {
@@ -1645,50 +1634,21 @@ namespace System.Windows.Forms
 				get { return base.Checked; }
 				set { base.Checked = value; }
 			}
-			
-			public ToolBarButtonStyle Style {
-				get { return ToolBarButtonStyle.PushButton; }
-				set { }
-			}
 		}
 		
 		// needed! this little helper makes it possible to draw a different toolbar border
 		// and toolbar backcolor in ThemeWin32Classic
 		internal class PropertyToolBar : ToolStrip
 		{
-			ToolBarAppearance appearance;
-
 			public PropertyToolBar ()
 			{
 				SetStyle (ControlStyles.ResizeRedraw, true);
 				GripStyle = ToolStripGripStyle.Hidden;
-				appearance = ToolBarAppearance.Normal;
 			}
 
 			public bool ShowToolTips {
 				get { return base.ShowItemToolTips; }
 				set { base.ShowItemToolTips = value; }
-			}
-			
-			public ToolBarAppearance Appearance {
-				get { return appearance; }
-				set { 
-					if (value == Appearance)
-						return;
-						
-					switch (value) {
-					case ToolBarAppearance.Flat:
-						Renderer = new ToolStripSystemRenderer ();
-						appearance = ToolBarAppearance.Flat;
-						break;
-					case ToolBarAppearance.Normal:
-						ProfessionalColorTable table = new ProfessionalColorTable ();
-						table.UseSystemColors = true;
-						Renderer = new ToolStripProfessionalRenderer (table);
-						appearance = ToolBarAppearance.Normal;
-						break;
-					}
-				}
 			}
 		}
 

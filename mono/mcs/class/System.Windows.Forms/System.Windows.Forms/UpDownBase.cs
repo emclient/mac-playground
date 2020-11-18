@@ -224,17 +224,6 @@ namespace System.Windows.Forms
 			set { InternalBorderStyle = value; }
 		}
 
-		public override ContextMenu ContextMenu {
-			get {
-				return base.ContextMenu;
-			}
-			set {
-				base.ContextMenu = value;
-				txtView.ContextMenu = value;
-				spnSpinner.ContextMenu = value;
-			}
-		}
-
 		public override ContextMenuStrip ContextMenuStrip {
 			get { return base.ContextMenuStrip; }
 			set {

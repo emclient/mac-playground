@@ -145,7 +145,7 @@ namespace System.Windows.Forms {
 				return false;
 			}
 
-			if ((target is Form) || (target is ToolBar)) {
+			if (target is Form) {
 				return false;
 			}
 

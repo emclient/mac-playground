@@ -822,21 +822,12 @@ namespace System.Windows.Forms {
 			}
 		}
 		
-		internal override bool CalculateWindowRect(ref Rectangle ClientRect, CreateParams cp, Menu menu, out Rectangle WindowRect) {
-			WindowRect = Hwnd.GetWindowRectangle (cp, menu, ClientRect);
+		internal override bool CalculateWindowRect(ref Rectangle ClientRect, CreateParams cp, out Rectangle WindowRect) {
+			WindowRect = Hwnd.GetWindowRectangle (cp, ClientRect);
 			return true;
 		}
 
 		internal override void ClientToScreen(IntPtr handle, ref int x, ref int y) {
-			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-
-			Point point = ConvertClientPointToScreen (hwnd.ClientWindow, new Point (x, y));
-
-			x = point.X;
-			y = point.Y;
-		}
-		
-		internal override void MenuToScreen(IntPtr handle, ref int x, ref int y) {
 			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
 
 			Point point = ConvertClientPointToScreen (hwnd.ClientWindow, new Point (x, y));
@@ -1661,15 +1652,6 @@ namespace System.Windows.Forms {
 			y = point.Y;
 		}
 
-		internal override void ScreenToMenu(IntPtr handle, ref int x, ref int y) {
-			Hwnd hwnd = Hwnd.ObjectFromHandle (handle);
-
-			Point point = ConvertScreenPointToClient (hwnd.WholeWindow, new Point (x, y));
-
-			x = point.X;
-			y = point.Y;
-		}
-
 		internal override void ScrollWindow(IntPtr handle, Rectangle area, int XAmount, int YAmount, bool clear) {
 			/*
 			 * This used to use a HIViewScrollRect but this causes issues with the fact that we dont coalesce
@@ -1872,15 +1854,6 @@ namespace System.Windows.Forms {
 			RequestNCRecalc(handle);
 		}
 
-		internal override void SetMenu(IntPtr handle, Menu menu) {
-			Hwnd	hwnd;
-
-			hwnd = Hwnd.ObjectFromHandle(handle);
-			hwnd.menu = menu;
-
-			RequestNCRecalc(handle);
-		}
-		
 		internal override void SetWindowMinMax(IntPtr handle, Rectangle maximized, Size min, Size max) {
 		}
 

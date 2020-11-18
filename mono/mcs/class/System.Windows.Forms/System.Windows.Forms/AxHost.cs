@@ -273,18 +273,6 @@ namespace System.Windows.Forms {
 		
 		[Browsable (false)]
 		[EditorBrowsable (EditorBrowsableState.Never)]
-		public override ContextMenu ContextMenu {
-			get {
-				return base.ContextMenu;
-			}
-
-			set {
-				base.ContextMenu = value;
-			}
-		}
-		
-		[Browsable (false)]
-		[EditorBrowsable (EditorBrowsableState.Never)]
 		public override Cursor Cursor {
 			get {
 				return base.Cursor;
@@ -796,13 +784,6 @@ namespace System.Windows.Forms {
 		[EditorBrowsable (EditorBrowsableState.Never)]
 		public new event EventHandler Click {
 			add { throw new NotSupportedException("Click"); }
-			remove { }
-		}
-
-		[Browsable (false)]
-		[EditorBrowsable (EditorBrowsableState.Never)]
-		public new event EventHandler ContextMenuChanged {
-			add { throw new NotSupportedException("ContextMenuChanged"); }
 			remove { }
 		}
 	

@@ -277,9 +277,6 @@
     </Compile>
     <Compile Include="System.Windows.Forms\ContentsResizedEventArgs.cs" />
     <Compile Include="System.Windows.Forms\ContentsResizedEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\ContextMenu.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="System.Windows.Forms\ContextMenuStrip.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -300,26 +297,6 @@
     <Compile Include="System.Windows.Forms\CursorConverter.cs" />
     <Compile Include="System.Windows.Forms\Cursors.cs" />
     <Compile Include="System.Windows.Forms\DataFormats.cs" />
-    <Compile Include="System.Windows.Forms\DataGrid.cs" />
-    <Compile Include="System.Windows.Forms\DataGridBoolColumn.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\DataGridCell.cs" />
-    <Compile Include="System.Windows.Forms\DataGridColumnStyle.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\DataGridLineStyle.cs" />
-    <Compile Include="System.Windows.Forms\DataGridParentRowsLabelStyle.cs" />
-    <Compile Include="System.Windows.Forms\DataGridPreferredColumnWidthTypeConverter.cs" />
-    <Compile Include="System.Windows.Forms\DataGridTableStyle.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\DataGridTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\DataGridTextBoxColumn.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="System.Windows.Forms\DataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -529,13 +506,10 @@
     <Compile Include="System.Windows.Forms\GetChildAtPointSkip.cs" />
     <Compile Include="System.Windows.Forms\GiveFeedbackEventArgs.cs" />
     <Compile Include="System.Windows.Forms\GiveFeedbackEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\GridColumnStylesCollection.cs" />
     <Compile Include="System.Windows.Forms\GridEntry.cs" />
     <Compile Include="System.Windows.Forms\GridItem.cs" />
     <Compile Include="System.Windows.Forms\GridItemCollection.cs" />
     <Compile Include="System.Windows.Forms\GridItemType.cs" />
-    <Compile Include="System.Windows.Forms\GridTablesFactory.cs" />
-    <Compile Include="System.Windows.Forms\GridTableStylesCollection.cs" />
     <Compile Include="System.Windows.Forms\GroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -573,7 +547,6 @@
     <Compile Include="System.Windows.Forms\IContainerControl.cs" />
     <Compile Include="System.Windows.Forms\ICurrencyManagerProvider.cs" />
     <Compile Include="System.Windows.Forms\IDataGridColumnStyleEditingNotificationService.cs" />
-    <Compile Include="System.Windows.Forms\IDataGridEditingService.cs" />
     <Compile Include="System.Windows.Forms\IDataGridViewEditingCell.cs" />
     <Compile Include="System.Windows.Forms\IDataGridViewEditingControl.cs" />
     <Compile Include="System.Windows.Forms\IDataObject.cs" />
@@ -681,9 +654,6 @@
     <Compile Include="System.Windows.Forms\ListViewItemStates.cs" />
     <Compile Include="System.Windows.Forms\ListViewVirtualItemsSelectionRangeChangedEventArgs.cs" />
     <Compile Include="System.Windows.Forms\ListViewVirtualItemsSelectionRangeChangedEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\MainMenu.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="System.Windows.Forms\MaskedTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -698,14 +668,7 @@
     <Compile Include="System.Windows.Forms\MdiWindowManager.cs" />
     <Compile Include="System.Windows.Forms\MeasureItemEventArgs.cs" />
     <Compile Include="System.Windows.Forms\MeasureItemEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\Menu.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\MenuAPI.cs" />
     <Compile Include="System.Windows.Forms\MenuGlyph.cs" />
-    <Compile Include="System.Windows.Forms\MenuItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="System.Windows.Forms\MenuMerge.cs" />
     <Compile Include="System.Windows.Forms\MenuStrip.cs">
       <SubType>Component</SubType>
@@ -876,19 +839,6 @@
     <Compile Include="System.Windows.Forms\SplitterPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="System.Windows.Forms\StatusBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\StatusBarDrawItemEventArgs.cs" />
-    <Compile Include="System.Windows.Forms\StatusBarDrawItemEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\StatusBarPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\StatusBarPanelAutoSize.cs" />
-    <Compile Include="System.Windows.Forms\StatusBarPanelBorderStyle.cs" />
-    <Compile Include="System.Windows.Forms\StatusBarPanelClickEventArgs.cs" />
-    <Compile Include="System.Windows.Forms\StatusBarPanelClickEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\StatusBarPanelStyle.cs" />
     <Compile Include="System.Windows.Forms\StatusStrip.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -946,17 +896,6 @@
     <Compile Include="System.Windows.Forms\Timer.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="System.Windows.Forms\ToolBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\ToolBarAppearance.cs" />
-    <Compile Include="System.Windows.Forms\ToolBarButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\ToolBarButtonClickEventArgs.cs" />
-    <Compile Include="System.Windows.Forms\ToolBarButtonClickEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\ToolBarButtonStyle.cs" />
-    <Compile Include="System.Windows.Forms\ToolBarTextAlign.cs" />
     <Compile Include="System.Windows.Forms\ToolStrip.cs">
       <SubType>Component</SubType>
     </Compile>

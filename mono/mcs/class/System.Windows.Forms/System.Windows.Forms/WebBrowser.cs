@@ -649,28 +649,22 @@ namespace System.Windows.Forms
 			if (!isWebBrowserContextMenuEnabled)
 				return;
 					
-            ContextMenu menu = new ContextMenu();
-                        
-			MenuItem item = new MenuItem("Back", delegate { 
-				GoBack(); 
-			});
+			ContextMenuStrip menu = new ContextMenuStrip();
+
+			ToolStripMenuItem item = new ToolStripMenuItem("Back", null, (s, ea) => GoBack());
 			item.Enabled = this.CanGoBack;
-			menu.MenuItems.Add (item);
+			menu.Items.Add (item);
 			
-			item = new MenuItem("Forward", delegate { 
-				GoForward(); 
-			});
+			item = new ToolStripMenuItem("Forward", null, (s, ea) => GoForward());
 			item.Enabled = this.CanGoForward;
-			menu.MenuItems.Add (item);
+			menu.Items.Add (item);
 			
-			item = new MenuItem("Refresh", delegate { 
-				Refresh (); 
-			});
-			menu.MenuItems.Add (item);
-            
-            menu.MenuItems.Add (new MenuItem ("-"));
-            
-            menu.Show(this, PointToClient(MousePosition));
+			menu.Items.Add (new ToolStripSeparator ());
+
+			item = new ToolStripMenuItem("Refresh", null, (s, ea) => Refresh ());
+			menu.Items.Add (item);
+
+			menu.Show(this, PointToClient(MousePosition));
 		}
 
 		internal override void OnWebHostStatusChanged (object sender, Mono.WebBrowser.StatusChangedEventArgs e) {

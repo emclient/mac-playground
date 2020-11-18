@@ -2310,7 +2310,7 @@ namespace System.Windows.Forms {
 			grab_hwnd = IntPtr.Zero;
 		}
 
-		internal override bool CalculateWindowRect(ref Rectangle ClientRect, CreateParams cp, Menu menu, out Rectangle WindowRect) {
+		internal override bool CalculateWindowRect(ref Rectangle ClientRect, CreateParams cp, out Rectangle WindowRect) {
 			RECT	rect;
 
 			rect.left=ClientRect.Left;
@@ -2318,7 +2318,7 @@ namespace System.Windows.Forms {
 			rect.right=ClientRect.Right;
 			rect.bottom=ClientRect.Bottom;
 
-			if (!Win32AdjustWindowRectEx(ref rect, cp.Style, menu != null, cp.ExStyle)) {
+			if (!Win32AdjustWindowRectEx(ref rect, cp.Style, false, cp.ExStyle)) {
 				WindowRect = new Rectangle(ClientRect.Left, ClientRect.Top, ClientRect.Width, ClientRect.Height);
 				return false;
 			}
@@ -2530,28 +2530,6 @@ namespace System.Windows.Forms {
 			y = pnt.y;
 		}
 
-  		internal override void ScreenToMenu(IntPtr handle, ref int x, ref int y) {
- 			RECT	rect;
- 
- 			Win32GetWindowRect(handle, out rect);
- 			x -= rect.left + SystemInformation.FrameBorderSize.Width;
- 			y -= rect.top + SystemInformation.FrameBorderSize.Height;
-
- 			WindowStyles style = (WindowStyles) Win32GetWindowLong (handle, WindowLong.GWL_STYLE);
- 			if (CreateParams.IsSet (style, WindowStyles.WS_CAPTION)) {
- 				y -= ThemeEngine.Current.CaptionHeight;
- 			}
-  		}
-  
-  		internal override void MenuToScreen(IntPtr handle, ref int x, ref int y) {			
- 			RECT	rect;
- 
- 			Win32GetWindowRect(handle, out rect);
- 			x += rect.left + SystemInformation.FrameBorderSize.Width;
- 			y += rect.top + SystemInformation.FrameBorderSize.Height + ThemeEngine.Current.CaptionHeight;
- 			return;
-  		}
-
 		internal override void SendAsyncMethod (AsyncMethodData method)
 		{
 			Win32PostMessage(FosterParent, Msg.WM_ASYNC_MESSAGE, IntPtr.Zero, (IntPtr)GCHandle.Alloc (method));
@@ -2754,11 +2732,6 @@ namespace System.Windows.Forms {
 
 		internal override void SetBorderStyle(IntPtr handle, FormBorderStyle border_style) {
 			// Nothing to do on Win32
-		}
-
-		internal override void SetMenu(IntPtr handle, Menu menu) {
-			// Trigger WM_NCCALC
-			Win32SetWindowPos(handle, IntPtr.Zero, 0, 0, 0, 0, SetWindowPosFlags.SWP_FRAMECHANGED | SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOSIZE);
 		}
 
 		internal override Point GetMenuOrigin(IntPtr handle) {

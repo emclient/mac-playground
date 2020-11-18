@@ -435,7 +435,7 @@ namespace System.Windows.Forms
 					textbox_ctrl.TextChanged += new EventHandler (OnTextChangedEdit);
 					textbox_ctrl.KeyPress += new KeyPressEventHandler (OnTextKeyPress);
 					textbox_ctrl.Click += new EventHandler (OnTextBoxClick);
-					textbox_ctrl.ContextMenu = ContextMenu;
+					textbox_ctrl.ContextMenuStrip = ContextMenuStrip;
 					textbox_ctrl.TopMargin = 1; // since we don't have borders, adjust manually the top
 
 					if (IsHandleCreated == true)
@@ -1583,23 +1583,6 @@ namespace System.Windows.Forms
 		internal override bool IsInputCharInternal (char charCode)
 		{
 			return true;
-		}
-
-		internal override ContextMenu ContextMenuInternal {
-			get {
-				return base.ContextMenuInternal;
-			}
-			set {
-				base.ContextMenuInternal = value;
-				if (textbox_ctrl != null) {
-					textbox_ctrl.ContextMenu = value;
-				}
-			}
-		}
-
-		internal void RestoreContextMenu ()
-		{
-			textbox_ctrl.RestoreContextMenu ();
 		}
 
 		private void OnKeyDownCB(object sender, KeyEventArgs e)

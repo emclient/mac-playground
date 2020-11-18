@@ -939,27 +939,6 @@ namespace System.Windows.Forms
 			return true;
 		}
 
-		internal override ContextMenu ContextMenuInternal
-		{
-			get
-			{
-				return base.ContextMenuInternal;
-			}
-			set
-			{
-				base.ContextMenuInternal = value;
-				//if (textbox_ctrl != null)
-				//{
-				//	textbox_ctrl.ContextMenu = value;
-				//}
-			}
-		}
-
-		internal void RestoreContextMenu()
-		{
-			//textbox_ctrl.RestoreContextMenu();
-		}
-
 		void SetSelectedIndex(int value, bool supressAutoScroll)
 		{
 			if (selected_index == value)

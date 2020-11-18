@@ -37,7 +37,6 @@ namespace System.Windows.Forms {
 	[ToolboxItemFilter("System.Windows.Forms", ToolboxItemFilterType.Allow)]
 	public sealed class NotifyIcon : Component {
 		#region Local Variables
-		private ContextMenu		context_menu;
 		private Icon			icon;
 		private Bitmap			icon_bitmap;
 		private string			text;
@@ -74,7 +73,6 @@ namespace System.Windows.Forms {
 				MouseDown +=new MouseEventHandler(HandleMouseDown);
 				MouseUp +=new MouseEventHandler(HandleMouseUp);
 				MouseMove +=new MouseEventHandler(HandleMouseMove);
-				ContextMenu = owner.context_menu;
 				ContextMenuStrip = owner.context_menu_strip;
 			}
 
@@ -96,11 +94,11 @@ namespace System.Windows.Forms {
 
 			protected override void WndProc(ref Message m) {
 				switch((Msg)m.Msg) {
-						//
-						//  NotifyIcon does CONTEXTMENU on mouse up, not down
-						//  so we swallow the message here, and handle it on our own
-						// 
-				        case Msg.WM_CONTEXTMENU:
+					//
+					//  NotifyIcon does CONTEXTMENU on mouse up, not down
+					//  so we swallow the message here, and handle it on our own
+					// 
+					case Msg.WM_CONTEXTMENU:
 						return;
 
 					case Msg.WM_USER: {
@@ -470,11 +468,7 @@ namespace System.Windows.Forms {
 		private void OnMouseUp (MouseEventArgs e)
 		{
 			if ((e.Button & MouseButtons.Right) == MouseButtons.Right) {
-				if (context_menu != null) {
-					XplatUI.SetForegroundWindow (window.Handle);
-					context_menu.Show (window, new Point(e.X, e.Y));
-				}
-				else if (context_menu_strip != null) {
+				if (context_menu_strip != null) {
 					XplatUI.SetForegroundWindow (window.Handle);
 					context_menu_strip.Show (window, new Point (e.X, e.Y), ToolStripDropDownDirection.AboveLeft);
 				}
@@ -587,21 +581,6 @@ namespace System.Windows.Forms {
 			}
 		}
 		
-		[DefaultValue(null)]
-		[Browsable (false)]
-		public ContextMenu ContextMenu {
-			get {
-				return context_menu;
-			}
-
-			set {
-				if (context_menu != value) {
-					context_menu = value;
-					window.ContextMenu = value;
-				}
-			}
-		}
-
 		[DefaultValue (null)]
 		public ContextMenuStrip ContextMenuStrip {
 			get { return this.context_menu_strip; }

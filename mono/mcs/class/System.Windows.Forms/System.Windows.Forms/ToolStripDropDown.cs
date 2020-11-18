@@ -126,13 +126,6 @@ namespace System.Windows.Forms
 		
 		[Browsable (false)]
 		[EditorBrowsable (EditorBrowsableState.Never)]
-		public new ContextMenu ContextMenu {
-			get { return null; }
-			set { }
-		}
-
-		[Browsable (false)]
-		[EditorBrowsable (EditorBrowsableState.Never)]
 		public new ContextMenuStrip ContextMenuStrip {
 			get { return null; }
 			set { }
@@ -849,13 +842,6 @@ namespace System.Windows.Forms
 		public event ToolStripDropDownClosingEventHandler Closing {
 			add { Events.AddHandler (ClosingEvent, value); }
 			remove { Events.RemoveHandler (ClosingEvent, value); }
-		}
-
-		[Browsable (false)]
-		[EditorBrowsable (EditorBrowsableState.Never)]
-		public new event EventHandler ContextMenuChanged {
-			add { base.ContextMenuChanged += value; }
-			remove { base.ContextMenuChanged -= value; }
 		}
 
 		[Browsable (false)]

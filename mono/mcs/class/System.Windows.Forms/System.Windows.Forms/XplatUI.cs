@@ -495,10 +495,10 @@ namespace System.Windows.Forms {
 			driver.BeginMoveResize (handle);
 		}
 
-		internal static bool CalculateWindowRect (ref Rectangle ClientRect, CreateParams cp, Menu menu, out Rectangle WindowRect)
+		internal static bool CalculateWindowRect (ref Rectangle ClientRect, CreateParams cp, out Rectangle WindowRect)
 		{
-			DriverDebug ("CalculateWindowRect ({0}, {1}, {2}): Called", ClientRect, cp, menu);
-			return driver.CalculateWindowRect (ref ClientRect, cp, menu, out WindowRect);
+			DriverDebug ("CalculateWindowRect ({0}, {1}): Called", ClientRect, cp);
+			return driver.CalculateWindowRect (ref ClientRect, cp, out WindowRect);
 		}
 
 		internal static void CaretVisible (IntPtr handle, bool visible)
@@ -823,12 +823,6 @@ namespace System.Windows.Forms {
 			driver.KillTimer (timer);
 		}
 
-		internal static void MenuToScreen (IntPtr handle, ref int x, ref int y)
-		{
-			DriverDebug ("MenuToScreen ({0}, {1}, {2}): Called", Window (handle), x, y);
-			driver.MenuToScreen (handle, ref x, ref y);
-		}
-
 		internal static void OverrideCursor (IntPtr cursor)
 		{
 			DriverDebug ("OverrideCursor ({0:X}): Called", cursor.ToInt32 ());
@@ -903,12 +897,6 @@ namespace System.Windows.Forms {
 		{
 			DriverDebug ("ScreenToClient ({0}, {1}, {2}): Called", Window (handle), x, y);
 			driver.ScreenToClient (handle, ref x, ref y);
-		}
-
-		internal static void ScreenToMenu (IntPtr handle, ref int x, ref int y)
-		{
-			DriverDebug ("ScreenToMenu ({0}, {1}, {2}): Called", Window (handle), x, y);
-			driver.ScreenToMenu (handle, ref x, ref y);
 		}
 
 		internal static void ScrollWindow (IntPtr handle, Rectangle rectangle, int XAmount, int YAmount, bool with_children)
@@ -999,12 +987,6 @@ namespace System.Windows.Forms {
 		{
 			DriverDebug ("SetIcon ({0}, {1}): Called", Window (handle), icon);
 			driver.SetIcon (handle, icon);
-		}
-
-		internal static void SetMenu (IntPtr handle, Menu menu)
-		{
-			DriverDebug ("SetMenu ({0}, {1}): Called", Window (handle), menu);
-			driver.SetMenu (handle, menu);
 		}
 
 		internal static void SetModal (IntPtr handle, bool Modal)

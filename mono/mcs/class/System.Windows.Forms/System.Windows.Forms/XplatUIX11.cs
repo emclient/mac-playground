@@ -2714,9 +2714,9 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		internal override bool CalculateWindowRect(ref Rectangle ClientRect, CreateParams cp, Menu menu, out Rectangle WindowRect)
+		internal override bool CalculateWindowRect(ref Rectangle ClientRect, CreateParams cp, out Rectangle WindowRect)
 		{
-			WindowRect = Hwnd.GetWindowRectangle (cp, menu, ClientRect);
+			WindowRect = Hwnd.GetWindowRectangle (cp, ClientRect);
 			return true;
 		}
 
@@ -5041,7 +5041,7 @@ namespace System.Windows.Forms {
 			queue.timer_list.Remove (timer);
 		}
 
-		internal override void MenuToScreen(IntPtr handle, ref int x, ref int y)
+		internal void MenuToScreen(IntPtr handle, ref int x, ref int y)
 		{
 			int	dest_x_return;
 			int	dest_y_return;
@@ -5273,28 +5273,6 @@ namespace System.Windows.Forms {
 
 			lock (XlibLock) {
 				XTranslateCoordinates (DisplayHandle, RootWindow, hwnd.client_window, x, y, out dest_x_return, out dest_y_return, out child);
-			}
-
-			x = dest_x_return;
-			y = dest_y_return;
-		}
-
-		internal override void ScreenToMenu(IntPtr handle, ref int x, ref int y)
-		{
-			int	dest_x_return;
-			int	dest_y_return;
-			IntPtr	child;
-			Hwnd	hwnd;
-
-			hwnd = Hwnd.ObjectFromHandle(handle);
-
-			lock (XlibLock) {
-				XTranslateCoordinates (DisplayHandle, RootWindow, hwnd.whole_window, x, y, out dest_x_return, out dest_y_return, out child);
-			}
-
-			Form form = Control.FromHandle (handle) as Form;
-			if (form != null && form.window_manager != null) {
-				dest_y_return -= form.window_manager.TitleBarHeight;
 			}
 
 			x = dest_x_return;
@@ -5749,16 +5727,6 @@ namespace System.Windows.Forms {
 			if (hwnd != null) {
 				SetIcon(hwnd, icon);
 			}
-		}
-
-		internal override void SetMenu(IntPtr handle, Menu menu)
-		{
-			Hwnd	hwnd;
-
-			hwnd = Hwnd.ObjectFromHandle(handle);
-			hwnd.menu = menu;
-
-			RequestNCRecalc(handle);
 		}
 
 		internal override void SetModal(IntPtr handle, bool Modal)
