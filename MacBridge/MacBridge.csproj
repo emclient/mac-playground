@@ -174,8 +174,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms.csproj" />
-    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing.csproj" />
+    <ProjectReference Include="..\System.Windows.Forms\System.Windows.Forms.csproj" />
+    <ProjectReference Include="..\System.Drawing\System.Drawing.csproj" />
     <ProjectReference Include="..\MacApi\MacApi.csproj" />
   </ItemGroup>
   <ItemGroup>
