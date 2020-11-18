@@ -10,15 +10,15 @@ To test the experiments:
 
 ## System.Drawing
 
-The `sysdrawing-coregraphics` directory contains a fork of the https://github.com/mono/sysdrawing-coregraphics project. We have enhanced the API surface to be compatible enough with System.Drawing to run System.Windows.Forms on top of it. In addition we have implemented some missing APIs and fixed compatibility issues with pixel rounding.
+The `System.Drawing` directory contains a fork of the https://github.com/mono/sysdrawing-coregraphics project. We have enhanced the API surface to be compatible enough with System.Drawing to run System.Windows.Forms on top of it. In addition we have implemented some missing APIs and fixed compatibility issues with pixel rounding.
 
 ## System.Windows.Forms
 
-The `mono/mcs` directory contains a fork of the Mono System.Windows.Forms implementation. It contains a Cocoa backend to allow applications run on 64-bit macOS systems. Layout code was heavily overhauled and debugged on both a test application and a full UI of eM Client. Further experiments were made with replacing some controls with their native counterparts (akin to https://github.com/Clancey/MonoMac.Windows.Form), which can be done on per-control basis.
+The `System.Windows.Forms` directory contains a fork of the Mono System.Windows.Forms implementation. It contains a Cocoa backend to allow applications run on 64-bit macOS systems. Layout code was heavily overhauled and debugged on both a test application and a full UI of eM Client. Further experiments were made with replacing some controls with their native counterparts (akin to https://github.com/Clancey/MonoMac.Windows.Form), which can be done on per-control basis.
 
 ## License
 
-The code is released under the MIT X11 license unless noted otherwise in a specific source file. The original sysdrawing-coregraphics project didn't explicitely state the license. Any changes in this repository to the original code are published under the MIT X11 license.
+The code is released under the MIT X11 license unless noted otherwise in a specific source file. Any changes in this repository to the original code are published under the MIT X11 license.
 
 ### MIT X11 License
 
