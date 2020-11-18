@@ -34,10 +34,7 @@ namespace System.Windows.Forms {
 
 	internal class MdiWindowManager : InternalWindowManager {
 
-		private MainMenu merged_menu;
-		private MainMenu maximized_menu;
-		private MenuItem icon_menu;
-		private ContextMenu icon_popup_menu;
+		private ContextMenuStrip icon_popup_menu;
 		internal bool was_minimized;
 		
 		private PaintEventHandler draw_maximized_buttons;
@@ -70,13 +67,6 @@ namespace System.Windows.Forms {
 				return;
 			last_activation_event = 2;
 			form.OnDeactivateInternal ();
-		}
-
-		public override int MenuHeight {
-			get {
-				// Mdi children don't get menus on the form, they're shown on the main form.
-				return 0;
-			}
 		}
 
 		internal bool IsVisiblePending {
@@ -166,90 +156,20 @@ namespace System.Windows.Forms {
 			
 			form.MdiParent.MdiContainer.SizeScrollBars ();
 		}
-	
-		public MainMenu MergedMenu {
-			get {
-				if (merged_menu == null)
-					merged_menu = CreateMergedMenu ();
-				return merged_menu;
-			}
-		}
-
-		private MainMenu CreateMergedMenu ()
-		{
-			Form parent = (Form) mdi_container.Parent;
-			MainMenu clone;
-			if (parent.Menu != null)
-				clone = (MainMenu) parent.Menu.CloneMenu ();
-			else
-				clone = new MainMenu ();
-				
-			if (form.WindowState == FormWindowState.Maximized) {
-				
-			}
-			clone.MergeMenu (form.Menu);
-			clone.MenuChanged += new EventHandler (MenuChangedHandler);
-			clone.SetForm (parent);
-			return clone;
-		}
-
-		public MainMenu MaximizedMenu {
-			get {
-				if (maximized_menu == null)
-					maximized_menu = CreateMaximizedMenu ();
-				return maximized_menu;
-			}
-		}
-
-		private MainMenu CreateMaximizedMenu ()
-		{
-			Form parent = (Form) mdi_container.Parent;
-
-			if (form.MainMenuStrip != null || parent.MainMenuStrip != null)
-				return null;
-
-			MainMenu res = new MainMenu ();
-
-			if (parent.Menu != null) {
-				MainMenu clone = (MainMenu) parent.Menu.CloneMenu ();
-				res.MergeMenu (clone);
-			}
-			
-			if (form.Menu != null) {
-				MainMenu clone = (MainMenu) form.Menu.CloneMenu ();
-				res.MergeMenu (clone);
-			}
-			
-			if (res.MenuItems.Count == 0)
-				res.MenuItems.Add (new MenuItem ()); // Dummy item to get the menu height correct
-			
-			res.MenuItems.Insert (0, icon_menu);
-			
-			res.SetForm (parent);
-			return res;
-		}
 
 		private void CreateIconMenus ()
 		{
-			icon_menu = new MenuItem ();
-			icon_popup_menu = new ContextMenu ();
+			icon_popup_menu = new ContextMenuStrip ();
 
-			icon_menu.OwnerDraw = true;
-			icon_menu.MeasureItem += new MeasureItemEventHandler (MeasureIconMenuItem);
-			icon_menu.DrawItem += new DrawItemEventHandler (DrawIconMenuItem);
-			icon_menu.Click += new EventHandler (ClickIconMenuItem);
+			ToolStripMenuItem restore = new ToolStripMenuItem ("&Restore", null, new EventHandler (RestoreItemHandler));
+			ToolStripMenuItem move = new ToolStripMenuItem ("&Move", null, new EventHandler (MoveItemHandler));
+			ToolStripMenuItem size = new ToolStripMenuItem ("&Size", null, new EventHandler (SizeItemHandler));
+			ToolStripMenuItem minimize = new ToolStripMenuItem ("Mi&nimize", null, new EventHandler (MinimizeItemHandler));
+			ToolStripMenuItem maximize = new ToolStripMenuItem ("Ma&ximize", null, new EventHandler (MaximizeItemHandler));
+			ToolStripMenuItem close = new ToolStripMenuItem ("&Close", null, new EventHandler (CloseItemHandler));
+			ToolStripMenuItem next = new ToolStripMenuItem ("Nex&t", null, new EventHandler (NextItemHandler));
 
-			MenuItem restore = new MenuItem ("&Restore", new EventHandler (RestoreItemHandler));
-			MenuItem move = new MenuItem ("&Move", new EventHandler (MoveItemHandler));
-			MenuItem size = new MenuItem ("&Size", new EventHandler (SizeItemHandler));
-			MenuItem minimize = new MenuItem ("Mi&nimize", new EventHandler (MinimizeItemHandler));
-			MenuItem maximize = new MenuItem ("Ma&ximize", new EventHandler (MaximizeItemHandler));
-			MenuItem close = new MenuItem ("&Close", new EventHandler (CloseItemHandler));
-			MenuItem next = new MenuItem ("Nex&t", new EventHandler (NextItemHandler));
-
-			icon_menu.MenuItems.AddRange (new MenuItem [] { restore, move, size, minimize,
-									maximize, close, next });
-			icon_popup_menu.MenuItems.AddRange (new MenuItem [] { restore, move, size, minimize,
+			icon_popup_menu.Items.AddRange (new ToolStripItem [] { restore, move, size, minimize,
 									maximize, close, next });
 		}
 
@@ -279,13 +199,13 @@ namespace System.Windows.Forms {
 					}
 				}
 				
-			icon_popup_menu.MenuItems[0].Enabled = form.window_state != FormWindowState.Normal;    // restore
-			icon_popup_menu.MenuItems[1].Enabled = form.window_state != FormWindowState.Maximized; // move
-			icon_popup_menu.MenuItems[2].Enabled = form.window_state != FormWindowState.Maximized; // size
-			icon_popup_menu.MenuItems[3].Enabled = form.window_state != FormWindowState.Minimized; // minimize
-			icon_popup_menu.MenuItems[4].Enabled = form.window_state != FormWindowState.Maximized; // maximize
-			icon_popup_menu.MenuItems[5].Enabled = true;  // close
-			icon_popup_menu.MenuItems[6].Enabled = true;  // next
+			icon_popup_menu.Items[0].Enabled = form.window_state != FormWindowState.Normal;    // restore
+			icon_popup_menu.Items[1].Enabled = form.window_state != FormWindowState.Maximized; // move
+			icon_popup_menu.Items[2].Enabled = form.window_state != FormWindowState.Maximized; // size
+			icon_popup_menu.Items[3].Enabled = form.window_state != FormWindowState.Minimized; // minimize
+			icon_popup_menu.Items[4].Enabled = form.window_state != FormWindowState.Maximized; // maximize
+			icon_popup_menu.Items[5].Enabled = true;  // close
+			icon_popup_menu.Items[6].Enabled = true;  // next
 			
 			icon_popup_menu.Show(form, pnt);
 		}
@@ -340,24 +260,6 @@ namespace System.Windows.Forms {
 			mdi_container.ActivateNextChild ();
 		}
 
-		private void DrawIconMenuItem (object sender, DrawItemEventArgs de)
-		{
-			de.Graphics.DrawIcon (form.Icon, new Rectangle (de.Bounds.X + 2, de.Bounds.Y + 2,
-							      de.Bounds.Height - 4, de.Bounds.Height - 4));
-		}
-
-		private void MeasureIconMenuItem (object sender, MeasureItemEventArgs me)
-		{
-			int size = SystemInformation.MenuHeight;
-			me.ItemHeight = size;
-			me.ItemWidth = size + 2; // some padding
-		}
-
-		private void MenuChangedHandler (object sender, EventArgs e)
-		{
-			CreateMergedMenu ();
-		}
-
 		public override void PointToClient (ref int x, ref int y)
 		{
 			XplatUI.ScreenToClient (mdi_container.Handle, ref x, ref y);
@@ -366,27 +268,6 @@ namespace System.Windows.Forms {
 		public override void PointToScreen (ref int x, ref int y)
 		{
 			XplatUI.ClientToScreen (mdi_container.Handle, ref x, ref y);
-		}
-
-		public override void UpdateWindowDecorations (FormWindowState window_state)
-		{			
-			if (MaximizedMenu != null) {
-				switch (window_state) {
-				case FormWindowState.Minimized:
-				case FormWindowState.Normal:
-					MaximizedMenu.Paint -= draw_maximized_buttons;
-					MaximizedTitleButtons.Visible = false;
-					TitleButtons.Visible = true;
-					break;
-				case FormWindowState.Maximized:
-					MaximizedMenu.Paint += draw_maximized_buttons;
-					MaximizedTitleButtons.Visible = true;
-					TitleButtons.Visible = false;
-					break;
-				}
-			}
-			
-			base.UpdateWindowDecorations (window_state);
 		}
 
 		public override void SetWindowState (FormWindowState old_state, FormWindowState window_state)
@@ -431,36 +312,6 @@ namespace System.Windows.Forms {
 			buttons.RestoreButton.Rectangle.Y -= pnt.Y;
 			buttons.CloseButton.Rectangle.Y -= pnt.Y;
 		}
-		
-		public bool HandleMenuMouseDown (MainMenu menu, int x, int y)
-		{
-			Point pt = MenuTracker.ScreenToMenu (menu, new Point (x, y));
-
-			HandleTitleBarDown (pt.X, pt.Y);
-			return TitleButtons.AnyPushedTitleButtons;
-		}
-
-		public void HandleMenuMouseUp (MainMenu menu, int x, int y)
-		{
-			Point pt = MenuTracker.ScreenToMenu (menu, new Point (x, y));
-
-			HandleTitleBarUp (pt.X, pt.Y);
-		}
-
-		public void HandleMenuMouseLeave (MainMenu menu, int x, int y)
-		{
-			Point pt = MenuTracker.ScreenToMenu (menu, new Point (x, y));
-			HandleTitleBarLeave (pt.X, pt.Y);
-
-		}
-
-		public void HandleMenuMouseMove (MainMenu menu, int x, int y)
-		{
-			Point pt = MenuTracker.ScreenToMenu (menu, new Point (x, y));
-
-			HandleTitleBarMouseMove (pt.X, pt.Y);
-
-		}
 
 		protected override void HandleTitleBarLeave (int x, int y)
 		{
@@ -473,7 +324,7 @@ namespace System.Windows.Forms {
 			if (IsMaximized)
 				XplatUI.InvalidateNC (form.MdiParent.Handle);
 		}
-		
+
 		protected override void HandleTitleBarUp (int x, int y)
 		{			
 			if (IconRectangleContains (x, y)) {
@@ -551,7 +402,7 @@ namespace System.Windows.Forms {
 			NCClientToNC (ref x, ref y);
 
 			if (IconRectangleContains (x, y)) {
-				icon_popup_menu.Wnd.Hide ();
+				icon_popup_menu.Hide ();
 				form.Close ();
 				return true;
 			}
@@ -570,8 +421,8 @@ namespace System.Windows.Forms {
 
 			if (IconRectangleContains (x, y)){
 				if ((DateTime.Now - icon_clicked_time).TotalMilliseconds <= SystemInformation.DoubleClickTime) {
-					if (icon_popup_menu != null && icon_popup_menu.Wnd != null) {
-						icon_popup_menu.Wnd.Hide ();
+					if (icon_popup_menu != null) {
+						icon_popup_menu.Hide ();
 					}
 					form.Close ();
 					return true;

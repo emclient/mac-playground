@@ -62,8 +62,8 @@ namespace System.Windows.Forms {
 		DateTime 		today_date;
 		bool 			today_date_set;
 		Color 			trailing_fore_color;
-		ContextMenu		today_menu;
-		ContextMenu		month_menu;
+		ContextMenuStrip	today_menu;
+		ContextMenuStrip	month_menu;
 		Timer			timer;
 		Timer			updown_timer;
 		const int		initial_delay = 500;
@@ -1519,19 +1519,19 @@ namespace System.Windows.Forms {
 		
 		// initialise the 'go to today' context menu
 		private void SetUpTodayMenu () {
-			today_menu = new ContextMenu ();
-			MenuItem menu_item = new MenuItem ("Go to today");
+			today_menu = new ContextMenuStrip ();
+			ToolStripMenuItem menu_item = new ToolStripMenuItem ("Go to today");
 			menu_item.Click += new EventHandler (TodayMenuItemClickHandler);
-			today_menu.MenuItems.Add (menu_item);
+			today_menu.Items.Add (menu_item);
 		}
 
 		// initialise the month context menu
 		private void SetUpMonthMenu () {
-			month_menu = new ContextMenu ();
+			month_menu = new ContextMenuStrip ();
 			for (int i=0; i < 12; i++) {
-				MenuItem menu_item = new MenuItem ( new DateTime (2000, i+1, 1).ToSafeString ("MMMM"));
+				ToolStripMenuItem menu_item = new ToolStripMenuItem ( new DateTime (2000, i+1, 1).ToSafeString ("MMMM"));
 				menu_item.Click += new EventHandler (MonthMenuItemClickHandler);
-				month_menu.MenuItems.Add (menu_item);
+				month_menu.Items.Add (menu_item);
 			}
 		}
 
@@ -1730,13 +1730,13 @@ namespace System.Windows.Forms {
 
 		// called when month context menu is clicked
 		private void MonthMenuItemClickHandler (object sender, EventArgs e) {
-			MenuItem item = sender as MenuItem;
+			ToolStripMenuItem item = sender as ToolStripMenuItem;
 			if (item != null && month_title_click_location != Point.Empty) {
 				// establish which month we want to move to
 				if (item.Parent == null) {
 					return;
 				}
-				int new_month = item.Parent.MenuItems.IndexOf (item) + 1;
+				int new_month = item.Parent.Items.IndexOf (item) + 1;
 				if (new_month == 0) {
 					return;
 				}
@@ -2154,7 +2154,7 @@ namespace System.Windows.Forms {
 		private void MouseUpHandler (object sender, MouseEventArgs e)
 		{
 			if ((e.Button & MouseButtons.Left) == 0) {
-				if (show_today && (this.ContextMenu == null))
+				if (show_today && (this.ContextMenuStrip == null))
 					today_menu.Show (this, new Point (e.X, e.Y));
 				return;
 			}

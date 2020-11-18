@@ -46,7 +46,6 @@ namespace System.Windows.Forms {
 		internal IntPtr		client_window;
 		internal IntPtr		whole_window;
 		internal IntPtr		cursor;
-		internal Menu		menu;
 		internal TitleStyle	title_style;
 		internal FormBorderStyle	border_style;
 		internal bool		border_static;
@@ -104,7 +103,6 @@ namespace System.Windows.Forms {
 			width = 0;
 			height = 0;
 			visible = false;
-			menu = null;
 			border_style = FormBorderStyle.None;
 			client_window = IntPtr.Zero;
 			whole_window = IntPtr.Zero;
@@ -247,17 +245,17 @@ namespace System.Windows.Forms {
 			return border_size;
 		}
 
-		public static Rectangle	GetWindowRectangle (CreateParams cp, Menu menu)
+		public static Rectangle	GetWindowRectangle (CreateParams cp)
 		{
-			return GetWindowRectangle (cp, menu, Rectangle.Empty);
+			return GetWindowRectangle (cp, Rectangle.Empty);
 		}
 
-		public static Rectangle GetWindowRectangle (CreateParams cp, Menu menu, Rectangle client_rect)
+		public static Rectangle GetWindowRectangle (CreateParams cp, Rectangle client_rect)
 		{
 			Rectangle rect;
 			Borders borders;
 
-			borders = GetBorders (cp, menu);
+			borders = GetBorders (cp);
 
 			rect = new Rectangle (Point.Empty, client_rect.Size);
 			rect.Y -= borders.top;
@@ -266,7 +264,7 @@ namespace System.Windows.Forms {
 			rect.Width += borders.left + borders.right;
 
 #if debug
-			Console.WriteLine ("GetWindowRectangle ({0}, {1}, {2}): {3}", cp, menu != null, client_rect, rect);
+			Console.WriteLine ("GetWindowRectangle ({0}, {1}): {2}", cp, client_rect, rect);
 #endif
 			return rect;
 		}
@@ -276,7 +274,7 @@ namespace System.Windows.Forms {
 			CreateParams cp = new CreateParams ();
 			cp.WindowStyle = initial_style;
 			cp.WindowExStyle = initial_ex_style;
-			return GetClientRectangle (cp, menu, width, height);
+			return GetClientRectangle (cp, width, height);
 		}
 
 		// This could be greatly optimized by caching the outputs and only updating when something is moved
@@ -333,17 +331,10 @@ namespace System.Windows.Forms {
 			return masks;
 		}
 
-		public static Borders GetBorders (CreateParams cp, Menu menu)
+		public static Borders GetBorders (CreateParams cp)
 		{
 
 			Borders borders = new Borders ();
-
-			if (menu != null) {
-				int menu_height = menu.Rect.Height;
-				if (menu_height == 0)
-					menu_height = ThemeEngine.Current.CalcMenuBarSize (GraphicsContext, menu, cp.Width);
-				borders.top += menu_height;
-			}
 			
 			if (cp.IsSet (WindowStyles.WS_CAPTION)) {
 				int caption_height;
@@ -365,11 +356,11 @@ namespace System.Windows.Forms {
 			return borders;
 		}
 
-		public static Rectangle GetClientRectangle(CreateParams cp, Menu menu, int width, int height) {
+		public static Rectangle GetClientRectangle(CreateParams cp, int width, int height) {
 			Rectangle rect;
 			Borders borders;
 
-			borders = GetBorders (cp, menu); 
+			borders = GetBorders (cp); 
 			
 			rect = new Rectangle(0, 0, width, height);
 			rect.Y += borders.top;
@@ -378,7 +369,7 @@ namespace System.Windows.Forms {
 			rect.Width -= borders.left + borders.right;
 			
 #if debug
-			Console.WriteLine ("GetClientRectangle ({0}, {1}, {2}, {3}): {4}", cp, menu != null, width, height, rect);
+			Console.WriteLine ("GetClientRectangle ({0}, {1}, {2}): {3}", cp, width, height, rect);
 #endif
 			
 			return rect;
@@ -468,8 +459,6 @@ namespace System.Windows.Forms {
 
 		public Rectangle DefaultClientRect {
 			get {
-				// We pass a Zero for the menu handle so the menu size is
-				// not computed this is done via an WM_NCCALC
 				CreateParams cp = new CreateParams ();
 				Rectangle rect;
 				
@@ -504,16 +493,6 @@ namespace System.Windows.Forms {
 
 			set {
 				height = value;
-			}
-		}
-
-		public Menu Menu {
-			get {
-				return menu;
-			}
-
-			set {
-				menu = value;
 			}
 		}
 

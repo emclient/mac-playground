@@ -294,9 +294,9 @@ namespace System.Windows.Forms.X11Internal {
 		}
 
 		// XXX this implementation should probably be shared between all non-win32 backends
-		internal override bool CalculateWindowRect (ref Rectangle ClientRect, CreateParams cp, Menu menu, out Rectangle WindowRect)
+		internal override bool CalculateWindowRect (ref Rectangle ClientRect, CreateParams cp, out Rectangle WindowRect)
 		{
-			WindowRect = Hwnd.GetWindowRectangle (cp, menu, ClientRect);
+			WindowRect = Hwnd.GetWindowRectangle (cp, ClientRect);
 			return true;
 		}
 
@@ -668,14 +668,6 @@ namespace System.Windows.Forms.X11Internal {
 			queue.KillTimer (timer);
 		}
 
-		internal override void MenuToScreen (IntPtr handle, ref int x, ref int y)
-		{
-			X11Hwnd hwnd = (X11Hwnd)Hwnd.ObjectFromHandle(handle);
-
-			if (hwnd != null)
-				hwnd.MenuToScreen (ref x, ref y);
-		}
-
 		internal override void OverrideCursor (IntPtr cursor)
 		{
 			display.OverrideCursor = cursor;
@@ -738,14 +730,6 @@ namespace System.Windows.Forms.X11Internal {
 
 			if (hwnd != null)
 				hwnd.ScreenToClient (ref x, ref y);
-		}
-
-		internal override void ScreenToMenu (IntPtr handle, ref int x, ref int y)
-		{
-			X11Hwnd hwnd = (X11Hwnd)Hwnd.ObjectFromHandle(handle);
-
-			if (hwnd != null)
-				hwnd.ScreenToMenu (ref x, ref y);
 		}
 
 		internal override void ScrollWindow (IntPtr handle, Rectangle area, int XAmount, int YAmount, bool with_children)
@@ -848,13 +832,6 @@ namespace System.Windows.Forms.X11Internal {
 
 			if (hwnd != null)
 				hwnd.SetIcon (icon);
-		}
-
-		internal override void SetMenu(IntPtr handle, Menu menu)
-		{
-			X11Hwnd hwnd = (X11Hwnd)Hwnd.ObjectFromHandle(handle);
-
-			hwnd.SetMenu (menu);
 		}
 
 		internal override void SetModal(IntPtr handle, bool Modal)

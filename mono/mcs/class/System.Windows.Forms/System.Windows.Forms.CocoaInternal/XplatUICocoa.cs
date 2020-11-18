@@ -629,17 +629,13 @@ namespace System.Windows.Forms {
 			}
 		}
 		
-		internal override bool CalculateWindowRect (ref Rectangle ClientRect, CreateParams cp, Menu menu, 
+		internal override bool CalculateWindowRect (ref Rectangle ClientRect, CreateParams cp, 
 							    out Rectangle WindowRect) {
 			if (cp.WindowStyle.HasFlag(WindowStyles.WS_CHILD)) {
 				WindowRect = ClientRect;
 			} else {
 				var nsrect = NSWindow.FrameRectFor (MonoToNativeScreen(ClientRect), NSStyleFromStyle (cp.WindowStyle));
 				WindowRect = NativeToMonoScreen(nsrect);
-				if (menu != null) {
-					WindowRect.Y -= MenuHeight;
-					WindowRect.Height += MenuHeight;
-				}
 			}
 
 			if (cp.WindowStyle.HasFlag(WindowStyles.WS_CHILD) || !cp.WindowStyle.HasFlag(WindowStyles.WS_CAPTION)) {
@@ -658,17 +654,6 @@ namespace System.Windows.Forms {
 
 			x = (int) point.X;
 			y = (int) point.Y;
-		}
-
-		internal override void MenuToScreen (IntPtr handle, ref int x, ref int y)
-		{
-			Point point = GetMenuOrigin (handle);
-			point.X += x;
-			point.Y += y;
-			point = ConvertNonClientPointToScreen (handle, point);
-
-			x = point.X;
-			y = point.Y;
 		}
 
 		internal override int[] ClipboardAvailableFormats (IntPtr handle) {
@@ -1606,16 +1591,6 @@ namespace System.Windows.Forms {
 			y = (int) point.Y;
 		}
 
-		internal override void ScreenToMenu (IntPtr handle, ref int x, ref int y)
-		{
-			Point point = ConvertScreenPointToNonClient (handle, new Point (x, y));
-			Point mo = GetMenuOrigin (handle);
-			point -= (Size) mo;
-
-			x = point.X;
-			y = point.Y;
-		}
-
 		internal override void ScrollWindow (IntPtr handle, Rectangle area, int XAmount, int YAmount, bool clear) {
 			/*
 			 * This used to use a HIViewScrollRect but this causes issues with the fact that we dont coalesce
@@ -2023,10 +1998,6 @@ namespace System.Windows.Forms {
 				RequestNCRecalc (handle);
 		}
 
-		internal override void SetMenu (IntPtr handle, Menu menu) {
-			RequestNCRecalc(handle);
-		}
-		
 		internal override void SetWindowMinMax (IntPtr handle, Rectangle maximized, Size min, Size max) {
 			NSView vuWrap = handle.ToNSView();
 			vuWrap.Window.MinSize = min.ToCGSize();

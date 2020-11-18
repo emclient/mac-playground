@@ -2192,10 +2192,7 @@ namespace System.Windows.Forms {
 			}
 			
 			// At this point, we have a valid TreeNode
-			if (tn.ContextMenu != null) {
-				tn.ContextMenu.Show (this, pt);
-				return true;
-			} else if (tn.ContextMenuStrip != null) {
+			if (tn.ContextMenuStrip != null) {
 				tn.ContextMenuStrip.Show (this, pt);
 				return true;
 			}

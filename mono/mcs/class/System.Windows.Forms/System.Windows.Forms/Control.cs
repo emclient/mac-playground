@@ -147,7 +147,6 @@ namespace System.Windows.Forms
 		Control                 parent_; // our parent control
 		BindingContext          binding_context;
 		RightToLeft             right_to_left; // drawing direction for control
-		ContextMenu             context_menu; // Context menu associated with the control
 		internal bool		use_compatible_text_rendering;
 		private bool		use_wait_cursor;
 
@@ -1041,19 +1040,6 @@ namespace System.Windows.Forms
 			}
 		}
 
-		private MenuTracker active_tracker;
-		
-		internal MenuTracker ActiveTracker {
-			get { return active_tracker; }
-			set {
-				if (value == active_tracker)
-					return;
-
-				Capture = value != null;
-				active_tracker = value;
-			}
-		}
-
 		// Control is currently selected, like Focused, except maintains state
 		// when Form loses focus
 		internal bool InternalSelected {
@@ -1199,49 +1185,6 @@ namespace System.Windows.Forms
 		internal virtual int OverrideHeight (int height)
 		{
 			return height;
-		}
-		
-		private void ProcessActiveTracker (ref Message m)
-		{
-			bool is_up = ((Msg) m.Msg == Msg.WM_LBUTTONUP) ||
-						 ((Msg) m.Msg == Msg.WM_RBUTTONUP);
-			
-			MouseButtons mb = FromParamToMouseButtons ((int) m.WParam.ToInt32 ());
-			
-			// We add in the button that was released (not sent in WParam)
-			if (is_up) {
-				switch ((Msg)m.Msg) {
-				case Msg.WM_LBUTTONUP:
-					mb |= MouseButtons.Left;
-					break;
-				case Msg.WM_RBUTTONUP:
-					mb |= MouseButtons.Right;
-					break;
-				}
-			}
-			
-			MouseEventArgs args = new MouseEventArgs (
-				mb,
-				mouse_clicks,
-				Control.MousePosition.X,
-				Control.MousePosition.Y,
-				0);
-
-			if (is_up) {
-				active_tracker.OnMouseUp (args);
-				mouse_clicks = 1;
-			} else {
-				if (!active_tracker.OnMouseDown (args)) {
-					Control control = GetRealChildAtPoint (Cursor.Position);
-					if (control != null) {
-						Point pt = control.PointToClient (Cursor.Position);
-						XplatUI.SendMessage (control.Handle, 
-							(Msg)m.Msg, 
-							m.WParam, 
-							MakeParam (pt.X, pt.Y));
-					}
-				}
-			}
 		}
 
 		private Control FindControlToInvokeOn ()
@@ -1795,7 +1738,7 @@ namespace System.Windows.Forms
 			ClientRect = new Rectangle (0, 0, clientSize.Width, clientSize.Height);
 			cp = this.CreateParams;
 
-			if (XplatUI.CalculateWindowRect (ref ClientRect, cp, null, out WindowRect))
+			if (XplatUI.CalculateWindowRect (ref ClientRect, cp, out WindowRect))
 				return new Size (WindowRect.Width, WindowRect.Height);
 
 			return Size.Empty;
@@ -2443,31 +2386,6 @@ namespace System.Windows.Forms
 				if (IsChild (Handle, focused_window))
 					return true;
 				return false;
-			}
-		}
-
-		[Browsable (false)]
-		[DefaultValue(null)]
-		[MWFCategory("Behavior")]
-		public virtual ContextMenu ContextMenu {
-			get {
-				return ContextMenuInternal;
-			}
-
-			set {
-				ContextMenuInternal = value;
-			}
-		}
-
-		internal virtual ContextMenu ContextMenuInternal {
-			get {
-				return context_menu;
-			}
-			set {
-				if (context_menu != value) {
-					context_menu = value;
-					OnContextMenuChanged (EventArgs.Empty);
-				}
 			}
 		}
 
@@ -4564,10 +4482,6 @@ namespace System.Windows.Forms
 		}
 
 		protected virtual bool ProcessCmdKey(ref Message msg, Keys keyData) {
-			if ((context_menu != null) && context_menu.ProcessCmdKey(ref msg, keyData)) {
-				return true;
-			}
-
 			if (parent != null) {
 				return parent.ProcessCmdKey(ref msg, keyData);
 			}
@@ -5029,7 +4943,7 @@ namespace System.Windows.Forms
 			rect = new Rectangle(0, 0, 0, 0);
 			cp = CreateParams;
 
-			XplatUI.CalculateWindowRect(ref rect, cp, cp.menu, out rect);
+			XplatUI.CalculateWindowRect(ref rect, cp, out rect);
 			UpdateBounds(x, y, width, height, width - (rect.Right - rect.Left), height - (rect.Bottom - rect.Top));
 		}
 
@@ -5450,12 +5364,6 @@ namespace System.Windows.Forms
 
 		private void WmLButtonUp (ref Message m)
 		{
-			// Menu handle.
-			if (XplatUI.IsEnabled (Handle) && active_tracker != null) {
-				ProcessActiveTracker (ref m);
-				return;
-			}
-
 			if (!GetStyle(ControlStyles.UserMouse))
 				DefWndProc(ref m);
 
@@ -5486,12 +5394,6 @@ namespace System.Windows.Forms
 
 		private void WmLButtonDown (ref Message m)
 		{
-			// Menu handle.
-			if (XplatUI.IsEnabled (Handle) && active_tracker != null) {
-				ProcessActiveTracker (ref m);
-				return;
-			}
-		
 			ValidationFailed = false;
 
 			if (!GetStyle(ControlStyles.UserMouse))
@@ -5568,12 +5470,6 @@ namespace System.Windows.Forms
 
 		private void WmRButtonUp (ref Message m)
 		{
-			// Menu handle.
-			if (XplatUI.IsEnabled (Handle) && active_tracker != null) {
-				ProcessActiveTracker (ref m);
-				return;
-			}
-
 			MouseEventArgs	me;
 			Point		pt;
 
@@ -5601,12 +5497,6 @@ namespace System.Windows.Forms
 
 		private void WmRButtonDown (ref Message m)
 		{
-			// Menu handle.
-			if (XplatUI.IsEnabled (Handle) && active_tracker != null) {
-				ProcessActiveTracker (ref m);
-				return;
-			}
-
 			CaptureInternal = true;
 			if (Enabled)
 			{
@@ -5627,37 +5517,22 @@ namespace System.Windows.Forms
 		}
 
 		private void WmContextMenu (ref Message m) {
-			if (context_menu != null) {
-				Point	pt;
+			if (context_menu_strip != null) {
+				Point pt;
 
-				pt = new Point(LowOrder ((int) m.LParam.ToInt32 ()), HighOrder ((int) m.LParam.ToInt32 ()));
+				pt = new Point (LowOrder ((int)m.LParam.ToInt32 ()), HighOrder ((int)m.LParam.ToInt32 ()));
 
-				if (pt.X == -1 || pt.Y == -1) {
-					pt.X = (this.Width / 2) + this.Left;
-					pt.Y = (this.Height / 2) + this.Top;
+				if (pt.X == -1 || pt.Y == -1) { 
+					pt.X = (this.Width / 2) + this.Left; 
+					pt.Y = (this.Height /2) + this.Top; 
 					pt = this.PointToScreen (pt);
 				}
 					
-				context_menu.Show (this, PointToClient (pt));
+				context_menu_strip.SetSourceControl (this);
+				context_menu_strip.Show (this, PointToClient (pt));
 				return;
 			}
 
-				// If there isn't a regular context menu, show the Strip version
-				if (context_menu == null && context_menu_strip != null) {
-					Point pt;
-
-					pt = new Point (LowOrder ((int)m.LParam.ToInt32 ()), HighOrder ((int)m.LParam.ToInt32 ()));
-					
-					if (pt.X == -1 || pt.Y == -1) { 
-						pt.X = (this.Width / 2) + this.Left; 
-						pt.Y = (this.Height /2) + this.Top; 
-						pt = this.PointToScreen (pt);
-					}
-					
-					context_menu_strip.SetSourceControl (this);
-					context_menu_strip.Show (this, PointToClient (pt));
-					return;
-				}
 			DefWndProc(ref m);
 		}
 
@@ -5678,19 +5553,6 @@ namespace System.Windows.Forms
 		}
 
 		private void WmMouseMove (ref Message m) {
-
-			if (XplatUI.IsEnabled (Handle) && active_tracker != null) {
-				MouseEventArgs args = new MouseEventArgs (
-					FromParamToMouseButtons ((int)m.WParam.ToInt32 ()),
-					mouse_clicks,
-					Control.MousePosition.X,
-					Control.MousePosition.Y,
-					0);
-
-				active_tracker.OnMotion (args);
-				return;
-			}
-
 			if (Enabled)
 			{
 				OnMouseMove(new MouseEventArgs(FromParamToMouseButtons((int)m.WParam.ToInt32()),
@@ -5775,12 +5637,8 @@ namespace System.Windows.Forms
 				Form	form;
 
 				form = FindForm();
-				if (form != null && form.ActiveMenu != null) {
-					form.ActiveMenu.ProcessCmdKey(ref m, (Keys)m.WParam.ToInt32());
-				}
-				else
-					if (ToolStripManager.ProcessMenuKey (ref m))
-						return;
+				if (ToolStripManager.ProcessMenuKey (ref m))
+					return;
 			}
 
 			DefWndProc (ref m);
@@ -5948,13 +5806,6 @@ namespace System.Windows.Forms
 		protected virtual void OnClientSizeChanged (EventArgs e)
 		{
 			EventHandler eh = (EventHandler)(Events[ClientSizeChangedEvent]);
-			if (eh != null)
-				eh (this, e);
-		}
-
-		[EditorBrowsable(EditorBrowsableState.Advanced)]
-		protected virtual void OnContextMenuChanged(EventArgs e) {
-			EventHandler eh = (EventHandler)(Events [ContextMenuChangedEvent]);
 			if (eh != null)
 				eh (this, e);
 		}
@@ -6535,7 +6386,6 @@ namespace System.Windows.Forms
 		static object ChangeUICuesEvent = new object ();
 		static object ClickEvent = new object ();
 		static object ClientSizeChangedEvent = new object ();
-		static object ContextMenuChangedEvent = new object ();
 		static object ContextMenuStripChangedEvent = new object ();
 		static object ControlAddedEvent = new object ();
 		static object ControlRemovedEvent = new object ();
@@ -6641,17 +6491,10 @@ namespace System.Windows.Forms
 			remove {Events.RemoveHandler (ClientSizeChangedEvent, value);}
 		}
 
-		[Browsable (false)]
-		public event EventHandler ContextMenuChanged {
-			add { Events.AddHandler (ContextMenuChangedEvent, value); }
-			remove { Events.RemoveHandler (ContextMenuChangedEvent, value); }
-		}
-
 		public event EventHandler ContextMenuStripChanged {
 			add { Events.AddHandler (ContextMenuStripChangedEvent, value); }
 			remove { Events.RemoveHandler (ContextMenuStripChangedEvent, value);}
 		}
-
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		[Browsable(true)]

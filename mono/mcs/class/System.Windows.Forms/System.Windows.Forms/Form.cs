@@ -84,7 +84,6 @@ namespace System.Windows.Forms {
 		internal InternalWindowManager	window_manager;
 		private Form			mdi_parent;
 		private bool			key_preview;
-		private MainMenu		menu;
 		private	Icon			icon;
 		private Size			maximum_size;
 		private Size			minimum_size;
@@ -377,7 +376,6 @@ namespace System.Windows.Forms {
 			window_state = FormWindowState.Normal;
 			key_preview = false;
 			opacity = 1D;
-			menu = null;
 			icon = default_icon;
 			minimum_size = Size.Empty;
 			maximum_size = Size.Empty;
@@ -936,72 +934,6 @@ namespace System.Windows.Forms {
 			get { return window_manager; }
 		}
 
-		[Browsable (false)]
-		[TypeConverter (typeof (ReferenceConverter))]
-		[DefaultValue(null)]
-		[MWFCategory("Window Style")]
-		public MainMenu Menu {
-			get {
-				return menu;
-			}
-
-			set {
-				if (menu != value) {
-					menu = value;
-
-					if (menu != null && !IsMdiChild) {
-						menu.SetForm (this);
-
-						if (IsHandleCreated) {
-							XplatUI.SetMenu (window.Handle, menu);
-						}
-
-						if (clientsize_set != Size.Empty) {
-							SetClientSizeCore(clientsize_set.Width, clientsize_set.Height);
-						} else {
-							UpdateBounds (bounds.X, bounds.Y, bounds.Width, bounds.Height, ClientSize.Width, ClientSize.Height - 
-								ThemeEngine.Current.CalcMenuBarSize (DeviceContext, menu, ClientSize.Width));
-						}
-					} else
-						UpdateBounds ();
-
-					// UIA Framework Event: Menu Changed
-					OnUIAMenuChanged (EventArgs.Empty);
-				}
-			}
-		}
-
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		[EditorBrowsable(EditorBrowsableState.Advanced)]
-		public MainMenu MergedMenu {
-			get {
-				if (!IsMdiChild || window_manager == null)
-					return null;
-				return ((MdiWindowManager) window_manager).MergedMenu;
-			}
-		}
-
-		// This is the menu in display and being used because of merging this can
-		// be different then the menu that is actually assosciated with the form
-		internal MainMenu ActiveMenu {
-			get {
-				if (IsMdiChild)
-					return null;
-
-				if (IsMdiContainer && mdi_container.Controls.Count > 0 &&
-						((Form) mdi_container.Controls [0]).WindowState == FormWindowState.Maximized) {
-					MdiWindowManager wm = (MdiWindowManager) ((Form) mdi_container.Controls [0]).WindowManager;
-					return wm.MaximizedMenu;
-				}
-
-				Form amc = ActiveMdiChild;
-				if (amc == null || amc.Menu == null)
-					return menu;
-				return amc.MergedMenu;
-			}
-		}
-
 		internal MdiWindowManager ActiveMaximizedMdiChild {
 			get {
 				Form child = ActiveMdiChild;
@@ -1349,7 +1281,6 @@ namespace System.Windows.Forms {
 				cp.ExStyle = 0;
 				cp.Param = 0;
 				cp.Parent = IntPtr.Zero;
-				cp.menu = ActiveMenu;
 				cp.control = this;
 
 				if (((Parent != null || !TopLevel) && !IsMdiChild)) {
@@ -1623,9 +1554,6 @@ namespace System.Windows.Forms {
 				base.Dispose ();
 				return;
 			}
- 
-			if (Menu != null)
-				XplatUI.SetMenu (window.Handle, null);
 
 			CloseReason = CloseReason.UserClosing;
 			XplatUI.SendMessage(this.Handle, Msg.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
@@ -2066,10 +1994,6 @@ namespace System.Windows.Forms {
 		protected override void OnCreateControl() {
 			base.OnCreateControl ();
 
-			if (menu != null) {
-				XplatUI.SetMenu(window.Handle, menu);
-			}
-
 			OnLoadInternal (EventArgs.Empty);
 			
 			// Send initial location
@@ -2225,20 +2149,6 @@ namespace System.Windows.Forms {
 					IntPtr param = MakeParam ((int) MsgUIState.UIS_CLEAR, (int) MsgUIState.UISF_HIDEACCEL);
 					XplatUI.SendMessage (toplevel.Handle, Msg.WM_CHANGEUISTATE, param, IntPtr.Zero);
 				}
-			}
-
-			// Give our menu a shot
-			if (ActiveMenu != null) {
-				if (ActiveMenu.ProcessCmdKey (ref msg, keyData))
-					return true;
-			}
-
-			// Detect any active ContextMenu for a child control that
-			// can't receive focus (which means: both input and preprocess)
-			if (ActiveTracker != null && ActiveTracker.TopMenu is ContextMenu) {
-				ContextMenu cmenu = ActiveTracker.TopMenu as ContextMenu;
-				if (cmenu.SourceControl != this && cmenu.ProcessCmdKey (ref msg, keyData))
-					return true;
 			}
 
 			if (IsMdiChild) {
@@ -2402,7 +2312,7 @@ namespace System.Windows.Forms {
 
 			clientsize_set = new Size(x, y);
 
-			if (XplatUI.CalculateWindowRect(ref ClientRect, cp, cp.menu, out WindowRect)) {
+			if (XplatUI.CalculateWindowRect(ref ClientRect, cp, out WindowRect)) {
 				SetBounds(bounds.X, bounds.Y, WindowRect.Width, WindowRect.Height, BoundsSpecified.Size);
 			}
 		}
@@ -2533,42 +2443,6 @@ namespace System.Windows.Forms {
 				return;
 			}
 
-			// Menu drawing
-			case Msg.WM_NCHITTEST: {
-				WmNcHitTest (ref m);
-				return;
-			}
-
-			case Msg.WM_NCLBUTTONDOWN: {
-				WmNcLButtonDown (ref m);
-				return;
-			}
-
-			case Msg.WM_NCLBUTTONUP: {
-				WmNcLButtonUp (ref m);
-				return;
-			}
-
-			case Msg.WM_NCMOUSELEAVE: {
-				WmNcMouseLeave (ref m);
-				return;
-			}
-
-			case Msg.WM_NCMOUSEMOVE: {
-				WmNcMouseMove (ref m);
-				return;
-			}
-
-			case Msg.WM_NCPAINT: {
-				WmNcPaint (ref m);
-				return;
-			}
-
-			case Msg.WM_NCCALCSIZE: {
-				WmNcCalcSize (ref m);
-				break;
-			}
-
 			case Msg.WM_GETMINMAXINFO: {
 				WmGetMinMaxInfo (ref m);
 				break;
@@ -2585,10 +2459,6 @@ namespace System.Windows.Forms {
 			}
 
 			case Msg.WM_CANCELMODE: {
-				if (ActiveTracker != null) {
-					ActiveTracker.Deactivate();
-					ActiveTracker = null;
-				}
 				base.WndProc (ref m);
 				break;
 			}
@@ -2861,117 +2731,7 @@ namespace System.Windows.Forms {
 			}
 			base.WndProc (ref m);
 		}
-		
-		private void WmNcHitTest (ref Message m)
-		{
-			if (XplatUI.IsEnabled (Handle) && ActiveMenu != null) {
-				int x = LowOrder ((int)m.LParam.ToInt32 ());
-				int y = HighOrder ((int)m.LParam.ToInt32 ());
 
-				XplatUI.ScreenToMenu (ActiveMenu.Wnd.window.Handle, ref x, ref y);
-
-				// If point is under menu return HTMENU, it prevents Win32 to return HTMOVE.
-				if ((x > 0) && (y > 0) && (x < ActiveMenu.Rect.Width) && (y < ActiveMenu.Rect.Height)) {
-					m.Result = new IntPtr ((int)HitTest.HTMENU);
-					return;
-				}
-			}
-
-			base.WndProc (ref m);
-		}
-		
-		private void WmNcLButtonDown (ref Message m)
-		{
-			if (XplatUI.IsEnabled (Handle) && ActiveMenu != null) {
-				ActiveMenu.OnMouseDown (this, new MouseEventArgs (FromParamToMouseButtons ((int)m.WParam.ToInt32 ()), mouse_clicks, Control.MousePosition.X, Control.MousePosition.Y, 0));
-			}
-
-			if (ActiveMaximizedMdiChild != null && ActiveMenu != null) {
-				if (ActiveMaximizedMdiChild.HandleMenuMouseDown (ActiveMenu,
-						LowOrder ((int)m.LParam.ToInt32 ()),
-						HighOrder ((int)m.LParam.ToInt32 ()))) {
-					// Don't let base process this message, otherwise we won't
-					// get a WM_NCLBUTTONUP.
-					return;
-				}
-			}
-			base.WndProc (ref m);
-		}
-		
-		private void WmNcLButtonUp (ref Message m)
-		{
-			if (ActiveMaximizedMdiChild != null && ActiveMenu != null) {
-				ActiveMaximizedMdiChild.HandleMenuMouseUp (ActiveMenu,
-						LowOrder ((int)m.LParam.ToInt32 ()),
-						HighOrder ((int)m.LParam.ToInt32 ()));
-			}
-			base.WndProc (ref m);
-		}
-		
-		private void WmNcMouseLeave (ref Message m)
-		{
-			if (ActiveMaximizedMdiChild != null && ActiveMenu != null) {
-				ActiveMaximizedMdiChild.HandleMenuMouseLeave (ActiveMenu,
-						LowOrder ((int)m.LParam.ToInt32 ()),
-						HighOrder ((int)m.LParam.ToInt32 ()));
-			}
-			base.WndProc (ref m);
-		}
-		
-		private void WmNcMouseMove (ref Message m)
-		{
-			if (XplatUI.IsEnabled (Handle) && ActiveMenu != null) {
-				ActiveMenu.OnMouseMove (this, new MouseEventArgs (FromParamToMouseButtons ((int)m.WParam.ToInt32 ()), mouse_clicks, LowOrder ((int)m.LParam.ToInt32 ()), HighOrder ((int)m.LParam.ToInt32 ()), 0));
-			}
-
-			if (ActiveMaximizedMdiChild != null && ActiveMenu != null) {
-				XplatUI.RequestAdditionalWM_NCMessages (Handle, false, true);
-				ActiveMaximizedMdiChild.HandleMenuMouseMove (ActiveMenu,
-						LowOrder ((int)m.LParam.ToInt32 ()),
-						HighOrder ((int)m.LParam.ToInt32 ()));
-			}
-			base.WndProc (ref m);
-		}
-		
-		private void WmNcPaint (ref Message m)
-		{
-			if (ActiveMenu != null) {
-				PaintEventArgs pe = XplatUI.PaintEventStart (ref m, Handle, false);
-				Point pnt = XplatUI.GetMenuOrigin (window.Handle);
-
-				// The entire menu has to be in the clip rectangle because the 
-				// control buttons are right-aligned and otherwise they would
-				// stay painted when the window gets resized.
-				Rectangle clip = new Rectangle (pnt.X, pnt.Y, ClientSize.Width, 0);
-				clip = Rectangle.Union (clip, pe.ClipRectangle);
-				pe.SetClip (clip);
-				pe.Graphics.SetClip (clip);
-
-				ActiveMenu.Draw (pe, new Rectangle (pnt.X, pnt.Y, ClientSize.Width, 0));
-
-				if (ActiveMaximizedMdiChild != null)
-					ActiveMaximizedMdiChild.DrawMaximizedButtons (ActiveMenu, pe);
-
-				XplatUI.PaintEventEnd (ref m, Handle, false, pe);
-			}
-
-			base.WndProc (ref m);
-		}
-		
-		private void WmNcCalcSize (ref Message m)
-		{
-			XplatUIWin32.NCCALCSIZE_PARAMS ncp;
-
-			if ((ActiveMenu != null) && (m.WParam == (IntPtr)1)) {
-				ncp = (XplatUIWin32.NCCALCSIZE_PARAMS)Marshal.PtrToStructure (m.LParam, typeof (XplatUIWin32.NCCALCSIZE_PARAMS));
-
-				// Adjust for menu
-				ncp.rgrc1.top += ThemeEngine.Current.CalcMenuBarSize (DeviceContext, ActiveMenu, ClientSize.Width);
-				Marshal.StructureToPtr (ncp, m.LParam, true);
-			}
-			DefWndProc (ref m);		
-		}
-		
 		private void WmGetMinMaxInfo (ref Message m)
 		{
 			MINMAXINFO mmi;

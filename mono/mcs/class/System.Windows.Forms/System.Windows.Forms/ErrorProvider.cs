@@ -468,7 +468,7 @@ namespace System.Windows.Forms {
 				return false;
 			}
 
-			if ((extendee is Form) || (extendee is ToolBar)) {
+			if (extendee is Form) {
 				return false;
 			}
 

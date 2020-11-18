@@ -43,7 +43,6 @@ namespace System.Windows.Forms
 		private string text;
 		private int image_index = -1;
 		private int selected_image_index = -1;
-		private ContextMenu context_menu;
 		private ContextMenuStrip context_menu_strip;
 		private string image_key = String.Empty;
 		private string selected_image_key = String.Empty;
@@ -149,7 +148,6 @@ namespace System.Windows.Forms
 			tn.tag = tag;
 			tn.check = check;
 			tn.tool_tip_text = tool_tip_text;
-			tn.context_menu = context_menu;
 			tn.context_menu_strip = context_menu_strip;
 			if (nodes != null) {
 				foreach (TreeNode child in nodes)
@@ -311,12 +309,6 @@ namespace System.Windows.Forms
 			}
 		}
 
-		[DefaultValue (null)]
-		public virtual ContextMenu ContextMenu {
-			get { return context_menu; }
-			set { context_menu = value; }
-		}
-		
 		[DefaultValue (null)]
 		public virtual ContextMenuStrip ContextMenuStrip {
 			get { return context_menu_strip; }

@@ -297,7 +297,6 @@ namespace System.Windows.Forms {
 		}
 
 		internal abstract void SetBorderStyle(IntPtr handle, FormBorderStyle border_style);
-		internal abstract void SetMenu(IntPtr handle, Menu menu);
 
 		internal abstract bool GetText(IntPtr handle, out string text);
 		internal abstract bool Text(IntPtr handle, string text);
@@ -332,7 +331,7 @@ namespace System.Windows.Forms {
 		internal abstract bool SetTopmost(IntPtr hWnd, bool Enabled);
 		internal abstract bool SetOwner(IntPtr hWnd, IntPtr hWndOwner);
 
-		internal abstract bool CalculateWindowRect(ref Rectangle ClientRect, CreateParams cp, Menu menu, out Rectangle WindowRect);
+		internal abstract bool CalculateWindowRect(ref Rectangle ClientRect, CreateParams cp, out Rectangle WindowRect);
 
 		internal abstract Region GetClipRegion(IntPtr hwnd);
 		internal abstract void SetClipRegion(IntPtr hwnd, Region region);
@@ -381,8 +380,6 @@ namespace System.Windows.Forms {
 		internal abstract void SystrayBalloon(IntPtr hwnd, int timeout, string title, string text, ToolTipIcon icon);
 
 		internal abstract Point GetMenuOrigin(IntPtr hwnd);
-		internal abstract void MenuToScreen(IntPtr hwnd, ref int x, ref int y);
-		internal abstract void ScreenToMenu(IntPtr hwnd, ref int x, ref int y);
 
 		internal abstract void SetIcon(IntPtr handle, Icon icon);
 
