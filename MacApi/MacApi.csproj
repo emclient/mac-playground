@@ -1,7 +1,7 @@
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <TargetFramework>xamarinmac20</TargetFramework>
-    <TargetFramework Condition="'$(OS)' == 'Windows_NT'">netstandard2.0</TargetFramework>
+    <TargetFramework Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFramework>
     <DefineConstants>__MACOS__;XAMARINMAC;__UNIFIED__</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <EnableDefaultItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultItems>

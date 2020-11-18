@@ -11,7 +11,7 @@
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
-    <ProjectReference Include="..\..\sysdrawing-coregraphics\System.Drawing.csproj" />
-    <ProjectReference Include="..\..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms.csproj" />
+    <ProjectReference Include="..\..\System.Drawing\System.Drawing.csproj" />
+    <ProjectReference Include="..\..\System.Windows.Forms\System.Windows.Forms.csproj" />
   </ItemGroup>
 </Project>
