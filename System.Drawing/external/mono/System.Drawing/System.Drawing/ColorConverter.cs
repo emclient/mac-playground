@@ -1,253 +1,414 @@
-//
-// System.Drawing.ColorConverter
-//
-// Authors:
-//	Gonzalo Paniagua Javier (gonzalo@ximian.com)
-//	Ravindra (rkumar@novell.com)
-//
-// Copyright (C) 2002 Ximian, Inc.  http://www.ximian.com
-// Copyright (C) 2004,2006,2008 Novell, Inc (http://www.novell.com)
-//
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-// 
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
 
-using System.Collections;
-using System.ComponentModel;
-using System.Globalization;
-using System.Text;
-using System.ComponentModel.Design.Serialization;
-using System.Reflection;
+namespace System.Drawing {
+    using System.Runtime.Serialization.Formatters;
+    using System.Runtime.InteropServices;
+    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
+    using Microsoft.Win32;
+    using System.Collections;
+    using System.ComponentModel;
+    using System.ComponentModel.Design.Serialization;
+    using System.Globalization;
+    using System.Reflection;
+    using System.Threading;
 
-namespace System.Drawing
-{
-	public class ColorConverter : TypeConverter
-	{
-		static StandardValuesCollection cached;
-		static object creatingCached = new object ();
+    /// <include file='doc\ColorConverter.uex' path='docs/doc[@for="ColorConverter"]/*' />
+    /// <devdoc>
+    ///      ColorConverter is a class that can be used to convert
+    ///      colors from one data type to another.  Access this
+    ///      class through the TypeDescriptor.
+    /// </devdoc>
+    public class ColorConverter : TypeConverter {
+        private static string ColorConstantsLock = "colorConstants";
+        private static Hashtable colorConstants;
+        private static string SystemColorConstantsLock = "systemColorConstants";
+        private static Hashtable systemColorConstants;
+        private static string ValuesLock = "values";
+        private static StandardValuesCollection values;
 
-		public ColorConverter () { }
+        /// <include file='doc\ColorConverter.uex' path='docs/doc[@for="ColorConverter.ColorConverter"]/*' />
+        /// <devdoc>
+        ///    <para>[To be supplied.]</para>
+        /// </devdoc>
+        public ColorConverter() {
+        }
 
-		public override bool CanConvertFrom (ITypeDescriptorContext context, Type sourceType)
-		{
-			if (sourceType == typeof (string))
-				return true;
+        /// <include file='doc\ColorConverter.uex' path='docs/doc[@for="ColorConverter.Colors"]/*' />
+        /// <devdoc>
+        ///      Hashtable of color / value pairs (color name is key)
+        ///      for standard colors.
+        /// </devdoc>
+        private static Hashtable Colors {
+            get {
+                if (colorConstants == null) {
+                    lock(ColorConstantsLock) {
+                        if (colorConstants == null) {
+                            Hashtable tempHash = new Hashtable(StringComparer.OrdinalIgnoreCase);
+                            FillConstants(tempHash, typeof(Color));
+                            colorConstants = tempHash;
+                        }
+                    }
+                }
 
-			return base.CanConvertFrom (context, sourceType);
-		}
+                return colorConstants;
+            }
+        }
 
-		public override bool CanConvertTo (ITypeDescriptorContext context, Type destinationType)
-		{
-			if (destinationType == typeof (InstanceDescriptor))
-				return true;
+        /// <include file='doc\ColorConverter.uex' path='docs/doc[@for="ColorConverter.SystemColors"]/*' />
+        /// <devdoc>
+        ///      Hashtable of color / value pairs (color name is key)
+        ///      for system colors.
+        /// </devdoc>
+        private static Hashtable SystemColors {
+            get {
+                if (systemColorConstants == null) {
+                    lock (SystemColorConstantsLock) {
+                        if (systemColorConstants == null) {
+                            Hashtable tempHash = new Hashtable(StringComparer.OrdinalIgnoreCase);
+                            FillConstants(tempHash, typeof(System.Drawing.SystemColors));
+                            systemColorConstants = tempHash;
+                        }
+                    }
+                }
 
-			return base.CanConvertTo (context, destinationType);
-		}
+                return systemColorConstants;
+            }
+        }
 
-		internal static Color StaticConvertFromString (ITypeDescriptorContext context, string s, CultureInfo culture)
-		{
-			if (culture == null)
-				culture = CultureInfo.InvariantCulture;
+        /// <include file='doc\ColorConverter.uex' path='docs/doc[@for="ColorConverter.CanConvertFrom"]/*' />
+        /// <devdoc>
+        ///      Determines if this converter can convert an object in the given source
+        ///      type to the native type of the converter.
+        /// </devdoc>
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) {
+            if (sourceType == typeof(string)) {
+                return true;
+            }
+            return base.CanConvertFrom(context, sourceType);
+        }
 
-			s = s.Trim ();
+        /// <include file='doc\ColorConverter.uex' path='docs/doc[@for="ColorConverter.CanConvertTo"]/*' />
+        /// <devdoc>
+        ///    <para>Gets a value indicating whether this converter can
+        ///       convert an object to the given destination type using the context.</para>
+        /// </devdoc>
+        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType) {
+            if (destinationType == typeof(InstanceDescriptor)) {
+                return true;
+            }
+            return base.CanConvertTo(context, destinationType);
+        }
 
-			if (s.Length == 0)
-				return Color.Empty;
+        internal static object GetNamedColor(string name) {
+            object color = null;
+            // First, check to see if this is a standard name.
+            //
+            color = Colors[name];
+            if (color != null) {
+                return color;
+            }
+            // Ok, how about a system color?
+            //
+            color = SystemColors[name];
+            return color;
+        }
 
-			// Try to process both NamedColor and SystemColors from the KnownColor enumeration
-			if (Char.IsLetter (s [0])) {
-				KnownColor kc;
-				try {
-					kc = (KnownColor) Enum.Parse (typeof (KnownColor), s, true);
-				}
-				catch (Exception e) {
-					// whatever happens MS throws an basic Exception
-					string msg = Locale.GetText ("Invalid color name '{0}'.", s);
-					throw new Exception (msg, new FormatException (msg, e));
-				}
-				return KnownColors.FromKnownColor (kc);
-			}
+        /// <include file='doc\ColorConverter.uex' path='docs/doc[@for="ColorConverter.ConvertFrom"]/*' />
+        /// <devdoc>
+        ///      Converts the given object to the converter's native type.
+        /// </devdoc>
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value) {
+            string strValue = value as string;
+            if (strValue != null) {
+                object obj = null;
+                string text = strValue.Trim();
 
-			String numSeparator = culture.TextInfo.ListSeparator;
-			Color result = Color.Empty;
+                if (text.Length == 0) {
+                    obj = Color.Empty;
+                }
+                else {
+                    // First, check to see if this is a standard name.
+                    //
+                    obj = GetNamedColor(text);
 
-			if (s.IndexOf (numSeparator) == -1) {
-				bool sharp = (s[0] == '#');
-				int start = sharp ? 1 : 0;
-				bool hex = false;
-				// deal with #hex, 0xhex and #0xhex
-				if ((s.Length > start + 1) && (s[start] == '0')) {
-					hex = ((s[start + 1] == 'x') || (s[start + 1] == 'X'));
-					if (hex)
-						start += 2;
-				}
+                    if (obj == null) {
+                        if (culture == null) {
+                            culture = CultureInfo.CurrentCulture;
+                        }
 
-				if (sharp || hex) {
-					s = s.Substring (start);
-					int argb;
-					try {
-						argb = Int32.Parse (s, NumberStyles.HexNumber);
-					}
-					catch (Exception e) {
-						// whatever happens MS throws an basic Exception
-						string msg = Locale.GetText ("Invalid Int32 value '{0}'.", s);
-						throw new Exception (msg, e);
-					}
+                        char sep = culture.TextInfo.ListSeparator[0];
+                        bool tryMappingToKnownColor = true;
 
-					// note that the default alpha value for a 6 hex digit (i.e. when none are present) is 
-					// 0xFF while shorter string defaults to 0xFF - unless both # an 0x are specified
-					if ((s.Length < 6) || ((s.Length == 6) && sharp && hex))
-						argb &= 0x00FFFFFF;
-					else if ((argb >> 24) == 0)
-						argb |= unchecked((int)0xFF000000);
-					result = Color.FromArgb (argb);
-				}
-			}
+                        TypeConverter intConverter = TypeDescriptor.GetConverter(typeof(int));
 
-			if (result.IsEmpty) {
-				Int32Converter converter = new Int32Converter ();
-				String [] components = s.Split (numSeparator.ToCharArray ());
+                        // If the value is a 6 digit hex number only, then
+                        // we want to treat the Alpha as 255, not 0
+                        //
+                        if (text.IndexOf(sep) == -1) {
 
-				// MS seems to convert the indivual component to int before
-				// checking the number of components
-				int[] numComponents = new int[components.Length];
-				for (int i = 0; i < numComponents.Length; i++) {
-					numComponents[i] = (int) converter.ConvertFrom (context,
-						culture, components[i]);
-				}
+                            // text can be '' (empty quoted string)
+                            if (text.Length >= 2 && (text[0] == '\'' || text[0] == '"') && text[0] == text[text.Length -1]) {
+                                // In quotes means a named value
+                                string colorName = text.Substring(1, text.Length - 2);
+                                obj = Color.FromName(colorName);
+                                tryMappingToKnownColor = false;
+                            }
+                            else if ((text.Length == 7 && text[0] == '#') ||
+                                     (text.Length == 8 && (text.StartsWith("0x") || text.StartsWith("0X"))) ||
+                                     (text.Length == 8 && (text.StartsWith("&h") || text.StartsWith("&H")))) {
+                                // Note: ConvertFromString will raise exception if value cannot be converted.
+                                obj = Color.FromArgb(unchecked((int)(0xFF000000 | (uint)(int)intConverter.ConvertFromString(context, culture, text))));
+                            }
+                        }
 
-				switch (components.Length) {
-					case 1:
-						result = Color.FromArgb (numComponents[0]);
-						break;
-					case 3:
-						result = Color.FromArgb (numComponents[0], numComponents[1],
-							numComponents[2]);
-						break;
-					case 4:
-						result = Color.FromArgb (numComponents[0], numComponents[1],
-							numComponents[2], numComponents[3]);
-						break;
-					default:
-						throw new ArgumentException (s + " is not a valid color value.");
-				}
-			} 
+                        // Nope.  Parse the RGBA from the text.
+                        //
+                        if (obj == null) {
+                            string[] tokens = text.Split(sep);
+                            int[] values = new int[tokens.Length];
+                            for (int i = 0; i < values.Length; i++) {
+                                values[i] = unchecked((int)intConverter.ConvertFromString(context, culture, tokens[i]));
+                            }
 
-			if (!result.IsEmpty) {
-				// Look for a named or system color with those values
-				Color known = KnownColors.FindColorMatch (result);
-				if (!known.IsEmpty)
-					return known;
-			}
+                            // We should now have a number of parsed integer values.
+                            // We support 1, 3, or 4 arguments:
+                            //
+                            // 1 -- full ARGB encoded
+                            // 3 -- RGB
+                            // 4 -- ARGB
+                            //
+                            switch (values.Length) {
+                                case 1:
+                                    obj = Color.FromArgb(values[0]);
+                                    break;
 
-			return result;
-		}
+                                case 3:
+                                    obj = Color.FromArgb(values[0], values[1], values[2]);
+                                    break;
 
+                                case 4:
+                                    obj = Color.FromArgb(values[0], values[1], values[2], values[3]);
+                                    break;
+                            }
+                            tryMappingToKnownColor = true;
+                        }
 
-		public override object ConvertFrom (ITypeDescriptorContext context,
-						    CultureInfo culture,
-						    object value)
-		{
-			string s = value as string;
-			if (s == null)
-				return base.ConvertFrom (context, culture, value);
+                        if ((obj != null) && tryMappingToKnownColor) {
 
-			return StaticConvertFromString (context, s, culture);
-		}
+                            // Now check to see if this color matches one of our known colors.
+                            // If it does, then substitute it.  We can only do this for "Colors"
+                            // because system colors morph with user settings.
+                            //
+                            int targetARGB = ((Color)obj).ToArgb();
 
-		public override object ConvertTo (ITypeDescriptorContext context,
-						  CultureInfo culture,
-						  object value,
-						  Type destinationType)
-		{
-			if (value is Color) {
-				Color color = (Color) value;
-				if (destinationType == typeof (string)) {
-					if (color == Color.Empty)
-						return string.Empty;
+                            foreach (Color c in Colors.Values) {
+                                if (c.ToArgb() == targetARGB) {
+                                    obj = c;
+                                    break;
+                                }
+                            }
+                        }
+                    }
 
-					if (color.IsKnownColor || color.IsNamedColor)
-						return color.Name;
+                    if (obj == null) {
+                        throw new ArgumentException(/*SR.Format(SR.InvalidColor, text)*/String.Format("Invalid color value: {0}.", text));
+                    }
+                }
+                return obj;
+            }
+            return base.ConvertFrom(context, culture, value);
+        }
 
-					String numSeparator = culture.TextInfo.ListSeparator;
+        /// <include file='doc\ColorConverter.uex' path='docs/doc[@for="ColorConverter.ConvertTo"]/*' />
+        /// <devdoc>
+        ///      Converts the given object to another type.  The most common types to convert
+        ///      are to and from a string object.  The default implementation will make a call
+        ///      to ToString on the object if the object is valid and if the destination
+        ///      type is string.  If this cannot convert to the desitnation type, this will
+        ///      throw a NotSupportedException.
+        /// </devdoc>
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) {
+            if (destinationType == null) {
+                throw new ArgumentNullException(nameof(destinationType));
+            }
 
-					StringBuilder sb = new StringBuilder ();
-					if (color.A != 255) {
-						sb.Append (color.A);
-						sb.Append (numSeparator);
-						sb.Append (" ");
-					}
-					sb.Append (color.R);
-					sb.Append (numSeparator);
-					sb.Append (" ");
+            if ( value is Color ){
+                if (destinationType == typeof(string)) {
+                    Color c = (Color)value;
 
-					sb.Append (color.G);
-					sb.Append (numSeparator);
-					sb.Append (" ");
+                    if (c == Color.Empty) {
+                        return string.Empty;
+                    }
+                    else {
+                        // If this is a known color, then Color can provide its own
+                        // name.  Otherwise, we fabricate an ARGB value for it.
+                        //
+                        if (c.IsKnownColor) {
+                            return c.Name;
+                        }
+                        else if (c.IsNamedColor) {
+                            return "'" + c.Name + "'";
+                        }
+                        else {
+                            if (culture == null) {
+                                culture = CultureInfo.CurrentCulture;
+                            }
+                            string sep = culture.TextInfo.ListSeparator + " ";
+                            TypeConverter intConverter = TypeDescriptor.GetConverter(typeof(int));
+                            string[] args;
+                            int nArg = 0;
 
-					sb.Append (color.B);
-					return sb.ToString ();
-				} else if (destinationType == typeof (InstanceDescriptor)) {
-					if (color.IsEmpty) {
-						return new InstanceDescriptor (typeof (Color).GetField ("Empty"), null);
-					} else if (color.IsSystemColor) {
-						return new InstanceDescriptor (typeof (SystemColors).GetProperty (color.Name), null);
-					} else if (color.IsKnownColor){
-						return new InstanceDescriptor (typeof (Color).GetProperty (color.Name), null);
-					} else {
-						MethodInfo met = typeof(Color).GetMethod ("FromArgb", new Type[] { typeof(int), typeof(int), typeof(int), typeof(int) } );
-						return new InstanceDescriptor (met, new object[] {color.A, color.R, color.G, color.B });
-					}
-				}
-			}
+                            if (c.A < 255) {
+                                args = new string[4];
+                                args[nArg++] = intConverter.ConvertToString(context, culture, (object)c.A);
+                            }
+                            else {
+                                args = new string[3];
+                            }
 
-			return base.ConvertTo (context, culture, value, destinationType);
-		}
+                            // Note: ConvertToString will raise exception if value cannot be converted.
+                            args[nArg++] = intConverter.ConvertToString(context, culture, (object)c.R);
+                            args[nArg++] = intConverter.ConvertToString(context, culture, (object)c.G);
+                            args[nArg++] = intConverter.ConvertToString(context, culture, (object)c.B);
 
-		public override StandardValuesCollection GetStandardValues (ITypeDescriptorContext context)
-		{
-			lock (creatingCached) {
-				if (cached != null)
-					return cached;
-				Array colors = Array.CreateInstance (typeof (Color), KnownColors.Count - 1);
-				for (int i=1; i < KnownColors.Count; i++) {
-					colors.SetValue (KnownColors.FromKnownColor ((KnownColor)i), i - 1);
-				}
+                            // Now slam all of these together with the fantastic Join
+                            // method.
+                            //
+                            return string.Join(sep, args);
+                        }
+                    }
+                }
+                if (destinationType == typeof(InstanceDescriptor)) {
+                    MemberInfo member = null;
+                    object[] args = null;
 
-				Array.Sort (colors, 0, colors.Length, new CompareColors ());
-				cached = new StandardValuesCollection (colors);
-			}
+                    Color c = (Color)value;
 
-			return cached;
-		}
+                    if (c.IsEmpty) {
+                        member = typeof(Color).GetField("Empty");
+                    }
+                    else if (c.IsSystemColor) {
+                        member = typeof(SystemColors).GetProperty(c.Name);
+                    }
+                    else if (c.IsKnownColor) {
+                        member = typeof(Color).GetProperty(c.Name);
+                    }
+                    else if (c.A != 255) {
+                        member = typeof(Color).GetMethod("FromArgb", new Type[] {typeof(int), typeof(int), typeof(int), typeof(int)});
+                        args = new object[] {c.A, c.R, c.G, c.B};
+                    }
+                    else if (c.IsNamedColor) {
+                        member = typeof(Color).GetMethod("FromName", new Type[] {typeof(string)});
+                        args = new object[] {c.Name};
+                    }
+                    else {
+                        member = typeof(Color).GetMethod("FromArgb", new Type[] {typeof(int), typeof(int), typeof(int)});
+                        args = new object[] {c.R, c.G, c.B};
+                    }
 
-		public override bool GetStandardValuesSupported (ITypeDescriptorContext context)
-		{
-			return true;
-		}
+                    Debug.Assert(member != null, "Could not convert color to member.  Did someone change method name / signature and not update Colorconverter?");
+                    if (member != null) {
+                        return new InstanceDescriptor(member, args);
+                    }
+                    else {
+                        return null;
+                    }
+                }
+            }
 
-		sealed class CompareColors : IComparer {
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
 
-			public int Compare (object x, object y)
-			{
-				return String.Compare (((Color) x).Name, ((Color) y).Name);
-			}
-		}
-	}
+        /// <include file='doc\ColorConverter.uex' path='docs/doc[@for="ColorConverter.FillConstants"]/*' />
+        /// <devdoc>
+        ///      Fills the given hashtable with field name / value pairs.  It walks all public static
+        ///      properties of enumType that have a property type of Color.
+        /// </devdoc>
+        private static void FillConstants(Hashtable hash, Type enumType) {
+            MethodAttributes attrs = MethodAttributes.Public | MethodAttributes.Static;
+            PropertyInfo[] props = enumType.GetProperties();
+
+            for (int i = 0; i < props.Length; i++) {
+                PropertyInfo prop = props[i];
+                if (prop.PropertyType == typeof(Color)) {
+                    MethodInfo method = prop.GetGetMethod();
+                    if (method != null && (method.Attributes & attrs) == attrs) {
+                        object[] tempIndex = null;
+                        hash[prop.Name] = prop.GetValue(null, tempIndex);
+                    }
+                }
+            }
+        }
+
+        /// <include file='doc\ColorConverter.uex' path='docs/doc[@for="ColorConverter.GetStandardValues"]/*' />
+        /// <devdoc>
+        ///      Retrieves a collection containing a set of standard values
+        ///      for the data type this validator is designed for.  This
+        ///      will return null if the data type does not support a
+        ///      standard set of values.
+        /// </devdoc>
+        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context) {
+            if (values == null) {
+                lock (ValuesLock) {
+                    if (values == null) {
+
+                       // We must take the value from each hashtable and combine them.
+                       //
+                       ArrayList arrayValues = new ArrayList();
+                       arrayValues.AddRange(Colors.Values);
+                       arrayValues.AddRange(SystemColors.Values);
+
+                       // Now, we have a couple of colors that have the same names but
+                       // are identical values.  Look for these and remove them.  Too
+                       // bad this is n^2.
+                       //
+                       int count = arrayValues.Count;
+                       for (int i = 0; i < count - 1; i++) {
+                           for (int j = i + 1; j < count; j++) {
+                               if (arrayValues[i].Equals(arrayValues[j])) {
+                                   // Remove this item!
+                                   //
+                                   arrayValues.RemoveAt(j);
+                                   count--;
+                                   j--;
+                               }
+                           }
+                       }
+
+                       // Sort the array.
+                       //
+                       arrayValues.Sort(0, arrayValues.Count, new ColorComparer());
+                       values = new StandardValuesCollection(arrayValues.ToArray());
+                    }
+                }
+            }
+
+            return values;
+        }
+
+        /// <include file='doc\ColorConverter.uex' path='docs/doc[@for="ColorConverter.GetStandardValuesSupported"]/*' />
+        /// <devdoc>
+        ///      Determines if this object supports a standard set of values
+        ///      that can be picked from a list.
+        /// </devdoc>
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context) {
+            return true;
+        }
+
+        /// <include file='doc\ColorConverter.uex' path='docs/doc[@for="ColorConverter.ColorComparer"]/*' />
+        /// <devdoc>
+        ///      IComparer for color values.  This takes color values but compares their
+        ///      names.
+        /// </devdoc>
+        private class ColorComparer : IComparer {
+
+            public int Compare(object left, object right) {
+                Color cLeft = (Color)left;
+                Color cRight = (Color)right;
+                return string.Compare(cLeft.Name, cRight.Name, false, CultureInfo.InvariantCulture);
+            }
+        }
+    }
 }

@@ -1,6 +1,6 @@
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFramework>xamarinmac20</TargetFramework>
+    <TargetFramework>net50-macos</TargetFramework>
     <TargetFramework Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFramework>
     <DefineConstants>MAISONABE;STATIC_PREMULTIPLY_TABLES1;NET_4_5;XAMARINMAC;__UNIFIED__</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -8,11 +8,12 @@
     <RootNamespace>System.Drawing</RootNamespace>
     <AssemblyName>System.Drawing</AssemblyName>
     <DisableExtraReferences>true</DisableExtraReferences>
-    <EnableDefaultItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultItems>
-    <EnableDefaultCompileItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultCompileItems>
-    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultEmbeddedResourceItems>
+    <EnableDefaultItems Condition="'$(TargetFramework)' != 'net50-macos'">false</EnableDefaultItems>
+    <EnableDefaultCompileItems Condition="'$(TargetFramework)' != 'net50-macos'">false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' != 'net50-macos'">false</EnableDefaultEmbeddedResourceItems>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net50-macos'">
     <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\BitmapData.cs">
       <Link>External\BitmapData.cs</Link>
     </Compile>
@@ -97,39 +98,39 @@
     <Compile Include="external\mono\System.Drawing\System.Drawing.Drawing2D\PixelOffsetMode.cs">
       <Link>External\PixelOffsetMode.cs</Link>
     </Compile>
-    <Compile Include="external\mono\System.Drawing\System.Drawing\Point.cs">
+    <!--<Compile Include="external\mono\System.Drawing\System.Drawing\Point.cs">
       <Link>External\Point.cs</Link>
     </Compile>
     <Compile Include="external\mono\System.Drawing\System.Drawing\PointF.cs">
       <Link>External\PointF.cs</Link>
-    </Compile>
+    </Compile>-->
     <Compile Include="external\mono\System.Drawing\System.Drawing.Printing\PrintPageEventHandler.cs">
       <Link>External\PrintPageEventHandler.cs</Link>
     </Compile>
-    <Compile Include="external\mono\System.Drawing\System.Drawing\Rectangle.cs">
+    <!--<Compile Include="external\mono\System.Drawing\System.Drawing\Rectangle.cs">
       <Link>External\Rectangle.cs</Link>
     </Compile>
     <Compile Include="external\mono\System.Drawing\System.Drawing\RectangleF.cs">
       <Link>External\RectangleF.cs</Link>
-    </Compile>
+    </Compile>-->
     <Compile Include="external\mono\System.Drawing\System.Drawing.Drawing2D\SmoothingMode.cs">
       <Link>External\SmoothingMode.cs</Link>
     </Compile>
-    <Compile Include="external\mono\System.Drawing\System.Drawing\Size.cs">
+    <!--<Compile Include="external\mono\System.Drawing\System.Drawing\Size.cs">
       <Link>External\Size.cs</Link>
     </Compile>
     <Compile Include="external\mono\System.Drawing\System.Drawing\SizeF.cs">
       <Link>External\SizeF.cs</Link>
-    </Compile>
+    </Compile>-->
     <Compile Include="external\mono\System.Drawing\System.Drawing\StringAligment.cs">
       <Link>External\StringAligment.cs</Link>
     </Compile>
     <Compile Include="external\mono\System.Drawing\System.Drawing\StringFormatFlags.cs">
       <Link>External\StringFormatFlags.cs</Link>
     </Compile>
-    <Compile Include="external\mono\System.Drawing\System.Drawing\SystemColors.cs">
+    <!--<Compile Include="external\mono\System.Drawing\System.Drawing\SystemColors.cs">
       <Link>External\SystemColors.cs</Link>
-    </Compile>
+    </Compile>-->
     <Compile Include="external\mono\System.Drawing\System.Drawing\SystemPens.cs">
       <Link>External\SystemPens.cs</Link>
     </Compile>
@@ -172,9 +173,9 @@
     <Compile Include="external\mono\System.Drawing\System.Drawing\ContentAlignment.cs">
       <Link>External\ContentAlignment.cs</Link>
     </Compile>
-    <Compile Include="external\mono\System.Drawing\System.Drawing\ColorTranslator.cs">
+    <!--<Compile Include="external\mono\System.Drawing\System.Drawing\ColorTranslator.cs">
       <Link>External\ColorTranslator.cs</Link>
-    </Compile>
+    </Compile>-->
     <Compile Include="external\mono\System.Drawing\System.Drawing\FontConverter.cs">
       <Link>External\FontConverter.cs</Link>
     </Compile>
@@ -321,7 +322,6 @@
     </Compile>
     <Compile Include="System.Drawing.Printing\PrintDocument.cs">
       <Link>System.Drawing.Printing\PrintDocument.cs</Link>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="System.Drawing.Printing\PrintEventArgs.cs">
       <Link>System.Drawing.Printing\PrintEventArgs.cs</Link>
@@ -341,9 +341,9 @@
     <Compile Include="System.Drawing\Brush.cs">
       <Link>System.Drawing\Brush.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing\Color.cs">
+    <!--<Compile Include="System.Drawing\Color.cs">
       <Link>System.Drawing\Color.cs</Link>
-    </Compile>
+    </Compile>-->
     <Compile Include="System.Drawing\Font.cs">
       <Link>System.Drawing\Font.cs</Link>
     </Compile>
@@ -359,12 +359,12 @@
     <Compile Include="System.Drawing\Image.cs">
       <Link>System.Drawing\Image.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing\KnownColor.cs">
+    <!--<Compile Include="System.Drawing\KnownColor.cs">
       <Link>System.Drawing\KnownColor.cs</Link>
     </Compile>
     <Compile Include="System.Drawing\KnownColors.cs">
       <Link>System.Drawing\KnownColors.cs</Link>
-    </Compile>
+    </Compile>-->
     <Compile Include="System.Drawing\Pen.cs">
       <Link>System.Drawing\Pen.cs</Link>
     </Compile>

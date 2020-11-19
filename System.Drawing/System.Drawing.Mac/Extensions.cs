@@ -188,12 +188,49 @@ namespace System.Drawing.Mac
 
 		public static CGColor ToCGColor(this Color c)
 		{
-			return c.CGColor;
+			return ToNSColor(c).CGColor;
 		}
 
 		public static NSColor ToNSColor(this Color c)
 		{
-			return c.NSColor;
+			if (c.IsSystemColor) {
+				switch (c.ToKnownColor()) {
+					case KnownColor.ActiveBorder: return NSColor.WindowFrame;
+					case KnownColor.ActiveCaption: return NSColor.Grid;
+					case KnownColor.ActiveCaptionText: return NSColor.HeaderText;
+					// KnownColor.AppWorkspace
+
+					case KnownColor.Control: return NSColor.Control;
+					case KnownColor.ControlText: return NSColor.ControlText;
+					case KnownColor.ControlDark: return NSColor.ControlShadow;
+					case KnownColor.ControlDarkDark: return NSColor.ControlDarkShadow;
+					case KnownColor.ControlLight: return NSColor.ControlHighlight;
+					case KnownColor.ControlLightLight: return NSColor.ControlBackground;
+					// KnownColor.Desktop
+					case KnownColor.GrayText: return NSColor.DisabledControlText;
+					// KnownColor.Highlight
+					case KnownColor.Highlight: return NSColor.SelectedTextBackground;
+					case KnownColor.HighlightText: return NSColor.SelectedText;
+					// KnownColor.HighlightText
+					// KnownColor.HotTrack
+					// KnownColor.InactiveBorder
+					// KnownColor.InactiveCaption
+					// KnownColor.InactiveCaptionText
+					// KnownColor.Info
+					// KnownColor.InfoText
+					// KnownColor.Menu
+					// KnownColor.MenuText
+					case KnownColor.ScrollBar: return NSColor.ScrollBar;
+					case KnownColor.Window: return NSColor.WindowBackground;
+					case KnownColor.WindowText: return NSColor.WindowFrameText;
+					case KnownColor.WindowFrame: return NSColor.WindowFrame;
+					case KnownColor.ButtonFace: return NSColor.Control;
+					case KnownColor.ButtonHighlight: return NSColor.ControlHighlight;
+					case KnownColor.ButtonShadow: return NSColor.ControlShadow;
+				}
+			}
+
+			return ToNSColor(c.ToArgb());
 		}
 
 		public static CGColor ToCGColor(this int value)
@@ -283,7 +320,31 @@ namespace System.Drawing.Mac
 
 		public static Color ToSDColor(this NSColor color)
 		{
-			return new Color(color);
+			/*return color switch {
+				// FIXME: Reverse of ToNSColor, not always correct
+				NSColor.WindowFrame => SystemColors.ActiveBorder,
+				NSColor.Grid => SystemColors.ActiveCaption,
+				NSColor.HeaderText => SystemColors.ActiveCaptionText,
+				NSColor.Control => SystemColors.Control, 
+				NSColor.ControlText => SystemColors.ControlText, 
+				NSColor.ControlDark => SystemColors.ControlDark, 
+				NSColor.ControlDarkDark => SystemColors.ControlDarkDark, 
+				NSColor.ControlLight => SystemColors.ControlLight, 
+				NSColor.ControlBackground => SystemColors.ControlLightLight, 
+				NSColor.DisabledControlText => SystemColors.GrayText, 
+				NSColor.SelectedTextBackground => SystemColors.Highlight, 
+				NSColor.SelectedText => SystemColors.HighlightText, 
+				NSColor.DisabledControlText => SystemColors.GrayText, 
+				NSColor.ScrollBar => SystemColors.ScrollBar, 
+				NSColor.WindowBackground => SystemColors.Window, 
+				NSColor.WindowFrameText => SystemColors.WindowText, 
+				NSColor.WindowFrame => SystemColors.WindowFrame, 
+				NSColor.Control => SystemColors.ButtonFace, 
+				NSColor.ControlHighlight => SystemColors.ButtonHighlight, 
+				NSColor.ControlShadow => SystemColors.ButtonShadow, 
+				_ => new Color(color.ToArgb())
+			};*/
+			return Color.FromArgb(color.ToArgb());
 		}
 
 		public static uint ToUArgb(this NSColor color)
@@ -393,28 +454,12 @@ namespace System.Drawing.Mac
 
 		public static void SetStrokeColor(this CGContext context, Color color)
 		{
-			if (color.IsNSColor)
-			{
-				context.SetStrokeColor(color.CGColor);
-			}
-			else
-			{
-				color.Value.ToArgb(out nfloat a, out nfloat r, out nfloat g, out nfloat b);
-				context.SetStrokeColor(r, g, b, a);
-			}
+			context.SetStrokeColor(ToCGColor(color));
 		}
 
 		public static void SetFillColor(this CGContext context, Color color)
 		{
-			if (color.IsNSColor)
-			{
-				context.SetFillColor(color.CGColor);
-			}
-			else
-			{
-				color.Value.ToArgb(out nfloat a, out nfloat r, out nfloat g, out nfloat b);
-				context.SetFillColor(r, g, b, a);
-			}
+			context.SetFillColor(ToCGColor(color));
 		}
 
 		public static NSAttributedString GetAttributedString(this string s, char? hotKey = '&', Font font = null, ContentAlignment? alignment = null)
