@@ -44,7 +44,7 @@ namespace FormsTest
 			panel1.Size = new Size(600, 249);
 			panel1.TabIndex = 0;
 #if MAC
-			panel1.UseNativeControl = true;
+			//panel1.UseNativeControl = true;
 #endif
 			//panel1.WrapContents = false;
 			//panel1.AutoScroll = true;
