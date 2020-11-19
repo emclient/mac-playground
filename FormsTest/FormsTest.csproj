@@ -259,8 +259,8 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'xamarinmac20'">
-    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms.csproj" />
-    <ProjectReference Include="..\sysdrawing-coregraphics\System.Drawing.csproj" />
+    <ProjectReference Include="..\System.Windows.Forms\System.Windows.Forms.csproj" />
+    <ProjectReference Include="..\System.Drawing\System.Drawing.csproj" />
     <!--<ProjectReference Include="..\..\..\MailClient.Common.UI\MailClient.Common.UI.csproj">
       <Project>{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}</Project>
       <Name>MailClient.Common.UI</Name>
