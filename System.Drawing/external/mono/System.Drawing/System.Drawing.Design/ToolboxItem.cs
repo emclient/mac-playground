@@ -41,8 +41,6 @@ using System.Security.Permissions;
 namespace System.Drawing.Design 
 {
 	[Serializable]
-	[PermissionSet (SecurityAction.LinkDemand, Unrestricted = true)]
-	[PermissionSet (SecurityAction.InheritanceDemand, Unrestricted = true)]
 	public class ToolboxItem : ISerializable {
 
 		private bool locked = false;
