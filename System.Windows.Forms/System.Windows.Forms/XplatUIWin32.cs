@@ -40,7 +40,7 @@ using System.Threading;
 
 /// Win32 Version
 namespace System.Windows.Forms {
-	internal class XplatUIWin32 : XplatUIDriver {
+	internal partial class XplatUIWin32 : XplatUIDriver {
 		#region Local Variables
 		private static XplatUIWin32	instance;
 		private static int		ref_count;
