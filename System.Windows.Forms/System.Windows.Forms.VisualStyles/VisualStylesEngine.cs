@@ -47,7 +47,8 @@ namespace System.Windows.Forms.VisualStyles
 				VisualStylesGtkPlus.Initialize ())
 				return new VisualStylesGtkPlus ();
 #endif
-			return new VisualStylesNative ();
+			//return new VisualStylesNative ();
+			throw new PlatformNotSupportedException();
 		}
 	}
 }

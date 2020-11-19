@@ -126,7 +126,11 @@ namespace System.Windows.Forms {
 				}
 #endif
 			} else {
+#if !XAMARINMAC
 				driver=XplatUIWin32.GetInstance ();
+#else
+				throw new PlatformNotSupportedException ();
+#endif
 			}
 
 			driver.InitializeDriver ();
