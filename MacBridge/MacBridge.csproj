@@ -1,15 +1,15 @@
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFramework>xamarinmac20</TargetFramework>
+    <TargetFramework>net50-macos</TargetFramework>
     <TargetFramework Condition="'$(OS)' == 'Windows_NT'">netstandard2.0</TargetFramework>
     <DefineConstants>XAMARINMAC;__UNIFIED__</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DisableExtraReferences>true</DisableExtraReferences>
-    <EnableDefaultItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultItems>
-    <EnableDefaultCompileItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultCompileItems>
-    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultEmbeddedResourceItems>
+    <EnableDefaultItems Condition="'$(TargetFramework)' != 'net50-macos'">false</EnableDefaultItems>
+    <EnableDefaultCompileItems Condition="'$(TargetFramework)' != 'net50-macos'">false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' != 'net50-macos'">false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net50-macos'">
     <Compile Include="..\..\..\WinApi\GdiPlus.Structs.cs">
       <Link>WinApi\GdiPlus.Structs.cs</Link>
     </Compile>

@@ -1,12 +1,16 @@
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-	<TargetFrameworks>net48;xamarinmac20</TargetFrameworks>
+	<TargetFrameworks>net50-macos</TargetFrameworks>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <DisableExtraReferences>true</DisableExtraReferences>
-    <DefineConstants Condition=" '$(TargetFramework)' == 'xamarinmac20'">$(DefineConstants);MAC;XAMARINMAC</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)' == 'net50-macos'">$(DefineConstants);MAC;XAMARINMAC</DefineConstants>
     <OutputType Condition=" '$(TargetFramework)' == 'net48'">WinExe</OutputType>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Forms\ToolstripForm.cs">
       <SubType>Form</SubType>
@@ -258,7 +262,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'xamarinmac20'">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net50-macos'">
     <ProjectReference Include="..\System.Windows.Forms\System.Windows.Forms.csproj" />
     <ProjectReference Include="..\System.Drawing\System.Drawing.csproj" />
     <!--<ProjectReference Include="..\..\..\MailClient.Common.UI\MailClient.Common.UI.csproj">
