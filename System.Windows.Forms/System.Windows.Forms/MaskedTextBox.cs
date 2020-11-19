@@ -161,7 +161,6 @@ namespace System.Windows.Forms
 		}
 		
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
-		[UIPermission (SecurityAction.InheritanceDemand, Window = UIPermissionWindow.AllWindows)]
 		protected override void CreateHandle ()
 		{
 			base.CreateHandle ();
