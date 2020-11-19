@@ -37,16 +37,10 @@ namespace System.Resources {
 		#endregion	// Local Variables
 
 		#region Public Constructors
-		public ResXResourceSet(Stream stream) {
-			this.Reader = new ResXResourceReader(stream);
-			this.Table = new Hashtable();
-			this.ReadResources();
+		public ResXResourceSet(Stream stream) : base(new ResXResourceReader(stream)) {
 		}
 
-		public ResXResourceSet(string fileName) {
-			this.Reader = new ResXResourceReader(fileName);
-			this.Table = new Hashtable();
-			this.ReadResources();
+		public ResXResourceSet(string fileName) : base(new ResXResourceReader(fileName)) {
 		}
 		#endregion	// Public Constructors
 
