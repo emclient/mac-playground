@@ -21,12 +21,7 @@ namespace System.Drawing
 		internal const float MS_DPI = 96;
 
 		internal static float F_PI = (float)Math.PI;
-		
-		internal static CGColor ToCGColor (this Color color)
-		{				
-			return color.ToCGColor();
-		}
-		
+	
 		internal static float ToRadians (this float degrees) 
 		{
 			return degrees * F_PI / 180f;
