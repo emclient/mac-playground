@@ -34,6 +34,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Drawing.Imaging;
 #if XAMARINMAC
 using AppKit;
 using PrintCore;
@@ -132,6 +133,11 @@ namespace System.Drawing.Printing {
 			}
 		}
 
+		public int MaximumCopies
+		{
+			get { return 100; }
+		}
+
 		public PrintRange PrintRange
 		{
 			get { return print_range; }
@@ -157,10 +163,15 @@ namespace System.Drawing.Printing {
 			}
 		}
 
+		public bool IsDefaultPrinter
+		{
+			get { return printer?.IsDefault == true; }
+		}
+
 		public bool PrintToFile { get; set; }
 		public string PrintFileName { get; set; }
 		public bool CanDuplex { get; internal set; }
-		public Duplex Duplex { get; internal set; }
+		public Duplex Duplex { get; set; }
 		public bool Collate { get; set; }
 		public bool IsPlotter { get; set; }
 		public int LandscapeAngle { get; internal set; }
@@ -190,6 +201,61 @@ namespace System.Drawing.Printing {
 		public static PrinterSettings.StringCollection InstalledPrinters
 		{
 			get { return new StringCollection(NSPrinter.PrinterNames); }
+		}
+
+		public Graphics CreateMeasurementGraphics()
+		{
+			throw new NotImplementedException();
+		}
+
+		public Graphics CreateMeasurementGraphics(bool honorOriginAtMargins)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Graphics CreateMeasurementGraphics(PageSettings pageSettings)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Graphics CreateMeasurementGraphics(PageSettings pageSettings, bool honorOriginAtMargins)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IntPtr GetHdevmode()
+		{
+			throw new NotImplementedException();
+		}
+
+		public IntPtr GetHdevmode(PageSettings pageSettings)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IntPtr GetHdevnames()
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool IsDirectPrintingSupported(Image image)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool IsDirectPrintingSupported(ImageFormat imageFormat)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SetHdevmode(IntPtr hdevmode)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SetHdevnames(IntPtr hdevnames)
+		{
+			throw new NotImplementedException();
 		}
 
 		public class PaperSourceCollection : ICollection, IEnumerable

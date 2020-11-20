@@ -23,6 +23,7 @@ using nfloat = System.Double;
 #else
 using nfloat = System.Single;
 #endif
+using MatrixOrder = System.Drawing.Drawing2D.MatrixOrder;
 
 namespace System.Drawing
 {
@@ -195,9 +196,9 @@ namespace System.Drawing
 			}
 		}
 
-		int dashOffset = 0;
+		float dashOffset = 0;
 		
-		public int DashOffset {
+		public float DashOffset {
 			get {
 				return dashOffset;
 			}
@@ -263,6 +264,124 @@ namespace System.Drawing
 				changed = true;
 			}
 		}
+
+		/// <summary>
+		/// Gets or sets an array of custom dashes and spaces. The dashes are made up of line segments.
+		/// </summary>
+		public float[] CompoundArray
+		{
+			get
+			{
+				throw new NotImplementedException ();
+			}
+			set
+			{
+				throw new NotImplementedException ();
+			}
+		}		
+
+
+		/// <summary>
+		/// Gets or sets a custom cap style to use at the beginning of lines drawn with this <see cref='Pen'/>.
+		/// </summary>
+		public CustomLineCap CustomStartCap
+		{
+			get
+			{
+				throw new NotImplementedException ();
+			}
+			set
+			{
+				throw new NotImplementedException ();
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets a custom cap style to use at the end of lines drawn with this <see cref='Pen'/>.
+		/// </summary>
+		public CustomLineCap CustomEndCap
+		{
+			get
+			{
+				throw new NotImplementedException ();
+			}
+			set
+			{
+				throw new NotImplementedException ();
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the cap style used at the beginning or end of dashed lines drawn with this <see cref='Pen'/>.
+		/// </summary>
+		public DashCap DashCap
+		{
+			get
+			{
+				throw new NotImplementedException ();
+			}
+			set
+			{
+				throw new NotImplementedException ();
+			}
+		}		
+
+		/// <summary>
+		/// Gets the style of lines drawn with this <see cref='Pen'/>.
+		/// </summary>
+		public PenType PenType
+		{
+			get
+			{
+				throw new NotImplementedException ();
+			}
+		}
+
+		/// <summary>
+		/// Resets the geometric transform for this <see cref='Pen'/> to identity.
+		/// </summary>
+		public void ResetTransform() => transform.Reset ();
+
+		/// <summary>
+		/// Multiplies the transform matrix for this <see cref='Pen'/> by the specified <see cref='Matrix'/>.
+		/// </summary>
+		public void MultiplyTransform(Matrix matrix) => MultiplyTransform(matrix, MatrixOrder.Prepend);
+
+		/// <summary>
+		/// Multiplies the transform matrix for this <see cref='Pen'/> by the specified <see cref='Matrix'/> in the specified order.
+		/// </summary>
+		public void MultiplyTransform(Matrix matrix, MatrixOrder order) => transform.Multiply (matrix, order);
+
+		/// <summary>
+		/// Translates the local geometrical transform by the specified dimensions. This method prepends the translation
+		/// to the transform.
+		/// </summary>
+		public void TranslateTransform(float dx, float dy) => TranslateTransform(dx, dy, MatrixOrder.Prepend);
+
+		/// <summary>
+		/// Translates the local geometrical transform by the specified dimensions in the specified order.
+		/// </summary>
+		public void TranslateTransform(float dx, float dy, MatrixOrder order) => transform.Translate (dx, dy, order);
+
+		/// <summary>
+		/// Scales the local geometric transform by the specified amounts. This method prepends the scaling matrix to the transform.
+		/// </summary>
+		public void ScaleTransform(float sx, float sy) => ScaleTransform(sx, sy, MatrixOrder.Prepend);
+
+		/// <summary>
+		/// Scales the local geometric transform by the specified amounts in the specified order.
+		/// </summary>
+		public void ScaleTransform (float sx, float sy, MatrixOrder order) => transform.Scale (sx, sy, order);
+
+		/// <summary>
+		/// Rotates the local geometric transform by the specified amount. This method prepends the rotation to the transform.
+		/// </summary>
+		public void RotateTransform (float angle) => RotateTransform(angle, MatrixOrder.Prepend);
+
+		/// <summary>
+		/// Rotates the local geometric transform by the specified amount in the specified order.
+		/// </summary>
+		public void RotateTransform (float angle, MatrixOrder order) => transform.Rotate (angle, order);
 
 		static float[] Dot = { 1.0f, 1.0f };
 		static float[] Dash = { 3.0f, 1.0f };

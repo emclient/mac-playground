@@ -65,7 +65,7 @@ namespace System.Drawing {
 
 		public StringFormat(StringFormatFlags options, int language) : this(options)
 		{
-
+			this.DigitSubstitutionLanguage = language;
 		}
 
 		~StringFormat ()
@@ -81,6 +81,10 @@ namespace System.Drawing {
 		public StringAlignment LineAlignment { get; set; }
 				
 		public StringTrimming Trimming { get; set; }
+
+		public int DigitSubstitutionLanguage { get; private set; }
+
+		public StringDigitSubstitute DigitSubstitutionMethod { get; private set; }
 
 		public object Clone()
 		{
@@ -142,10 +146,11 @@ namespace System.Drawing {
 			//throw new NotImplementedException ();
 		}
 
-		/*public void SetDigitSubstitution(int language,  StringDigitSubstitute substitute)
+		public void SetDigitSubstitution(int language, StringDigitSubstitute substitute)
 		{
-			throw new NotImplementedException ();
-		}*/
+			DigitSubstitutionLanguage = language;
+			DigitSubstitutionMethod = substitute;
+		}
 
 		public float[] GetTabStops(out float firstTabOffset)
 		{

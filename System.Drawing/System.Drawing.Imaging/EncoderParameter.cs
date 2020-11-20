@@ -242,6 +242,11 @@ namespace System.Drawing.Imaging
 			}
 		}
 
+		public EncoderParameter(Encoder encoder, int numberValues, EncoderParameterValueType type, IntPtr value)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Encoder Encoder
 		{
 			get

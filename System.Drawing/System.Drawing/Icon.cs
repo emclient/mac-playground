@@ -181,14 +181,12 @@ namespace System.Drawing
 			return new Icon (this, Size);
 		}
 		
-		[SecurityPermission (SecurityAction.LinkDemand, UnmanagedCode = true)]
 		public static Icon FromHandle (IntPtr handle)
 		{
 			if (handle == IntPtr.Zero)
 				throw new ArgumentException ("handle");
-			throw new NotImplementedException();
+			throw new PlatformNotSupportedException ();
 		}
-
 
 		public void Save (Stream outputStream)
 		{

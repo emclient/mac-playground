@@ -64,6 +64,8 @@ using MonoTouch.MobileCoreServices;
 namespace System.Drawing {
 	
 	[Serializable]
+	[Editor("System.Drawing.Design.BitmapEditor, System.Drawing.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+			"System.Drawing.Design.UITypeEditor, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
 	public sealed class Bitmap : Image {
 		internal CGBitmapContext cachedContext;
 
@@ -85,7 +87,14 @@ namespace System.Drawing {
 		private CGImageSource imageSource;
 
 		public Bitmap (string filename)
+			: this (filename, useIcm: false)
 		{
+		}
+
+		public Bitmap (string filename, bool useIcm)
+		{
+			// TODO: Implement useIcm
+
 			if (filename == null)
 				throw new ArgumentNullException ("Value can not be null");
 
@@ -310,24 +319,30 @@ namespace System.Drawing {
 
 		public IntPtr GetHbitmap()
 		{
-			throw new NotImplementedException ();
+			throw new PlatformNotSupportedException ();
 		}
 
 		public IntPtr GetHbitmap(Color backgroundColor)
 		{
-			throw new NotImplementedException ();
+			throw new PlatformNotSupportedException ();
 		}
 
 		public IntPtr GetHicon()
 		{
-			throw new NotImplementedException ();
+			throw new PlatformNotSupportedException ();
 		}
 
 		public Bitmap FromHicon(IntPtr handle)
 		{
-			throw new NotImplementedException ();
+			throw new PlatformNotSupportedException ();
 		}
-			
+
+
+		public static Bitmap FromResource(IntPtr hinstance, string bitmapName)
+		{
+			throw new PlatformNotSupportedException ();
+		}
+
 		private void InitializeImageFrame(int frame)
 		{
 			if (NativeCGImage != null)
@@ -549,11 +564,11 @@ namespace System.Drawing {
 
 			var bitmapBlock = Marshal.AllocHGlobal(size);
 			bitmap = new CGBitmapContext (bitmapBlock, 
-			                              width, height, 
-			                              bitsPerComponent, 
-			                              bytesPerRow,
-			                              colorSpace,
-			                              bitmapInfo);
+										  width, height, 
+										  bitsPerComponent, 
+										  bytesPerRow,
+										  colorSpace,
+										  bitmapInfo);
 
 			bitmap.ClearRect (new CGRect (0, 0, width, height));
 			bitmap.DrawImage (new CGRect (0, 0, image.Width, image.Height), image);
@@ -561,9 +576,9 @@ namespace System.Drawing {
 			this.bitmapBlock = bitmapBlock;
 			this.dataProvider = new CGDataProvider (bitmapBlock, size, true);
 			NativeCGImage = new CGImage (width, height, bitsPerComponent, 
-			                             bitsPerPixel, bytesPerRow, 
-			                             colorSpace,
-			                             bitmapInfo, dataProvider, null, true, image.RenderingIntent);
+										 bitsPerPixel, bytesPerRow, 
+										 colorSpace,
+										 bitmapInfo, dataProvider, null, true, image.RenderingIntent);
 
 			colorSpace.Dispose();
 			cachedContext = bitmap;
@@ -697,21 +712,30 @@ namespace System.Drawing {
 		/// <param name="pixelFormat">Pixel format.</param>
 		public Bitmap Clone (Rectangle rect, PixelFormat pixelFormat)
 		{
-			if (rect.Width == 0 || rect.Height == 0)
+			return Clone ((RectangleF) rect, pixelFormat);
+		}
+
+		/// <summary>
+		/// Creates a copy of the section of this Bitmap defined by Rectangle structure and with a specified PixelFormat enumeration.
+		/// </summary>
+		/// <param name="rect">Rect.</param>
+		/// <param name="pixelFormat">Pixel format.</param>
+		public Bitmap Clone (RectangleF rect, PixelFormat pixelFormat)
+		{
+			if ((int)rect.Width == 0 || (int)rect.Height == 0)
 				throw new ArgumentException ("Width or Height of rect is 0.");
 
-			var width = rect.Width;
-			var height = rect.Height;
+			var width = (int)rect.Width;
+			var height = (int)rect.Height;
 
 			var tmpImg = new Bitmap (width, height, pixelFormat);
 
 			using (Graphics g = Graphics.FromImage (tmpImg)) {
-				g.DrawImage (this, new Rectangle(0,0, width, height), rect, GraphicsUnit.Pixel );
+				g.DrawImage (this, new Rectangle(0, 0, width, height), rect, GraphicsUnit.Pixel );
 			}
 			tmpImg.DebugSetTag($"Bitmap.Clone({Tag})");
 			return tmpImg;
 		}
-
 
 		protected override void Dispose (bool disposing)
 		{
@@ -805,7 +829,7 @@ namespace System.Drawing {
 			// Lock the bitmap's bits.  
 			Rectangle rect = new Rectangle(0, 0, Width, Height);
 			var bmpData = LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite,
-				             pixelFormat);
+							 pixelFormat);
 
 			var alpha = Color.Transparent.A;
 			var red = Color.Transparent.R;
@@ -977,7 +1001,12 @@ namespace System.Drawing {
 			}
 		}
 
-		public BitmapData LockBits (Rectangle rect, ImageLockMode flags, PixelFormat pixelFormat)
+		public BitmapData LockBits (Rectangle rect, ImageLockMode flags, PixelFormat format)
+		{
+			return LockBits (rect, flags, format, new BitmapData());
+		}
+
+		public BitmapData LockBits (Rectangle rect, ImageLockMode flags, PixelFormat format, BitmapData bitmapData)
 		{
 			// We don't support conversion
 			if (PixelFormat != pixelFormat)
@@ -988,8 +1017,6 @@ namespace System.Drawing {
 			// Bitmap created from external data, convert it
 			if (bitmapBlock == IntPtr.Zero)
 				GetRenderableContext ();
-
-			BitmapData bitmapData = new BitmapData ();
 
 			//bitmapData.Scan0 = (IntPtr)((long)pinnedScanArray.AddrOfPinnedObject() + ((rect.Left * NativeCGImage.BitsPerPixel + 7) / 8) + (rect.Top * NativeCGImage.BytesPerRow));
 			bitmapData.Scan0 = bitmapBlock;

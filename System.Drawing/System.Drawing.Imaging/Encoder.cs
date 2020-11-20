@@ -47,6 +47,21 @@ namespace System.Drawing.Imaging
 		public static readonly Encoder Transformation;
 		public static readonly Encoder Version;
 
+		/// <summary>
+		/// An <see cref="Encoder" /> object that is initialized with the globally unique identifier for the color space category.
+		/// </summary>
+		public static readonly Encoder ColorSpace = new Encoder(new Guid(unchecked((int)0xae7a62a0), unchecked((short)0xee2c), unchecked((short)0x49d8), new byte[] { 0x9d, 0x07, 0x1b, 0xa8, 0xa9, 0x27, 0x59, 0x6e }));
+
+		/// <summary>
+		/// An <see cref="Encoder" /> object that is initialized with the globally unique identifier for the image items category.
+		/// </summary>
+		public static readonly Encoder ImageItems = new Encoder(new Guid(unchecked((int)0x63875e13), unchecked((short)0x1f1d), unchecked((short)0x45ab), new byte[] { 0x91, 0x95, 0xa2, 0x9b, 0x60, 0x66, 0xa6, 0x50 }));
+
+		/// <summary>
+		/// An <see cref="Encoder" /> object that is initialized with the globally unique identifier for the save as CMYK category.
+		/// </summary>
+		public static readonly Encoder SaveAsCmyk = new Encoder(new Guid(unchecked((int)0xa219bbc9), unchecked((short)0x0a9d), unchecked((short)0x4005), new byte[] { 0xa3, 0xee, 0x3a, 0x42, 0x1b, 0x8b, 0xb0, 0x6c }));
+
 		static Encoder()
 		{
 			// GUID values are taken from my windows machine.

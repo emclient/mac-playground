@@ -53,7 +53,6 @@ namespace System.Drawing
 			return graphics;
 		}
 
-		[SecurityPermission (SecurityAction.Demand, UnmanagedCode = true)]
 		public BufferedGraphics Allocate (IntPtr targetDC, Rectangle targetRectangle)
 		{
 			throw new PlatformNotSupportedException ();

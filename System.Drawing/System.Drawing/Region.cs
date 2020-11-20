@@ -186,10 +186,24 @@ namespace System.Drawing
 			regionBounds = regionPath.BoundingBox;
 		}
 
+		public Region (RegionData regionData)
+		{
+			throw new NotImplementedException ();
+		}
+
+		public RegionData GetRegionData ()
+		{
+			throw new NotImplementedException ();
+		}
+
 		public IntPtr GetHrgn(Graphics g)
 		{
 			NotImplemented(MethodBase.GetCurrentMethod());
 			return IntPtr.Zero;
+		}
+
+		public void ReleaseHrgn(IntPtr regionHandle)
+		{
 		}
 
 		public static Region FromHrgn(IntPtr hrgn)
@@ -447,6 +461,28 @@ namespace System.Drawing
 			Transform (translateMatrix);
 		}
 
+		public void Complement(Rectangle rect)
+		{
+			Complement ((RectangleF)rect);
+		}
+
+		public void Complement(RectangleF rect)
+		{
+			throw new NotImplementedException ();
+		}
+
+		public void Complement(Region region)
+		{
+			throw new NotImplementedException ();
+		}
+
+		public void Complement(GraphicsPath path)
+		{
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
+			Complement(new Region(path));
+		}
+
 		public void Intersect(Rectangle rect)
 		{
 			Intersect ((RectangleF)rect);
@@ -462,6 +498,13 @@ namespace System.Drawing
 		{
 			regionList.Add(new RegionEntry(RegionType.Path, region.solution, RegionClipType.Intersection));
 			calculateRegionPath (ClipType.ctIntersection);
+		}
+
+		public void Intersect(GraphicsPath path)
+		{
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
+			Intersect(new Region(path));
 		}
 
 		public void Union(Rectangle rect)
@@ -481,6 +524,13 @@ namespace System.Drawing
 			calculateRegionPath (ClipType.ctUnion);
 		}
 
+		public void Union(GraphicsPath path)
+		{
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
+			Union(new Region(path));
+		}
+
 		public void Xor(Rectangle rect)
 		{
 			Xor ((RectangleF)rect);
@@ -498,6 +548,13 @@ namespace System.Drawing
 			calculateRegionPath (ClipType.ctXor);
 		}
 
+		public void Xor(GraphicsPath path)
+		{
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
+			Xor(new Region(path));
+		}
+
 		public void Exclude(Rectangle rect)
 		{
 			Exclude ((RectangleF)rect);
@@ -513,6 +570,13 @@ namespace System.Drawing
 		{
 			regionList.Add(new RegionEntry(RegionType.Path, region.solution, RegionClipType.Difference));
 			calculateRegionPath (ClipType.ctDifference);
+		}
+
+		public void Exclude(GraphicsPath path)
+		{
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
+			Exclude(new Region(path));
 		}
 
 		void calculateRegionPath (ClipType clipType)
@@ -626,6 +690,44 @@ namespace System.Drawing
 			// the painted region of the path. If false, the winding fill rule is used.
 			return regionPath.ContainsPoint (new CGPoint(x,y), EVEN_ODD_FILL);
 		}
+
+		public bool IsVisible(Point point, Graphics g)
+		{
+			return IsVisible ((PointF)point);
+		}
+
+		public bool IsVisible(PointF point, Graphics g)
+		{
+			return IsVisible (point);
+		}
+
+		public bool IsVisible(Rectangle rectangle, Graphics g)
+		{
+			return IsVisible ((RectangleF)rectangle);
+		}
+
+		public bool IsVisible(RectangleF rectangle, Graphics g)
+		{
+			return IsVisible (rectangle);
+		}
+
+		public bool IsVisible(float x, float y, Graphics g)
+		{
+			return IsVisible (x, y);
+		}
+
+		public bool IsVisible(int x, int y, Graphics g)
+		{
+			return IsVisible (x, y);
+		}
+
+		public bool IsVisible(float x, float y, float width, float height) => IsVisible(new RectangleF(x, y, width, height), null);
+
+		public bool IsVisible(float x, float y, float width, float height, Graphics g) => IsVisible(new RectangleF(x, y, width, height), g);
+
+		public bool IsVisible(int x, int y, int width, int height) => IsVisible(new Rectangle(x, y, width, height), null);
+
+		public bool IsVisible(int x, int y, int width, int height, Graphics g) => IsVisible(new Rectangle(x, y, width, height), g);
 
 		public bool IsEmpty(Graphics g)
 		{

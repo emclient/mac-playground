@@ -105,7 +105,6 @@ namespace System.Drawing
 			target.DrawImage (membmp, size);
 		}
 
-		[SecurityPermission (SecurityAction.Demand, UnmanagedCode = true)]
 		public void Render (IntPtr targetDC)
 		{
 			throw new PlatformNotSupportedException ();

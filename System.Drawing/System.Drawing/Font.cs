@@ -8,7 +8,8 @@ namespace System.Drawing
 
 	[Serializable]
 	[ComVisible (true)]
-//	[Editor ("System.Drawing.Design.FontEditor, " + Consts.AssemblySystem_Drawing_Design, typeof (System.Drawing.Design.UITypeEditor))]
+	[Editor ("System.Drawing.Design.FontEditor, System.Drawing.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+			 "System.Drawing.Design.UITypeEditor, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
 	[TypeConverter (typeof (FontConverter))]
 	public sealed partial class Font : MarshalByRefObject, ISerializable, ICloneable, IDisposable 
 	{
@@ -24,6 +25,7 @@ namespace System.Drawing
 		FontStyle fontStyle;
 		byte gdiCharSet = 1;
 		bool  gdiVerticalFont;
+		string originalFontName;
 
 		public Font (Font prototype, FontStyle newStyle)
 			: this (prototype.FontFamily, prototype.size, newStyle, prototype.unit, prototype.gdiCharSet, prototype.gdiVerticalFont)
@@ -38,6 +40,7 @@ namespace System.Drawing
 		public Font (string familyName, float emSize,  GraphicsUnit unit)
 			: this (new FontFamily (familyName, true), emSize, FontStyle.Regular, unit, DefaultCharSet, false)
 		{
+			originalFontName = familyName;
 		}
 
 		public Font (FontFamily family, float emSize)
@@ -63,31 +66,36 @@ namespace System.Drawing
 		public Font (string familyName, float emSize)
 			: this (new FontFamily (familyName, true), emSize, FontStyle.Regular, GraphicsUnit.Point, DefaultCharSet, false)
 		{
+			originalFontName = familyName;
 		}
 
 		public Font (string familyName, float emSize, FontStyle style)
 			: this (new FontFamily (familyName, true), emSize, style, GraphicsUnit.Point, DefaultCharSet, false)
 		{
+			originalFontName = familyName;
 		}
 
 		public Font (string familyName, float emSize, FontStyle style, GraphicsUnit unit)
 			: this (new FontFamily (familyName, true), emSize, style, unit, DefaultCharSet, false)
 		{
+			originalFontName = familyName;
 		}
 
 		public Font (string familyName, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet)
 			: this (new FontFamily (familyName, true), emSize, style, unit, gdiCharSet, false)
 		{
+			originalFontName = familyName;
 		}
 
 		public Font (string familyName, float emSize, FontStyle style,
-		           GraphicsUnit unit, byte gdiCharSet, bool  gdiVerticalFont)
+				   GraphicsUnit unit, byte gdiCharSet, bool  gdiVerticalFont)
 			: this (new FontFamily (familyName, true), emSize, style, unit, gdiCharSet, gdiVerticalFont)
 		{
+			originalFontName = familyName;
 		}
 
 		public Font (FontFamily familyName, float emSize, FontStyle style,
-		             GraphicsUnit unit, byte gdiCharSet, bool  gdiVerticalFont )
+					 GraphicsUnit unit, byte gdiCharSet, bool  gdiVerticalFont )
 		{
 
 
@@ -105,6 +113,7 @@ namespace System.Drawing
 		internal Font (string familyName, float emSize, string systemName)
 			: this (familyName, emSize, FontStyle.Regular, GraphicsUnit.Point, DefaultCharSet, false)
 		{
+			originalFontName = familyName;
 		}
 
 		private Font(SerializationInfo info, StreamingContext context)
@@ -119,7 +128,8 @@ namespace System.Drawing
 		#region ISerializable implementation
 		void ISerializable.GetObjectData (SerializationInfo info, StreamingContext context)
 		{
-			info.AddValue("Name", Name);
+			string name = string.IsNullOrEmpty(OriginalFontName) ? Name : OriginalFontName;
+			info.AddValue("Name", name);
 			info.AddValue("Size", Size);
 			info.AddValue("Style", Style);
 			info.AddValue("Unit", Unit);
@@ -170,6 +180,16 @@ namespace System.Drawing
 			throw new NotImplementedException ();
 		}
 
+		public static Font FromHdc(IntPtr hdc)
+		{
+			throw new NotImplementedException ();
+		}
+
+		public static Font FromLogFont(object lf, IntPtr hdc)
+		{
+			throw new NotImplementedException ();
+		}
+
 		public void ToLogFont(object logFont)
 		{
 			throw new NotImplementedException ();
@@ -180,11 +200,13 @@ namespace System.Drawing
 			throw new NotImplementedException ();
 		}
 
+		[Browsable (false)]
 		public float SizeInPoints 
 		{
 			get { return sizeInPoints; }
 		}
 		
+		[TypeConverter (typeof (FontConverter.FontUnitConverter))]
 		public GraphicsUnit Unit 
 		{
 			get { return unit; }
@@ -199,52 +221,67 @@ namespace System.Drawing
 			
 		}
 
+		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
 		public bool Bold 
 		{ 
 			get { return 0 != (fontStyle & FontStyle.Bold); }
 		}
 
+		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
 		public bool Italic
 		{ 
 			get { return 0 != (fontStyle & FontStyle.Italic); }
 		}
 
+		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
 		public bool Underline
 		{ 
 			get { return underLine; }
 		}
 
+		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
 		public bool Strikeout
 		{ 
 			get { return strikeThrough; }
 		}
 
+		[Browsable (false)]
 		public int Height {
 			get { return (int)Math.Round (GetNativeheight ()); }
 		}
 
+		[Browsable (false)]
 		public FontFamily FontFamily
 		{
 			get { return fontFamily; }
 		}
 
+		[Browsable (false)]
 		public FontStyle Style 
 		{ 
 			get { return fontStyle; }
 		}
 
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
+		[Editor ("System.Drawing.Design.FontNameEditor, System.Drawing.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+				 "System.Drawing.Design.UITypeEditor, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+		[TypeConverter (typeof (FontConverter.FontNameConverter))]
 		public string Name
 		{
 			get { return fontFamily.Name; }
 		}
 
-		public float GetHeight()
+		public float GetHeight ()
 		{
-			return GetNativeheight();
+			return GetNativeheight ();
 		}
 
-		public float GetHeight(Graphics g) 
+		public float GetHeight (Graphics g) 
+		{
+			return GetNativeheight ();
+		}
+
+		public float GetHeight (float dpi)
 		{
 			return GetNativeheight ();
 		}
@@ -266,7 +303,13 @@ namespace System.Drawing
 			}
 		}
 
-		[BrowsableAttribute(false)]
+		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
+		public bool GdiVerticalFont => gdiVerticalFont;
+
+		[Browsable(false)]
+		public string OriginalFontName => originalFontName;
+
+		[Browsable (false)]
 		public bool IsSystemFont
 		{
 			get
@@ -275,6 +318,7 @@ namespace System.Drawing
 			}
 		}
 
+		[Browsable (false)]
 		public String SystemFontName
 		{
 			get

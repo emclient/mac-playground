@@ -1,10 +1,16 @@
-﻿//
-// System.Drawing.Imaging.EncoderParameterValueType.cs
 //
-// Author: Dennis Hayes (dennish@raytek.com)
+// System.Drawing.Drawing2D.AdjustableArrowCap.cs
 //
-// (C) 2002 Ximian, Inc.  http://www.ximian.com
-// Copyright (C) 2004,2006 Novell, Inc (http://www.novell.com)
+// Authors:
+//	Dennis Hayes (dennish@Raytek.com)
+//	Ravindra (rkumar@novell.com)
+//
+// Copyright (C) 2002/3 Ximian, Inc. http://www.ximian.com
+// Copyright (C) 2004 Novell, Inc. http://www.novell.com
+//
+
+//
+// Copyright (C) 2004 Novell, Inc (http://www.novell.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -26,19 +32,48 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-namespace System.Drawing.Imaging
-{
+using System;
 
-	public enum EncoderParameterValueType
+namespace System.Drawing.Drawing2D
+{
+	/// <summary>
+	/// Summary description for AdjustableArrowCap.
+	/// </summary>
+	public sealed class AdjustableArrowCap : CustomLineCap
 	{
-		ValueTypeByte = 1,
-		ValueTypeAscii = 2,
-		ValueTypeShort = 3,
-		ValueTypeLong = 4,
-		ValueTypeRational = 5,
-		ValueTypeLongRange = 6,
-		ValueTypeUndefined = 7,
-		ValueTypeRationalRange = 8,
-		ValueTypePointer = 9,
+		// Constructors
+
+		public AdjustableArrowCap (float width, float height) : this (width, height, true)
+		{
+		}
+
+		public AdjustableArrowCap (float width, float height, bool isFilled)
+		{
+			Width = width;
+			Height = height;
+			Filled = isFilled;
+		}
+
+		// Public Properities
+
+		public bool Filled {
+			get;
+			set;
+		}
+
+		public float Width {
+			get;
+			set;
+		}
+
+		public float Height {
+			get;
+			set;
+		}
+
+		public float MiddleInset {
+			get;
+			set;
+		}
 	}
 }
