@@ -591,7 +591,7 @@
     <Compile Include="System.Windows.Forms\MenuMerge.cs" />
     <Compile Include="System.Windows.Forms\MenuStrip.cs" />
     <Compile Include="System.Windows.Forms\MergeAction.cs" />
-    <Compile Include="System.Windows.Forms\Message.cs" />
+    <!--<Compile Include="System.Windows.Forms\Message.cs" />-->
     <Compile Include="System.Windows.Forms\MessageBox.cs" />
     <Compile Include="System.Windows.Forms\MessageBoxButtons.cs" />
     <Compile Include="System.Windows.Forms\MessageBoxDefaultButton.cs" />
@@ -627,8 +627,8 @@
     <Compile Include="System.Windows.Forms\Orientation.cs" />
     <Compile Include="System.Windows.Forms\OSFeature.cs" />
     <Compile Include="System.Windows.Forms\OwnerDrawPropertyBag.cs" />
-    <Compile Include="System.Windows.Forms\Padding.cs" />
-    <Compile Include="System.Windows.Forms\PaddingConverter.cs" />
+    <!--<Compile Include="System.Windows.Forms\Padding.cs" />
+    <Compile Include="System.Windows.Forms\PaddingConverter.cs" />-->
     <Compile Include="System.Windows.Forms\PageSetupDialog.cs" />
     <Compile Include="System.Windows.Forms\PaintEventArgs.cs" />
     <Compile Include="System.Windows.Forms\PaintEventHandler.cs" />
@@ -1213,6 +1213,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Mono.WebBrowser\Mono.WebBrowser.csproj" />
     <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
+    <ProjectReference Include="..\System.Windows.Forms.Primitives\System.Windows.Forms.Primitives.csproj" />
     <ProjectReference Include="..\MacApi\MacApi.csproj" />
   </ItemGroup>
 </Project>

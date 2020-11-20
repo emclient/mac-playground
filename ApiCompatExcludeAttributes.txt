@@ -1,3 +1,6 @@
+T:System.CLSCompliantAttribute
+T:System.Diagnostics.CodeAnalysis.MemberNotNullAttribute
+
 // These attributes should be excluded from reference assemblies.
 
 T:System.ComponentModel.Design.Serialization.RootDesignerSerializerAttribute
