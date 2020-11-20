@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace System.Drawing.Drawing2D
 {
-	public class GraphicsState {
+	public class GraphicsState : MarshalByRefObject {
 
 		// TODO: set the rest of the states
 		// These are just off the top of my head for right now as am sure there are
