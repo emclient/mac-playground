@@ -143,11 +143,11 @@
     <Compile Include="System.Windows.Forms.VisualStyles\StringProperty.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\TabItemState.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\TextBoxState.cs" />
-    <Compile Include="System.Windows.Forms.VisualStyles\TextMetrics.cs" />
+    <!--<Compile Include="System.Windows.Forms.VisualStyles\TextMetrics.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\TextMetricsCharacterSet.cs" />
-    <Compile Include="System.Windows.Forms.VisualStyles\TextMetricsPitchAndFamilyValues.cs" />
+    <Compile Include="System.Windows.Forms.VisualStyles\TextMetricsPitchAndFamilyValues.cs" />-->
     <Compile Include="System.Windows.Forms.VisualStyles\TextShadowType.cs" />
-    <Compile Include="System.Windows.Forms.VisualStyles\ThemeSizeType.cs" />
+    <!--<Compile Include="System.Windows.Forms.VisualStyles\ThemeSizeType.cs" />-->
     <Compile Include="System.Windows.Forms.VisualStyles\ToolBarState.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\TrackBarThumbState.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\TrueSizeScalingType.cs" />
@@ -688,7 +688,7 @@
     <Compile Include="System.Windows.Forms\RowStyle.cs" />
     <Compile Include="System.Windows.Forms\SaveFileDialog.cs" />
     <Compile Include="System.Windows.Forms\Screen.cs" />
-    <Compile Include="System.Windows.Forms\ScreenOrientation.cs" />
+    <!--<Compile Include="System.Windows.Forms\ScreenOrientation.cs" />-->
     <Compile Include="System.Windows.Forms\ScrollableControl.cs" />
     <Compile Include="System.Windows.Forms\ScrollableControl.Mac.cs" />
     <Compile Include="System.Windows.Forms\ScrollBar.cs" />
