@@ -18,7 +18,7 @@
     <PackageReference Include="Microsoft.WindowsDesktop.App.Ref" Version="5.0.0" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
   </ItemGroup>
   <PropertyGroup>
-    <ApiCompatExcludeAttributeList>DefaultGenApiDocIds.txt,ApiCompatExcludeAttributes.txt</ApiCompatExcludeAttributeList>
+    <ApiCompatExcludeAttributeList>..\ApiCompatExcludeAttributes.txt</ApiCompatExcludeAttributeList>
   </PropertyGroup>
   <ItemGroup>
     <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\net5.0\System.Drawing.Common.dll" />
