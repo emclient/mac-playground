@@ -175,7 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\System.Windows.Forms\System.Windows.Forms.csproj" />
-    <ProjectReference Include="..\System.Drawing\System.Drawing.csproj" />
+    <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
     <ProjectReference Include="..\MacApi\MacApi.csproj" />
   </ItemGroup>
   <ItemGroup>

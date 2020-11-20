@@ -962,6 +962,7 @@
     <Compile Include="System.Windows.Forms\PrintDialog.Mac.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoApplication.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Troubleshooter.cs" />
+    <Compile Include="System.Drawing.Design\*.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
@@ -1211,7 +1212,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mono.WebBrowser\Mono.WebBrowser.csproj" />
-    <ProjectReference Include="..\System.Drawing\System.Drawing.csproj" />
+    <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
     <ProjectReference Include="..\MacApi\MacApi.csproj" />
   </ItemGroup>
 </Project>

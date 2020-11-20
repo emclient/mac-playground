@@ -6,7 +6,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <RootNamespace>System.Drawing</RootNamespace>
-    <AssemblyName>System.Drawing.Common</AssemblyName>
     <DisableExtraReferences>true</DisableExtraReferences>
     <EnableDefaultItems Condition="'$(TargetFramework)' != 'net50-macos'">false</EnableDefaultItems>
     <EnableDefaultCompileItems Condition="'$(TargetFramework)' != 'net50-macos'">false</EnableDefaultCompileItems>
