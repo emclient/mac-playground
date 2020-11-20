@@ -12,7 +12,7 @@ namespace System.Drawing.Drawing2D
 		internal Brush lastBrush { get; set; }
 		internal Matrix model { get; set; }
 		internal Matrix view { get; set; }
-		internal PointF renderingOrigin { get; set; }
+		internal Point renderingOrigin { get; set; }
 		internal GraphicsUnit pageUnit {get;set;}
 		internal float pageScale { get; set; }
 		internal SmoothingMode smoothingMode { get; set; }

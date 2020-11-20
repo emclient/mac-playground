@@ -84,6 +84,12 @@ namespace System.Drawing
 			get { return familyName; }
 		}
 
+		public string GetName (int language)
+		{
+			// FIXME: Respect the language
+			return familyName;
+		}
+
 		public bool IsStyleAvailable (FontStyle fontStyle)
 		{
 			return NativeStyleAvailable (fontStyle);
@@ -159,6 +165,17 @@ namespace System.Drawing
 		public override string ToString ()
 		{
 			return string.Format ("[FontFamily: Name={0}]", Name);
+		}
+
+		[Obsolete("Do not use method GetFamilies, use property Families instead")]
+		public static FontFamily[] GetFamilies (Graphics graphics)
+		{
+			if (graphics == null)
+			{
+				throw new ArgumentNullException (nameof (graphics));
+			}
+
+			return new InstalledFontCollection ().Families;
 		}
 	}
 }

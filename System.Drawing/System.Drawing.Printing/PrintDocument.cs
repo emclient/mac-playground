@@ -49,6 +49,7 @@ namespace System.Drawing.Printing {
 			DefaultPageSettings = new PageSettings ();
 			PrinterSettings = new PrinterSettings ();
 			PrintController = new StandardPrintController();
+			DocumentName = "document";
 		}
 		
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
@@ -65,8 +66,10 @@ namespace System.Drawing.Printing {
 
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
 		[Browsable (false)]
+		[DefaultValue (false)]
 		public bool OriginAtMargins { get; set; }
 
+		[DefaultValue ("document")]
 		public string DocumentName { get; set; }
 
 		internal void _OnBeginPrint(PrintEventArgs e)

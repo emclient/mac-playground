@@ -56,10 +56,10 @@ namespace System.Drawing.Text
 			LoadFontFile (filename);
 		}
 
-		[SecurityPermission (SecurityAction.Demand, UnmanagedCode = true)]
 		public void AddMemoryFont (IntPtr memory, int length) 
 		{
 			// note: MS throw FileNotFoundException if something is bad with the data (except for a null pointer)
+			throw new PlatformNotSupportedException ();
 		}
 
 		// properties

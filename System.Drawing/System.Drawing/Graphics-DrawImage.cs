@@ -24,7 +24,7 @@ using MonoTouch.CoreImage;
 namespace System.Drawing
 {
 	public partial class Graphics {
-		public delegate bool DrawImageAbort (IntPtr callbackData);
+		public delegate bool DrawImageAbort (IntPtr callbackdata);
 
 		private CIContext ciContext;
 

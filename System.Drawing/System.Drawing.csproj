@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net50-macos</TargetFramework>
     <TargetFramework Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFramework>
@@ -13,6 +13,21 @@
     <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' != 'net50-macos'">false</EnableDefaultEmbeddedResourceItems>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
+
+  <!-- Check API compatibility against System.Drawing.Common from .NET 5 -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsDesktop.App.Ref" Version="5.0.0" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
+  </ItemGroup>
+  <PropertyGroup>
+    <ApiCompatExcludeAttributeList>DefaultGenApiDocIds.txt,ApiCompatExcludeAttributes.txt</ApiCompatExcludeAttributeList>
+  </PropertyGroup>
+  <ItemGroup>
+    <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\net5.0\System.Drawing.Common.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="6.0.0-beta.20569.4" PrivateAssets="All" />
+  </ItemGroup>
+
   <ItemGroup Condition="'$(TargetFramework)' == 'net50-macos'">
     <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\BitmapData.cs">
       <Link>External\BitmapData.cs</Link>
@@ -200,7 +215,7 @@
     <Compile Include="external\mono\System.Drawing\System.Drawing.Design\CategoryNameCollection.cs">
       <Link>System.Drawing.Design\CategoryNameCollection.cs</Link>
     </Compile>
-    <Compile Include="external\mono\System.Drawing\System.Drawing.Design\IPropertyValueUIService.cs">
+    <!--<Compile Include="external\mono\System.Drawing\System.Drawing.Design\IPropertyValueUIService.cs">
       <Link>System.Drawing.Design\IPropertyValueUIService.cs</Link>
     </Compile>
     <Compile Include="external\mono\System.Drawing\System.Drawing.Design\IToolboxItemProvider.cs">
@@ -250,7 +265,7 @@
     </Compile>
     <Compile Include="external\mono\System.Drawing\System.Drawing.Design\UITypeEditorEditStyle.cs">
       <Link>System.Drawing.Design\UITypeEditorEditStyle.cs</Link>
-    </Compile>
+    </Compile>-->
     <Compile Include="external\mono\System.Drawing\System.Drawing.Printing\Margins.cs">
       <Link>External\Margins.cs</Link>
     </Compile>
@@ -296,122 +311,77 @@
     <Compile Include="external\mono\System.Drawing\System.Drawing.Printing\PrintRange.cs">
       <Link>External\PrintRange.cs</Link>
     </Compile>
-    <!--<Compile Include="..\mono\mcs\build\common\Consts.cs">
-      <Link>Consts.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\EmfPlusRecordType.cs">
+      <Link>External\EmfPlusRecordType.cs</Link>
     </Compile>
-    <Compile Include="..\mono\mcs\build\common\MonoTODOAttribute.cs">
-      <Link>MonoTODOAttribute.cs</Link>
-    </Compile>-->
-    <Compile Include="System.Drawing.Drawing2D\GraphicsContainer.cs">
-      <Link>System.Drawing.Drawing2D\GraphicsContainer.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\MetafileHeader.cs">
+      <Link>External\MetafileHeader.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing.Drawing2D\GraphicsState.cs">
-      <Link>System.Drawing.Drawing2D\GraphicsState.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\WmfPlaceableFileHeader.cs">
+      <Link>External\WmfPlaceableFileHeader.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing.Drawing2D\Matrix.cs">
-      <Link>System.Drawing.Drawing2D\Matrix.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\MetafileFrameUnit.cs">
+      <Link>External\MetafileFrameUnit.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing.Imaging\ImageAttributes.cs">
-      <Link>System.Drawing.Imaging\ImageAttributes.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\EmfType.cs">
+      <Link>External\EmfType.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing.Imaging\ColorPalette.cs">
-      <Link>System.Drawing.Imaging\ColorPalette.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\PlayRecordCallback.cs">
+      <Link>External\PlayRecordCallback.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing.Printing\PageSettings.cs">
-      <Link>System.Drawing.Printing\PageSettings.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\MetafileType.cs">
+      <Link>External\MetafileType.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing.Printing\PrintDocument.cs">
-      <Link>System.Drawing.Printing\PrintDocument.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\MetaHeader.cs">
+      <Link>External\MetaHeader.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing.Printing\PrintEventArgs.cs">
-      <Link>System.Drawing.Printing\PrintEventArgs.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\ColorChannelFlag.cs">
+      <Link>External\ColorChannelFlag.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing.Printing\PrintPageEventArgs.cs">
-      <Link>System.Drawing.Printing\PrintPageEventArgs.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\ColorMap.cs">
+      <Link>External\ColorMap.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing.Printing\PrinterSettings.cs">
-      <Link>System.Drawing.Printing\PrinterSettings.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\ColorMapType.cs">
+      <Link>External\ColorMapType.cs</Link>
     </Compile>
-    <Compile Include="Utilities\Locale.cs">
-      <Link>Utilities\Locale.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\ColorMode.cs">
+      <Link>External\ColorMode.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing\Bitmap.cs">
-      <Link>System.Drawing\Bitmap.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\PaletteFlags.cs">
+      <Link>External\PaletteFlags.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing\Brush.cs">
-      <Link>System.Drawing\Brush.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\EncoderValue.cs">
+      <Link>External\EncoderValue.cs</Link>
     </Compile>
-    <!--<Compile Include="System.Drawing\Color.cs">
-      <Link>System.Drawing\Color.cs</Link>
-    </Compile>-->
-    <Compile Include="System.Drawing\Font.cs">
-      <Link>System.Drawing\Font.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Drawing2D\PenType.cs">
+      <Link>External\PenType.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing\FontFamily.cs">
-      <Link>System.Drawing\FontFamily.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Drawing2D\QualityMode.cs">
+      <Link>External\QualityMode.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing\Graphics-DrawImage.cs">
-      <Link>System.Drawing\Graphics-DrawImage.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing.Drawing2D\RegionData.cs">
+      <Link>External\RegionData.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing\Graphics.cs">
-      <Link>System.Drawing\Graphics.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing\CopyPixelOperation.cs">
+      <Link>External\CopyPixelOperation.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing\Image.cs">
-      <Link>System.Drawing\Image.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing\StringDigitSubstitute.cs">
+      <Link>External\StringDigitSubstitute.cs</Link>
     </Compile>
-    <!--<Compile Include="System.Drawing\KnownColor.cs">
-      <Link>System.Drawing\KnownColor.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing\KnownColors.cs">
-      <Link>System.Drawing\KnownColors.cs</Link>
-    </Compile>-->
-    <Compile Include="System.Drawing\Pen.cs">
-      <Link>System.Drawing\Pen.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing\Region.cs">
-      <Link>System.Drawing\Region.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing\SolidBrush.cs">
-      <Link>System.Drawing\SolidBrush.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing\StringFormat.cs">
-      <Link>System.Drawing\StringFormat.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing\SystemFonts.cs">
-      <Link>System.Drawing\SystemFonts.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing\SystemIcons.cs">
-      <Link>System.Drawing\SystemIcons.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing\Graphics-DrawEllipticalArc.cs">
-      <Link>System.Drawing\Graphics-DrawEllipticalArc.cs</Link>
+    <Compile Include="external\mono\System.Drawing\System.Drawing\StringUnit.cs">
+      <Link>External\StringUnit.cs</Link>
     </Compile>
     <Compile Include="external\mono\System.Drawing\System.Drawing\IconConverter.cs">
       <Link>System.Drawing\IconConverter.cs</Link>
     </Compile>
-    <Compile Include="Utilities\ConversionHelpers.cs">
-      <Link>Utilities\ConversionHelpers.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Drawing2D\HatchBrush.cs">
-      <Link>System.Drawing.Drawing2D\HatchBrush.cs</Link>
-    </Compile>
     <Compile Include="external\mono\System.Drawing\System.Drawing.Drawing2D\HatchStyle.cs">
       <Link>External\HatchStyle.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing\TextureBrush.cs">
-      <Link>System.Drawing\TextureBrush.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Drawing2D\LinearGradientBrush.cs">
-      <Link>System.Drawing.Drawing2D\LinearGradientBrush.cs</Link>
     </Compile>
     <Compile Include="external\mono\System.Drawing\System.Drawing.Drawing2D\LinearGradientMode.cs">
       <Link>External\LinearGradientMode.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing\Icon.cs">
-      <Link>System.Drawing\Icon.cs</Link>
-    </Compile>
     <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\FrameDimension.cs">
-      <Link>System.Drawing.Imaging\FrameDimension.cs</Link>
+      <Link>External\FrameDimension.cs</Link>
     </Compile>
     <Compile Include="external\mono\System.Drawing\System.Drawing\RotateFlipType.cs">
       <Link>External\RotateFlipType.cs</Link>
@@ -428,79 +398,12 @@
     <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\ColorAdjustType.cs">
       <Link>External\ColorAdjustType.cs</Link>
     </Compile>
-    <Compile Include="Utilities\ClipperLib\clipper.cs">
-      <Link>Utilities\ClipperLib\clipper.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing\Graphics-DrawString.cs">
-      <Link>System.Drawing\Graphics-DrawString.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Drawing2D\GraphicsPathIterator.cs">
-      <Link>System.Drawing.Drawing2D\GraphicsPathIterator.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Drawing2D\GraphicsPath-AddString.cs">
-      <Link>System.Drawing.Drawing2D\GraphicsPath-AddString.cs</Link>
-    </Compile>
     <Compile Include="external\mono\System.Drawing\System.Drawing\StringTrimming.cs">
       <Link>External\StringTrimming.cs</Link>
-    </Compile>
-    <Compile Include="Utilities\GeomTransformUtils.cs">
-      <Link>Utilities\GeomTransformUtils.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Drawing2D\GraphicsPath.cs">
-      <Link>System.Drawing.Drawing2D\GraphicsPath.cs</Link>
-    </Compile>
-    <Compile Include="Utilities\GeomUtilities.cs">
-      <Link>Utilities\GeomUtilities.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Drawing2D\PathGradientBrush.cs">
-      <Link>System.Drawing.Drawing2D\PathGradientBrush.cs</Link>
     </Compile>
     <Compile Include="external\mono\System.Drawing\System.Drawing.Text\GenericFontFamilies.cs">
       <Link>External\GenericFontFamilies.cs</Link>
     </Compile>
-    <Compile Include="System.Drawing\FontFamily-CoreText.cs">
-      <Link>System.Drawing\FontFamily-CoreText.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Text\FontCollection.cs">
-      <Link>System.Drawing.Text\FontCollection.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Text\InstalledFontCollection.cs">
-      <Link>System.Drawing.Text\InstalledFontCollection.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Text\FontCollection-CoreText.cs">
-      <Link>System.Drawing.Text\FontCollection-CoreText.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Text\PrivateFontCollection.cs">
-      <Link>System.Drawing.Text\PrivateFontCollection.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Text\PrivateFontCollection-CoreText.cs">
-      <Link>System.Drawing.Text\PrivateFontCollection-CoreText.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing\Font-CoreText.cs">
-      <Link>System.Drawing\Font-CoreText.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing\GDIPlus.cs">
-      <Link>System.Drawing\GDIPlus.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Imaging\Encoder.cs">
-      <Link>System.Drawing.Imaging\Encoder.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Imaging\EncoderParameter.cs">
-      <Link>System.Drawing.Imaging\EncoderParameter.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Imaging\EncoderParameters.cs">
-      <Link>System.Drawing.Imaging\EncoderParameters.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Imaging\EncoderParameterValueType.cs">
-      <Link>System.Drawing.Imaging\EncoderParameterValueType.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Imaging\ImageCodecFlags.cs">
-      <Link>System.Drawing.Imaging\ImageCodecFlags.cs</Link>
-    </Compile>
-    <Compile Include="System.Drawing.Imaging\ImageCodecInfo.cs">
-      <Link>System.Drawing.Imaging\ImageCodecInfo.cs</Link>
-    </Compile>
-    <Compile Include="Utilities\IClientView.cs" />
     <Compile Include="external\mono\System.Drawing\System.Drawing.Printing\QueryPageSettingsEventArgs.cs">
       <Link>External\QueryPageSettingsEventArgs.cs</Link>
     </Compile>
@@ -510,6 +413,71 @@
     <Compile Include="external\mono\System.Drawing\System.Drawing.Printing\Duplex.cs">
       <Link>External\Duplex.cs</Link>
     </Compile>
+    <!--<Compile Include="..\mono\mcs\build\common\Consts.cs">
+      <Link>Consts.cs</Link>
+    </Compile>
+    <Compile Include="..\mono\mcs\build\common\MonoTODOAttribute.cs">
+      <Link>MonoTODOAttribute.cs</Link>
+    </Compile>-->
+    <Compile Include="System.Drawing.Drawing2D\AdjustableArrowCap.cs" />
+    <Compile Include="System.Drawing.Drawing2D\CustomLineCap.cs" />
+    <Compile Include="System.Drawing.Drawing2D\GraphicsContainer.cs" />
+    <Compile Include="System.Drawing.Drawing2D\GraphicsState.cs" />
+    <Compile Include="System.Drawing.Drawing2D\Matrix.cs" />
+    <Compile Include="System.Drawing.Imaging\ImageAttributes.cs" />
+    <Compile Include="System.Drawing.Imaging\ColorPalette.cs" />
+    <Compile Include="System.Drawing.Printing\PageSettings.cs" />
+    <Compile Include="System.Drawing.Printing\PrintDocument.cs" />
+    <Compile Include="System.Drawing.Printing\PrintEventArgs.cs" />
+    <Compile Include="System.Drawing.Printing\PrintPageEventArgs.cs" />
+    <Compile Include="System.Drawing.Printing\PrinterSettings.cs" />
+    <Compile Include="Utilities\Locale.cs" />
+    <Compile Include="System.Drawing\Bitmap.cs" />
+    <Compile Include="System.Drawing\Brush.cs" />
+    <Compile Include="System.Drawing\Font.cs" />
+    <Compile Include="System.Drawing\FontFamily.cs" />
+    <Compile Include="System.Drawing\Graphics-DrawImage.cs" />
+    <Compile Include="System.Drawing\Graphics-Metafile.cs" />
+    <Compile Include="System.Drawing\Graphics.cs" />
+    <Compile Include="System.Drawing\Image.cs" />
+    <Compile Include="System.Drawing\Pen.cs" />
+    <Compile Include="System.Drawing\Region.cs" />
+    <Compile Include="System.Drawing\SolidBrush.cs" />
+    <Compile Include="System.Drawing\StringFormat.cs" />
+    <Compile Include="System.Drawing\SystemFonts.cs" />
+    <Compile Include="System.Drawing\SystemIcons.cs" />
+    <Compile Include="System.Drawing\Graphics-DrawEllipticalArc.cs" />
+    <Compile Include="Utilities\ConversionHelpers.cs" />
+    <Compile Include="System.Drawing.Drawing2D\HatchBrush.cs" />
+    <Compile Include="System.Drawing\TextureBrush.cs" />
+    <Compile Include="System.Drawing.Drawing2D\LinearGradientBrush.cs" />
+    <Compile Include="System.Drawing\Icon.cs" />
+    <Compile Include="Utilities\ClipperLib\clipper.cs" />
+    <Compile Include="System.Drawing\Graphics-DrawString.cs" />
+    <Compile Include="System.Drawing.Drawing2D\GraphicsPathIterator.cs" />
+    <Compile Include="System.Drawing.Drawing2D\GraphicsPath-AddString.cs" />
+    <Compile Include="Utilities\GeomTransformUtils.cs" />
+    <Compile Include="System.Drawing.Drawing2D\GraphicsPath.cs" />
+    <Compile Include="Utilities\GeomUtilities.cs" />
+    <Compile Include="System.Drawing.Drawing2D\PathGradientBrush.cs" />
+    <Compile Include="System.Drawing\FontFamily-CoreText.cs" />
+    <Compile Include="System.Drawing.Text\FontCollection.cs" />
+    <Compile Include="System.Drawing.Text\InstalledFontCollection.cs" />
+    <Compile Include="System.Drawing.Text\FontCollection-CoreText.cs" />
+    <Compile Include="System.Drawing.Text\PrivateFontCollection.cs" />
+    <Compile Include="System.Drawing.Text\PrivateFontCollection-CoreText.cs" />
+    <Compile Include="System.Drawing\Font-CoreText.cs" />
+    <Compile Include="System.Drawing\GDIPlus.cs" />
+    <Compile Include="System.Drawing.Imaging\Encoder.cs" />
+    <Compile Include="System.Drawing.Imaging\EncoderParameter.cs" />
+    <Compile Include="System.Drawing.Imaging\EncoderParameters.cs" />
+    <Compile Include="System.Drawing.Imaging\EncoderParameterValueType.cs" />
+    <Compile Include="System.Drawing.Imaging\ImageCodecFlags.cs" />
+    <Compile Include="System.Drawing.Imaging\ImageCodecInfo.cs" />
+    <Compile Include="System.Drawing.Imaging\Metafile.cs" />
+    <Compile Include="System.Drawing\BitmapSuffixInSameAssemblyAttribute.cs" />
+    <Compile Include="System.Drawing\BitmapSuffixInSatelliteAssemblyAttribute.cs" />
+    <Compile Include="Utilities\IClientView.cs" />
     <Compile Include="System.Drawing.Mac\Extensions.cs" />
     <Compile Include="System.Drawing\Graphics-DrawStringCache.cs" />
     <Compile Include="System.Drawing.Printing\StandardPrintController.cs" />

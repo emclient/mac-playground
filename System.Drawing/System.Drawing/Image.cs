@@ -63,6 +63,10 @@ namespace System.Drawing {
 	
 	[Serializable]
 	[TypeConverter (typeof (ImageConverter))]
+	[ImmutableObject (true)]
+
+	[Editor ("System.Drawing.Design.ImageEditor, System.Drawing.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+			 "System.Drawing.Design.UITypeEditor, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
 	public abstract class Image : MarshalByRefObject, IDisposable , ICloneable, ISerializable {
 
 		public delegate bool GetThumbnailImageAbort();
@@ -217,6 +221,7 @@ namespace System.Drawing {
 			throw new NotImplementedException ();
 		}
 
+		[Browsable (false)]
 		public ColorPalette Palette {
 			get { return palette; }
 			set
@@ -273,6 +278,11 @@ namespace System.Drawing {
 			if (stream == null)
 				throw new ArgumentNullException("stream");
 			return new Bitmap(stream, useIcm);
+		}
+
+		public static Image FromStream(Stream stream, bool useEmbeddedColorManagement, bool validateImageData)
+		{
+			return FromStream (stream, useEmbeddedColorManagement);
 		}
 
 		public void Save(Stream stream, ImageFormat format)
@@ -335,11 +345,17 @@ namespace System.Drawing {
 			throw new NotImplementedException ();
 		}
 
-		public static Bitmap FromFile (string filename)
+		public static Image FromFile (string filename)
 		{
-			return new Bitmap(filename);
+			return new Bitmap (filename);
+
 		}
-		
+
+		public static Image FromFile (string filename, bool useEmbeddedColorManagement)
+		{
+			return new Bitmap (filename, useEmbeddedColorManagement);
+		}
+
 		void ISerializable.GetObjectData (SerializationInfo si, StreamingContext context)
 		{
 			using (MemoryStream ms = new MemoryStream ()) {
@@ -353,8 +369,8 @@ namespace System.Drawing {
 			}
 		}
 
-		[TypeConverterAttribute(typeof(StringConverter))]
-		//[BindableAttribute(true)]
+		[Localizable(false)]
+		[DefaultValue(null)]
 		public Object Tag { 
 			get { 
 				return tag;
@@ -479,6 +495,53 @@ namespace System.Drawing {
 		internal void DebugSetTag(string tag)
 		{
 			Tag = tag;
+		}
+
+
+		public void SaveAdd(EncoderParameters encoderParams)
+		{
+			throw new PlatformNotSupportedException ();
+		}
+
+		public void SaveAdd(Image image, EncoderParameters encoderParams)
+		{
+			throw new PlatformNotSupportedException ();
+		}
+
+		/// <summary>
+		/// Removes the specified property item from this <see cref='Image'/>.
+		/// </summary>
+		public void RemovePropertyItem(int propid)
+		{
+			throw new PlatformNotSupportedException ();
+		}
+
+		public void SetPropertyItem(PropertyItem propitem)
+		{
+			throw new PlatformNotSupportedException ();
+		}
+
+		public EncoderParameters GetEncoderParameterList(Guid encoder)
+		{
+			return null;
+		}
+
+		[Browsable(false)]
+		public int[] PropertyIdList
+		{
+			get
+			{
+				return Array.Empty<int>();
+			}
+		}
+
+		[Browsable(false)]
+		public PropertyItem[] PropertyItems
+		{
+			get
+			{
+				return Array.Empty<PropertyItem>();
+			}
 		}
 	}
 }

@@ -57,7 +57,7 @@ namespace System.Drawing {
 		float userspaceScaleX = 1, userspaceScaleY = 1;
 		private GraphicsUnit graphicsUnit = GraphicsUnit.Display;
 		private float pageScale = 1;
-		private PointF renderingOrigin = PointF.Empty;
+		private Point renderingOrigin = Point.Empty;
 		private static Region infinitRegion = new Region();
 		private Region clip;
 		internal nfloat screenScale;
@@ -244,6 +244,10 @@ namespace System.Drawing {
 			//throw new NotSupportedException ();
 		}
 
+		public void ReleaseHdcInternal(IntPtr hdc)
+		{
+		}
+
 		public static Graphics FromHdc(IntPtr hdc)
 		{
 			if (hdc != IntPtr.Zero)
@@ -254,9 +258,19 @@ namespace System.Drawing {
 			return null;
 		}
 
-		public static Graphics FromHdcInternal(IntPtr hdc)
+		public static Graphics FromHdc (IntPtr hdc, IntPtr hdevice)
 		{
-			throw new NotSupportedException ();		
+			return FromHdc (hdc);
+		}
+
+		public static Graphics FromHdcInternal (IntPtr hdc)
+		{
+			return FromHdc (hdc);
+		}
+
+		public static Graphics FromHwndInternal (IntPtr hwnd)
+		{
+			throw new PlatformNotSupportedException ();		
 		}
 
 		// from: gdip_cairo_move_to, inlined to assume converts_unit=true, antialias=true
@@ -356,7 +370,7 @@ namespace System.Drawing {
 			// , function void CGPathAddLineToPoint(CGMutablePathRef, const CGAffineTransform *, CGFloat, CGFloat)
 			// What we will do here is not draw the line at all if any of the points are Single.NaN
 			if (!float.IsNaN(pt1.X) && !float.IsNaN(pt1.Y) &&
-			    !float.IsNaN(pt2.X) && !float.IsNaN(pt2.Y)) 
+				!float.IsNaN(pt2.X) && !float.IsNaN(pt2.Y)) 
 			{
 				PreparePen (pen);
 				MoveTo (pt1.X, pt1.Y);
@@ -402,15 +416,15 @@ namespace System.Drawing {
 			if (points == null)
 				throw new ArgumentNullException ("points");
 			
-            int length = points.Length;
-            if (length < 4)
-	            return;
+			int length = points.Length;
+			if (length < 4)
+				return;
 
 			for (int i = 0; i < length - 1; i += 3) {
-	            Point p1 = points [i];
-	            Point p2 = points [i + 1];
-	            Point p3 = points [i + 2];
-	            Point p4 = points [i + 3];
+				Point p1 = points [i];
+				Point p2 = points [i + 1];
+				Point p3 = points [i + 2];
+				Point p4 = points [i + 3];
 
 				DrawBezier (pen, p1, p2, p3, p4);
 			}
@@ -422,15 +436,15 @@ namespace System.Drawing {
 				throw new ArgumentNullException ("pen");
 			if (points == null)
 				throw new ArgumentNullException ("points");
-            int length = points.Length;
-            if (length < 4)
-	            return;
+			int length = points.Length;
+			if (length < 4)
+				return;
 
 			for (int i = 0; i < length - 1; i += 3) {
-	            var p1 = points [i];
-	            var p2 = points [i + 1];
-	            var p3 = points [i + 2];
-	            var p4 = points [i + 3];
+				var p1 = points [i];
+				var p2 = points [i + 1];
+				var p3 = points [i + 2];
+				var p4 = points [i + 3];
 
 				DrawBezier (pen, p1, p2, p3, p4);
 			}
@@ -446,7 +460,7 @@ namespace System.Drawing {
 			// , function void CGPathAddLineToPoint(CGMutablePathRef, const CGAffineTransform *, CGFloat, CGFloat)
 			// What we will do here is not draw the line at all if any of the points are Single.NaN
 			if (!float.IsNaN(pt1.X) && !float.IsNaN(pt1.Y) &&
-			    !float.IsNaN(pt2.X) && !float.IsNaN(pt2.Y)) 
+				!float.IsNaN(pt2.X) && !float.IsNaN(pt2.Y)) 
 			{
 				PreparePen (pen);
 				MoveTo (pt1.X, pt1.Y);
@@ -640,6 +654,11 @@ namespace System.Drawing {
 
 		}
 
+		public void FillEllipse (Brush brush, Rectangle rect)
+		{
+			FillEllipse (brush, (RectangleF) rect);
+		}
+
 		public void FillEllipse (Brush brush, RectangleF rect)
 		{
 			if (brush == null)
@@ -780,8 +799,12 @@ namespace System.Drawing {
 			return result;
 		}
 		
+		public void DrawCurve (Pen pen, PointF[] points, int offset, int numberOfSegments)
+		{
+			DrawCurve (pen, points, offset, numberOfSegments, 0.5f);
+		}
 		
-		public void DrawCurve (Pen pen, PointF[] points, int offset, int numberOfSegments, float tension = 0.5f)
+		public void DrawCurve (Pen pen, PointF[] points, int offset, int numberOfSegments, float tension)
 		{
 			if (points == null)
 				throw new ArgumentNullException ("points");
@@ -804,17 +827,32 @@ namespace System.Drawing {
 			StrokePen (pen);
 		}
 
-		public void DrawCurve (Pen pen, Point[] points, int offset, int numberOfSegments, float tension = 0.5f)
+		public void DrawCurve (Pen pen, Point[] points, int offset, int numberOfSegments)
+		{
+			DrawCurve (pen, ConvertPoints (points), offset, numberOfSegments, 0.5f);
+		}
+
+		public void DrawCurve (Pen pen, Point[] points, int offset, int numberOfSegments, float tension)
 		{
 			DrawCurve (pen, ConvertPoints (points), offset, numberOfSegments, tension);
 		}
-		
-		public void DrawCurve (Pen pen, Point [] points, float tension = 0.5f)
+
+		public void DrawCurve (Pen pen, Point [] points)
+		{
+			DrawCurve (pen, ConvertPoints (points), 0.5f);
+		}
+
+		public void DrawCurve (Pen pen, Point [] points, float tension)
 		{
 			DrawCurve (pen, ConvertPoints (points), tension);
 		}
 
-		public void DrawCurve (Pen pen, PointF [] points, float tension = 0.5f)
+		public void DrawCurve (Pen pen, PointF [] points)
+		{
+			DrawCurve (pen, points, 0.5f);
+		}
+
+		public void DrawCurve (Pen pen, PointF [] points, float tension)
 		{
 			if (points == null)
 				throw new ArgumentNullException ("points");
@@ -1123,28 +1161,28 @@ namespace System.Drawing {
 			get { return smoothingMode; } 
 			set 
 			{
-                if (smoothingMode != value) {
-	                // Quartz performs antialiasing for a graphics context if both the allowsAntialiasing parameter 
-	                // and the graphics state parameter shouldAntialias are true.
+				if (smoothingMode != value) {
+					// Quartz performs antialiasing for a graphics context if both the allowsAntialiasing parameter 
+					// and the graphics state parameter shouldAntialias are true.
 					switch (value)
 					{
 					case SmoothingMode.AntiAlias:
 					case SmoothingMode.HighQuality:
 					case SmoothingMode.Default:
-                        if (smoothingMode != SmoothingMode.AntiAlias &&
-                            smoothingMode != SmoothingMode.HighQuality &&
-                            smoothingMode != SmoothingMode.Default) {
-						    //context.SetAllowsAntialiasing(true);  // This parameter is not part of the graphics state.
-						    context.SetShouldAntialias(true);
-                        }
+						if (smoothingMode != SmoothingMode.AntiAlias &&
+							smoothingMode != SmoothingMode.HighQuality &&
+							smoothingMode != SmoothingMode.Default) {
+							//context.SetAllowsAntialiasing(true);  // This parameter is not part of the graphics state.
+							context.SetShouldAntialias(true);
+						}
 						break;
 					default:
-                        if (smoothingMode == SmoothingMode.AntiAlias &&
-                            smoothingMode == SmoothingMode.HighQuality &&
-                            smoothingMode == SmoothingMode.Default) {
-    						//context.SetAllowsAntialiasing(false); // This parameter is not part of the graphics state.
-	    					context.SetShouldAntialias(false);
-                        }
+						if (smoothingMode == SmoothingMode.AntiAlias &&
+							smoothingMode == SmoothingMode.HighQuality &&
+							smoothingMode == SmoothingMode.Default) {
+							//context.SetAllowsAntialiasing(false); // This parameter is not part of the graphics state.
+							context.SetShouldAntialias(false);
+						}
 						break;
 					}
 					smoothingMode = value;
@@ -1234,7 +1272,7 @@ namespace System.Drawing {
 			}
 		}
 
-		public PointF RenderingOrigin {
+		public Point RenderingOrigin {
 			get {
 				return renderingOrigin;
 			}
@@ -1470,9 +1508,14 @@ namespace System.Drawing {
 			FillClosedCurve(brush,ConvertPoints(points),FillMode.Alternate);
 		}
  			
+		public void FillClosedCurve (Brush brush, Point [] points, FillMode fillmode)
+		{
+			FillClosedCurve (brush, points, fillmode, 0.5f);
+		}
+
 		// according to MSDN fillmode "is required but ignored" which makes _some_ sense since the unmanaged 
 		// GDI+ call doesn't support it (issue spotted using Gendarme's AvoidUnusedParametersRule)
-		public void FillClosedCurve (Brush brush, Point [] points, FillMode fillmode, float tension = 0.5f)
+		public void FillClosedCurve (Brush brush, Point [] points, FillMode fillmode, float tension)
 		{
 			if (brush == null)
 				throw new ArgumentNullException ("brush");
@@ -1480,6 +1523,11 @@ namespace System.Drawing {
 				throw new ArgumentNullException ("points");
 			
 			FillClosedCurve(brush,points,FillMode.Alternate);
+		}
+
+		public void FillClosedCurve (Brush brush, PointF [] points, FillMode fillmode)
+		{
+			FillClosedCurve (brush, points, fillmode, 0.5f);
 		}
 
 		// according to MSDN fillmode "is required but ignored" which makes _some_ sense since the unmanaged 
@@ -1550,6 +1598,11 @@ namespace System.Drawing {
 		
 		}
 
+		public void DrawPie (Pen pen, int x, int y, int width, int height, int startAngle, int sweepAngle)		
+		{
+			DrawPie (pen, (float) x, (float) y, (float) width, (float) height, (float) startAngle, (float) sweepAngle);
+		}
+
 		public void DrawPie (Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle)
 		{
 			if (pen == null)
@@ -1557,8 +1610,8 @@ namespace System.Drawing {
 			PreparePen (pen);
 			DrawEllipticalArc(x,y,width,height, startAngle, sweepAngle, true);
 			StrokePen (pen);
-
 		}
+
 		public void FillPie (Brush brush, Rectangle rect, float startAngle, float sweepAngle)
 		{
 			if (brush == null)
@@ -1778,6 +1831,36 @@ namespace System.Drawing {
 			ConversionHelpers.GetGraphicsTransform (this, destSpace, srcSpace, ref transform);
 			transform.TransformPoints (pts);
 
+		}
+
+		public void CopyFromScreen (Point upperLeftSource, Point upperLeftDestination, Size blockRegionSize)
+		{
+			CopyFromScreen (upperLeftSource.X, upperLeftSource.Y, upperLeftDestination.X, upperLeftDestination.Y, blockRegionSize);
+		}
+
+		public void CopyFromScreen (int sourceX, int sourceY, int destinationX, int destinationY, Size blockRegionSize)
+		{
+			CopyFromScreen (sourceX, sourceY, destinationX, destinationY, blockRegionSize, CopyPixelOperation.SourceCopy);
+		}
+
+		public void CopyFromScreen (Point upperLeftSource, Point upperLeftDestination, Size blockRegionSize, CopyPixelOperation copyPixelOperation)
+		{
+			CopyFromScreen (upperLeftSource.X, upperLeftSource.Y, upperLeftDestination.X, upperLeftDestination.Y, blockRegionSize, copyPixelOperation);
+		}
+
+		public void CopyFromScreen (int sourceX, int sourceY, int destinationX, int destinationY, Size blockRegionSize, CopyPixelOperation copyPixelOperation)
+		{
+			throw new PlatformNotSupportedException ();
+		}
+
+		public object GetContextInfo ()
+		{
+			throw new PlatformNotSupportedException ();
+		}
+
+		public static IntPtr GetHalftonePalette ()
+		{
+			throw new PlatformNotSupportedException ();
 		}
 	}
 }

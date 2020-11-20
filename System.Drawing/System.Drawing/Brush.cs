@@ -39,7 +39,9 @@ namespace System.Drawing {
 
 		abstract public object Clone ();
 
-		internal abstract void Setup(Graphics graphics, bool fill);
+		internal virtual void Setup(Graphics graphics, bool fill)
+		{
+		}
 
 		internal virtual void FillRect(Graphics graphics, CGRect rect)
 		{
@@ -56,6 +58,11 @@ namespace System.Drawing {
 				graphics.context.EOFillPath();
 			else
 				graphics.context.FillPath();
+		}
+
+		protected internal void SetNativeBrush (IntPtr brush)
+		{
+			throw new PlatformNotSupportedException ();
 		}
 	}
 }

@@ -8,6 +8,7 @@
 //
 using System;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 #if XAMARINMAC
 using CoreGraphics;
 #elif MONOMAC
@@ -51,13 +52,13 @@ namespace System.Drawing
 			this.wrapMode = wrapMode;
 		}
 		
-//		public TextureBrush(Image image, Rectangle dstRect) : this(image, dstRect, null)
-//		{
-//		}
-//		
-//		public TextureBrush(Image image, RectangleF dstRect) : this(image, dstRect, null)
-//		{
-//		}
+		public TextureBrush(Image image, Rectangle dstRect) : this(image, dstRect, null)
+		{
+		}
+		
+		public TextureBrush(Image image, RectangleF dstRect) : this(image, dstRect, null)
+		{
+		}
 		
 		public TextureBrush(Image image, WrapMode wrapMode, Rectangle dstRect)
 		{
@@ -65,6 +66,8 @@ namespace System.Drawing
 			{
 				throw new ArgumentNullException("image");
 			}
+
+			throw new NotImplementedException();
 		}
 		
 		public TextureBrush(Image image, WrapMode wrapMode, RectangleF dstRect)
@@ -73,23 +76,29 @@ namespace System.Drawing
 			{
 				throw new ArgumentNullException("image");
 			}
+
+			throw new NotImplementedException();
 		}
 		
-//		public TextureBrush(Image image, Rectangle dstRect, ImageAttributes imageAttr)
-//		{
-//			if (image == null)
-//			{
-//				throw new ArgumentNullException("image");
-//			}
-//		}
-//		
-//		public TextureBrush(Image image, RectangleF dstRect, ImageAttributes imageAttr)
-//		{
-//			if (image == null)
-//			{
-//				throw new ArgumentNullException("image");
-//			}
-//		}
+		public TextureBrush(Image image, Rectangle dstRect, ImageAttributes imageAttr)
+		{
+			if (image == null)
+			{
+				throw new ArgumentNullException("image");
+			}
+
+			throw new NotImplementedException();
+		}
+		
+		public TextureBrush(Image image, RectangleF dstRect, ImageAttributes imageAttr)
+		{
+			if (image == null)
+			{
+				throw new ArgumentNullException("image");
+			}
+
+			throw new NotImplementedException();
+		}
 
 		public override object Clone()
 		{
