@@ -1,7 +1,7 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Drawing", "System.Drawing\System.Drawing.csproj", "{C675FE3F-497D-4CE7-B441-3C0299B30C10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Drawing.Common", "System.Drawing.Common\System.Drawing.Common.csproj", "{C675FE3F-497D-4CE7-B441-3C0299B30C10}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsTest", "FormsTest\FormsTest.csproj", "{DBFDDBD7-E236-444C-98E5-736A4F22C8A5}"
 EndProject

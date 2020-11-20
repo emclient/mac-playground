@@ -83,9 +83,9 @@
       <Project>{9F564D46-D86A-4E62-9E84-238C7352D4D6}</Project>
       <Name>System.Windows.Forms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\System.Drawing\System.Drawing.csproj">
+    <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj">
       <Project>{C675FE3F-497D-4CE7-B441-3C0299B30C10}</Project>
-      <Name>System.Drawing</Name>
+      <Name>System.Drawing.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\MacApi\MacApi.csproj">
       <Project>{C8C5042D-89DB-412A-8030-2E1001EECAB8}</Project>

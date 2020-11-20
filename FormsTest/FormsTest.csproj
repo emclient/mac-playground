@@ -266,7 +266,7 @@
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net50-macos'">
     <ProjectReference Include="..\System.Windows.Forms\System.Windows.Forms.csproj" />
-    <ProjectReference Include="..\System.Drawing\System.Drawing.csproj" />
+    <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
     <!--<ProjectReference Include="..\..\..\MailClient.Common.UI\MailClient.Common.UI.csproj">
       <Project>{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}</Project>
       <Name>MailClient.Common.UI</Name>
