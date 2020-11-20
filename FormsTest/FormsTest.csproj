@@ -1,11 +1,13 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	<TargetFrameworks>net50-macos</TargetFrameworks>
+    <TargetFramework>net50-macos</TargetFramework>
+    <MonoBundlingExtraArgs>--marshal-objectivec-exceptions:disable --registrar:dynamic</MonoBundlingExtraArgs>
+    <RuntimeIdentifier>osx-x64</RuntimeIdentifier>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <DisableExtraReferences>true</DisableExtraReferences>
     <DefineConstants Condition=" '$(TargetFramework)' == 'net50-macos'">$(DefineConstants);MAC;XAMARINMAC</DefineConstants>
-    <OutputType Condition=" '$(TargetFramework)' == 'net48'">WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
   <ItemGroup>
