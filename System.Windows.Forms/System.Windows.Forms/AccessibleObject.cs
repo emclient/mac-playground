@@ -36,7 +36,7 @@ using System.Runtime.InteropServices;
 
 namespace System.Windows.Forms {
 	[ComVisible(true)]
-#if XAMARINMAC && !NET50
+#if XAMARINMAC
 	public class AccessibleObject : MarshalByRefObject, IReflect {
 #else
 	public class AccessibleObject : StandardOleMarshalObject, IReflect, IAccessible {
