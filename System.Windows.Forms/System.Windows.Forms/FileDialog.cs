@@ -77,22 +77,21 @@ namespace System.Windows.Forms
 		private bool supportMultiDottedExtensions;
 		private bool checkForIllegalChars = true;
 		private Button cancelButton;
-		private ToolBarButton upToolBarButton;
+		private ToolStripButton upToolBarButton;
 		private PopupButtonPanel popupButtonPanel;
 		private Button openSaveButton;
 		private Button helpButton;
 		private Label fileTypeLabel;
-		private ToolBarButton menueToolBarButton;
-		private ContextMenu menueToolBarButtonContextMenu;
-		private ToolBar smallButtonToolBar;
+		private ToolStripDropDownButton menueToolBarButton;
+		private ToolStrip smallButtonToolBar;
 		private DirComboBox dirComboBox;
 		private ComboBox fileNameComboBox;
 		private Label fileNameLabel;
 		private MWFFileView mwfFileView;
 		private MwfFileViewItemComparer file_view_comparer;
 		private Label searchSaveLabel;
-		private ToolBarButton newdirToolBarButton;
-		private ToolBarButton backToolBarButton;
+		private ToolStripButton newdirToolBarButton;
+		private ToolStripButton backToolBarButton;
 		private ComboBox fileTypeComboBox;
 		private ImageList imageListTopToolbar;
 		private CheckBox readonlyCheckBox;
@@ -152,24 +151,23 @@ namespace System.Windows.Forms
 			configFileNames = (string[])MWFConfig.GetValue (filedialog_string, filenames_string);
 			
 			fileTypeComboBox = new ComboBox ();
-			backToolBarButton = new ToolBarButton ();
-			newdirToolBarButton = new ToolBarButton ();
+			backToolBarButton = new ToolStripButton ();
+			newdirToolBarButton = new ToolStripButton ();
 			searchSaveLabel = new Label ();
 			mwfFileView = new MWFFileView (vfs);
 			fileNameLabel = new Label ();
 			fileNameComboBox = new ComboBox ();
 			dirComboBox = new DirComboBox (vfs);
-			smallButtonToolBar = new ToolBar ();
-			menueToolBarButton = new ToolBarButton ();
+			smallButtonToolBar = new ToolStrip ();
+			menueToolBarButton = new ToolStripDropDownButton ();
 			fileTypeLabel = new Label ();
 			openSaveButton = new Button ();
 			helpButton = new Button ();
 			popupButtonPanel = new PopupButtonPanel ();
-			upToolBarButton = new ToolBarButton ();
+			upToolBarButton = new ToolStripButton ();
 			cancelButton = new Button ();
 			form.CancelButton = cancelButton;
 			imageListTopToolbar = new ImageList ();
-			menueToolBarButtonContextMenu = new ContextMenu ();
 			readonlyCheckBox = new CheckBox ();
 			
 			form.SuspendLayout ();
@@ -198,23 +196,17 @@ namespace System.Windows.Forms
 			
 			// smallButtonToolBar
 			smallButtonToolBar.Anchor = ((AnchorStyles)((AnchorStyles.Top | AnchorStyles.Right)));
-			smallButtonToolBar.Appearance = ToolBarAppearance.Flat;
 			smallButtonToolBar.AutoSize = false;
-			smallButtonToolBar.Buttons.AddRange (new ToolBarButton [] {
+			smallButtonToolBar.Items.AddRange (new ToolStripItem [] {
 								     backToolBarButton,
 								     upToolBarButton,
 								     newdirToolBarButton,
 								     menueToolBarButton});
-			smallButtonToolBar.ButtonSize = new Size (24, 24); // 21, 16
-			smallButtonToolBar.Divider = false;
 			smallButtonToolBar.Dock = DockStyle.None;
-			smallButtonToolBar.DropDownArrows = true;
 			smallButtonToolBar.ImageList = imageListTopToolbar;
 			smallButtonToolBar.Location = new Point (372, 6);
-			smallButtonToolBar.ShowToolTips = true;
 			smallButtonToolBar.Size = new Size (140, 28);
 			smallButtonToolBar.TabIndex = 8;
-			smallButtonToolBar.TextAlign = ToolBarTextAlign.Right;
 			
 			// buttonPanel
 			popupButtonPanel.Dock = DockStyle.None;
@@ -246,7 +238,6 @@ namespace System.Windows.Forms
 			fileNameComboBox.Size = new Size (246, 22);
 			fileNameComboBox.TabIndex = 1;
 			fileNameComboBox.MaxDropDownItems = MaxFileNameItems;
-			fileNameComboBox.RestoreContextMenu ();
 			UpdateRecentFiles ();
 			
 			// fileTypeLabel
@@ -267,25 +258,20 @@ namespace System.Windows.Forms
 			// backToolBarButton
 			backToolBarButton.ImageIndex = 0;
 			backToolBarButton.Enabled = false;
-			backToolBarButton.Style = ToolBarButtonStyle.PushButton;
 			mwfFileView.AddControlToEnableDisableByDirStack (backToolBarButton);
 			
 			// upToolBarButton
 			upToolBarButton.ImageIndex = 1;
-			upToolBarButton.Style = ToolBarButtonStyle.PushButton;
 			mwfFileView.SetFolderUpToolBarButton (upToolBarButton);
 			
 			// newdirToolBarButton
 			newdirToolBarButton.ImageIndex = 2;
-			newdirToolBarButton.Style = ToolBarButtonStyle.PushButton;
 			
 			// menueToolBarButton
 			menueToolBarButton.ImageIndex = 3;
-			menueToolBarButton.DropDownMenu = menueToolBarButtonContextMenu;
-			menueToolBarButton.Style = ToolBarButtonStyle.DropDownButton;
 			
 			// menueToolBarButtonContextMenu
-			menueToolBarButtonContextMenu.MenuItems.AddRange (mwfFileView.ViewMenuItems);
+			menueToolBarButton.DropDownItems.AddRange (mwfFileView.ViewMenuItems);
 			
 			// openSaveButton
 			openSaveButton.Anchor = ((AnchorStyles)((AnchorStyles.Bottom | AnchorStyles.Right)));
@@ -359,7 +345,7 @@ namespace System.Windows.Forms
 			cancelButton.Click += new EventHandler (OnClickCancelButton);
 			helpButton.Click += new EventHandler (OnClickHelpButton);
 			
-			smallButtonToolBar.ButtonClick += new ToolBarButtonClickEventHandler (OnClickSmallButtonToolBar);
+			smallButtonToolBar.ItemClicked += new ToolStripItemClickedEventHandler (OnClickSmallButtonToolBar);
 			
 			fileTypeComboBox.SelectedIndexChanged += new EventHandler (OnSelectedIndexChangedFileTypeComboBox);
 			
@@ -1124,15 +1110,15 @@ namespace System.Windows.Forms
 			OnHelpRequest (e);
 		}
 		
-		void OnClickSmallButtonToolBar (object sender, ToolBarButtonClickEventArgs e)
+		void OnClickSmallButtonToolBar (object sender, ToolStripItemClickedEventArgs e)
 		{
-			if (e.Button == upToolBarButton) {
+			if (e.ClickedItem == upToolBarButton) {
 				mwfFileView.OneDirUp (CustomFilter);
 			} else
-			if (e.Button == backToolBarButton) {
+			if (e.ClickedItem == backToolBarButton) {
 				mwfFileView.PopDir (CustomFilter);
 			} else
-			if (e.Button == newdirToolBarButton) {
+			if (e.ClickedItem == newdirToolBarButton) {
 				mwfFileView.CreateNewFolder ();
 			}
 		}
@@ -2226,6 +2212,903 @@ namespace System.Windows.Forms
 	}
 	#endregion
 	
+	#region MWFFileView
+
+	internal class MWFFileView : ListView
+	{
+		public delegate void ThumbnailDelegate(FileViewListViewItem fi);
+		private ThumbnailCreator thumbCreator;
+
+		private ArrayList filterArrayList;
+		
+		private bool showHiddenFiles = false;
+		
+		private string selectedFilesString;
+		
+		private int filterIndex = 1;
+		
+		private ToolTip toolTip;
+		private int oldItemIndexForToolTip = -1;
+		
+		private ContextMenuStrip contextMenu;
+		
+		private ToolStripMenuItem menuItemView;
+		private ToolStripMenuItem menuItemNew;
+		
+		private ToolStripMenuItem smallIconMenutItem;
+		private ToolStripMenuItem tilesMenutItem;
+		private ToolStripMenuItem largeIconMenutItem;
+		private ToolStripMenuItem listMenutItem;
+		private ToolStripMenuItem detailsMenutItem;
+		
+		private ToolStripMenuItem newFolderMenuItem; 
+		private ToolStripMenuItem showHiddenFilesMenuItem;
+		
+		private ToolStripMenuItem previousCheckedMenuItem;
+		
+		private ArrayList viewMenuItemClones = new ArrayList ();
+		
+		private FSEntry currentFSEntry = null;
+		
+		private string currentFolder;
+		private string currentRealFolder;
+		private FSEntry currentFolderFSEntry;
+		
+		// store DirectoryInfo for a back button for example
+		private Stack directoryStack = new Stack();
+		
+		// list of controls(components to enable or disable depending on current directoryStack.Count
+		private ArrayList dirStackControlsOrComponents = new ArrayList ();
+		
+		private ToolStripButton folderUpToolBarButton;
+		
+		private ArrayList registered_senders = new ArrayList ();
+		
+		private bool should_push = true;
+		
+		private MWFVFS vfs;
+		
+		private View old_view;
+		
+		private ToolStripMenuItem old_menuitem;
+		private bool do_update_view = false;
+
+		private ColumnHeader [] columns;
+		
+		public MWFFileView (MWFVFS vfs)
+		{
+			this.vfs = vfs;
+			this.vfs.RegisterUpdateDelegate (new MWFVFS.UpdateDelegate (RealFileViewUpdate), this);
+			
+			SuspendLayout ();
+			
+			contextMenu = new ContextMenuStrip ();
+			
+			toolTip = new ToolTip ();
+			toolTip.InitialDelay = 300;
+			toolTip.ReshowDelay = 0; 
+			
+			// contextMenu
+			
+			// View menu item
+			menuItemView = new ToolStripMenuItem (Locale.GetText("View"));
+			
+			smallIconMenutItem = new ToolStripMenuItem (Locale.GetText("Small Icon"), null, new EventHandler (OnClickViewMenuSubItem));
+			menuItemView.DropDownItems.Add (smallIconMenutItem);
+			
+			tilesMenutItem = new ToolStripMenuItem (Locale.GetText("Tiles"), null, new EventHandler (OnClickViewMenuSubItem));
+			menuItemView.DropDownItems.Add (tilesMenutItem);
+			
+			largeIconMenutItem = new ToolStripMenuItem (Locale.GetText("Large Icon"), null, new EventHandler (OnClickViewMenuSubItem));
+			menuItemView.DropDownItems.Add (largeIconMenutItem);
+			
+			listMenutItem = new ToolStripMenuItem (Locale.GetText("List"), null, new EventHandler (OnClickViewMenuSubItem));
+			listMenutItem.Checked = true;
+			menuItemView.DropDownItems.Add (listMenutItem);
+			previousCheckedMenuItem = listMenutItem;
+			
+			detailsMenutItem = new ToolStripMenuItem (Locale.GetText("Details"), null, new EventHandler (OnClickViewMenuSubItem));
+			menuItemView.DropDownItems.Add (detailsMenutItem);
+			
+			contextMenu.Items.Add (menuItemView);
+			
+			contextMenu.Items.Add (new ToolStripSeparator ());
+			
+			// New menu item
+			menuItemNew = new ToolStripMenuItem (Locale.GetText("New"));
+			
+			newFolderMenuItem = new ToolStripMenuItem (Locale.GetText("New Folder"), null, new EventHandler (OnClickNewFolderMenuItem));
+			menuItemNew.DropDownItems.Add (newFolderMenuItem);
+			
+			contextMenu.Items.Add (menuItemNew);
+			
+			contextMenu.Items.Add (new ToolStripSeparator ());
+			
+			// Show hidden files menu item
+			showHiddenFilesMenuItem = new ToolStripMenuItem (Locale.GetText("Show hidden files"), null, new EventHandler (OnClickContextMenu));
+			showHiddenFilesMenuItem.Checked = showHiddenFiles;
+			contextMenu.Items.Add (showHiddenFilesMenuItem);
+			
+			LabelWrap = true;
+			
+			SmallImageList = MimeIconEngine.SmallIcons;
+			LargeImageList = MimeIconEngine.LargeIcons;
+			
+			View = old_view = View.List;
+			LabelEdit = true;
+			
+			ContextMenuStrip = contextMenu;
+
+			// Create columns, but only add them when view changes to Details
+			columns = new ColumnHeader [4];
+			columns [0] = CreateColumnHeader (Locale.GetText(" Name"), 170, HorizontalAlignment.Left);
+			columns [1] = CreateColumnHeader (Locale.GetText("Size "), 80, HorizontalAlignment.Right);
+			columns [2] = CreateColumnHeader (Locale.GetText(" Type"), 100, HorizontalAlignment.Left);
+			columns [3] = CreateColumnHeader (Locale.GetText(" Last Access"), 150, HorizontalAlignment.Left);
+
+			AllowColumnReorder = true;
+			
+			ResumeLayout (false);
+			
+			KeyDown += new KeyEventHandler (MWF_KeyDown);
+		}
+
+		ColumnHeader CreateColumnHeader (string text, int width, HorizontalAlignment alignment)
+		{
+			ColumnHeader col = new ColumnHeader ();
+			col.Text = text;
+			col.Width = width;
+			col.TextAlign = alignment;
+
+			return col;
+		}
+
+		public string CurrentFolder {
+			get {
+				return currentFolder;
+			}
+			set {
+				currentFolder = value;
+			}
+		}
+		
+		public string CurrentRealFolder {
+			get {
+				return currentRealFolder;
+			}
+		}
+		
+		public FSEntry CurrentFSEntry {
+			get {
+				return currentFSEntry;
+			}
+		}
+		
+		public ToolStripMenuItem[] ViewMenuItems {
+			get {
+				/*ToolStripMenuItem[] menuItemClones = new ToolStripMenuItem [] {
+					smallIconMenutItem.CloneMenu (),
+					tilesMenutItem.CloneMenu (),
+					largeIconMenutItem.CloneMenu (),
+					listMenutItem.CloneMenu (),
+					detailsMenutItem.CloneMenu ()
+				};
+				
+				viewMenuItemClones.Add (menuItemClones);
+				
+				return menuItemClones;*/
+				// FIXME
+				return Array.Empty<ToolStripMenuItem>();
+			}
+		}
+		
+		public ArrayList FilterArrayList {
+			set {
+				filterArrayList = value;
+			}
+			
+			get {
+				return filterArrayList;
+			}
+		}
+		
+		public bool ShowHiddenFiles {
+			set {
+				showHiddenFiles = value;
+			}
+			
+			get {
+				return showHiddenFiles;
+			}
+		}
+		
+		public int FilterIndex {
+			set {
+				filterIndex = value;
+				if (Visible)
+					UpdateFileView ();
+			}
+			
+			get {
+				return filterIndex;
+			}
+		}
+		
+		public string SelectedFilesString {
+			set {
+				selectedFilesString = value;
+			}
+			
+			get {
+				return selectedFilesString;
+			}
+		}
+		
+		public void PushDir ()
+		{
+			if (currentFolder != null)
+				directoryStack.Push (currentFolder);
+			
+			EnableOrDisableDirstackObjects ();
+		}
+
+		public void PopDir ()
+		{
+			PopDir (null);
+		}
+		
+		public void PopDir (string filter)
+		{
+			if (directoryStack.Count == 0)
+				return;
+			
+			string new_folder = directoryStack.Pop () as string;
+			
+			EnableOrDisableDirstackObjects ();
+			
+			should_push = false;
+			
+			ChangeDirectory (null, new_folder, filter);
+		}
+		
+		public void RegisterSender (IUpdateFolder iud)
+		{
+			registered_senders.Add (iud);
+		}
+		
+		public void CreateNewFolder ()
+		{
+			if (currentFolder == MWFVFS.MyComputerPrefix ||
+			    currentFolder == MWFVFS.RecentlyUsedPrefix)
+				return;
+			
+			FSEntry fsEntry = new FSEntry ();
+			fsEntry.Attributes = FileAttributes.Directory;
+			fsEntry.FileType = FSEntry.FSEntryType.Directory;
+			fsEntry.IconIndex = MimeIconEngine.GetIconIndexForMimeType ("inode/directory");
+			fsEntry.LastAccessTime = DateTime.Now;
+			
+			// FIXME: when ListView.LabelEdit is available use it
+//			listViewItem.BeginEdit();
+			
+			TextEntryDialog ted = new TextEntryDialog ();
+			ted.IconPictureBoxImage = MimeIconEngine.LargeIcons.Images.GetImage (fsEntry.IconIndex);
+			
+			string folder = String.Empty;
+			
+			if (currentFolderFSEntry.RealName != null)
+				folder = currentFolderFSEntry.RealName;
+			else
+				folder = currentFolder;
+			
+			string tmp_filename = Locale.GetText("New Folder");
+			
+			if (Directory.Exists (Path.Combine (folder, tmp_filename))) {
+				int i = 1;
+				
+				if (XplatUI.RunningOnUnix) {
+					tmp_filename = tmp_filename + "-" + i;
+				} else {
+					tmp_filename = tmp_filename + " (" + i + ")";
+				}
+				
+				while (Directory.Exists (Path.Combine (folder, tmp_filename))) {
+					i++;
+					if (XplatUI.RunningOnUnix) {
+						tmp_filename = Locale.GetText("New Folder") + "-" + i;
+					} else {
+						tmp_filename = Locale.GetText("New Folder") + " (" + i + ")";
+					}
+				}
+			}
+			
+			ted.FileName = tmp_filename;
+			
+			if (ted.ShowDialog () == DialogResult.OK) {
+				string new_folder = Path.Combine (folder, ted.FileName);
+				
+				if (vfs.CreateFolder (new_folder)) {
+					fsEntry.FullName = new_folder;
+					fsEntry.Name = ted.FileName;
+					
+					FileViewListViewItem listViewItem = new FileViewListViewItem (fsEntry);
+					
+					BeginUpdate ();
+					Items.Add (listViewItem);
+					EndUpdate ();
+					
+					listViewItem.EnsureVisible ();
+				}
+			}
+		}
+		
+		public void SetSelectedIndexTo (string fname)
+		{
+			foreach (FileViewListViewItem item in Items) {
+				if (item.Text == fname) {
+					BeginUpdate ();
+					SelectedItems.Clear ();
+					item.Selected = true;
+					EndUpdate ();
+					break;
+				}
+			}
+		}
+
+		public void OneDirUp ()
+		{
+			OneDirUp (null);
+		}
+		
+		public void OneDirUp (string filter)
+		{
+			string parent_folder = vfs.GetParent ();
+			if (parent_folder != null)
+				ChangeDirectory (null, parent_folder, filter);
+		}
+
+		public void ChangeDirectory (object sender, string folder)
+		{
+			ChangeDirectory (sender, folder, null);
+		}
+		
+		public void ChangeDirectory (object sender, string folder, string filter)
+		{
+			if (folder == MWFVFS.DesktopPrefix || folder == MWFVFS.RecentlyUsedPrefix)
+				folderUpToolBarButton.Enabled = false;
+			else
+				folderUpToolBarButton.Enabled = true;
+			
+			foreach (IUpdateFolder iuf in registered_senders) {
+				iuf.CurrentFolder = folder;
+			}
+			
+			if (should_push)
+				PushDir ();
+			else
+				should_push = true;
+			
+			currentFolderFSEntry = vfs.ChangeDirectory (folder);
+			
+			currentFolder = folder;
+			
+			if (currentFolder.IndexOf ("://") != -1)
+				currentRealFolder = currentFolderFSEntry.RealName;
+			else
+				currentRealFolder = currentFolder;
+			
+			BeginUpdate ();
+			
+			Items.Clear ();
+			SelectedItems.Clear ();
+			
+			if (folder == MWFVFS.RecentlyUsedPrefix) {
+				old_view = View;
+				View = View.Details;
+				old_menuitem = previousCheckedMenuItem;
+				UpdateMenuItems (detailsMenutItem);
+				do_update_view = true;
+			} else
+			if (View != old_view && do_update_view) {
+				UpdateMenuItems (old_menuitem);
+				View = old_view;
+				do_update_view = false;
+			}
+			EndUpdate ();
+
+			try {
+				UpdateFileView (filter);
+			} catch (Exception e) {
+				if (should_push)
+					PopDir ();
+				MessageBox.Show (e.Message, Locale.GetText("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
+		public void UpdateFileView ()
+		{
+			UpdateFileView (null);
+		}
+
+		internal void StopThumbnailCreation()
+		{
+			if (thumbCreator != null) {
+				thumbCreator.Stop();
+				thumbCreator = null;
+			}
+		}
+
+		public void UpdateFileView (string custom_filter)
+		{
+			StopThumbnailCreation();
+
+			if (custom_filter != null) {
+				StringCollection custom_filters = new StringCollection ();
+				custom_filters.Add (custom_filter);
+
+				vfs.GetFolderContent (custom_filters);
+			} else if (filterArrayList != null && filterArrayList.Count != 0) {
+				FilterStruct fs = (FilterStruct)filterArrayList [filterIndex - 1];
+				
+				vfs.GetFolderContent (fs.filters);
+			} else
+				vfs.GetFolderContent ();
+		}
+		
+		public void RealFileViewUpdate (ArrayList directoriesArrayList, ArrayList fileArrayList)
+		{
+			BeginUpdate ();
+			
+			DeleteOldThumbnails ();	// any existing thumbnail images need to be Dispose()d.
+			Items.Clear ();
+			SelectedItems.Clear ();
+			
+			foreach (FSEntry directoryFSEntry in directoriesArrayList) {
+				if (!ShowHiddenFiles)
+					if (directoryFSEntry.Name.StartsWith (".") || (directoryFSEntry.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
+						continue;
+				
+				FileViewListViewItem listViewItem = new FileViewListViewItem (directoryFSEntry);
+				
+				Items.Add (listViewItem);
+			}
+			
+			StringCollection collection = new StringCollection ();
+			
+			foreach (FSEntry fsEntry in fileArrayList) {
+				
+				// remove duplicates. that can happen when you read recently used files for example
+				if (collection.Contains (fsEntry.Name)) {
+					
+					string fileName = fsEntry.Name;
+					
+					if (collection.Contains (fileName)) {
+						int i = 1;
+						
+						while (collection.Contains (fileName + "(" + i + ")")) {
+							i++;
+						}
+						
+						fileName = fileName + "(" + i + ")";
+					}
+					
+					fsEntry.Name = fileName;
+				}
+				
+				collection.Add (fsEntry.Name);
+				
+				DoOneFSEntry (fsEntry);
+			}
+			
+			EndUpdate ();
+			
+			collection.Clear ();
+			collection = null;
+			
+			directoriesArrayList.Clear ();
+			fileArrayList.Clear ();
+
+			// Create thumbnail images for Image type files.  This greatly facilitates
+			// choosing pictures whose names mean nothing.
+			// See https://bugzilla.xamarin.com/show_bug.cgi?id=28025 for details.
+			thumbCreator = new ThumbnailCreator(new ThumbnailDelegate(RedrawTheItem), this);
+			var makeThumbnails = new Thread(new ThreadStart(thumbCreator.MakeThumbnails));
+			makeThumbnails.IsBackground = true;
+			makeThumbnails.Start();
+		}
+
+		private void RedrawTheItem(FileViewListViewItem fi)
+		{
+			this.RedrawItems(fi.Index, fi.Index, false);
+		}
+
+		public void AddControlToEnableDisableByDirStack (object control)
+		{
+			dirStackControlsOrComponents.Add (control);
+		}
+		
+		public void SetFolderUpToolBarButton (ToolStripButton tb)
+		{
+			folderUpToolBarButton = tb;
+		}
+		
+		public void WriteRecentlyUsed (string fullfilename)
+		{
+			vfs.WriteRecentlyUsedFiles (fullfilename);
+		}
+		
+		private void EnableOrDisableDirstackObjects ()
+		{
+			foreach (object o in dirStackControlsOrComponents) {
+				if (o is Control) {
+					Control c = o as Control;
+					c.Enabled = (directoryStack.Count > 1);
+				} else
+				if (o is ToolStripButton) {
+					ToolStripButton t = o as ToolStripButton;
+					t.Enabled = (directoryStack.Count > 0);
+				}
+			}
+		}
+		
+		private void DoOneFSEntry (FSEntry fsEntry) 
+		{
+			if (!ShowHiddenFiles)
+				if (fsEntry.Name.StartsWith (".") || (fsEntry.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
+					return;
+			
+			FileViewListViewItem listViewItem = new FileViewListViewItem (fsEntry);
+			
+			Items.Add (listViewItem);
+		}
+		
+		private void MWF_KeyDown (object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Back) {
+				OneDirUp ();
+			} else if (e.Control && e.KeyCode == Keys.A && MultiSelect) {
+				foreach (ListViewItem lvi in Items)
+					lvi.Selected = true;
+			}
+		}
+		
+		#region UIA Framework Members
+		internal void PerformClick ()
+		{
+			OnClick (EventArgs.Empty);
+		}
+
+		internal void PerformDoubleClick ()
+		{
+			OnDoubleClick (EventArgs.Empty);
+		}
+		#endregion
+
+		protected override void OnClick (EventArgs e)
+		{
+			if (!MultiSelect) {
+				if (SelectedItems.Count > 0) {
+					FileViewListViewItem listViewItem = SelectedItems [0] as FileViewListViewItem;
+					
+					FSEntry fsEntry = listViewItem.FSEntry;
+					
+					if (fsEntry.FileType == FSEntry.FSEntryType.File) {
+						currentFSEntry = fsEntry;
+						
+						EventHandler eh = (EventHandler)(Events [MSelectedFileChangedEvent]);
+						if (eh != null)
+							eh (this, EventArgs.Empty);
+					}
+				}
+			}
+			
+			base.OnClick (e);
+		}
+		
+		protected override void OnDoubleClick (EventArgs e)
+		{
+			if (SelectedItems.Count > 0) {
+				FileViewListViewItem listViewItem = SelectedItems [0] as FileViewListViewItem;
+				
+				FSEntry fsEntry = listViewItem.FSEntry;
+
+				if ((fsEntry.Attributes & FileAttributes.Directory) == FileAttributes.Directory) {
+					
+					ChangeDirectory (null, fsEntry.FullName);
+					
+					EventHandler eh = (EventHandler)(Events [MDirectoryChangedEvent]);
+					if (eh != null)
+						eh (this, EventArgs.Empty);
+				} else {
+					currentFSEntry = fsEntry;
+					
+					EventHandler eh = (EventHandler)(Events [MSelectedFileChangedEvent]);
+					if (eh != null)
+						eh (this, EventArgs.Empty);
+					
+					eh = (EventHandler)(Events [MForceDialogEndEvent]);
+					if (eh != null)
+						eh (this, EventArgs.Empty);
+					
+					return;
+				}
+			}
+			
+			base.OnDoubleClick (e);
+		}
+		
+		protected override void OnSelectedIndexChanged (EventArgs e)
+		{
+			if (SelectedItems.Count > 0) {
+				selectedFilesString = String.Empty;
+				
+				if (SelectedItems.Count == 1) {
+					FileViewListViewItem listViewItem = SelectedItems [0] as FileViewListViewItem;
+					
+					FSEntry fsEntry = listViewItem.FSEntry;
+
+					if ((fsEntry.Attributes & FileAttributes.Directory) != FileAttributes.Directory)
+						selectedFilesString = SelectedItems [0].Text;
+				} else {
+					foreach (FileViewListViewItem lvi in SelectedItems) {
+						FSEntry fsEntry = lvi.FSEntry;
+
+						if ((fsEntry.Attributes & FileAttributes.Directory) != FileAttributes.Directory)
+							selectedFilesString = selectedFilesString + "\"" + lvi.Text + "\" ";
+					}
+				}
+
+				EventHandler eh = (EventHandler)(Events [MSelectedFilesChangedEvent]);
+				if (eh != null)
+					eh (this, EventArgs.Empty);
+			}
+
+			base.OnSelectedIndexChanged (e);
+		}
+		
+		protected override void OnMouseMove (MouseEventArgs e)
+		{
+			FileViewListViewItem item = GetItemAt (e.X, e.Y) as FileViewListViewItem;
+			
+			if (item != null) {
+				int currentItemIndex = item.Index;
+				
+				if (currentItemIndex != oldItemIndexForToolTip) {
+					oldItemIndexForToolTip = currentItemIndex;
+					
+					if (toolTip != null && toolTip.Active)
+						toolTip.Active = false;
+					
+					FSEntry fsEntry = item.FSEntry;
+					
+					string output = String.Empty;
+					
+					if (fsEntry.FileType == FSEntry.FSEntryType.Directory)
+						output = Locale.GetText("Directory: {0}", fsEntry.FullName);
+					else if (fsEntry.FileType == FSEntry.FSEntryType.Device)
+						output = Locale.GetText("Device: {0}", fsEntry.FullName);
+					else if (fsEntry.FileType == FSEntry.FSEntryType.Network)
+						output = Locale.GetText("Network: {0}", fsEntry.FullName);
+					else
+						output = Locale.GetText("File: {0}", fsEntry.FullName);
+					
+					toolTip.SetToolTip (this, output);	
+					
+					toolTip.Active = true;
+				}
+			} else
+				toolTip.Active = false;
+			
+			base.OnMouseMove (e);
+		}
+		
+		void OnClickContextMenu (object sender, EventArgs e)
+		{
+			ToolStripMenuItem senderMenuItem = sender as ToolStripMenuItem;
+			
+			if (senderMenuItem == showHiddenFilesMenuItem) {
+				senderMenuItem.Checked = !senderMenuItem.Checked;
+				showHiddenFiles = senderMenuItem.Checked;
+				UpdateFileView ();
+			}
+		}
+		
+		void OnClickViewMenuSubItem (object sender, EventArgs e)
+		{
+			ToolStripMenuItem senderMenuItem = (ToolStripMenuItem)sender;
+			
+			UpdateMenuItems (senderMenuItem);
+			
+			// update me - call BeginUpdate/EndUpdate to avoid flicker when columns change
+			
+			BeginUpdate ();
+			switch (senderMenuItem.Parent.Items.IndexOf (senderMenuItem)) {
+				case 0:
+					View = View.SmallIcon;
+					break;
+				case 1:
+					View = View.Tile;
+					break;
+				case 2:
+					View = View.LargeIcon;
+					break;
+				case 3:
+					View = View.List;
+					break;
+				case 4:
+					View = View.Details;
+					break;
+				default:
+					break;
+			}
+
+			if (View == View.Details)
+				Columns.AddRange (columns);
+			else {
+				ListViewItemSorter = null;
+				Columns.Clear ();
+			}
+
+			EndUpdate ();
+		}
+
+		protected override void OnBeforeLabelEdit (LabelEditEventArgs e)
+		{
+			FileViewListViewItem listViewItem = SelectedItems [0] as FileViewListViewItem;
+			FSEntry fsEntry = listViewItem.FSEntry;
+
+			// only allow editing of files or directories
+			if (fsEntry.FileType != FSEntry.FSEntryType.Directory &&
+				fsEntry.FileType != FSEntry.FSEntryType.File)
+				e.CancelEdit = true;
+
+			base.OnBeforeLabelEdit (e);
+		}
+
+		protected override void OnAfterLabelEdit (LabelEditEventArgs e)
+		{
+			base.OnAfterLabelEdit (e);
+
+			// no changes were made
+			if (e.Label == null || Items [e.Item].Text == e.Label)
+				return;
+
+			FileViewListViewItem listViewItem = SelectedItems [0] as FileViewListViewItem;
+			FSEntry fsEntry = listViewItem.FSEntry;
+
+			string folder = (currentFolderFSEntry.RealName != null) ?
+				currentFolderFSEntry.RealName : currentFolder;
+
+			switch (fsEntry.FileType) {
+			case FSEntry.FSEntryType.Directory:
+				string sourceDir = (fsEntry.RealName != null) ? fsEntry.RealName : fsEntry.FullName;
+				string destDir = Path.Combine (folder, e.Label);
+				if (!vfs.MoveFolder (sourceDir, destDir)) {
+					e.CancelEdit = true;
+				} else {
+					if (fsEntry.RealName != null)
+						fsEntry.RealName = destDir;
+					else
+						fsEntry.FullName = destDir;
+				}
+				break;
+			case FSEntry.FSEntryType.File:
+				string sourceFile = (fsEntry.RealName != null) ? fsEntry.RealName : fsEntry.FullName;
+				string destFile = Path.Combine (folder, e.Label);
+				if (!vfs.MoveFile (sourceFile, destFile)) {
+					e.CancelEdit = true;
+				} else {
+					if (fsEntry.RealName != null)
+						fsEntry.RealName = destFile;
+					else
+						fsEntry.FullName = destFile;
+				}
+				break;
+			}
+		}
+
+		private void UpdateMenuItems (ToolStripMenuItem senderMenuItem)
+		{
+			previousCheckedMenuItem.Checked = false;
+			senderMenuItem.Checked = true;
+			
+			foreach (ToolStripMenuItem[] items in viewMenuItemClones) {
+				previousCheckedMenuItem.Checked = false;
+				senderMenuItem.Checked = true;
+			}
+			
+			previousCheckedMenuItem = senderMenuItem;
+		}
+		
+		void OnClickNewFolderMenuItem (object sender, EventArgs e)
+		{
+			CreateNewFolder ();
+		}
+		
+		static object MSelectedFileChangedEvent = new object ();
+		static object MSelectedFilesChangedEvent = new object ();
+		static object MDirectoryChangedEvent = new object ();
+		static object MForceDialogEndEvent = new object ();
+		
+		public event EventHandler SelectedFileChanged {
+			add { Events.AddHandler (MSelectedFileChangedEvent, value); }
+			remove { Events.RemoveHandler (MSelectedFileChangedEvent, value); }
+		}
+		
+		public event EventHandler SelectedFilesChanged {
+			add { Events.AddHandler (MSelectedFilesChangedEvent, value); }
+			remove { Events.RemoveHandler (MSelectedFilesChangedEvent, value); }
+		}
+		
+		public event EventHandler DirectoryChanged {
+			add { Events.AddHandler (MDirectoryChangedEvent, value); }
+			remove { Events.RemoveHandler (MDirectoryChangedEvent, value); }
+		}
+		
+		public event EventHandler ForceDialogEnd {
+			add { Events.AddHandler (MForceDialogEndEvent, value); }
+			remove { Events.RemoveHandler (MForceDialogEndEvent, value); }
+		}
+
+		internal class ThumbnailCreator
+		{
+			private ThumbnailDelegate thumbnailDelegate;
+			private ListView control;
+			private readonly object lockobject = new object();
+			private bool stopped = false;
+
+			public ThumbnailCreator(ThumbnailDelegate thumbnailDelegate, ListView listView)
+			{
+				this.thumbnailDelegate = thumbnailDelegate;
+				this.control = listView;
+			}
+
+			public void MakeThumbnails()
+			{
+				foreach (var item in control.Items) {
+					var fi = item as FileViewListViewItem;
+					if (fi == null || fi.FSEntry == null || !fi.FSEntry.IsImageFile())
+						continue;
+					fi.FSEntry.SetImage();
+					if (stopped)
+						return;
+					if (thumbnailDelegate != null) {
+						lock (lockobject) {
+							object[] objectArray = new object[1];
+							objectArray[0] = fi;
+							control.Invoke(thumbnailDelegate, objectArray);
+						}
+					}
+				}
+			}
+
+			public void Stop()
+			{
+				lock (lockobject) {
+					stopped = true;
+				}
+			}
+		}
+
+		private void DeleteOldThumbnails()
+		{
+			foreach (var item in Items) {
+				var fi = item as FileViewListViewItem;
+				if (fi == null || fi.FSEntry == null)
+					continue;
+				fi.FSEntry.Dispose();
+				fi.FSEntry = null;
+			}
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			DeleteOldThumbnails();
+			base.Dispose(disposing);
+		}
+	}
+	#endregion
+
 	#region FileListViewItem
 	internal class FileViewListViewItem : ListViewItem
 	{

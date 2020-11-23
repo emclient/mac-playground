@@ -413,21 +413,21 @@ namespace System.Windows.Forms {
 			}
 
 			private static void Initialize() {
-				AssemblyName	assembly;
-				AssemblyBuilder	assembly_builder;
+				//AssemblyName	assembly;
+				//AssemblyBuilder	assembly_builder;
 
 				if (Initialized) {
 					return;
 				}
 
-				assembly = new AssemblyName();
-				assembly.Name = "XplatUIWin32.FuncPtrInterface";
-				assembly_builder = AppDomain.CurrentDomain.DefineDynamicAssembly(assembly, AssemblyBuilderAccess.Run);
+				//assembly = new AssemblyName();
+				//assembly.Name = "XplatUIWin32.FuncPtrInterface";
+				//assembly_builder = AppDomain.CurrentDomain.DefineDynamicAssembly(assembly, AssemblyBuilderAccess.Run);
 
 				MethodArguments = new object[6];
-				GetDataMethod = CreateFuncPtrInterface(assembly_builder, "GetData", typeof(uint), 3);
+				//GetDataMethod = CreateFuncPtrInterface(assembly_builder, "GetData", typeof(uint), 3);
 				//GetDataHereMethod = CreateFuncPtrInterface(assembly_builder, "GetDataHere", typeof(uint), 3);
-				QueryGetDataMethod = CreateFuncPtrInterface(assembly_builder, "QueryGetData", typeof(uint), 2);
+				//QueryGetDataMethod = CreateFuncPtrInterface(assembly_builder, "QueryGetData", typeof(uint), 2);
 				//GetCanonicalFormatEtcMethod = CreateFuncPtrInterface(assembly_builder, "GetCanonicalFormatEtc", typeof(uint), 3);
 				//SetDataMethod = CreateFuncPtrInterface(assembly_builder, "SetData", typeof(uint), 4);
 				//EnumFormatEtcMethod = CreateFuncPtrInterface(assembly_builder, "EnumFormatEtc", typeof(uint), 3);

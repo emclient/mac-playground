@@ -29,13 +29,10 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
-using System.Windows.Forms.Mac;
 #if XAMARINMAC
+using System.Windows.Forms.Mac;
 using AppKit;
 using CoreGraphics;
-#else
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
 #endif
 
 namespace System.Windows.Forms
@@ -357,9 +354,11 @@ namespace System.Windows.Forms
 			if (visible)
 			{
 				// TODO: Move here the code from Show().
+#if XAMARINMAC
 				if (currentMenu != null)
 					this.is_visible = true;
 				else
+#endif
 					base.SetVisibleCore(visible);
 			}
 			else
@@ -388,12 +387,16 @@ namespace System.Windows.Forms
 					tsi.Dismiss(closeReason);
 
 				// Hide this dropdown
+#if XAMARINMAC
 				if (this.currentMenu != null) {
 					this.currentMenu.CancelTracking();
 					this.is_visible = false;
 				} else {
 					base.SetVisibleCore(visible);
 				}
+#else
+				base.SetVisibleCore(visible);
+#endif
 
 				this.OnClosed(new ToolStripDropDownClosedEventArgs(closeReason));
 			}
@@ -585,6 +588,7 @@ namespace System.Windows.Forms
 			// ways of selecting the item: mouse_down-move-mouse_up and click-move-click.
 			ToolStripManager.DismissingHandledNatively = useNativeMenu;
 
+#if XAMARINMAC
 			if (useNativeMenu)
 			{
 				currentMenu = ToNSMenu();
@@ -602,6 +606,7 @@ namespace System.Windows.Forms
 					}
 				});
 			}
+#endif
 
 			base.Show();
 

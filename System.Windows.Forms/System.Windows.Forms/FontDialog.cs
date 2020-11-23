@@ -443,7 +443,7 @@ namespace System.Windows.Forms
 			}
 		}
 
-		[DefaultValue ("Color [Black]")]
+		[DefaultValue(typeof(Color), "Black")]
 		public Color Color
 		{
 			set {

@@ -1369,11 +1369,6 @@ namespace System.Windows.Forms
 			}
 		}
 
-		internal override bool InternalCapture {
-			get { return Capture; }
-			set {}
-		}
-		
 		void LayoutComboBox ()
 		{
 			int border = ThemeEngine.Current.Border3DSize.Width;
@@ -2350,11 +2345,6 @@ namespace System.Windows.Forms
 				{
 				}
 				
-				internal override bool InternalCapture {
-					get { return Capture; }
-					set { }
-				}
-
 				public void FireMouseDown (MouseEventArgs e) 
 				{
 					if (!Visible) 
@@ -2421,15 +2411,6 @@ namespace System.Windows.Forms
 					cp.Style |= (int)WindowStyles.WS_POPUP;
 					cp.ExStyle |= (int) WindowExStyles.WS_EX_TOOLWINDOW | (int) WindowExStyles.WS_EX_TOPMOST;
 					return cp;
-				}
-			}
-
-			internal override bool InternalCapture {
-				get {
-					return Capture;
-				}
-
-				set {
 				}
 			}
 

@@ -358,7 +358,9 @@ namespace System.Windows.Forms {
 		#region Public Constructor & Destructor
 		public Form ()
 		{
+#if XAMARINMAC
             AppKit.NSApplication.EnsureUIThread();
+#endif
 
 //            if (!NSThread.IsMain)
 //                Console.Error.WriteLine("Not in main thread");

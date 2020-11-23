@@ -186,7 +186,7 @@ namespace System.Windows.Forms {
 		}
 
 #if !XAMARINMAC
-		internal override Size GetPreferredSizeCore (Size proposedSiz		{
+		internal override Size GetPreferredSizeCore (Size proposedSize) {
 			if (this.AutoSize)
 				return ThemeEngine.Current.CalculateButtonAutoSize (this);
 				

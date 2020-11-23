@@ -1,23 +1,35 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net50-macos</TargetFramework>
+    <TargetFrameworks>net5.0-macos;net5.0-windows</TargetFrameworks>
     <TargetFramework Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFramework>
-    <DefineConstants>__MACOS__;NET_4_5;XAMARINMAC;MACDIALOGS;MACOS_THEME</DefineConstants>
+    <DefineConstants>NET_4_5</DefineConstants>
     <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
+    <EnableDefaultItems>false</EnableDefaultItems>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <RootNamespace>System.Windows.Forms</RootNamespace>
     <AssemblyName>System.Windows.Forms</AssemblyName>
     <DisableExtraReferences>true</DisableExtraReferences>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <EnableDefaultItems Condition="'$(TargetFramework)' != 'net50-macos'">false</EnableDefaultItems>
-    <EnableDefaultCompileItems Condition="'$(TargetFramework)' != 'net50-macos'">false</EnableDefaultCompileItems>
-    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' != 'net50-macos'">false</EnableDefaultEmbeddedResourceItems>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0-macos'">
+    <DefineConstants>$(DefineConstants);__MACOS__;XAMARINMAC;MACDIALOGS;MACOS_THEME</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net50-macos'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0-windows'">
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0-macos'">
+    <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
+    <ProjectReference Include="..\MacApi\MacApi.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mono.WebBrowser\Mono.WebBrowser.csproj" />
+    <ProjectReference Include="..\System.Windows.Forms.Primitives\System.Windows.Forms.Primitives.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Assembly\Consts.cs" />
     <Compile Include="Assembly\MonoTODOAttribute.cs" />
     <Compile Include="Assembly\AssemblyInfo.cs" />
@@ -25,7 +37,6 @@
     <Compile Include="System.Windows.Forms\SR.cs" />
     <Compile Include="System.Resources\*.cs" />
     <Compile Include="System.Windows.Forms\SpecialFolderEnumConverter.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\MonoApplicationDelegate.cs" />
     <Compile Include="System.Windows.Forms.Design\ComponentEditorForm.cs" />
     <Compile Include="System.Windows.Forms.Design\ComponentEditorPage.cs" />
     <Compile Include="System.Windows.Forms.Design\EventsTab.cs" />
@@ -121,14 +132,12 @@
     <Compile Include="System.Windows.Forms.VisualStyles\ToolBarState.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\TrackBarThumbState.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\TrueSizeScalingType.cs" />
-    <!--<Compile Include="System.Windows.Forms.VisualStyles\UXTheme.cs" />-->
     <Compile Include="System.Windows.Forms.VisualStyles\VerticalAlignment.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStyleElement.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStyleInformation.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStyleRenderer.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStylesEngine.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStylesUnsupported.cs" />
-    <!--<Compile Include="System.Windows.Forms.VisualStyles\VisualStylesNative.cs" />-->
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStyleState.cs" />
     <Compile Include="System.Windows.Forms.WebBrowserDialogs\AlertCheck.cs" />
     <Compile Include="System.Windows.Forms.WebBrowserDialogs\ConfirmCheck.cs" />
@@ -857,13 +866,37 @@
     <Compile Include="System.Windows.Forms\WebBrowserReadyState.cs" />
     <Compile Include="System.Windows.Forms\WebBrowserRefreshOption.cs" />
     <Compile Include="System.Windows.Forms\WebBrowserSiteBase.cs" />
-    <!--<Compile Include="System.Windows.Forms\Win32DnD.cs" />-->
     <Compile Include="System.Windows.Forms\WindowsFormsSynchronizationContext.cs" />
     <Compile Include="System.Windows.Forms\XplatUI.cs" />
     <Compile Include="System.Windows.Forms\XplatUIDriver.cs" />
     <Compile Include="System.Windows.Forms\XplatUIStructs.cs" />
-    <!--<Compile Include="System.Windows.Forms\XplatUIWin32.cs" />-->
+    <Compile Include="System.Windows.Forms\MessageBoxForm.cs" />
+    <Compile Include="System.Windows.Forms\UpDownBase.Mono.cs" />
+    <Compile Include="System.Windows.Forms.Extensions\DrawingExtensions.cs" />
+    <Compile Include="System.Windows.Forms.Extensions\IOExtensions.cs" />
+    <Compile Include="System.Windows.Forms\HtmlClip.cs" />
+    <Compile Include="System.Windows.Forms\DateTimeUtility.cs" />
+    <Compile Include="resources\Strings.Designer.cs">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="System.Windows.Forms\PrintDialog.Mac.cs" />
+    <Compile Include="System.Drawing.Design\*.cs" />
+    <Compile Include="TypeForwards.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0-windows'">
+    <Compile Include="System.Windows.Forms\Win32DnD.cs" />
+    <Compile Include="System.Windows.Forms\XplatUIWin32.cs" />
+    <Compile Include="System.Windows.Forms.VisualStyles\UXTheme.cs" />
+    <Compile Include="System.Windows.Forms.VisualStyles\VisualStylesNative.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0-macos'">
+    <Compile Include="System.Windows.Forms\DebugUtility.cs" />
     <Compile Include="System.Windows.Forms\XplatUIWin32.Structs.cs" />
+    <Compile Include="System.Windows.Forms\MessageBoxForm.Mac.cs" />
+    <Compile Include="System.Windows.Forms\FileDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\OpenFileDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\FolderBrowserDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\SaveFileDialog.Mac.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Cursor.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Enums.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoView.cs" />
@@ -874,15 +907,11 @@
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoView.Debug.cs">
       <DependentUpon>MonoView.cs</DependentUpon>
     </Compile>
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoApplication.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoApplicationDelegate.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\Troubleshooter.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoContentView.cs" />
-    <Compile Include="System.Windows.Forms\MessageBoxForm.cs" />
-    <Compile Include="System.Windows.Forms\MessageBoxForm.Mac.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\ModalDialogContext.cs" />
-    <Compile Include="System.Windows.Forms\FileDialog.Mac.cs" />
-    <Compile Include="System.Windows.Forms\OpenFileDialog.Mac.cs" />
-    <Compile Include="System.Windows.Forms\FolderBrowserDialog.Mac.cs" />
-    <Compile Include="System.Windows.Forms\SaveFileDialog.Mac.cs" />
-    <Compile Include="System.Windows.Forms\DebugUtility.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Swizzle.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\KeysConverter.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\NSKeyEx.cs" />
@@ -893,7 +922,6 @@
     <Compile Include="System.Windows.Forms\ComboBox.Mac.cs" />
     <Compile Include="System.Windows.Forms\DateTimePicker.Mac.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Extensions.cs" />
-    <Compile Include="System.Windows.Forms\UpDownBase.Mono.cs" />
     <Compile Include="System.Windows.Forms\UpDownBase.Mac.cs" />
     <Compile Include="System.Windows.Forms\ScrollBar.Mac.cs" />
     <Compile Include="System.Windows.Forms\ProgressBar.Mac.cs" />
@@ -904,9 +932,6 @@
     <Compile Include="System.Windows.Forms\ToolStripControlHost.Mac.cs" />
     <Compile Include="System.Windows.Forms\ToolStripDropDown.Mac.cs" />
     <Compile Include="System.Windows.Forms\ToolStripMenuItem.Mac.cs" />
-    <Compile Include="System.Windows.Forms.Extensions\DrawingExtensions.cs" />
-    <Compile Include="System.Windows.Forms.Extensions\IOExtensions.cs" />
-    <Compile Include="System.Windows.Forms\HtmlClip.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectProvider.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectPasteboard.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectWrapper.cs" />
@@ -915,15 +940,6 @@
     <Compile Include="System.Windows.Forms\TextBoxBase-NSTextField.cs" />
     <Compile Include="System.Windows.Forms\TextBoxBase-NSTextView.cs" />
     <Compile Include="System.Windows.Forms\TextBoxBase-NSSecureTextField.cs" />
-    <Compile Include="System.Windows.Forms\DateTimeUtility.cs" />
-    <Compile Include="resources\Strings.Designer.cs">
-      <DependentUpon>Strings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="System.Windows.Forms\PrintDialog.Mac.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\MonoApplication.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\Troubleshooter.cs" />
-    <Compile Include="System.Drawing.Design\*.cs" />
-    <Compile Include="TypeForwards.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
@@ -1170,12 +1186,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="System.Windows.Forms.CocoaInternal\ChangeLog" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Mono.WebBrowser\Mono.WebBrowser.csproj" />
-    <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
-    <ProjectReference Include="..\System.Windows.Forms.Primitives\System.Windows.Forms.Primitives.csproj" />
-    <ProjectReference Include="..\MacApi\MacApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>

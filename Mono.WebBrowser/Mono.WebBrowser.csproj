@@ -1,47 +1,6 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net50-macos</TargetFramework>
-    <TargetFramework Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFramework>
-    <DefineConstants>NET_4_0;NET_4_5;MONO;DISABLE_CAS_USE;XAMARINMAC;__UNIFIED__</DefineConstants>
-    <AssemblyName>Mono.WebBrowser</AssemblyName>
+    <TargetFramework>net5.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <EnableDefaultItems Condition="'$(TargetFramework)' != 'net50-macos'">false</EnableDefaultItems>
-    <EnableDefaultCompileItems Condition="'$(TargetFramework)' != 'net50-macos'">false</EnableDefaultCompileItems>
-    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' != 'net50-macos'">false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Assembly\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net50-macos'">
-    <Compile Include="Mono.WebBrowser\DOM\EventArgs.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\EventHandlers.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\IAttribute.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\IAttributeCollection.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\IDocument.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\IDocumentType.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\IDOMImplementation.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\IElement.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\IElementCollection.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\IHistory.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\IMediaList.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\INamedNodeMap.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\INavigation.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\INode.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\INodeList.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\IStylesheet.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\IStylesheetList.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\IWindow.cs" />
-    <Compile Include="Mono.WebBrowser\DOM\IWindowCollection.cs" />
-    <Compile Include="Mono.WebBrowser\Exception.cs" />
-    <Compile Include="Mono.WebBrowser\IWebBrowser.cs" />
-    <Compile Include="Mono.WebBrowser\Manager.cs" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net50-macos'">
-    <Folder Include="Properties\" />
-    <Folder Include="Assembly\" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net50-macos'">
-    <Reference Include="System" />
-  </ItemGroup>
 </Project>
