@@ -58,3 +58,7 @@ T:System.Timers.TimersDescriptionAttribute
 // These do not need to be persisted in the implementation
 T:System.ComponentModel.EditorBrowsableAttribute
 T:System.ObsoleteAttribute
+
+// WinForms specific
+T:System.Windows.Forms.SRCategoryAttribute
+T:System.Windows.Forms.SRDescriptionAttribute
