@@ -24,6 +24,7 @@
     <Compile Include="Assembly\Locale.cs" />
     <Compile Include="System.Windows.Forms\SR.cs" />
     <Compile Include="System.Resources\*.cs" />
+    <Compile Include="System.Windows.Forms\SpecialFolderEnumConverter.cs" />
     <Compile Include="System.Windows.Forms.CarbonInternal\ApplicationHandler.cs" />
     <Compile Include="System.Windows.Forms.CarbonInternal\ControlHandler.cs" />
     <Compile Include="System.Windows.Forms.CarbonInternal\Cursor.cs" />
