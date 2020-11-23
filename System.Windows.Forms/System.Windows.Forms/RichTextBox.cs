@@ -1131,11 +1131,6 @@ namespace System.Windows.Forms {
 				eh (this, e);
 		}
 
-		protected override void OnContextMenuChanged (EventArgs e)
-		{
-			base.OnContextMenuChanged (e);
-		}
-
 		protected override void OnHandleCreated (EventArgs e)
 		{
 			base.OnHandleCreated (e);

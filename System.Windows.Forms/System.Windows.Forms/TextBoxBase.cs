@@ -2681,9 +2681,10 @@ namespace System.Windows.Forms
 		}
 
 #else
-		internal Dictionary<Keys, Func<bool>> LoadKeyHanders()
+		internal Dictionary<Keys, Func<bool>> LoadKeyHandlers()
 		{
-			base.OnMouseUp (mevent);
+			// FIXME
+			return new Dictionary<Keys, Func<bool>>();
 		}
 #endif
 

@@ -42,13 +42,13 @@ namespace System.Windows.Forms {
 	[Designer ("System.Windows.Forms.Design.TextBoxDesigner, " + Consts.AssemblySystem_Design)]
 	public class TextBox : TextBoxBase {
 		#region Variables
-		private ContextMenu	menu;
-		private MenuItem	undo;
-		private MenuItem	cut;
-		private MenuItem	copy;
-		private MenuItem	paste;
-		private MenuItem	delete;
-		private MenuItem	select_all;
+		private ContextMenuStrip	menu;
+		private ToolStripMenuItem	undo;
+		private ToolStripMenuItem	cut;
+		private ToolStripMenuItem	copy;
+		private ToolStripMenuItem	paste;
+		private ToolStripMenuItem	delete;
+		private ToolStripMenuItem	select_all;
 
 		private bool use_system_password_char;
 		private AutoCompleteStringCollection auto_complete_custom_source;
@@ -77,17 +77,18 @@ namespace System.Windows.Forms {
 			SetStyle (ControlStyles.StandardClick | ControlStyles.StandardDoubleClick, false);
 			SetStyle (ControlStyles.FixedHeight, true);
 
-			undo = new MenuItem(Locale.GetText("&Undo"));
-			cut = new MenuItem(Locale.GetText("Cu&t"));
-			copy = new MenuItem(Locale.GetText("&Copy"));
-			paste = new MenuItem(Locale.GetText("&Paste"));
-			delete = new MenuItem(Locale.GetText("&Delete"));
-			select_all = new MenuItem(Locale.GetText("Select &All"));
+			undo = new ToolStripMenuItem(Locale.GetText("&Undo"));
+			cut = new ToolStripMenuItem(Locale.GetText("Cu&t"));
+			copy = new ToolStripMenuItem(Locale.GetText("&Copy"));
+			paste = new ToolStripMenuItem(Locale.GetText("&Paste"));
+			delete = new ToolStripMenuItem(Locale.GetText("&Delete"));
+			select_all = new ToolStripMenuItem(Locale.GetText("Select &All"));
 
-			menu = new ContextMenu(new MenuItem[] { undo, new MenuItem("-"), cut, copy, paste, delete, new MenuItem("-"), select_all});
-			ContextMenu = menu;
+			menu = new ContextMenuStrip();
+			menu.Items.Add(new ToolStripItem[] { undo, new ToolStripSeparator(), cut, copy, paste, delete, new ToolStripSeparator(), select_all});
+			ContextMenuStrip = menu;
 
-			menu.Popup += new EventHandler(menu_Popup);
+			menu.Opening += new CancelEventHandler(menu_Popup);
 			undo.Click += new EventHandler(undo_Click);
 			cut.Click += new EventHandler(cut_Click);
 			copy.Click += new EventHandler(copy_Click);
@@ -668,24 +669,7 @@ namespace System.Windows.Forms {
 
 		#region Private Methods
 
-		internal override ContextMenu ContextMenuInternal {
-			get {
-				ContextMenu res = base.ContextMenuInternal;
-				if (res == menu)
-					return null;
-				return res;
-			}
-			set {
-				base.ContextMenuInternal = value;
-			}
-		}
-
-		internal void RestoreContextMenu ()
-		{
-			ContextMenuInternal = menu;
-		}
-
-		private void menu_Popup(object sender, EventArgs e) {
+		private void menu_Popup(object sender, CancelEventArgs e) {
 			if (SelectionLength == 0) {
 				cut.Enabled = false;
 				copy.Enabled = false;

@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using System.Globalization;
-using System.Windows.Forms.Mac;
 
-#if MONOMAC
-using MonoMac.Foundation;
-#elif XAMARINMAC
+#if XAMARINMAC
+using System.Windows.Forms.Mac;
 using Foundation;
 #endif
 
@@ -435,12 +433,12 @@ namespace System.Windows.Forms
 
 		public static string ToString(DateTime dateTime)
 		{
-			return dateTime.ToString(null);
+			return ToString(dateTime, null);
 		}
 
 		public static string ToString(DateTime dateTime, string format)
 		{
-			return dateTime.ToString(format, CultureInfo.CurrentCulture);
+			return ToString(dateTime, format, CultureInfo.CurrentCulture);
 		}
 
 		public static string ToString(DateTime dateTime, string format, CultureInfo culture)
@@ -455,12 +453,12 @@ namespace System.Windows.Forms
 			return ToString(dateTime);
 		}
 
-		internal static string ToSafeString(DateTime dateTime, string format)
+		internal static string ToSafeString(this DateTime dateTime, string format)
 		{
 			return ToString(dateTime, format);
 		}
 
-		public static string ToSafeString(DateTime dateTime, string format, CultureInfo culture)
+		public static string ToSafeString(this DateTime dateTime, string format, CultureInfo culture)
 		{
 			return ToString(dateTime, format, culture);
 		}

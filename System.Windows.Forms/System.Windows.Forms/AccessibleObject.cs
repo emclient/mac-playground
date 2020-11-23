@@ -26,9 +26,9 @@
 
 // NOT COMPLETE
 
-#if !XAMARINMAC
+/*#if !XAMARINMAC
 using Accessibility;
-#endif
+#endif*/
 using System.Drawing;
 using System.Globalization;
 using System.Reflection;
@@ -36,11 +36,11 @@ using System.Runtime.InteropServices;
 
 namespace System.Windows.Forms {
 	[ComVisible(true)]
-#if XAMARINMAC
+//#if XAMARINMAC
 	public class AccessibleObject : MarshalByRefObject, IReflect {
-#else
+/*#else
 	public class AccessibleObject : StandardOleMarshalObject, IReflect, IAccessible {
-#endif
+#endif*/
 		#region Private Variables
 		internal string		name;
 		internal string		value;
@@ -470,7 +470,7 @@ namespace System.Windows.Forms {
 		#endregion	// IReflection Methods and Properties
 
 		#region IAccessible Methods and Properties
-		#if !XAMARINMAC
+/*#if !XAMARINMAC
 		void IAccessible.accDoDefaultAction(object childID) {
 			throw new NotImplementedException();
 		}
@@ -562,7 +562,7 @@ namespace System.Windows.Forms {
 		void IAccessible.set_accValue(object childID, string newValue) {
 			throw new NotImplementedException();
                 }
-		#endif
+		#endif*/
 		#endregion	// IAccessible Methods and Properties
 	}
 }

@@ -50,8 +50,8 @@ namespace System.Windows.Forms {
 		private Button okButton;
 		private FolderBrowserTreeView folderBrowserTreeView;
 		private Button newFolderButton;
-		private ContextMenu folderBrowserTreeViewContextMenu;
-		private MenuItem newFolderMenuItem;
+		private ContextMenuStrip folderBrowserTreeViewContextMenu;
+		private ToolStripMenuItem newFolderMenuItem;
 		
 		private string old_selectedPath = string.Empty;
 		
@@ -87,7 +87,7 @@ namespace System.Windows.Forms {
 			okButton = new Button ();
 			cancelButton = new Button ();
 			descriptionLabel = new Label ();
-			folderBrowserTreeViewContextMenu = new ContextMenu ();
+			folderBrowserTreeViewContextMenu = new ContextMenuStrip ();
 			
 			form.AcceptButton = okButton;
 			form.CancelButton = cancelButton;
@@ -98,8 +98,8 @@ namespace System.Windows.Forms {
 			form.Text = "Browse For Folder";
 			form.SizeGripStyle = SizeGripStyle.Show;
 
-			newFolderMenuItem = new MenuItem("New Folder", new EventHandler (OnClickNewFolderButton));
-			folderBrowserTreeViewContextMenu.MenuItems.Add(newFolderMenuItem);
+			newFolderMenuItem = new ToolStripMenuItem("New Folder", null, new EventHandler (OnClickNewFolderButton));
+			folderBrowserTreeViewContextMenu.Items.Add(newFolderMenuItem);
 			
 			// descriptionLabel
 			descriptionLabel.Anchor = ((AnchorStyles)(((AnchorStyles.Top | AnchorStyles.Left)
@@ -122,7 +122,7 @@ namespace System.Windows.Forms {
 			folderBrowserTreeView.ShowPlusMinus = true;
 			folderBrowserTreeView.HotTracking = true;
 			folderBrowserTreeView.BorderStyle = BorderStyle.Fixed3D;
-			folderBrowserTreeView.ContextMenu = folderBrowserTreeViewContextMenu;
+			folderBrowserTreeView.ContextMenuStrip = folderBrowserTreeViewContextMenu;
 			//folderBrowserTreeView.Indent = 2;
 			
 			// newFolderButton
