@@ -35,6 +35,7 @@ using System.Runtime.Serialization;
 namespace System.Drawing.Printing {
 
 	[Serializable]
+	[System.Runtime.CompilerServices.TypeForwardedFrom("System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
 	public class InvalidPrinterException : SystemException {
 
 		private PrinterSettings settings;
