@@ -1,17 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net50-macos</TargetFramework>
+    <TargetFramework>net5.0-macos</TargetFramework>
     <MonoBundlingExtraArgs>--marshal-objectivec-exceptions:disable --registrar:dynamic</MonoBundlingExtraArgs>
     <RuntimeIdentifier>osx-x64</RuntimeIdentifier>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <DisableExtraReferences>true</DisableExtraReferences>
-    <DefineConstants Condition=" '$(TargetFramework)' == 'net50-macos'">$(DefineConstants);MAC;XAMARINMAC</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)' == 'net5.0-macos'">$(DefineConstants);MAC;XAMARINMAC</DefineConstants>
     <OutputType>Exe</OutputType>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0-macos'">
+    <ProjectReference Include="..\System.Windows.Forms\System.Windows.Forms.csproj" />
+    <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
+    <ProjectReference Include="..\MacApi\MacApi.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Forms\ToolstripForm.cs">
@@ -259,34 +264,5 @@
     <Content Include="car.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='net48'">
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net50-macos'">
-    <ProjectReference Include="..\System.Windows.Forms\System.Windows.Forms.csproj" />
-    <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
-    <!--<ProjectReference Include="..\..\..\MailClient.Common.UI\MailClient.Common.UI.csproj">
-      <Project>{A0DA62D2-7D4D-43BA-BCA3-1DD3354C746C}</Project>
-      <Name>MailClient.Common.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\CefGlue.WindowsForms\CefGlue.WindowsForms.csproj">
-      <Project>{679AF14D-8FF5-4608-BFF8-EC1A7DED04A4}</Project>
-      <Name>CefGlue.WindowsForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\CefGlue\CefGlue.csproj" Condition="'$(Configuration)' != 'Mono - Debug' and '$(Configuration)' != 'Xamarin - Debug' and '$(Configuration)' != 'Xamarin-Release'">
-      <Project>{703FF300-34B9-48D4-A5D6-E741F48D5F95}</Project>
-      <Name>CefGlue</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\CefGlue.Mac\CefGlue.Mac.csproj" Condition="'$(Configuration)' == 'Mono - Debug' or '$(Configuration)' == 'Xamarin - Debug' or '$(Configuration)' == 'Xamarin-Release'">
-      <Project>{B9A17DD1-1EA3-4B41-A3A2-47B23A107FD7}</Project>
-      <Name>CefGlue.Mac</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\MailClient\UI\htmlcontrol\HtmlEditorControl\HTMLEditorControl.csproj">
-      <Project>{5873DE0F-6853-4C8E-91A4-7A6861069A9A}</Project>
-      <Name>HTMLEditorControl</Name>
-    </ProjectReference>-->
-    <ProjectReference Include="..\MacApi\MacApi.csproj" />
   </ItemGroup>
 </Project>
