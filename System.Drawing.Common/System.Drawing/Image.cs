@@ -64,9 +64,9 @@ namespace System.Drawing {
 	[Serializable]
 	[TypeConverter (typeof (ImageConverter))]
 	[ImmutableObject (true)]
-
 	[Editor ("System.Drawing.Design.ImageEditor, System.Drawing.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
 			 "System.Drawing.Design.UITypeEditor, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+	[System.Runtime.CompilerServices.TypeForwardedFrom("System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
 	public abstract class Image : MarshalByRefObject, IDisposable , ICloneable, ISerializable {
 
 		public delegate bool GetThumbnailImageAbort();
