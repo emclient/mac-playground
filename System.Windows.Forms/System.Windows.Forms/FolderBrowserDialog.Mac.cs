@@ -60,16 +60,29 @@ namespace System.Windows.Forms
 
 		internal string Prompt { get; set; }
 
+		[Browsable(true)]
+		[DefaultValue("")]
+		[Localizable(true)]
 		public string Description { get; set; }
 
 		// Gets or sets the root folder where the browsing starts from.
+		[Browsable(true)]
+		[DefaultValue(Environment.SpecialFolder.Desktop)]
+		[Localizable(false)]
+		[TypeConverter(typeof(SpecialFolderEnumConverter))]
 		public Environment.SpecialFolder RootFolder { get; set; }
 
 		// Gets or sets the path selected by the user.
+		[Browsable(true)]
+		[DefaultValue("")]
 		[Editor("System.Windows.Forms.Design.SelectedPathEditor, " + Consts.AssemblySystem_Design, typeof(System.Drawing.Design.UITypeEditor))]
+		[Localizable(true)]
 		public string SelectedPath { get; set; }
 
 		// Gets or sets a value indicating whether the New Folder button appears in the folder browser dialog box.
+		[Browsable(true)]
+		[DefaultValue(true)]
+		[Localizable(false)]
 		public bool ShowNewFolderButton { get; set; } = true;
 
 		protected virtual bool IsSubfolderOf(string subpath, Environment.SpecialFolder root)

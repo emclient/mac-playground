@@ -82,21 +82,6 @@ CannotRemoveAttribute : Attribute 'System.Windows.Forms.ApplicableToButtonAttrib
 CannotRemoveAttribute : Attribute 'System.Windows.Forms.ApplicableToButtonAttribute' exists on 'System.Windows.Forms.FlatButtonAppearance.BorderSize' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.Windows.Forms.ApplicableToButtonAttribute' exists on 'System.Windows.Forms.FlatButtonAppearance.MouseDownBackColor' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.Windows.Forms.ApplicableToButtonAttribute' exists on 'System.Windows.Forms.FlatButtonAppearance.MouseOverBackColor' in the contract but not the implementation.
-CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultEventAttribute' exists on 'System.Windows.Forms.FolderBrowserDialog' in the contract but not the implementation.
-CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultPropertyAttribute' exists on 'System.Windows.Forms.FolderBrowserDialog' in the contract but not the implementation.
-CannotRemoveAttribute : Attribute 'System.ComponentModel.BrowsableAttribute' exists on 'System.Windows.Forms.FolderBrowserDialog.Description' in the contract but not the implementation.
-CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultValueAttribute' exists on 'System.Windows.Forms.FolderBrowserDialog.Description' in the contract but not the implementation.
-CannotRemoveAttribute : Attribute 'System.ComponentModel.LocalizableAttribute' exists on 'System.Windows.Forms.FolderBrowserDialog.Description' in the contract but not the implementation.
-CannotRemoveAttribute : Attribute 'System.ComponentModel.BrowsableAttribute' exists on 'System.Windows.Forms.FolderBrowserDialog.RootFolder' in the contract but not the implementation.
-CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultValueAttribute' exists on 'System.Windows.Forms.FolderBrowserDialog.RootFolder' in the contract but not the implementation.
-CannotRemoveAttribute : Attribute 'System.ComponentModel.LocalizableAttribute' exists on 'System.Windows.Forms.FolderBrowserDialog.RootFolder' in the contract but not the implementation.
-CannotRemoveAttribute : Attribute 'System.ComponentModel.TypeConverterAttribute' exists on 'System.Windows.Forms.FolderBrowserDialog.RootFolder' in the contract but not the implementation.
-CannotRemoveAttribute : Attribute 'System.ComponentModel.BrowsableAttribute' exists on 'System.Windows.Forms.FolderBrowserDialog.SelectedPath' in the contract but not the implementation.
-CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultValueAttribute' exists on 'System.Windows.Forms.FolderBrowserDialog.SelectedPath' in the contract but not the implementation.
-CannotRemoveAttribute : Attribute 'System.ComponentModel.LocalizableAttribute' exists on 'System.Windows.Forms.FolderBrowserDialog.SelectedPath' in the contract but not the implementation.
-CannotRemoveAttribute : Attribute 'System.ComponentModel.BrowsableAttribute' exists on 'System.Windows.Forms.FolderBrowserDialog.ShowNewFolderButton' in the contract but not the implementation.
-CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultValueAttribute' exists on 'System.Windows.Forms.FolderBrowserDialog.ShowNewFolderButton' in the contract but not the implementation.
-CannotRemoveAttribute : Attribute 'System.ComponentModel.LocalizableAttribute' exists on 'System.Windows.Forms.FolderBrowserDialog.ShowNewFolderButton' in the contract but not the implementation.
 MembersMustExist : Member 'public System.Boolean System.Windows.Forms.FolderBrowserDialog.AutoUpgradeEnabled.get()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public void System.Windows.Forms.FolderBrowserDialog.AutoUpgradeEnabled.set(System.Boolean)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public System.Boolean System.Windows.Forms.FolderBrowserDialog.UseDescriptionForTitle.get()' does not exist in the implementation but it does exist in the contract.
