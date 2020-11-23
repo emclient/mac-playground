@@ -1295,49 +1295,6 @@ namespace System.Windows.Forms
 				}
 			}
 
-#if !NO_X11 && !NO_CARBON
-			if ((clip_region != null) && (XplatUI.UserClipWontExposeParent)) {
-				if (parent != null) {
-					PaintEventArgs	parent_pe;
-					Region		region;
-					GraphicsState	state;
-					Hwnd		hwnd;
-
-					hwnd = Hwnd.ObjectFromHandle(Handle);
-
-					if (hwnd != null) {
-						parent_pe = new PaintEventArgs(pevent.Graphics, new Rectangle(pevent.ClipRectangle.X + Left, pevent.ClipRectangle.Y + Top, pevent.ClipRectangle.Width, pevent.ClipRectangle.Height));
-
-						region = new Region ();
-						region.MakeEmpty();
-						region.Union(ClientRectangle);
-
-						foreach (Rectangle r in hwnd.ClipRectangles) {
-							region.Union (r);
-						}
-
-						state = parent_pe.Graphics.Save();
-						parent_pe.Graphics.Clip = region;
-
-						parent_pe.Graphics.TranslateTransform(-Left, -Top);
-						parent.OnPaintBackground(parent_pe);
-						parent_pe.Graphics.Restore(state);
-
-						state = parent_pe.Graphics.Save();
-						parent_pe.Graphics.Clip = region;
-
-						parent_pe.Graphics.TranslateTransform(-Left, -Top);
-						parent.OnPaint(parent_pe);
-						parent_pe.Graphics.Restore(state);
-						parent_pe.SetGraphics(null);
-
-						region.Intersect(clip_region);
-						pevent.Graphics.Clip = region;
-					}
-				}
-			}
-#endif
-
 			if (background_image == null) {
 				if (!tbstyle_flat && BackColor.A == 0xff) {
 					Rectangle paintRect = pevent.ClipRectangle;
