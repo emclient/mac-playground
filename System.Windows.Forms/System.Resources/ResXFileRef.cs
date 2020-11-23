@@ -1,175 +1,133 @@
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-// 
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
-// Copyright (c) 2005 Novell, Inc. (http://www.novell.com)
-//
-// Authors:
-//	Peter Bartok	(pbartok@novell.com)
-//	Gert Driesen	(drieseng@users.sourceforge.net)
-//
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
-using System;
+#nullable disable
+
 using System.ComponentModel;
-using System.Drawing;
+using System.Globalization;
 using System.IO;
-using System.Reflection;
 using System.Text;
 
-namespace System.Resources {
-	[Serializable]
-	[TypeConverter(typeof(ResXFileRef.Converter))]
-#if INSIDE_SYSTEM_WEB
-	internal
-#else
-	public 
-#endif
-	class ResXFileRef {
-#if INSIDE_SYSTEM_WEB
-		internal
-#else
-		public
-#endif
-		class Converter : TypeConverter {
-			public Converter() {
-			}
+namespace System.Resources
+{
+    /// <summary>
+    ///  ResX File Reference class. This allows the developer to represent
+    ///  a link to an external resource. When the resource manager asks
+    ///  for the value of the resource item, the external resource is loaded.
+    /// </summary>
+    [TypeConverter(typeof(Converter))]
+    public partial class ResXFileRef
+    {
+        /// <summary>
+        ///  Creates a new ResXFileRef that points to the specified file.
+        ///  The type refered to by typeName must support a constructor
+        ///  that accepts a System.IO.Stream as a parameter.
+        /// </summary>
+        public ResXFileRef(string fileName, string typeName)
+        {
+            FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
+            TypeName = typeName ?? throw new ArgumentNullException(nameof(typeName));
+        }
 
-			public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) {
-				return sourceType == typeof(string);
-			}
+        /// <summary>
+        ///  Creates a new ResXFileRef that points to the specified file.
+        ///  The type refered to by typeName must support a constructor
+        ///  that accepts a System.IO.Stream as a parameter.
+        /// </summary>
+        public ResXFileRef(string fileName, string typeName, Encoding textFileEncoding) : this(fileName, typeName)
+        {
+            TextFileEncoding = textFileEncoding;
+        }
 
-			public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType) {
-				return destinationType == typeof(string);
-			}
+        internal ResXFileRef Clone()
+        {
+            return new ResXFileRef(FileName, TypeName, TextFileEncoding);
+        }
 
-			public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value) {
-				byte[]		buffer;
+        public string FileName { get; private set; }
 
-				if ( !(value is String)) {
-					return null;
-				}
+        public string TypeName { get; }
 
-				string [] parts = ResXFileRef.Parse ((string) value);
-				if (parts.Length == 1)
-					throw new ArgumentException ("value");
+        public Encoding TextFileEncoding { get; }
 
-				Type type = Type.GetType (parts [1]);
-				if (type == typeof(string)) {
-					Encoding encoding;
-					if (parts.Length > 2) {
-						encoding = Encoding.GetEncoding (parts [2]);
-					} else {
-						encoding = Encoding.Default;
-					}
+        /// <summary>
+        ///  path1+result = path2
+        ///  A string which is the relative path difference between path1 and
+        ///  path2 such that if path1 and the calculated difference are used
+        ///  as arguments to Combine(), path2 is returned
+        /// </summary>
+        private static string PathDifference(string path1, string path2, bool compareCase)
+        {
+            int i;
+            int si = -1;
 
-					using (TextReader reader = new StreamReader(parts [0], encoding)) {
-						return reader.ReadToEnd();
-					}
-				}
+            for (i = 0; (i < path1.Length) && (i < path2.Length); ++i)
+            {
+                if ((path1[i] != path2[i]) && (compareCase || (char.ToLower(path1[i], CultureInfo.InvariantCulture) != char.ToLower(path2[i], CultureInfo.InvariantCulture))))
+                {
+                    break;
+                }
 
-				using (FileStream file = new FileStream (parts [0], FileMode.Open, FileAccess.Read, FileShare.Read)) {
-					buffer = new byte [file.Length];
-					file.Read(buffer, 0, (int) file.Length);
-				}
+                if (path1[i] == Path.DirectorySeparatorChar)
+                {
+                    si = i;
+                }
+            }
 
-				if (type == typeof(System.Byte[]))
-					return buffer;
+            if (i == 0)
+            {
+                return path2;
+            }
 
-				if (type == typeof (Bitmap) && Path.GetExtension (parts [0]) == ".ico") {
-					MemoryStream ms = new MemoryStream (buffer);
-					return new Icon (ms).ToBitmap ();
-				}
+            if ((i == path1.Length) && (i == path2.Length))
+            {
+                return string.Empty;
+            }
 
-				if (type == typeof (MemoryStream))
-					return new MemoryStream (buffer);
+            StringBuilder relPath = new StringBuilder();
 
-				return Activator.CreateInstance(type, BindingFlags.CreateInstance
-					| BindingFlags.Public | BindingFlags.Instance, null, 
-					new object[] { new MemoryStream (buffer) }, culture);
-			}
+            for (; i < path1.Length; ++i)
+            {
+                if (path1[i] == Path.DirectorySeparatorChar)
+                {
+                    relPath.Append(".." + Path.DirectorySeparatorChar);
+                }
+            }
 
-			public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType) {
-				if (destinationType != typeof(String)) {
-					return base.ConvertTo (context, culture, value, destinationType);
-				}
+            return relPath.ToString() + path2.Substring(si + 1);
+        }
 
-				return ((ResXFileRef)value).ToString();
-			}
-		}
+        internal void MakeFilePathRelative(string basePath)
+        {
+            if (string.IsNullOrEmpty(basePath))
+            {
+                return;
+            }
 
-		private string filename;
-		private string typename;
-		private Encoding textFileEncoding;
+            FileName = PathDifference(basePath, FileName, false);
+        }
 
-		public ResXFileRef (string fileName, string typeName)
-		{
-			if (fileName == null)
-				throw new ArgumentNullException ("fileName");
-			if (typeName == null)
-				throw new ArgumentNullException ("typeName");
+        public override string ToString()
+        {
+            string result = string.Empty;
 
-			this.filename = fileName;
-			this.typename = typeName;
-		}
+            if (FileName.IndexOf(';') != -1 || FileName.IndexOf('\"') != -1)
+            {
+                result += ("\"" + FileName + "\";");
+            }
+            else
+            {
+                result += (FileName + ";");
+            }
 
-		public ResXFileRef (string fileName, string typeName, Encoding textFileEncoding)
-			: this (fileName, typeName) 
-		{
-			this.textFileEncoding = textFileEncoding;
-		}
+            result += TypeName;
+            if (TextFileEncoding != null)
+            {
+                result += (";" + TextFileEncoding.WebName);
+            }
 
-		public string FileName {
-			get { return filename; }
-		}
-
-		public Encoding TextFileEncoding {
-			get { return textFileEncoding; }
-		}
-
-		public string TypeName {
-			get { return typename; }
-		}
-
-		public override string ToString() {
-			StringBuilder sb = new StringBuilder ();
-			if (filename != null) {
-				sb.Append (filename);
-			}
-			sb.Append (';');
-			if (typename != null) {
-				sb.Append (typename);
-			}
-			if (textFileEncoding != null) {
-				sb.Append (';');
-				sb.Append (textFileEncoding.WebName);
-			}
-			return sb.ToString ();
-		}
-
-		internal static string [] Parse (string fileRef)
-		{
-			// we cannot return ResXFileRef, as that would mean we'd have to
-			// instantiate the encoding, and we do not always need this
-
-			if (fileRef == null)
-				throw new ArgumentNullException ("fileRef");
-
-			return fileRef.Split (';');
-		}
-	}
+            return result;
+        }
+    }
 }
