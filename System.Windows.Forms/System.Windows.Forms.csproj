@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net50-macos</TargetFramework>
     <TargetFramework Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFramework>
-    <DefineConstants>__MACOS__;NET_4_5;XAMARINMAC;NO_CARBON;NO_GTK;NO_X11;MACDIALOGS;MACOS_THEME</DefineConstants>
+    <DefineConstants>__MACOS__;NET_4_5;XAMARINMAC;MACDIALOGS;MACOS_THEME</DefineConstants>
     <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
@@ -25,20 +25,6 @@
     <Compile Include="System.Windows.Forms\SR.cs" />
     <Compile Include="System.Resources\*.cs" />
     <Compile Include="System.Windows.Forms\SpecialFolderEnumConverter.cs" />
-    <Compile Include="System.Windows.Forms.CarbonInternal\ApplicationHandler.cs" />
-    <Compile Include="System.Windows.Forms.CarbonInternal\ControlHandler.cs" />
-    <Compile Include="System.Windows.Forms.CarbonInternal\Cursor.cs" />
-    <Compile Include="System.Windows.Forms.CarbonInternal\Dnd.cs" />
-    <Compile Include="System.Windows.Forms.CarbonInternal\Enums.cs" />
-    <Compile Include="System.Windows.Forms.CarbonInternal\EventHandler.cs" />
-    <Compile Include="System.Windows.Forms.CarbonInternal\EventHandlerBase.cs" />
-    <Compile Include="System.Windows.Forms.CarbonInternal\HIObjectHandler.cs" />
-    <Compile Include="System.Windows.Forms.CarbonInternal\IEventHandler.cs" />
-    <Compile Include="System.Windows.Forms.CarbonInternal\KeyboardHandler.cs" />
-    <Compile Include="System.Windows.Forms.CarbonInternal\MouseHandler.cs" />
-    <Compile Include="System.Windows.Forms.CarbonInternal\Pasteboard.cs" />
-    <Compile Include="System.Windows.Forms.CarbonInternal\Structs.cs" />
-    <Compile Include="System.Windows.Forms.CarbonInternal\WindowHandler.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoApplicationDelegate.cs" />
     <Compile Include="System.Windows.Forms.Design\ComponentEditorForm.cs" />
     <Compile Include="System.Windows.Forms.Design\ComponentEditorPage.cs" />
@@ -111,7 +97,6 @@
     <Compile Include="System.Windows.Forms.VisualStyles\GlyphFontSizingType.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\GlyphType.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\GroupBoxState.cs" />
-    <Compile Include="System.Windows.Forms.VisualStyles\GtkPlus.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\HitTestCode.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\HitTestOptions.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\HorizontalAlign.cs" />
@@ -132,11 +117,7 @@
     <Compile Include="System.Windows.Forms.VisualStyles\StringProperty.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\TabItemState.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\TextBoxState.cs" />
-    <!--<Compile Include="System.Windows.Forms.VisualStyles\TextMetrics.cs" />
-    <Compile Include="System.Windows.Forms.VisualStyles\TextMetricsCharacterSet.cs" />
-    <Compile Include="System.Windows.Forms.VisualStyles\TextMetricsPitchAndFamilyValues.cs" />-->
     <Compile Include="System.Windows.Forms.VisualStyles\TextShadowType.cs" />
-    <!--<Compile Include="System.Windows.Forms.VisualStyles\ThemeSizeType.cs" />-->
     <Compile Include="System.Windows.Forms.VisualStyles\ToolBarState.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\TrackBarThumbState.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\TrueSizeScalingType.cs" />
@@ -146,7 +127,7 @@
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStyleInformation.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStyleRenderer.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStylesEngine.cs" />
-    <Compile Include="System.Windows.Forms.VisualStyles\VisualStylesGtkPlus.cs" />
+    <Compile Include="System.Windows.Forms.VisualStyles\VisualStylesUnsupported.cs" />
     <!--<Compile Include="System.Windows.Forms.VisualStyles\VisualStylesNative.cs" />-->
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStyleState.cs" />
     <Compile Include="System.Windows.Forms.WebBrowserDialogs\AlertCheck.cs" />
@@ -878,19 +859,11 @@
     <Compile Include="System.Windows.Forms\WebBrowserSiteBase.cs" />
     <!--<Compile Include="System.Windows.Forms\Win32DnD.cs" />-->
     <Compile Include="System.Windows.Forms\WindowsFormsSynchronizationContext.cs" />
-    <Compile Include="System.Windows.Forms\X11Clipboard.cs" />
-    <Compile Include="System.Windows.Forms\X11DesktopColors.cs" />
-    <Compile Include="System.Windows.Forms\X11Dnd.cs" />
-    <Compile Include="System.Windows.Forms\X11Keyboard.cs" />
-    <Compile Include="System.Windows.Forms\X11Structs.cs" />
-    <Compile Include="System.Windows.Forms\XEventQueue.cs" />
     <Compile Include="System.Windows.Forms\XplatUI.cs" />
-    <Compile Include="System.Windows.Forms\XplatUICarbon.cs" />
     <Compile Include="System.Windows.Forms\XplatUIDriver.cs" />
     <Compile Include="System.Windows.Forms\XplatUIStructs.cs" />
     <!--<Compile Include="System.Windows.Forms\XplatUIWin32.cs" />-->
     <Compile Include="System.Windows.Forms\XplatUIWin32.Structs.cs" />
-    <Compile Include="System.Windows.Forms\XplatUIX11.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Cursor.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Enums.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoView.cs" />

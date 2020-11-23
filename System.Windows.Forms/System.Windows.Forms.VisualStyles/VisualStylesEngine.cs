@@ -31,24 +31,18 @@ namespace System.Windows.Forms.VisualStyles
 	class VisualStylesEngine
 	{
 		static IVisualStyles instance = Initialize ();
+
 		public static IVisualStyles Instance {
 			get { return instance; }
 		}
+
 		static IVisualStyles Initialize ()
 		{
-			string environment_variable = Environment.GetEnvironmentVariable("MONO_VISUAL_STYLES");
-			if (environment_variable != null)
-				environment_variable = environment_variable.ToLower ();
-#if !NO_GTK
-			if (
-#if !VISUAL_STYLES_USE_GTKPLUS_ON_WINDOWS
-				environment_variable == "gtkplus" &&
+#if XAMARINMAC
+			return new VisualStylesUnsupported();
+#else
+			return new VisualStylesNative();
 #endif
-				VisualStylesGtkPlus.Initialize ())
-				return new VisualStylesGtkPlus ();
-#endif
-			//return new VisualStylesNative ();
-			throw new PlatformNotSupportedException();
 		}
 	}
 }

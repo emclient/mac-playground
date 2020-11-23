@@ -87,51 +87,11 @@ namespace System.Windows.Forms {
 		#region Constructor & Destructor
 		static XplatUI ()
 		{
-			// Compose name with current domain id because on Win32 we register class name
-			// and name must be unique to process. If we load MWF into multiple appdomains
-			// and try to register same class name we fail.
-//			default_class_name = "SWFClass" + System.Threading.Thread.GetDomainID ().ToString ();
-
-			if (RunningOnUnix) {
-#if NO_X11
-#if NO_CARBON
-				driver= XplatUICocoa.GetInstance ();
+#if XAMARINMAC
+			driver = XplatUICocoa.GetInstance ();
 #else
-				driver= XplatUICarbon.GetInstance ();
+			driver = XplatUIWin32.GetInstance ();
 #endif
-#else
-				//if (Environment.GetEnvironmentVariable ("not_supported_MONO_MWF_USE_NEW_X11_BACKEND") != null) {
-				//        driver=XplatUIX11_new.GetInstance ();
-				//} else 
-				if (Environment.GetEnvironmentVariable ("MONO_MWF_MAC_FORCE_X11") != null) {
-					driver = XplatUIX11.GetInstance ();
-				} else {
-					IntPtr buf = Marshal.AllocHGlobal (8192);
-					// This is a hacktastic way of getting sysname from uname ()
-					if (uname (buf) != 0) {
-						// WTF: We cannot run uname
-						driver=XplatUIX11.GetInstance ();
-					} else {
-						string os = Marshal.PtrToStringAnsi (buf);
-						if (os == "Darwin")
-#if NO_CARBON
-							driver= XplatUICocoa.GetInstance ();
-#else
-                            driver= XplatUICarbon.GetInstance ();
-#endif
-						else
-							driver=XplatUIX11.GetInstance ();
-					}
-					Marshal.FreeHGlobal (buf);
-				}
-#endif
-			} else {
-#if !XAMARINMAC
-				driver=XplatUIWin32.GetInstance ();
-#else
-				throw new PlatformNotSupportedException ();
-#endif
-			}
 
 			driver.InitializeDriver ();
 
