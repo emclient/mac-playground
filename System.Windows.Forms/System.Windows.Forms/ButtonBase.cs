@@ -285,7 +285,7 @@ namespace System.Windows.Forms {
 
 		[SettingsBindable (true)]
 		[Editor ("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design,
-			 "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
+			 typeof (System.Drawing.Design.UITypeEditor))]
 		public override string Text {
 			get { return base.Text; }
 			set { base.Text = value; }

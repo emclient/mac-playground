@@ -473,7 +473,7 @@ namespace System.Windows.Forms
 			set { NotImplemented(MethodBase.GetCurrentMethod(), value); }
 		}
 
-		[Editor("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design, "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
+		[Editor("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design, typeof (System.Drawing.Design.UITypeEditor))]
 		[Localizable(true)]
 		public override string Text
 		{

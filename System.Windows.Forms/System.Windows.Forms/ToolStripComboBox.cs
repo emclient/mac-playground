@@ -62,7 +62,7 @@ namespace System.Windows.Forms
 		[EditorBrowsable (EditorBrowsableState.Always)]
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Content)]
 		[Editor ("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + Consts.AssemblySystem_Design,
-			 "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
+			 typeof (System.Drawing.Design.UITypeEditor))]
 		public AutoCompleteStringCollection AutoCompleteCustomSource {
 			get { return ComboBox.AutoCompleteCustomSource; }
 			set { ComboBox.AutoCompleteCustomSource = value; }

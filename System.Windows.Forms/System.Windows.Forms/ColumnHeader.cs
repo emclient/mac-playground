@@ -204,7 +204,7 @@ namespace System.Windows.Forms
 		[DefaultValue (-1)]
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
 		[Editor ("System.Windows.Forms.Design.ImageIndexEditor, " + Consts.AssemblySystem_Design,
-			 "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
+			 typeof (System.Drawing.Design.UITypeEditor))]
 		[RefreshProperties (RefreshProperties.Repaint)]
 		[TypeConverter (typeof (ImageIndexConverter))]
 		public int ImageIndex {
@@ -226,7 +226,7 @@ namespace System.Windows.Forms
 		[DefaultValue ("")]
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
 		[Editor ("System.Windows.Forms.Design.ImageIndexEditor, " + Consts.AssemblySystem_Design,
-			 "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
+			 typeof (System.Drawing.Design.UITypeEditor))]
 		[RefreshProperties (RefreshProperties.Repaint)]
 		[TypeConverter (typeof (ImageKeyConverter))]
 		public string ImageKey {

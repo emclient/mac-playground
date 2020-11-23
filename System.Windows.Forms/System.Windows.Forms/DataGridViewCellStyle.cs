@@ -31,7 +31,7 @@ using System.Globalization;
 namespace System.Windows.Forms {
 
 	[Editor ("System.Windows.Forms.Design.DataGridViewCellStyleEditor, " + Consts.AssemblySystem_Design,
-		 "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
+		 typeof (System.Drawing.Design.UITypeEditor))]
 	[TypeConverter (typeof (DataGridViewCellStyleConverter))]
 	public class DataGridViewCellStyle : ICloneable {
 
@@ -141,7 +141,7 @@ namespace System.Windows.Forms {
 
 		[DefaultValue ("")]
 		[Editor ("System.Windows.Forms.Design.FormatStringEditor, " + Consts.AssemblySystem_Design,
-			 "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
+			 typeof (System.Drawing.Design.UITypeEditor))]
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		public string Format {
 			get { return format; }

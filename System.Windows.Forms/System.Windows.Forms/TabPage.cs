@@ -154,7 +154,7 @@ namespace System.Windows.Forms {
 		[RefreshProperties (RefreshProperties.Repaint)]
 		[DefaultValue ("")]
 		[Editor ("System.Windows.Forms.Design.ImageIndexEditor, " + Consts.AssemblySystem_Design,
-			 "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
+			 typeof (System.Drawing.Design.UITypeEditor))]
 		[TypeConverter (typeof (ImageKeyConverter))]
 		public string ImageKey
 		{

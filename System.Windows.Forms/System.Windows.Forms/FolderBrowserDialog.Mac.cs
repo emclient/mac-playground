@@ -66,6 +66,7 @@ namespace System.Windows.Forms
 		public Environment.SpecialFolder RootFolder { get; set; }
 
 		// Gets or sets the path selected by the user.
+		[Editor("System.Windows.Forms.Design.SelectedPathEditor, " + Consts.AssemblySystem_Design, typeof(System.Drawing.Design.UITypeEditor))]
 		public string SelectedPath { get; set; }
 
 		// Gets or sets a value indicating whether the New Folder button appears in the folder browser dialog box.

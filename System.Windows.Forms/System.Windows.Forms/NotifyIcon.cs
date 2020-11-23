@@ -558,7 +558,7 @@ namespace System.Windows.Forms {
 		[Localizable(true)]
 		[DefaultValue ("")]
 		[Editor ("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design,
-			 "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
+			 typeof (System.Drawing.Design.UITypeEditor))]
 		public string BalloonTipText {
 			get { return this.balloon_text; }
 			set {
