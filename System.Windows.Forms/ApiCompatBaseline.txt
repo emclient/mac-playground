@@ -1,8 +1,107 @@
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.AccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
-MembersMustExist : Member 'public System.Boolean System.Windows.Forms.AccessibleObject.RaiseAutomationNotification(System.Windows.Forms.Automation.AutomationNotificationKind, System.Windows.Forms.Automation.AutomationNotificationProcessing, System.String)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Boolean System.Windows.Forms.AccessibleObject.RaiseLiveRegionChanged()' does not exist in the implementation but it does exist in the contract.
+# High DPI support API
 MembersMustExist : Member 'public System.Windows.Forms.HighDpiMode System.Windows.Forms.Application.HighDpiMode.get()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public System.Boolean System.Windows.Forms.Application.SetHighDpiMode(System.Windows.Forms.HighDpiMode)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.Control.add_DpiChangedAfterParent(System.EventHandler)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.Control.add_DpiChangedBeforeParent(System.EventHandler)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.Control.LogicalToDeviceUnits(System.Drawing.Size)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Int32 System.Windows.Forms.Control.LogicalToDeviceUnits(System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'protected void System.Windows.Forms.Control.OnDpiChangedAfterParent(System.EventArgs)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'protected void System.Windows.Forms.Control.OnDpiChangedBeforeParent(System.EventArgs)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.Control.remove_DpiChangedAfterParent(System.EventHandler)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.Control.remove_DpiChangedBeforeParent(System.EventHandler)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Int32 System.Windows.Forms.Control.DeviceDpi.get()' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'protected void System.Windows.Forms.Control.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'protected void System.Windows.Forms.Button.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'protected void System.Windows.Forms.CheckBox.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.SystemInformation.GetBorderSizeForDpi(System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Drawing.Font System.Windows.Forms.SystemInformation.GetMenuFontForDpi(System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Int32 System.Windows.Forms.SystemInformation.GetVerticalScrollBarWidthForDpi(System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Int32 System.Windows.Forms.SystemInformation.VerticalScrollBarArrowHeightForDpi(System.Int32)' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.DpiChangedEventArgs' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.DpiChangedEventHandler' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.Form.add_DpiChanged(System.Windows.Forms.DpiChangedEventHandler)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'protected void System.Windows.Forms.Form.OnDpiChanged(System.Windows.Forms.DpiChangedEventArgs)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'protected System.Boolean System.Windows.Forms.Form.OnGetDpiScaledSize(System.Int32, System.Int32, System.Drawing.Size)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.Form.remove_DpiChanged(System.Windows.Forms.DpiChangedEventHandler)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'protected void System.Windows.Forms.ToolStrip.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'protected void System.Windows.Forms.UpDownBase.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'protected void System.Windows.Forms.ListBox.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'protected void System.Windows.Forms.MonthCalendar.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'protected void System.Windows.Forms.PropertyGrid.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'protected void System.Windows.Forms.RadioButton.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'protected void System.Windows.Forms.ScrollBar.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Boolean System.Windows.Forms.ScrollBar.ScaleScrollBarForDpiChange.get()' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.ScrollBar.ScaleScrollBarForDpiChange.set(System.Boolean)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Int32 System.Windows.Forms.SystemInformation.GetHorizontalScrollBarArrowWidthForDpi(System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Int32 System.Windows.Forms.SystemInformation.GetHorizontalScrollBarHeightForDpi(System.Int32)' does not exist in the implementation but it does exist in the contract.
+
+# New TaskDialog types
+TypesMustExist : Type 'System.Windows.Forms.TaskDialog' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.TaskDialogButton' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.TaskDialogButtonCollection' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.TaskDialogCommandLinkButton' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.TaskDialogControl' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.TaskDialogExpander' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.TaskDialogExpanderPosition' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.TaskDialogFootnote' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.TaskDialogIcon' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.TaskDialogPage' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.TaskDialogProgressBar' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.TaskDialogProgressBarState' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.TaskDialogRadioButton' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.TaskDialogRadioButtonCollection' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.TaskDialogStartupLocation' does not exist in the implementation but it does exist in the contract.
+TypesMustExist : Type 'System.Windows.Forms.TaskDialogVerificationCheckBox' does not exist in the implementation but it does exist in the contract.
+
+# New PlaceholderText functionality on TextBox
+MembersMustExist : Member 'public System.String System.Windows.Forms.TextBox.PlaceholderText.get()' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.TextBox.PlaceholderText.set(System.String)' does not exist in the implementation but it does exist in the contract.
+
+# New ReadOnlySpan<char> overloads on TextRenderer
+MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Point, System.Drawing.Color)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Point, System.Drawing.Color, System.Drawing.Color)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Point, System.Drawing.Color, System.Drawing.Color, System.Windows.Forms.TextFormatFlags)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Point, System.Drawing.Color, System.Windows.Forms.TextFormatFlags)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Rectangle, System.Drawing.Color)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Rectangle, System.Drawing.Color, System.Drawing.Color)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Rectangle, System.Drawing.Color, System.Drawing.Color, System.Windows.Forms.TextFormatFlags)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Rectangle, System.Drawing.Color, System.Windows.Forms.TextFormatFlags)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.TextRenderer.MeasureText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.TextRenderer.MeasureText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Size)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.TextRenderer.MeasureText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Size, System.Windows.Forms.TextFormatFlags)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.TextRenderer.MeasureText(System.ReadOnlySpan<System.Char>, System.Drawing.Font)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.TextRenderer.MeasureText(System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Size)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.TextRenderer.MeasureText(System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Size, System.Windows.Forms.TextFormatFlags)' does not exist in the implementation but it does exist in the contract.
+
+# Inheritance issue with AccessibleObject
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.AccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ButtonBase.ButtonBaseAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.CheckBox.CheckBoxAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ComboBox.ChildAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.Control.ControlAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridView.DataGridViewAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridView.DataGridViewTopRowAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewButtonCell.DataGridViewButtonCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewCell.DataGridViewCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewCheckBoxCell.DataGridViewCheckBoxCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewColumnHeaderCell.DataGridViewColumnHeaderCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewImageCell.DataGridViewImageCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewLinkCell.DataGridViewLinkCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewRow.DataGridViewRowAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewRowHeaderCell.DataGridViewRowHeaderCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewTopLeftHeaderCell.DataGridViewTopLeftHeaderCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DateTimePicker.DateTimePickerAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DomainUpDown.DomainItemAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DomainUpDown.DomainUpDownAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.RadioButton.RadioButtonAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ToolStrip.ToolStripAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ToolStripDropDown.ToolStripDropDownAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ToolStripDropDownItemAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ToolStripItem.ToolStripItemAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ToolStripSplitButton.ToolStripSplitButtonAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
+
+MembersMustExist : Member 'public System.Boolean System.Windows.Forms.AccessibleObject.RaiseAutomationNotification(System.Windows.Forms.Automation.AutomationNotificationKind, System.Windows.Forms.Automation.AutomationNotificationProcessing, System.String)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Boolean System.Windows.Forms.AccessibleObject.RaiseLiveRegionChanged()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public System.Boolean System.Windows.Forms.Application.UseVisualStyles.get()' does not exist in the implementation but it does exist in the contract.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.TypeConverterAttribute' exists on 'System.Windows.Forms.AxHost.State' in the contract but not the implementation.
 MembersMustExist : Member 'internal System.Type System.Windows.Forms.BindingManagerBase.BindType.get()' does not exist in the implementation but it does exist in the contract.
@@ -11,64 +110,32 @@ MembersMustExist : Member 'internal System.ComponentModel.PropertyDescriptorColl
 MembersMustExist : Member 'internal System.String System.Windows.Forms.BindingManagerBase.GetListName()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'internal System.Boolean System.Windows.Forms.BindingManagerBase.IsBinding.get()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'private protected void System.Windows.Forms.BindingManagerBase.SetDataSource(System.Object)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'protected void System.Windows.Forms.Button.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ButtonBase.ButtonBaseAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
-MembersMustExist : Member 'protected void System.Windows.Forms.CheckBox.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.CheckBox.CheckBoxAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ComboBox.ChildAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.AmbientValueAttribute' exists on 'System.Windows.Forms.Control.MaximumSize' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.LocalizableAttribute' exists on 'System.Windows.Forms.Control.MaximumSize' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.LocalizableAttribute' exists on 'System.Windows.Forms.Control.MinimumSize' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.Windows.Forms.WinCategoryAttribute' exists on 'System.Windows.Forms.Control.ImeModeChanged' in the contract but not the implementation.
-MembersMustExist : Member 'public void System.Windows.Forms.Control.add_DpiChangedAfterParent(System.EventHandler)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.Control.add_DpiChangedBeforeParent(System.EventHandler)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Int32 System.Windows.Forms.Control.DeviceDpi.get()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'protected System.Windows.Forms.ImeMode System.Windows.Forms.Control.ImeModeBase.get()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'protected void System.Windows.Forms.Control.ImeModeBase.set(System.Windows.Forms.ImeMode)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.Control.LogicalToDeviceUnits(System.Drawing.Size)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Int32 System.Windows.Forms.Control.LogicalToDeviceUnits(System.Int32)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'protected void System.Windows.Forms.Control.OnDpiChangedAfterParent(System.EventArgs)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'protected void System.Windows.Forms.Control.OnDpiChangedBeforeParent(System.EventArgs)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'protected System.Windows.Forms.ImeMode System.Windows.Forms.Control.PropagatingImeMode.get()' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.Control.remove_DpiChangedAfterParent(System.EventHandler)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.Control.remove_DpiChangedBeforeParent(System.EventHandler)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'protected void System.Windows.Forms.Control.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public void System.Windows.Forms.Control.ScaleBitmapLogicalToDevice(System.Drawing.Bitmap)' does not exist in the implementation but it does exist in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.Control.ControlAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 MembersMustExist : Member 'public System.Boolean System.Windows.Forms.Control.ControlAccessibleObject.RaiseLiveRegionChanged()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'protected System.Boolean System.Windows.Forms.DataGridView.ProcessControlShiftF10Keys(System.Windows.Forms.Keys)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'protected System.Boolean System.Windows.Forms.DataGridView.ProcessF3Key(System.Windows.Forms.Keys)' does not exist in the implementation but it does exist in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridView.DataGridViewAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridView.DataGridViewTopRowAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewButtonCell.DataGridViewButtonCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 CannotRemoveAttribute : Attribute 'System.Drawing.ToolboxBitmapAttribute' exists on 'System.Windows.Forms.DataGridViewButtonColumn' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.BindableAttribute' exists on 'System.Windows.Forms.DataGridViewCell.Tag' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.TypeConverterAttribute' exists on 'System.Windows.Forms.DataGridViewCell.Tag' in the contract but not the implementation.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewCell.DataGridViewCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewCheckBoxCell.DataGridViewCheckBoxCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 CannotRemoveAttribute : Attribute 'System.Drawing.ToolboxBitmapAttribute' exists on 'System.Windows.Forms.DataGridViewCheckBoxColumn' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.ToolboxItemAttribute' exists on 'System.Windows.Forms.DataGridViewColumn' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultValueAttribute' exists on 'System.Windows.Forms.DataGridViewColumn.FillWeight' in the contract but not the implementation.
 CannotChangeAttribute : Attribute 'System.AttributeUsageAttribute' on 'System.Windows.Forms.DataGridViewColumnDesignTimeVisibleAttribute' changed from '[AttributeUsageAttribute(AttributeTargets.Class)]' in the contract to '[AttributeUsageAttribute(AttributeTargets.Class, AllowMultiple=false, Inherited=true)]' in the implementation.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewColumnHeaderCell.DataGridViewColumnHeaderCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 TypesMustExist : Type 'System.Windows.Forms.DataGridViewComboBoxCell.DataGridViewComboBoxCellAccessibleObject' does not exist in the implementation but it does exist in the contract.
 CannotRemoveAttribute : Attribute 'System.Drawing.ToolboxBitmapAttribute' exists on 'System.Windows.Forms.DataGridViewComboBoxColumn' in the contract but not the implementation.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewImageCell.DataGridViewImageCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 CannotRemoveAttribute : Attribute 'System.Drawing.ToolboxBitmapAttribute' exists on 'System.Windows.Forms.DataGridViewImageColumn' in the contract but not the implementation.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewLinkCell.DataGridViewLinkCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 CannotRemoveAttribute : Attribute 'System.Drawing.ToolboxBitmapAttribute' exists on 'System.Windows.Forms.DataGridViewLinkColumn' in the contract but not the implementation.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewRow.DataGridViewRowAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 MembersMustExist : Member 'public void System.Windows.Forms.DataGridViewRowCancelEventArgs.Row.set(System.Windows.Forms.DataGridViewRow)' does not exist in the implementation but it does exist in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewRowHeaderCell.DataGridViewRowHeaderCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 TypesMustExist : Type 'System.Windows.Forms.DataGridViewTextBoxCell.DataGridViewTextBoxCellAccessibleObject' does not exist in the implementation but it does exist in the contract.
 CannotRemoveAttribute : Attribute 'System.Drawing.ToolboxBitmapAttribute' exists on 'System.Windows.Forms.DataGridViewTextBoxColumn' in the contract but not the implementation.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DataGridViewTopLeftHeaderCell.DataGridViewTopLeftHeaderCellAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DateTimePicker.DateTimePickerAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DomainUpDown.DomainItemAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DomainUpDown.DomainUpDownAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 MembersMustExist : Member 'public void System.Windows.Forms.DomainUpDown.DomainUpDownAccessibleObject..ctor(System.Windows.Forms.DomainUpDown)' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.DpiChangedEventArgs' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.DpiChangedEventHandler' does not exist in the implementation but it does exist in the contract.
 CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.DrawItemEventArgs' does not implement interface 'System.IDisposable' in the implementation but it does in the contract.
 MembersMustExist : Member 'public void System.Windows.Forms.DrawItemEventArgs.Dispose()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'protected void System.Windows.Forms.DrawItemEventArgs.Dispose(System.Boolean)' does not exist in the implementation but it does exist in the contract.
@@ -86,10 +153,6 @@ MembersMustExist : Member 'public System.Boolean System.Windows.Forms.FolderBrow
 MembersMustExist : Member 'public void System.Windows.Forms.FolderBrowserDialog.AutoUpgradeEnabled.set(System.Boolean)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public System.Boolean System.Windows.Forms.FolderBrowserDialog.UseDescriptionForTitle.get()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public void System.Windows.Forms.FolderBrowserDialog.UseDescriptionForTitle.set(System.Boolean)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.Form.add_DpiChanged(System.Windows.Forms.DpiChangedEventHandler)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'protected void System.Windows.Forms.Form.OnDpiChanged(System.Windows.Forms.DpiChangedEventArgs)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'protected System.Boolean System.Windows.Forms.Form.OnGetDpiScaledSize(System.Int32, System.Int32, System.Drawing.Size)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.Form.remove_DpiChanged(System.Windows.Forms.DpiChangedEventHandler)' does not exist in the implementation but it does exist in the contract.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.ProvidePropertyAttribute' exists on 'System.Windows.Forms.HelpProvider' in the contract but not the implementation.
 CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ImageListStreamer' does not implement interface 'System.IDisposable' in the implementation but it does in the contract.
 MembersMustExist : Member 'public void System.Windows.Forms.ImageListStreamer.Dispose()' does not exist in the implementation but it does exist in the contract.
@@ -100,7 +163,6 @@ MembersMustExist : Member 'public System.Windows.Forms.Automation.AutomationLive
 MembersMustExist : Member 'public void System.Windows.Forms.Label.LiveSetting.set(System.Windows.Forms.Automation.AutomationLiveSetting)' does not exist in the implementation but it does exist in the contract.
 CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.LinkLabel' does not implement interface 'System.Windows.Forms.Automation.IAutomationLiveRegion' in the implementation but it does in the contract.
 CannotRemoveAttribute : Attribute 'System.Windows.Forms.WinCategoryAttribute' exists on 'System.Windows.Forms.LinkLabel.LinkClicked' in the contract but not the implementation.
-MembersMustExist : Member 'protected void System.Windows.Forms.ListBox.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.BindableAttribute' exists on 'System.Windows.Forms.ListControl.SelectedValue' in the contract but not the implementation.
 MembersMustExist : Member 'public void System.Windows.Forms.ListView.add_GroupCollapsedStateChanged(System.EventHandler<System.Windows.Forms.ListViewGroupEventArgs>)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public void System.Windows.Forms.ListView.add_GroupTaskLinkClick(System.EventHandler<System.Windows.Forms.ListViewGroupEventArgs>)' does not exist in the implementation but it does exist in the contract.
@@ -127,7 +189,6 @@ MembersMustExist : Member 'public void System.Windows.Forms.ListViewGroup.TitleI
 TypesMustExist : Type 'System.Windows.Forms.ListViewGroupCollapsedState' does not exist in the implementation but it does exist in the contract.
 TypesMustExist : Type 'System.Windows.Forms.ListViewGroupEventArgs' does not exist in the implementation but it does exist in the contract.
 TypesMustExist : Type 'System.Windows.Forms.ListViewItemStateImageIndexConverter' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'protected void System.Windows.Forms.MonthCalendar.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.ToolboxItemFilterAttribute' exists on 'System.Windows.Forms.NotifyIcon' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultValueAttribute' exists on 'System.Windows.Forms.NotifyIcon.BalloonTipIcon' in the contract but not the implementation.
 MembersMustExist : Member 'public System.Boolean System.Windows.Forms.OpenFileDialog.ReadOnlyChecked.get()' does not exist in the implementation but it does exist in the contract.
@@ -156,7 +217,6 @@ MembersMustExist : Member 'protected System.Boolean System.Windows.Forms.Propert
 MembersMustExist : Member 'protected void System.Windows.Forms.PropertyGrid.DrawFlatToolbar.set(System.Boolean)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public System.Drawing.Color System.Windows.Forms.PropertyGrid.HelpBorderColor.get()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public void System.Windows.Forms.PropertyGrid.HelpBorderColor.set(System.Drawing.Color)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'protected void System.Windows.Forms.PropertyGrid.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public System.Drawing.Color System.Windows.Forms.PropertyGrid.SelectedItemWithFocusBackColor.get()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public void System.Windows.Forms.PropertyGrid.SelectedItemWithFocusBackColor.set(System.Drawing.Color)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public System.Drawing.Color System.Windows.Forms.PropertyGrid.SelectedItemWithFocusForeColor.get()' does not exist in the implementation but it does exist in the contract.
@@ -167,82 +227,33 @@ MembersMustExist : Member 'protected System.Drawing.Bitmap System.Windows.Forms.
 MembersMustExist : Member 'public System.Drawing.Color System.Windows.Forms.PropertyGrid.ViewBorderColor.get()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public void System.Windows.Forms.PropertyGrid.ViewBorderColor.set(System.Drawing.Color)' does not exist in the implementation but it does exist in the contract.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.BindableAttribute' exists on 'System.Windows.Forms.RadioButton.Checked' in the contract but not the implementation.
-MembersMustExist : Member 'protected void System.Windows.Forms.RadioButton.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.RadioButton.RadioButtonAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultValueAttribute' exists on 'System.Windows.Forms.RichTextBox.ZoomFactor' in the contract but not the implementation.
 MembersMustExist : Member 'public System.Boolean System.Windows.Forms.SaveFileDialog.CreatePrompt.get()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public void System.Windows.Forms.SaveFileDialog.CreatePrompt.set(System.Boolean)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public System.Boolean System.Windows.Forms.SaveFileDialog.OverwritePrompt.get()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public void System.Windows.Forms.SaveFileDialog.OverwritePrompt.set(System.Boolean)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'protected void System.Windows.Forms.ScrollBar.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Boolean System.Windows.Forms.ScrollBar.ScaleScrollBarForDpiChange.get()' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.ScrollBar.ScaleScrollBarForDpiChange.set(System.Boolean)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'private protected System.Int32 System.Windows.Forms.ScrollProperties.GetHorizontalDisplayPosition(System.Windows.Forms.ScrollableControl)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'private protected System.Int32 System.Windows.Forms.ScrollProperties.GetPageSize(System.Windows.Forms.ScrollableControl)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'private protected System.Int32 System.Windows.Forms.ScrollProperties.GetVerticalDisplayPosition(System.Windows.Forms.ScrollableControl)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'private protected Interop.User32.SB System.Windows.Forms.ScrollProperties.Orientation.get()' does not exist in the implementation but it does exist in the contract.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultValueAttribute' exists on 'System.Windows.Forms.SplitContainer.AutoScrollOffset' in the contract but not the implementation.
-MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.SystemInformation.GetBorderSizeForDpi(System.Int32)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Int32 System.Windows.Forms.SystemInformation.GetHorizontalScrollBarArrowWidthForDpi(System.Int32)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Int32 System.Windows.Forms.SystemInformation.GetHorizontalScrollBarHeightForDpi(System.Int32)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Drawing.Font System.Windows.Forms.SystemInformation.GetMenuFontForDpi(System.Int32)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Int32 System.Windows.Forms.SystemInformation.GetVerticalScrollBarWidthForDpi(System.Int32)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Int32 System.Windows.Forms.SystemInformation.VerticalScrollBarArrowHeightForDpi(System.Int32)' does not exist in the implementation but it does exist in the contract.
 CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.TableLayoutCellPaintEventArgs' does not implement interface 'System.Drawing.IDeviceContext' in the implementation but it does in the contract.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultValueAttribute' exists on 'System.Windows.Forms.TableLayoutPanel.GetCellPosition(System.Windows.Forms.Control)' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultValueAttribute' exists on 'System.Windows.Forms.TableLayoutPanel.GetRow(System.Windows.Forms.Control)' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.TableLayoutPanelCellPosition.Column.get()' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.TableLayoutPanelCellPosition.Row.get()' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultValueAttribute' exists on 'System.Windows.Forms.TabPage.MaximumSize' in the contract but not the implementation.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialog' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialogButton' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialogButtonCollection' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialogCommandLinkButton' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialogControl' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialogExpander' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialogExpanderPosition' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialogFootnote' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialogIcon' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialogPage' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialogProgressBar' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialogProgressBarState' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialogRadioButton' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialogRadioButtonCollection' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialogStartupLocation' does not exist in the implementation but it does exist in the contract.
-TypesMustExist : Type 'System.Windows.Forms.TaskDialogVerificationCheckBox' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.String System.Windows.Forms.TextBox.PlaceholderText.get()' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.TextBox.PlaceholderText.set(System.String)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'protected System.Windows.Forms.ImeMode System.Windows.Forms.TextBoxBase.ImeModeBase.get()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'protected void System.Windows.Forms.TextBoxBase.ImeModeBase.set(System.Windows.Forms.ImeMode)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Point, System.Drawing.Color)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Point, System.Drawing.Color, System.Drawing.Color)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Point, System.Drawing.Color, System.Drawing.Color, System.Windows.Forms.TextFormatFlags)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Point, System.Drawing.Color, System.Windows.Forms.TextFormatFlags)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Rectangle, System.Drawing.Color)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Rectangle, System.Drawing.Color, System.Drawing.Color)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Rectangle, System.Drawing.Color, System.Drawing.Color, System.Windows.Forms.TextFormatFlags)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Rectangle, System.Drawing.Color, System.Windows.Forms.TextFormatFlags)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.TextRenderer.MeasureText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.TextRenderer.MeasureText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Size)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.TextRenderer.MeasureText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Size, System.Windows.Forms.TextFormatFlags)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.TextRenderer.MeasureText(System.ReadOnlySpan<System.Char>, System.Drawing.Font)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.TextRenderer.MeasureText(System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Size)' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public System.Drawing.Size System.Windows.Forms.TextRenderer.MeasureText(System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Size, System.Windows.Forms.TextFormatFlags)' does not exist in the implementation but it does exist in the contract.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.ToolboxItemFilterAttribute' exists on 'System.Windows.Forms.Timer' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultValueAttribute' exists on 'System.Windows.Forms.ToolStrip.ImageScalingSize' in the contract but not the implementation.
-MembersMustExist : Member 'protected void System.Windows.Forms.ToolStrip.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ToolStrip.ToolStripAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 TypesMustExist : Type 'System.Windows.Forms.ToolStripControlHost.ToolStripHostedControlAccessibleObject' does not exist in the implementation but it does exist in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ToolStripDropDown.ToolStripDropDownAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 MembersMustExist : Member 'public System.Boolean System.Windows.Forms.ToolStripDropDownItem.HasDropDown.get()' does not exist in the implementation but it does exist in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ToolStripDropDownItemAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ToolStripItem.ToolStripItemAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 CannotRemoveAttribute : Attribute 'System.Drawing.ToolboxBitmapAttribute' exists on 'System.Windows.Forms.ToolStripPanel' in the contract but not the implementation.
 MembersMustExist : Member 'protected System.Int32 System.Int32 System.Windows.Forms.ToolStripRenderer.Offset2X' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'protected System.Int32 System.Int32 System.Windows.Forms.ToolStripRenderer.Offset2Y' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'protected void System.Windows.Forms.ToolStripRenderer.ScaleArrowOffsetsIfNeeded()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'protected void System.Windows.Forms.ToolStripRenderer.ScaleArrowOffsetsIfNeeded(System.Int32)' does not exist in the implementation but it does exist in the contract.
-CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ToolStripSplitButton.ToolStripSplitButtonAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ToolStripStatusLabel' does not implement interface 'System.Windows.Forms.Automation.IAutomationLiveRegion' in the implementation but it does in the contract.
 MembersMustExist : Member 'public System.Windows.Forms.Automation.AutomationLiveSetting System.Windows.Forms.ToolStripStatusLabel.LiveSetting.get()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public void System.Windows.Forms.ToolStripStatusLabel.LiveSetting.set(System.Windows.Forms.Automation.AutomationLiveSetting)' does not exist in the implementation but it does exist in the contract.
@@ -250,7 +261,6 @@ CannotRemoveAttribute : Attribute 'System.ComponentModel.ToolboxItemFilterAttrib
 CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultValueAttribute' exists on 'System.Windows.Forms.ToolTip.BackColor' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultValueAttribute' exists on 'System.Windows.Forms.ToolTip.ForeColor' in the contract but not the implementation.
 CannotRemoveAttribute : Attribute 'System.ComponentModel.DefaultValueAttribute' exists on 'System.Windows.Forms.TreeView.LineColor' in the contract but not the implementation.
-MembersMustExist : Member 'protected void System.Windows.Forms.UpDownBase.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
 TypesMustExist : Type 'System.Windows.Forms.WindowsFormsSection' does not exist in the implementation but it does exist in the contract.
 EnumValuesMustMatch : Enum value 'System.Windows.Forms.VisualStyles.EdgeEffects System.Windows.Forms.VisualStyles.EdgeEffects.Flat' is (System.Int32)4096 in the implementation but (System.Int32)16384 in the contract.
 EnumValuesMustMatch : Enum value 'System.Windows.Forms.VisualStyles.EdgeEffects System.Windows.Forms.VisualStyles.EdgeEffects.Soft' is (System.Int32)16384 in the implementation but (System.Int32)4096 in the contract.
