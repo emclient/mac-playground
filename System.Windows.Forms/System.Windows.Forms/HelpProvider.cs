@@ -115,7 +115,7 @@ namespace System.Windows.Forms {
 
 		#region Public Instance Properties
 		[DefaultValue(null)]
-		[Editor ("System.Windows.Forms.Design.HelpNamespaceEditor, " + Consts.AssemblySystem_Design, "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
+		[Editor ("System.Windows.Forms.Design.HelpNamespaceEditor, " + Consts.AssemblySystem_Design, typeof (System.Drawing.Design.UITypeEditor))]
 		[Localizable(true)]
 		public virtual string HelpNamespace {
 			get {

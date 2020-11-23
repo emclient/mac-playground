@@ -30,7 +30,7 @@ namespace System.Windows.Forms {
 		[Browsable(true)]
 		[EditorBrowsable(EditorBrowsableState.Always)]
 		[Localizable(true)]
-		[Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + Consts.AssemblySystem_Design, "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
+		[Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + Consts.AssemblySystem_Design, typeof (System.Drawing.Design.UITypeEditor))]
 		public AutoCompleteStringCollection AutoCompleteCustomSource
 		{
 			get

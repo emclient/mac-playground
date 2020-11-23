@@ -381,7 +381,7 @@ namespace System.Windows.Forms {
 		[EditorBrowsable (EditorBrowsableState.Always)]
 		[Localizable (true)]
 		[Editor ("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + Consts.AssemblySystem_Design,
-		 "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
+		 typeof (System.Drawing.Design.UITypeEditor))]
 		public AutoCompleteStringCollection AutoCompleteCustomSource { 
 			get {
 				if(auto_complete_custom_source == null) {

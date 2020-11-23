@@ -511,7 +511,7 @@ namespace System.Windows.Forms
 		[RelatedImageList ("Owner.ImageList")]
 		[TypeConverter (typeof (NoneExcludedImageIndexConverter))]
 		[RefreshProperties (RefreshProperties.Repaint)]
-		[Editor ("System.Windows.Forms.Design.ToolStripImageIndexEditor, " + Consts.AssemblySystem_Design, typeof (System.Drawing.Design.UITypeEditor))]
+		[Editor ("System.Windows.Forms.Design.ImageIndexEditor, " + Consts.AssemblySystem_Design, typeof (System.Drawing.Design.UITypeEditor))]
 		public int ImageIndex {
 			get { return this.image_index; }
 			set {
@@ -793,7 +793,7 @@ namespace System.Windows.Forms
 
 		[Localizable (true)]
 		[Editor ("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design,
-			 "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
+			 typeof (System.Drawing.Design.UITypeEditor))]
 		public string ToolTipText {
 			get { return this.tool_tip_text; }
 			set { this.tool_tip_text = value; }

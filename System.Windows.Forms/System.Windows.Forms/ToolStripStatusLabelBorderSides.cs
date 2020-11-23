@@ -35,7 +35,7 @@ namespace System.Windows.Forms
 	[Flags]
 	[ComVisible(true)]
 	[Editor ("System.Windows.Forms.Design.BorderSidesEditor, " + Consts.AssemblySystem_Design,
-		 "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
+		 typeof (System.Drawing.Design.UITypeEditor))]
 	public enum ToolStripStatusLabelBorderSides
 	{
 		None = 0,

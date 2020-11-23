@@ -607,7 +607,7 @@ namespace System.Windows.Forms
 		}
 
 		[Editor ("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design,
-			 "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
+			 typeof (System.Drawing.Design.UITypeEditor))]
 		[Localizable(true)]
 		public override string Text {
 			get {
