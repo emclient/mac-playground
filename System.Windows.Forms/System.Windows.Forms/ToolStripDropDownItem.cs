@@ -34,7 +34,7 @@ using System.Threading;
 namespace System.Windows.Forms
 {
 	[DefaultProperty ("DropDownItems")]
-	[Designer ("System.Windows.Forms.Design.ToolStripMenuItemDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.ToolStripMenuItemDesigner, " + Consts.AssemblySystem_Design)]
 	public abstract class ToolStripDropDownItem : ToolStripItem
 	{
 		internal ToolStripDropDown drop_down;

@@ -35,7 +35,7 @@ namespace System.Windows.Forms {
 	[DefaultEvent("Click")]
 	[DesignTimeVisible(false)]
 	[DefaultProperty("Text")]
-	[Designer("System.Windows.Forms.Design.TabPageDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer("System.Windows.Forms.Design.TabPageDesigner, " + Consts.AssemblySystem_Design)]
 	[ToolboxItem(false)]
 	public class TabPage : Panel {
 		#region Fields

@@ -38,7 +38,7 @@ using System.Windows.Forms.Theming;
 namespace System.Windows.Forms
 {
 	[DefaultProperty ("Text")]
-	[Designer ("System.Windows.Forms.Design.LabelDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.LabelDesigner, " + Consts.AssemblySystem_Design)]
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[ComVisible (true)]
 	[ToolboxItem ("System.Windows.Forms.Design.AutoSizeToolboxItem," + Consts.AssemblySystem_Design)]

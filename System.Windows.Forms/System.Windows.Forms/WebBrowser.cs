@@ -38,7 +38,7 @@ namespace System.Windows.Forms
 	[Docking (DockingBehavior.AutoDock)]
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[ComVisible(true)]
-	[Designer("System.Windows.Forms.Design.WebBrowserDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer("System.Windows.Forms.Design.WebBrowserDesigner, " + Consts.AssemblySystem_Design)]
 	public class WebBrowser : WebBrowserBase
 	{
 		bool allowNavigation; // if this is true, no other navigation is allowed

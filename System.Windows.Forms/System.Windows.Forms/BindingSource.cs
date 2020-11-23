@@ -32,7 +32,7 @@ namespace System.Windows.Forms {
 	[ComplexBindingProperties ("DataSource", "DataMember")]
 	[DefaultEvent ("CurrentChanged")]
 	[DefaultProperty ("DataSource")]
-	[Designer("System.Windows.Forms.Design.BindingSourceDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer("System.Windows.Forms.Design.BindingSourceDesigner, " + Consts.AssemblySystem_Design)]
 	public class BindingSource : Component,
 		ICancelAddNew, IDisposable, ISupportInitialize,
 		IBindingListView, IBindingList, ITypedList,

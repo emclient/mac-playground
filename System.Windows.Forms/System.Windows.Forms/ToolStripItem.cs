@@ -38,7 +38,7 @@ namespace System.Windows.Forms
 	[DefaultProperty ("Text")]
 	[DesignTimeVisible (false)]
 	[ToolboxItem (false)]
-	[Designer ("System.Windows.Forms.Design.ToolStripItemDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.ToolStripItemDesigner, " + Consts.AssemblySystem_Design)]
 	public abstract partial class ToolStripItem : Component, IDropTarget, IComponent, IDisposable
 	{
 		#region Private Variables

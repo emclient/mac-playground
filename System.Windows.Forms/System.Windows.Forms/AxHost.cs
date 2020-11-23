@@ -34,7 +34,7 @@ using System.Runtime.Serialization;
 namespace System.Windows.Forms {
 	[MonoTODO("Possibly implement this for Win32; find a way for Linux and Mac")]
 	[DefaultEvent("Enter")]
-	[Designer("System.Windows.Forms.Design.AxHostDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer("System.Windows.Forms.Design.AxHostDesigner, " + Consts.AssemblySystem_Design)]
 	[DesignTimeVisible(false)]
 	[ToolboxItem(false)]
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]

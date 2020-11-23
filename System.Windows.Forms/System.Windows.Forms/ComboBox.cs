@@ -40,7 +40,7 @@ namespace System.Windows.Forms
 {
 	[DefaultProperty("Items")]
 	[DefaultEvent("SelectedIndexChanged")]
-	[Designer ("System.Windows.Forms.Design.ComboBoxDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.ComboBoxDesigner, " + Consts.AssemblySystem_Design)]
 	[DefaultBindingProperty ("Text")]
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[ComVisible(true)]

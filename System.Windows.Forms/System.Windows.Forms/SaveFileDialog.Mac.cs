@@ -6,6 +6,7 @@ using System.Windows.Forms.CocoaInternal;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 #if XAMARINMAC
 using AppKit;
@@ -17,6 +18,7 @@ using MonoMac.Foundation;
 
 namespace System.Windows.Forms
 {
+	[Designer ("System.Windows.Forms.Design.SaveFileDialogDesigner, " + Consts.AssemblySystem_Design)]
 	public class SaveFileDialog : FileDialog
 	{
 		public string Description { get; set; }

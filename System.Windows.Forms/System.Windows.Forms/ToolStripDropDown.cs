@@ -42,7 +42,7 @@ namespace System.Windows.Forms
 {
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[ComVisible (true)]
-	[Designer ("System.Windows.Forms.Design.ToolStripDropDownDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.ToolStripDropDownDesigner, " + Consts.AssemblySystem_Design)]
 	public partial class ToolStripDropDown : ToolStrip
 	{
 		private bool allow_transparency;

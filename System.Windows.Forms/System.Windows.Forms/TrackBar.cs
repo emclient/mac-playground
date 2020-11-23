@@ -47,7 +47,7 @@ namespace System.Windows.Forms
 	[DefaultBindingProperty ("Value")]
 	[ComVisible (true)]
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
-	[Designer("System.Windows.Forms.Design.TrackBarDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer("System.Windows.Forms.Design.TrackBarDesigner, " + Consts.AssemblySystem_Design)]
 	[DefaultEvent ("Scroll")]
 	[DefaultProperty("Value")]
 	public class TrackBar : Control, ISupportInitialize

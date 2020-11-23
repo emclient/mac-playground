@@ -36,7 +36,7 @@ using System.Net;
 
 namespace System.Windows.Forms {
 	[DefaultProperty("Image")]
-	[Designer("System.Windows.Forms.Design.PictureBoxDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer("System.Windows.Forms.Design.PictureBoxDesigner, " + Consts.AssemblySystem_Design)]
 	[Docking (DockingBehavior.Ask)]
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[ComVisible (true)]
