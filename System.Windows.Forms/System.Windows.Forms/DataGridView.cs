@@ -37,7 +37,7 @@ namespace System.Windows.Forms {
 
 	[ComVisibleAttribute(true)]
 	[ClassInterfaceAttribute(ClassInterfaceType.AutoDispatch)]
-	[Designer("System.Windows.Forms.Design.DataGridViewDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer("System.Windows.Forms.Design.DataGridViewDesigner, " + Consts.AssemblySystem_Design)]
 	[Editor("System.Windows.Forms.Design.DataGridViewComponentEditor, " + Consts.AssemblySystem_Design, typeof (System.ComponentModel.ComponentEditor))]
 	[ComplexBindingProperties ("DataSource", "DataMember")]
 	[DefaultEvent ("CellContentClick")]

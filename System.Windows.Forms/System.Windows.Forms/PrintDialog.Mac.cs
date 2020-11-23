@@ -34,7 +34,8 @@ using System.Windows.Forms.CocoaInternal;
 
 namespace System.Windows.Forms
 {
-	[DefaultProperty("Document")]
+	[Designer ("System.Windows.Forms.Design.PrintDialogDesigner, " + Consts.AssemblySystem_Design)]
+	[DefaultProperty ("Document")]
 	public sealed class PrintDialog : CommonDialog
 	{
 		PrintDocument document;

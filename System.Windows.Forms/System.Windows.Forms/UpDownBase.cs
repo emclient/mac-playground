@@ -37,7 +37,7 @@ namespace System.Windows.Forms
 {
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[ComVisible (true)]
-	[Designer("System.Windows.Forms.Design.UpDownBaseDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer("System.Windows.Forms.Design.UpDownBaseDesigner, " + Consts.AssemblySystem_Design)]
 	public abstract partial class UpDownBase : ContainerControl {
 
 		internal class UpDownTextBox : TextBox {

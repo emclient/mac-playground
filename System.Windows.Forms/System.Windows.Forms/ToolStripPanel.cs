@@ -38,7 +38,7 @@ namespace System.Windows.Forms
 	[ComVisible (true)]
 	[ToolboxBitmap ("")]
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
-	[Designer ("System.Windows.Forms.Design.ToolStripPanelDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.ToolStripPanelDesigner, " + Consts.AssemblySystem_Design)]
 	public class ToolStripPanel : ContainerControl, IComponent, IDisposable, IBindableComponent, IDropTarget
 	{
 		private bool done_first_layout;

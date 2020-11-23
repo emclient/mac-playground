@@ -37,7 +37,7 @@ namespace System.Windows.Forms {
 	[ClassInterfaceAttribute (ClassInterfaceType.AutoDispatch)]
 	[DefaultEvent("SelectedIndexChanged")]
 	[DefaultProperty("TabPages")]
-	[Designer("System.Windows.Forms.Design.TabControlDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer("System.Windows.Forms.Design.TabControlDesigner, " + Consts.AssemblySystem_Design)]
 	public class TabControl : Control {
 		#region Fields
 		private int selected_index = -1;

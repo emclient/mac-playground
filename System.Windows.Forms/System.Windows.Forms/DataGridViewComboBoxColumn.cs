@@ -31,8 +31,7 @@ using System.Drawing;
 namespace System.Windows.Forms {
 
 	[ToolboxBitmap ("")]
-	[Designer ("System.Windows.Forms.Design.DataGridViewComboBoxColumnDesigner, " + Consts.AssemblySystem_Design,
-		   "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.DataGridViewComboBoxColumnDesigner, " + Consts.AssemblySystem_Design)]
 	public class DataGridViewComboBoxColumn : DataGridViewColumn
 	{
 		private bool autoComplete;

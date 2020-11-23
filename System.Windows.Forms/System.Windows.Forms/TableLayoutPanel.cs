@@ -45,7 +45,7 @@ namespace System.Windows.Forms
 	[ProvideProperty ("RowSpan", typeof (Control))]
 	[DefaultProperty ("ColumnCount")]
 	[Docking (DockingBehavior.Never)]
-	[Designer ("System.Windows.Forms.Design.TableLayoutPanelDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.TableLayoutPanelDesigner, " + Consts.AssemblySystem_Design)]
 	[DesignerSerializer ("System.Windows.Forms.Design.TableLayoutPanelCodeDomSerializer, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.Serialization.CodeDomSerializer, " + Consts.AssemblySystem_Design)]
 	public class TableLayoutPanel : Panel, IExtenderProvider
 	{

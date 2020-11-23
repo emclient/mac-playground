@@ -29,8 +29,7 @@ using System.ComponentModel;
 
 namespace System.Windows.Forms {
 
-	[Designer ("System.Windows.Forms.Design.DataGridViewColumnDesigner, " + Consts.AssemblySystem_Design,
-		   "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.DataGridViewColumnDesigner, " + Consts.AssemblySystem_Design)]
 	[TypeConverter (typeof (DataGridViewColumnConverter))]
 	[ToolboxItem ("")]
 	[DesignTimeVisible (false)]

@@ -38,7 +38,7 @@ namespace System.Windows.Forms
 {
 	[DefaultProperty("Text")]
 	[DefaultEvent("Enter")]
-	[Designer ("System.Windows.Forms.Design.GroupBoxDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.GroupBoxDesigner, " + Consts.AssemblySystem_Design)]
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[ComVisible (true)]
 	public class GroupBox : Control

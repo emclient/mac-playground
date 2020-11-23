@@ -39,7 +39,7 @@ namespace System.Windows.Forms {
 	[ComVisible (true)]
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[DefaultEvent("SplitterMoved")]
-	[Designer("System.Windows.Forms.Design.SplitterDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer("System.Windows.Forms.Design.SplitterDesigner, " + Consts.AssemblySystem_Design)]
 	[DefaultProperty("Dock")]
 	public class Splitter : Control
 	{

@@ -34,7 +34,7 @@ using System.Drawing;
 using System.IO;
 
 namespace System.Windows.Forms {
-	[Designer ("System.Windows.Forms.Design.SaveFileDialogDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.SaveFileDialogDesigner, " + Consts.AssemblySystem_Design)]
 	public sealed class SaveFileDialog : FileDialog {
 		#region Public Constructors
 		public SaveFileDialog ()

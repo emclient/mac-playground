@@ -36,7 +36,7 @@ namespace System.Windows.Forms
 	[DefaultEvent ("RefreshItems")]
 	[DefaultProperty ("BindingSource")]
 	[ClassInterfaceAttribute(ClassInterfaceType.AutoDispatch)]
-	[Designer ("System.Windows.Forms.Design.BindingNavigatorDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.BindingNavigatorDesigner, " + Consts.AssemblySystem_Design)]
 	public class BindingNavigator : ToolStrip, ISupportInitialize
 	{
 		#region Private Fields

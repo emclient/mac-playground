@@ -43,7 +43,7 @@ namespace System.Windows.Forms
 {
 	[DefaultEvent ("SelectedIndexChanged")]
 	[DefaultProperty ("Items")]
-	[Designer ("System.Windows.Forms.Design.ListViewDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.ListViewDesigner, " + Consts.AssemblySystem_Design)]
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[ComVisible (true)]
 	[Docking (DockingBehavior.Ask)]

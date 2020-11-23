@@ -55,7 +55,7 @@ namespace System.Windows.Forms
 	[ComVisible(true)]
 	[DefaultEvent("ValueChanged")]
 	[DefaultProperty("Value")]
-	[Designer("System.Windows.Forms.Design.DateTimePickerDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer("System.Windows.Forms.Design.DateTimePickerDesigner, " + Consts.AssemblySystem_Design)]
 	public class DateTimePicker : Control
 	{
 		#region Public variables

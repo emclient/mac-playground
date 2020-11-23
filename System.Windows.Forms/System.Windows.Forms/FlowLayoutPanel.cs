@@ -38,7 +38,7 @@ namespace System.Windows.Forms
 	[ProvideProperty ("FlowBreak", typeof (Control))]
 	[DefaultProperty ("FlowDirection")]
 	[Docking (DockingBehavior.Ask)]
-	[Designer ("System.Windows.Forms.Design.FlowLayoutPanelDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.FlowLayoutPanelDesigner, " + Consts.AssemblySystem_Design)]
 	public class FlowLayoutPanel : Panel, IExtenderProvider
 	{
 		private FlowLayoutSettings settings;

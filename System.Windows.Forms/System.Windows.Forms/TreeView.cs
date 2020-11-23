@@ -37,7 +37,7 @@ namespace System.Windows.Forms {
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[DefaultProperty("Nodes")]
 	[DefaultEvent("AfterSelect")]
-	[Designer("System.Windows.Forms.Design.TreeViewDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer("System.Windows.Forms.Design.TreeViewDesigner, " + Consts.AssemblySystem_Design)]
 	public class TreeView : Control {
 		#region Fields
 		private string path_separator = "\\";

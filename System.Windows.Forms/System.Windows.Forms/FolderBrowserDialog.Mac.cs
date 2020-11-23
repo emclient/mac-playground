@@ -16,6 +16,9 @@ using System.Windows.Forms.CocoaInternal;
 
 namespace System.Windows.Forms
 {
+	[DefaultEvent ("HelpRequest")]
+	[DefaultProperty ("SelectedPath")]
+	[Designer ("System.Windows.Forms.Design.FolderBrowserDialogDesigner, " + Consts.AssemblySystem_Design)]
 	public class FolderBrowserDialog : CommonDialog
 	{
 		#region implemented abstract members of CommonDialog

@@ -30,7 +30,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace System.Windows.Forms {
-	[Designer ("System.Windows.Forms.Design.ScrollableControlDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.ScrollableControlDesigner, " + Consts.AssemblySystem_Design)]
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[ComVisible (true)]
 	public partial class ScrollableControl : Control {

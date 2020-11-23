@@ -33,7 +33,7 @@ using System.Drawing.Text;
 namespace System.Windows.Forms {
 	[DefaultProperty("Text")]
 	[DefaultEvent("MouseDoubleClick")]
-	[Designer ("System.Windows.Forms.Design.NotifyIconDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.NotifyIconDesigner, " + Consts.AssemblySystem_Design)]
 	[ToolboxItemFilter("System.Windows.Forms", ToolboxItemFilterType.Allow)]
 	public sealed class NotifyIcon : Component {
 		#region Local Variables

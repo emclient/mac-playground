@@ -39,7 +39,7 @@ namespace System.Windows.Forms
 	[ComVisible(true)]
 	[DefaultProperty ("Name")]
 	[DefaultEvent ("Enter")]
-	[Designer("System.Windows.Forms.Design.AxDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer("System.Windows.Forms.Design.AxDesigner, " + Consts.AssemblySystem_Design)]
 	public class WebBrowserBase : Control
 	{
 		internal bool documentReady;

@@ -39,7 +39,7 @@ namespace System.Windows.Forms {
 
 	[ComVisible(true)]
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
-	[Designer ("System.Windows.Forms.Design.TextBoxDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[Designer ("System.Windows.Forms.Design.TextBoxDesigner, " + Consts.AssemblySystem_Design)]
 	public class TextBox : TextBoxBase {
 		#region Variables
 		private ContextMenu	menu;
