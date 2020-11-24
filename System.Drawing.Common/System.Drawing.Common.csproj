@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net5.0-macos</TargetFramework>
+    <TargetFramework>net6.0-macos</TargetFramework>
     <TargetFramework Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFramework>
     <DefineConstants>MAISONABE;STATIC_PREMULTIPLY_TABLES1;NET_4_5;XAMARINMAC;__UNIFIED__</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -10,6 +10,7 @@
     <EnableDefaultCompileItems >false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <LangVersion>latest</LangVersion>
+    <AssemblyVersion>5.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <!-- Check API compatibility against System.Drawing.Common from .NET 5 -->
@@ -28,7 +29,7 @@
     <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="6.0.0-beta.20569.4" PrivateAssets="All" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0-macos'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
     <Compile Include="external\mono\System.Drawing\System.Drawing.Imaging\BitmapData.cs">
       <Link>External\BitmapData.cs</Link>
     </Compile>
@@ -170,10 +171,10 @@
     <Compile Include="external\mono\System.Drawing\System.Drawing.Drawing2D\WrapMode.cs">
       <Link>External\WrapMode.cs</Link>
     </Compile>
-    <Compile Include="external\mono\System.Drawing\System.Drawing\PointConverter.cs">
+    <!--<Compile Include="external\mono\System.Drawing\System.Drawing\PointConverter.cs">
       <Link>External\PointConverter.cs</Link>
-    </Compile>
-    <Compile Include="external\mono\System.Drawing\System.Drawing\SizeConverter.cs">
+    </Compile>-->
+    <!--<Compile Include="external\mono\System.Drawing\System.Drawing\SizeConverter.cs">
       <Link>External\SizeConverter.cs</Link>
     </Compile>
     <Compile Include="external\mono\System.Drawing\System.Drawing\RectangleConverter.cs">
@@ -181,7 +182,7 @@
     </Compile>
     <Compile Include="external\mono\System.Drawing\System.Drawing\SizeFConverter.cs">
       <Link>External\SizeFConverter.cs</Link>
-    </Compile>
+    </Compile>-->
     <Compile Include="external\mono\System.Drawing\System.Drawing\IDeviceContext.cs">
       <Link>External\IDeviceContext.cs</Link>
     </Compile>
@@ -194,9 +195,9 @@
     <Compile Include="external\mono\System.Drawing\System.Drawing\FontConverter.cs">
       <Link>External\FontConverter.cs</Link>
     </Compile>
-    <Compile Include="external\mono\System.Drawing\System.Drawing\ColorConverter.cs">
+    <!--<Compile Include="external\mono\System.Drawing\System.Drawing\ColorConverter.cs">
       <Link>External\ColorConverter.cs</Link>
-    </Compile>
+    </Compile>-->
     <Compile Include="external\mono\System.Drawing\System.Drawing\BufferedGraphics.cs">
       <Link>External\BufferedGraphics.cs</Link>
     </Compile>

@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-macos</TargetFramework>
+  </PropertyGroup>
+
+  <!--<ItemGroup>
+    <ProjectReference Include="..\..\System.Windows.Forms.Design\src\System.Windows.Forms.Design.csproj" />
+    <ProjectReference Include="..\..\System.Windows.Forms\src\System.Windows.Forms.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="$(SystemConfigurationConfigurationManagerPackageVersion)" />
+    <PackageReference Include="System.Drawing.Common" Version="$(SystemDrawingCommonPackageVersion)" />
+    <PackageReference Include="System.Windows.Extensions" Version="$(SystemWindowsExtensionsPackageVersion)" />
+  </ItemGroup>-->
+  
+  <PropertyGroup> 
+    <IsPartialFacadeAssembly>true</IsPartialFacadeAssembly>
+    <GenFacadesIgnoreMissingTypes>true</GenFacadesIgnoreMissingTypes>
+    <AssemblyVersion>5.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- PrivateAssets="All": don't flow package references to callers -->
+    <PackageReference Include="Microsoft.WindowsDesktop.App.Ref" Version="5.0.0" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" NoWarn="NU1701" />
+    <PackageReference Include="Microsoft.DotNet.GenFacades" Version="6.0.0-beta.20569.4" PrivateAssets="All" />
+  </ItemGroup>
+
+   <Target Name="ResolveMatchingContract" BeforeTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\*\$(AssemblyName).dll" />
+      <!-- in case we're regenerating a facade that is already referenced -->
+      <Reference Remove="@(Reference)"  Condition="'%(FileName)%(Extension)' == '$(AssemblyName).dll'" />
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <!--<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />-->
+    <PackageReference Include="System.Windows.Extensions" Version="5.0.0" />
+    <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
+  </ItemGroup>
+</Project>
