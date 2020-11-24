@@ -146,8 +146,8 @@ namespace System.Windows.Forms {
 			lock (instancelock) {
 				if (Instance == null) {
 					NSApplication.Init ();
-					try { NSApplication.InitDrawingBridge (); }
-					catch (NullReferenceException) { }
+					/*try { NSApplication.InitDrawingBridge (); }
+					catch (NullReferenceException) { }*/
 
 					Instance = new XplatUICocoa ();
 				}
@@ -402,11 +402,12 @@ namespace System.Windows.Forms {
 		{
 			msg.message = Msg.WM_NULL;
 
-			NSDate timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
-			NSEvent evt;
+			AppKit.NSApplication.EnsureUIThread ();
 
-			var mode = draggingSession == null ? (ModalSessions.Count == 0 ? NSRunLoop.NSDefaultRunLoopMode : NSRunLoop.NSRunLoopModalPanelMode) : NSRunLoop.NSRunLoopEventTracking;
-			evt = NSApp.NextEvent(NSEventMask.AnyEvent, timeout, mode, dequeue);
+			NSDate? timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
+			NSEvent evt;
+			NSRunLoopMode mode = draggingSession == null ? (ModalSessions.Count == 0 ? NSRunLoopMode.Default : NSRunLoopMode.ModalPanel) : NSRunLoopMode.EventTracking;
+			evt = NSApp.NextEvent((NSEventMask)NSEventMask.AnyEvent, timeout, mode, dequeue);
 			if (evt == null)
 				return false;
 
