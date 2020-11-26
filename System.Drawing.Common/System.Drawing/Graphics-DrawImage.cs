@@ -674,7 +674,7 @@ namespace System.Drawing
 						ciFilter.SetValueForKey (inputBVector, new NSString ("inputBVector"));
 						ciFilter.SetValueForKey (inputAVector, new NSString ("inputAVector"));
 						ciFilter.SetValueForKey (inputBiasVector, new NSString ("inputBiasVector"));
-						result = (CIImage)ciFilter.ValueForKey (new NSString ("outputImage"));
+						result = ciFilter.OutputImage;
 					}
 
 					if (imageAttrs.isGammaSet) {
@@ -687,7 +687,7 @@ namespace System.Drawing
 						var inputPower = NSNumber.FromFloat (imageAttrs.gamma);
 
 						ciFilter.SetValueForKey (inputPower, new NSString ("inputPower"));
-						result = (CIImage)ciFilter.ValueForKey (new NSString ("outputImage"));
+						result = ciFilter.OutputImage;
 					}
 
 					subImage = ciContext.CreateCGImage (result, result.Extent);
