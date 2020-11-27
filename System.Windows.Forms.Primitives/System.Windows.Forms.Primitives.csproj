@@ -26,6 +26,6 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
-    <ProjectReference Include="..\System.Drawing.Primitives\System.Drawing.Primitives.csproj" />
+    <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
   </ItemGroup>
 </Project>
