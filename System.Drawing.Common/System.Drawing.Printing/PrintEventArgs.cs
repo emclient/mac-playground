@@ -1,56 +1,41 @@
-//
-// System.Drawing.PrintEventArgs.cs
-//
-// Author:
-//   Dennis Hayes (dennish@Raytek.com)
-//
-// (C) 2002 Ximian, Inc
-//
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
 
-//
-// Copyright (C) 2004 Novell, Inc (http://www.novell.com)
-//
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-// 
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
-using System;
-//NOTE: Complete! Aparently just a redifiniton of CancleEventArgs specific to Printing.
+using System.ComponentModel;
+
 namespace System.Drawing.Printing
 {
-	/// <summary>
-	/// Summary description for PrintEventArgs.
-	/// </summary>
-	public class PrintEventArgs : System.ComponentModel.CancelEventArgs
-	{
-		internal PrintAction action;
-		
-		public PrintEventArgs()
-		{
-		}
+    /// <summary>
+    /// Provides data for the <see cref='PrintDocument.BeginPrint'/> and <see cref='PrintDocument.EndPrint'/> events.
+    /// </summary>
+    public class PrintEventArgs : CancelEventArgs
+    {
+        private readonly PrintAction _printAction;
 
-		public PrintEventArgs(PrintAction action)
-		{
-			this.action = action;
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref='PrintEventArgs'/> class.
+        /// </summary>
+        public PrintEventArgs()
+        {
+        }
 
-		public PrintAction PrintAction {
-			get { return action; }
-		}
-	}
+        /// <summary>
+        /// Initializes a new instance of the <see cref='PrintEventArgs'/> class.
+        /// </summary>
+        internal PrintEventArgs(PrintAction action)
+        {
+            _printAction = action;
+        }
+
+        /// <summary>
+        /// Specifies which <see cref='Printing.PrintAction'/> is causing this event.
+        /// </summary>
+        public PrintAction PrintAction
+        {
+            get
+            {
+                return _printAction;
+            }
+        }
+    }
 }

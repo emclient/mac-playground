@@ -35,7 +35,7 @@
 
   <ItemGroup>
     <!--<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />-->
-    <PackageReference Include="System.Windows.Extensions" Version="5.0.0" />
+    <!--<PackageReference Include="System.Windows.Extensions" Version="5.0.0" />-->
     <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
   </ItemGroup>
 </Project>
