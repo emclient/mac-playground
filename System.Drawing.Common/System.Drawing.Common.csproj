@@ -1,6 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-macos;net6.0-ios</TargetFrameworks>
+    <TargetFrameworks>xamarinmac20</TargetFrameworks>
+    <TargetFrameworks Condition="'$(SkipMacNet6Projects)' != 'true'">$(TargetFrameworks);net6.0-macos;net6.0-ios</TargetFrameworks>
     <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFrameworks>
     <DefineConstants>MAISONABE;STATIC_PREMULTIPLY_TABLES</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -30,7 +31,10 @@
     <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="6.0.0-beta.20569.4" PrivateAssets="All" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos' OR '$(TargetFramework)' == 'net6.0-ios'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
+    <ProjectReference Include="..\System.Drawing.Primitives\System.Drawing.Primitives.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
     <EmbeddedResource Include="Resources\Strings.resx" />
     <EmbeddedResource Include="Resources\Mono.ico" LogicalName="Mono.ico" />
     <EmbeddedResource Include="Resources\Shield.ico" LogicalName="Shield.ico" />
@@ -45,7 +49,7 @@
     <Compile Include="Utilities\ClipperLib\clipper.cs" />
     <Compile Include="System.Drawing.Mac\*.cs" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20' OR '$(TargetFramework)' == 'net6.0-macos'">
     <Compile Include="System.Drawing.Printing\*.cs" />
   </ItemGroup>
   <ItemGroup>

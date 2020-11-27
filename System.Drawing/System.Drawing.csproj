@@ -1,6 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFramework>net6.0-macos</TargetFramework>
+    <TargetFrameworks>xamarinmac20</TargetFrameworks>
+    <TargetFrameworks Condition="'$(SkipMacNet6Projects)' != 'true'">$(TargetFrameworks);net6.0-macos;net6.0-ios</TargetFrameworks>
+    <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
   <!--<ItemGroup>
@@ -34,8 +36,6 @@
   </Target>
 
   <ItemGroup>
-    <!--<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />-->
-    <!--<PackageReference Include="System.Windows.Extensions" Version="5.0.0" />-->
     <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
   </ItemGroup>
 </Project>

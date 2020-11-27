@@ -1,19 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFramework>net6.0-macos</TargetFramework>
+    <TargetFrameworks>xamarinmac20</TargetFrameworks>
+    <TargetFrameworks Condition="'$(SkipMacNet6Projects)' != 'true'">$(TargetFrameworks);net6.0-macos;net6.0-windows</TargetFrameworks>
     <MonoBundlingExtraArgs>--marshal-objectivec-exceptions:disable --registrar:dynamic</MonoBundlingExtraArgs>
-    <RuntimeIdentifier>osx-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(TargetFramework)' != 'net6.0-windows'">osx-x64</RuntimeIdentifier>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <DisableExtraReferences>true</DisableExtraReferences>
-    <DefineConstants Condition=" '$(TargetFramework)' == 'net6.0-macos'">$(DefineConstants);MAC;XAMARINMAC</DefineConstants>
+    <DefineConstants Condition="'$(TargetFramework)' == 'xamarinmac20' OR '$(TargetFramework)' == 'net6.0-macos'">$(DefineConstants);MAC;XAMARINMAC</DefineConstants>
     <OutputType>Exe</OutputType>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+    <UseWindowsForms Condition="'$(TargetFramework)' == 'net6.0-windows'">true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0-macos'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20' OR '$(TargetFramework)' == 'net6.0-macos'">
     <ProjectReference Include="..\System.Windows.Forms\System.Windows.Forms.csproj" />
     <ProjectReference Include="..\System.Drawing\System.Drawing.csproj" />
     <ProjectReference Include="..\MacApi\MacApi.csproj" />
