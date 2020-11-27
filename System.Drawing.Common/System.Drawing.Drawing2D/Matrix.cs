@@ -35,13 +35,7 @@
 
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-#if XAMARINMAC
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-#else
-using MonoTouch.CoreGraphics;
-#endif
 
 namespace System.Drawing.Drawing2D
 {

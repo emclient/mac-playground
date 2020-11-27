@@ -1,15 +1,8 @@
 ﻿using System;
-#if XAMARINMAC
 using AppKit;
 using PrintCore;
 using CoreFoundation;
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.using AppKit;
-using MonoMac.CoreFoundation;
-using MonoMac.CoreGraphics;
-using MacApi.PrintCore;
-#endif
 
 namespace System.Drawing.Printing
 {

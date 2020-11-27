@@ -33,13 +33,8 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Drawing.Mac;
-#if XAMARINMAC
 using AppKit;
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-#endif
 
 namespace System.Drawing.Printing {
 	

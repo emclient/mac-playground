@@ -27,26 +27,9 @@
 //
 using System;
 using System.Drawing.Mac;
-
-#if XAMARINMAC
 using Foundation;
 using CoreText;
 using AppKit;
-#elif MONOMAC
-using MonoMac.Foundation;
-using MonoMac.CoreText;
-using MonoMac.AppKit;
-#else
-using MonoTouch.Foundation;
-using MonoTouch.CoreText;
-using MonoTouch.UIKit;
-#endif
-
-#if MAC64
-using nfloat = System.Double;
-#else
-using nfloat = System.Single;
-#endif
 
 namespace System.Drawing
 {

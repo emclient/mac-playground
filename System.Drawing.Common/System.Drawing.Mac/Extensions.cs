@@ -1,22 +1,10 @@
 ﻿using System.Text;
 using System.Diagnostics;
 using System.Collections;
-
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.CoreText;
-using MonoMac.Foundation;
-using ObjCRuntime = MonoMac.ObjCRuntime;
-using nfloat = System.Single;
-using NMath = System.Math;
-#elif XAMARINMAC
 using AppKit;
 using CoreGraphics;
 using CoreText;
 using Foundation;
-//using ObjCRuntime = ObjCRuntime;
-#endif
 
 namespace System.Drawing.Mac
 {
@@ -445,11 +433,7 @@ namespace System.Drawing.Mac
 
 		public static CGContext CGContext(this NSGraphicsContext context)
 		{
-#if MONOMAC
-			return context.GraphicsPort;
-#elif XAMARINMAC
 			return context.CGContext;
-#endif
 		}
 
 		public static void SetStrokeColor(this CGContext context, Color color)
@@ -492,37 +476,4 @@ namespace System.Drawing.Mac
 			return astr;
 		}
 	}
-
-#if MONOMAC
-
-	public static class NSStringAttributeKey {
-		public static NSString Attachment { get { return NSAttributedString.AttachmentAttributeName; } }
-		public static NSString BackgroundColor { get { return NSAttributedString.BackgroundColorAttributeName; } }
-		public static NSString BaselineOffset { get { return NSAttributedString.BaselineOffsetAttributeName; } }
-		public static NSString Cursor { get { return NSAttributedString.CursorAttributeName; } }
-		public static NSString Expansion { get { return NSAttributedString.ExpansionAttributeName; } }
-		public static NSString Font { get { return NSAttributedString.FontAttributeName; } }
-
-		public static NSString ForegroundColor { get { return NSAttributedString.ForegroundColorAttributeName; } }
-		public static NSString Kern { get { return NSAttributedString.KernAttributeName; } }
-		public static NSString Ligature { get { return NSAttributedString.LigatureAttributeName; } }
-		public static NSString Link { get { return NSAttributedString.LinkAttributeName; } }
-
-		public static NSString MarkedClauseSegment { get { return NSAttributedString.MarkedClauseSegmentAttributeName; } }
-		public static NSString Obliqueness { get { return NSAttributedString.ObliquenessAttributeName; } }
-		public static NSString ParagraphStyle { get { return NSAttributedString.ParagraphStyleAttributeName; } }
-		public static NSString Shadow { get { return NSAttributedString.ShadowAttributeName; } }
-		public static NSString StrikethroughColor { get { return NSAttributedString.StrikethroughColorAttributeName; } }
-		public static NSString StrikethroughStyle { get { return NSAttributedString.StrikethroughStyleAttributeName; } }
-		public static NSString StrokeColor { get { return NSAttributedString.StrokeColorAttributeName; } }
-		public static NSString StrokeWidth { get { return NSAttributedString.StrokeWidthAttributeName; } }
-		public static NSString Superscript { get { return NSAttributedString.SuperscriptAttributeName; } }
-		public static NSString ToolTip { get { return NSAttributedString.ToolTipAttributeName; } }
-		public static NSString UnderlineColor { get { return NSAttributedString.UnderlineColorAttributeName; } }
-		public static NSString UnderlineStyle { get { return NSAttributedString.UnderlineStyleAttributeName; } }
-		public static NSString VerticalGlyphForm { get { return NSAttributedString.VerticalGlyphFormAttributeName; } }
-		public static NSString WritingDirection { get { return NSAttributedString.WritingDirectionAttributeName; } }
-	}
-
-#endif
-	}
+}

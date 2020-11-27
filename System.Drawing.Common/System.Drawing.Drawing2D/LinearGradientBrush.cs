@@ -10,25 +10,8 @@ using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Drawing;
-
-#if XAMARINMAC
 using CoreGraphics;
 using System.Drawing.Mac;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.CoreGraphics;
-#else
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
-using MonoTouch.CoreGraphics;
-#endif
-
-#if MAC64
-using nfloat = System.Double;
-#else
-using nfloat = System.Single;
-#endif
 using NMath = System.Math;
 
 namespace System.Drawing.Drawing2D 

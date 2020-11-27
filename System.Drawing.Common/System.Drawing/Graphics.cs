@@ -16,22 +16,8 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Drawing.Mac;
-
-#if XAMARINMAC
 using CoreGraphics;
 using AppKit;
-using NSRuntime = ObjCRuntime.Runtime;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-using MonoMac.AppKit;
-using NSRuntime = MonoMac.ObjCRuntime.Runtime;
-#else
-using MonoTouch.CoreGraphics;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
-using MonoTouch.CoreText;
-#endif
-
 using MatrixOrder = System.Drawing.Drawing2D.MatrixOrder;
 
 namespace System.Drawing {
@@ -144,7 +130,7 @@ namespace System.Drawing {
 			}
 
 			Graphics g;
-			var obj = NSRuntime.GetNSObject(hwnd);
+			var obj = ObjCRuntime.Runtime.GetNSObject(hwnd);
 			var view = obj as NSView;
 			if (view == null && obj is NSWindow && ((NSWindow)obj).GraphicsContext != null) {
 				g = new Graphics(((NSWindow)obj).GraphicsContext);

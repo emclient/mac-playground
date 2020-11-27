@@ -1,15 +1,6 @@
 using System;
-
-#if XAMARINMAC
 using CoreText;
 using Foundation;
-#elif MONOMAC
-using MonoMac.CoreText;
-using MonoMac.Foundation;
-#else
-using CoreText;
-using Foundation;
-#endif
 
 namespace System.Drawing {
 

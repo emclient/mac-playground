@@ -35,12 +35,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Drawing.Imaging;
-#if XAMARINMAC
 using AppKit;
 using PrintCore;
-#elif MONOMAC
-using MonoMac.AppKit;
-#endif
 
 namespace System.Drawing.Printing {
 	

@@ -29,28 +29,9 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-
-#if XAMARINMAC
 using CoreGraphics;
 using CoreText;
 using Foundation;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.CoreText;
-#else
-using MonoTouch.CoreGraphics;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
-using MonoTouch.CoreText;
-#endif
-
-#if MAC64
-using nfloat = System.Double;
-#else
-using nfloat = System.Single;
-#endif
 
 namespace System.Drawing.Drawing2D 
 {
@@ -301,14 +282,8 @@ namespace System.Drawing.Drawing2D
 
 			if (font.Underline) {
 				// Underline
-#if MONOMAC
-				int single = (int)MonoMac.AppKit.NSUnderlineStyle.Single;
-				int solid = (int)MonoMac.AppKit.NSUnderlinePattern.Solid;
-				var attss = single | solid;
-				ctAttributes.UnderlineStyleValue = attss;
-#else
-				ctAttributes.UnderlineStyleValue = 1;
-#endif
+				ctAttributes.UnderlineStyle = CTUnderlineStyle.Single;
+				ctAttributes.UnderlineStyleModifiers = CTUnderlineStyleModifiers.PatternSolid;
 				// --- end underline
 			}
 

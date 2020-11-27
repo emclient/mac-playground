@@ -1,25 +1,10 @@
 using System;
 using System.Drawing.Imaging;
-
-#if XAMARINMAC
 using CoreGraphics;
 using CoreImage;
 using Foundation;
 using AppKit;
 using ImageIO;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using MonoMac.ImageIO;
-using MonoMac.CoreImage;
-#else
-using MonoTouch.CoreGraphics;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
-using MonoTouch.ImageIO;
-using MonoTouch.CoreImage;
-#endif
 
 namespace System.Drawing
 {
