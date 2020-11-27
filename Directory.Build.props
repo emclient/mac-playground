@@ -1,5 +1,10 @@
 <Project>
   <PropertyGroup>
-    <SkipMacProjects>false</SkipMacProjects>
+    <MacDirectoryBuildPropsPath>$([MSBuild]::GetPathOfFileAbove('$(_DirectoryBuildPropsFile)', $(MSBuildThisFileDirectory)\..))</MacDirectoryBuildPropsPath>
+  </PropertyGroup>
+  <Import Project="$(MacDirectoryBuildPropsPath)" Condition="Exists('$(MacDirectoryBuildPropsPath)')"/>
+
+  <PropertyGroup>
+    <SkipMacProjects Condition="$(SkipMacProjects) == ''">false</SkipMacProjects>
   </PropertyGroup>
 </Project>
