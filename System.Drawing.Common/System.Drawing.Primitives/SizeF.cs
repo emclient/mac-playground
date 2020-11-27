@@ -10,7 +10,7 @@ namespace System.Drawing
     /// </summary>
     [Serializable]
     [System.Runtime.CompilerServices.TypeForwardedFrom("System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-    [TypeConverter("System.Drawing.SizeFConverter, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [TypeConverter(typeof(SizeFConverter))]
     public struct SizeF : IEquatable<SizeF>
     {
         /// <summary>

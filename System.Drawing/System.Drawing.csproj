@@ -31,7 +31,7 @@
     <ItemGroup>
       <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\*\$(AssemblyName).dll" />
       <!-- in case we're regenerating a facade that is already referenced -->
-      <Reference Remove="@(Reference)"  Condition="'%(FileName)%(Extension)' == '$(AssemblyName).dll'" />
+      <Reference Remove="@(Reference)" Condition="'%(FileName)%(Extension)' == '$(AssemblyName).dll'" />
     </ItemGroup>
   </Target>
 
