@@ -1,44 +1,53 @@
-﻿//
-// System.Drawing.Imaging.EncoderParameterValueType.cs
-//
-// Author: Dennis Hayes (dennish@raytek.com)
-//
-// (C) 2002 Ximian, Inc.  http://www.ximian.com
-// Copyright (C) 2004,2006 Novell, Inc (http://www.novell.com)
-//
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-// 
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 namespace System.Drawing.Imaging
 {
+    /// <summary>
+    /// Specifies a EncoderParameter data type.
+    /// </summary>
+    public enum EncoderParameterValueType
+    {
+        /// <summary>
+        /// The data is an 8-bit unsigned value.
+        /// </summary>
+        ValueTypeByte = 1,
+        /// <summary>
+        /// The data is an 8-bit ASCII value.
+        /// </summary>
+        ValueTypeAscii = 2, // 8-bit byte containing one 7-bit ASCII code. NULL terminated.
+        /// <summary>
+        /// The data is a 16-bit unsigned value.
+        /// </summary>
+        ValueTypeShort = 3,
+        /// <summary>
+        /// The data is a 32-bit unsigned value.
+        /// </summary>
+        ValueTypeLong = 4,
+        /// <summary>
+        /// The data is two long integers, specifying the numerator and the denominator of a rational number, respectively.
+        /// </summary>
+        ValueTypeRational = 5,   // Two Longs. The first Long is the numerator, the second Long expresses the denomintor.
 
-	public enum EncoderParameterValueType
-	{
-		ValueTypeByte = 1,
-		ValueTypeAscii = 2,
-		ValueTypeShort = 3,
-		ValueTypeLong = 4,
-		ValueTypeRational = 5,
-		ValueTypeLongRange = 6,
-		ValueTypeUndefined = 7,
-		ValueTypeRationalRange = 8,
-		ValueTypePointer = 9,
-	}
+        /// <summary>
+        /// Two longs which specify a range of integer values.
+        /// The first Long specifies the lower end and the second one specifies the higher end.
+        /// All values are inclusive at both ends.
+        /// </summary>
+        ValueTypeLongRange = 6,
+        /// <summary>
+        /// An 8-bit undefined value that can take any value depending on field definition.
+        /// </summary>
+        ValueTypeUndefined = 7,
+        /// <summary>
+        /// Two Rationals. The first Rational specifies the lower end and the second specifies the higher end.
+        /// All values are inclusive at both ends
+        /// </summary>
+        ValueTypeRationalRange = 8,
+        /// <summary>
+        /// The parameter is a pointer to a block of custom metadata.
+        /// </summary>
+        ValueTypePointer = 9,
+    }
 }
