@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <MacDirectoryBuildPropsPath>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory)\.., '$(_DirectoryBuildPropsFile)'))</MacDirectoryBuildPropsPath>
+    <MacDirectoryBuildPropsPath>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory)/.., '$(_DirectoryBuildPropsFile)'))</MacDirectoryBuildPropsPath>
   </PropertyGroup>
   <Import Project="$(MacDirectoryBuildPropsPath)\$(_DirectoryBuildPropsFile)" Condition="Exists('$(MacDirectoryBuildPropsPath)\$(_DirectoryBuildPropsFile)')"/>
 
