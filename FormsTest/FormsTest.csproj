@@ -15,6 +15,9 @@
   <ItemGroup>
     <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
   </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
+    <ProjectReference Include="..\System.Private.CoreLib\System.Private.CoreLib.csproj" />
+  </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20' OR '$(TargetFramework)' == 'net6.0-macos'">
     <ProjectReference Include="..\System.Windows.Forms\System.Windows.Forms.csproj" />
     <ProjectReference Include="..\System.Drawing\System.Drawing.csproj" />

@@ -1,13 +1,13 @@
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <TargetFrameworks>xamarinmac20</TargetFrameworks>
-    <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.1</TargetFrameworks>
     <RootNamespace>System.Drawing</RootNamespace>
     <LangVersion>latest</LangVersion>
     <AssemblyVersion>5.0.0</AssemblyVersion>
-    <EnableDefaultItems Condition="'$(TargetFramework)' == 'netstandard2.0'">false</EnableDefaultItems>
-    <EnableDefaultCompileItems Condition="'$(TargetFramework)' == 'netstandard2.0'">false</EnableDefaultCompileItems>
-    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' == 'netstandard2.0'">false</EnableDefaultEmbeddedResourceItems>
+    <EnableDefaultItems Condition="'$(TargetFramework)' == 'netstandard2.1'">false</EnableDefaultItems>
+    <EnableDefaultCompileItems Condition="'$(TargetFramework)' == 'netstandard2.1'">false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' == 'netstandard2.1'">false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
 
   <!-- Check API compatibility against System.Drawing.Primitives from .NET 5 -->
@@ -21,7 +21,7 @@
   <ItemGroup>
     <ResolvedMatchingContract Include="$(PkgMicrosoft_NETCore_App_Ref)\ref\net5.0\System.Drawing.Primitives.dll" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(SkipMacProjects)' != 'true'">
     <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="6.0.0-beta.20569.4" PrivateAssets="All" />
   </ItemGroup>
 </Project>

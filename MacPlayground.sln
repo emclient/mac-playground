@@ -14,6 +14,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mono.WebBrowser", "Mono.Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Windows.Forms.Primitives", "System.Windows.Forms.Primitives\System.Windows.Forms.Primitives.csproj", "{36EA0B04-8885-4F04-8746-0CA41F9DD4A3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Drawing.Primitives", "System.Drawing.Primitives\System.Drawing.Primitives.csproj", "{D4AC73E3-CA52-4A81-9616-3CE2E36A382A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Private.CoreLib", "System.Private.CoreLib\System.Private.CoreLib.csproj", "{72FA10FB-CAF5-43C8-918C-1FBDB10B5DA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +48,14 @@ Global
 		{36EA0B04-8885-4F04-8746-0CA41F9DD4A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36EA0B04-8885-4F04-8746-0CA41F9DD4A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36EA0B04-8885-4F04-8746-0CA41F9DD4A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4AC73E3-CA52-4A81-9616-3CE2E36A382A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4AC73E3-CA52-4A81-9616-3CE2E36A382A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4AC73E3-CA52-4A81-9616-3CE2E36A382A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4AC73E3-CA52-4A81-9616-3CE2E36A382A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72FA10FB-CAF5-43C8-918C-1FBDB10B5DA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72FA10FB-CAF5-43C8-918C-1FBDB10B5DA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72FA10FB-CAF5-43C8-918C-1FBDB10B5DA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72FA10FB-CAF5-43C8-918C-1FBDB10B5DA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

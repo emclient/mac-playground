@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>xamarinmac20</TargetFrameworks>
     <TargetFrameworks Condition="'$(SkipMacNet6Projects)' != 'true'">$(TargetFrameworks);net6.0-macos;net6.0-windows</TargetFrameworks>
-    <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.1</TargetFrameworks>
     <DefineConstants>NET_4_5</DefineConstants>
     <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
     <EnableDefaultItems>false</EnableDefaultItems>
@@ -32,7 +32,7 @@
     <ProjectReference Include="..\Mono.WebBrowser\Mono.WebBrowser.csproj" />
     <ProjectReference Include="..\System.Windows.Forms.Primitives\System.Windows.Forms.Primitives.csproj" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(SkipMacProjects)' != 'true'">
     <Compile Include="Assembly\Consts.cs" />
     <Compile Include="Assembly\MonoTODOAttribute.cs" />
     <Compile Include="Assembly\AssemblyInfo.cs" />
@@ -1203,7 +1203,7 @@
   <ItemGroup>
     <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\net5.0\System.Windows.Forms.dll" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(SkipMacProjects)' != 'true'">
     <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="6.0.0-beta.20569.4" PrivateAssets="All" />
   </ItemGroup>
 </Project>
