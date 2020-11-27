@@ -33,23 +33,10 @@
 
 using System.Drawing.Drawing2D;
 using System.Collections.Generic;
-
-#if XAMARINMAC
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-#else
-using MonoTouch.CoreGraphics;
-#endif
 
 // Polygon Clipping Library
 using ClipperLib;
-
-#if MAC64
-using nfloat = System.Double;
-#else
-using nfloat = System.Single;
-#endif
 
 namespace System.Drawing 
 {

@@ -8,19 +8,7 @@
 //
 using System;
 using System.Drawing.Mac;
-#if XAMARINMAC
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-#else
-using MonoTouch.CoreGraphics;
-#endif
-
-#if MAC64
-using nfloat = System.Double;
-#else
-using nfloat = System.Single;
-#endif
 
 namespace System.Drawing.Drawing2D 
 {

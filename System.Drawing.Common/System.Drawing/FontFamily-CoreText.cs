@@ -26,26 +26,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 using System.Drawing.Text;
-
-#if XAMARINMAC
 using CoreText;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.CoreGraphics;
-using MonoMac.CoreText;
-#else
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
-using MonoTouch.CoreGraphics;
-using MonoTouch.CoreText;
-#endif
-
-#if MAC64
-using nfloat = System.Double;
-#else
-using nfloat = System.Single;
-#endif
 using NMath = System.Math;
 
 namespace System.Drawing

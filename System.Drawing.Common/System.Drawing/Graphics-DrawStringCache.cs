@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
-
-#if XAMARINMAC
 using Foundation;
 using CoreGraphics;
 using CoreText;
-#elif MONOMAC
-using MonoMac.Foundation;
-using MonoMac.CoreGraphics;
-using MonoMac.CoreText;
-#endif
 
 namespace System.Drawing
 {

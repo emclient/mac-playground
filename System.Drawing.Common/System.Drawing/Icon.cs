@@ -37,15 +37,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Runtime.InteropServices;
-#if XAMARINMAC
 using ImageIO;
 using CoreGraphics;
 using Foundation;
-#else
-using MonoMac.ImageIO;
-using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
-#endif
 
 namespace System.Drawing
 {

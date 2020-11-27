@@ -1,20 +1,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-
-#if XAMARINMAC
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-#else
-using MonoTouch.CoreGraphics;
-#endif
-
-#if MAC64
-using nfloat = System.Double;
-#else
-using nfloat = System.Single;
-#endif
 
 namespace System.Drawing
 {

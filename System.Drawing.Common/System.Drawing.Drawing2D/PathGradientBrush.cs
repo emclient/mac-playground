@@ -9,19 +9,7 @@
 
 using System.Drawing;
 using System.ComponentModel;
-
-#if XAMARINMAC
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.CoreGraphics;
-#else
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
-using MonoTouch.CoreGraphics;
-#endif
-
 
 namespace System.Drawing.Drawing2D {
 

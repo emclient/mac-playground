@@ -3,27 +3,9 @@ using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Drawing.Mac;
 using System.Text;
-
-#if XAMARINMAC
 using CoreGraphics;
 using Foundation;
 using CoreText;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-using MonoMac.CoreText;
-using MonoMac.Foundation;
-#else
-using MonoTouch.CoreGraphics;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
-using MonoTouch.CoreText;
-#endif
-
-#if MAC64
-using nfloat = System.Double;
-#else
-using nfloat = System.Single;
-#endif
 using NMath = System.Math;
 
 namespace System.Drawing

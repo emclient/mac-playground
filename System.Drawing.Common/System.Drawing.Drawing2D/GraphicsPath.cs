@@ -36,13 +36,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Diagnostics;
 using System.Linq;
-#if XAMARINMAC
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-#else
-using MonoTouch.CoreGraphics;
-#endif
 using ClipperLib;
 
 namespace System.Drawing.Drawing2D {

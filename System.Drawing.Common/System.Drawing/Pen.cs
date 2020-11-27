@@ -9,20 +9,7 @@
 using System;
 using System.Drawing.Drawing2D;
 using System.ComponentModel;
-
-#if XAMARINMAC
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-#else
-using MonoTouch.CoreGraphics;
-#endif
-
-#if MAC64
-using nfloat = System.Double;
-#else
-using nfloat = System.Single;
-#endif
 using MatrixOrder = System.Drawing.Drawing2D.MatrixOrder;
 
 namespace System.Drawing

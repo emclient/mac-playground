@@ -33,13 +33,8 @@
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Drawing.Mac;
-#if XAMARINMAC
 using CoreGraphics;
 using Foundation;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
-#endif
 
 namespace System.Drawing.Printing
 {
@@ -76,11 +71,7 @@ namespace System.Drawing.Printing
 			//pageInfoList.Clear ();
 
 			previewData = new NSMutableData();
-#if XAMARINMAC
 			context = new CGContextPDF(new CGDataConsumer(previewData));
-#elif MONOMAC
-			context = new CGContextPDF(new CGDataConsumer(previewData), new CGRect(), new CGPDFInfo());
-#endif
 		}
 
 		public override void OnEndPrint(PrintDocument document, PrintEventArgs e)

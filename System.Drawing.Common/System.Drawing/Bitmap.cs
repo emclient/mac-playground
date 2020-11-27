@@ -43,23 +43,9 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Mac;
-
-#if XAMARINMAC
 using CoreGraphics;
 using Foundation;
 using ImageIO;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using MonoMac.ImageIO;
-#else
-using MonoTouch.CoreGraphics;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
-using MonoTouch.ImageIO;
-using MonoTouch.MobileCoreServices;
-#endif
 
 namespace System.Drawing {
 	

@@ -28,20 +28,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-
-#if XAMARINMAC
 using CoreGraphics;
 using CoreText;
 using Foundation;
-#elif MONOMAC
-using MonoMac.CoreText;
-using MonoMac.Foundation;
-using MonoMac.CoreGraphics;
-#else
-using MonoTouch.CoreText;
-using MonoTouch.Foundation;
-using MonoTouch.CoreGraphics;
-#endif
 
 namespace System.Drawing.Text
 {
