@@ -12,7 +12,6 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 using CoreGraphics;
 using System.Drawing.Mac;
-using NMath = System.Math;
 
 namespace System.Drawing.Drawing2D 
 {

@@ -46,7 +46,9 @@ using System.Drawing.Mac;
 using System.Text;
 using CoreGraphics;
 using Foundation;
+#if __MACOS__
 using AppKit;
+#endif
 
 namespace System.Drawing {
 	

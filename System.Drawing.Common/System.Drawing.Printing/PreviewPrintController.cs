@@ -95,7 +95,6 @@ namespace System.Drawing.Printing
 
 		public PreviewPageInfo [] GetPreviewPageInfo()
 		{
-#if XAMARINMAC
 			if (previewData != null) {
 				var pdfDocument = new CGPDFDocument(new CGDataProvider(previewData));
 				List<PreviewPageInfo> pi = new List<PreviewPageInfo>();
@@ -106,7 +105,6 @@ namespace System.Drawing.Printing
 				}
 				return pi.ToArray();
 			}
-#endif
 			return new PreviewPageInfo[0];
 		}
 

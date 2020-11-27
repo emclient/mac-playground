@@ -6,7 +6,6 @@ using System.Text;
 using CoreGraphics;
 using Foundation;
 using CoreText;
-using NMath = System.Math;
 
 namespace System.Drawing
 {

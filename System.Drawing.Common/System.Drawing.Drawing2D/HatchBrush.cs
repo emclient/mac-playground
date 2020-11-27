@@ -1211,11 +1211,11 @@ namespace System.Drawing.Drawing2D
 			// defaulted to the lower left corner being 0,0 which means for MonoTouch and any view 
 			// that is flipped we need to flip it again.  Yep should have thought about it to begin with
 			// will look into changing it later if need be.
-#if MONOMAC
+#if __MACOS__
 			if (graphics.isFlipped)
 				patternTransform = new CGAffineTransform(1, 0, 0, -1, 0, hatch_height);
 #endif
-#if MONOTOUCH
+#if __IOS__
 			if (!graphics.isFlipped)
 				patternTransform = new CGAffineTransform(1, 0, 0, -1, 0, hatch_height);
 #endif
