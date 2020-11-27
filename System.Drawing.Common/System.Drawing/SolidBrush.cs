@@ -9,13 +9,7 @@
 using System;
 using System.Drawing.Drawing2D;
 using System.Drawing.Mac;
-#if XAMARINMAC
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-#else
-using MonoTouch.CoreGraphics;
-#endif
 
 namespace System.Drawing {
 

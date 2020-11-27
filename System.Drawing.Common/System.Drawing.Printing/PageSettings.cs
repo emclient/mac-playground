@@ -33,8 +33,8 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Drawing.Mac;
-using AppKit;
 using CoreGraphics;
+using AppKit;
 
 namespace System.Drawing.Printing {
 	

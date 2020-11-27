@@ -3,7 +3,6 @@ using System.Drawing.Imaging;
 using CoreGraphics;
 using CoreImage;
 using Foundation;
-using AppKit;
 using ImageIO;
 
 namespace System.Drawing
@@ -808,7 +807,7 @@ namespace System.Drawing
 
 		private void InitializeImagingContext ()
 		{
-#if MONOTOUCH
+#if __IOS__
 			if (ciContext == null)
 				ciContext = CIContext.FromOptions(null);
 #else

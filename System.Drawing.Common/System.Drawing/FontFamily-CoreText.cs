@@ -27,7 +27,6 @@
 //
 using System.Drawing.Text;
 using CoreText;
-using NMath = System.Math;
 
 namespace System.Drawing
 {

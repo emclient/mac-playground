@@ -29,7 +29,6 @@ using System;
 using System.Drawing.Mac;
 using Foundation;
 using CoreText;
-using AppKit;
 
 namespace System.Drawing
 {

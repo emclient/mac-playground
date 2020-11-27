@@ -1,7 +1,11 @@
 ﻿using System.Text;
 using System.Diagnostics;
 using System.Collections;
+#if __MACOS__
 using AppKit;
+#elif __IOS__
+using UIKit;
+#endif
 using CoreGraphics;
 using CoreText;
 using Foundation;
@@ -95,22 +99,6 @@ namespace System.Drawing.Mac
 			return f.nativeFont;
 		}
 
-		public static NSFont ToNSFont(this Font f)
-		{
-			return ObjCRuntime.Runtime.GetNSObject(f.nativeFont.Handle) as NSFont;
-		}
-
-		public static CTFont ToCTFont(this NSFont f)
-		{
-			// CTFont and NSFont are toll-free bridged
-			return (CTFont)Activator.CreateInstance(
-				typeof(CTFont),
-				Reflection.BindingFlags.NonPublic | Reflection.BindingFlags.Instance,
-				null,
-				new object[] { f.Handle },
-				null);
-		}
-
 		public static float GetLineHeight(this CTFont font)
 		{
 			// https://stackoverflow.com/questions/5511830/how-does-line-spacing-work-in-core-text-and-why-is-it-different-from-nslayoutm
@@ -123,11 +111,6 @@ namespace System.Drawing.Mac
 			//return (float)(lineHeight + ascenderDelta);
 
 			return (float)NMath.Ceiling(font.AscentMetric + font.DescentMetric + font.LeadingMetric + 1);
-		}
-
-		public static NSTextAlignment ToNSTextAlignment(this ContentAlignment a)
-		{
-			return (NSTextAlignment)ToCTTextAlignment(a);
 		}
 
 		public static CTTextAlignment ToCTTextAlignment(this ContentAlignment a)
@@ -172,6 +155,39 @@ namespace System.Drawing.Mac
 		public static bool IsItalic(this CTFontSymbolicTraits traits)
 		{
 			return 0 != (traits & CTFontSymbolicTraits.Italic);
+		}
+
+#if __MACOS__
+		public static CGSize DeviceDPI(this NSScreen screen)
+		{
+			var desc = screen.DeviceDescription;
+			if (desc != null)
+				if (desc["NSDeviceResolution"] is NSValue value)
+					return value.CGSizeValue;
+
+			Debug.Assert(false, $"Failed to get screen resolution for '{screen.LocalizedName}'");
+			return new CGSize(72, 72);
+		}
+
+		public static NSFont ToNSFont(this Font f)
+		{
+			return ObjCRuntime.Runtime.GetNSObject(f.nativeFont.Handle) as NSFont;
+		}
+
+		public static CTFont ToCTFont(this NSFont f)
+		{
+			// CTFont and NSFont are toll-free bridged
+			return (CTFont)Activator.CreateInstance(
+				typeof(CTFont),
+				Reflection.BindingFlags.NonPublic | Reflection.BindingFlags.Instance,
+				null,
+				new object[] { f.Handle },
+				null);
+		}
+
+		public static NSTextAlignment ToNSTextAlignment(this ContentAlignment a)
+		{
+			return (NSTextAlignment)ToCTTextAlignment(a);
 		}
 
 		public static CGColor ToCGColor(this Color c)
@@ -221,12 +237,6 @@ namespace System.Drawing.Mac
 			return ToNSColor(c.ToArgb());
 		}
 
-		public static CGColor ToCGColor(this int value)
-		{
-			value.ToArgb(out nfloat a, out nfloat r, out nfloat g, out nfloat b);
-			return new CGColor(r, g, b, a);
-		}
-
 		public static NSColor ToNSColor(this int value)
 		{
 			value.ToArgb(out int a, out int r, out int g, out int b);
@@ -237,22 +247,6 @@ namespace System.Drawing.Mac
 		// NOTE: Fixed with https://github.com/xamarin/xamarin-macios/commit/0fb7498209cf988f0d60d5a1e8dcd060951f1549, kept for compatibility
 		public static NSColorSpace GenericRgbColorSpace() => NSColorSpace.GenericRGBColorSpace;
 		public static NSColorSpace SRGBColorSpace() => NSColorSpace.SRGBColorSpace;
-
-		public static void ToArgb(this int argb, out int a, out int r, out int g, out int b)
-		{
-			a = (byte)(argb >> 24);
-			r = (byte)(argb >> 16);
-			g = (byte)(argb >> 8);
-			b = (byte)argb;
-		}
-
-		public static void ToArgb(this int argb, out nfloat a, out nfloat r, out nfloat g, out nfloat b)
-		{
-			a = ((byte)(argb >> 24)) / 255f;
-			r = ((byte)(argb >> 16)) / 255f;
-			g = ((byte)(argb >> 8)) / 255f;
-			b = ((byte)argb) / 255f;
-		}
 
 		public static int ToArgb(this NSColor color)
 		{
@@ -340,6 +334,91 @@ namespace System.Drawing.Mac
 			return (uint)color.ToArgb();
 		}
 
+		public static NSImage ToNSImage(this Image image)
+		{
+			if (image.NativeCGImage != null)
+				return new NSImage(image.NativeCGImage, CGSize.Empty);
+
+			return new NSImage(image.ToNSData(Imaging.ImageFormat.Png));
+		}
+
+		public static CGContext CGContext(this NSGraphicsContext context)
+		{
+			return context.CGContext;
+		}
+
+		public static NSAttributedString GetAttributedString(this string s, char? hotKey = '&', Font font = null, ContentAlignment? alignment = null)
+		{
+			var attributes = new NSMutableDictionary();
+
+			if (font != null)
+			{
+				var uiFont = ObjCRuntime.Runtime.GetNSObject(font.nativeFont.Handle) as NSFont;
+				attributes.Add(NSStringAttributeKey.Font, uiFont);
+			}
+
+			if (alignment.HasValue)
+			{
+				var style = new NSMutableParagraphStyle();
+				style.Alignment = alignment.Value.ToNSTextAlignment();
+
+				attributes.Add(NSStringAttributeKey.ParagraphStyle, style);
+			}
+
+			int hotKeyIndex = -1;
+			if (hotKey.HasValue)
+			{
+				hotKeyIndex = s.IndexOf(hotKey.Value);
+				if (hotKeyIndex != -1)
+					s = s.Substring(0, hotKeyIndex) + s.Substring(1 + hotKeyIndex);
+			}
+
+			var astr = new NSMutableAttributedString(s, attributes);
+			if (hotKeyIndex != -1)
+				astr.AddAttribute(NSStringAttributeKey.UnderlineStyle, new NSNumber((int)NSUnderlineStyle.Single), new NSRange(hotKeyIndex, 1));
+
+			return astr;
+		}
+#elif __IOS__
+		public static CGColor ToCGColor(this Color c)
+		{
+			return ToUIColor(c).CGColor;
+		}
+
+		public static UIColor ToUIColor(this Color c)
+		{
+			return ToUIColor(c.ToArgb());
+		}
+
+		public static UIColor ToUIColor(this int value)
+		{
+			value.ToArgb(out int a, out int r, out int g, out int b);
+			return UIColor.FromRGBA(r, g, b, a);
+		}
+#endif
+
+		public static void ToArgb(this int argb, out int a, out int r, out int g, out int b)
+		{
+			a = (byte)(argb >> 24);
+			r = (byte)(argb >> 16);
+			g = (byte)(argb >> 8);
+			b = (byte)argb;
+		}
+
+		public static void ToArgb(this int argb, out nfloat a, out nfloat r, out nfloat g, out nfloat b)
+		{
+			a = ((byte)(argb >> 24)) / 255f;
+			r = ((byte)(argb >> 16)) / 255f;
+			g = ((byte)(argb >> 8)) / 255f;
+			b = ((byte)argb) / 255f;
+		}
+
+		public static CGColor ToCGColor(this int value)
+		{
+			value.ToArgb(out nfloat a, out nfloat r, out nfloat g, out nfloat b);
+			return new CGColor(r, g, b, a);
+		}
+
 		public static NSData ToNSData(this Image image, Imaging.ImageFormat format)
 		{
 			using (var stream = new IO.MemoryStream())
@@ -347,14 +426,6 @@ namespace System.Drawing.Mac
 				image.Save(stream, format);
 				return NSData.FromArray(stream.ToArray());
 			}
-		}
-
-		public static NSImage ToNSImage(this Image image)
-		{
-			if (image.NativeCGImage != null)
-				return new NSImage(image.NativeCGImage, CGSize.Empty);
-
-			return new NSImage(image.ToNSData(Imaging.ImageFormat.Png));
 		}
 
 		public static Bitmap ToBitmap(this CGImage cgImage)
@@ -415,25 +486,9 @@ namespace System.Drawing.Mac
 			return -1;
 		}
 
-		public static CGSize DeviceDPI(this NSScreen screen)
-		{
-			var desc = screen.DeviceDescription;
-			if (desc != null)
-				if (desc["NSDeviceResolution"] is NSValue value)
-					return value.CGSizeValue;
-
-			Debug.Assert(false, $"Failed to get screen resolution for '{screen.LocalizedName}'");
-			return new CGSize(72, 72);
-		}
-
 		public static CGContext ToCGContext(this Graphics graphics)
 		{
 			return graphics.context;
-		}
-
-		public static CGContext CGContext(this NSGraphicsContext context)
-		{
-			return context.CGContext;
 		}
 
 		public static void SetStrokeColor(this CGContext context, Color color)
@@ -444,36 +499,6 @@ namespace System.Drawing.Mac
 		public static void SetFillColor(this CGContext context, Color color)
 		{
 			context.SetFillColor(ToCGColor(color));
-		}
-
-		public static NSAttributedString GetAttributedString(this string s, char? hotKey = '&', Font font = null, ContentAlignment? alignment = null)
-		{
-			var attributes = new NSMutableDictionary();
-
-			if (font != null)
-				attributes.Add(NSStringAttributeKey.Font, font.ToNSFont());
-
-			if (alignment.HasValue)
-			{
-				var style = new NSMutableParagraphStyle();
-				style.Alignment = alignment.Value.ToNSTextAlignment();
-
-				attributes.Add(NSStringAttributeKey.ParagraphStyle, style);
-			}
-
-			int hotKeyIndex = -1;
-			if (hotKey.HasValue)
-			{
-				hotKeyIndex = s.IndexOf(hotKey.Value);
-				if (hotKeyIndex != -1)
-					s = s.Substring(0, hotKeyIndex) + s.Substring(1 + hotKeyIndex);
-			}
-
-			var astr = new NSMutableAttributedString(s, attributes);
-			if (hotKeyIndex != -1)
-				astr.AddAttribute(NSStringAttributeKey.UnderlineStyle, new NSNumber((int)NSUnderlineStyle.Single), new NSRange(hotKeyIndex, 1));
-
-			return astr;
 		}
 	}
 }

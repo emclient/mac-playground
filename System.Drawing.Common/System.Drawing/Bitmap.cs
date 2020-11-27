@@ -946,11 +946,7 @@ namespace System.Drawing {
 			NSUrl url = NSUrl.FromFilename(path);
 
 			// Create an image destination that saves into the path that is passed in
-#if !XAMARINMAC
-			using (var dest = CGImageDestination.FromUrl(url, GetTypeIdentifier(format), frameCount, null))
-#else
 			using (var dest = CGImageDestination.Create(url, GetTypeIdentifier(format), frameCount))
-#endif
 				Save(dest);
 		}
 
@@ -976,11 +972,7 @@ namespace System.Drawing {
 			
 			using (var imageData = new NSMutableData())
 			{
-				#if !XAMARINMAC
-				using (var dest = CGImageDestination.FromData(imageData, GetTypeIdentifier(format), frameCount))
-				#else
 				using (var dest = CGImageDestination.Create(imageData, GetTypeIdentifier(format), frameCount))
-				#endif
 					Save(dest);
 
 				using (var ms = imageData.AsStream())

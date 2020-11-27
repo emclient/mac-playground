@@ -17,14 +17,20 @@ using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Drawing.Mac;
 using CoreGraphics;
+#if __MACOS__
 using AppKit;
+#elif __IOS__
+using UIKit;
+#endif
 using MatrixOrder = System.Drawing.Drawing2D.MatrixOrder;
 
 namespace System.Drawing {
 
 	public sealed partial class Graphics : MarshalByRefObject, IDisposable, IDeviceContext {
 		internal CGContext context;
+#if __MACOS__
 		private NSView focusedView;
+#endif
 		private bool hasClientTransform;
 		internal Pen LastPen;
 		internal Brush LastBrush;
@@ -48,7 +54,7 @@ namespace System.Drawing {
 		private Region clip;
 		internal nfloat screenScale;
 
-		internal Graphics (CGContext context, bool flipped = true)
+		internal Graphics (CGContext context, nfloat screenScale, bool flipped = true)
 		{
 			if (context == null)
 				throw new ArgumentNullException ("context");
@@ -58,7 +64,7 @@ namespace System.Drawing {
 
 			context.SaveState();
 
-			this.screenScale = 1f;
+			this.screenScale = screenScale;
 
 			modelMatrix = new Matrix();
 
@@ -73,38 +79,35 @@ namespace System.Drawing {
 			setupView();
 		}
 
-#if MONOTOUCH
+		internal Graphics (CGContext context, bool flipped = true)
+			: this (context, 1f, flipped)
+		{
+		}
+
+#if __IOS__
 		private Graphics() :
-			this (UIGraphics.GetCurrentContext(), UIScreen.MainScreen.Scale)
+			this (UIGraphics.GetCurrentContext(), UIScreen.MainScreen.Scale, false)
 		{
 		}
 
 		private Graphics(CGContext context) :
-			this (context, UIScreen.MainScreen.Scale)
-		{	}
-
-		private Graphics(CGContext context, float screenScale)
+			this (context, UIScreen.MainScreen.Scale, false)
 		{
-			var gc = context;
-			nativeObject = gc;
-			this.screenScale = screenScale;
-			InitializeContext(gc);
-
 		}
 
 		public static Graphics FromContext(CGContext context)
 		{
-			return new Graphics (context, UIScreen.MainScreen.Scale);
+			return new Graphics (context, UIScreen.MainScreen.Scale, false);
 		}
 
 		public static Graphics FromContext(CGContext context, float screenScale)
 		{
-			return new Graphics (context, screenScale);
+			return new Graphics (context, screenScale, false);
 		}
 
 #endif
 
-#if MONOMAC || XAMARINMAC
+#if __MACOS__
 		private Graphics() :
 			this (NSGraphicsContext.CurrentContext)
 		{
@@ -207,10 +210,12 @@ namespace System.Drawing {
 					context = null;
 				}
 
+#if __MACOS__
 				if (focusedView != null) {
 					focusedView.UnlockFocus ();
 					focusedView = null;
 				}
+#endif
 			}
 		}
 
