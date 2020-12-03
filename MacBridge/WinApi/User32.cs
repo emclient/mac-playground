@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Mac;
@@ -859,6 +859,13 @@ namespace WinApi
 		{
 			NotImplemented(MethodBase.GetCurrentMethod());
 			return IntPtr.Zero;
+		}
+
+
+		public static extern int SetForegroundWindow(IntPtr hwnd)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return 0;
 		}
 	}
 }
