@@ -862,7 +862,7 @@ namespace WinApi
 		}
 
 
-		public static extern int SetForegroundWindow(IntPtr hwnd)
+		public static int SetForegroundWindow(IntPtr hwnd)
 		{
 			NotImplemented(MethodBase.GetCurrentMethod());
 			return 0;
