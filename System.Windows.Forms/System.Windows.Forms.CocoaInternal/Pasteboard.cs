@@ -78,12 +78,15 @@ namespace System.Windows.Forms.CocoaInternal {
 		internal const string NSRTFTextDocumentType = "NSRTF";
 		internal const string NSPasteboardTypeURL = "public.url";
 		internal const string NSPasteboardTypeFileURL = "public.file-url";
+		internal const string NSPasteboardTypeFileURLPromise = "com.apple.pasteboard.promised-file-url";
 		internal const string NSPasteboardTypeUrlName = "public.url-name";
 		internal const string NSPasteboardTypeRTF = "public.rtf";
 		internal const string NSPasteboardTypeText = "public.utf8-plain-text";
 		internal const string NSPasteboardTypeHTML = "public.html";
+		internal const string NSPasteboardTypeImage = "public.image";
 		internal const string NSPasteboardTypePNG = "public.png";
 		internal const string NSPasteboardTypeTIFF = "public.tiff";
+		internal const string NSPasteboardTypeJPEG = "public.jpeg";
 		internal const string NSPasteboardTypeWebArchive = "Apple Web Archive pasteboard type";
 
 		internal const string UniformResourceLocatorW = "UniformResourceLocatorW";
@@ -155,8 +158,7 @@ namespace System.Windows.Forms.CocoaInternal {
 			if (native)
 			{
 				// Data in the pasteboard comes from another application
-				var names = DataObjectPasteboard.GetFormats(pboard);
-				foreach (var name in names)
+				foreach (var name in pboard.GetFormats())
 					ids.Add(DataFormats.Format.Add(name).Id);
 			}
 			else
