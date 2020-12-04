@@ -83,8 +83,10 @@ namespace System.Windows.Forms.CocoaInternal {
 		internal const string NSPasteboardTypeRTF = "public.rtf";
 		internal const string NSPasteboardTypeText = "public.utf8-plain-text";
 		internal const string NSPasteboardTypeHTML = "public.html";
+		internal const string NSPasteboardTypeImage = "public.image";
 		internal const string NSPasteboardTypePNG = "public.png";
 		internal const string NSPasteboardTypeTIFF = "public.tiff";
+		internal const string NSPasteboardTypeJPEG = "public.jpeg";
 		internal const string NSPasteboardTypeWebArchive = "Apple Web Archive pasteboard type";
 
 		internal const string UniformResourceLocatorW = "UniformResourceLocatorW";

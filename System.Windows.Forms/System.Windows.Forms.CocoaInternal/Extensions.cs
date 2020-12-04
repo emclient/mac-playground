@@ -533,8 +533,10 @@ namespace System.Windows.Forms.Mac
 					case Pasteboard.NSPasteboardTypeRTF:
 						types.Add(DataFormats.Rtf);
 						break;
+					case Pasteboard.NSPasteboardTypeImage:
 					case Pasteboard.NSPasteboardTypePNG:
 					case Pasteboard.NSPasteboardTypeTIFF:
+					case Pasteboard.NSPasteboardTypeJPEG:
 						types.Add(DataFormats.Bitmap);
 						break;
 					case Pasteboard.NSPasteboardTypeFileURL:
