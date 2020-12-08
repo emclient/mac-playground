@@ -41,23 +41,40 @@ namespace WinApi
             p.Y = screenSize.Height - p.Y;
             var screenLocation = new CGPoint(p.X, p.Y);
 
-			var wnum = NSWindow.WindowNumberAtPoint(screenLocation, 0);
-            var window = NSApplication.SharedApplication.WindowWithWindowNumber(wnum);
-            if (window != null)
-            {
-                var windowLocation = window.ConvertScreenToBase(screenLocation);
+			nint below = 0;
+			while (true)
+			{
+				var wnum = NSWindow.WindowNumberAtPoint(screenLocation, below);
+				var window = NSApplication.SharedApplication.WindowWithWindowNumber(wnum);
+				if (window == null)
+					break;
+
+				var windowLocation = window.ConvertScreenToBase(screenLocation);
 				var view = HitTestIgnoringGrab(window, windowLocation);
 
 				// Embedded native control? => Find MonoView parent
 				while (view != null && !(view is MonoView))
 					view = view.Superview;
 
-				if (view != null)
-					return view.Handle;
-            }
+				if (view == null)
+					break;
+
+				if (Control.FromHandle(view.Handle) is Control c && HTTransparent(c))
+				{
+					below = wnum;
+					continue;
+				}
+				return view.Handle;
+			}
 
             return IntPtr.Zero;
         }
+
+		internal static bool HTTransparent(Control c)
+		{
+			var result = Win32.SendMessage(c.Handle, Win32.WM_NCHITTEST, IntPtr.Zero, IntPtr.Zero);
+			return result.ToInt32() == -1;
+		}
 
 		internal static NSView HitTestIgnoringGrab(NSWindow window, CGPoint point)
 		{
