@@ -20,6 +20,7 @@ namespace FormsTest.Experiments
 
 	public class FileDescriptors
 	{
+		const int batchSize = 200;
 		const string url = "http://www.fermion.cz/blank.html";
 
 		public interface FileOpener
@@ -79,44 +80,57 @@ namespace FormsTest.Experiments
 				() => { return new Client(CreateMonoWebRequestHandler(), "MonoWebRequestHandler"); },
 			};
 
-			const int n = 200;
 			var openers = new List<FileOpener>();
 
 			Console.WriteLine($"Opening files with {openerName} ---------------");
-			for (bool stop = false; !stop;)
+			while (true)
 			{
-				Console.WriteLine($"Opening {n} files");
-				for (int i = 0; i < n; ++i)
-					if (makeOpener() is FileOpener opener)
-						if (opener.Open(path))
-							openers.Add(opener);
-						else
-							break;
+				Console.WriteLine($"Opening {batchSize} files");
+				OpenFiles(openers, makeOpener, batchSize, path);
 
-				int succ = 0;
-				Console.WriteLine($"{openers.Count} files open. Testing connections...");
-				for (int i = 0; i < makers.Length; ++i)
-					if (makers[i] != null)
-						if (await MakeHttpRequest(makers[i], url))
-							++succ;
-						else
-							makers[i] = null;
-
-				if (stop = succ == 0)
+				Console.WriteLine($"{openers.Count} files. Testing connections...");
+				if (!await MakeRequests(makers))
 					break;
 			}
 
 			Console.WriteLine($"Closing {openers.Count} file(s)");
-			foreach (var opener in openers)
-				opener.Close();
-			openers.Clear();
+			CloseFiles(openers);
 
 			File.Delete(path);
-
 			GC.Collect();
 		}
 
-		async Task<bool> MakeHttpRequest(Func<Client> maker, string url)
+		void CloseFiles(List<FileOpener> openers)
+		{
+			foreach (var opener in openers)
+				opener.Close();
+			openers.Clear();
+		}
+
+		void OpenFiles(List<FileOpener> openers, Func<FileOpener> makeOpener, int count, string path)
+		{
+			for (int i = 0; i < count; ++i)
+				if (makeOpener() is FileOpener opener)
+					if (opener.Open(path))
+						openers.Add(opener);
+					else
+						return;
+		}
+
+		async Task<bool> MakeRequests(Func<Client>[] makers)
+		{
+			int succ = 0;
+			for (int i = 0; i < makers.Length; ++i)
+				if (makers[i] != null)
+					if (await MakeRequest(makers[i], url))
+						++succ;
+					else
+						makers[i] = null;
+
+			return succ != 0;
+		}
+
+		async Task<bool> MakeRequest(Func<Client> maker, string url)
 		{
 			Client client = null;
 			try
