@@ -196,6 +196,9 @@
     <Compile Include="Forms\DateTimeForm.cs" />
     <Compile Include="Controls\TextureBrushControl.cs" />
     <Compile Include="Controls\TextureBrushControl2.cs" />
+    <Compile Include="Experiments\FileDescriptors.cs">
+      <SubType></SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <!--<EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">
@@ -282,5 +285,12 @@
       <Name>HTMLEditorControl</Name>
     </ProjectReference>-->
     <ProjectReference Include="..\MacApi\MacApi.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Experiments\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
 </Project>
