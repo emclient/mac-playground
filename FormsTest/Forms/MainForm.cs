@@ -9,6 +9,7 @@ using System.Windows.Forms;
 namespace FormsTest
 {
 	using System.Collections.Generic;
+	using FormsTest.Experiments;
 	//using MailClient.UI.Forms;
 	//using CocoaMessageBox = MessageBox;
 	using MessageBox = System.Windows.Forms.MessageBox;
@@ -134,8 +135,11 @@ namespace FormsTest
 			//AddButton("Data Grid", () => { new DataGridForm().Show(); });
 			AddButton("Font Dialog", () => { FontDialogTest(); });
 			AddButton("Date Time", () => { new DateTimeForm().Show(); });
-			AddButton("TextureBrush", () => { new TextureBrushForm().Show(); });
+			AddButton("Texture Brush", () => { new TextureBrushForm().Show(); });
+			AddButton("File Descriptors", () => { (fd = new FileDescriptors()).RunTest(); });
 		}
+
+		FileDescriptors fd;
 
 		List<Button> buttons = new List<Button>();
 		void AddButton(string text, Action a)
