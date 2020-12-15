@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 #if MAC
@@ -23,32 +25,120 @@ namespace FormsTest.Experiments
 		const int batchSize = 200;
 		const string url = "http://www.fermion.cz/blank.html";
 
-		public interface FileOpener
+		public enum MessageHandlerType
 		{
-			bool Open(string path);
-			void Close();
-		}
-
-#if MAC
-		class NSFileHandlerOpener : FileOpener
-		{
-			NSFileHandle handle;
-			public bool Open(string path) { return null != (handle = NSFileHandle.OpenRead(path)); }
-			public void Close() { handle?.CloseFile(); }
-		}
-#endif
-
-		class StreamOpener : FileOpener
-		{
-			FileStream stream;
-			public bool Open(string path) { try { stream = new FileStream(path, FileMode.Open, FileAccess.Read); } catch { } return stream != null; }
-			public void Close() { stream?.Close(); }
+			SocketsHttpHandler,
+			MonoWebRequestHandler,
+			CFNetworkHandler,
+			NSUrlSessionHandler,
 		}
 
 		class Client : HttpClient
 		{
-			public string HandlerTypeName { get; set; }
-			public Client(HttpMessageHandler handler, string handlerTypeName) : base(handler) { HandlerTypeName = handlerTypeName; }
+			public static bool PoolingEnabled { get; set; }
+			public static int Step { get; set; }
+
+			protected static Dictionary<MessageHandlerType, ConcurrentQueue<Client>> pools;
+
+			public MessageHandlerType HandlerType { get; private set; }
+			public string HandlerTypeName { get => HandlerType.ToString(); }
+			public int Id { get => id; }
+
+			static int counter;
+			protected int id;
+
+			static Client()
+			{
+				pools = new Dictionary<MessageHandlerType, ConcurrentQueue<Client>>();
+				pools.Add(MessageHandlerType.SocketsHttpHandler, new ConcurrentQueue<Client>());
+				pools.Add(MessageHandlerType.MonoWebRequestHandler, new ConcurrentQueue<Client>());
+			}
+
+			public Client(MessageHandlerType type)
+				: this(CreateMessageHandler(type))
+			{
+				HandlerType = type;
+			}
+
+			protected Client(HttpMessageHandler handler) : base(handler)
+			{
+				id = Interlocked.Increment(ref counter);
+				Console.WriteLine($"Created: {id}");
+			}
+
+			public static HttpMessageHandler CreateMessageHandler(MessageHandlerType type)
+			{
+				switch (type)
+				{
+					default:
+#if MAC
+					case MessageHandlerType.SocketsHttpHandler: return new SocketsHttpHandler();
+					case MessageHandlerType.CFNetworkHandler: return new CFNetworkHandler();
+					case MessageHandlerType.NSUrlSessionHandler: return new NSUrlSessionHandler();
+#endif
+					case MessageHandlerType.MonoWebRequestHandler: return CreateMonoWebRequestHandler();
+				}
+			}
+
+			protected override void Dispose(bool disposing)
+			{
+				Console.WriteLine($"Disposing: {id}");
+
+				if (IsPooled(HandlerType))
+				{
+					if (PoolingEnabled && disposing)
+						pools[HandlerType].Enqueue(this);
+					else
+						base.Dispose(disposing);
+				}
+				else
+					base.Dispose(disposing);
+			}
+
+			public static void Imbue(int count, MessageHandlerType type)
+			{
+				if (!PoolingEnabled || !IsPooled(type))
+					return;
+
+				Console.WriteLine($"Imbue({count}), existing:{pools[type].Count}");
+				for (int i = 0; i < count; ++i)
+				{
+					var client = new Client(type);
+					using (var response = client.GetAsync(url))
+						response.Wait();
+					pools[type].Enqueue(client);
+				}
+			}
+
+			public static Client Create(MessageHandlerType type)
+			{
+				if (!PoolingEnabled || !IsPooled(type))
+					return new Client(type);
+
+				if (pools[type].Count == 0)
+					Imbue(Step, type);
+
+				if (pools[type].TryDequeue(out var client))
+				{
+					Console.WriteLine($"Dequeued: {client.Id}");
+					return client;
+				}
+
+				Console.WriteLine($"Dequeue failed, creating");
+
+				return new Client(type);
+			}
+
+			public static bool IsPooled(MessageHandlerType type)
+			{
+				switch (type)
+				{
+					case MessageHandlerType.SocketsHttpHandler:
+					case MessageHandlerType.MonoWebRequestHandler:
+						return true;
+				}
+				return false;
+			}
 		}
 
 		public void RunTest()
@@ -60,61 +150,55 @@ namespace FormsTest.Experiments
 		{
 			Console.WriteLine("FileDesriptors Test Begin");
 
-#if MAC
-			await OpenFilesAndMakeHttpRequests(() => new NSFileHandlerOpener(), "NSFileHandle");
-#endif
-			await OpenFilesAndMakeHttpRequests(() => new StreamOpener(), "FileStream");
+			Client.PoolingEnabled = true;
+			Client.Imbue(20, MessageHandlerType.MonoWebRequestHandler);
+			Client.Imbue(20, MessageHandlerType.SocketsHttpHandler);
 
-			Console.WriteLine("FileDesriptors Test End");
-		}
-
-		async Task OpenFilesAndMakeHttpRequests(Func<FileOpener> makeOpener, string openerName)
-		{
 			var path = Path.GetTempFileName();
 
 			var makers = new Func<Client>[] {
 #if MAC
-				() => { return new Client(new CFNetworkHandler(), "CFNetworkHandler"); },
-				() => { return new Client(new NSUrlSessionHandler(), "NSUrlSessionHandler"); },
+				() => { return new Client(MessageHandlerType.CFNetworkHandler); },
+				() => { return new Client(MessageHandlerType.NSUrlSessionHandler); },
 #endif
-				() => { return new Client(CreateMonoWebRequestHandler(), "MonoWebRequestHandler"); },
+				() => { return new Client(MessageHandlerType.SocketsHttpHandler); },
+				() => { return new Client(MessageHandlerType.MonoWebRequestHandler); },
 			};
 
-			var openers = new List<FileOpener>();
+			var files = new List<FileStream>();
 
-			Console.WriteLine($"Opening files with {openerName} ---------------");
+			Console.WriteLine($"Opening files ---------------");
 			while (true)
 			{
 				Console.WriteLine($"Opening {batchSize} files");
-				OpenFiles(openers, makeOpener, batchSize, path);
+				OpenFiles(files, batchSize, path);
 
-				Console.WriteLine($"{openers.Count} files. Testing connections...");
+				Console.WriteLine($"{files.Count} files. Testing connections...");
 				if (!await MakeRequests(makers))
 					break;
 			}
 
-			Console.WriteLine($"Closing {openers.Count} file(s)");
-			CloseFiles(openers);
+			Console.WriteLine($"Closing {files.Count} file(s)");
+			CloseFiles(files);
 
 			File.Delete(path);
 			GC.Collect();
+
+			Console.WriteLine("FileDesriptors Test End");
 		}
 
-		void CloseFiles(List<FileOpener> openers)
+		void CloseFiles(List<FileStream> files)
 		{
-			foreach (var opener in openers)
-				opener.Close();
-			openers.Clear();
+			foreach (var fle in files)
+				fle.Close();
+			files.Clear();
 		}
 
-		void OpenFiles(List<FileOpener> openers, Func<FileOpener> makeOpener, int count, string path)
+		void OpenFiles(List<FileStream> streams, int count, string path)
 		{
 			for (int i = 0; i < count; ++i)
-				if (makeOpener() is FileOpener opener)
-					if (opener.Open(path))
-						openers.Add(opener);
-					else
-						return;
+				try { streams.Add(new FileStream(path, FileMode.Open, FileAccess.Read));
+				} catch { return; }
 		}
 
 		async Task<bool> MakeRequests(Func<Client>[] makers)

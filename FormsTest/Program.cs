@@ -50,7 +50,7 @@ namespace FormsTest
 		[STAThread]
 		public static int Main(string[] args)
 		{
-			MaxOpenFiles(true);
+			MaxOpenFiles(false);
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
