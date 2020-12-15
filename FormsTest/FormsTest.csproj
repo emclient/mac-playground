@@ -252,7 +252,9 @@
     <None Include="Controls\ControlStatusBar.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App.ico" />
+    <Content Include="App.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="car.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
