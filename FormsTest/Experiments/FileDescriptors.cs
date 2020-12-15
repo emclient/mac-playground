@@ -151,18 +151,18 @@ namespace FormsTest.Experiments
 			Console.WriteLine("FileDesriptors Test Begin");
 
 			Client.PoolingEnabled = true;
-			Client.Imbue(20, MessageHandlerType.MonoWebRequestHandler);
-			Client.Imbue(20, MessageHandlerType.SocketsHttpHandler);
+			Client.Imbue(10, MessageHandlerType.MonoWebRequestHandler);
+			Client.Imbue(10, MessageHandlerType.SocketsHttpHandler);
 
 			var path = Path.GetTempFileName();
 
 			var makers = new Func<Client>[] {
 #if MAC
-				() => { return new Client(MessageHandlerType.CFNetworkHandler); },
-				() => { return new Client(MessageHandlerType.NSUrlSessionHandler); },
+				() => { return Client.Create(MessageHandlerType.CFNetworkHandler); },
+				() => { return Client.Create(MessageHandlerType.NSUrlSessionHandler); },
 #endif
-				() => { return new Client(MessageHandlerType.SocketsHttpHandler); },
-				() => { return new Client(MessageHandlerType.MonoWebRequestHandler); },
+				() => { return Client.Create(MessageHandlerType.SocketsHttpHandler); },
+				() => { return Client.Create(MessageHandlerType.MonoWebRequestHandler); },
 			};
 
 			var files = new List<FileStream>();
