@@ -31,5 +31,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>LSEnvironment</key>
+	<dict>
+		<key>MONO_ENABLE_AIO</key>
+		<string>1</string>
+	</dict>
 </dict>
 </plist>
