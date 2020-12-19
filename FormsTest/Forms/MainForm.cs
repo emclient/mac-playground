@@ -137,6 +137,7 @@ namespace FormsTest
 			AddButton("Date Time", () => { new DateTimeForm().Show(); });
 			AddButton("Texture Brush", () => { new TextureBrushForm().Show(); });
 			AddButton("File Descriptors", () => { (fd = new FileDescriptors()).RunTest(); });
+			AddButton("Catch When", () => { CatchWhen.RunTest(); });
 		}
 
 		FileDescriptors fd;
