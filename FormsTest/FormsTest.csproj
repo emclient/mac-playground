@@ -199,6 +199,9 @@
     <Compile Include="Experiments\FileDescriptors.cs">
       <SubType></SubType>
     </Compile>
+    <Compile Include="Experiments\CatchWhen.cs">
+      <SubType></SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <!--<EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">
