@@ -9,6 +9,7 @@
     <EnableDefaultItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultItems>
     <EnableDefaultCompileItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' != 'xamarinmac20'">false</EnableDefaultEmbeddedResourceItems>
+    <DisableExtraReferences>true</DisableExtraReferences>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Assembly\AssemblyInfo.cs" />
