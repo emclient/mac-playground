@@ -212,6 +212,12 @@
     <Compile Include="Forms\DateTimeForm.cs" />
     <Compile Include="Controls\TextureBrushControl.cs" />
     <Compile Include="Controls\TextureBrushControl2.cs" />
+    <Compile Include="Experiments\FileDescriptors.cs">
+      <SubType></SubType>
+    </Compile>
+    <Compile Include="Experiments\CatchWhen.cs">
+      <SubType></SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <!--<EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">
@@ -265,7 +271,9 @@
     <None Include="Controls\ControlStatusBar.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App.ico" />
+    <Content Include="App.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="car.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

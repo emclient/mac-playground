@@ -50,7 +50,7 @@ namespace FormsTest
 		[STAThread]
 		public static int Main(string[] args)
 		{
-			MaxOpenFiles();
+			MaxOpenFiles(false);
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
@@ -129,11 +129,14 @@ namespace FormsTest
 				LibC.exit(0);
 		}
 
-		static void MaxOpenFiles()
+		static void MaxOpenFiles(bool change)
 		{
 			var lim = new LibC.rlimit();
 			var ok = LibC.getrlimit((int)LibC.RLimit.NoFile, ref lim);
 			Console.WriteLine($"getrlimit({lim.cur}, {lim.max}) => {ok}");
+
+			if (!change)
+				return;
 
 			int n = 9000;
 			lim.cur = lim.max = (UInt64)n;
@@ -179,7 +182,7 @@ namespace FormsTest
 		{
 		}
 
-		static void MaxOpenFiles()
+		static void MaxOpenFiles(bool change)
 		{
 		}
 #endif
