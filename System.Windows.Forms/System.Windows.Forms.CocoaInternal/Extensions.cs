@@ -4,6 +4,13 @@ using MacApi;
 using System.Runtime.InteropServices.ComTypes;
 using System.Drawing.Mac;
 using System.Drawing;
+using System.Collections.Generic;
+using System.Windows.Forms.Extensions.IO;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Linq;
+using CoreFoundation;
 
 #if MONOMAC
 using MonoMac.ObjCRuntime;
@@ -503,6 +510,177 @@ namespace System.Windows.Forms.Mac
 		//NSSelectorFromString
 		//NSProtocolFromString
 
+		#region NSPasteboard Extensions
+
+		public static string[] GetFormats(this NSPasteboard pboard)
+		{
+			var types = new List<string>();
+			foreach (var type in pboard.Types)
+			{
+				switch (type)
+				{
+					case Pasteboard.NSPasteboardTypeText:
+						types.Add(DataFormats.Text);
+						types.Add(DataFormats.UnicodeText);
+						break;
+					case Pasteboard.NSPasteboardTypeURL:
+						if (Uri.TryCreate(pboard.GetStringForType(type), UriKind.Absolute, out Uri uri))
+							types.Add(Pasteboard.UniformResourceLocatorW);
+						break;
+					case Pasteboard.NSPasteboardTypeHTML:
+						types.Add(DataFormats.Html);
+						break;
+					case Pasteboard.NSPasteboardTypeRTF:
+						types.Add(DataFormats.Rtf);
+						break;
+					case Pasteboard.NSPasteboardTypeImage:
+					case Pasteboard.NSPasteboardTypePNG:
+					case Pasteboard.NSPasteboardTypeTIFF:
+					case Pasteboard.NSPasteboardTypeJPEG:
+						types.Add(DataFormats.Bitmap);
+						break;
+					case Pasteboard.NSPasteboardTypeFileURL:
+						types.Add(DataFormats.FileDrop);
+						break;
+					case Pasteboard.NSPasteboardTypeFileURLPromise:
+						types.Add("FilePromise");
+						break;
+				}
+			}
+
+			// Special rules that decrease chance for misinterpretation of data in SWF apps
+			if (types.Contains(DataFormats.FileDrop))
+				types.Remove(DataFormats.Bitmap);
+
+			return types.ToArray();
+		}
+
+		public static IDataObject GetDataObject(this NSPasteboard pboard)
+		{
+			return new DataObjectPasteboard(pboard);
+		}
+
+		public static object GetData(this NSPasteboard pboard, string format, bool autoConvert)
+		{
+			switch (format)
+			{
+				case DataFormats.Text:
+				case DataFormats.UnicodeText:
+					return pboard.GetStringForType(Pasteboard.NSPasteboardTypeText);
+				case DataFormats.Rtf:
+					return pboard.GetRtf();
+				case DataFormats.Html:
+					return pboard.GetHtml();
+				case DataFormats.HtmlStream:
+					return pboard.GetHtml()?.ToStream(Encoding.UTF8);
+				case Pasteboard.UniformResourceLocatorW:
+					return pboard.GetUri();
+				case DataFormats.Bitmap:
+					return pboard.GetBitmap();
+				case DataFormats.FileDrop:
+					return pboard.GetFileDrop();
+				case "FilePromise":
+					return pboard.GetFilePromise();
+			}
+
+			return null;
+		}
+
+		public static Uri GetUri(this NSPasteboard pboard)
+		{
+			if (Uri.TryCreate(pboard.GetStringForType(Pasteboard.NSPasteboardTypeText), UriKind.Absolute, out Uri uri))
+				return uri;
+
+			return null;
+		}
+
+		public static string GetRtf(this NSPasteboard pboard)
+		{
+			var data = pboard.GetDataForType(Pasteboard.NSPasteboardTypeRTF);
+			if (data != null)
+				return NSString.FromData(data, NSStringEncoding.ASCIIStringEncoding)?.ToString();
+
+			return null;
+		}
+
+		public static Image GetBitmap(this NSPasteboard pboard)
+		{
+			var nsimage = new NSImage(pboard);
+			var cgimage = nsimage?.CGImage;
+			if (cgimage == null)
+			{
+				var rect = new CGRect(0, 0, nsimage.Size.Width, nsimage.Size.Height);
+				cgimage = nsimage.AsCGImage(ref rect, null, null);
+			}
+
+			return cgimage?.ToBitmap();
+		}
+
+		public static string GetHtml(this NSPasteboard pboard)
+		{
+			string html = pboard.GetStringForType(Pasteboard.NSPasteboardTypeHTML);
+
+			if (html != null)
+				return HtmlClip.AddMetadata(html);
+
+			return null;
+		}
+
+		public static string[] GetFileDrop(this NSPasteboard pboard)
+		{
+			var paths = new List<string>();
+
+			foreach (var item in pboard.PasteboardItems)
+				if (item.GetStringForType(Pasteboard.NSPasteboardTypeFileURL) is string itemUrlString)
+					if (ResolveAlias(itemUrlString) is string itemUrlResolved)
+						paths.Add(itemUrlResolved);
+
+			return paths.ToArray();
+		}
+
+		public static FilePromise GetFilePromise(this NSPasteboard pboard)
+		{
+			var promises = pboard.ReadObjectsForClasses(new Class[] { typeof(NSFilePromiseReceiver).GetClass() }, null);
+			if (promises != null && promises.Length != 0)
+				return new FilePromise(promises);
+			return null;
+		}
+
+		public static string ResolveAlias(string url)
+		{
+			const string FilePrefix = "file://";
+			if (url.StartsWith(FilePrefix, StringComparison.InvariantCultureIgnoreCase))
+			{
+				// Convert Mac OS file reference URL (file:///.file/id=) to a file URL (necessary in Xamarin.Mac)
+				url = new NSUrl(url).FilePathUrl.AbsoluteString;
+
+				url = ResolveBookmark(url);
+				url = Net.WebUtility.UrlDecode(url);
+				url = url.Substring(FilePrefix.Length);
+				url = new NSString(url).ResolveSymlinksInPath().ToString();
+			}
+			return url;
+		}
+
+		internal static string ResolveBookmark(string url)
+		{
+			var nsurl = NSUrl.FromString(url);
+			if (nsurl != null)
+			{
+				var bookmark = NSUrl.GetBookmarkData(nsurl, out _);
+				if (bookmark != null)
+				{
+					bool bookmarkIsStale;
+					var resolved = new NSUrl(bookmark, NSUrlBookmarkResolutionOptions.WithoutUI, null, out bookmarkIsStale, out _);
+					if (resolved != null && !bookmarkIsStale && resolved.IsFileUrl)
+						return resolved.FilePathUrl.AbsoluteString;
+				}
+			}
+			return url;
+		}
+
+		#endregion
+
 #if MONOMAC
 
 		public static CGSize SizeThatFits(this NSControl self, CGSize proposedSize)
@@ -596,5 +774,35 @@ namespace System.Windows.Forms.Mac
 		public static uint SelectProc { get { return "selh".ToFourCC(); } }
 		public static uint AERecorderCount { get { return "recr".ToFourCC(); } }
 		public static uint AEVersion { get { return "vers".ToFourCC(); } }
+	}
+
+	public class FilePromise
+	{
+		protected static NSOperationQueue queue;
+		protected NSObject[] promises;
+
+		public FilePromise(NSObject[] promises)
+		{
+			this.promises = promises;
+		}
+
+		public virtual void Serialize(Action<string> callback)
+		{
+			foreach (NSFilePromiseReceiver promise in promises)
+				Serialize(promise, callback);
+		}
+
+		protected virtual void Serialize(NSFilePromiseReceiver promise, Action<string> callback)
+		{
+			if (queue == null) queue = new NSOperationQueue();
+
+			var tempPath = IO.Path.GetTempPath();
+			var tempPathUrl = NSUrl.FromFilename(tempPath);
+
+			promise.ReceivePromisedFiles(tempPathUrl, new NSDictionary(), queue, (destUrl, error) => {
+				if (error == null && callback != null)
+					NSApplication.SharedApplication.BeginInvokeOnMainThread(() => callback(destUrl.Path));
+			});
+		}
 	}
 }
