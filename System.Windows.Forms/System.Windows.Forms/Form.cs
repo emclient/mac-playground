@@ -674,8 +674,10 @@ namespace System.Windows.Forms {
 							typeof (DialogResult));
 
 				dialog_result = value;
-				if (dialog_result != DialogResult.None && is_modal)
+				if (dialog_result != DialogResult.None && is_modal) {
 					RaiseCloseEvents (false, false); // .Net doesn't send WM_CLOSE here.
+					XplatUI.PostMessage(IntPtr.Zero, Msg.WM_NULL, IntPtr.Zero, IntPtr.Zero); // Allows exiting the modal run loop
+				}
 			}
 		}
 
