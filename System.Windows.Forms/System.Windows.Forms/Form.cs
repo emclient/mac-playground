@@ -38,11 +38,13 @@ using System.Diagnostics;
 
 #if XAMARINMAC
 using Foundation;
+using System.Windows.Forms.Mac;
 #elif MONOMAC
 using MonoMac.Foundation;
 using AppKit = MonoMac.AppKit;
 using CoreGraphics = MonoMac.CoreGraphics;
 using ObjCRuntime = MonoMac.ObjCRuntime;
+using System.Windows.Forms.Mac;
 #endif
 
 namespace System.Windows.Forms {
@@ -358,10 +360,10 @@ namespace System.Windows.Forms {
 		#region Public Constructor & Destructor
 		public Form ()
 		{
-            AppKit.NSApplication.EnsureUIThread();
-
-//            if (!NSThread.IsMain)
-//                Console.Error.WriteLine("Not in main thread");
+#if __MACOS__
+			AppKit.NSApplication.EnsureUIThread();
+			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+#endif
 
             SizeF current_scale = GetAutoScaleSize (Font);
 
@@ -583,6 +585,7 @@ namespace System.Windows.Forms {
 			}
 			set {
 				base.BackColor = value;
+				UpdateTransparency();
 			}
 		}
 
@@ -1883,7 +1886,8 @@ namespace System.Windows.Forms {
 			if (!IsHandleCreated) {
 				return;
 			}
-			
+
+			UpdateTransparency();
 			UpdateBounds();
 
 			if ((XplatUI.SupportsTransparency() & TransparencySupport.Set) != 0) {
@@ -1948,6 +1952,14 @@ namespace System.Windows.Forms {
 				XplatUI.RequestNCRecalc (window.Handle);
 			}
 
+		}
+
+		private void UpdateTransparency() {
+#if __MACOS__
+			if (IsHandleCreated)
+				if (Handle.AsMonoView()?.Window is AppKit.NSWindow window)
+					window.IsOpaque = BackColor.A == 255;
+#endif
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
