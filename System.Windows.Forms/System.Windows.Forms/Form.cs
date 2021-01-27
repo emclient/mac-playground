@@ -1712,6 +1712,7 @@ namespace System.Windows.Forms {
 				CreateControl();
 			}
 #endif
+			DialogResult = DialogResult.None;
 
 			Debug.WriteLine("ShowDialog");
 
