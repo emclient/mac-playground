@@ -35,6 +35,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing.Mac;
 
 #if XAMARINMAC
 using Foundation;
@@ -1957,8 +1958,13 @@ namespace System.Windows.Forms {
 		private void UpdateTransparency() {
 #if __MACOS__
 			if (IsHandleCreated)
+			{
 				if (Handle.AsMonoView()?.Window is AppKit.NSWindow window)
+				{
 					window.IsOpaque = BackColor.A == 255;
+					window.BackgroundColor = BackColor.ToNSColor();
+				}
+			}
 #endif
 		}
 
