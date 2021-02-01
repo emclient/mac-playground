@@ -111,6 +111,9 @@ namespace System.Windows.Forms
 
 		protected override void OnLayout (LayoutEventArgs e)
 		{
+			if (native_rendering)
+				return;
+		
 			// Find the widest menu item
 			int widest = 0;
 
