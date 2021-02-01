@@ -82,6 +82,12 @@ namespace System.Windows.Forms
 
 		const int InitialToolTipDelay = 500;
 		const int ToolTipDelay = 5000;
+
+#if MAC
+		internal bool native_rendering = true;
+#else
+		internal bool native_rendering = false;
+#endif
 		#endregion
 
 		#region Public Constructors
@@ -839,6 +845,9 @@ namespace System.Windows.Forms
 
 		protected override void OnLayout (LayoutEventArgs e)
 		{
+			if (native_rendering)
+				return;
+
 			base.OnLayout (e);
 
 			this.SetDisplayedItems ();
