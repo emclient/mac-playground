@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 #if XAMARINMAC
 using Foundation;
 using AppKit;
@@ -32,6 +33,7 @@ namespace System.Windows.Forms.CocoaInternal
 #endif
 
 		internal NSAttributedString markedText = new NSMutableAttributedString();
+		internal string insertText = String.Empty;
 
 		public MonoEditView(IntPtr instance) : base(instance)
 		{
@@ -47,25 +49,43 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			// Until this returns false, interpretKeyEvents continues to call insertText !
 			[Export("hasMarkedText")]
-			get { return markedText.Length != 0; }
+			get
+			{
+				var result = markedText.Length != 0;
+				//Debug.WriteLine($"hasMarkedText -> {result}");
+				return result;
+			}
 		}
 
 		public virtual NSRange MarkedRange
 		{
 			[Export("markedRange")]
-			get { return (markedText.Length > 0) ? new NSRange(0, markedText.Length) : new NSRange(); }
+			get
+			{
+				GetSelection(out var start, out var _);
+				start = Math.Max(0, start - (int)markedText.Length);
+				var result = new NSRange(start, markedText.Length);
+				//Debug.WriteLine($"markedRange -> {result}");
+				return result;
+			}
 		}
 
 		public virtual NSRange SelectedRange
 		{
 			[Export("selectedRange")]
-			get { return MarkedRange; }// new NSRange(); }
+			get
+			{
+				GetSelection(out var start, out var end);
+				var result = new NSRange(start, Math.Max(0, end - start));
+				//Debug.WriteLine($"selectedRange -> {result}");
+				return result;
+			}
 		}
 
 		public virtual NSString[] ValidAttributesForMarkedText
 		{
 			[Export("validAttributesForMarkedText")]
-			get { return new NSString[] { }; }
+			get { return validAttributesForMarkedText; }
 		}
 
 		public virtual NSWindowLevel WindowLevel
@@ -77,13 +97,29 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("attributedSubstringForProposedRange:actualRange:")]
 		public virtual NSAttributedString GetAttributedSubstring(NSRange proposedRange, out NSRange actualRange)
 		{
-			actualRange = new NSRange(0, (nint)Math.Min(markedText.Length, proposedRange.Length));
-			return markedText.Substring(0, actualRange.Length);
+			var text = GetText();
+
+			NSAttributedString result;
+			if (proposedRange.Location >= text.Length)
+			{
+				actualRange = new NSRange(text.Length, 0);
+				result = null;
+			}
+			else
+			{
+				var to = Math.Min(proposedRange.Location + proposedRange.Length, text.Length);
+				actualRange = new NSRange(proposedRange.Location, (nint)to - proposedRange.Location);
+				result = new NSAttributedString(text.Substring((int)actualRange.Location, (int)actualRange.Length));
+			}
+
+			//Debug.WriteLine($"attributedSubstringForProposedRange:{proposedRange}, actualRange:{actualRange} -> '{result}'");
+			return result;
 		}
 
 		[Export("characterIndexForPoint:")]
 		public virtual nuint GetCharacterIndex(CGPoint point)
 		{
+			//Debug.WriteLine($"characterIndexForPoint:{point}");
 			return 0;
 		}
 
@@ -117,12 +153,16 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("insertText:replacementRange:")]
 		public virtual void InsertText(NSObject text, NSRange replacementRange)
 		{
+			//Debug.WriteLine($"insertText:{text}, replacementRange:{replacementRange}");
+
 			if (markedText.Length != 0)
 			{
 				// Commit IME session
-				var lParam = new IntPtr((int)(GCS.GCS_RESULTSTR | GCS.GCS_COMPATTR | GCS.GCS_COMPCLAUSE | GCS.GCS_CURSORPOS));
-				Application.SendMessage(Handle, Msg.WM_IME_ENDCOMPOSITION, IntPtr.Zero, lParam);
+				insertText = text.ToString();
 				markedText = new NSAttributedString();
+				var lParam = new IntPtr((int)(GCS.GCS_RESULTSTR | GCS.GCS_COMPATTR | GCS.GCS_COMPCLAUSE | GCS.GCS_CURSORPOS));
+				Application.SendMessage(Handle, Msg.WM_IME_COMPOSITION, IntPtr.Zero, lParam);
+				Application.SendMessage(Handle, Msg.WM_IME_ENDCOMPOSITION, IntPtr.Zero, lParam);
 			}
 			else
 			{
@@ -133,20 +173,16 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("setMarkedText:selectedRange:replacementRange:")]
 		public virtual void SetMarkedText(NSObject text, NSRange selectedRange, NSRange replacementRange)
 		{
-			var value = text is NSAttributedString ? (NSAttributedString)text : new NSAttributedString(text.ToString());
+			//Debug.WriteLine($"setMarkedText:{text}, selectedRange:{selectedRange}, replacementRange:{replacementRange}");
 
-			// Cancel IME session
-			if (value.Length == 0)
-			{
-				Application.SendMessage(Handle, Msg.WM_IME_COMPOSITION, IntPtr.Zero, IntPtr.Zero); // Clears the text
-				Application.SendMessage(Handle, Msg.WM_IME_ENDCOMPOSITION, IntPtr.Zero, IntPtr.Zero);
-				markedText = new NSAttributedString();
-				return;
-			}
+			var value = text is NSAttributedString str ? str : new NSAttributedString(text.ToString());
 
-			// Srart session
+			// Start session
 			if (markedText.Length == 0 && value.Length != 0)
+			{
 				Application.SendMessage(Handle, Msg.WM_IME_STARTCOMPOSITION, IntPtr.Zero, IntPtr.Zero);
+				insertText = string.Empty;
+			}
 
 			markedText = value;
 
@@ -162,6 +198,37 @@ namespace System.Windows.Forms.CocoaInternal
 			markedText = new NSMutableAttributedString();
 		}
 
+		static readonly NSString[] validAttributesForMarkedText = new NSString[] {
+			(NSString)"NSFont",
+			(NSString)"NSUnderline",
+			(NSString)"NSColor",
+			(NSString)"NSBackgroundColor",
+			(NSString)"NSUnderlineColor",
+		};
+
 		#endregion INSTextInputView
+
+		public virtual string GetText()
+		{
+			var length = (int)Application.SendMessage(Handle, Msg.WM_GETTEXTLENGTH, IntPtr.Zero, IntPtr.Zero);
+			var buffer = new char[length];
+			var bufferHandle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+			Application.SendMessage(Handle, Msg.WM_GETTEXT, (IntPtr)length, GCHandle.ToIntPtr(bufferHandle));
+			var result = new String(buffer);
+			bufferHandle.Free();
+			return result;
+		}
+
+		public virtual void GetSelection(out int from, out int to)
+		{
+			int[] start = new int[] { 0 }, end = new int[] { 0 };
+			var hStart = GCHandle.Alloc(start, GCHandleType.Pinned);
+			var hEnd = GCHandle.Alloc(start, GCHandleType.Pinned);
+			Application.SendMessage(Handle, Msg.EM_GETSEL, GCHandle.ToIntPtr(hStart), GCHandle.ToIntPtr(hEnd));
+			hStart.Free();
+			hEnd.Free();
+			from = start[0];
+			to = end[0];
+		}
 	}
 }
