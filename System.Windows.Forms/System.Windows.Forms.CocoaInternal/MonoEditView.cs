@@ -223,7 +223,7 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			int[] start = new int[] { 0 }, end = new int[] { 0 };
 			var hStart = GCHandle.Alloc(start, GCHandleType.Pinned);
-			var hEnd = GCHandle.Alloc(start, GCHandleType.Pinned);
+			var hEnd = GCHandle.Alloc(end, GCHandleType.Pinned);
 			Application.SendMessage(Handle, Msg.EM_GETSEL, GCHandle.ToIntPtr(hStart), GCHandle.ToIntPtr(hEnd));
 			hStart.Free();
 			hEnd.Free();
