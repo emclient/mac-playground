@@ -877,13 +877,13 @@ namespace System.Windows.Forms
 
 		public void Invalidate ()
 		{
-			if (parent != null)
+			if (parent != null && (owner == null || !owner.native_rendering))
 				parent.Invalidate (this.bounds);
 		}
 
 		public void Invalidate (Rectangle r)
 		{
-			if (parent != null)
+			if (parent != null && (owner == null || !owner.native_rendering))
 				parent.Invalidate (r);
 		}
 
@@ -1547,6 +1547,9 @@ namespace System.Windows.Forms
 
 		internal void CalculateAutoSize ()
 		{
+			if (owner != null && owner.native_rendering)
+				return;
+
 			this.text_size = TextRenderer.MeasureText (this.Text == null ? string.Empty: this.text, this.Font, Size.Empty, TextFormatFlags.HidePrefix);
 
 			// If our text is rotated, flip the width and height
@@ -1570,6 +1573,9 @@ namespace System.Windows.Forms
 
 		internal virtual Size CalculatePreferredSize (Size constrainingSize)
 		{
+			if (owner != null && owner.native_rendering)
+				return this.explicit_size;
+
 			if (!this.auto_size)
 				return this.explicit_size;
 				

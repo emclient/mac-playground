@@ -248,7 +248,7 @@ namespace System.Drawing {
 					b [i] = 0;
 			}
 			dataProvider = new CGDataProvider (bitmapBlock, size, true);
-			NativeCGImage = new CGImage (width, height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpace, bitmapInfo, dataProvider, null, false, CGColorRenderingIntent.Default);
+			NativeCGImage = NewCGImage (width, height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpace, bitmapInfo, dataProvider, null, false, CGColorRenderingIntent.Default);
 
 			dpiWidth = dpiHeight = ConversionHelpers.MS_DPI;
 			physicalDimension.Width = width;
@@ -562,13 +562,34 @@ namespace System.Drawing {
 
 			this.bitmapBlock = bitmapBlock;
 			this.dataProvider = new CGDataProvider (bitmapBlock, size, true);
-			NativeCGImage = new CGImage (width, height, bitsPerComponent, 
+			NativeCGImage = NewCGImage (width, height, bitsPerComponent, 
 										 bitsPerPixel, bytesPerRow, 
 										 colorSpace,
 										 bitmapInfo, dataProvider, null, true, image.RenderingIntent);
 
 			colorSpace.Dispose();
 			cachedContext = bitmap;
+		}
+
+		CGImage NewCGImage(int width, int height, int bitsPerComponent, int bitsPerPixel, int bytesPerRow, CGColorSpace colorSpace, CGBitmapFlags bitmapFlags, CGDataProvider provider, nfloat[] decode, bool shouldInterpolate, CGColorRenderingIntent intent)
+		{
+			var image = new CGImage(width, height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpace, bitmapFlags, dataProvider, decode, shouldInterpolate, intent);
+			if (image == null)
+			{
+				var e = new ArgumentException("Failed to create CGImage");
+				e.Data["width"] = width;
+				e.Data["height"] = height;
+				e.Data["bitsPerComponent"] = bitsPerComponent;
+				e.Data["bitsPerPixel"] = bitsPerPixel;
+				e.Data["bytesPerRow"] = bytesPerRow;
+				e.Data["colorSpace"] = colorSpace;
+				e.Data["bitmapFlags"] = bitmapFlags;
+				e.Data["dataProvider"] = dataProvider;
+				e.Data["decode"] = decode;
+				e.Data["shouldInterpolate"] = shouldInterpolate;
+				e.Data["intent"] = intent;
+			}
+			return image;
 		}
 
 		internal CGBitmapContext GetRenderableContext()
