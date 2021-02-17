@@ -1200,9 +1200,6 @@
     <ApiCompatExcludeAttributeList Condition="'$(TargetFramework)' == 'xamarinmac20'">$(ApiCompatExcludeAttributeList),ApiCompatExcludeAttributes.Mobile.txt</ApiCompatExcludeAttributeList>
     <ContractDependencyPaths>$(PkgMicrosoft_NETCore_App_Ref)\ref\net5.0</ContractDependencyPaths>
   </PropertyGroup>
-  <ItemGroup>
-    <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\net5.0\System.Windows.Forms.dll" />
-  </ItemGroup>
   <ItemGroup Condition="'$(SkipMacProjects)' != 'true'">
     <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="6.0.0-beta.20569.4" PrivateAssets="All" />
   </ItemGroup>
