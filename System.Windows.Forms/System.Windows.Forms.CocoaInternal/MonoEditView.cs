@@ -124,7 +124,7 @@ namespace System.Windows.Forms.CocoaInternal
 		}
 
 		[Export("firstRectForCharacterRange:actualRange:")]
-		public virtual CGRect GetFirstRect(NSRange characterRange, out NSRange actualRange)
+		unsafe public virtual CGRect GetFirstRect(NSRange characterRange, out NSRange actualRange)
 		{
 			actualRange = new NSRange();
 
@@ -134,16 +134,14 @@ namespace System.Windows.Forms.CocoaInternal
 
 			// EMC textboxes - teporary solution
 			var r = new Rectangle[1] { new Rectangle() };
-			var handle = GCHandle.Alloc(r, GCHandleType.Pinned);
-			if (handle.IsAllocated)
+			fixed (void* ptr = &r[0])
 			{
-				var result = driver.SendMessage(Handle, Msg.WM_IME_GETCURRENTPOSITION, IntPtr.Zero, GCHandle.ToIntPtr(handle));
+				var result = driver.SendMessage(Handle, Msg.WM_IME_GETCURRENTPOSITION, IntPtr.Zero, new IntPtr(ptr));
 				if (result == (IntPtr)1)
 				{
 					var rect = new CGRect(Bounds.Left + r[0].X, Bounds.Top + r[0].Y, r[0].Width, r[0].Height);
 					return Window.ConvertRectToScreen(ConvertRectToView(rect, null));
 				}
-				handle.Free();
 			}
 
 			// fallback
@@ -208,27 +206,24 @@ namespace System.Windows.Forms.CocoaInternal
 
 		#endregion INSTextInputView
 
-		public virtual string GetText()
+		unsafe public virtual string GetText()
 		{
-			var length = (int)Application.SendMessage(Handle, Msg.WM_GETTEXTLENGTH, IntPtr.Zero, IntPtr.Zero);
-			var buffer = new char[length];
-			var bufferHandle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
-			Application.SendMessage(Handle, Msg.WM_GETTEXT, (IntPtr)length, GCHandle.ToIntPtr(bufferHandle));
-			var result = new String(buffer);
-			bufferHandle.Free();
-			return result;
+			var length = Math.Max(0, (int)Application.SendMessage(Handle, Msg.WM_GETTEXTLENGTH, IntPtr.Zero, IntPtr.Zero));
+			var buffer = new char[length + 1];
+			fixed (char* ptr = &buffer[0])
+			{
+				int n = (int)Application.SendMessage(Handle, Msg.WM_GETTEXT, (IntPtr)buffer.Length, new IntPtr(ptr));
+				return new string(buffer, 0, Math.Min(n, length));
+			}
 		}
 
-		public virtual void GetSelection(out int from, out int to)
+		unsafe public virtual void GetSelection(out int from, out int to)
 		{
-			int[] start = new int[] { 0 }, end = new int[] { 0 };
-			var hStart = GCHandle.Alloc(start, GCHandleType.Pinned);
-			var hEnd = GCHandle.Alloc(end, GCHandleType.Pinned);
-			Application.SendMessage(Handle, Msg.EM_GETSEL, GCHandle.ToIntPtr(hStart), GCHandle.ToIntPtr(hEnd));
-			hStart.Free();
-			hEnd.Free();
-			from = start[0];
-			to = end[0];
+			var range = new int[] { 0, 0 };
+			fixed (int* start = &range[0], end = &range[1])
+				Application.SendMessage(Handle, Msg.EM_GETSEL, new IntPtr(start), new IntPtr(end));
+			from = range[0];
+			to = range[1];
 		}
 	}
 }
