@@ -35,14 +35,17 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing.Mac;
 
 #if XAMARINMAC
 using Foundation;
+using System.Windows.Forms.Mac;
 #elif MONOMAC
 using MonoMac.Foundation;
 using AppKit = MonoMac.AppKit;
 using CoreGraphics = MonoMac.CoreGraphics;
 using ObjCRuntime = MonoMac.ObjCRuntime;
+using System.Windows.Forms.Mac;
 #endif
 
 namespace System.Windows.Forms {
@@ -360,10 +363,8 @@ namespace System.Windows.Forms {
 		{
 #if XAMARINMAC
             AppKit.NSApplication.EnsureUIThread();
+			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 #endif
-
-//            if (!NSThread.IsMain)
-//                Console.Error.WriteLine("Not in main thread");
 
             SizeF current_scale = GetAutoScaleSize (Font);
 
@@ -585,6 +586,7 @@ namespace System.Windows.Forms {
 			}
 			set {
 				base.BackColor = value;
+				UpdateTransparency();
 			}
 		}
 
@@ -676,8 +678,10 @@ namespace System.Windows.Forms {
 							typeof (DialogResult));
 
 				dialog_result = value;
-				if (dialog_result != DialogResult.None && is_modal)
+				if (dialog_result != DialogResult.None && is_modal) {
 					RaiseCloseEvents (false, false); // .Net doesn't send WM_CLOSE here.
+					XplatUI.PostMessage(IntPtr.Zero, Msg.WM_NULL, IntPtr.Zero, IntPtr.Zero); // Allows exiting the modal run loop
+				}
 			}
 		}
 
@@ -1708,6 +1712,7 @@ namespace System.Windows.Forms {
 				CreateControl();
 			}
 #endif
+			DialogResult = DialogResult.None;
 
 			Debug.WriteLine("ShowDialog");
 
@@ -1883,7 +1888,8 @@ namespace System.Windows.Forms {
 			if (!IsHandleCreated) {
 				return;
 			}
-			
+
+			UpdateTransparency();
 			UpdateBounds();
 
 			if ((XplatUI.SupportsTransparency() & TransparencySupport.Set) != 0) {
@@ -1948,6 +1954,19 @@ namespace System.Windows.Forms {
 				XplatUI.RequestNCRecalc (window.Handle);
 			}
 
+		}
+
+		private void UpdateTransparency() {
+#if __MACOS__
+			if (IsHandleCreated)
+			{
+				if (Handle.AsMonoView()?.Window is AppKit.NSWindow window)
+				{
+					window.IsOpaque = BackColor.A == 255;
+					window.BackgroundColor = BackColor.ToNSColor();
+				}
+			}
+#endif
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]

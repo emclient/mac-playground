@@ -42,20 +42,21 @@ namespace WinApi
 			// if lpBuf is null or dwBufLen is 0, only size is returned, but no data gets copied.
 			if (ObjCRuntime.Runtime.GetNSObject(hIMC) is MonoEditView view)
 			{
-				if (view.markedText.Length == 0)
-					return 0;
-
 				if (dwIndex == Win32.GCS_RESULTSTR || dwIndex == Win32.GCS_COMPSTR)
 				{
-					if (lpBuf == null || dwBufLen == 0)
-						return 2 * (int)view.markedText.Length;
+					var str = dwIndex == Win32.GCS_RESULTSTR ? view.insertText : view.markedText.Value;
 
-					var str = view.markedText.Value;
+					if (lpBuf == null || dwBufLen == 0)
+						return 2 * str.Length;
+
 					var bytes = Encoding.Unicode.GetBytes(str);
 					var count = Math.Min(bytes.Length, Math.Min(lpBuf.Length, dwBufLen));
 					Array.Copy(bytes, lpBuf, count);
 					return count;
 				}
+
+				if (view.markedText.Length == 0)
+					return 0;
 
 				if (dwIndex == Win32.GCS_COMPCLAUSE)
 				{
