@@ -5252,23 +5252,12 @@ namespace System.Windows.Forms
 
 		public  override void CPDrawStringDisabled (Graphics dc, string s, Font font, Color color, RectangleF layoutRectangle, StringFormat format)
 		{
-			CPColor cpcolor = ResPool.GetCPColor (color);
-			
-			dc.DrawString (s, font, ResPool.GetSolidBrush(cpcolor.LightLight), 
-				       new RectangleF(layoutRectangle.X + 1, layoutRectangle.Y + 1, layoutRectangle.Width, layoutRectangle.Height),
-				       format);
-			dc.DrawString (s, font, ResPool.GetSolidBrush (cpcolor.Dark), layoutRectangle, format);
+			dc.DrawString(s, font, ResPool.GetSolidBrush(SystemColors.GrayText), layoutRectangle, format);
 		}
 
 		public override void CPDrawStringDisabled (IDeviceContext dc, string s, Font font, Color color, Rectangle layoutRectangle, TextFormatFlags format)
 		{
-			CPColor cpcolor = ResPool.GetCPColor (color);
-
-			layoutRectangle.Offset (1, 1);
-			TextRenderer.DrawText (dc, s, font, layoutRectangle, cpcolor.LightLight, format);
-
-			layoutRectangle.Offset (-1, -1);
-			TextRenderer.DrawText (dc, s, font, layoutRectangle, cpcolor.Dark, format);
+			TextRenderer.DrawText (dc, s, font, layoutRectangle, SystemColors.GrayText, format);
 		}
 
 		public override void CPDrawVisualStyleBorder (Graphics graphics, Rectangle bounds)
