@@ -952,7 +952,7 @@ namespace System.Windows.Forms
 				return IntPtr.Zero;
 			}
 
-			switch ((Msg)msg.message)
+			switch (msg.message)
 			{
 				case Msg.WM_KEYDOWN:
 				case Msg.WM_SYSKEYDOWN:
@@ -980,15 +980,8 @@ namespace System.Windows.Forms
 						}
 
 						m.HWnd = keyboard_capture.Handle;
-						c = keyboard_capture;
 					}
-
-					if (((c != null) && c.PreProcessControlMessageInternal(ref m) != PreProcessControlState.MessageProcessed) ||
-						(c == null))
-					{
-						goto default;
-					}
-					return new IntPtr(1); // Drop
+					goto default;
 
 				case Msg.WM_LBUTTONDOWN:
 				case Msg.WM_MBUTTONDOWN:
@@ -1015,9 +1008,7 @@ namespace System.Windows.Forms
 						// Close any active toolstrips drop-downs if we click outside of them,
 						// but also don't close them all if we click outside of the top-most
 						// one, but into its owner.
-						Point c2_point = c2.PointToScreen (new Point (
-							(int)(short)(m.LParam.ToInt32() & 0xffff),
-							(int)(short)(m.LParam.ToInt32() >> 16)));
+						Point c2_point = c2.PointToScreen (new Point ((short)(m.LParam.ToInt32() & 0xffff), (short)(m.LParam.ToInt32() >> 16)));
 						while (keyboard_capture != null && !keyboard_capture.ClientRectangle.Contains (keyboard_capture.PointToClient (c2_point))) {
 							keyboard_capture.Dismiss ();
 						}
@@ -1037,11 +1028,32 @@ namespace System.Windows.Forms
 					quit = true; // make sure we exit
 					break;
 				default:
+					if (PreTranslateMessage(ref msg))
+						return (IntPtr)1;
+
 					XplatUI.TranslateMessage(ref msg);
 					return XplatUI.DispatchMessage(ref msg);
 			}
 
 			return IntPtr.Zero;
+		}
+
+		private static bool PreTranslateMessage(ref MSG msg)
+		{
+			Control target = Control.FromChildHandle(msg.hwnd);
+			if (target != null)
+			{
+				try
+				{
+					Message m = Message.Create(msg.hwnd, (int)msg.message, msg.wParam, msg.lParam);
+					return target.PreProcessControlMessageInternal(ref m) == PreProcessControlState.MessageProcessed;
+				}
+				catch (Exception e)
+				{
+					OnThreadException(e);
+				}
+			}
+			return false;
 		}
 
 		#endregion	// Public Static Methods
