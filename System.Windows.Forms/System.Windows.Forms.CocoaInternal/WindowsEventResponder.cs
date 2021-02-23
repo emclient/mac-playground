@@ -185,10 +185,10 @@ namespace System.Windows.Forms.CocoaInternal
 			msg.wParam = (IntPtr)(e.ModifiersToWParam() | e.ButtonNumberToWParam());
 
 			if (e.ClickCount > 1 && (e.ClickCount & 1) == 0 && prevMouseDown?.Type == e.Type)
-				msg.message = (client ? Msg.WM_LBUTTONDBLCLK : Msg.WM_NCLBUTTONDBLCLK) + MsgOffset4Button(e);
+				msg.message = (client ? Msg.WM_LBUTTONDBLCLK : Msg.WM_NCLBUTTONDBLCLK).AdjustForButton(e);
 			else
 			{
-				msg.message = (client ? Msg.WM_LBUTTONDOWN : Msg.WM_NCLBUTTONDOWN) + MsgOffset4Button(e);
+				msg.message = (client ? Msg.WM_LBUTTONDOWN : Msg.WM_NCLBUTTONDOWN).AdjustForButton(e);
 				LastMouseDownMsg = msg;
 			}
 
@@ -214,7 +214,7 @@ namespace System.Windows.Forms.CocoaInternal
 		internal void TranslateMouseUp(NSEvent e)
 		{
 			var msg = TranslateMouseCore(e, out bool client, MouseTarget());
-			msg.message = (client ? Msg.WM_LBUTTONUP : Msg.WM_NCLBUTTONUP) + MsgOffset4Button(e);
+			msg.message = (client ? Msg.WM_LBUTTONUP : Msg.WM_NCLBUTTONUP).AdjustForButton(e);
 			msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | e.ButtonNumberToWParam());
 			LastMouseDownMsg.hwnd = IntPtr.Zero;
 			Application.SendMessage(ref msg);
@@ -222,7 +222,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		internal NSView MouseTarget()
 		{
-			if (driver.Grab.Hwnd.ToNSObject() is NSView grab)
+			if (ObjCRuntime.Runtime.TryGetNSObject(driver.Grab.Hwnd) is NSView grab)
 				return grab;
 			if (ObjCRuntime.Runtime.TryGetNSObject(driver.LastEnteredHwnd) is NSView hover)
 				return hover;
@@ -324,17 +324,6 @@ namespace System.Windows.Forms.CocoaInternal
 					: driver.NativeToMonoScreen(window.ConvertPointToScreenSafe(locationInWindow)).ToPOINT(),
 				refobject = target
 			};
-		}
-
-		internal int MsgOffset4Button(NSEvent e)
-		{
-			int button = (int)e.ButtonNumber;
-			if (button >= (int)NSMouseButtons.Excessive)
-				button = (int)NSMouseButtons.X;
-			int msgOffset4Button = 3 * (button - (int)NSMouseButtons.Left);
-			if (button >= (int)NSMouseButtons.X)
-				++msgOffset4Button;
-			return msgOffset4Button;
 		}
 
 		internal int ScaleAndQuantizeDelta(float delta, bool precise)

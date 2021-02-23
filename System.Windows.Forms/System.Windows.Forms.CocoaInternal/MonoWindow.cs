@@ -37,6 +37,7 @@ namespace System.Windows.Forms.CocoaInternal
 	{
 		XplatUICocoa driver;
 		IntPtr prevFocus;
+		bool dragging;
 		bool disposed;
 		bool key;
 
@@ -160,6 +161,14 @@ namespace System.Windows.Forms.CocoaInternal
 					if (!PreprocessMouseDown(theEvent))
 						return;
 					break;
+				case NSEventType.LeftMouseDragged:
+					if (!PreProcessMouseDragged(theEvent))
+						return;
+					break;
+				case NSEventType.LeftMouseUp:
+					if (!PreProcessMouseUp(theEvent))
+						return;
+					break;
 				case NSEventType.KeyUp:
 				case NSEventType.KeyDown:
 					// Emulation of ToolStrip's modal filter
@@ -216,16 +225,42 @@ namespace System.Windows.Forms.CocoaInternal
 					ToolStripManager.FireAppClicked();
 			}
 
+			if (!hitTestCalled)
+				hitTestView = (ContentView.Superview ?? ContentView).HitTest(e.LocationInWindow);
+			var hitTestHandle = hitTestView?.Handle ?? IntPtr.Zero;
+			var hitTestControlHandle = Control.FromChildHandle(hitTestHandle)?.Handle ?? IntPtr.Zero;
+
 			if (e.Type == NSEventType.LeftMouseDown)
 			{
 				var topLevelParent = IntPtr.Zero; // FIXME
-				if (!hitTestCalled)
-					hitTestView = (ContentView.Superview ?? ContentView).HitTest(e.LocationInWindow);
-				var hitTestHandle = hitTestView?.Handle ?? IntPtr.Zero;
-				mouseActivate = (MouseActivate)driver.SendMessage(ContentView.Handle, Msg.WM_MOUSEACTIVATE, topLevelParent, hitTestHandle).ToInt32();
+				mouseActivate = (MouseActivate)driver.SendMessage(ContentView.Handle, Msg.WM_MOUSEACTIVATE, topLevelParent, hitTestControlHandle).ToInt32();
 				if (mouseActivate == MouseActivate.MA_NOACTIVATEANDEAT)// || mouseActivate == MouseActivate.MA_ACTIVATEANDEAT)
 					return false;
 			}
+
+			if (hitTestControlHandle == IntPtr.Zero)
+				OnMouseDown(e);
+
+			return true;
+		}
+
+		protected bool PreProcessMouseDragged(NSEvent e)
+		{
+			if (!dragging)
+			{
+				dragging = true;
+				OnBeginDragging(e);
+			}
+
+			OnDragging(e);
+
+			return true;
+		}
+
+		protected bool PreProcessMouseUp(NSEvent e)
+		{
+			if (dragging)
+				OnEndDragging(e);
 
 			return true;
 		}
@@ -306,23 +341,17 @@ namespace System.Windows.Forms.CocoaInternal
 			return false;
 		}
 
-		internal virtual NSSize WindowWillResize(NSWindow sender, NSSize toFrameSize)
+		internal virtual unsafe NSSize WindowWillResize(NSWindow sender, NSSize size)
 		{
-			var rect = new XplatUIWin32.RECT(0, 0, (int)toFrameSize.Width, (int)toFrameSize.Height);
-			IntPtr lpRect = Marshal.AllocHGlobal(Marshal.SizeOf(rect));
-			Marshal.StructureToPtr(rect, lpRect, false);
+			var rect = new XplatUIWin32.RECT[] { new XplatUIWin32.RECT(0, 0, (int)size.Width, (int)size.Height) };
 
 			//FIXME - deduce WMSZ
-			IntPtr wParam = new IntPtr(8); //WMSZ_BOTTOMRIGHT;
+			var wParam = new IntPtr(8); //WMSZ_BOTTOMRIGHT;
 
-			NativeWindow.WndProc(ContentView.Handle, Msg.WM_SIZING, wParam, lpRect);
-			var rect2 = (Rectangle)Marshal.PtrToStructure(lpRect, typeof(Rectangle));
-			toFrameSize.Width = rect2.Width;
-			toFrameSize.Height = rect2.Height;
+			fixed (void* ptr = &rect[0])
+				Application.SendMessage(ContentView.Handle, Msg.WM_SIZING, wParam, new IntPtr(ptr));
 
-			Marshal.FreeHGlobal(lpRect);
-
-			return toFrameSize;
+			return new NSSize(rect[0].Width, rect[0].Height);
 		}
 
 		internal virtual void WindowWillStartLiveResize(object sender, EventArgs e)
@@ -338,6 +367,34 @@ namespace System.Windows.Forms.CocoaInternal
 		internal virtual void WindowDidMove(object sender, EventArgs e)
 		{
 			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
+		}
+
+		protected virtual void OnMouseDown(NSEvent e)
+		{
+			var p = driver.NativeToMonoScreen(Frame.Location);
+			var lParam = (IntPtr)((p.Y << 16) | (int)(short)p.X);
+			var wParam = (IntPtr)(e.ModifierFlags.ToWParam() | e.ButtonNumberToWParam());
+			Application.SendMessage(ContentView.Handle, Msg.WM_NCLBUTTONDOWN.AdjustForButton(e), wParam, lParam);
+		}
+
+		protected virtual void OnBeginDragging(NSEvent e)
+		{
+		}
+
+		protected virtual unsafe void OnDragging(NSEvent e)
+		{
+			var p = driver.NativeToMonoScreen(Frame.Location);
+			var rect = new XplatUIWin32.RECT[] { new XplatUIWin32.RECT(p.X, p.Y, p.X + (int)Frame.Width, p.Y + (int)Frame.Height) };
+			fixed (void* r = &rect[0])
+				driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_MOVING, IntPtr.Zero, new IntPtr(r));
+		}
+
+		protected virtual void OnEndDragging(NSEvent e)
+		{
+			dragging = false;
+			var p = driver.NativeToMonoScreen(this.Frame.Location);
+			var lParam = (p.Y << 16) | (short)p.X;
+			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_MOVE, IntPtr.Zero, (IntPtr)lParam);
 		}
 
 		public override void BecomeKeyWindow()

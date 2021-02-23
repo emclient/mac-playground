@@ -86,43 +86,54 @@ namespace System.Windows.Forms.Mac
 			msg = isSysKey ? (e.Type == NSEventType.KeyDown ? Msg.WM_SYSKEYDOWN : Msg.WM_SYSKEYUP) : (e.Type == NSEventType.KeyDown ? Msg.WM_KEYDOWN : Msg.WM_KEYUP);
 		}
 
-		public static bool IsMouse(this NSEvent e)
+		public static bool IsMouse(this NSEvent e, out NSMouseFlags flags)
 		{
 			switch (e.Type)
 			{
 				case NSEventType.LeftMouseDown:
 				case NSEventType.RightMouseDown:
 				case NSEventType.OtherMouseDown:
+					flags = NSMouseFlags.ClickCount | NSMouseFlags.Pressure | NSMouseFlags.Down;
+					return true;
 				case NSEventType.LeftMouseUp:
 				case NSEventType.RightMouseUp:
 				case NSEventType.OtherMouseUp:
+					flags = NSMouseFlags.ClickCount | NSMouseFlags.Pressure | NSMouseFlags.Up;
+					return true;
 				case NSEventType.LeftMouseDragged:
 				case NSEventType.RightMouseDragged:
 				case NSEventType.OtherMouseDragged:
+					flags = NSMouseFlags.Drag;
+					return true;
 				case NSEventType.ScrollWheel:
 				case NSEventType.MouseMoved:
+					flags = NSMouseFlags.None;
 					return true;
 			}
+			flags = NSMouseFlags.None;
 			return false;
 		}
 
-		public static bool IsMouseDown(this NSEvent e)
-		{
-			switch (e.Type)
-			{
-				case NSEventType.LeftMouseDown:
-				case NSEventType.RightMouseDown:
-				case NSEventType.OtherMouseDown:
-					return true;
-				default:
-					return false;
-			}
-		}
-
-		public static NSEvent RetargetMouseEvent(this NSEvent e, NSView target)
+		public static NSEvent RetargetMouseEvent(this NSEvent e, NSView target, NSMouseFlags props)
 		{
 			var p = target.Window.ConvertScreenToBase(e.Window.ConvertBaseToScreen(e.LocationInWindow));
-			return NSEvent.MouseEvent(e.Type, p, e.ModifierFlags, e.Timestamp, target.Window.WindowNumber, null, 0, e.ClickCount, e.Pressure);
+			var clickCount = props.HasFlag(NSMouseFlags.ClickCount) ? e.ClickCount : 0;
+			var pressure = props.HasFlag(NSMouseFlags.Pressure) ? e.Pressure : 0;
+			return NSEvent.MouseEvent(e.Type, p, e.ModifierFlags, e.Timestamp, target.Window.WindowNumber, null, 0, clickCount, pressure);
+		}
+
+		public static NSEvent RetargetMouseEvent(this NSEvent e, CGPoint locationOnScreen, NSMouseFlags props)
+		{
+			var wnum = NSWindow.WindowNumberAtPoint(locationOnScreen, 0);
+			var target = NSApplication.SharedApplication.WindowWithWindowNumber(wnum);
+			if (target != null)
+			{
+				var location = target.ConvertScreenToBase(locationOnScreen);
+				var clickCount = props.HasFlag(NSMouseFlags.ClickCount) ? e.ClickCount : 0;
+				var pressure = props.HasFlag(NSMouseFlags.Pressure) ? e.Pressure : 0;
+				return NSEvent.MouseEvent(e.Type, location, e.ModifierFlags, e.Timestamp, target.WindowNumber, null, 0, clickCount, pressure);
+			}
+			return e;
 		}
 
 		public static void DispatchMouseEvent(this NSView view, NSEvent e)
@@ -208,6 +219,18 @@ namespace System.Windows.Forms.Mac
 		public static uint ModifiersToWParam(this NSEvent e)
 		{
 			return e.ModifierFlags.ToWParam();
+		}
+
+		// 
+		internal static Msg AdjustForButton(this Msg msg, NSEvent e)
+		{
+			int button = (int)e.ButtonNumber;
+			if (button >= (int)NSMouseButtons.Excessive)
+				button = (int)NSMouseButtons.X;
+			int offset = 3 * (button - (int)NSMouseButtons.Left);
+			if (button >= (int)NSMouseButtons.X)
+				++offset;
+			return msg + offset;
 		}
 
 		public static bool Contains(this NSView self, NSView view)
@@ -804,5 +827,16 @@ namespace System.Windows.Forms.Mac
 					NSApplication.SharedApplication.BeginInvokeOnMainThread(() => callback(destUrl.Path));
 			});
 		}
+	}
+
+	[Flags]
+	public enum NSMouseFlags
+	{
+		None = 0x00,
+		ClickCount = 0x01,
+		Pressure = 0x02,
+		Down = 0x04,
+		Up = 0x08,
+		Drag = 0x10,
 	}
 }
