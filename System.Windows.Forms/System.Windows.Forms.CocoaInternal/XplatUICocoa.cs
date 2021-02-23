@@ -429,11 +429,16 @@ namespace System.Windows.Forms {
 				if (evt.Type == NSEventType.LeftMouseDown)
 					LastMouseDown = evt; // Drag'n'Drop support
 
-				bool isMouseEvt = evt.IsMouse();
+				bool isMouseEvt = evt.IsMouse(out var flags);
+
+				// This happens sometimes when the mouse pointer is in the caption, often when moved from outside.
+				if (isMouseEvt && evt.Window == null && evt.WindowNumber != 0)
+					evt = evt.RetargetMouseEvent(evt.LocationInWindow, flags);
+
 				if (Grab.Hwnd != IntPtr.Zero && isMouseEvt && evt.Window != null) {
 					var grabView = Grab.Hwnd.ToNSView();
 					if (grabView.Window.WindowNumber != evt.WindowNumber && evt.Type != NSEventType.ScrollWheel)
-						evt = evt.RetargetMouseEvent(grabView);
+						evt = evt.RetargetMouseEvent(grabView, flags);
 					grabView.DispatchMouseEvent(evt);
 				} else {
 					// When KeyboardCapture is set (ToolStrip menus), deliver key events directly, to avoid filtering, such as in case of HTMLWebView which eats KeyDown.
@@ -445,7 +450,7 @@ namespace System.Windows.Forms {
 							NSApp.SendEvent(evt);
 
 						// ... but still use mouse click to activate the app if necessary.
-						if (evt.IsMouseDown() && NSApp.ModalWindow != evt.Window && NSApp.ModalWindow != null && !NSApp.Active)
+						if (flags.HasFlag(NSMouseFlags.Down) && NSApp.ModalWindow != evt.Window && NSApp.ModalWindow != null && !NSApp.Active)
 							NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
 					}
 				}
@@ -1205,7 +1210,7 @@ namespace System.Windows.Forms {
 		{
 			if (handle == IntPtr.Zero)
 				return IntPtr.Zero;
-			var obj = handle.ToNSObject();
+			var obj = ObjCRuntime.Runtime.TryGetNSObject(handle);
 			var vuWrap = obj as NSView ?? (obj as NSWindow)?.ContentView;
 			if (vuWrap == null)
 				return IntPtr.Zero;
