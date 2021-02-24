@@ -502,7 +502,7 @@ namespace System.Windows.Forms {
 			set { UpdateModifiers(value ? (key_modifiers_internal | NSEventModifierMask.CommandKeyMask) : (key_modifiers_internal & ~NSEventModifierMask.CommandKeyMask)); }
 		}
 
-		private void SendParentNotify(IntPtr child, Msg cause, int x, int y) {
+		internal void SendParentNotify(IntPtr child, Msg cause, int x, int y) {
 			if (child == IntPtr.Zero)
 				return;
 			
@@ -849,6 +849,9 @@ namespace System.Windows.Forms {
 				windowWrapper.ContentView = viewWrapper;
 				windowWrapper.InitialFirstResponder = viewWrapper;
 				windowWrapper.SetOneShot(true);
+
+				if (ExStyleSet(cp.ExStyle, WindowExStyles.WS_EX_TRANSPARENT))
+					windowWrapper.IgnoresMouseEvents = true;
 
 				if (StyleSet(cp.Style, WindowStyles.WS_POPUP))
 					windowWrapper.Level = NSWindowLevel.PopUpMenu;
