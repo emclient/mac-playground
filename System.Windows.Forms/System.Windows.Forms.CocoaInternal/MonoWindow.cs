@@ -166,6 +166,8 @@ namespace System.Windows.Forms.CocoaInternal
 						return;
 					break;
 				case NSEventType.LeftMouseUp:
+				case NSEventType.RightMouseUp:
+				case NSEventType.OtherMouseUp:
 					if (!PreProcessMouseUp(theEvent))
 						return;
 					break;
@@ -228,7 +230,8 @@ namespace System.Windows.Forms.CocoaInternal
 			if (!hitTestCalled)
 				hitTestView = (ContentView.Superview ?? ContentView).HitTest(e.LocationInWindow);
 			var hitTestHandle = hitTestView?.Handle ?? IntPtr.Zero;
-			var hitTestControlHandle = Control.FromChildHandle(hitTestHandle)?.Handle ?? IntPtr.Zero;
+			var hitTestControl = Control.FromChildHandle(hitTestHandle);
+			var hitTestControlHandle = hitTestControl?.Handle ?? IntPtr.Zero;
 
 			if (e.Type == NSEventType.LeftMouseDown)
 			{
@@ -239,7 +242,17 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 
 			if (hitTestControlHandle == IntPtr.Zero)
-				OnMouseDown(e);
+			{
+				OnNcMouseDown(e);
+			}
+			else
+			{
+				if (!(hitTestView is IClientView))
+				{
+					var p = driver.NativeToMonoScreen(this.ConvertPointToScreenSafe(e.LocationInWindow));
+					driver.SendParentNotify(hitTestControlHandle, Msg.WM_LBUTTONDOWN, p.X, p.Y);
+				}
+			}
 
 			return true;
 		}
@@ -261,6 +274,10 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			if (dragging)
 				OnEndDragging(e);
+
+			var view = (ContentView.Superview ?? ContentView).HitTest(e.LocationInWindow);
+			if (view != null && view is not IClientView && Control.FromChildHandle(view.Handle) == null)
+				OnNcMouseUp(e);
 
 			return true;
 		}
@@ -369,12 +386,20 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
 
-		protected virtual void OnMouseDown(NSEvent e)
+		protected virtual void OnNcMouseDown(NSEvent e)
 		{
 			var p = driver.NativeToMonoScreen(Frame.Location);
 			var lParam = (IntPtr)((p.Y << 16) | (int)(short)p.X);
 			var wParam = (IntPtr)(e.ModifierFlags.ToWParam() | e.ButtonNumberToWParam());
 			Application.SendMessage(ContentView.Handle, Msg.WM_NCLBUTTONDOWN.AdjustForButton(e), wParam, lParam);
+		}
+
+		protected virtual void OnNcMouseUp(NSEvent e)
+		{
+			var p = driver.NativeToMonoScreen(Frame.Location);
+			var lParam = (IntPtr)((p.Y << 16) | (int)(short)p.X);
+			var wParam = (IntPtr)(e.ModifierFlags.ToWParam() | e.ButtonNumberToWParam());
+			Application.SendMessage(ContentView.Handle, Msg.WM_NCLBUTTONUP.AdjustForButton(e), wParam, lParam);
 		}
 
 		protected virtual void OnBeginDragging(NSEvent e)
