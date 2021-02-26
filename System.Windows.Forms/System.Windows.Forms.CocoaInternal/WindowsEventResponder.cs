@@ -25,9 +25,6 @@ namespace System.Windows.Forms.CocoaInternal
 		XplatUICocoa driver;
 		internal NSView view;
 
-		internal double preciseDeltaScale = 1.0;
-		internal double rawDeltaScale = 40.0;
-
 		// For emulating MouseUp in ToolStripDropDown when using native menu (that swallows it):
 		internal static MSG LastMouseDownMsg;
 
@@ -268,7 +265,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 			if (Math.Abs(e.ScrollingDeltaY - nfloat.Epsilon) > 0)
 			{
-				int delta = ScaleAndQuantizeDelta((float)e.ScrollingDeltaY, e.HasPreciseScrollingDeltas);
+				int delta = e.ScaledAndQuantizedDeltaY();
 				msg.message = Msg.WM_MOUSEWHEEL;
 				msg.wParam = (IntPtr)(((int)e.ModifiersToWParam() & 0xFFFF) | (delta << 16));
 				msg.lParam = (IntPtr)((msg.pt.x & 0xFFFF) | (msg.pt.y << 16));
@@ -277,7 +274,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 			if (Math.Abs(e.ScrollingDeltaX - nfloat.Epsilon) > 0)
 			{
-				int delta = ScaleAndQuantizeDelta((float)-e.ScrollingDeltaX, e.HasPreciseScrollingDeltas);
+				int delta = e.ScaledAndQuantizedDeltaX();
 				msg.message = Msg.WM_MOUSEHWHEEL;
 				msg.wParam = (IntPtr)(((int)e.ModifiersToWParam() & 0xFFFF) | (delta << 16));
 				msg.lParam = (IntPtr)((msg.pt.x & 0xFFFF) | (msg.pt.y << 16));
@@ -324,11 +321,6 @@ namespace System.Windows.Forms.CocoaInternal
 					: driver.NativeToMonoScreen(window.ConvertPointToScreenSafe(locationInWindow)).ToPOINT(),
 				refobject = target
 			};
-		}
-
-		internal int ScaleAndQuantizeDelta(float delta, bool precise)
-		{
-			return precise ? (int)(preciseDeltaScale * delta) : (int)(rawDeltaScale * delta);
 		}
 
 		#endregion
