@@ -158,17 +158,21 @@ namespace System.Windows.Forms.CocoaInternal
 				case NSEventType.RightMouseDown:
 				case NSEventType.OtherMouseDown:
 				case NSEventType.BeginGesture:
-					if (!PreprocessMouseDown(theEvent))
+					if (PreprocessMouseDown(theEvent))
 						return;
 					break;
 				case NSEventType.LeftMouseDragged:
-					if (!PreProcessMouseDragged(theEvent))
+					if (PreProcessMouseDragged(theEvent))
 						return;
 					break;
 				case NSEventType.LeftMouseUp:
 				case NSEventType.RightMouseUp:
 				case NSEventType.OtherMouseUp:
-					if (!PreProcessMouseUp(theEvent))
+					if (PreProcessMouseUp(theEvent))
+						return;
+					break;
+				case NSEventType.ScrollWheel:
+					if (PreprocessScrollWheel(theEvent))
 						return;
 					break;
 				case NSEventType.KeyUp:
@@ -194,7 +198,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 					// Deliver key messages also to SWF controls that are wrappers of native controls.
 					// This gives them a the chance to handle special keys
-					if (!(FirstResponder is MonoView) && !(FirstResponder is WindowsEventResponder))
+					if (!FirstResponder.IsSwfControl() && !(FirstResponder is WindowsEventResponder))
 					{
 						var control = Control.FromChildHandle(FirstResponder.Handle);
 						if (control != null && control.Handle.ToNSObject() is NSView obj)
@@ -214,7 +218,7 @@ namespace System.Windows.Forms.CocoaInternal
 		}
 
 		// Returns true if processing should continue (base.SendEvent should be called), false if not
-		protected bool PreprocessMouseDown(NSEvent e)
+		protected virtual bool PreprocessMouseDown(NSEvent e)
 		{
 			bool hitTestCalled = false;
 			NSView hitTestView = null;
@@ -238,7 +242,7 @@ namespace System.Windows.Forms.CocoaInternal
 				var topLevelParent = IntPtr.Zero; // FIXME
 				mouseActivate = (MouseActivate)driver.SendMessage(ContentView.Handle, Msg.WM_MOUSEACTIVATE, topLevelParent, hitTestControlHandle).ToInt32();
 				if (mouseActivate == MouseActivate.MA_NOACTIVATEANDEAT)// || mouseActivate == MouseActivate.MA_ACTIVATEANDEAT)
-					return false;
+					return true;
 			}
 
 			if (hitTestControlHandle == IntPtr.Zero)
@@ -247,17 +251,17 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 			else
 			{
-				if (!(hitTestView is IClientView))
+				if (!hitTestView.IsSwfControl())
 				{
 					var p = driver.NativeToMonoScreen(this.ConvertPointToScreenSafe(e.LocationInWindow));
 					driver.SendParentNotify(hitTestControlHandle, Msg.WM_LBUTTONDOWN, p.X, p.Y);
 				}
 			}
 
-			return true;
+			return false;
 		}
 
-		protected bool PreProcessMouseDragged(NSEvent e)
+		protected virtual bool PreProcessMouseDragged(NSEvent e)
 		{
 			if (!dragging)
 			{
@@ -267,19 +271,50 @@ namespace System.Windows.Forms.CocoaInternal
 
 			OnDragging(e);
 
-			return true;
+			return false;
 		}
 
-		protected bool PreProcessMouseUp(NSEvent e)
+		protected virtual bool PreProcessMouseUp(NSEvent e)
 		{
 			if (dragging)
 				OnEndDragging(e);
 
 			var view = (ContentView.Superview ?? ContentView).HitTest(e.LocationInWindow);
-			if (view != null && view is not IClientView && Control.FromChildHandle(view.Handle) == null)
+			if (view != null && !view.IsSwfControl() && Control.FromChildHandle(view.Handle) == null)
 				OnNcMouseUp(e);
 
-			return true;
+			return false;
+		}
+
+		protected virtual bool PreprocessScrollWheel(NSEvent e)
+		{
+			var view = (ContentView.Superview ?? ContentView).HitTest(e.LocationInWindow);
+			if (view != null && !view.IsSwfControl() && Control.FromChildHandle(view.Handle) is Control control)
+			{
+				// This is to allow SWF wrappers of native views to handle messages before the native view swallows them (WebView, for example).
+
+				var p = driver.NativeToMonoScreen(this.ConvertPointToScreenSafe(e.LocationInWindow));
+				if (Math.Abs(e.ScrollingDeltaY - nfloat.Epsilon) > 0)
+				{
+					var delta = e.ScaledAndQuantizedDeltaY();
+					var wParam = (IntPtr)(((int)e.ModifiersToWParam() & 0xFFFF) | (delta << 16));
+					var lParam = (IntPtr)((p.X & 0xFFFF) | (p.Y << 16));
+					var msg = new MSG { hwnd = control.Handle, message = Msg.WM_MOUSEWHEEL, wParam = wParam, lParam = lParam };
+					if (Application.SendMessage(ref msg, out var drop, out var _).ToInt32() == 0 || drop)
+						return true;
+				}
+
+				if (Math.Abs(e.ScrollingDeltaX - nfloat.Epsilon) > 0)
+				{
+					int delta = e.ScaledAndQuantizedDeltaX();
+					var wParam = (IntPtr)(((int)e.ModifiersToWParam() & 0xFFFF) | (delta << 16));
+					var lParam = (IntPtr)((p.X & 0xFFFF) | (p.Y << 16));
+					var msg = new MSG { hwnd = control.Handle, message = Msg.WM_MOUSEHWHEEL, wParam = wParam, lParam = lParam };
+					if (Application.SendMessage(ref msg, out var drop, out var _).ToInt32() == 0 || drop)
+						return true;
+				}
+			}
+			return false;
 		}
 
 		protected override void Dispose(bool disposing)

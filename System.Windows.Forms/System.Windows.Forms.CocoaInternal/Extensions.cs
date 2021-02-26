@@ -33,7 +33,10 @@ namespace System.Windows.Forms.Mac
 
 	public static class Extensions
 	{
-		static DateTime reference = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+		static readonly DateTime reference = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+		static readonly Selector swfMarkSel = new Selector("thisIsSwfControl");
+		static double preciseDeltaScale = 1.0;
+		static double rawDeltaScale = 40.0;
 
 		public static NSMethodSignature GetMethodSignature(this NSObject obj, Selector selector)
 		{
@@ -154,6 +157,21 @@ namespace System.Windows.Forms.Mac
 				case NSEventType.EndGesture: view.EndGestureWithEvent(e); break;
 				case NSEventType.MouseMoved: view.MouseMoved(e); break;
 			}
+		}
+
+		public static int ScaledAndQuantizedDeltaY(this NSEvent e)
+		{
+			return ScaleAndQuantizeDelta((float)e.ScrollingDeltaY, e.HasPreciseScrollingDeltas);
+		}
+
+		public static int ScaledAndQuantizedDeltaX(this NSEvent e)
+		{
+			return ScaleAndQuantizeDelta((float)e.ScrollingDeltaX, e.HasPreciseScrollingDeltas);
+		}
+
+		private static int ScaleAndQuantizeDelta(float delta, bool precise)
+		{
+			return precise ? (int)(preciseDeltaScale * delta) : (int)(rawDeltaScale * delta);
 		}
 
 		public static uint ToWParam(this NSEvent e)
@@ -357,6 +375,35 @@ namespace System.Windows.Forms.Mac
 		{
 			var obj = ObjCRuntime.Runtime.GetNSObject(@class.Handle);
 			return obj?.RespondsToSelector(selector) ?? false;
+		}
+
+		public static bool AddMethod(this NSObject obj, Selector selector, Delegate imp)
+		{
+			if (obj.RespondsToSelector(selector))
+				return false;
+
+			var classHandle = obj.Class.Handle;
+			return LibObjc.class_addMethod(classHandle, selector.Handle, imp, "v@:");
+		}
+
+		public static bool AddMethod(this NSObject obj, string selector, Delegate imp)
+		{
+			return AddMethod(obj, new Selector(selector), imp);
+		}
+
+		public static bool MarkAsSwfControl(this NSObject obj)
+		{
+			return obj.AddMethod(swfMarkSel, (Action)delegate { });
+		}
+
+		public static bool IsSwfControl(this NSObject obj)
+		{
+			return obj.RespondsToSelector(swfMarkSel);
+		}
+
+		public static bool IsSwfControl(this IntPtr handle)
+		{
+			return handle.ToNSObject()?.IsSwfControl() ?? false;
 		}
 
 		public static NSObject ToNSObject(this IntPtr handle)

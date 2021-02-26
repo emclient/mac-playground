@@ -928,6 +928,8 @@ namespace System.Windows.Forms {
 
 			(viewWrapper as MonoView)?.FinishCreateWindow();
 
+			viewWrapper.MarkAsSwfControl();
+
 			return viewWrapper.Handle;
 		}
 
@@ -1057,11 +1059,10 @@ namespace System.Windows.Forms {
 					return (IntPtr) 1;
 				}*/
 				case Msg.WM_MOUSEWHEEL:
-				{
-					IntPtr hWndParent;
-					if (IntPtr.Zero != msg.Result && (hWndParent = GetParent(msg.HWnd, false)) != IntPtr.Zero)
-						msg.Result = NativeWindow.WndProc(hWndParent, (Msg)msg.Msg, msg.WParam, msg.LParam);
-					return (IntPtr)msg.Result;
+				case Msg.WM_MOUSEHWHEEL: {
+					var parent = GetParent(msg.HWnd, false);
+					msg.Result = parent != IntPtr.Zero ? NativeWindow.WndProc(parent, (Msg)msg.Msg, msg.WParam, msg.LParam) : (IntPtr)1;
+					return msg.Result;
 				}
 				case Msg.WM_CANCELMODE:
 				{
@@ -2377,10 +2378,13 @@ namespace System.Windows.Forms {
 			return new Screen(screen == NSScreen.MainScreen, String.Empty, NativeToMonoScreen(screen.Frame), NativeToMonoScreen(screen.VisibleFrame));
 		}
 
-#endregion Override Methods XplatUIDriver
+		#endregion Override Methods XplatUIDriver
 
 
-			#region Override Properties XplatUIDriver
+		#region Override Properties XplatUIDriver
+
+		int mouseWheelScrollDelta = 10;
+		internal override int MouseWheelScrollDelta { get { return mouseWheelScrollDelta; } }
 
 		// MSDN: The keyboard repeat-speed setting, from 0 (approximately 2.5 repetitions per second) through 31 (approximately 30 repetitions per second).
 		internal override int KeyboardSpeed
