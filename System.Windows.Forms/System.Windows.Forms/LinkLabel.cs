@@ -512,13 +512,65 @@ namespace System.Windows.Forms
 			return null;
 		}
 
-		protected override bool ProcessDialogKey (Keys keyData)
+        protected override bool ProcessDialogKey(Keys keyData)
 		{
-			if ((keyData & Keys.KeyCode) ==  Keys.Tab) {
-				Select (true, (keyData & Keys.Shift) == 0);
-				return true;
+            if ((keyData & (Keys.Alt | Keys.Control)) != Keys.Alt) {
+                Keys keyCode = keyData & Keys.KeyCode;
+                switch (keyCode) {
+                    case Keys.Tab:
+						if (TabStop) {
+                            bool forward = (keyData & Keys.Shift) != Keys.Shift;
+                            if (FocusNextLink(forward)) {
+                                return true;
+                            }
+                        }
+                        break;
+                    case Keys.Up:
+                    case Keys.Left:
+                        if (FocusNextLink(false)) {
+                            return true;
+                        }
+                        break;
+                    case Keys.Down:
+                    case Keys.Right:
+                        if (FocusNextLink(true)) {
+                            return true;
+                        }
+                        break;
+                }
+            }
+            return base.ProcessDialogKey(keyData);
+        }
+
+        private bool FocusNextLink(bool forward)
+		{
+			if (sorted_links == null) {
+				return false;
 			}
-			return base.ProcessDialogKey (keyData);
+
+			if (forward) {
+				for (int n = focused_index + 1; n < sorted_links.Length; n++) {
+					if (sorted_links[n].Enabled) {
+						sorted_links[n].Focused = true;
+						focused_index = n;
+						return true;
+					}
+				}
+			} else {
+				if (focused_index == -1)
+					focused_index = sorted_links.Length;
+
+				for (int n = focused_index - 1; n >= 0; n--) {
+					if (sorted_links[n].Enabled) {
+						sorted_links[n].Focused = true;
+						focused_index = n;
+						return true;
+					}
+				}
+			}
+
+			focused_index = -1;
+			return false;
 		}
 
 		protected override void Select (bool directed, bool forward)
@@ -529,30 +581,10 @@ namespace System.Windows.Forms
 					focused_index = -1;
 				}
 
-				if (forward) {
-					for (int n = focused_index + 1; n < sorted_links.Length; n++) {
-						if (sorted_links[n].Enabled) {
-							sorted_links[n].Focused = true;
-							focused_index = n;
-							base.Select (directed, forward);
-							return;
-						}
-					}
-				} else {
-					if (focused_index == -1)
-						focused_index = sorted_links.Length;
-
-					for (int n = focused_index - 1; n >= 0; n--) {
-						if (sorted_links[n].Enabled) {
-							sorted_links[n].Focused = true;
-							focused_index = n;
-							base.Select (directed, forward);
-							return;
-						}
-					}
+				if (FocusNextLink(forward)) {
+					base.Select(directed, forward);
+					return;
 				}
-
-				focused_index = -1;
 
 				if (Parent != null)
 					Parent.SelectNextControl (this, forward, false, true, true);
