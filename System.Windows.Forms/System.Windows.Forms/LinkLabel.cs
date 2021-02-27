@@ -125,7 +125,16 @@ namespace System.Windows.Forms
 
 		#region Public Properties
 
-		public Color ActiveLinkColor {
+		private Link FocusLink {
+            get {
+				if (focused_index >= 0 && sorted_links != null && sorted_links.Length > focused_index)
+					return sorted_links[focused_index];
+				else
+					return null;
+            }
+        }
+
+ 		public Color ActiveLinkColor {
 			get { return active_link_color; }
 			set {
 				if (active_link_color == value)
