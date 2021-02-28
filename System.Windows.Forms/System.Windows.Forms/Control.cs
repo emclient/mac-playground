@@ -3390,8 +3390,8 @@ namespace System.Windows.Forms
 				
 				if (f != null)
 					return f.show_focus_cues;
-					
-				return false;
+
+				return Focused || ContainsFocus;
 			}
 		}
 
