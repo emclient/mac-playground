@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using CoreFoundation;
+using System.Reflection;
 
 #if MONOMAC
 using MonoMac.ObjCRuntime;
@@ -60,6 +61,11 @@ namespace System.Windows.Forms.Mac
 		public static uint ToFourCC(this string s)
 		{
 			return (((uint)s[0]) << 24 | ((uint)s[1]) << 16 | ((uint)s[2]) << 8 | ((uint)s[3]));
+		}
+
+		public static NSString ToNSString(this string value)
+		{
+			return (NSString)value;
 		}
 
 		public static NSDate ToNSDate(this DateTime datetime)
@@ -257,6 +263,11 @@ namespace System.Windows.Forms.Mac
 				if (v == self)
 					return true;
 			return false;
+		}
+
+		public static Control ToControl(this NSView view)
+		{
+			return view.IsSwfControl() ? Control.FromHandle(view.Handle) : Control.FromChildHandle(view.Handle);
 		}
 
 		public static string GetString(this NSTextView self)
@@ -740,8 +751,7 @@ namespace System.Windows.Forms.Mac
 				var bookmark = NSUrl.GetBookmarkData(nsurl, out _);
 				if (bookmark != null)
 				{
-					bool bookmarkIsStale;
-					var resolved = new NSUrl(bookmark, NSUrlBookmarkResolutionOptions.WithoutUI, null, out bookmarkIsStale, out _);
+					var resolved = new NSUrl(bookmark, NSUrlBookmarkResolutionOptions.WithoutUI, null, out var bookmarkIsStale, out _);
 					if (resolved != null && !bookmarkIsStale && resolved.IsFileUrl)
 						return resolved.FilePathUrl.AbsoluteString;
 				}
@@ -750,6 +760,181 @@ namespace System.Windows.Forms.Mac
 		}
 
 		#endregion
+
+		#region Accessibility
+
+		public static string AccessibilityRole(this Control control)
+		{
+			var role = (control?.AccessibilityObject is AccessibleObject obj) ? obj.Role : control.AccessibleRole;
+			return role.ToNSAccessibilityRole();
+		}
+
+		public static string AccessibilityTitle(this Control control)
+		{
+			string text = null;
+			if (control.GetStyle(ControlStyles.UseTextForAccessibility))
+				text = control.Text?.RemoveMnemonic();
+
+			return !string.IsNullOrEmpty(text) ? text : control.AccessibleTextLabel();
+		}
+
+		public static string AccessibilityLabel(this Control control)
+		{
+			return (control?.AccessibilityObject is AccessibleObject obj) ? obj.Description : control.AccessibleDescription;
+		}
+
+		public static NSObject AccessibilityValue(this Control control)
+		{
+			var obj = control.AccessibilityObject;
+			if (obj.Value != null)
+				return obj.Value.ToNSString();
+
+			if (obj.State.ToAccessibilityValue() is NSObject value)
+				return value;
+			return null;
+		}
+
+		public static bool SupportsAccessibilityValue(this Control control)
+		{
+			var obj = control?.AccessibilityObject;
+			if (obj?.Value is string s && String.IsNullOrWhiteSpace(s))
+				return false;
+
+			if (obj?.Value != null)
+				return true;
+
+			var role = obj != null ? obj.Role : control.AccessibleRole;
+			switch (role)
+			{
+				case AccessibleRole.CheckButton:
+				case AccessibleRole.RadioButton:
+				case AccessibleRole.ComboBox:
+				case AccessibleRole.Slider:
+				case AccessibleRole.SpinButton:
+				case AccessibleRole.ProgressBar:
+					return true;
+			}
+			return false;
+		}
+
+		private static MethodInfo getStyleMethod;
+		public static bool GetStyle(this Control control, ControlStyles style)
+		{
+			getStyleMethod ??= typeof(Control).GetMethod("GetStyle", BindingFlags.NonPublic | BindingFlags.Instance);
+			return (bool)(getStyleMethod?.Invoke(control, new object[] { style }) ?? false);
+		}
+
+		public static string AccessibleTextLabel(this Control control)
+		{
+			return control?.AccessiblePreviousLabel()?.Text;
+		}
+
+		public static Label AccessiblePreviousLabel(this Control control)
+		{
+			if (control?.Parent is Control parent && parent.GetContainerControl() is ContainerControl container)
+				while (null != (control = container.GetNextControl(control, false)))
+					if (control is Label label)
+						return label;
+					else if (control.Visible && control.TabStop)
+						break;
+
+			return null;
+		}
+
+		public static string RemoveMnemonic(this string s)
+		{
+			return s.Replace("&&", "\0").Replace("&", "").Replace("\0", "&"); // "&" => "", "&&" => "&"
+		}
+
+		public static string ToNSAccessibilityRole(this AccessibleRole role)
+		{
+			return (int)role > 0 && (int)role < accessibilityRoles.Length ? accessibilityRoles[(int)role] : null;
+		}
+		
+		readonly static string[] accessibilityRoles = new string[] {
+			NSAccessibilityRoles.UnknownRole, //None		= 0,
+			NSAccessibilityRoles.WindowRole, //TitleBar	= 1,
+			NSAccessibilityRoles.MenuRole, //MenuBar		= 2,
+			NSAccessibilityRoles.ScrollBarRole, //ScrollBar	= 3,
+			NSAccessibilityRoles.HandleRole, //Grip		= 4,
+			NSAccessibilityRoles.UnknownRole, //Sound		= 5,
+			NSAccessibilityRoles.UnknownRole, //Cursor		= 6,
+			NSAccessibilityRoles.UnknownRole, //Caret		= 7,
+			NSAccessibilityRoles.SheetRole, //Alert		= 8,
+			NSAccessibilityRoles.WindowRole, //Window		= 9,
+			NSAccessibilityRoles.UnknownRole, //Client		= 10,
+			NSAccessibilityRoles.MenuRole, //MenuPopup	= 11,
+			NSAccessibilityRoles.MenuItemRole, //MenuItem	= 12,
+			NSAccessibilityRoles.HelpTagRole, //ToolTip		= 13,
+			NSAccessibilityRoles.ApplicationRole, //Application	= 14,
+			NSAccessibilityRoles.UnknownRole, //Document	= 15,
+			NSAccessibilityRoles.LayoutItemRole, //Pane		= 16,
+			NSAccessibilityRoles.UnknownRole, //Chart		= 17,
+			NSAccessibilitySubroles.DialogSubrole, //Dialog		= 18,
+			NSAccessibilityRoles.UnknownRole, //Border		= 19,
+			NSAccessibilityRoles.GroupRole, //Grouping	= 20,
+			NSAccessibilityRoles.SplitGroupRole, //Separator	= 21,
+			NSAccessibilityRoles.ToolbarRole,//ToolBar		= 22,
+			NSAccessibilityRoles.StaticTextRole, //StatusBar	= 23,
+			NSAccessibilityRoles.TableRole, //Table		= 24,
+			NSAccessibilityRoles.ColumnRole, //ColumnHeader	= 25,
+			NSAccessibilityRoles.RowRole, //RowHeader	= 26,
+			NSAccessibilityRoles.ColumnRole, //Column		= 27,
+			NSAccessibilityRoles.RowRole, //Row		= 28,
+			NSAccessibilityRoles.CellRole, //Cell		= 29,
+			NSAccessibilityRoles.LinkRole, //Link		= 30,
+			NSAccessibilityRoles.HelpTagRole, //HelpBalloon	= 31,
+			NSAccessibilityRoles.UnknownRole, //Character	= 32,
+			NSAccessibilityRoles.ListRole, //List		= 33,
+			NSAccessibilityRoles.ListRole, //ListItem	= 34,
+			NSAccessibilityRoles.OutlineRole, //Outline		= 35,
+			NSAccessibilityRoles.OutlineRole, //OutlineItem	= 36,
+			NSAccessibilityRoles.TabGroupRole, //PageTab		= 37,
+			NSAccessibilityRoles.PageRole, //PropertyPage	= 38,
+			NSAccessibilityRoles.ValueIndicatorRole, //Indicator	= 39,
+			NSAccessibilityRoles.ImageRole, //Graphic		= 40,
+			NSAccessibilityRoles.StaticTextRole, //StaticText	= 41,
+			NSAccessibilityRoles.TextAreaRole, //Text		= 42,
+			NSAccessibilityRoles.ButtonRole, //PushButton	= 43,
+			NSAccessibilityRoles.CheckBoxRole, //CheckButton	= 44,
+			NSAccessibilityRoles.RadioButtonRole, //RadioButton	= 45,
+			NSAccessibilityRoles.ComboBoxRole, //ComboBox	= 46,
+			NSAccessibilityRoles.PopUpButtonRole, //DropList	= 47,
+			NSAccessibilityRoles.ProgressIndicatorRole, //ProgressBar	= 48,
+			NSAccessibilityRoles.ValueIndicatorRole, //Dial		= 49,
+			NSAccessibilityRoles.UnknownRole, //HotkeyField	= 50,
+			NSAccessibilityRoles.SliderRole, //Slider		= 51,
+			NSAccessibilityRoles.ValueIndicatorRole, //SpinButton	= 52,
+			NSAccessibilityRoles.ImageRole, //Diagram		= 53,
+			NSAccessibilityRoles.UnknownRole, //Animation	= 54,
+			NSAccessibilityRoles.UnknownRole, //Equation	= 55,
+			NSAccessibilityRoles.PopUpButtonRole, //ButtonDropDown	= 56,
+			NSAccessibilityRoles.PopUpButtonRole, //ButtonMenu	= 57,
+			NSAccessibilityRoles.PopUpButtonRole, //ButtonDropDownGrid= 58,
+			NSAccessibilityRoles.UnknownRole, //WhiteSpace	= 59,
+			NSAccessibilityRoles.TabGroupRole, //PageTabList	= 60,
+			NSAccessibilityRoles.UnknownRole, //Clock		= 61,
+			NSAccessibilityRoles.UnknownRole, //Default		= -1,
+			NSAccessibilityRoles.SplitterRole, //SplitButton	= 62,
+			NSAccessibilityRoles.TextAreaRole,  //IpAddress	= 63,
+			NSAccessibilityRoles.ButtonRole, //OutlineButton	= 64
+		};
+
+		public static NSObject ToAccessibilityValue(this AccessibleStates state)
+		{
+			switch (state)
+			{
+				case AccessibleStates.None:
+					return new NSNumber(0);
+				case AccessibleStates.Checked:
+					return new NSNumber(1);
+				//case AccessibleStates.Mixed:
+				//	return new NSNumber(2);
+			}
+			return null;
+		}
+
+		#endregion // Accessibility
 
 #if MONOMAC
 
