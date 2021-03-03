@@ -596,6 +596,46 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			return eventResponder.EmbeddedControlDoCommandBySelector(target, selector);
 		}
+
+		#region Accessibility
+
+		public override bool IsAccessibilitySelectorAllowed(Selector selector)
+		{
+			switch (selector.Name)
+			{
+				case "accessibilityValue": return Control.FromHandle(Handle).SupportsAccessibilityValue();
+			}
+
+			return base.IsAccessibilitySelectorAllowed(selector);
+		}
+
+		public virtual bool IsAccessibilityElement
+		{
+			[Export("isAccessibilityElement")]
+			get { return true; }
+		}
+
+		public override string AccessibilityRole
+		{
+			get => Control.FromHandle(Handle).AccessibilityRole();
+		}
+
+		public override string AccessibilityTitle
+		{
+			get => Control.FromHandle(Handle).AccessibilityTitle();
+		}
+
+		public override string AccessibilityLabel
+		{
+			get => Control.FromHandle(Handle).AccessibilityLabel();
+		}
+
+		public override NSObject AccessibilityValue
+		{
+			get => Control.FromHandle(Handle).AccessibilityValue();
+		}
+
+		#endregion
 	}
 
 	static class NSViewExtensions
