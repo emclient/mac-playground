@@ -101,6 +101,7 @@ namespace System.Windows.Forms {
 		internal static bool last_message_is_hscroll;
 		internal bool translate_modifier = false;
 		internal NSEvent evtRef; // last/current message
+		internal List<NSObject> observers = new List<NSObject>();
 
 		// Cocoa Specific
 		internal GrabStruct Grab;
@@ -201,6 +202,9 @@ namespace System.Windows.Forms {
 			ReverseWindowMapped = false;
 
 			nextWindowLocation = CGPoint.Empty;
+
+			// Clear time zone info cache when system time zone changes.
+			observers.Add(NSNotificationCenter.DefaultCenter.AddObserver((NSString)"kCFTimeZoneSystemTimeZoneDidChangeNotification", (args) => TimeZoneInfo.ClearCachedData()));
 
 			return IntPtr.Zero;
 		}
