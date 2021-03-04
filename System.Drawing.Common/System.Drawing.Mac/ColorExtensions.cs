@@ -150,9 +150,11 @@ namespace System.Drawing.Mac
 			return false;
 		}
 
+		public static bool NSColorSupportsType = NSColor.Red.RespondsToSelector(new ObjCRuntime.Selector("type"));
+
 		public static Color ToSDColor(this NSColor color)
 		{
-			if (color.Type == NSColorType.Catalog && color.CatalogNameComponent == "System") {
+			if (NSColorSupportsType && color.Type == NSColorType.Catalog && color.CatalogNameComponent == "System") {
 				return color.ColorNameComponent switch {
 					// FIXME: Reverse of ToNSColor, not always correct
 					//"windowFrameColor" => SystemColors.ActiveBorder,
