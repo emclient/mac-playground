@@ -316,16 +316,21 @@ namespace WinApi
             return false;
         }
 
-		public static int GetWindowLongPtr32(IntPtr hWnd, GWL nIndex)
+		public static IntPtr GetWindowLong(IntPtr hWnd, GWL nIndex)
+		{
+			return IntPtr.Size == 4 ? GetWindowLong32(hWnd, nIndex) : GetWindowLongPtr64(hWnd, nIndex);
+		}
+
+		public static IntPtr GetWindowLongPtr64(IntPtr hWnd, GWL nIndex)
 		{
 			switch (nIndex)
 			{
-				case GWL.ID: return GetWindowIdentifier(hWnd);
-				case GWL.STYLE: return GetWindowStyle(hWnd);
-				case GWL.EXSTYLE: return GetWindowExStyle(hWnd);
+				case GWL.ID: return (IntPtr)GetWindowIdentifier(hWnd);
+				case GWL.STYLE: return (IntPtr)GetWindowStyle(hWnd);
+				case GWL.EXSTYLE: return (IntPtr)GetWindowExStyle(hWnd);
+				case GWL.HWNDPARENT: return XplatUI.GetParent(hWnd, true);
 				case GWL.WNDPROC:
 				case GWL.HINSTANCE:
-				case GWL.HWNDPARENT:
 				case GWL.USERDATA:
 				case GWL.DLGPROC:
 				case GWL.USER:
@@ -336,13 +341,18 @@ namespace WinApi
 
 			// TODO: Implement remaining options
 			NotImplemented(MethodBase.GetCurrentMethod(), nIndex);
-			return 0;
+			return IntPtr.Zero;
 		}
 
-        public static IntPtr GetWindowLongPtr64(IntPtr hWnd, GWL nIndex)
+		public static IntPtr GetWindowLong32(IntPtr hWnd, GWL nIndex)
         {
-			return new IntPtr(GetWindowLongPtr32(hWnd, nIndex));
+			return GetWindowLongPtr64(hWnd, nIndex);
         }
+
+		public static IntPtr SetWindowLong(IntPtr hWnd, GWL nIndex, IntPtr dwNewLong)
+		{
+			return IntPtr.Size == 4 ? SetWindowLongPtr32(hWnd, nIndex, dwNewLong): SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
+		}
 
 		public static IntPtr SetWindowLongPtr64(IntPtr hWnd, GWL nIndex, IntPtr dwNewLong)
         {
@@ -358,9 +368,9 @@ namespace WinApi
             return IntPtr.Zero;
         }
 
-        public static int SetWindowLongPtr32(IntPtr hWnd, GWL nIndex, int dwNewLong)
+        public static IntPtr SetWindowLongPtr32(IntPtr hWnd, GWL nIndex, IntPtr dwNewLong)
         {
-            return SetWindowLongPtr64(hWnd, nIndex, new IntPtr(dwNewLong)).ToInt32();
+            return SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
         }
 
         public static IntPtr GetSystemMenu(IntPtr hWnd, [MarshalAs(UnmanagedType.Bool)] bool bRevert)
