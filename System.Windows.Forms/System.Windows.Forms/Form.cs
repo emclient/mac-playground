@@ -1837,10 +1837,19 @@ namespace System.Windows.Forms {
 				ctl = owner;
 			} else if (dialog_owner != null) {
 				ctl = dialog_owner;
+			} else {
+				// MS calls GetWindowLong(Handle, GWL.HWNDPARENT) to obtain the parent, and it seems that the return value
+				// is not null even if both the Form's Parent and Owner are null. It probably returns active form
+				// or something like that, so let's do "the same".
+				IntPtr active = XplatUI.GetActive();
+				if (Control.FromHandle(active) is Form form)
+					ctl = form;
 			}
 
-			if (owner != null || dialog_owner != null) {
+			if (ctl != null) {
 				this.Location = new Point(ctl.Left + ctl.Width / 2 - w /2, ctl.Top + ctl.Height / 4 - h / 4);
+			} else {
+				CenterToScreen();
 			}
 		}
 
