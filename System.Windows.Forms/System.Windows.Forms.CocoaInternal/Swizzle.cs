@@ -41,12 +41,12 @@ namespace System.Windows.Forms
 
 	public class Swizzle<TDelegate> : IDisposable where TDelegate : class
 	{
+		private bool isDisposed;
 		protected IntPtr originalMethod;
 		protected IntPtr originalImpl;
 		protected IntPtr victimSel;
 		protected IntPtr newImpl;
 		protected bool isClassMethod;
-
 		protected TDelegate dlg; // Your delegate
 
 		public Swizzle(Class victim, IntPtr selector, TDelegate del, bool isClassMethod = false)
@@ -78,7 +78,26 @@ namespace System.Windows.Forms
 
 		public virtual void Dispose()
 		{
-			LibObjc.method_setImplementation(originalMethod, originalImpl);
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (isDisposed) return;
+
+			if (originalMethod != IntPtr.Zero && originalImpl != IntPtr.Zero)
+			{
+				LibObjc.method_setImplementation(originalMethod, originalImpl);
+				originalMethod = IntPtr.Zero;
+			}
+
+			isDisposed = true;
+		}
+
+		~Swizzle()
+		{
+			Dispose(false);
 		}
 
 		// Use this class to call the original implementation
