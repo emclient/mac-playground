@@ -6,5 +6,6 @@
 
   <PropertyGroup>
     <SkipMacProjects Condition="$(SkipMacProjects) == ''">false</SkipMacProjects>
+    <SkipMacNet6Projects>true</SkipMacNet6Projects>
   </PropertyGroup>
 </Project>
