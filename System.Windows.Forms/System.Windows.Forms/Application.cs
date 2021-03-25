@@ -1016,6 +1016,14 @@ namespace System.Windows.Forms
 					if (c2 != null && !c2.Enabled)
 						break;
 					goto default;
+				case Msg.WM_LBUTTONDBLCLK:
+				case Msg.WM_MBUTTONDBLCLK:
+				case Msg.WM_RBUTTONDBLCLK:
+				case Msg.WM_XBUTTONDBLCLK:
+					Control dbl = Control.FromHandle(msg.hwnd);
+					if (dbl != null && !dbl.Enabled)
+						break;
+					goto default;
 				case Msg.WM_LBUTTONUP:
 				case Msg.WM_RBUTTONUP:
 				case Msg.WM_MBUTTONUP:
