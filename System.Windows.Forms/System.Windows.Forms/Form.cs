@@ -81,7 +81,9 @@ namespace System.Windows.Forms {
 		private IButtonControl		cancel_button;
 		private DialogResult		dialog_result;
 		private FormStartPosition	start_position;
-		private Form			owner, dialog_owner;
+		private Form			owner;
+		private IWin32Window	dialog_owner;
+		private Form			dialog_active_form;
 		private Form.ControlCollection	owned_forms;
 		private MdiClient		mdi_container;
 		internal InternalWindowManager	window_manager;
@@ -1617,8 +1619,12 @@ namespace System.Windows.Forms {
 			// (1) They move with their owner
 			// (2) They disappear when moved to another screen the first time
 			// (3) They disappear and then create artefacts when moved partially to another screen
-			dialog_owner = owner as Form;
+			dialog_owner = owner;
 			owner = null;
+
+			// Save reference to the window that was active at the time this meythod was called,
+			// so that it can be used for centering if necessary.
+			dialog_active_form = Form.ActiveForm;
 
 			IWin32Window original_owner = owner;
 			Form owner_to_be = null;
@@ -1730,7 +1736,9 @@ namespace System.Windows.Forms {
 			if (DialogResult == DialogResult.None) {
 				DialogResult = DialogResult.Cancel;
 			}
-			
+
+			dialog_active_form = null;
+
 			return DialogResult;
 		}
 
@@ -1835,15 +1843,15 @@ namespace System.Windows.Forms {
 				ctl = Parent;
 			} else if (owner != null) {
 				ctl = owner;
-			} else if (dialog_owner != null) {
-				ctl = dialog_owner;
-			} else {
+			} else if (dialog_owner is Control control_owner) {
+				ctl = control_owner.FindForm();
+			}
+
+			if (ctl == null) {
 				// MS calls GetWindowLong(Handle, GWL.HWNDPARENT) to obtain the parent, and it seems that the return value
 				// is not null even if both the Form's Parent and Owner are null. It probably returns active form
 				// or something like that, so let's do "the same".
-				IntPtr active = XplatUI.GetActive();
-				if (Control.FromHandle(active) is Form form)
-					ctl = form;
+				ctl = dialog_active_form;
 			}
 
 			if (ctl != null) {
