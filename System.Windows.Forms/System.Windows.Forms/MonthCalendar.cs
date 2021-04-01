@@ -2143,6 +2143,10 @@ namespace System.Windows.Forms {
 							e.Handled = true;
 						}
 						break;
+					case Keys.Enter:
+					case Keys.Space:
+						this.OnDateSelected(new DateRangeEventArgs(SelectionStart, SelectionEnd));
+						break;
 					default:
 						break;
 				}
