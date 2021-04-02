@@ -1519,7 +1519,7 @@ namespace System.Windows.Forms
 
 			// We found a control.  Walk into this control to find the proper sub control within it to select.
 			ControlCollection ctlControls = ctl.Controls;
-			while (ctlControls != null && ctlControls.Count > 0 && (ctl == this || !IsFocusManagingContainerControl(ctl)))
+			while (ctlControls != null && ctlControls.Count > 0)// && (ctl == this || !IsFocusManagingContainerControl(ctl)))
 			{
 				Control found = ctl.GetFirstChildControlInTabOrderBackward();
 				if (found != null)
