@@ -382,6 +382,7 @@ namespace System.Windows.Forms
 		WM_APP_REOPEN             = 0x0414, // NSApplicationDelegate support
 		WM_EFFECTIVE_APPEARANCE_CHANGED = 0x0415, // Dark mode support (NSView)
 		WM_DRAW_FOCUS_RING_MASK   = 0x0416,
+		WM_FOCUS_RING_MASK_BOUNDS = 0x0417,
 
 		WM_REFLECT = WM_USER + 0x1c00,
 		WM_CLOSE_INTERNAL         = WM_USER + 0x1c01,

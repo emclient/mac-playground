@@ -402,9 +402,21 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.SendMessage(Handle, Msg.WM_DRAW_FOCUS_RING_MASK, IntPtr.Zero, IntPtr.Zero);
 		}
 
-		public override CGRect FocusRingMaskBounds
+		unsafe public override CGRect FocusRingMaskBounds
 		{
-			get { return Bounds; }
+			get {
+				var r = new Rectangle[1] { new Rectangle() };
+				fixed (void* ptr = &r[0])
+				{
+					var result = driver.SendMessage(Handle, Msg.WM_FOCUS_RING_MASK_BOUNDS, IntPtr.Zero, new IntPtr(ptr));
+					if (result == (IntPtr)1)
+					{
+						var rect = new CGRect(Bounds.Left + r[0].X, Bounds.Top + r[0].Y, r[0].Width, r[0].Height);
+						return rect;
+					}
+				}
+				return Bounds;
+			}
 		}
 
 		public override NSDragOperation DraggingEntered(NSDraggingInfo sender)

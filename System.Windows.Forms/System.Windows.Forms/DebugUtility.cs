@@ -34,7 +34,7 @@ namespace System.Windows.Forms
 				return "null";
 
 			NSView view = ClientViewFromControl(ctrl);
-			return $"{ctrl.GetType().Name}, name={ctrl.Name}, tabIdx={ctrl.TabIndex}, visible={ctrl.Visible}, WxH={ctrl.Size.Width}x{ctrl.Size.Height}, XY={ctrl.Location.X};{ctrl.Location.Y}"
+			return $"{ctrl.GetType().Name}, {ctrl.Handle:X}, name={ctrl.Name}, tabIdx={ctrl.TabIndex}, visible={ctrl.Visible}, WxH={ctrl.Size.Width}x{ctrl.Size.Height}, XY={ctrl.Location.X};{ctrl.Location.Y}"
 				+ $", text=\"{ctrl.Text}\", view.IsHidden={view.Hidden}"//, view.hiddenIsHiddenOrHasHiddenAncestor={view.IsHiddenOrHasHiddenAncestor}"
 				+ $"\n    font=\"{ctrl.Font}\", fclr={ctrl.ForeColor.Name}, bclr={ctrl.BackColor.Name}"
 				+ $", {GetFieldInfo(ctrl)}";
