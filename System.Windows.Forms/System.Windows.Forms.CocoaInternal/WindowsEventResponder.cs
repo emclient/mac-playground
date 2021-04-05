@@ -447,7 +447,8 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("paste:")]
 		public virtual void Paste(NSObject sender)
 		{
-			SendCmdKey(view.Handle, VirtualKeys.VK_V);
+			if (NSPasteboard.GeneralPasteboard.PasteboardItems.Length != 0)
+				SendCmdKey(view.Handle, VirtualKeys.VK_V);
 			//driver.SendMessage(view.Handle, Msg.WM_PASTE, IntPtr.Zero, IntPtr.Zero);
 		}
 
