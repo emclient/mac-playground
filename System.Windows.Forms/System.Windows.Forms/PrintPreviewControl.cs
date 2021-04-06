@@ -90,8 +90,12 @@ namespace System.Windows.Forms {
 		public bool AutoZoom {
 			get { return autozoom; }
 			set {
-				autozoom = value;
-				InvalidateLayout ();
+				if (autozoom != value) {
+					autozoom = value;
+					hbar.Visible = vbar.Visible = false;
+					hbar.Value = vbar.Value = 0;
+					InvalidateLayout ();
+				}
 			}
 		}
 		[DefaultValue(1)]
