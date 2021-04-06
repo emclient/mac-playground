@@ -128,7 +128,9 @@ namespace System.Windows.Forms.Mac
 			var p = target.Window.ConvertScreenToBase(e.Window.ConvertBaseToScreen(e.LocationInWindow));
 			var clickCount = props.HasFlag(NSMouseFlags.ClickCount) ? e.ClickCount : 0;
 			var pressure = props.HasFlag(NSMouseFlags.Pressure) ? e.Pressure : 0;
-			return NSEvent.MouseEvent(e.Type, p, e.ModifierFlags, e.Timestamp, target.Window.WindowNumber, null, 0, clickCount, pressure);
+			return e.Type == NSEventType.ScrollWheel
+				? e // Creating ScrollWheel fails, we need to use CGEvent() or derive custom event from NSEvent
+				: NSEvent.MouseEvent(e.Type, p, e.ModifierFlags, e.Timestamp, target.Window.WindowNumber, null, 0, clickCount, pressure);
 		}
 
 		public static NSEvent RetargetMouseEvent(this NSEvent e, CGPoint locationOnScreen, NSMouseFlags props)
@@ -140,7 +142,9 @@ namespace System.Windows.Forms.Mac
 				var location = target.ConvertScreenToBase(locationOnScreen);
 				var clickCount = props.HasFlag(NSMouseFlags.ClickCount) ? e.ClickCount : 0;
 				var pressure = props.HasFlag(NSMouseFlags.Pressure) ? e.Pressure : 0;
-				return NSEvent.MouseEvent(e.Type, location, e.ModifierFlags, e.Timestamp, target.WindowNumber, null, 0, clickCount, pressure);
+				return e.Type == NSEventType.ScrollWheel
+					? e // Creating ScrollWheel fails, we need to use CGEvent() or derive custom event from NSEvent
+					: NSEvent.MouseEvent(e.Type, location, e.ModifierFlags, e.Timestamp, target.WindowNumber, null, 0, clickCount, pressure);
 			}
 			return e;
 		}
