@@ -441,7 +441,7 @@ namespace System.Windows.Forms {
 
 				if (Grab.Hwnd != IntPtr.Zero && isMouseEvt && evt.Window != null) {
 					var grabView = Grab.Hwnd.ToNSView();
-					if (grabView.Window.WindowNumber != evt.WindowNumber && evt.Type != NSEventType.ScrollWheel)
+					if (grabView.Window.WindowNumber != evt.WindowNumber)
 						evt = evt.RetargetMouseEvent(grabView, flags);
 					grabView.DispatchMouseEvent(evt);
 				} else {
