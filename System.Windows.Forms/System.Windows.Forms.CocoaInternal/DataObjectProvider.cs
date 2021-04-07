@@ -120,8 +120,8 @@ namespace System.Windows.Forms.CocoaInternal
 			// Get rid of possible references to whatever that cannot be read during app terminaion.
 			if (data is DataObjectWrapper wrapper)
 				wrapper.Wipe();
-			else if (!(data is DataObject))
-				data = new DataObject();
+
+			data = new DataObject();
 		}
 
 		#endregion
