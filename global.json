@@ -1,9 +1,10 @@
 {
   "sdk": {
-    "version": "6.0.100-alpha.1.20573.6"
+    "version": "5.0.104",
+    "rollForward": "latestPatch"
   },
   "msbuild-sdks": {
-    "MSBuild.Sdk.Extras": "3.0.22"
+    "MSBuild.Sdk.Extras": "3.0.23"
   }
 }
 
