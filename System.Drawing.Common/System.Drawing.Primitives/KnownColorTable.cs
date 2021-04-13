@@ -2,6 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Diagnostics;
+using System.Drawing.Mac;
+#if __MACOS__
+using AppKit;
+#elif __IOS__
+using UIKit;
+#endif
 
 namespace System.Drawing
 {
@@ -285,10 +291,25 @@ namespace System.Drawing
         {
             Debug.Assert(Color.IsKnownColorSystem(color));
 
-            return color < KnownColor.Transparent
-                ? s_staticSystemColors[(int)color - (int)KnownColor.ActiveBorder]
+            return color < KnownColor.Transparent ?
+#if __MACOS__
+                 GetNativeColorArgb(color) ??
+#endif
+                s_staticSystemColors[(int)color - (int)KnownColor.ActiveBorder]
                 : s_staticSystemColors[(int)color - (int)KnownColor.ButtonFace + (int)KnownColor.WindowText];
         }
+
+#if __MACOS__
+        // Certain system colors are dynamic - having different value in Dark Mode then in Light Mode. They don't have to be opaque.
+        public static uint? GetNativeColorArgb(KnownColor kc)
+        {
+            var rgb = Color.FromKnownColor(kc).ToNSColor(false)?.UsingColorSpace(NSColorSpace.DeviceRGBColorSpace);
+            if (rgb != null && rgb.ToArgb(out int a, out int r, out int g, out int b))
+                return (uint)((int)((uint)a << 24) + (r << 16) + (g << 8) + b);
+            return null;
+        }
 #endif
+
+#endif //FEATURE_WINDOWS_SYSTEM_COLORS
     }
 }
