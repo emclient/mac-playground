@@ -3,6 +3,7 @@
 
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing.Mac;
 using System.Runtime.CompilerServices;
 
 namespace System.Drawing
@@ -361,7 +362,7 @@ namespace System.Drawing
 
         public byte B => unchecked((byte)(Value >> ARGBBlueShift));
 
-        public byte A => unchecked((byte)(Value >> ARGBAlphaShift));
+        public byte A => GetAlpha();
 
         public bool IsKnownColor => (state & StateKnownColorValid) != 0;
 
@@ -421,6 +422,18 @@ namespace System.Drawing
 
                 return NotDefinedValue;
             }
+        }
+
+        private byte GetAlpha()
+		{
+            if (IsSystemColor)
+			{
+                // Avoid possible full conversion to RGB in 'Value'
+                var native = this.ToNSColor(false);
+                if (native != null)
+                    return (byte)Math.Round(native.AlphaComponent * 255);
+			}
+            return unchecked((byte)(Value >> ARGBAlphaShift));
         }
 
         private static void CheckByte(int value, string name)
