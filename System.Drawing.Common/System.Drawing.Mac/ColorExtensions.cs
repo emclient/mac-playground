@@ -15,12 +15,34 @@ namespace System.Drawing.Mac
 	public static class ColorExtensions
 	{
 #if __MACOS__
+        static Color textColor;
+        static Color textBackgroundColor;
+
+        static ColorExtensions()
+        {
+            var colorConstructor = typeof(System.Drawing.Color).GetConstructor(
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic,
+                null,
+                new System.Type[] { typeof(long), typeof(short), typeof(string), typeof(System.Drawing.KnownColor) },
+                null);
+            textColor = (Color)colorConstructor.Invoke(new object[] {
+                NSColor.Text.ToArgb(),
+                (short)10,
+                "textColor",
+                (KnownColor)0});
+            textBackgroundColor = (Color)colorConstructor.Invoke(new object[] {
+                NSColor.TextBackground.ToArgb(),
+                (short)10,
+                "textBackgroundColor",
+                (KnownColor)0});
+        }
+
 		public static CGColor ToCGColor(this Color c)
 		{
 			return ToNSColor(c).CGColor;
 		}
 
-		public static NSColor ToNSColor(this Color c, bool convert = true)
+		public static NSColor ToNSColor(this Color c)
 		{
 			if (c.IsSystemColor) {
 				switch (c.ToKnownColor()) {
@@ -56,7 +78,13 @@ namespace System.Drawing.Mac
 				}
 			}
 
-			return convert ? ToNSColor(c.ToArgb()) : null;
+			if (c.IsNamedColor) {
+                if (c.Name == textBackgroundColor.Name) {
+				    return NSColor.TextBackground;
+                }
+			}
+
+			return ToNSColor(c.ToArgb());
 		}
 
 		public static NSColor ToNSColor(this int value)
@@ -132,8 +160,8 @@ namespace System.Drawing.Mac
 					//"windowFrameColor" => SystemColors.ActiveBorder,
 					"gridColor" => SystemColors.ActiveCaption,
 					"headerTextColor" => SystemColors.ActiveCaptionText,
-					"textColor" => SystemColors.ControlText,
-					"textBackgroundColor" => SystemColors.Control,
+					"textColor" => textColor,
+					"textBackgroundColor" => textBackgroundColor,
 					"controlColor" => SystemColors.Control,
 					"controlTextColor" => SystemColors.ControlText, 
 					"controlShadowColor" => SystemColors.ControlDark, 
