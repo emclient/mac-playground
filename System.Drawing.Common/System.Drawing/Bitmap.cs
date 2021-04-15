@@ -986,6 +986,12 @@ namespace System.Drawing {
 			Save (path, format);
 		}
 
+		public new void Save(Stream stream, ImageCodecInfo encoder, EncoderParameters parameters)
+		{
+			// Workaround
+			Save(stream, encoder.Format);
+		}
+
 		public new void Save(Stream stream, ImageFormat format)
 		{
 			if (stream == null)
