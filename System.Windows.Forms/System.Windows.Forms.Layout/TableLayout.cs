@@ -515,7 +515,7 @@ namespace System.Windows.Forms.Layout
 			}
 
 			// Finally, assign the remaining space to Percent rows, if any.
-			if (available_height > 0)
+			if (available_height > 0 && !measureOnly)
 				available_height -= RedistributePercents(available_height, settings.RowStyles, row_heights);
 
 			if (available_height > 0 && row_heights.Length > 0 && !measureOnly) {
