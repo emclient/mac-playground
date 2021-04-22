@@ -3975,10 +3975,8 @@ namespace System.Windows.Forms
 		}
 
 		public virtual void Refresh() {
-			if (IsHandleCreated && Visible) {
-				Invalidate(true);
-				Update ();
-			}
+			Invalidate(true);
+			Update ();
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
@@ -5855,7 +5853,8 @@ namespace System.Windows.Forms
 				} else {
 					XplatUI.EnableWindow(window.Handle, Enabled);
 				}
-				Refresh();
+				if (GetStyle(ControlStyles.UserPaint))
+					Refresh();
 			}
 
 			EventHandler eh = (EventHandler)(Events [EnabledChangedEvent]);
