@@ -35,11 +35,12 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Forms.Extensions.IO;
+using System.Diagnostics;
 
 namespace System.Windows.Forms {
 	public sealed class Clipboard {
 
-		internal const string IDataObjectFormat = "com.novell.mono.mwf.pasteboard.IDataObject";
+		internal readonly static string IDataObjectFormat = "com.novell.mono.mwf.pasteboard.IDataObject." + Process.GetCurrentProcess().Id + "." + DateTime.UtcNow.Ticks.ToString();
 
 		#region Local Variables
 		#endregion	// Local Variables
