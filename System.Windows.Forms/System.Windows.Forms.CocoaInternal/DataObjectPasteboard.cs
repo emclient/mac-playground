@@ -167,17 +167,9 @@ namespace System.Windows.Forms.CocoaInternal
 			return null;
 		}
 
-		internal Image GetBitmap(NSPasteboard pboard)
+		internal Bitmap GetBitmap(NSPasteboard pboard)
 		{
-			var nsimage = new NSImage(pboard);
-			var cgimage = nsimage?.CGImage;
-			if (cgimage == null)
-			{
-				var rect = new CGRect(0, 0, nsimage.Size.Width, nsimage.Size.Height);
-				cgimage = nsimage.AsCGImage(ref rect, null, null);
-			}
-
-			return cgimage?.ToBitmap();
+			return new NSImage(pboard).ToBitmap();
 		}
 
 		internal string GetHtml(NSPasteboard pboard)

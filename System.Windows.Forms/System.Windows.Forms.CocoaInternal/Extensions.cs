@@ -688,17 +688,9 @@ namespace System.Windows.Forms.Mac
 			return null;
 		}
 
-		public static Image GetBitmap(this NSPasteboard pboard)
+		public static Bitmap GetBitmap(this NSPasteboard pboard)
 		{
-			var nsimage = new NSImage(pboard);
-			var cgimage = nsimage?.CGImage;
-			if (cgimage == null)
-			{
-				var rect = new CGRect(0, 0, nsimage.Size.Width, nsimage.Size.Height);
-				cgimage = nsimage.AsCGImage(ref rect, null, null);
-			}
-
-			return cgimage?.ToBitmap();
+			return new NSImage(pboard).ToCGImage()?.ToBitmap();
 		}
 
 		public static string GetHtml(this NSPasteboard pboard)
