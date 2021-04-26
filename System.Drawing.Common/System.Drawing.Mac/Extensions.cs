@@ -203,6 +203,22 @@ namespace System.Drawing.Mac
 			return context.CGContext;
 		}
 
+		public static Bitmap ToBitmap(this NSImage self)
+		{
+			return self.ToCGImage()?.ToBitmap();
+		}
+
+		public static CGImage ToCGImage(this NSImage self)
+		{
+			var image = self?.CGImage;
+			if (image == null)
+			{
+				var rect = new CGRect(CGPoint.Empty, self.Size);
+				image = self.AsCGImage(ref rect, null, null);
+			}
+			return image;
+		}
+
 		public static NSAttributedString GetAttributedString(this string s, char? hotKey = '&', Font font = null, ContentAlignment? alignment = null)
 		{
 			var attributes = new NSMutableDictionary();
