@@ -18,7 +18,7 @@ using MonoMac.Foundation;
 
 namespace System.Windows.Forms
 {
-	[Designer ("System.Windows.Forms.Design.SaveFileDialogDesigner, " + Consts.AssemblySystem_Design)]
+	[Designer("System.Windows.Forms.Design.SaveFileDialogDesigner, " + Consts.AssemblySystem_Design)]
 	public class SaveFileDialog : FileDialog
 	{
 		public string Description { get; set; }
@@ -51,6 +51,7 @@ namespace System.Windows.Forms
 					var panel = new NSSavePanel();
 
 					panel.CanSelectHiddenExtension = true;
+					panel.ExtensionHidden = false;
 
 					if (!String.IsNullOrWhiteSpace(InitialDirectory) && Directory.Exists(InitialDirectory))
 					{
@@ -58,11 +59,12 @@ namespace System.Windows.Forms
 						currentDirectory = InitialDirectory;
 					}
 
-					if (!String.IsNullOrWhiteSpace(FileName))
-						panel.NameFieldStringValue = FileName;
-
 					if (!String.IsNullOrEmpty(Filter))
 						ApplyFilter(panel, Filter);
+
+					if (!String.IsNullOrWhiteSpace(FileName))
+						panel.NameFieldStringValue = AdjustExtensionToMatchFilter(FileName, panel.AllowedFileTypes);
+
 
 					if (NSPanelButtonType.Ok != (NSPanelButtonType)(int)panel.RunModal())
 						return false;
@@ -126,6 +128,19 @@ namespace System.Windows.Forms
 
 			if (extensions.Count != 0)
 				panel.AllowedFileTypes = extensions.ToArray();
+		}
+
+		protected virtual string AdjustExtensionToMatchFilter(string filename, IList<string> extensions)
+		{
+			if (string.IsNullOrEmpty(filename) || extensions == null || extensions.Count == 0)
+				return filename;
+
+			var ext = Path.GetExtension(filename).Replace(".", "");
+			foreach (var val in extensions)
+				if (ext.Equals(val, StringComparison.OrdinalIgnoreCase))
+					return filename;
+
+			return $"{filename.TrimEnd('.')}.{extensions[0]}";
 		}
 	}
 }
