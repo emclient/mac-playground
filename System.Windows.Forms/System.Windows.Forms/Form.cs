@@ -2399,12 +2399,6 @@ namespace System.Windows.Forms {
 				ThemeEngine.Current.ManagedWindowSetButtonLocations (window_manager);
 			}
 			
-			// Shown event is only called once, the first time the form is made visible
-			if (value && !shown_raised) {
-				this.OnShown (EventArgs.Empty);
-				shown_raised = true;
-			}
-
 			if (value && !IsMdiChild){
 				if (ActiveControl == null)
 					SelectNextControl(null, true, true, true, false);
@@ -2886,7 +2880,13 @@ namespace System.Windows.Forms {
 						break;
 				}
 			}
-			
+
+			if (IsHandleCreated && !shown_raised)
+			{
+				shown_raised = true;
+				BeginInvoke((Action)delegate { OnShown(EventArgs.Empty);  });
+			}
+
 			is_loaded = true;
 		}
 
