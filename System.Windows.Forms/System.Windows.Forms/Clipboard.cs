@@ -40,7 +40,7 @@ using System.Diagnostics;
 namespace System.Windows.Forms {
 	public sealed class Clipboard {
 
-		internal readonly static string IDataObjectFormat = "com.novell.mono.mwf.pasteboard.IDataObject." + Process.GetCurrentProcess().Id + "." + DateTime.UtcNow.Ticks.ToString();
+		internal readonly static string IDataObjectFormat = "com.novell.mono.mwf.pasteboard.IDataObject." + Guid.NewGuid().ToString("N");
 
 		#region Local Variables
 		#endregion	// Local Variables
