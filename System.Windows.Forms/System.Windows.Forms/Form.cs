@@ -2881,7 +2881,7 @@ namespace System.Windows.Forms {
 				}
 			}
 
-			if (IsHandleCreated && !shown_raised)
+			if (IsHandleCreated && !shown_raised && !IsDisposed)
 			{
 				shown_raised = true;
 				BeginInvoke((Action)delegate { OnShown(EventArgs.Empty);  });
