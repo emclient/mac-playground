@@ -69,9 +69,6 @@ using MonoMac.AppKit;
 
 namespace System.Windows.Forms.CocoaInternal {
 	internal static class Pasteboard {
-		internal const string internal_format = "com.novell.mono.mwf.pasteboard";
-		internal const string serialized_format = "com.novell.mono.mwf.pasteboard.WindowsForms10PersistentObject";
-
 		internal const string NSDocumentTypeDocumentAttribute = "DocumentType";
 		internal const string NSCharacterEncodingDocumentAttribute = "CharacterEncoding";
 		internal const string NSHTMLTextDocumentType = "NSHTML";

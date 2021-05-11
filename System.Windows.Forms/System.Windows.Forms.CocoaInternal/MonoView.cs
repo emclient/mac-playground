@@ -380,7 +380,9 @@ namespace System.Windows.Forms.CocoaInternal
 			set
 			{
 				exStyle = value;
-				WantsLayer = (exStyle & WindowExStyles.WS_EX_LAYERED) != 0; 
+				// Setting WantsLayer to true only for certain views in the hierarchy resulted
+				// in redrawing of large areas of different parts of the window.
+				WantsLayer = this is MonoContentView || exStyle.HasFlag(WindowExStyles.WS_EX_LAYERED);
 			}
 		}
 

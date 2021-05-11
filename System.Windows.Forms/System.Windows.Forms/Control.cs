@@ -49,6 +49,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
+using System.Windows.Forms.Extensions.Drawing;
 
 #if __MACOS__
 using System.Windows.Forms.Mac;
@@ -1275,7 +1276,7 @@ namespace System.Windows.Forms
 			bool tbstyle_flat = ((CreateParams.Style & (int) ToolBarStyles.TBSTYLE_FLAT) != 0);
 
 			// If we have transparent background
-			if (((BackColor.A != 0xff) && GetStyle(ControlStyles.SupportsTransparentBackColor)) || tbstyle_flat) {
+			if ((BackColor.IsTransparent() && GetStyle(ControlStyles.SupportsTransparentBackColor)) || tbstyle_flat) {
 				if (parent != null) {
 					PaintEventArgs	parent_pe;
 					GraphicsState	state;
@@ -3974,10 +3975,8 @@ namespace System.Windows.Forms
 		}
 
 		public virtual void Refresh() {
-			if (IsHandleCreated && Visible) {
-				Invalidate(true);
-				Update ();
-			}
+			Invalidate(true);
+			Update ();
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
@@ -5854,7 +5853,8 @@ namespace System.Windows.Forms
 				} else {
 					XplatUI.EnableWindow(window.Handle, Enabled);
 				}
-				Refresh();
+				if (GetStyle(ControlStyles.UserPaint))
+					Refresh();
 			}
 
 			EventHandler eh = (EventHandler)(Events [EnabledChangedEvent]);
