@@ -1,6 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFrameworks>xamarinmac20</TargetFrameworks>
+    <TargetFrameworks Condition="'$(SkipMacNet6Projects)' != 'true'">$(TargetFrameworks);net6.0-macos;net6.0-ios</TargetFrameworks>
+    <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
+    <ProjectReference Include="..\System.Private.CoreLib\System.Private.CoreLib.csproj" />
+  </ItemGroup>
 </Project>

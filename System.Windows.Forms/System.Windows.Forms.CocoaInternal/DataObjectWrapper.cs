@@ -81,9 +81,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public void Wipe()
 		{
-			// Get rid of possible references to whatever that cannot be read during app terminaion.
-			if (!(innerData is DataObject))
-				innerData = new DataObject();
+			innerData = new DataObject();
 		}
 
 		#region internals

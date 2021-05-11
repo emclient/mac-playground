@@ -441,6 +441,7 @@ namespace System.Windows.Forms.Layout
 			int columns = actual_positions.GetLength(0);
 			int rows = actual_positions.GetLength(1);
 			bool auto_size = panel.AutoSizeInternal && measureOnly;
+			bool auto_size_h = auto_size && size.Width == 0;
 			bool boundBySize = !measureOnly;
 
 			column_widths = new int[actual_positions.GetLength (0)];
@@ -466,7 +467,7 @@ namespace System.Windows.Forms.Layout
 			}
 
 			// Figure up all the column widths
-			CalculateColumnWidths (settings, actual_positions, max_colspan, settings.ColumnStyles, auto_size, column_widths, false);
+			CalculateColumnWidths (settings, actual_positions, max_colspan, settings.ColumnStyles, auto_size_h, column_widths, false);
 
 			// Calculate available width
 			int available_width = size.Width - (border_width * (columns + 1));
@@ -477,7 +478,7 @@ namespace System.Windows.Forms.Layout
 			if (boundBySize && size.Width > 0 && available_width < 0) {
 				// Calculate the minimum widths for each column
 				int[] col_min_widths = new int[column_widths.Length];
-				CalculateColumnWidths (settings, actual_positions, max_colspan, settings.ColumnStyles, auto_size, col_min_widths, true);
+				CalculateColumnWidths (settings, actual_positions, max_colspan, settings.ColumnStyles, auto_size_h, col_min_widths, true);
 				available_width += Shrink(column_widths, col_min_widths, -available_width, max_colspan);
 			}
 
@@ -515,7 +516,7 @@ namespace System.Windows.Forms.Layout
 			}
 
 			// Finally, assign the remaining space to Percent rows, if any.
-			if (available_height > 0)
+			if (available_height > 0 && !measureOnly)
 				available_height -= RedistributePercents(available_height, settings.RowStyles, row_heights);
 
 			if (available_height > 0 && row_heights.Length > 0 && !measureOnly) {

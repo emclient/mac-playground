@@ -35,11 +35,12 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Forms.Extensions.IO;
+using System.Diagnostics;
 
 namespace System.Windows.Forms {
 	public sealed class Clipboard {
 
-		internal const string IDataObjectFormat = "com.novell.mono.mwf.pasteboard.IDataObject";
+		internal readonly static string IDataObjectFormat = "com.novell.mono.mwf.pasteboard.IDataObject." + Guid.NewGuid().ToString("N");
 
 		#region Local Variables
 		#endregion	// Local Variables
@@ -239,10 +240,13 @@ namespace System.Windows.Forms {
 			var converter = new XplatUI.ObjectToClipboard(ConvertToClipboardData);
 
 			var clipboard_handle = XplatUI.ClipboardOpen(false);
-			XplatUI.ClipboardStore(clipboard_handle, null, 0, null, copy);	// Empty clipboard
+			XplatUI.ClipboardStore(clipboard_handle, null, 0, null, copy);  // Empty clipboard
 
 			if (data is IDataObject idata) {
 				XplatUI.ClipboardStore(clipboard_handle, idata, DataFormats.GetFormat(IDataObjectFormat).Id, converter, copy);
+			} else if (data is string text) {
+				var tdata = new DataObject(DataFormats.UnicodeText, text);
+				XplatUI.ClipboardStore(clipboard_handle, tdata, DataFormats.GetFormat(IDataObjectFormat).Id, converter, copy);
 			} else {
 				var format = DataFormats.Format.Find(data.GetType().FullName);
 				var id = (format != null) && (format.Name != DataFormats.StringFormat) ? format.Id : -1;

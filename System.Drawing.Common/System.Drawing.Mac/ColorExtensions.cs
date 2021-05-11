@@ -44,6 +44,11 @@ namespace System.Drawing.Mac
 
 		public static NSColor ToNSColor(this Color c)
 		{
+			return AsNSColor(c) ?? ToNSColor(c.ToArgb());
+		}
+
+		public static NSColor AsNSColor(this Color c)
+		{
 			if (c.IsSystemColor) {
 				switch (c.ToKnownColor()) {
 					case KnownColor.ActiveBorder: return NSColor.WindowFrame;
@@ -84,7 +89,7 @@ namespace System.Drawing.Mac
                 }
 			}
 
-			return ToNSColor(c.ToArgb());
+			return null;
 		}
 
 		public static NSColor ToNSColor(this int value)
@@ -187,6 +192,18 @@ namespace System.Drawing.Mac
 		public static uint ToUArgb(this NSColor color)
 		{
 			return (uint)color.ToArgb();
+		}
+
+		// Checks the effective color in case of dynamic colors (works only when drawing/lockFocus)
+		public static bool IsTransparent(this Color c)
+		{
+			if (c.IsSystemColor)
+			{
+				var native = c.AsNSColor();
+				if (native != null)
+					return native.AlphaComponent < 1.0f;
+			}
+			return c.A != 255;
 		}
 #elif __IOS__
 		public static CGColor ToCGColor(this Color c)
