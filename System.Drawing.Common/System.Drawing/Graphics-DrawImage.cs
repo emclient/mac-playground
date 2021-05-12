@@ -42,13 +42,8 @@ namespace System.Drawing
 			image = GetRepresentation(context, image, rect.Size.ToSize());
 
 			if (image.nativeMetafilePage != null) {
-				var cgrect = new CGRect(0, 0, image.Width, image.Height);
-				//var transformation = image.nativeMetafilePage.GetDrawingTransform(CGPDFBox.Media, cgrect, 0, false);
-				//var cgrect = new CGRect(rect.X, rect.Y, rect.Width, rect.Height);
-				//var transformation = image.nativeMetafilePage.GetDrawingTransform(CGPDFBox.Media, cgrect, 0, false);
-				var transformation = CGAffineTransform.MakeScale(rect.Width / image.Width, rect.Height / image.Height);
-				//transformation.Scale(rect.Width / image.Width, rect.Height / image.Height);
-				transformation.Translate(rect.X, rect.Y);
+				var cgrect = new CGRect(rect.X, rect.Y, rect.Width, rect.Height);
+				var transformation = image.nativeMetafilePage.GetDrawingTransform(CGPDFBox.Media, cgrect, 0, false);
 				context.SaveState();
 				context.ConcatCTM(transformation);
 				context.ScaleCTM(1, -1);
