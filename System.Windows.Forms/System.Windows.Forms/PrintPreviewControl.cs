@@ -171,12 +171,10 @@ namespace System.Windows.Forms {
 			get { return zoom; }
 			set {
 				if (value <= 0)
-					throw new ArgumentException("zoom");
-				if (zoom != value) {
-					autozoom = false;
-					zoom = value;
-					InvalidateLayout();
-				}
+					throw new ArgumentException ("zoom");
+				autozoom = false;
+				zoom = value;
+				InvalidateLayout ();				
 			}
 		}
 		#endregion // Public Instance Properties
@@ -198,15 +196,12 @@ namespace System.Windows.Forms {
 					page_infos = controller.GetPreviewPageInfo ();
 					document.PrintController = oldController;
 				}
-
-				if (page_infos.Length > 0)
-					image_size = ThemeEngine.Current.PrintPreviewControlGetPageSize (this);
-
+				
 				if (image_cache == null) {
 					image_cache = new Image[page_infos.Length];
 
 					if (page_infos.Length > 0) {
-						//image_size = ThemeEngine.Current.PrintPreviewControlGetPageSize (this);
+						image_size = ThemeEngine.Current.PrintPreviewControlGetPageSize (this);
 						// Keep the original preview data since they could be Metafile and not a Bitmap
 						/*if (image_size.Width >= 0 && image_size.Width < page_infos[0].Image.Width
 						    && image_size.Height >= 0 && image_size.Height < page_infos[0].Image.Height) {
