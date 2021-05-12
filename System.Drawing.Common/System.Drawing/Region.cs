@@ -41,6 +41,7 @@ using ClipperLib;
 namespace System.Drawing 
 {
 	using System.Diagnostics;
+	using System.Drawing.Mac;
 	using Reflection;
 
 	// Clipper lib definitions
@@ -353,8 +354,6 @@ namespace System.Drawing
 			if (g == null)
 				throw new ArgumentNullException ();
 
-			// FIXME
-			NotImplemented(MethodBase.GetCurrentMethod());
 			return GetBounds();
 		}
 
