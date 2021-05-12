@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.CocoaInternal;
 using MacApi;
+using System.Windows.Forms.Mac;
 #if XAMARINMAC
 using AppKit;
 using Foundation;
@@ -617,29 +618,18 @@ namespace WinApi
 
 		public static int GetWindowExStyle(IntPtr hWnd)
 		{
-			WS style = 0;
-			NotImplemented(MethodBase.GetCurrentMethod());
-			return (int)style;
+			if (((ObjCRuntime.Runtime.GetNSObject(hWnd) is NSObject obj) ? (obj as MonoWindow)?.ContentView ?? obj : null) is MonoView view)
+				return (int)view.ExStyle;
+			return 0;
 		}
 
 		internal static IntPtr SetWindowExStyle(IntPtr hWnd, IntPtr dwNewLong)
 		{
 			IntPtr result = IntPtr.Zero;
-			if (ObjCRuntime.Runtime.GetNSObject(hWnd) is NSObject o)
+			if (((ObjCRuntime.Runtime.GetNSObject(hWnd) is NSObject obj) ? (obj as MonoWindow)?.ContentView ?? obj : null) is MonoView view)
 			{
-				if (o is MonoView mview)
-				{
-					result = (IntPtr)mview.ExStyle;
-					mview.ExStyle = (WindowExStyles)dwNewLong;
-				}
-				else if (o is MonoWindow mwin)
-				{
-					if (mwin.ContentView is MonoView cview)
-					{
-						result = (IntPtr)cview.ExStyle;
-						cview.ExStyle = (WindowExStyles)dwNewLong;
-					}
-				}
+				result = (IntPtr)view.ExStyle;
+				view.ExStyle = (WindowExStyles)dwNewLong;
 			}
 			return result;
 		}

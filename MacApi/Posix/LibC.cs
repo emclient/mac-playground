@@ -138,5 +138,16 @@ namespace MacApi.Posix
 		public static extern void exit(int status);
 
 		#endregion
+
+		#region pthreads
+
+
+		[DllImport(Constants.libcLibrary)]
+		public static extern long pthread_self();
+
+		[DllImport(Constants.libcLibrary)]
+		public static extern long pthread_mach_thread_np(long thread);
+
+		#endregion
 	}
 }
