@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using MacApi.Posix;
 
 namespace WinApi
 {
@@ -41,8 +42,7 @@ namespace WinApi
 
 		public static int GetCurrentThreadId()
 		{
-			NotImplemented(MethodBase.GetCurrentMethod());
-			return 0;
+			return (int)LibC.pthread_mach_thread_np(LibC.pthread_self());
 		}
 
 		public static int GetLongPathName(string path, StringBuilder pszPath, int cchPath)
