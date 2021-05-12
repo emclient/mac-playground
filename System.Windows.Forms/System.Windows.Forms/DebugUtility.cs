@@ -55,6 +55,14 @@ namespace System.Windows.Forms
 			return "null";
 		}
 
+		public static string ViewInfo(NSView view)
+		{
+			if (view == null)
+				return string.Empty;
+
+			return ViewInfo(view.Superview) + $"{view.Handle}, {view.GetType().Name}, {view.Identifier}\n";
+		}
+
 		static IntPtr lastInfo;
 		[Conditional("DEBUG")]
 		public static void WriteInfoIfChanged(NSEvent e, string prefix = null)
@@ -68,6 +76,7 @@ namespace System.Windows.Forms
 
 			lastInfo = view.Handle;
 			Console.WriteLine((prefix ?? String.Empty) + ControlInfo(view));
+			Console.WriteLine((prefix ?? String.Empty) + ViewInfo(view));
 		}
 
 		[Conditional("DEBUG")]

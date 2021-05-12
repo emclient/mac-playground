@@ -277,6 +277,12 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
+		public override void PrepareContentInRect(CGRect rect)
+		{
+			// Do not overdraw, to reduce CPU consumption
+			base.PrepareContentInRect(VisibleRect());
+		}
+
 		public override void SetFrameSize(CGSize newSize)
         {
 			base.SetFrameSize(newSize);

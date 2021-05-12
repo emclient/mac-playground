@@ -2658,7 +2658,7 @@ namespace System.Windows.Forms
 		public override Size PrintPreviewControlGetPageSize (PrintPreviewControl preview)
 		{
 			int page_width, page_height;
-			int padding = PrintPreviewControlPadding;
+			int padding = 0;// PrintPreviewControlPadding;
 			PreviewPageInfo[] pis = preview.page_infos;
 
 			if (preview.AutoZoom) {
@@ -2688,7 +2688,7 @@ namespace System.Windows.Forms
 
 		public override void PrintPreviewControlPaint (PaintEventArgs pe, PrintPreviewControl preview, Size page_size)
 		{
-			int padding = 8;
+			int padding = 0; // padding is already included in page_size
 			PreviewPageInfo[] pis = preview.page_infos;
 			if (pis == null)
 				return;
