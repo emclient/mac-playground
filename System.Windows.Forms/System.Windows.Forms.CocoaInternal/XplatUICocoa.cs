@@ -1427,15 +1427,12 @@ namespace System.Windows.Forms {
 		
 		internal override void Invalidate(IntPtr handle, Rectangle rc, bool clear) {
 			NSView vuWrap = handle.ToNSView();
-			if (!vuWrap.Hidden)
+			if (vuWrap is IClientView)
 			{
-				if (vuWrap is IClientView)
-				{
-					rc.X += (int)((IClientView)vuWrap).ClientBounds.X;
-					rc.Y += (int)((IClientView)vuWrap).ClientBounds.Y;
-				}
-				vuWrap.SetNeedsDisplayInRect(MonoToNativeFramed(rc, vuWrap));
+				rc.X += (int)((IClientView)vuWrap).ClientBounds.X;
+				rc.Y += (int)((IClientView)vuWrap).ClientBounds.Y;
 			}
+			vuWrap.SetNeedsDisplayInRect(MonoToNativeFramed(rc, vuWrap));
 		}
 
 		internal override void InvalidateNC(IntPtr handle)
