@@ -246,7 +246,7 @@ namespace System.Drawing.Mac
 			}
 
 			var astr = new NSMutableAttributedString(s, attributes);
-			if (hotKeyIndex != -1)
+			if (hotKeyIndex != -1 && astr.Length > hotKeyIndex)
 				astr.AddAttribute(NSStringAttributeKey.UnderlineStyle, new NSNumber((int)NSUnderlineStyle.Single), new NSRange(hotKeyIndex, 1));
 
 			return astr;
