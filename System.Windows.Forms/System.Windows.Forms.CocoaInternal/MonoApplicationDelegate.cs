@@ -90,7 +90,8 @@ namespace System.Windows.Forms.CocoaInternal
 
 		private void MonoApplication_WillFinishLaunching(object sender, EventArgs e)
 		{
-			 //NSAppleEventManager.SharedAppleEventManager.SetEventHandler(this, new Selector("handleGetURLEvent:withReplyEvent:"), AEEventClass.Internet, AEEventID.GetUrl);
+			if (!NSProcessInfo.ProcessInfo.IsOperatingSystemAtLeastVersion(new NSOperatingSystemVersion(10, 13, 0)))
+				NSAppleEventManager.SharedAppleEventManager.SetEventHandler(this, new Selector(selHandleUrl), AEEventClass.Internet, AEEventID.GetUrl);
 		}
 
 		private void MonoApplication_WillTerminate(object sender, EventArgs e)
@@ -137,6 +138,15 @@ namespace System.Windows.Forms.CocoaInternal
 				DeactivateAppOnDraggingEnded = false;
 				DoDeactivateApp();
 			}
+		}
+
+		const string selHandleUrl = "handleURLEvent:withReplyEvent:";
+		[Export(selHandleUrl)]
+		public void MonoApplication_HandleURLEvent(NSAppleEventDescriptor value, NSAppleEventDescriptor reply)
+		{
+			var url = value.ParamDescriptorForKeyword(AEKeyword.DirectObject)?.StringValue;
+			if (url != null)
+				TryOpen(new string[] { url }, Msg.WM_OPEN_URLS);
 		}
 
 		private void MonoApplication_OpenUrls(object sender, NSApplicationOpenUrlsEventArgs e)
