@@ -53,6 +53,7 @@ namespace System.Drawing {
 		private static Region infinitRegion = new Region();
 		private Region clip;
 		internal nfloat screenScale;
+		internal static bool canUseLockFocus;
 
 		internal Graphics (CGContext context, nfloat screenScale, bool flipped = true)
 		{
@@ -125,12 +126,8 @@ namespace System.Drawing {
 
 		public static Graphics FromHwnd (IntPtr hwnd, bool client)
 		{
-			if (hwnd == IntPtr.Zero) {
-				var scaleFactor = NSScreen.MainScreen.BackingScaleFactor;
-				var context = new CGBitmapContext(IntPtr.Zero, 1, 1, 8, 4, CGColorSpace.CreateDeviceRGB(), CGImageAlphaInfo.PremultipliedFirst);
-				context.ScaleCTM(scaleFactor, -scaleFactor);
-				return new Graphics(context);
-			}
+			if (hwnd == IntPtr.Zero)
+				return new Graphics(DefaultContext);
 
 			Graphics g;
 			var obj = ObjCRuntime.Runtime.GetNSObject(hwnd);
@@ -141,7 +138,7 @@ namespace System.Drawing {
 				if (NSGraphicsContext.CurrentContext == null)
 					return FromHwnd(IntPtr.Zero, false);
 				g = Graphics.FromCurrentContext();
-			} else if (view.LockFocusIfCanDraw ()) {
+			} else if (canUseLockFocus && view.LockFocusIfCanDraw ()) {
 				if (NSGraphicsContext.CurrentContext == null)
 					return FromHwnd(IntPtr.Zero, false);
 				g = Graphics.FromCurrentContext();
@@ -149,7 +146,7 @@ namespace System.Drawing {
 			} else if (view.Window != null && view.Window.GraphicsContext != null) {
 				g = new Graphics (view.Window.GraphicsContext);
 			} else {
-				return Graphics.FromImage (new Bitmap (1, 1));
+				return new Graphics(DefaultContext);
 			}
 
 			if (client) {
@@ -176,6 +173,16 @@ namespace System.Drawing {
 		public static Graphics FromCurrentContext()
 		{
 			return new Graphics ();
+		}
+
+		private static CGBitmapContext DefaultContext { get; } = CreateDefaultContext();
+
+		private static CGBitmapContext CreateDefaultContext()
+		{
+			var scaleFactor = NSScreen.MainScreen.BackingScaleFactor;
+			var context = new CGBitmapContext(IntPtr.Zero, 1, 1, 8, 4, CGColorSpace.CreateDeviceRGB(), CGImageAlphaInfo.PremultipliedFirst);
+			context.ScaleCTM(scaleFactor, -scaleFactor);
+			return context;
 		}
 
 		internal float GraphicsUnitConvertX (float x)
