@@ -138,9 +138,11 @@ namespace System.Drawing {
 				if (NSGraphicsContext.CurrentContext == null)
 					return FromHwnd(IntPtr.Zero, false);
 				g = Graphics.FromCurrentContext();
-			} else if (canUseLockFocus && view.LockFocusIfCanDraw ()) {
-				if (NSGraphicsContext.CurrentContext == null)
+			} else if (view.LockFocusIfCanDraw ()) {
+				if (NSGraphicsContext.CurrentContext == null) {
+					view.UnlockFocus();
 					return FromHwnd(IntPtr.Zero, false);
+				}
 				g = Graphics.FromCurrentContext();
 				g.focusedView = view;
 			} else if (view.Window != null && view.Window.GraphicsContext != null) {
