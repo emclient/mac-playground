@@ -4540,8 +4540,10 @@ namespace System.Windows.Forms
 			Rectangle cb_rect = new Rectangle (rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
 			
 			if ((state & ButtonState.All) == ButtonState.All) {
-				cb_rect.Width -= 2;
-				cb_rect.Height -= 2;
+				cb_rect.X += 1;
+				cb_rect.Y += 1;
+				cb_rect.Width -= 1;
+				cb_rect.Height -= 1;
 				
 				dc.FillRectangle (SystemBrushes.Control, cb_rect.X, cb_rect.Y, cb_rect.Width - 1, cb_rect.Height - 1);
 				dc.DrawRectangle (SystemPens.ControlDark, cb_rect.X, cb_rect.Y, cb_rect.Width - 1, cb_rect.Height - 1);
@@ -4549,8 +4551,10 @@ namespace System.Windows.Forms
 				check_pen = SystemPens.ControlDark;
 			} else
 			if ((state & ButtonState.Flat) == ButtonState.Flat) {
-				cb_rect.Width -= 2;
-				cb_rect.Height -= 2;
+				cb_rect.X += 1;
+				cb_rect.Y += 1;
+				cb_rect.Width -= 1;
+				cb_rect.Height -= 1;
 				
 				if ((state & ButtonState.Inactive) == ButtonState.Inactive)
 					dc.FillRectangle (SystemBrushes.ControlLight, cb_rect.X, cb_rect.Y, cb_rect.Width - 1, cb_rect.Height - 1);
@@ -4558,6 +4562,8 @@ namespace System.Windows.Forms
 					dc.FillRectangle (Brushes.White, cb_rect.X, cb_rect.Y, cb_rect.Width - 1, cb_rect.Height - 1);
 				dc.DrawRectangle (SystemPens.ControlDark, cb_rect.X, cb_rect.Y, cb_rect.Width - 1, cb_rect.Height - 1);
 			} else {
+				cb_rect.X += 1;
+				cb_rect.Y += 1;
 				cb_rect.Width -= 1;
 				cb_rect.Height -= 1;
 				
@@ -4597,15 +4603,15 @@ namespace System.Windows.Forms
 				int check_size = (cb_rect.Height > cb_rect.Width) ? cb_rect.Width / 2: cb_rect.Height / 2;
 				
 				if (check_size < 7) {
-					int lineWidth = Math.Max (3, check_size / 3);
-					int Scale = Math.Max (1, check_size / 9);
+					float lineWidth = Math.Max (3, check_size / 3);
+					float scale = Math.Max (1, check_size / 9);
 					
-					Rectangle rect = new Rectangle (cb_rect.X + (cb_rect.Width / 2) - (int)Math.Ceiling ((float)check_size / 2) - 1, cb_rect.Y + (cb_rect.Height / 2) - (check_size / 2) - 1, 
-									check_size, check_size);
-					
+					RectangleF rect = new RectangleF (cb_rect.X + (cb_rect.Width - check_size) / 2, cb_rect.Y + (cb_rect.Height - check_size) / 2, check_size, check_size);
+
+					float top = rect.Top + lineWidth / 2;
 					for (int i = 0; i < lineWidth; i++) {
-						dc.DrawLine (check_pen, rect.Left + lineWidth / 2, rect.Top + lineWidth + i, rect.Left + lineWidth / 2 + 2 * Scale, rect.Top + lineWidth + 2 * Scale + i);
-						dc.DrawLine (check_pen, rect.Left + lineWidth / 2 + 2 * Scale, rect.Top + lineWidth + 2 * Scale + i, rect.Left + lineWidth / 2 + 6 * Scale, rect.Top + lineWidth - 2 * Scale + i);
+						dc.DrawLine (check_pen, rect.Left, top + i, rect.Left + 2 * scale, top + 2 * scale + i);
+						dc.DrawLine(check_pen, rect.Left + 2 * scale, top + 2 * scale + i, rect.Right - 1, top - 2 * scale + i);
 					}
 				} else {
 					int lineWidth = Math.Max (3, check_size / 3) + 1;
@@ -4613,12 +4619,10 @@ namespace System.Windows.Forms
 					int x_half = cb_rect.Width / 2;
 					int y_half = cb_rect.Height / 2;
 					
-					Rectangle rect = new Rectangle (cb_rect.X + x_half - (check_size / 2) - 1, cb_rect.Y + y_half - (check_size / 2), 
-									check_size, check_size);
+					Rectangle rect = new Rectangle (cb_rect.X + x_half - (check_size / 2) - 1, cb_rect.Y + y_half - (check_size / 2), check_size, check_size);
 					
 					int gradient_left = check_size / 3;
 					int gradient_right = check_size - gradient_left - 1;
-					
 					
 					for (int i = 0; i < lineWidth; i++) {
 						dc.DrawLine (check_pen, rect.X, rect.Bottom - 1 - gradient_left - i, rect.X + gradient_left, rect.Bottom - 1 - i);
