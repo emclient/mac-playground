@@ -37,6 +37,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 			this.WillFinishLaunching += MonoApplication_WillFinishLaunching;
 			this.WillTerminate += MonoApplication_WillTerminate;
+			this.WillBecomeActive += MonoApplication_WillBecomeActive;
 			this.DidBecomeActive += MonoApplication_DidBecomeActive;
 			this.WillResignActive += MonoApplication_WillResignActive;
 			this.ApplicationDockMenu = MonoApplication_ApplicationDockMenu;
@@ -97,6 +98,18 @@ namespace System.Windows.Forms.CocoaInternal
 		private void MonoApplication_WillTerminate(object sender, EventArgs e)
 		{
 			Pasteboard.Wipe();
+		}
+
+		private void MonoApplication_WillBecomeActive(object sender, EventArgs e)
+		{
+			// This is to work around the following problem with Expose:
+			// When you activate another app by clicking it's dock icon and then activate em Client window with Expose (F3, gesture),
+			// then the em Client app becomes active, but the clicked em Client window goes *behind* the main window of the previously
+			// active app.
+			// With this workaround, the clicked windiw flashes back and forth (under the foreign window and back),
+			// but remains in front at last.
+
+			MainWindow?.OrderFront(this);
 		}
 
 		private void MonoApplication_DidBecomeActive(object sender, EventArgs e)
