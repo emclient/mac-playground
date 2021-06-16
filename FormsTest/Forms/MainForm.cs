@@ -138,6 +138,7 @@ namespace FormsTest
 			AddButton("Texture Brush", () => { new TextureBrushForm().Show(); });
 			AddButton("File Descriptors", () => { (fd = new FileDescriptors()).RunTest(); });
 			AddButton("Catch When", () => { CatchWhen.RunTest(); });
+			AddButton("Print Preview", () => { PrintPreview(); });
 		}
 
 		FileDescriptors fd;
