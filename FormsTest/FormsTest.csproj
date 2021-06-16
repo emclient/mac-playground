@@ -218,6 +218,9 @@
     <Compile Include="Experiments\CatchWhen.cs">
       <SubType></SubType>
     </Compile>
+    <Compile Include="Forms\MainForm.PrintPreview.cs">
+      <SubType></SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <!--<EmbeddedResource Include="LayoutIssues\ImapOptions\ImapOptionsControl.resx">
