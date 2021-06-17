@@ -173,8 +173,13 @@ namespace System.Windows.Forms {
 				if (value <= 0)
 					throw new ArgumentException ("zoom");
 				autozoom = false;
+
+				if (value < zoom) // Prevent image from dismissing when zooming out
+					hbar.Value = vbar.Value = 0;
+
 				zoom = value;
-				InvalidateLayout ();				
+
+				InvalidateLayout();
 			}
 		}
 		#endregion // Public Instance Properties
