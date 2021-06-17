@@ -1,9 +1,7 @@
-using System;
 using System.Drawing.Imaging;
 using CoreGraphics;
 using CoreImage;
 using Foundation;
-using ImageIO;
 
 namespace System.Drawing
 {
@@ -28,7 +26,6 @@ namespace System.Drawing
 			context.ConcatCTM (trans.Invert());
 		}
 
-
 		/// <summary>
 		/// Draws the specified Image at the specified location and with the specified size.
 		/// </summary>
@@ -37,17 +34,27 @@ namespace System.Drawing
 		public void DrawImage (Image image, RectangleF rect)
 		{
 			if (image == null)
-				throw new ArgumentNullException ("image");
+				throw new ArgumentNullException(nameof(image));
 
 			image = GetRepresentation(context, image, rect.Size.ToSize());
 
 			if (image.nativeMetafilePage != null) {
-				var cgrect = new CGRect(rect.X, rect.Y, rect.Width, rect.Height);
-				var transformation = image.nativeMetafilePage.GetDrawingTransform(CGPDFBox.Media, cgrect, 0, false);
+				var dst = new CGRect(rect.X, rect.Y, rect.Width, rect.Height);
+				var src = image.nativeMetafilePage.GetBoxRect(CGPDFBox.Media);
+				var scale = (nfloat)Math.Min(dst.Width / src.Width, dst.Height / src.Height);
+
+				// Let’s not use image.nativeMetafilePage.GetDrawingTransform(), because it limits the scale to 1.0.
+				var t = CGAffineTransform.MakeTranslation(-src.X, -src.Y);
+				t.Scale(scale, scale);
+				t.Translate(dst.X, dst.Y);
+
+				// Flip vertically
+				t.Translate(0, -dst.GetMidY());
+				t.Scale(1, -1);
+				t.Translate(0, dst.GetMidY());
+
 				context.SaveState();
-				context.ConcatCTM(transformation);
-				context.ScaleCTM(1, -1);
-				context.TranslateCTM(0, -image.nativeMetafilePage.GetBoxRect(CGPDFBox.Media).Height);
+				context.ConcatCTM(t);
 				context.DrawPDFPage(image.nativeMetafilePage);
 				context.RestoreState();
 			}
