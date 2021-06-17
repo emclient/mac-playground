@@ -20,6 +20,8 @@ namespace FormsTest
 
             printPreviewDialog = new PrintPreviewDialog();
             printPreviewDialog.Document = printDocument;
+            //printPreviewDialog.PrintPreviewControl.Zoom = 2;
+
             printPreviewDialog.ShowDialog();
         }
 
@@ -49,8 +51,6 @@ namespace FormsTest
             // If there are no more pages, reset the string to be printed.
             if (!e.HasMorePages)
                 stringToPrint = printDocumentContents;
-
-            printPreviewDialog.ShowDialog();
         }
     }
 }
