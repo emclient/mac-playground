@@ -291,6 +291,32 @@ namespace System.Windows.Forms {
 			base.WndProc (ref m);
 		}
 
+		protected override void OnMouseWheel(MouseEventArgs e)
+		{
+			OnWheel(e, vbar);
+			base.OnMouseWheel(e);
+		}
+
+		internal override void OnMouseHWheel(MouseEventArgs e)
+		{
+			OnWheel(e, hbar);
+			base.OnMouseHWheel(e);
+		}
+
+		internal virtual void OnWheel(MouseEventArgs e, ScrollBar bar)
+		{
+			if (bar.Visible)
+			{
+				var value = bar.Value - e.Delta;
+				value = Math.Max(bar.Minimum, value);
+				value = Math.Min(Math.Max(bar.Maximum - bar.LargeChange, bar.Minimum), value);
+				bar.Value = value;
+			}
+
+			if (e is HandledMouseEventArgs handled)
+				handled.Handled = true;
+		}
+
 		#endregion // Protected Instance Methods
 
 		static object StartPageChangedEvent = new object ();

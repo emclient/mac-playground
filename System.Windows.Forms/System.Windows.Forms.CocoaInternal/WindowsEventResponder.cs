@@ -263,7 +263,7 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			var msg = TranslateMouseCore(e, out bool _);
 
-			if (Math.Abs(e.ScrollingDeltaY - nfloat.Epsilon) > 0)
+			if (e.ScrollingDeltaY != 0)
 			{
 				int delta = e.ScaledAndQuantizedDeltaY();
 				msg.message = Msg.WM_MOUSEWHEEL;
@@ -272,7 +272,7 @@ namespace System.Windows.Forms.CocoaInternal
 				Application.SendMessage(ref msg);
 			}
 
-			if (Math.Abs(e.ScrollingDeltaX - nfloat.Epsilon) > 0)
+			if (e.ScrollingDeltaX != 0)
 			{
 				int delta = e.ScaledAndQuantizedDeltaX();
 				msg.message = Msg.WM_MOUSEHWHEEL;

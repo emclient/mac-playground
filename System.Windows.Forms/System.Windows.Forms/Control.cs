@@ -5116,6 +5116,11 @@ namespace System.Windows.Forms
 					return;
 				}
 
+				case Msg.WM_MOUSEHWHEEL: {
+					WmMouseHWheel (ref m);
+					return;
+				}
+
 				case Msg.WM_MOUSEMOVE: {
 					WmMouseMove (ref m);
 					return;
@@ -5503,6 +5508,18 @@ namespace System.Windows.Forms
 			var e = new HandledMouseEventArgs(FromParamToMouseButtons((long)m.WParam), mouse_clicks, p.X, p.Y, HighOrder((long)m.WParam));
 
 			OnMouseWheel(e);
+			m.Result = (IntPtr)(e.Handled ? 0 : 1);
+			if (!e.Handled)
+				DefWndProc(ref m); // Forward the message to the parent window
+		}
+
+		private void WmMouseHWheel(ref Message m)
+		{
+			int lParam = m.LParam.ToInt32();
+			Point p = PointToClient(new Point((short)(lParam & 0xffff), (short)((lParam >> 16) & 0xffff))); // (short) is necessarry because of negative values
+			var e = new HandledMouseEventArgs(FromParamToMouseButtons((long)m.WParam), mouse_clicks, p.X, p.Y, HighOrder((long)m.WParam));
+
+			OnMouseHWheel(e);
 			m.Result = (IntPtr)(e.Handled ? 0 : 1);
 			if (!e.Handled)
 				DefWndProc(ref m); // Forward the message to the parent window
@@ -6096,6 +6113,13 @@ namespace System.Windows.Forms
 				eh (this, e);
 		}
 
+		internal virtual void OnMouseHWheel(MouseEventArgs e)
+		{
+			MouseEventHandler eh = (MouseEventHandler)(Events[MouseHWheelEvent]);
+			if (eh != null)
+				eh(this, e);
+		}
+
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected virtual void OnMove(EventArgs e) {
 			EventHandler eh = (EventHandler)(Events [MoveEvent]);
@@ -6382,6 +6406,7 @@ namespace System.Windows.Forms
 		static object MouseMoveEvent = new object ();
 		static object MouseUpEvent = new object ();
 		static object MouseWheelEvent = new object ();
+		static object MouseHWheelEvent = new object();
 		static object MoveEvent = new object ();
 		static object PaddingChangedEvent = new object ();
 		static object PaintEvent = new object ();
@@ -6657,6 +6682,12 @@ namespace System.Windows.Forms
 		public event MouseEventHandler MouseWheel {
 			add { Events.AddHandler (MouseWheelEvent, value); }
 			remove { Events.RemoveHandler (MouseWheelEvent, value); }
+		}
+
+		internal event MouseEventHandler MouseHWheel
+		{
+			add { Events.AddHandler(MouseHWheelEvent, value); }
+			remove { Events.RemoveHandler(MouseHWheelEvent, value); }
 		}
 
 		public event EventHandler Move {
