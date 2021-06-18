@@ -41,7 +41,7 @@ namespace System.Drawing
 			if (image.nativeMetafilePage != null) {
 				var dst = new CGRect(rect.X, rect.Y, rect.Width, rect.Height);
 				var src = image.nativeMetafilePage.GetBoxRect(CGPDFBox.Media);
-				var scale = (nfloat)Math.Min(dst.Width / src.Width, dst.Height / src.Height);
+				var scale = (nfloat)(src.Width == 0 || src.Height == 0 ? 1 : Math.Min(dst.Width / src.Width, dst.Height / src.Height));
 
 				// Let’s not use image.nativeMetafilePage.GetDrawingTransform(), because it limits the scale to 1.0.
 				var t = CGAffineTransform.MakeTranslation(-src.X, -src.Y);
