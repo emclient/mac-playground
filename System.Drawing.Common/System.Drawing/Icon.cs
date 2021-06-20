@@ -334,7 +334,7 @@ namespace System.Drawing
 			return new CoreGraphics.CGImageProperties(dictionary);
 		}
 
-		[DllImport("/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/CoreGraphics")]
+		[DllImport("/System/Library/Frameworks/ImageIO.framework/ImageIO")]
 		internal extern static IntPtr CGImageSourceCopyPropertiesAtIndex(IntPtr cgImageSource, nint index, IntPtr cfDictionaryOptions); // -> CFDictionaryRef
 	}
 }
