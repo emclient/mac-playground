@@ -4,7 +4,6 @@ This is a mix of code that was developed during our effort to port eM Client to 
 
 To test the experiments:
 * Open MacPlayground.sln in Visual Studio for Mac
-* Set solution configuration to Xamarin - Debug
 * Set default project to FormsTest.app
 * Run
 
