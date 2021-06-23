@@ -64,6 +64,13 @@ namespace System.Drawing.Printing {
 			paper_size = pageSettings.PaperSize;
 		}
 
+		internal PageSettings(NSPrintInfo printInfo) : this()
+		{
+			PrinterSettings = new PrinterSettings();
+			print_info = printInfo;
+			paper_size = new PaperSize(print_info.LocalizedPaperName, (int)print_info.PaperSize.Width, (int)print_info.PaperSize.Height);
+		}
+
 		internal static NSPrinter PrinterWithNameOrDefaultPrinter(string printerName)
 		{
 			NSPrinter printer = null;

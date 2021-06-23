@@ -9,6 +9,7 @@ using UIKit;
 using CoreGraphics;
 using CoreText;
 using Foundation;
+using System.Drawing.Printing;
 
 namespace System.Drawing.Mac
 {
@@ -323,6 +324,11 @@ namespace System.Drawing.Mac
 		public static CGContext ToCGContext(this Graphics graphics)
 		{
 			return graphics.context;
+		}
+
+		public static PageSettings ToPageSettings(this NSPrintInfo printInfo)
+		{
+			return new PageSettings(printInfo);
 		}
 	}
 }
