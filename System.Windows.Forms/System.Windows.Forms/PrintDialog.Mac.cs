@@ -1,36 +1,14 @@
 #if MACDIALOGS
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-//
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
-// Copyright (c) 2005-2006 Novell, Inc.
-//
-// Authors:
-//	Someone
-//	Jonathan Chambers (jonathan.chambers@ansys.com)
-//	Jordi Mas i Hernandez (jordimash@gmail.com)
-//
 
 using System;
 using System.ComponentModel;
 using System.Drawing.Printing;
 using AppKit;
 using System.Windows.Forms.CocoaInternal;
+using System.Drawing;
+using CoreGraphics;
+using Foundation;
+using System.Drawing.Mac;
 
 namespace System.Windows.Forms
 {
@@ -40,6 +18,7 @@ namespace System.Windows.Forms
 	{
 		PrintDocument document;
 		PrinterSettings settings;
+		bool pageSettingsTransferred;
 
 		public PrintDialog()
 		{
@@ -153,23 +132,206 @@ namespace System.Windows.Forms
 
 		protected override bool RunDialog(IntPtr hwndOwner)
 		{
-			var currentDirectory = Environment.CurrentDirectory;
 			try
 			{
+				document.QueryPageSettings += Document_QueryPageSettings;
+
+				var info = NSPrintInfo.SharedPrintInfo ?? new NSPrintInfo();
+				var control = new PrintControl(document);
+				control.CreateControl();
+
+				var operation = NSPrintOperation.FromView(ObjCRuntime.Runtime.GetNSObject<NSView>(control.Handle));
+
+				operation.ShowsPrintPanel = true;
+				if (operation.PrintPanel == null)
+					operation.PrintPanel = new NSPrintPanel();
+
+				operation.PrintInfo = info;
+
+				var panel = operation.PrintPanel;
+
 				using (var context = new ModalDialogContext())
 				{
-					using (var panel = new NSPrintPanel())
-					{
-						var info = NSPrintInfo.SharedPrintInfo ?? new NSPrintInfo();
-						if (NSPanelButtonType.Ok != (NSPanelButtonType)(int)panel.RunModalWithPrintInfo(info))
-							return false;
-					}
-					return true;
+					panel.Options |=
+						NSPrintPanelOptions.ShowsCopies
+						| (AllowSomePages ? NSPrintPanelOptions.ShowsPageRange : 0)
+						| NSPrintPanelOptions.ShowsPaperSize
+						| NSPrintPanelOptions.ShowsOrientation
+						//| NSPrintPanelOptions.ShowsScaling
+						| (AllowSelection ? NSPrintPanelOptions.ShowsPrintSelection : 0)
+						| NSPrintPanelOptions.ShowsPageSetupAccessory
+						| NSPrintPanelOptions.ShowsPreview;
+
+					/*return*/ operation.RunOperation();
+					return false; // Prevent printing again after closing the dialog (Windows standard print dialog only modifies printing options)
 				}
 			}
 			finally
 			{
+				document.QueryPageSettings -= Document_QueryPageSettings;
 			}
+		}
+
+		private void Document_QueryPageSettings(object sender, QueryPageSettingsEventArgs e)
+		{
+			if (NSPrintOperation.CurrentOperation is NSPrintOperation printOperation)
+			{
+				if (pageSettingsTransferred)
+					e.PageSettings = printOperation.PrintInfo.ToPageSettings();
+				else
+				{
+					pageSettingsTransferred = true;
+
+					var info = printOperation.PrintInfo;
+					var margins = e.PageSettings.Margins;
+					info.LeftMargin = margins.Left;
+					info.RightMargin = margins.Right;
+					info.TopMargin = margins.Top;
+					info.BottomMargin = margins.Bottom;
+
+					var printer = NSPrinter.PrinterWithName(e.PageSettings.PrinterSettings.PrinterName);
+					if (printer != null)
+						info.Printer = printer;
+
+					info.PaperSize = new CGSize(e.PageSettings.PaperSize.Width, e.PageSettings.PaperSize.Height);
+
+					info.Orientation = e.PageSettings.Landscape ? NSPrintingOrientation.Landscape : NSPrintingOrientation.Portrait;
+				}
+			}
+		}
+	}
+
+	class PrintControl : Control, IMacNativeControl
+	{
+		PrintView view;
+		PrintDocument document;
+
+		Size pageSize;
+		PreviewPageInfo[] pageInfos;
+		PreviewPrintController controller = new PreviewPrintController();
+
+		int currentPage;
+
+		public PrintControl(PrintDocument document)
+		{
+			this.document = document;
+			Padding = Padding.Empty;
+		}
+
+		public NSView CreateView()
+		{
+			view = new PrintView();
+			view.KnowsPageRangeHandler = view_KnowsPageRange;
+			view.RectForPageHandler = view_RectForPage;
+			return view;
+		}
+
+		bool view_KnowsPageRange(ref NSRange range)
+		{
+			InvalidatePreview();
+			GeneratePreview();
+
+			Size = GetPageSize();
+			range = new NSRange(1, pageInfos.Length);
+
+			return true;
+		}
+
+		CGRect view_RectForPage(nint page)
+		{
+			currentPage = (int)page;
+			return new CGRect(CGPoint.Empty, pageSize.ToCGSize());
+		}
+
+		public int Columns { get; set; } = 1;
+		public int Rows { get; set; } = 1;
+		public int StartPage { get; set; } = 0;
+		public double Zoom { get; set; } = 1;
+		public bool AutoZoom { get; set; } = true;
+
+		protected override void OnPaint(PaintEventArgs pevent)
+		{
+			if (pageInfos == null)
+				GeneratePreview();
+
+			if (pageInfos == null)
+				return;
+
+			int p = currentPage - 1;
+			if (p < 0 || p >= pageInfos.Length)
+				return;
+
+			var image = pageInfos[p].Image;
+			var dest = new Rectangle(Point.Empty, pageSize);
+			pevent.Graphics.DrawImage(image, dest, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel);
+		}
+
+		protected void GeneratePreview()
+		{
+			if (document == null)
+				return;
+
+			if (pageInfos == null)
+			{
+				var oldController = document.PrintController;
+				try
+				{
+					document.PrintController = controller;
+
+					pageSize = GetPageSize();
+					document.Print();
+					pageInfos = controller.GetPreviewPageInfo();
+				}
+				catch (Exception e)
+				{
+					Diagnostics.Debug.WriteLine(e);
+					pageInfos = new PreviewPageInfo[0];
+				}
+				finally
+				{
+					document.PrintController = oldController;
+				}
+			}
+		}
+
+		public Size GetPageSize()
+		{
+			return (NSPrintOperation.CurrentOperation?.PrintInfo ?? NSPrintInfo.SharedPrintInfo).PaperSize.ToSDSize();
+		}
+
+		public void InvalidatePreview()
+		{
+			if (pageInfos != null)
+			{
+				for (int i = 0; i < pageInfos.Length; i++)
+					if (pageInfos[i].Image != null)
+						pageInfos[i].Image.Dispose();
+				pageInfos = null;
+			}
+		}
+	}
+
+	class PrintView : MonoView
+	{
+		public PrintView() : this(CGRect.Empty) { }
+		public PrintView(CGRect frame) : this(frame, 0, 0) { }
+		public PrintView(CGRect frame, WindowStyles style, WindowExStyles exStyle) : base(XplatUICocoa.GetInstance(), frame, style, exStyle) { }
+		public PrintView(IntPtr handle) : base(handle) { }
+
+		public delegate bool KnowsPageRangeDelegate(ref NSRange range);
+		public delegate CGRect RectForPageDelegate(nint pageNumber);
+
+		public KnowsPageRangeDelegate KnowsPageRangeHandler { get; set; }
+		public RectForPageDelegate RectForPageHandler { get; set; }
+
+		public override bool KnowsPageRange(ref NSRange range)
+		{
+			return KnowsPageRangeHandler != null ? KnowsPageRangeHandler.Invoke(ref range) : base.KnowsPageRange(ref range);
+		}
+
+		public override CGRect RectForPage(nint pageNumber)
+		{
+			return RectForPageHandler != null ? RectForPageHandler.Invoke(pageNumber) : base.RectForPage(pageNumber);
 		}
 	}
 }
