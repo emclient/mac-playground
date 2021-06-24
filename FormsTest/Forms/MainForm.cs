@@ -9,6 +9,7 @@ using System.Windows.Forms;
 namespace FormsTest
 {
 	using System.Collections.Generic;
+	using System.Drawing.Printing;
 	using FormsTest.Experiments;
 	//using MailClient.UI.Forms;
 	//using CocoaMessageBox = MessageBox;
@@ -277,19 +278,6 @@ namespace FormsTest
 
             base.WndProc(ref m);
         }
-
-		void ShowPrintDialog()
-		{
-
-			//https://github.com/brunophilipe/Noto/blob/master/Noto/View%20Controllers/Printing/PrintingView.swift
-			//https://nshipster.com/uiprintinteractioncontroller/
-			//https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Printing/osxp_printingapi/osxp_printingapi.html#//apple_ref/doc/uid/10000083i-CH2-SW2
-			//https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Printing/osxp_printapps/osxp_printapps.html#//apple_ref/doc/uid/20000861-BAJBFGED
-			//https://developer.apple.com/documentation/appkit/nsprintinfo?language=objc
-			var dialog = new PrintDialog();
-			//dialog.PrinterSettings = 
-			dialog.ShowDialog(this);
-		}
 
 		void ChangeBackColor()
 		{
