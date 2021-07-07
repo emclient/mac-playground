@@ -82,8 +82,8 @@ namespace System.Drawing.Printing {
 		public Rectangle Bounds
 		{
 			get {
-				return print_info.ImageablePageBounds.ToRectangle();
-				//return new Rectangle(0, 0, PaperSize.Width, PaperSize.Height);
+				//return print_info.ImageablePageBounds.ToRectangle();
+				return new Rectangle(0, 0, PaperSize.Width, PaperSize.Height);
 			}
 		}
 

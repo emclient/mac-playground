@@ -60,6 +60,16 @@ namespace System.Drawing.Mac
 			return new Rectangle(r.X + x, r.Y + y, r.Width, r.Height);
 		}
 
+		public static Rectangle Inset(this Rectangle r, int left, int top, int right, int bottom)
+		{
+			return new Rectangle(r.X + left, r.Y + top, r.Width - right - left, r.Height - bottom - top);
+		}
+
+		public static Rectangle Inset(this Rectangle r, Margins m)
+		{
+			return r.Inset(m.Left, m.Top, m.Right, m.Bottom);
+		}
+
 		public static CGPoint Move(this CGPoint p, nfloat x, nfloat y)
 		{
 			return new CGPoint(p.X + x, p.Y + y);
