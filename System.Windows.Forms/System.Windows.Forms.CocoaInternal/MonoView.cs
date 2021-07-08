@@ -631,22 +631,22 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override string AccessibilityRole
 		{
-			get => Control.FromHandle(Handle).AccessibilityRole();
+			get => Control.FromHandle(Handle)?.AccessibilityRole();
 		}
 
 		public override string AccessibilityTitle
 		{
-			get => Control.FromHandle(Handle).AccessibilityTitle();
+			get => Control.FromHandle(Handle)?.AccessibilityTitle();
 		}
 
 		public override string AccessibilityLabel
 		{
-			get => Control.FromHandle(Handle).AccessibilityLabel();
+			get => Control.FromHandle(Handle)?.AccessibilityLabel();
 		}
 
 		public override NSObject AccessibilityValue
 		{
-			get => Control.FromHandle(Handle).AccessibilityValue();
+			get => Control.FromHandle(Handle)?.AccessibilityValue();
 		}
 
 		#endregion
