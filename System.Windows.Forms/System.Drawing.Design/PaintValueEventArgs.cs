@@ -30,7 +30,6 @@
 //
 
 using System.ComponentModel;
-using System.Security.Permissions;
 
 namespace System.Drawing.Design
 {

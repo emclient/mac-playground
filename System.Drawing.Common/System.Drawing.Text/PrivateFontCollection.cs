@@ -30,7 +30,6 @@
 //
 using System.Collections.Generic;
 using System.IO;
-using System.Security.Permissions;
 using System.Runtime.InteropServices;
 
 namespace System.Drawing.Text 
