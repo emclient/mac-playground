@@ -326,9 +326,11 @@ namespace System.Drawing.Mac
 			return graphics.context;
 		}
 
+#if __MACOS__
 		public static PageSettings ToPageSettings(this NSPrintInfo printInfo)
 		{
 			return new PageSettings(printInfo);
 		}
+#endif
 	}
 }

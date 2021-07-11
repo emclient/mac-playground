@@ -170,12 +170,6 @@ namespace System.Drawing {
 		{
 			return FromHwnd(hwnd, true);
 		}
-#endif
-
-		public static Graphics FromCurrentContext()
-		{
-			return new Graphics ();
-		}
 
 		private static CGBitmapContext DefaultContext { get; } = CreateDefaultContext();
 
@@ -185,6 +179,12 @@ namespace System.Drawing {
 			var context = new CGBitmapContext(IntPtr.Zero, 1, 1, 8, 4, CGColorSpace.CreateDeviceRGB(), CGImageAlphaInfo.PremultipliedFirst);
 			context.ScaleCTM(scaleFactor, -scaleFactor);
 			return context;
+		}
+#endif
+
+		public static Graphics FromCurrentContext()
+		{
+			return new Graphics ();
 		}
 
 		internal float GraphicsUnitConvertX (float x)
