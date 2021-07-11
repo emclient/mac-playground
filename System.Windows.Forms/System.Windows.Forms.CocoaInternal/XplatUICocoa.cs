@@ -2560,7 +2560,7 @@ namespace System.Windows.Forms {
 	internal static class MSGExtension {
 		public static NSEvent ToNSEvent(this MSG msg) {
 			var handle = GCHandle.Alloc(msg);
-			var ptr = (int)GCHandle.ToIntPtr (handle).ToInt64();
+			var ptr = (nint)GCHandle.ToIntPtr (handle).ToInt64();
 
 			return NSEvent.OtherEvent (NSEventType.ApplicationDefined, CGPoint.Empty, 0, NSDate.Now.SecondsSinceReferenceDate, 0, null, XplatUICocoa.NSEventTypeWindowsMessage, ptr, 0);
 		}
