@@ -83,7 +83,7 @@ namespace System.Drawing.Printing {
 		{
 			get {
 				//return print_info.ImageablePageBounds.ToRectangle();
-				return new Rectangle(0, 0, PaperSize.Width, PaperSize.Height);
+				return new Rectangle(Point.Empty, print_info.PaperSize.ToSDSize());
 			}
 		}
 

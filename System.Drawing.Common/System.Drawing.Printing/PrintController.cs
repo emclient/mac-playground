@@ -279,9 +279,7 @@ namespace System.Drawing.Printing {
 			Rectangle r = pageSettings.Bounds;
 			Rectangle pageBounds = new Rectangle((int)(r.Left / k), -(int)(r.Top / k), (int)(r.Width / k), (int)(r.Height / k));
 			Rectangle marginBounds = pageBounds.Inset(pageSettings.Margins);
-
-			PrintPageEventArgs pageEvent = new PrintPageEventArgs(null, marginBounds, pageBounds, pageSettings);
-			return pageEvent;
+			return new PrintPageEventArgs(null, marginBounds, pageBounds, pageSettings);
 		}
 	}
 }
