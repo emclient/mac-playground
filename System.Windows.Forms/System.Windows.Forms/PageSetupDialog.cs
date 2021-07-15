@@ -144,7 +144,11 @@ namespace System.Windows.Forms
 		[EditorBrowsableAttribute (EditorBrowsableState.Always)]
 		public bool EnableMetric {
 			get { return enable_metric; }
-			set { enable_metric = value; }
+			set
+			{
+				enable_metric = value;
+				OnUnitsChanged();
+			}
 		}
 
 		public Margins MinMargins {
@@ -452,10 +456,8 @@ namespace System.Windows.Forms
 
 		static bool UseYardPound {
 			get {
-				var current = RegionInfo.CurrentRegion;
-				if (current == null)
-					return true;
-				return !current.IsMetric;
+				//return !RegionInfo.CurrentRegion.IsMetric; // broken
+				return !Foundation.NSLocale.CurrentLocale.UsesMetricSystem;
 			}
 		}
 
@@ -472,22 +474,29 @@ namespace System.Windows.Forms
 		private double ToLocalizedLength (int marginsUnit)
 		{
 			return UseYardPound ?
-				PrinterUnitConvert.Convert (marginsUnit, PrinterUnit.ThousandthsOfAnInch, PrinterUnit.Display) :
-				PrinterUnitConvert.Convert (marginsUnit, PrinterUnit.ThousandthsOfAnInch, PrinterUnit.TenthsOfAMillimeter);
+				PrinterUnitConvert.Convert (marginsUnit / 100.0, PrinterUnit.ThousandthsOfAnInch, PrinterUnit.Display) :
+				PrinterUnitConvert.Convert (marginsUnit / 10.0, PrinterUnit.ThousandthsOfAnInch, PrinterUnit.TenthsOfAMillimeter);
 		}
 
 		private int FromLocalizedLength (double marginsUnit)
 		{
 			return  (int)(UseYardPound ?
-				PrinterUnitConvert.Convert (marginsUnit, PrinterUnit.Display, PrinterUnit.ThousandthsOfAnInch) :
-				PrinterUnitConvert.Convert (marginsUnit, PrinterUnit.TenthsOfAMillimeter, PrinterUnit.ThousandthsOfAnInch));
+				PrinterUnitConvert.Convert (100 * marginsUnit, PrinterUnit.Display, PrinterUnit.ThousandthsOfAnInch) :
+				PrinterUnitConvert.Convert (10 * marginsUnit, PrinterUnit.TenthsOfAMillimeter, PrinterUnit.ThousandthsOfAnInch));
 		}
 
 		private string LocalizedLengthUnit ()
 		{
 			return UseYardPound ? "Margins (inches)" : "Margins (millimeters)";
 		}
-		
+
+
+		private void OnUnitsChanged()
+		{
+			groupbox_margin.Text = LocalizedLengthUnit();
+			UpdateMarginData();
+		}
+
 		private void SetPrinterDetails ()
 		{
 			if (PageSettings == null)
@@ -511,18 +520,7 @@ namespace System.Windows.Forms
 			if (ShowHelp)
 				ShowHelpButton ();
 
-			Margins page_margins = PageSettings.Margins;
-			Margins min_margins = MinMargins;
-
-			// Update margin data
-			textbox_top.Text = ToLocalizedLength (page_margins.Top).ToString ();
-			textbox_bottom.Text = ToLocalizedLength (page_margins.Bottom).ToString ();
-			textbox_left.Text = ToLocalizedLength (page_margins.Left).ToString ();
-			textbox_right.Text = ToLocalizedLength (page_margins.Right).ToString ();
-			textbox_top.Min = ToLocalizedLength (min_margins.Top);
-			textbox_bottom.Min = ToLocalizedLength (min_margins.Bottom);
-			textbox_left.Min = ToLocalizedLength (min_margins.Left);
-			textbox_right.Min = ToLocalizedLength (min_margins.Right);
+			UpdateMarginData();
 
 			button_printer.Enabled = AllowPrinter && PrinterSettings != null;
 			groupbox_orientation.Enabled = AllowOrientation;
@@ -530,6 +528,33 @@ namespace System.Windows.Forms
 			groupbox_margin.Enabled = AllowMargins;
 
 			pagePreview.Setup (PageSettings);
+		}
+
+		private void UpdateMarginData()
+		{
+			if (PageSettings == null)
+				return;
+
+			Margins page_margins = PageSettings.Margins;
+			Margins min_margins = MinMargins;
+
+			textbox_top.Text = LocalizedRounded(page_margins.Top).ToString();
+			textbox_bottom.Text = LocalizedRounded(page_margins.Bottom).ToString();
+			textbox_left.Text = LocalizedRounded(page_margins.Left).ToString();
+			textbox_right.Text = LocalizedRounded(page_margins.Right).ToString();
+			textbox_top.Min = LocalizedRounded(min_margins.Top);
+			textbox_bottom.Min = LocalizedRounded(min_margins.Bottom);
+			textbox_left.Min = LocalizedRounded(min_margins.Left);
+			textbox_right.Min = LocalizedRounded(min_margins.Right);
+		}
+
+		private double LocalizedRounded(int value)
+		{
+			// The value is supposed to be in PrinterUnit.ThousandthsOfAnInch (internal representation)
+			const double k = 1000.0 / 96.0;
+			double result = k * ToLocalizedLength(value);
+			int places = UseYardPound ? 2 : 0;
+			return Math.Round(result, places);
 		}
 
 		private void OnClickOkButton (object sender, EventArgs e)
@@ -553,10 +578,12 @@ namespace System.Windows.Forms
 			}
 
 			Margins margins = new Margins ();
-			margins.Top = FromLocalizedLength (textbox_top.Value);
-			margins.Bottom = FromLocalizedLength (textbox_bottom.Value);
-			margins.Left = FromLocalizedLength (textbox_left.Value);
-			margins.Right = FromLocalizedLength (textbox_right.Value);
+
+			double k = 96.0 / 1000.0;
+			margins.Top = (int)(k * FromLocalizedLength(textbox_top.Value));
+			margins.Bottom = (int)(k * FromLocalizedLength(textbox_bottom.Value));
+			margins.Left = (int)(k * FromLocalizedLength(textbox_left.Value));
+			margins.Right = (int)(k * FromLocalizedLength(textbox_right.Value));
 			PageSettings.Margins = margins;
 
 			PageSettings.Landscape = radio_landscape.Checked;
@@ -886,11 +913,11 @@ namespace System.Windows.Forms
 			{
 				sb = new StringBuilder ();
 				for (int i = 0; i < 4; i++) {
-					sb.Append ("blabla piu piublapiu haha lai dlais dhlçai shd ");
-					sb.Append ("çoasd çlaj sdç\r\n lajsd lçaisdj lçillaisd lahs dli");
+					sb.Append ("blabla piu piublapiu haha lai dlais dhlï¿½ai shd ");
+					sb.Append ("ï¿½oasd ï¿½laj sdï¿½\r\n lajsd lï¿½aisdj lï¿½illaisd lahs dli");
 					sb.Append ("laksjd liasjdliasdj blabla piu piublapiu haha ");
-					sb.Append ("lai dlais dhlçai shd çoasd çlaj sdç lajsd lçaisdj");
-					sb.Append (" lçillaisd lahs dli laksjd liasjdliasdj\r\n\r\n");
+					sb.Append ("lai dlais dhlï¿½ai shd ï¿½oasd ï¿½laj sdï¿½ lajsd lï¿½aisdj");
+					sb.Append (" lï¿½illaisd lahs dli laksjd liasjdliasdj\r\n\r\n");
 				}
 				
 				font = new Font (FontFamily.GenericSansSerif, 4);
@@ -913,17 +940,17 @@ namespace System.Windows.Forms
 				this.Invalidate ();
 			}
 
-
 			public void Setup (PageSettings pageSettings)
 			{
 				this.width = pageSettings.PaperSize.Width;
 				this.height = pageSettings.PaperSize.Height;
 
+				const double k = 1000.0 / 96.0;
 				Margins margins = pageSettings.Margins;
-				this.marginBottom = margins.Bottom;
-				this.marginTop = margins.Top;
-				this.marginLeft = margins.Left;
-				this.marginRight = margins.Right;
+				this.marginBottom = (int)(k * margins.Bottom);
+				this.marginTop = (int)(k * margins.Top);
+				this.marginLeft = (int)(k * margins.Left);
+				this.marginRight = (int)(k * margins.Right);
 				this.landscape = pageSettings.Landscape;
 				this.loaded = true;
 			}
@@ -938,11 +965,14 @@ namespace System.Windows.Forms
 				Graphics g = e.Graphics;
 
 				float h = displayHeight;
-				float w = (width * displayHeight) / height;
-				float top = (marginTop * displayHeight) / height;
-				float left = (marginLeft * displayHeight) / height;
-				float bottom = (marginBottom * displayHeight) / height;
-				float right = (marginRight * displayHeight) / height;
+				float w = width * displayHeight / height;
+
+				float k = 72.0f / 1000.0f;
+
+				float top = k * marginTop * displayHeight / height;
+				float left = k * marginLeft * displayHeight / height;
+				float bottom = k * marginBottom * displayHeight / height;
+				float right = k * marginRight * displayHeight / height;
 
 				if (landscape) {
 					float a = w;

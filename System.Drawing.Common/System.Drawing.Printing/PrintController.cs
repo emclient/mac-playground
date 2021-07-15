@@ -27,6 +27,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System.Drawing.Mac;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
@@ -184,6 +185,8 @@ namespace System.Drawing.Printing {
 
 				PrintPageEventArgs pageEvent = CreatePrintPageEvent(queryEvent.PageSettings);
 				Graphics graphics = OnStartPage(document, pageEvent);
+				const float k = 72.0f / 96.0f;
+				graphics.ScaleTransform(k, k);
 				pageEvent.SetGraphics(graphics);
 
 				try
@@ -272,16 +275,11 @@ namespace System.Drawing.Printing {
 
 		private PrintPageEventArgs CreatePrintPageEvent(PageSettings pageSettings)
 		{
-			//IntSecurity.AllPrintingAndUnmanagedCode.Assert();
-			//Debug.Assert((modeHandle != null), "modeHandle is null.  Someone must have forgot to call base.StartPrint");
-			Rectangle pageBounds = pageSettings.Bounds;
-			Rectangle marginBounds = new Rectangle(pageSettings.Margins.Left,
-												   pageSettings.Margins.Top,
-												   pageBounds.Width - (pageSettings.Margins.Left + pageSettings.Margins.Right),
-												   pageBounds.Height - (pageSettings.Margins.Top + pageSettings.Margins.Bottom));
-
-			PrintPageEventArgs pageEvent = new PrintPageEventArgs(null, marginBounds, pageBounds, pageSettings);
-			return pageEvent;
+			const float k = 72f / 96f;
+			Rectangle r = pageSettings.Bounds;
+			Rectangle pageBounds = new Rectangle((int)(r.Left / k), -(int)(r.Top / k), (int)(r.Width / k), (int)(r.Height / k));
+			Rectangle marginBounds = pageBounds.Inset(pageSettings.Margins);
+			return new PrintPageEventArgs(null, marginBounds, pageBounds, pageSettings);
 		}
 	}
 }
