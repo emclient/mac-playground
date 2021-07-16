@@ -323,21 +323,45 @@ namespace System.Windows.Forms.Mac
 
 		public static NSTextAlignment ToNSTextAlignment(this HorizontalAlignment self)
 		{
-			switch (self)
+			if (ObjCRuntime.Runtime.IsARM64CallingConvention)
 			{
-				case HorizontalAlignment.Center: return NSTextAlignment.Center;
-				case HorizontalAlignment.Right: return NSTextAlignment.Right;
-				default: return NSTextAlignment.Left;
+				switch (self)
+				{
+					case HorizontalAlignment.Center: return (NSTextAlignment)1;
+					case HorizontalAlignment.Right: return (NSTextAlignment)2;
+					default: return (NSTextAlignment)0;
+				}
+			}
+			else
+			{
+				switch (self)
+				{
+					case HorizontalAlignment.Center: return NSTextAlignment.Center;
+					case HorizontalAlignment.Right: return NSTextAlignment.Right;
+					default: return NSTextAlignment.Left;
+				}
 			}
 		}
 
 		public static HorizontalAlignment ToHorizontalAlignment(this NSTextAlignment self)
 		{
-			switch (self)
+			if (ObjCRuntime.Runtime.IsARM64CallingConvention)
 			{
-				case NSTextAlignment.Center: return HorizontalAlignment.Center;
-				case NSTextAlignment.Right: return HorizontalAlignment.Right;
-				default: return HorizontalAlignment.Left;
+				switch (self)
+				{
+					case (NSTextAlignment)1: return HorizontalAlignment.Center;
+					case (NSTextAlignment)2: return HorizontalAlignment.Right;
+					default: return HorizontalAlignment.Left;
+				}
+			}
+			else
+			{
+				switch (self)
+				{
+					case NSTextAlignment.Center: return HorizontalAlignment.Center;
+					case NSTextAlignment.Right: return HorizontalAlignment.Right;
+					default: return HorizontalAlignment.Left;
+				}
 			}
 		}
 
