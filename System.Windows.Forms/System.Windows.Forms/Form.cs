@@ -2866,7 +2866,7 @@ namespace System.Windows.Forms {
 					is_visible = true;
 			}
 			
-			if (!IsMdiChild && !IsDisposed) {
+			if (is_modal && !IsDisposed) {
 				switch (StartPosition) {
 					case FormStartPosition.CenterScreen:
 						this.CenterToScreen ();
