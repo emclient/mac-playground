@@ -274,6 +274,23 @@ namespace System.Windows.Forms.Mac
 			return view.IsSwfControl() ? Control.FromHandle(view.Handle) : Control.FromChildHandle(view.Handle);
 		}
 
+		static IntPtr getRectsBeingDrawnHandle = Selector.GetHandle("getRectsBeingDrawn:count:");
+
+		public unsafe static CGRect[] GetRectsBeingDrawn(this NSView view)
+		{
+			var ptrs = new IntPtr[] { (IntPtr)0, (IntPtr)0 };
+			fixed (IntPtr* rectsPtr = &ptrs[0], countPtr = &ptrs[1])
+			{
+				LibObjc.void_objc_msgSend_IntPtr_IntPtr(view.Handle, getRectsBeingDrawnHandle, (IntPtr)rectsPtr, (IntPtr)countPtr);
+				var rects = (CGRect*)ptrs[0];
+				var count = (int)ptrs[1];
+				var result = new CGRect[count];
+				for (int i = 0; i < count; ++i)
+					result[i] = rects[i];
+				return result;
+			}
+		}
+
 		public static string GetString(this NSTextView self)
 		{
 			var selector = new ObjCRuntime.Selector("string");
