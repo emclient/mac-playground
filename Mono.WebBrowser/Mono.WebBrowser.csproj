@@ -5,6 +5,9 @@
     <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup>
+    <NoWarn>1701;1702;CS8632;CS0108</NoWarn>
+  </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
     <ProjectReference Include="..\System.Private.CoreLib\System.Private.CoreLib.csproj" />
   </ItemGroup>
