@@ -198,19 +198,7 @@ namespace System.Drawing.Mac
 
 		public static NSTextAlignment ToNSTextAlignment(this ContentAlignment a)
 		{
-			if (ObjCRuntime.Runtime.IsARM64CallingConvention)
-			{
-				switch (ToCTTextAlignment(a))
-				{
-					case CTTextAlignment.Right: return (NSTextAlignment)2;
-					case CTTextAlignment.Center: return (NSTextAlignment)1;
-					default: return (NSTextAlignment)0;
-				}
-			}
-			else
-			{
-				return (NSTextAlignment)ToCTTextAlignment(a);
-			}
+			return (NSTextAlignment)ToCTTextAlignment(a);
 		}
 
 		public static NSImage ToNSImage(this Image image)
