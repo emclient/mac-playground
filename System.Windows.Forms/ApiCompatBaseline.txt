@@ -53,10 +53,6 @@ TypesMustExist : Type 'System.Windows.Forms.TaskDialogRadioButtonCollection' doe
 TypesMustExist : Type 'System.Windows.Forms.TaskDialogStartupLocation' does not exist in the implementation but it does exist in the contract.
 TypesMustExist : Type 'System.Windows.Forms.TaskDialogVerificationCheckBox' does not exist in the implementation but it does exist in the contract.
 
-# New PlaceholderText functionality on TextBox
-MembersMustExist : Member 'public System.String System.Windows.Forms.TextBox.PlaceholderText.get()' does not exist in the implementation but it does exist in the contract.
-MembersMustExist : Member 'public void System.Windows.Forms.TextBox.PlaceholderText.set(System.String)' does not exist in the implementation but it does exist in the contract.
-
 # New ReadOnlySpan<char> overloads on TextRenderer
 MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Point, System.Drawing.Color)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public void System.Windows.Forms.TextRenderer.DrawText(System.Drawing.IDeviceContext, System.ReadOnlySpan<System.Char>, System.Drawing.Font, System.Drawing.Point, System.Drawing.Color, System.Drawing.Color)' does not exist in the implementation but it does exist in the contract.
