@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace MacApi.Posix
 {
@@ -39,11 +40,22 @@ namespace MacApi.Posix
 			}
 		}
 
-        #endregion
+		unsafe public static string GetCPUBrand(string defaultValue = "N/A")
+		{
+			const string key = "machdep.cpu.brand_string";
+			var size = IntPtr.Zero;
+			if (sysctlbyname(key, IntPtr.Zero, ref size, IntPtr.Zero, IntPtr.Zero) >= 0 && size.ToInt32() > 0)
+				fixed (byte* ptr = new byte[size.ToInt32()])
+					if (sysctlbyname(key, new IntPtr(ptr), ref size, IntPtr.Zero, IntPtr.Zero) >= 0 && size.ToInt32() > 0)
+						return Encoding.ASCII.GetString(ptr, size.ToInt32() - 1);
+			return defaultValue;
+		}
 
-        #region Native wrappers
+		#endregion
 
-        const UInt64 RLimInfinity = (1ul << 63) - 1; // no limit
+		#region Native wrappers
+
+		const UInt64 RLimInfinity = (1ul << 63) - 1; // no limit
 
         public enum RLimit
         {
@@ -76,6 +88,9 @@ namespace MacApi.Posix
 
 		[DllImport(Constants.libcLibrary, SetLastError = true)]
 		public static extern int waitpid(int pid, int[] status, int options);
+
+		[DllImport(Constants.libcLibrary, SetLastError = true)]
+		static extern int sysctlbyname(string name, IntPtr buffer, ref IntPtr buflen, IntPtr newp, IntPtr newlen);
 
 		[Flags]
 		public enum FileMode

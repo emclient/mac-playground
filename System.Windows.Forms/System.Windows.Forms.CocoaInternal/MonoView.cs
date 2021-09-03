@@ -65,6 +65,11 @@ namespace System.Windows.Forms.CocoaInternal
 		internal Flags flags;
 		private WindowExStyles exStyle;
 
+		static MonoView()
+		{
+			DisableAutomaticLayerBackingStores();
+		}
+
 		public MonoView(IntPtr instance) : base(instance)
 		{
 		}
@@ -77,6 +82,17 @@ namespace System.Windows.Forms.CocoaInternal
 			this.ExStyle = exStyle;
 			this.eventResponder = new WindowsEventResponder(driver, this);
 			base.NextResponder = eventResponder;
+		}
+
+		static void DisableAutomaticLayerBackingStores()
+		{
+			// This turns on traditional mechanism for enhancing drawing performance that uses a "region".
+			// Starting with Big Sur, it's turned off by default, and it might be removed in the future completely.
+			// Without this mechanism, rendering of certain controls is pretty slow.
+			const string key = "NSViewUsesAutomaticLayerBackingStores";
+			var defaults = new NSUserDefaults();
+			defaults.SetBool(false, key);
+			defaults.Synchronize();
 		}
 
 		public override NSResponder NextResponder
