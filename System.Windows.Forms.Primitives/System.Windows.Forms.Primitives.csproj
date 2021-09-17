@@ -22,7 +22,7 @@
     <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\net5.0\System.Windows.Forms.Primitives.dll" />
   </ItemGroup>
   <ItemGroup Condition="'$(SkipMacProjects)' != 'true'">
-    <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="6.0.0-beta.20569.4" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="6.0.0-beta.21466.2" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
