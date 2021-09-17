@@ -96,6 +96,12 @@ CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ToolStripDropDownIt
 CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ToolStripItem.ToolStripItemAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 CannotRemoveBaseTypeOrInterface : Type 'System.Windows.Forms.ToolStripSplitButton.ToolStripSplitButtonAccessibleObject' does not inherit from base type 'System.Runtime.InteropServices.StandardOleMarshalObject' in the implementation but it does in the contract.
 
+# Nullability attributes
+CannotRemoveAttribute : Attribute 'System.Diagnostics.CodeAnalysis.AllowNullAttribute' exists on parameter 'value' on member 'System.Windows.Forms.DataGridViewBand.DefaultCellStyle.set(System.Windows.Forms.DataGridViewCellStyle)' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Diagnostics.CodeAnalysis.AllowNullAttribute' exists on parameter 'value' on member 'System.Windows.Forms.DataGridViewBand.HeaderCellCore.set(System.Windows.Forms.DataGridViewHeaderCell)' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Diagnostics.CodeAnalysis.AllowNullAttribute' exists on parameter 'value' on member 'System.Windows.Forms.InputLanguage.CurrentInputLanguage.set(System.Windows.Forms.InputLanguage)' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Diagnostics.CodeAnalysis.AllowNullAttribute' exists on parameter 'value' on member 'System.Windows.Forms.ListViewGroup.Header.set(System.String)' in the contract but not the implementation.
+
 MembersMustExist : Member 'public System.Boolean System.Windows.Forms.AccessibleObject.RaiseAutomationNotification(System.Windows.Forms.Automation.AutomationNotificationKind, System.Windows.Forms.Automation.AutomationNotificationProcessing, System.String)' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public System.Boolean System.Windows.Forms.AccessibleObject.RaiseLiveRegionChanged()' does not exist in the implementation but it does exist in the contract.
 MembersMustExist : Member 'public System.Boolean System.Windows.Forms.Application.UseVisualStyles.get()' does not exist in the implementation but it does exist in the contract.
