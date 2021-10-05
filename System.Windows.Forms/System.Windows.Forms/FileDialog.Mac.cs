@@ -1,7 +1,10 @@
 ﻿#if MONOMAC || XAMARINMAC
 	
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using AppKit;
 
 namespace System.Windows.Forms
 {
@@ -98,6 +101,59 @@ namespace System.Windows.Forms
 
 		private void UpdateFilters ()
 		{
+		}
+
+		internal void ApplyFilter(NSPanel panel, string filter)
+		{
+			var interlaced = filter.Split('|');
+			if (interlaced.Length == 0)
+				return;
+
+			var groups = interlaced.Where((value, index) => index % 2 != 0).ToList();
+			var extensions = new List<string>();
+			foreach (var group in groups)
+			{
+				var items = group.Split(';');
+				foreach (var item in items)
+				{
+					var position = item.LastIndexOf('.');
+					var extension = position < 0 ? item : item.Substring(1 + position);
+
+					if (!String.IsNullOrWhiteSpace(extension))
+					{
+						if ("*".Equals(extension, StringComparison.InvariantCulture))
+							panel.AllowsOtherFileTypes(true);
+						else
+							extensions.Add(extension);
+					}
+				}
+			}
+
+			if (extensions.Count != 0)
+				panel.AllowedFileTypes(extensions.ToArray());
+		}
+	}
+
+	static class NSPanelExtensions
+	{
+		public static void AllowsOtherFileTypes(this NSPanel panel, bool value)
+		{
+			if (panel is NSSavePanel savePanel)
+				savePanel.AllowsOtherFileTypes = value;
+			else if (panel is NSOpenPanel openPanel)
+				openPanel.AllowsOtherFileTypes = value;
+			else
+				throw new ArgumentException($"AllowsOtherFileTypes not applicable to {panel.GetType().Name}.", nameof(panel));
+		}
+
+		public static void AllowedFileTypes(this NSPanel panel, string[] value)
+		{
+			if (panel is NSSavePanel savePanel)
+				savePanel.AllowedFileTypes = value;
+			else if (panel is NSOpenPanel openPanel)
+				openPanel.AllowedFileTypes = value;
+			else
+				throw new ArgumentException($"AllowedFileTypes not applicable to {panel.GetType().Name}.", nameof(panel));
 		}
 	}
 }

@@ -45,8 +45,11 @@ namespace System.Windows.Forms
 					panel.AllowsMultipleSelection = Multiselect;
 					panel.ResolvesAliases = true;
 
-					if (!String.IsNullOrWhiteSpace(InitialDirectory) && System.IO.Directory.Exists(InitialDirectory))
+					if (!String.IsNullOrWhiteSpace(InitialDirectory) && Directory.Exists(InitialDirectory))
 						panel.DirectoryUrl = NSUrl.FromFilename(InitialDirectory);
+
+					if (!String.IsNullOrEmpty(Filter))
+						ApplyFilter(panel, Filter);
 
 					if (!String.IsNullOrWhiteSpace(FileName))
 						panel.NameFieldStringValue = FileName;
