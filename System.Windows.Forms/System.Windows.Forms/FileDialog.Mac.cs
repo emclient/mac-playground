@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using AppKit;
+using UniformTypeIdentifiers;
 
 namespace System.Windows.Forms
 {
@@ -103,8 +104,14 @@ namespace System.Windows.Forms
 		{
 		}
 
-		internal void ApplyFilter(NSPanel panel, string filter)
+		internal void ApplyFilter(NSSavePanel panel, string filter)
 		{
+			if (ExtractContentTypes(filter) is UTType[] contentTypes)
+			{
+				panel.AllowedContentTypes = contentTypes;
+				return;
+			}
+
 			var interlaced = filter.Split('|');
 			if (interlaced.Length == 0)
 				return;
@@ -122,7 +129,7 @@ namespace System.Windows.Forms
 					if (!String.IsNullOrWhiteSpace(extension))
 					{
 						if ("*".Equals(extension, StringComparison.InvariantCulture))
-							panel.AllowsOtherFileTypes(true);
+							panel.AllowsOtherFileTypes  = true;
 						else
 							extensions.Add(extension);
 					}
@@ -130,30 +137,22 @@ namespace System.Windows.Forms
 			}
 
 			if (extensions.Count != 0)
-				panel.AllowedFileTypes(extensions.ToArray());
-		}
-	}
-
-	static class NSPanelExtensions
-	{
-		public static void AllowsOtherFileTypes(this NSPanel panel, bool value)
-		{
-			if (panel is NSSavePanel savePanel)
-				savePanel.AllowsOtherFileTypes = value;
-			else if (panel is NSOpenPanel openPanel)
-				openPanel.AllowsOtherFileTypes = value;
-			else
-				throw new ArgumentException($"AllowsOtherFileTypes not applicable to {panel.GetType().Name}.", nameof(panel));
+				panel.AllowedFileTypes = extensions.ToArray();
 		}
 
-		public static void AllowedFileTypes(this NSPanel panel, string[] value)
+		static readonly string ContentTypesPrefix = "ContentTypes:";
+
+		internal UTType[] ExtractContentTypes(string filter)
 		{
-			if (panel is NSSavePanel savePanel)
-				savePanel.AllowedFileTypes = value;
-			else if (panel is NSOpenPanel openPanel)
-				openPanel.AllowedFileTypes = value;
-			else
-				throw new ArgumentException($"AllowedFileTypes not applicable to {panel.GetType().Name}.", nameof(panel));
+			if (filter != null && filter.StartsWith(ContentTypesPrefix))
+			{
+				var utts = new List<UTType>();
+				foreach (var type in filter.Substring(ContentTypesPrefix.Length).Split(";"))
+					if (UTType.CreateFromIdentifier(type) is UTType utt)
+						utts.Add(utt);
+				return utts.ToArray();
+			}
+			return null;
 		}
 	}
 }
