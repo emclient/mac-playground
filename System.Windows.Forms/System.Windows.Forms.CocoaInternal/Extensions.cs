@@ -949,6 +949,196 @@ namespace System.Windows.Forms.Mac
 
 		#endregion // Accessibility
 
+		#region Drag and Drop
+
+		public static DragEventArgs ToDragEventArgs(this NSView view, NSDraggingInfo sender, DragDropEffects effect = UnusedDndEffect)
+		{
+			var q = view.ToMonoScreen(sender.DraggingLocation, null);
+			var allowed = XplatUICocoa.DraggingAllowedEffects;
+			var modifiers = NSEvent.CurrentModifierFlags;
+
+			// translate mac modifiers to win modifiers
+			// 1(bit 0)  - The left mouse button.
+			// 2(bit 1)  - The right mouse button.
+			// 4(bit 2)  - The SHIFT key.
+			// 8(bit 3)  - The CTRL key.
+			// 16(bit 4) - The middle mouse button.
+			// 32(bit 5) - The ALT key.
+
+			int keystate = 0;
+			if (0 != (modifiers & NSEventModifierMask.ShiftKeyMask))
+				keystate |= 4;
+			if (0 != (modifiers & NSEventModifierMask.AlternateKeyMask)) // alt (mac) => ctrl (win)
+				keystate |= 8;
+
+			var idata = XplatUICocoa.DraggedData as IDataObject ?? view.ToIDataObject(sender.DraggingPasteboard);
+			return new DragEventArgs(idata, keystate, q.X, q.Y, allowed, effect);
+		}
+
+		public static IDataObject ToIDataObject(this NSView view, NSPasteboard pboard)
+		{
+			var types = pboard.Types;
+			if (Array.IndexOf(types, XplatUICocoa.IDataObjectPboardType) != -1)
+				if (XplatUICocoa.DraggedData is IDataObject idata)
+					return idata;
+
+			var s = pboard.GetStringForType(XplatUICocoa.NSStringPboardType);
+			if (s != null)
+				return new DataObject(s);
+
+			s = pboard.GetStringForType(XplatUICocoa.UTTypeFileUrl);
+			if (s != null)
+			{
+				var paths = new List<string>();
+				foreach (var item in pboard.PasteboardItems)
+				{
+					var url = item.GetStringForType(XplatUICocoa.UTTypeFileUrl);
+					paths.Add(NSUrl.FromString(url).Path);
+				}
+
+				if (paths.Count != 0)
+					return new DataObject(DataFormats.FileDrop, paths.ToArray());
+			}
+
+			// TODO: Add more conversions/wrappers - for files, images etc.
+			// See DataObjectPasteboard - merge somehow?
+
+			return null;
+		}
+
+		const DragDropEffects UnusedDndEffect = unchecked((DragDropEffects)0xffffffff);
+
+		public static NSDragOperation DraggingEnteredInternal(this NSView view, NSDraggingInfo sender)
+		{
+			try
+			{
+				var control = Control.FromHandle(view.Handle);
+				if (null != control && control.AllowDrop)
+				{
+					var e = view.ToDragEventArgs(sender);
+					using var _ = XplatUICocoa.ToggleDraggedData(e);
+					control.DndEnter(e);
+					if (e.Effect != UnusedDndEffect)
+						return (XplatUICocoa.DraggingEffects = e.Effect).ToDragOperation();
+
+					XplatUICocoa.DraggingEffects = DragDropEffects.None;
+				}
+			}
+			catch
+			{
+				return NSDragOperation.None;
+			}
+			return NSDragOperation.Generic;
+		}
+
+		public static NSDragOperation DraggingUpdatedInternal(this NSView view, NSDraggingInfo sender)
+		{
+			try
+			{
+				var driver = XplatUICocoa.GetInstance();
+				if (!driver.draggingSource.Cancelled)
+				{
+					var source = Control.FromHandle(driver.draggingSource.ViewHandle);
+					var args = new QueryContinueDragEventArgs(0, false, DragAction.Continue);
+					source?.DndContinueDrag(args);
+					if (args.Action == DragAction.Cancel)
+					{
+						// It seems there is no way to cancel dragging on macOS.
+						// Anyway, we have to stop sending QueryContinue events.
+						driver.draggingSource.Cancelled = true;
+					}
+				}
+
+				var control = Control.FromHandle(view.Handle);
+				if (null != control && control.AllowDrop)
+				{
+					var e = view.ToDragEventArgs(sender);
+					using var _ = XplatUICocoa.ToggleDraggedData(e);
+					control.DndOver(e);
+					if (e.Effect != UnusedDndEffect)
+						XplatUICocoa.DraggingEffects = e.Effect;
+
+					return XplatUICocoa.DraggingEffects.ToDragOperation();
+				}
+			}
+			catch
+			{
+				return NSDragOperation.None;
+			}
+			return NSDragOperation.Generic;
+		}
+
+		public static void DraggingExitedInternal(this NSView view, NSDraggingInfo sender)
+		{
+			try
+			{
+				var control = Control.FromHandle(view.Handle);
+				if (null != control && control.AllowDrop)
+				{
+					var e = view.ToDragEventArgs(sender);
+					using var _ = XplatUICocoa.ToggleDraggedData(e);
+					control.DndLeave(e);
+				}
+			}
+			catch
+			{
+			}
+		}
+
+		public static void DraggingEndedInternal(this NSView view, NSDraggingInfo sender)
+		{
+			XplatUICocoa.DraggedData = null; // Clear data box for next dragging session
+		}
+
+		public static Point ToMonoScreen(this NSView src, CGPoint p, NSView view)
+		{
+			if (view != null)
+				p = src.ConvertPointToView(p, null);
+			var r = src.Window.ConvertRectToScreen(new CGRect(p, CGSize.Empty));
+			return XplatUICocoa.GetInstance().NativeToMonoScreen(r.Location);
+		}
+
+		public static bool PrepareForDragOperationInternal(this NSView view, NSDraggingInfo sender)
+		{
+			foreach (var type in sender.DraggingPasteboard.Types)
+			{
+				switch (type)
+				{
+					case XplatUICocoa.UTTypeUTF8PlainText:
+					case XplatUICocoa.NSStringPboardType:
+					case XplatUICocoa.IDataObjectPboardType:
+					case XplatUICocoa.UTTypeFileUrl:
+						return true;
+				}
+			}
+			return false;
+		}
+
+		public static bool PerformDragOperationInternal(this NSView view, NSDraggingInfo sender)
+		{
+			try
+			{
+				var c = Control.FromHandle(view.Handle);
+				if (c is IDropTarget dt)
+				{
+					var e = view.ToDragEventArgs(sender, XplatUICocoa.DraggingEffects);
+					if (e != null)
+					{
+						using var _ = XplatUICocoa.ToggleDraggedData(e);
+						dt.OnDragDrop(e);
+						sender.DraggingPasteboard.ClearContents();
+						return true;
+					}
+				}
+			}
+			catch
+			{
+			}
+			return false;
+		}
+
+		#endregion
+
 #if MONOMAC
 
 		public static CGSize SizeThatFits(this NSControl self, CGSize proposedSize)

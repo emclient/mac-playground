@@ -52,14 +52,30 @@ namespace System.Windows.Forms
 
 		internal static NSEvent LastMouseDown = null;
 
+		public static IDisposable ToggleDraggedData(DragEventArgs e) { return new TempDraggedData(e); }
+
+		class TempDraggedData : IDisposable
+		{
+			object prev;
+			public TempDraggedData(DragEventArgs e) { prev = DraggedData; DraggedData = e.Data; }
+			public void Dispose() { DraggedData = prev; }
+		}
+
 		internal override void SetAllowDrop(IntPtr handle, bool value)
 		{
-			if (ObjCRuntime.Runtime.GetNSObject(handle) is MonoView view)
+			if (ObjCRuntime.Runtime.GetNSObject(handle) is NSView view)
 			{
-				if (value)
-					view.RegisterForDraggedTypes(new string[] { IDataObjectPboardType, UTTypeItem });//, NSPasteboard.NSStringType });
-				else
-					view.UnregisterDraggedTypes();
+				try
+				{
+					if (value)
+						view.RegisterForDraggedTypes(new string[] { IDataObjectPboardType, UTTypeItem });//, NSPasteboard.NSStringType });
+					else
+						view.UnregisterDraggedTypes();
+				}
+				catch (Exception e)
+				{
+					Diagnostics.Debug.Assert(false, $"Failed to register for dragged type: {e}");
+				}
 			}
 		}
 
