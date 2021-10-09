@@ -252,7 +252,10 @@ namespace System.Windows.Forms
 		{
 			if (!this.Enabled)
 				return;
-				
+
+			if (this.CheckOnClick)
+				this.Checked = !this.Checked;
+
 			if (this.HasDropDownItems) {
 				base.OnClick (e);
 				return;
@@ -273,9 +276,6 @@ namespace System.Windows.Forms
 				return;
 			}
 			
-			if (this.check_on_click)
-				this.Checked = !this.Checked;
-
 			base.OnClick (e);
 			
 			if (!this.IsOnDropDown && !this.HasDropDownItems) {
