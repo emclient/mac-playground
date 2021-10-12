@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using CoreFoundation;
 using System.Reflection;
+using System.Collections.Specialized;
 
 #if MONOMAC
 using MonoMac.ObjCRuntime;
@@ -545,6 +546,149 @@ namespace System.Windows.Forms.Mac
 			if ((NSEventModifierMask.ControlKeyMask & modifiers) != 0) { keys |= Keys.Control; }
 			return keys;
 		}
+
+		public static NSEventModifierMask ToNSEventModifierMask(this Keys keys)
+		{
+			var modifiers = (NSEventModifierMask)0;
+			if (keys.HasFlag(Keys.Shift))
+				modifiers |= NSEventModifierMask.ShiftKeyMask;
+			if (keys.HasFlag(Keys.Control))
+				modifiers |= NSEventModifierMask.ControlKeyMask;
+			if (keys.HasFlag(Keys.Cmd))
+				modifiers |= NSEventModifierMask.CommandKeyMask;
+			if (keys.HasFlag(Keys.Alt))
+				modifiers |= NSEventModifierMask.AlternateKeyMask;
+			return modifiers;
+		}
+
+		static Forms.KeysConverter keysConverter;
+		static Forms.KeysConverter GetKeysConverter()
+		{
+			if (keysConverter == null)
+				keysConverter = new Forms.KeysConverter();
+			return keysConverter;
+		}
+
+		public static bool ToKeyEquivalentAndModifiers(this Keys keys, out string keyEquivalent, out NSEventModifierMask mask)
+		{
+			var mods = keys & Keys.Modifiers;
+			mask = mods.ToNSEventModifierMask();
+
+			var parts = (GetKeysConverter().ConvertToString(keys) ?? "").Split('+');
+			keyEquivalent = (mods != 0 && parts.Length > 1) ? parts[parts.Length - 1].ToLowerInvariant() : null;
+			keyEquivalent = keyEquivalent?.KeysAsStringToSymbol();
+			return mask != 0 && keyEquivalent != null;
+		}
+
+		public static string ToSymbol(this Keys keys)
+		{
+			return KeysAsStringToSymbol(keys.ToString());
+		}
+
+		public static string KeysAsStringToSymbol(this string keysAsString)
+		{
+			return ShortcutSubst[keysAsString] ?? keysAsString;
+		}
+
+		static StringDictionary subst;
+		static StringDictionary ShortcutSubst
+		{
+			get
+			{
+				if (subst == null)
+				{
+					subst = new StringDictionary();
+					for (int i = 0; i < keyNames.Length - 1; i += 2)
+						subst[keyNames[i]] = keyNames[i + 1];
+				}
+				return subst;
+			}
+		}
+
+		static readonly string[] keyNames = {
+			"Ctrl", "⌃",
+			"Cmd", "⌘",
+			"Alt", "⌥",
+			"Shift", "⇧",
+
+			"OemSemicolon", ";",
+			"Oemplus", "+",
+			"Oemcomma", ",",
+			"OemMinus", "-",
+			"OemPeriod", ".",
+			"OemQuestion", "?",
+			"Oemtilde", "~",
+			"OemOpenBrackets", "[",
+			"OemPipe", "|",
+			"OemCloseBrackets", "]",
+			"OemQuotes", "\"",
+			"OemBackslash", "\\",
+
+			"D0", "0",
+			"D1", "1",
+			"D2", "2",
+			"D3", "3",
+			"D4", "4",
+			"D5", "5",
+			"D6", "6",
+			"D7", "7",
+			"D8", "8",
+			"D9", "9",
+
+			//"Oem0", "???",
+			"Oem1", ";",
+			 "Oem2", "/",	
+         	//"Oem3", "???",		
+         	"Oem4", "[",
+         	//"Oem5", "???",
+         	//"Oem6", "???",
+         	"Oem7", "'",
+         	//"Oem8", "???",
+         	//"Oem9", "",
+         	"Oem102", "\\",
+			"OemPlus", "=",
+
+			"NumLock", "⌧",
+			"NumPad0", "0(Num)",
+			"NumPad1", "1(Num)",
+			"NumPad2", "2(Num)",
+			"NumPad3", "3(Num)",
+			"NumPad4", "4(Num)",
+			"NumPad5", "5(Num)",
+			"NumPad6", "6(Num)",
+			"NumPad7", "7(Num)",
+			"NumPad8", "8(Num)",
+			"NumPad9", "9(Num)",
+
+			"Multiply", "*",
+			"Add", "+",
+			//"Separator", "-"
+			"Subtract", "-",
+			//"Decimal", "."
+			"Divide", "/",
+
+			//"OemClear", "⌧",
+			"CapsLock", "⇪",
+			"Enter", "⌤",
+			"Return", "↩",
+			"Delete", "⌦",
+			"Back", "⌫",
+			//"Backspace", "⌫",
+			"PageUp", "⇞",
+			"PageDown", "⇟",
+			"Next", "⇟", // Why?
+			"Eject", "⏏",
+			"Escape", "⎋",
+			"Home", "↖",
+			"End", "↘",
+			"Tab", "⇥",
+			"End", "↘",
+			"Space", "␣",
+			"Left", "←",
+			 "Up", "↑",
+			 "Right", "→",
+			 "Down", "↓",
+		};
 
 		public static int GetUnicodeStringLength(this byte[] self, int max = -1)
 		{
