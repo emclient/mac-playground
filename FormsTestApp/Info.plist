@@ -36,5 +36,10 @@
 		<key>MONO_ENABLE_AIO</key>
 		<string>1</string>
 	</dict>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>de</string>
+	</array>
 </dict>
 </plist>
