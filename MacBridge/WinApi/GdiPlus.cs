@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -75,7 +75,13 @@ namespace WinApi
             return true;
         }
 
-        public static IntPtr GetStockObject(StockObjects fnObject)
+		public static IntPtr GetCurrentObject(IntPtr hdc, uint uObjectType)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return IntPtr.Zero;
+		}
+
+		public static IntPtr GetStockObject(StockObjects fnObject)
         {
             NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;
