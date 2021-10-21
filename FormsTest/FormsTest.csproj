@@ -256,7 +256,6 @@
   <ItemGroup>
     <None Include="Properties\Resources.resx" />
     <None Include="application.ico" />
-    <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <None Include="Resources\Hotmail_Small.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

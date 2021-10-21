@@ -111,6 +111,13 @@ namespace FormsTest
 			menuBar.AddItem(editMenuItem);
 			menuBar.SetSubmenu(editMenu, editMenuItem);
 
+			var helpMenuItem = new NSMenuItem();
+			var helpMenu = new NSMenu("Help");
+			var openLogDirectoryItem = new NSMenuItem("Open Log Directory") { };
+			helpMenu.AddItem(openLogDirectoryItem);
+			menuBar.AddItem(helpMenuItem);
+			menuBar.SetSubmenu(helpMenu, helpMenuItem);
+
 			NSApplication.SharedApplication.Menu = menuBar;
 		}
 
