@@ -3150,9 +3150,11 @@ namespace System.Windows.Forms
 				// This method finds the top level control (form) also if @this is a part of titlebar accessory view
 				if (IsHandleCreated) {
 					var contentView = (ObjCRuntime.Runtime.GetNSObject(Handle) as NSView)?.Window?.ContentView;
-					if (contentView != null)
+					while (contentView != null)
 						if (Control.FromHandle(contentView.Handle) is Form f)
 							return f;
+						else
+							contentView = contentView.Window.ParentWindow?.ContentView;
 				}
 #endif
 				Control	p = this;
