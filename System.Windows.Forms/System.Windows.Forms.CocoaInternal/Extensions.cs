@@ -727,10 +727,22 @@ namespace System.Windows.Forms.Mac
 			}
 		}
 
+		public static bool SupportsAllowedContentTypes(this NSSavePanel panel)
+		{
+			var sel = new Selector("setAllowedContentTypes:");
+			return panel.RespondsToSelector(sel);
+		}
+
 		public static bool IsMojaveOrHigher(this NSProcessInfo info)
 		{
 			var version = info.OperatingSystemVersion;
 			return (version.Major == 10 && version.Minor >= 14) || version.Major > 10;
+		}
+
+		public static bool IsCatalinaOrHigher(this NSProcessInfo info)
+		{
+			var version = info.OperatingSystemVersion;
+			return (version.Major == 10 && version.Minor >= 15) || version.Major > 10;
 		}
 
 		public static Size GetDeviceDpi(this Control control)

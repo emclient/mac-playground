@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Forms.Mac;
 using AppKit;
 using UniformTypeIdentifiers;
 
@@ -106,7 +107,7 @@ namespace System.Windows.Forms
 
 		internal void ApplyFilter(NSSavePanel panel, string filter)
 		{
-			if (ExtractContentTypes(filter) is UTType[] contentTypes)
+			if (ExtractContentTypes(filter) is UTType[] contentTypes && panel.SupportsAllowedContentTypes())
 			{
 				panel.AllowedContentTypes = contentTypes;
 				return;
