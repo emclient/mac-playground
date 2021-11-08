@@ -21,11 +21,11 @@
   </ItemGroup>
   <PropertyGroup>
     <ApiCompatExcludeAttributeList>..\ApiCompatExcludeAttributes.txt</ApiCompatExcludeAttributeList>
-    <ContractDependencyPaths>$(PkgMicrosoft_NETCore_App_Ref)\ref\net5.0</ContractDependencyPaths>
+    <ContractDependencyPaths>$(PkgMicrosoft_NETCore_App_Ref)\ref\net6.0</ContractDependencyPaths>
     <ApiCompatBaseline Condition="'$(TargetFramework)' == 'net6.0-ios'">ApiCompatBaseline.iOS.txt</ApiCompatBaseline>
   </PropertyGroup>
   <ItemGroup>
-    <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\net5.0\System.Drawing.Common.dll" />
+    <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\net6.0\System.Drawing.Common.dll" />
   </ItemGroup>
   <ItemGroup Condition="'$(SkipMacProjects)' != 'true'">
     <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="6.0.0-beta.21466.2" PrivateAssets="All" />
