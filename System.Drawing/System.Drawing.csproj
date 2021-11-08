@@ -27,7 +27,7 @@
     <PackageReference Include="Microsoft.DotNet.GenFacades" Version="6.0.0-beta.21467.3" PrivateAssets="All" />
   </ItemGroup>
 
-   <Target Name="ResolveMatchingContract" BeforeTargets="ResolveAssemblyReferences">
+  <Target Name="ResolveMatchingContract" BeforeTargets="ResolveAssemblyReferences">
     <ItemGroup>
       <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\*\$(AssemblyName).dll" />
       <!-- in case we're regenerating a facade that is already referenced -->
