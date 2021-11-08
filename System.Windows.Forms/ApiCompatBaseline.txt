@@ -268,3 +268,26 @@ EnumValuesMustMatch : Enum value 'System.Windows.Forms.VisualStyles.EdgeEffects 
 EnumValuesMustMatch : Enum value 'System.Windows.Forms.VisualStyles.EdgeEffects System.Windows.Forms.VisualStyles.EdgeEffects.Soft' is (System.Int32)16384 in the implementation but (System.Int32)4096 in the contract.
 MembersMustExist : Member 'public System.Windows.Forms.VisualStyles.FontProperty System.Windows.Forms.VisualStyles.FontProperty System.Windows.Forms.VisualStyles.FontProperty.TextFont' does not exist in the implementation but it does exist in the contract.
 CannotRemoveAttribute : Attribute 'System.FlagsAttribute' exists on 'System.Windows.Forms.VisualStyles.VisualStyleState' in the contract but not the implementation.
+
+# .NET 6
+MembersMustExist : Member 'public void System.Windows.Forms.Application.SetDefaultFont(System.Drawing.Font)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'protected void System.Windows.Forms.ContainerControl.RescaleConstantsForDpi(System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.IAsyncResult System.Windows.Forms.Control.BeginInvoke(System.Action)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.Control.Invoke(System.Action)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public T System.Windows.Forms.Control.Invoke<T>(System.Func<T>)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Boolean System.Windows.Forms.Control.IsAncestorSiteInDesignMode.get()' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Windows.Forms.DialogResult System.Windows.Forms.DialogResult System.Windows.Forms.DialogResult.Continue' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Windows.Forms.DialogResult System.Windows.Forms.DialogResult System.Windows.Forms.DialogResult.TryAgain' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Nullable<System.Guid> System.Windows.Forms.FolderBrowserDialog.ClientGuid.get()' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.FolderBrowserDialog.ClientGuid.set(System.Nullable<System.Guid>)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.String System.Windows.Forms.FolderBrowserDialog.InitialDirectory.get()' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.FolderBrowserDialog.InitialDirectory.set(System.String)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Boolean System.Windows.Forms.Form.MdiChildrenMinimizedAnchorBottom.get()' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.Form.MdiChildrenMinimizedAnchorBottom.set(System.Boolean)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Windows.Forms.LinkClickedEventArgs..ctor(System.String, System.Int32, System.Int32)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Int32 System.Windows.Forms.LinkClickedEventArgs.LinkLength.get()' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Int32 System.Windows.Forms.LinkClickedEventArgs.LinkStart.get()' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Windows.Forms.MessageBoxButtons System.Windows.Forms.MessageBoxButtons System.Windows.Forms.MessageBoxButtons.CancelTryContinue' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Windows.Forms.MessageBoxDefaultButton System.Windows.Forms.MessageBoxDefaultButton System.Windows.Forms.MessageBoxDefaultButton.Button4' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Drawing.Color System.Windows.Forms.ProfessionalColors.StatusStripBorder.get()' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Drawing.Color System.Windows.Forms.ProfessionalColorTable.StatusStripBorder.get()' does not exist in the implementation but it does exist in the contract.
