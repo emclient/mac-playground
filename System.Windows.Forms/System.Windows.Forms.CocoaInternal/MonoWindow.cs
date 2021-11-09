@@ -2,34 +2,13 @@
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Diagnostics;
-
-#if XAMARINMAC
 using Foundation;
 using AppKit;
-#elif MONOMAC
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using ObjCRuntime = MonoMac.ObjCRuntime;
-#endif
-
-#if SDCOMPAT
-using NSRect = System.Drawing.RectangleF;
-using NSSize = System.Drawing.SizeF;
-using nint = System.Int32;
-#else
-#if XAMARINMAC
+using ObjCRuntime;
 using NSPoint = CoreGraphics.CGPoint;
 using NSRect = CoreGraphics.CGRect;
 using NSSize = CoreGraphics.CGSize;
 using System.Windows.Forms.Mac;
-#elif MONOMAC
-using NSPoint = MonoMac.CoreGraphics.CGPoint;
-using NSRect = MonoMac.CoreGraphics.CGRect;
-using NSSize = MonoMac.CoreGraphics.CGSize;
-using nint = System.Int32;
-using System.Windows.Forms.Mac;
-#endif
-#endif
 
 namespace System.Windows.Forms.CocoaInternal
 {

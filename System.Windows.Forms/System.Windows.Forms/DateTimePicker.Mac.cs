@@ -34,19 +34,11 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms.Mac;
 using System.Windows.Forms.resources;
 
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.CoreGraphics;
-using NSRectEdge = MonoMac.AppKit.NSRectEdge;
-using nfloat = System.Single;
-using ObjCRuntime = MonoMac.ObjCRuntime;
-#elif XAMARINMAC
 using Foundation;
 using AppKit;
 using CoreGraphics;
+using ObjCRuntime;
 using NSRectEdge = AppKit.NSRectEdge;
-#endif
 
 namespace System.Windows.Forms
 {

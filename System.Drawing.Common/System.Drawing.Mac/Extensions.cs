@@ -10,6 +10,7 @@ using CoreGraphics;
 using CoreText;
 using Foundation;
 using System.Drawing.Printing;
+using ObjCRuntime;
 
 namespace System.Drawing.Mac
 {

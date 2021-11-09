@@ -10,6 +10,7 @@ using System;
 using System.Drawing.Drawing2D;
 using System.ComponentModel;
 using CoreGraphics;
+using ObjCRuntime;
 using MatrixOrder = System.Drawing.Drawing2D.MatrixOrder;
 
 namespace System.Drawing

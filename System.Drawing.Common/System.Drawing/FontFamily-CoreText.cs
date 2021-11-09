@@ -27,6 +27,7 @@
 //
 using System.Drawing.Text;
 using CoreText;
+using ObjCRuntime;
 
 namespace System.Drawing
 {

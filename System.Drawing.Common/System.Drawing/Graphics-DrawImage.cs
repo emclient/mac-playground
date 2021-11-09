@@ -2,6 +2,7 @@ using System.Drawing.Imaging;
 using CoreGraphics;
 using CoreImage;
 using Foundation;
+using ObjCRuntime;
 
 namespace System.Drawing
 {

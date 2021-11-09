@@ -32,6 +32,7 @@ using System.Drawing;
 using CoreGraphics;
 using CoreText;
 using Foundation;
+using ObjCRuntime;
 
 namespace System.Drawing.Drawing2D 
 {

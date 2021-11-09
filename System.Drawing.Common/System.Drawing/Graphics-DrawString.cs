@@ -6,6 +6,7 @@ using System.Text;
 using CoreGraphics;
 using Foundation;
 using CoreText;
+using ObjCRuntime;
 
 namespace System.Drawing
 {

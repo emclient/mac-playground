@@ -22,6 +22,7 @@ using AppKit;
 #elif __IOS__
 using UIKit;
 #endif
+using ObjCRuntime;
 using MatrixOrder = System.Drawing.Drawing2D.MatrixOrder;
 
 namespace System.Drawing {

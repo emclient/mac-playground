@@ -46,6 +46,7 @@ using System.Drawing.Mac;
 using CoreGraphics;
 using Foundation;
 using ImageIO;
+using ObjCRuntime;
 
 namespace System.Drawing {
 	
