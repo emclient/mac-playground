@@ -1,7 +1,12 @@
 ﻿#if MONOMAC || XAMARINMAC
 	
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Windows.Forms.Mac;
+using AppKit;
+using UniformTypeIdentifiers;
 
 namespace System.Windows.Forms
 {
@@ -98,6 +103,57 @@ namespace System.Windows.Forms
 
 		private void UpdateFilters ()
 		{
+		}
+
+		internal void ApplyFilter(NSSavePanel panel, string filter)
+		{
+			if (ExtractContentTypes(filter) is UTType[] contentTypes && panel.SupportsAllowedContentTypes())
+			{
+				panel.AllowedContentTypes = contentTypes;
+				return;
+			}
+
+			var interlaced = filter.Split('|');
+			if (interlaced.Length == 0)
+				return;
+
+			var groups = interlaced.Where((value, index) => index % 2 != 0).ToList();
+			var extensions = new List<string>();
+			foreach (var group in groups)
+			{
+				var items = group.Split(';');
+				foreach (var item in items)
+				{
+					var position = item.LastIndexOf('.');
+					var extension = position < 0 ? item : item.Substring(1 + position);
+
+					if (!String.IsNullOrWhiteSpace(extension))
+					{
+						if ("*".Equals(extension, StringComparison.InvariantCulture))
+							panel.AllowsOtherFileTypes  = true;
+						else
+							extensions.Add(extension);
+					}
+				}
+			}
+
+			if (extensions.Count != 0)
+				panel.AllowedFileTypes = extensions.ToArray();
+		}
+
+		static readonly string ContentTypesPrefix = "ContentTypes:";
+
+		internal UTType[] ExtractContentTypes(string filter)
+		{
+			if (filter != null && filter.StartsWith(ContentTypesPrefix))
+			{
+				var utts = new List<UTType>();
+				foreach (var type in filter.Substring(ContentTypesPrefix.Length).Split(";"))
+					if (UTType.CreateFromIdentifier(type) is UTType utt)
+						utts.Add(utt);
+				return utts.ToArray();
+			}
+			return null;
 		}
 	}
 }

@@ -17,6 +17,12 @@ namespace System.Windows.Forms
 			nsMenuItem.Submenu = HasDropDownItems ? DropDown.ToNSMenu() : null;
 			nsMenuItem.State = PaintCheck ? CheckState.ToCellState() : NSCellStateValue.Off;
 
+			if (this.ShortcutKeys.ToKeyEquivalentAndModifiers(out var equivalent, out var modifiers))
+			{
+				nsMenuItem.KeyEquivalent = equivalent;
+				nsMenuItem.KeyEquivalentModifierMask = modifiers;
+			}
+
 			CheckedChanged += (sender, e) => { nsMenuItem.State = PaintCheck ? CheckState.ToCellState() : NSCellStateValue.Off; };
 
 			return nsMenuItem;

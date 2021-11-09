@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms.CocoaInternal;
+
 using MacApi;
 using System.Runtime.InteropServices.ComTypes;
 using System.Drawing.Mac;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using CoreFoundation;
 using System.Reflection;
+using System.Collections.Specialized;
 
 #if MONOMAC
 using MonoMac.ObjCRuntime;
@@ -274,6 +276,23 @@ namespace System.Windows.Forms.Mac
 			return view.IsSwfControl() ? Control.FromHandle(view.Handle) : Control.FromChildHandle(view.Handle);
 		}
 
+		static IntPtr getRectsBeingDrawnHandle = Selector.GetHandle("getRectsBeingDrawn:count:");
+
+		public unsafe static CGRect[] GetRectsBeingDrawn(this NSView view)
+		{
+			var ptrs = new IntPtr[] { (IntPtr)0, (IntPtr)0 };
+			fixed (IntPtr* rectsPtr = &ptrs[0], countPtr = &ptrs[1])
+			{
+				LibObjc.void_objc_msgSend_IntPtr_IntPtr(view.Handle, getRectsBeingDrawnHandle, (IntPtr)rectsPtr, (IntPtr)countPtr);
+				var rects = (CGRect*)ptrs[0];
+				var count = (int)ptrs[1];
+				var result = new CGRect[count];
+				for (int i = 0; i < count; ++i)
+					result[i] = rects[i];
+				return result;
+			}
+		}
+
 		public static string GetString(this NSTextView self)
 		{
 			var selector = new ObjCRuntime.Selector("string");
@@ -529,6 +548,149 @@ namespace System.Windows.Forms.Mac
 			return keys;
 		}
 
+		public static NSEventModifierMask ToNSEventModifierMask(this Keys keys)
+		{
+			var modifiers = (NSEventModifierMask)0;
+			if (keys.HasFlag(Keys.Shift))
+				modifiers |= NSEventModifierMask.ShiftKeyMask;
+			if (keys.HasFlag(Keys.Control))
+				modifiers |= NSEventModifierMask.ControlKeyMask;
+			if (keys.HasFlag(Keys.Cmd))
+				modifiers |= NSEventModifierMask.CommandKeyMask;
+			if (keys.HasFlag(Keys.Alt))
+				modifiers |= NSEventModifierMask.AlternateKeyMask;
+			return modifiers;
+		}
+
+		static Forms.KeysConverter keysConverter;
+		static Forms.KeysConverter GetKeysConverter()
+		{
+			if (keysConverter == null)
+				keysConverter = new Forms.KeysConverter();
+			return keysConverter;
+		}
+
+		public static bool ToKeyEquivalentAndModifiers(this Keys keys, out string keyEquivalent, out NSEventModifierMask mask)
+		{
+			var mods = keys & Keys.Modifiers;
+			mask = mods.ToNSEventModifierMask();
+
+			var parts = (GetKeysConverter().ConvertToString(keys) ?? "").Split('+');
+			keyEquivalent = (mods != 0 && parts.Length > 1) ? parts[parts.Length - 1].ToLowerInvariant() : null;
+			keyEquivalent = keyEquivalent?.KeysAsStringToSymbol();
+			return mask != 0 && keyEquivalent != null;
+		}
+
+		public static string ToSymbol(this Keys keys)
+		{
+			return KeysAsStringToSymbol(keys.ToString());
+		}
+
+		public static string KeysAsStringToSymbol(this string keysAsString)
+		{
+			return ShortcutSubst[keysAsString] ?? keysAsString;
+		}
+
+		static StringDictionary subst;
+		static StringDictionary ShortcutSubst
+		{
+			get
+			{
+				if (subst == null)
+				{
+					subst = new StringDictionary();
+					for (int i = 0; i < keyNames.Length - 1; i += 2)
+						subst[keyNames[i]] = keyNames[i + 1];
+				}
+				return subst;
+			}
+		}
+
+		static readonly string[] keyNames = {
+			"Ctrl", "⌃",
+			"Cmd", "⌘",
+			"Alt", "⌥",
+			"Shift", "⇧",
+
+			"OemSemicolon", ";",
+			"Oemplus", "+",
+			"Oemcomma", ",",
+			"OemMinus", "-",
+			"OemPeriod", ".",
+			"OemQuestion", "?",
+			"Oemtilde", "~",
+			"OemOpenBrackets", "[",
+			"OemPipe", "|",
+			"OemCloseBrackets", "]",
+			"OemQuotes", "\"",
+			"OemBackslash", "\\",
+
+			"D0", "0",
+			"D1", "1",
+			"D2", "2",
+			"D3", "3",
+			"D4", "4",
+			"D5", "5",
+			"D6", "6",
+			"D7", "7",
+			"D8", "8",
+			"D9", "9",
+
+			//"Oem0", "???",
+			"Oem1", ";",
+			 "Oem2", "/",	
+         	//"Oem3", "???",		
+         	"Oem4", "[",
+         	//"Oem5", "???",
+         	//"Oem6", "???",
+         	"Oem7", "'",
+         	//"Oem8", "???",
+         	//"Oem9", "",
+         	"Oem102", "\\",
+			"OemPlus", "=",
+
+			"NumLock", "⌧",
+			"NumPad0", "0(Num)",
+			"NumPad1", "1(Num)",
+			"NumPad2", "2(Num)",
+			"NumPad3", "3(Num)",
+			"NumPad4", "4(Num)",
+			"NumPad5", "5(Num)",
+			"NumPad6", "6(Num)",
+			"NumPad7", "7(Num)",
+			"NumPad8", "8(Num)",
+			"NumPad9", "9(Num)",
+
+			"Multiply", "*",
+			"Add", "+",
+			//"Separator", "-"
+			"Subtract", "-",
+			//"Decimal", "."
+			"Divide", "/",
+
+			//"OemClear", "⌧",
+			"CapsLock", "⇪",
+			"Enter", "⌤",
+			"Return", "↩",
+			"Delete", "⌦",
+			"Back", "⌫",
+			//"Backspace", "⌫",
+			"PageUp", "⇞",
+			"PageDown", "⇟",
+			"Next", "⇟", // Why?
+			"Eject", "⏏",
+			"Escape", "⎋",
+			"Home", "↖",
+			"End", "↘",
+			"Tab", "⇥",
+			"End", "↘",
+			"Space", "␣",
+			"Left", "←",
+			 "Up", "↑",
+			 "Right", "→",
+			 "Down", "↓",
+		};
+
 		public static int GetUnicodeStringLength(this byte[] self, int max = -1)
 		{
 			max = max < 0 ? self.Length : Math.Min(max, self.Length);
@@ -566,10 +728,22 @@ namespace System.Windows.Forms.Mac
 			}
 		}
 
+		public static bool SupportsAllowedContentTypes(this NSSavePanel panel)
+		{
+			var sel = new Selector("setAllowedContentTypes:");
+			return panel.RespondsToSelector(sel);
+		}
+
 		public static bool IsMojaveOrHigher(this NSProcessInfo info)
 		{
 			var version = info.OperatingSystemVersion;
 			return (version.Major == 10 && version.Minor >= 14) || version.Major > 10;
+		}
+
+		public static bool IsCatalinaOrHigher(this NSProcessInfo info)
+		{
+			var version = info.OperatingSystemVersion;
+			return (version.Major == 10 && version.Minor >= 15) || version.Major > 10;
 		}
 
 		public static Size GetDeviceDpi(this Control control)
@@ -914,6 +1088,7 @@ namespace System.Windows.Forms.Mac
 			NSAccessibilityRoles.SplitterRole, //SplitButton	= 62,
 			NSAccessibilityRoles.TextAreaRole,  //IpAddress	= 63,
 			NSAccessibilityRoles.ButtonRole, //OutlineButton	= 64
+<<<<<<< HEAD
 		};
 
 		public static NSObject ToAccessibilityValue(this AccessibleStates state)
@@ -932,6 +1107,216 @@ namespace System.Windows.Forms.Mac
 
 		#endregion // Accessibility
 
+=======
+		};
+
+		public static NSObject ToAccessibilityValue(this AccessibleStates state)
+		{
+			switch (state)
+			{
+				case AccessibleStates.None:
+					return new NSNumber(0);
+				case AccessibleStates.Checked:
+					return new NSNumber(1);
+				//case AccessibleStates.Mixed:
+				//	return new NSNumber(2);
+			}
+			return null;
+		}
+
+		#endregion // Accessibility
+
+		#region Drag and Drop
+
+		public static DragEventArgs ToDragEventArgs(this NSView view, NSDraggingInfo sender, DragDropEffects effect = UnusedDndEffect)
+		{
+			var q = view.ToMonoScreen(sender.DraggingLocation, null);
+			var allowed = XplatUICocoa.DraggingAllowedEffects;
+			var modifiers = NSEvent.CurrentModifierFlags;
+
+			// translate mac modifiers to win modifiers
+			// 1(bit 0)  - The left mouse button.
+			// 2(bit 1)  - The right mouse button.
+			// 4(bit 2)  - The SHIFT key.
+			// 8(bit 3)  - The CTRL key.
+			// 16(bit 4) - The middle mouse button.
+			// 32(bit 5) - The ALT key.
+
+			int keystate = 0;
+			if (0 != (modifiers & NSEventModifierMask.ShiftKeyMask))
+				keystate |= 4;
+			if (0 != (modifiers & NSEventModifierMask.AlternateKeyMask)) // alt (mac) => ctrl (win)
+				keystate |= 8;
+
+			var idata = XplatUICocoa.DraggedData as IDataObject ?? view.ToIDataObject(sender.DraggingPasteboard);
+			return new DragEventArgs(idata, keystate, q.X, q.Y, allowed, effect);
+		}
+
+		public static IDataObject ToIDataObject(this NSView view, NSPasteboard pboard)
+		{
+			var types = pboard.Types;
+			if (Array.IndexOf(types, XplatUICocoa.IDataObjectPboardType) != -1)
+				if (XplatUICocoa.DraggedData is IDataObject idata)
+					return idata;
+
+			var s = pboard.GetStringForType(XplatUICocoa.NSStringPboardType);
+			if (s != null)
+				return new DataObject(s);
+
+			s = pboard.GetStringForType(XplatUICocoa.UTTypeFileUrl);
+			if (s != null)
+			{
+				var paths = new List<string>();
+				foreach (var item in pboard.PasteboardItems)
+				{
+					var url = item.GetStringForType(XplatUICocoa.UTTypeFileUrl);
+					paths.Add(NSUrl.FromString(url).Path);
+				}
+
+				if (paths.Count != 0)
+					return new DataObject(DataFormats.FileDrop, paths.ToArray());
+			}
+
+			// TODO: Add more conversions/wrappers - for files, images etc.
+			// See DataObjectPasteboard - merge somehow?
+
+			return null;
+		}
+
+		const DragDropEffects UnusedDndEffect = unchecked((DragDropEffects)0xffffffff);
+
+		public static NSDragOperation DraggingEnteredInternal(this NSView view, NSDraggingInfo sender)
+		{
+			try
+			{
+				var control = Control.FromHandle(view.Handle);
+				if (null != control && control.AllowDrop)
+				{
+					var e = view.ToDragEventArgs(sender);
+					using var _ = XplatUICocoa.ToggleDraggedData(e);
+					control.DndEnter(e);
+					if (e.Effect != UnusedDndEffect)
+						return (XplatUICocoa.DraggingEffects = e.Effect).ToDragOperation();
+
+					XplatUICocoa.DraggingEffects = DragDropEffects.None;
+				}
+			}
+			catch
+			{
+				return NSDragOperation.None;
+			}
+			return NSDragOperation.Generic;
+		}
+
+		public static NSDragOperation DraggingUpdatedInternal(this NSView view, NSDraggingInfo sender)
+		{
+			try
+			{
+				var driver = XplatUICocoa.GetInstance();
+				if (!driver.draggingSource.Cancelled)
+				{
+					var source = Control.FromHandle(driver.draggingSource.ViewHandle);
+					var args = new QueryContinueDragEventArgs(0, false, DragAction.Continue);
+					source?.DndContinueDrag(args);
+					if (args.Action == DragAction.Cancel)
+					{
+						// It seems there is no way to cancel dragging on macOS.
+						// Anyway, we have to stop sending QueryContinue events.
+						driver.draggingSource.Cancelled = true;
+					}
+				}
+
+				var control = Control.FromHandle(view.Handle);
+				if (null != control && control.AllowDrop)
+				{
+					var e = view.ToDragEventArgs(sender);
+					using var _ = XplatUICocoa.ToggleDraggedData(e);
+					control.DndOver(e);
+					if (e.Effect != UnusedDndEffect)
+						XplatUICocoa.DraggingEffects = e.Effect;
+
+					return XplatUICocoa.DraggingEffects.ToDragOperation();
+				}
+			}
+			catch
+			{
+				return NSDragOperation.None;
+			}
+			return NSDragOperation.Generic;
+		}
+
+		public static void DraggingExitedInternal(this NSView view, NSDraggingInfo sender)
+		{
+			try
+			{
+				var control = Control.FromHandle(view.Handle);
+				if (null != control && control.AllowDrop)
+				{
+					var e = view.ToDragEventArgs(sender);
+					using var _ = XplatUICocoa.ToggleDraggedData(e);
+					control.DndLeave(e);
+				}
+			}
+			catch
+			{
+			}
+		}
+
+		public static void DraggingEndedInternal(this NSView view, NSDraggingInfo sender)
+		{
+			XplatUICocoa.DraggedData = null; // Clear data box for next dragging session
+		}
+
+		public static Point ToMonoScreen(this NSView src, CGPoint p, NSView view)
+		{
+			if (view != null)
+				p = src.ConvertPointToView(p, null);
+			var r = src.Window.ConvertRectToScreen(new CGRect(p, CGSize.Empty));
+			return XplatUICocoa.GetInstance().NativeToMonoScreen(r.Location);
+		}
+
+		public static bool PrepareForDragOperationInternal(this NSView view, NSDraggingInfo sender)
+		{
+			foreach (var type in sender.DraggingPasteboard.Types)
+			{
+				switch (type)
+				{
+					case XplatUICocoa.UTTypeUTF8PlainText:
+					case XplatUICocoa.NSStringPboardType:
+					case XplatUICocoa.IDataObjectPboardType:
+					case XplatUICocoa.UTTypeFileUrl:
+						return true;
+				}
+			}
+			return false;
+		}
+
+		public static bool PerformDragOperationInternal(this NSView view, NSDraggingInfo sender)
+		{
+			try
+			{
+				var c = Control.FromHandle(view.Handle);
+				if (c is IDropTarget dt)
+				{
+					var e = view.ToDragEventArgs(sender, XplatUICocoa.DraggingEffects);
+					if (e != null)
+					{
+						using var _ = XplatUICocoa.ToggleDraggedData(e);
+						dt.OnDragDrop(e);
+						sender.DraggingPasteboard.ClearContents();
+						return true;
+					}
+				}
+			}
+			catch
+			{
+			}
+			return false;
+		}
+
+		#endregion
+
+>>>>>>> netcore/master
 #if MONOMAC
 
 		public static CGSize SizeThatFits(this NSControl self, CGSize proposedSize)

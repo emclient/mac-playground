@@ -194,14 +194,28 @@ namespace System.Windows.Forms.CocoaInternal
 
 		protected void ProvideTiff(NSPasteboard pboard, NSPasteboardItem item, string type)
 		{
-			if (data.GetData(DataFormats.Bitmap) is Image image)
-				item.SetDataForType(image.ToNSData(ImageFormat.Tiff), Pasteboard.NSPasteboardTypeTIFF);
+			try
+			{
+				if (data.GetData(DataFormats.Bitmap) is Image image)
+					item.SetDataForType(image.ToNSData(ImageFormat.Tiff), Pasteboard.NSPasteboardTypeTIFF);
+			}
+			catch (ObjectDisposedException)
+			{
+				Diagnostics.Debug.Assert(false);
+			}
 		}
 
 		protected void ProvidePng(NSPasteboard pboard, NSPasteboardItem item, string type)
 		{
-			if (data.GetData(DataFormats.Bitmap) is Image image)
-				item.SetDataForType(image.ToNSData(ImageFormat.Png), Pasteboard.NSPasteboardTypePNG);
+			try
+			{
+				if (data.GetData(DataFormats.Bitmap) is Image image)
+					item.SetDataForType(image.ToNSData(ImageFormat.Png), Pasteboard.NSPasteboardTypePNG);
+			}
+			catch (ObjectDisposedException)
+			{
+				Diagnostics.Debug.Assert(false);
+			}
 		}
 
 		protected string GetHtmlWithoutMetadata()

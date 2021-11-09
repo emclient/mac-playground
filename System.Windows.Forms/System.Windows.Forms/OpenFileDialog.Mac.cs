@@ -36,7 +36,9 @@ namespace System.Windows.Forms
 
 		protected override bool RunDialog(IntPtr hwndOwner)
 		{
-			var currentDirectory = Environment.CurrentDirectory;
+			string currentDirectory = null;
+			try { currentDirectory = Environment.CurrentDirectory; } catch { }
+
 			try
 			{
 				using (var context = new ModalDialogContext())
@@ -45,8 +47,11 @@ namespace System.Windows.Forms
 					panel.AllowsMultipleSelection = Multiselect;
 					panel.ResolvesAliases = true;
 
-					if (!String.IsNullOrWhiteSpace(InitialDirectory) && System.IO.Directory.Exists(InitialDirectory))
+					if (!String.IsNullOrWhiteSpace(InitialDirectory) && Directory.Exists(InitialDirectory))
 						panel.DirectoryUrl = NSUrl.FromFilename(InitialDirectory);
+
+					if (!String.IsNullOrEmpty(Filter))
+						ApplyFilter(panel, Filter);
 
 					if (!String.IsNullOrWhiteSpace(FileName))
 						panel.NameFieldStringValue = FileName;
@@ -62,7 +67,7 @@ namespace System.Windows.Forms
 			finally
 			{
 				if (RestoreDirectory && currentDirectory != null && Directory.Exists(currentDirectory))
-					Environment.CurrentDirectory = currentDirectory;
+					try { Environment.CurrentDirectory = currentDirectory; } catch { }
 			}
 		}
 

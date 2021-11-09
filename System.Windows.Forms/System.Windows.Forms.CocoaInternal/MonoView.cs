@@ -65,6 +65,11 @@ namespace System.Windows.Forms.CocoaInternal
 		internal Flags flags;
 		private WindowExStyles exStyle;
 
+		static MonoView()
+		{
+			DisableAutomaticLayerBackingStores();
+		}
+
 		public MonoView(IntPtr instance) : base(instance)
 		{
 		}
@@ -77,6 +82,17 @@ namespace System.Windows.Forms.CocoaInternal
 			this.ExStyle = exStyle;
 			this.eventResponder = new WindowsEventResponder(driver, this);
 			base.NextResponder = eventResponder;
+		}
+
+		static void DisableAutomaticLayerBackingStores()
+		{
+			// This turns on traditional mechanism for enhancing drawing performance that uses a "region".
+			// Starting with Big Sur, it's turned off by default, and it might be removed in the future completely.
+			// Without this mechanism, rendering of certain controls is pretty slow.
+			const string key = "NSViewUsesAutomaticLayerBackingStores";
+			var defaults = new NSUserDefaults();
+			defaults.SetBool(false, key);
+			defaults.Synchronize();
 		}
 
 		public override NSResponder NextResponder
@@ -423,180 +439,33 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public override NSDragOperation DraggingEntered(NSDraggingInfo sender)
 		{
-			try
-			{
-				var control = Control.FromHandle(Handle);
-				if (null != control && control.AllowDrop)
-				{
-					var e = ToDragEventArgs(sender);
-					control.DndEnter(e);
-					if (e.Effect != UnusedDndEffect)
-						return (XplatUICocoa.DraggingEffects = e.Effect).ToDragOperation();
-
-					XplatUICocoa.DraggingEffects = DragDropEffects.None;
-				}
-			}
-			catch
-			{
-				return NSDragOperation.None;
-			}
-			return NSDragOperation.Generic;
+			return this.DraggingEnteredInternal(sender);
 		}
 
 		public override NSDragOperation DraggingUpdated(NSDraggingInfo sender)
 		{
-			try
-			{
-				if (!driver.draggingSource.Cancelled)
-				{
-					var source = Control.FromHandle(driver.draggingSource.ViewHandle);
-					var args = new QueryContinueDragEventArgs(0, false, DragAction.Continue);
-					source?.DndContinueDrag(args);
-					if (args.Action == DragAction.Cancel)
-					{
-						// It seems there is no way to cancel dragging on macOS.
-						// Anyway, we have to stop sending QueryContinue events.
-						driver.draggingSource.Cancelled = true;
-					}
-				}
-
-				var control = Control.FromHandle(Handle);
-				if (null != control && control.AllowDrop)
-				{
-					var e = ToDragEventArgs(sender);
-					control.DndOver(e);
-					if (e.Effect != UnusedDndEffect)
-						XplatUICocoa.DraggingEffects = e.Effect;
-
-					return XplatUICocoa.DraggingEffects.ToDragOperation();
-				}
-			}
-			catch
-			{
-				return NSDragOperation.None;
-			}
-			return NSDragOperation.Generic;
+			return this.DraggingUpdatedInternal(sender);
 		}
 
 		public override void DraggingExited(NSDraggingInfo sender)
 		{
-			try
-			{
-				var control = Control.FromHandle(Handle);
-				if (null != control && control.AllowDrop)
-					control.DndLeave(ToDragEventArgs(sender));
-			}
-			catch
-			{
-			}
-		}
-
-		const DragDropEffects UnusedDndEffect = unchecked((DragDropEffects)0xffffffff);
-
-		DragEventArgs ToDragEventArgs(NSDraggingInfo sender, DragDropEffects effect = UnusedDndEffect)
-		{
-			var q = ToMonoScreen(sender.DraggingLocation, null);
-			var allowed = XplatUICocoa.DraggingAllowedEffects;
-			var modifiers = NSEvent.CurrentModifierFlags;
-
-			// translate mac modifiers to win modifiers
-			// 1(bit 0)  - The left mouse button.
-			// 2(bit 1)  - The right mouse button.
-			// 4(bit 2)  - The SHIFT key.
-			// 8(bit 3)  - The CTRL key.
-			// 16(bit 4) - The middle mouse button.
-			// 32(bit 5) - The ALT key.
-
-			int keystate = 0;
-			if (0 != (modifiers & NSEventModifierMask.ShiftKeyMask))
-				keystate |= 4;
-			if (0 != (modifiers & NSEventModifierMask.AlternateKeyMask)) // alt (mac) => ctrl (win)
-				keystate |= 8;
-
-			var idata = XplatUICocoa.DraggedData as IDataObject ?? (IDataObject)(XplatUICocoa.DraggedData = ToIDataObject(sender.DraggingPasteboard));
-			return new DragEventArgs(idata, keystate, q.X, q.Y, allowed, effect);
+			this.DraggingEnteredInternal(sender);
 		}
 
 		public override void DraggingEnded(NSDraggingInfo sender)
 		{
 			// Intentionally not calling base
-			XplatUICocoa.DraggedData = null; // Clear data box for next dragging session
+			this.DraggingEndedInternal(sender);
 		}
 
 		public override bool PrepareForDragOperation(NSDraggingInfo sender)
 		{
-			foreach(var type in sender.DraggingPasteboard.Types)
-			{
-				switch(type)
-				{
-					case XplatUICocoa.UTTypeUTF8PlainText:
-					case XplatUICocoa.NSStringPboardType:
-					case XplatUICocoa.IDataObjectPboardType:
-					case XplatUICocoa.UTTypeFileUrl:
-						return true;
-				}
-			}
-			return false;
+			return this.PrepareForDragOperationInternal(sender);
 		}
 
 		public override bool PerformDragOperation(NSDraggingInfo sender)
 		{
-			try
-			{
-				var c = Control.FromHandle(Handle);
-				if (c is IDropTarget dt)
-				{
-					var e = ToDragEventArgs(sender, XplatUICocoa.DraggingEffects);
-					if (e != null)
-					{
-						dt.OnDragDrop(e);
-						return true;
-					}
-				}
-			}
-			catch
-			{
-			}
-			return false;
-		}
-
-		public Point ToMonoScreen(CGPoint p, NSView view)
-		{
-			if (view != null)
-				p = ConvertPointToView(p, null);
-			var r = Window.ConvertRectToScreen(new CGRect(p, CGSize.Empty));
-			return driver.NativeToMonoScreen(r.Location);
-		}
-
-		private IDataObject ToIDataObject(NSPasteboard pboard)
-		{
-			var types = pboard.Types;
-			if (Array.IndexOf(types, XplatUICocoa.IDataObjectPboardType) != -1)
-				if (XplatUICocoa.DraggedData is IDataObject idata)
-					return idata;
-
-			var s = pboard.GetStringForType(XplatUICocoa.NSStringPboardType);
-			if (s != null)
-				return new DataObject(s);
-
-			s = pboard.GetStringForType(XplatUICocoa.UTTypeFileUrl);
-			if (s != null)
-			{
-				var paths = new List<string>();
-				foreach (var item in pboard.PasteboardItems)
-				{
-					var url = item.GetStringForType(XplatUICocoa.UTTypeFileUrl);
-					paths.Add(NSUrl.FromString(url).Path);
-				}
-
-				if (paths.Count != 0)
-					return new DataObject(DataFormats.FileDrop, paths.ToArray());
-			}
-
-			// TODO: Add more conversions/wrappers - for files, images etc.
-			// See DataObjectPasteboard - merge somehow?
-
-			return null;
+			return this.PerformDragOperationInternal(sender);
 		}
 
 		public virtual IntPtr SwfControlHandle

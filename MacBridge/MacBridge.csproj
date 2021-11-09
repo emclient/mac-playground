@@ -8,6 +8,7 @@
     <EnableDefaultItems Condition="'$(TargetFramework)' == 'netstandard2.1'">false</EnableDefaultItems>
     <EnableDefaultCompileItems Condition="'$(TargetFramework)' == 'netstandard2.1'">false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' == 'netstandard2.1'">false</EnableDefaultEmbeddedResourceItems>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
     <Compile Include="..\..\..\WinApi\GdiPlus.Structs.cs">
