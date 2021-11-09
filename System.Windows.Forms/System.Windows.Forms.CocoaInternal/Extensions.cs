@@ -1088,26 +1088,6 @@ namespace System.Windows.Forms.Mac
 			NSAccessibilityRoles.SplitterRole, //SplitButton	= 62,
 			NSAccessibilityRoles.TextAreaRole,  //IpAddress	= 63,
 			NSAccessibilityRoles.ButtonRole, //OutlineButton	= 64
-<<<<<<< HEAD
-		};
-
-		public static NSObject ToAccessibilityValue(this AccessibleStates state)
-		{
-			switch (state)
-			{
-				case AccessibleStates.None:
-					return new NSNumber(0);
-				case AccessibleStates.Checked:
-					return new NSNumber(1);
-				//case AccessibleStates.Mixed:
-				//	return new NSNumber(2);
-			}
-			return null;
-		}
-
-		#endregion // Accessibility
-
-=======
 		};
 
 		public static NSObject ToAccessibilityValue(this AccessibleStates state)
@@ -1316,7 +1296,6 @@ namespace System.Windows.Forms.Mac
 
 		#endregion
 
->>>>>>> netcore/master
 #if MONOMAC
 
 		public static CGSize SizeThatFits(this NSControl self, CGSize proposedSize)
