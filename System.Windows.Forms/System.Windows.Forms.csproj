@@ -1,7 +1,6 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>xamarinmac20</TargetFrameworks>
-    <TargetFrameworks Condition="'$(SkipMacNet6Projects)' != 'true'">$(TargetFrameworks);net6.0-macos</TargetFrameworks>
+    <TargetFrameworks>net6.0-macos</TargetFrameworks>
     <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.1</TargetFrameworks>
     <DefineConstants>NET_4_5</DefineConstants>
     <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
@@ -15,16 +14,16 @@
     <AssemblyVersion>5.0.0</AssemblyVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'xamarinmac20' OR '$(TargetFramework)' == 'net6.0-macos'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
     <DefineConstants>$(DefineConstants);__MACOS__;XAMARINMAC;MACDIALOGS;MACOS_THEME</DefineConstants>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' != 'xamarinmac20'">
+  <ItemGroup>
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
     <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20' OR '$(TargetFramework)' == 'net6.0-macos'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
     <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
     <ProjectReference Include="..\MacApi\MacApi.csproj" />
   </ItemGroup>
@@ -892,7 +891,7 @@
     <Compile Include="System.Windows.Forms.VisualStyles\UXTheme.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStylesNative.cs" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20' OR '$(TargetFramework)' == 'net6.0-macos'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
     <Compile Include="System.Windows.Forms\DebugUtility.cs" />
     <Compile Include="System.Windows.Forms\XplatUIWin32.Structs.cs" />
     <Compile Include="System.Windows.Forms\MessageBoxForm.Mac.cs" />
@@ -1196,8 +1195,7 @@
     <PackageReference Include="Microsoft.NETCore.App.Ref" Version="5.0.0" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
   </ItemGroup>
   <PropertyGroup>
-    <ApiCompatExcludeAttributeList>..\ApiCompatExcludeAttributes.txt</ApiCompatExcludeAttributeList>
-    <ApiCompatExcludeAttributeList Condition="'$(TargetFramework)' == 'xamarinmac20'">$(ApiCompatExcludeAttributeList),ApiCompatExcludeAttributes.Mobile.txt</ApiCompatExcludeAttributeList>
+    <ApiCompatExcludeAttributeList>..\ApiCompatExcludeAttributes.txt,ApiCompatExcludeAttributes.Mobile.txt</ApiCompatExcludeAttributeList>
     <ContractDependencyPaths>$(PkgMicrosoft_NETCore_App_Ref)\ref\net5.0</ContractDependencyPaths>
   </PropertyGroup>
   <ItemGroup>

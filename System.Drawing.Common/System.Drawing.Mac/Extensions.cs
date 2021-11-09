@@ -65,10 +65,12 @@ namespace System.Drawing.Mac
 			return new Rectangle(r.X + left, r.Y + top, r.Width - right - left, r.Height - bottom - top);
 		}
 
+#if __MACOS__
 		public static Rectangle Inset(this Rectangle r, Margins m)
 		{
 			return r.Inset(m.Left, m.Top, m.Right, m.Bottom);
 		}
+#endif
 
 		public static CGPoint Move(this CGPoint p, nfloat x, nfloat y)
 		{

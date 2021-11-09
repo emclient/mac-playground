@@ -1,7 +1,6 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>xamarinmac20</TargetFrameworks>
-    <TargetFrameworks Condition="'$(SkipMacNet6Projects)' != 'true'">$(TargetFrameworks);net6.0-macos</TargetFrameworks>
+    <TargetFrameworks>net6.0-macos</TargetFrameworks>
     <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.1</TargetFrameworks>
     <DefineConstants>XAMARINMAC;__UNIFIED__</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -10,7 +9,7 @@
     <EnableDefaultCompileItems Condition="'$(TargetFramework)' == 'netstandard2.1'">false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' == 'netstandard2.1'">false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20' OR '$(TargetFramework)' == 'net6.0-macos'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
     <Compile Include="..\..\..\WinApi\GdiPlus.Structs.cs">
       <Link>WinApi\GdiPlus.Structs.cs</Link>
     </Compile>

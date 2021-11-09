@@ -1,12 +1,11 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>xamarinmac20</TargetFrameworks>
-    <TargetFrameworks Condition="'$(SkipMacNet6Projects)' != 'true'">$(TargetFrameworks);net6.0-macos</TargetFrameworks>
+    <TargetFrameworks>net6.0-macos</TargetFrameworks>
     <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFrameworks>
     <DefineConstants>__MACOS__;XAMARINMAC;__UNIFIED__</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <EnableDefaultItems Condition="'$(TargetFramework)' != 'xamarinmac20' AND '$(TargetFramework)' != 'net6.0-macos'">false</EnableDefaultItems>
-    <EnableDefaultCompileItems Condition="'$(TargetFramework)' != 'xamarinmac20' AND '$(TargetFramework)' != 'net6.0-macos'">false</EnableDefaultCompileItems>
-    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' != 'xamarinmac20' AND '$(TargetFramework)' != 'net6.0-macos'">false</EnableDefaultEmbeddedResourceItems>
+    <EnableDefaultItems Condition="'$(TargetFramework)' != 'net6.0-macos'">false</EnableDefaultItems>
+    <EnableDefaultCompileItems Condition="'$(TargetFramework)' != 'net6.0-macos'">false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' != 'net6.0-macos'">false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
 </Project>
