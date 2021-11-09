@@ -21,7 +21,7 @@
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
-    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
     <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
@@ -1191,15 +1191,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsDesktop.App.Ref" Version="5.0.0" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
-    <PackageReference Include="Microsoft.NETCore.App.Ref" Version="5.0.0" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
+    <PackageReference Include="Microsoft.WindowsDesktop.App.Ref" Version="6.0.0" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
+    <PackageReference Include="Microsoft.NETCore.App.Ref" Version="6.0.0" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
   </ItemGroup>
   <PropertyGroup>
     <ApiCompatExcludeAttributeList>..\ApiCompatExcludeAttributes.txt,ApiCompatExcludeAttributes.Mobile.txt</ApiCompatExcludeAttributeList>
-    <ContractDependencyPaths>$(PkgMicrosoft_NETCore_App_Ref)\ref\net5.0</ContractDependencyPaths>
+    <ContractDependencyPaths>$(PkgMicrosoft_NETCore_App_Ref)\ref\net6.0</ContractDependencyPaths>
   </PropertyGroup>
   <ItemGroup>
-    <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\net5.0\System.Windows.Forms.dll" />
+    <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\net6.0\System.Windows.Forms.dll" />
   </ItemGroup>
   <ItemGroup Condition="'$(SkipMacProjects)' != 'true'">
     <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="6.0.0-beta.21466.2" PrivateAssets="All" />
