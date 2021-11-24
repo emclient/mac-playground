@@ -339,9 +339,10 @@ namespace System.Windows.Forms
 
 		static bool IsSingular(string s, int pos)
 		{
-			for (int i = Math.Max(0, pos - 1); i < Math.Min(pos, s.Length - 1); ++i)
-				if (i != pos && s[i] == s[pos])
-					return false;
+			if (pos > 0 && s.Length > pos && s[pos-1] == s[pos])
+				return false;
+			if (s.Length > pos + 1 && s[pos+1] == s[pos])
+				return false;
 			return true;
 		}
 
