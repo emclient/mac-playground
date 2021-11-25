@@ -14,12 +14,7 @@ using System.Runtime.InteropServices;
 
 #if MAC
 using MacApi.Posix;
-#if XAMARINMAC
 using AppKit;
-#else //MONOMAC
-using MonoMac.AppKit;
-#endif
-
 #endif
 
 namespace FormsTest
@@ -177,7 +172,7 @@ namespace FormsTest
 			}
 			finally
 			{
-				for (int j = i - 1; j >= 0; --j) 					a[j].Close(); 			}
+				for (int j = i - 1; j >= 0; --j)					a[j].Close();			}
 			Console.WriteLine($"#{i}");
 		}
 #else

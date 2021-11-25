@@ -1,13 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
 using MacApi.CoreFoundation;
-#if XAMARINMAC
 using Foundation;
 using ObjCRuntime;
-#elif MONOMAC
-using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-#endif
 
 namespace MacApi.Carbon
 {

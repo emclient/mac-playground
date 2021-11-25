@@ -4,11 +4,7 @@ using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Windows.Forms.CocoaInternal;
 using System.Text;
-#if XAMARINMAC
 using Foundation;
-#else
-using MonoMac.Foundation;
-#endif
 
 namespace WinApi
 {

@@ -6,14 +6,8 @@ using System.Windows.Forms.Extensions.IO;
 using System.Windows.Forms.CocoaInternal;
 using CoreGraphics;
 using System.Linq;
-
-#if XAMARINMAC
 using Foundation;
 using AppKit;
-#elif MONOMAC
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-#endif
 
 namespace System.Windows.Forms.CocoaInternal
 {

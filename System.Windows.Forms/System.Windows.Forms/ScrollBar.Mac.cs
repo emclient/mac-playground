@@ -5,12 +5,7 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Drawing.Mac;
-
-#if XAMARINMAC
 using AppKit;
-#elif MONOMAC
-using MonoMac.AppKit;
-#endif
 
 namespace System.Windows.Forms
 {

@@ -1,16 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Forms.Mac;
-
-#if XAMARINMAC
 using AppKit;
 using Foundation;
 using ObjCRuntime;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-#endif
 
 namespace System.Windows.Forms.CocoaInternal
 {

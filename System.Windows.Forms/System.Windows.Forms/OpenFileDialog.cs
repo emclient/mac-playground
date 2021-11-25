@@ -1,5 +1,4 @@
-#if MONOMAC || XAMARINMAC
-#else
+#if !XAMARINMAC
 
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -149,4 +148,4 @@ namespace System.Windows.Forms {
 	}
 }
 
-#endif // MONOMAC
+#endif // !XAMARINMAC

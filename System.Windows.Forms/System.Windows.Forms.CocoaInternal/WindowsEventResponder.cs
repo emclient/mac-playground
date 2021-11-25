@@ -1,19 +1,10 @@
 using System.Drawing;
 using System.Drawing.Mac;
 using System.Windows.Forms.Mac;
-#if XAMARINMAC
 using Foundation;
 using AppKit;
 using CoreGraphics;
 using ObjCRuntime;
-#elif MONOMAC
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.ObjCRuntime;
-using nint = System.Int32;
-using nuint = System.UInt32;
-#endif
 
 namespace System.Windows.Forms.CocoaInternal
 {

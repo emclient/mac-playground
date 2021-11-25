@@ -3,14 +3,8 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-#elif XAMARINMAC
 using AppKit;
 using Foundation;
-#endif
 
 using System.Windows.Forms.CocoaInternal;
 

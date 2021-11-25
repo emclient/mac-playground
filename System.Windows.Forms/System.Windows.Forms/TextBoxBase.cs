@@ -2622,7 +2622,7 @@ namespace System.Windows.Forms
 
 		#region Key Binding
 
-#if MONOMAC || XAMARINMAC
+#if XAMARINMAC
 
 		internal Dictionary<Keys, Func<bool>> LoadKeyHandlers()
 		{

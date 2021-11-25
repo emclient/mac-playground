@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Drawing.Mac;
 using System.Windows.Forms.Mac;
-#if XAMARINMAC
 using AppKit;
-#else
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-#endif
 
 namespace System.Windows.Forms
 {

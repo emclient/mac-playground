@@ -3,12 +3,7 @@
 using System.Drawing;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-
-#if MONOMAC
-using MonoMac.AppKit;
-#elif XAMARINMAC
 using AppKit;
-#endif
 
 namespace System.Windows.Forms
 {

@@ -5,19 +5,10 @@ using System.Drawing.Mac;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms.Mac;
-
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-using nint = System.Int32;
-#elif XAMARINMAC
 using AppKit;
 using CoreGraphics;
 using Foundation;
 using ObjCRuntime;
-#endif
 
 namespace System.Windows.Forms
 {

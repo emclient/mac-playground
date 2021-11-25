@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-
-#if MONOMAC
-using MonoMac.Foundation;
-#elif XAMARINMAC
 using Foundation;
-#endif
 
 namespace MacApi.LaunchServices
 {

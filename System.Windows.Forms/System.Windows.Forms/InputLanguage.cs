@@ -31,8 +31,6 @@ using System.Collections.Generic;
 
 #if XAMARINMAC
 using MacApi.Carbon;
-#elif MONOMAC
-using MacApi.Carbon;
 #endif
 
 namespace System.Windows.Forms {

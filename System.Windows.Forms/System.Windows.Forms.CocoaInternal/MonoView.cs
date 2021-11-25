@@ -31,19 +31,10 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms.Mac;
 using System.Collections.Specialized;
 using System.Collections.Generic;
-
-#if XAMARINMAC
 using Foundation;
 using AppKit;
 using CoreGraphics;
 using ObjCRuntime;
-#elif MONOMAC
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.ObjCRuntime;
-using NMath = System.Math;
-#endif
 
 namespace System.Windows.Forms.CocoaInternal
 {

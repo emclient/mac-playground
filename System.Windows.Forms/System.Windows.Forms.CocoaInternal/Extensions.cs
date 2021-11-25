@@ -15,20 +15,11 @@ using CoreFoundation;
 using System.Reflection;
 using System.Collections.Specialized;
 
-#if MONOMAC
-using MonoMac.ObjCRuntime;
-using ObjCRuntime = MonoMac.ObjCRuntime;
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
-using System.Drawing;
-#elif XAMARINMAC
 using System;
 using AppKit;
 using Foundation;
 using ObjCRuntime;
 using CoreGraphics;
-#endif
 
 namespace System.Windows.Forms.Mac
 {
@@ -1296,56 +1287,6 @@ namespace System.Windows.Forms.Mac
 
 		#endregion
 
-#if MONOMAC
-
-		public static CGSize SizeThatFits(this NSControl self, CGSize proposedSize)
-		{
-			var selector = new ObjCRuntime.Selector("sizeThatFits:");
-			var size = ObjCRuntime.Messaging.CGSize_objc_msgSend_CGSize(self.Handle, selector.Handle, proposedSize);
-			return size;
-		}
-
-		public static NSPasteboardWriting AsPasteboardWriting(this NSObject self)
-		{
-			return new NSPasteboardWriting(self.Handle);
-		}
-
-		public static NSPasteboardWriting AsPasteboardWriting(this String self)
-		{
-			return new NSPasteboardWriting(((NSString)self).Handle);
-		}
-
-		// provider must implement NSPasteboardItemDataProvider
-		public static void SetDataProviderForTypes(this NSPasteboardItem item, NSObject provider, string[] types)
-		{
-			var sel = new ObjCRuntime.Selector("setDataProvider:forTypes:");
-			var array = NSArray.FromStrings(types);
-			var ok = LibObjc.bool_objc_msgSend_IntPtr_IntPtr(item.Handle, sel.Handle, provider.Handle, array.Handle);
-		}
-
-        public static T GetItem<T>(this NSArray array, uint index) where T : NSObject
-        {
-            return (T)ObjCRuntime.Runtime.GetNSObject(array.ValueAt(index));
-        }
-
-		public static void WriteObject(this NSPasteboard pboard, NSObject pasteboardWriting)
-		{
-			// NOTE: pasteboardWriting must conform to NSPasteboardWriting protocol
-			var selector = new ObjCRuntime.Selector("writeObjects:");
-			var array = NSArray.FromNSObjects(pasteboardWriting);
-			ObjCRuntime.Messaging.void_objc_msgSend_IntPtr(pboard.Handle, selector.Handle, array.Handle);
-		}
-
-		public static NSData GetData(this NSAttributedString astr, NSRange range, NSDictionary options, out NSError error)
-		{
-			var selector = new ObjCRuntime.Selector("dataFromRange:documentAttributes:error:");
-			var e = new NSError();
-			var h = ObjCRuntime.Messaging.IntPtr_objc_msgSend_NSRange_IntPtr_IntPtr_int(astr.Handle, selector.Handle, range, options.Handle, e.Handle, 0);
-			error = null;
-			return h.AsNSObject<NSData>();
-		}
-
-#elif XAMARINMAC
 
 		public static void WriteObject(this NSPasteboard pboard, INSPasteboardWriting pasteboardWriting)
 		{
@@ -1361,7 +1302,6 @@ namespace System.Windows.Forms.Mac
 		{
 			return (INSPasteboardWriting)(NSString)self;
 		}
-#endif
 	}
 
 	public class NSControlSetCellClass : IDisposable

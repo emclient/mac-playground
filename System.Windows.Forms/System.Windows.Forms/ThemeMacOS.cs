@@ -1,4 +1,4 @@
-#if XAMARINMAC || MONOMAC
+#if XAMARINMAC
 
 using System.ComponentModel;
 //using System.Data;
@@ -14,18 +14,10 @@ using System.Windows.Forms.resources;
 using System.Drawing.Mac;
 using System.Windows.Forms.Extensions.Drawing;
 using System.Windows.Forms.CocoaInternal;
-
-#if XAMARINMAC
 using AppKit;
 using Foundation;
 using CoreText;
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.CoreText;
-using MonoMac.CoreGraphics;
-#endif
 
 namespace System.Windows.Forms
 {

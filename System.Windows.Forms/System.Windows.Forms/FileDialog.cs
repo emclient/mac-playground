@@ -40,8 +40,7 @@ using System.Text;
 using System.Threading;
 using System.Xml;
 
-#if MONOMAC || XAMARINMAC
-#else
+#if !XAMARINMAC
 
 namespace System.Windows.Forms
 {
@@ -1397,7 +1396,7 @@ namespace System.Windows.Forms
 	#endregion
 }
 
-#endif // MONOMAC
+#endif // !XAMARINMAC
 
 namespace System.Windows.Forms
 {

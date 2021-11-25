@@ -31,8 +31,6 @@ using System.Reflection;
 
 #if XAMARINMAC
 using Foundation;
-#elif MONOMAC
-using MonoMac.Foundation;
 #endif
 
 namespace System.Windows.Forms
@@ -71,7 +69,7 @@ namespace System.Windows.Forms
 		private Hashtable uiImages = new Hashtable();
 		private Hashtable cpcolors = new Hashtable ();
 
-#if XAMARINMAC || MONOMAC
+#if XAMARINMAC
 		public SystemResPool()
 		{
 			NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSSystemColorsDidChangeNotification"), (obj) => { Invalidate(); });

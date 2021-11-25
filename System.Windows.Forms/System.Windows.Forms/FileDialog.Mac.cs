@@ -1,4 +1,4 @@
-﻿#if MONOMAC || XAMARINMAC
+﻿#if XAMARINMAC
 	
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-#if MONOMAC || XAMARINMAC
+#if XAMARINMAC
 
 using System;
 using System.Windows.Forms;
@@ -7,14 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-
-#if XAMARINMAC
 using AppKit;
 using Foundation;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-#endif
 
 namespace System.Windows.Forms
 {
@@ -114,4 +108,4 @@ namespace System.Windows.Forms
 	}
 }
 
-#endif //MONOMAC
+#endif // XAMARINMAC

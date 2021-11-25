@@ -1,20 +1,12 @@
-#if MONOMAC || XAMARINMAC
+#if XAMARINMAC
 
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Mac;
-
-#if XAMARINMAC
 using AppKit;
 using CoreGraphics;
 using Foundation;
 using ObjCRuntime;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-#endif
 
 using Strings = System.Windows.Forms.resources.Strings;
 

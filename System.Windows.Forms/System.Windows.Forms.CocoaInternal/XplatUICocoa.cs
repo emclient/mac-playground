@@ -67,19 +67,10 @@ using System.Runtime.InteropServices;
 using Cocoa = System.Windows.Forms.CocoaInternal;
 using System.Windows.Forms.Mac;
 /// Cocoa Version
-#if XAMARINMAC
 using Foundation;
 using AppKit;
 using System.Windows.Forms.CocoaInternal;
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using System.Windows.Forms.CocoaInternal;
-using MonoMac.CoreGraphics;
-using nint = System.Int32;
-using nfloat = System.Single;
-#endif
 
 namespace System.Windows.Forms {
 
@@ -1795,6 +1786,7 @@ namespace System.Windows.Forms {
 
 		internal override void SetIcon (IntPtr handle, Icon icon)
 		{
+/*
 #if MONOMAC // The native mac application package already contains the app icon.
 			ApplicationContext context = Application.MWFThread.Current.Context;
 			if ( context != null && context.MainForm != null && context.MainForm.Handle == handle) {
@@ -1815,6 +1807,7 @@ namespace System.Windows.Forms {
 				}
 			}
 #endif
+*/
 		}
 
 		internal override void SetModal(IntPtr handle, bool Modal)
@@ -1872,7 +1865,6 @@ namespace System.Windows.Forms {
 			return IntPtr.Zero;
 		}
 
-#if XAMARINMAC
 		internal override void SetTimer(Timer timer)
 		{
 			if (timer.window != IntPtr.Zero)
@@ -1891,24 +1883,6 @@ namespace System.Windows.Forms {
 			NSRunLoop.Main.AddTimer(nstimer, NSRunLoopMode.Common);
 			NSRunLoop.Main.AddTimer(nstimer, NSRunLoopMode.EventTracking);
 		}
-#elif MONOMAC
-		internal override void SetTimer (Timer timer) {
-			if (timer.window != IntPtr.Zero)
-				KillTimer(timer);
-
-			var nstimer = NSTimer.CreateRepeatingScheduledTimer(TimeSpan.FromMilliseconds(timer.Interval), () => {
-				if (NSThread.IsMain)
-					FireTick(timer);
-				else 
-					NSApplication.SharedApplication.InvokeOnMainThread(() => { FireTick(timer); });
-			});
-			nstimer.Retain();
-			timer.window = nstimer.Handle;
-
-			NSRunLoop.Main.AddTimer(nstimer, NSRunLoopMode.Common);
-			NSRunLoop.Main.AddTimer(nstimer, NSRunLoopMode.EventTracking);
-		}
-#endif
 
 		internal void FireTick(Timer timer)
 		{

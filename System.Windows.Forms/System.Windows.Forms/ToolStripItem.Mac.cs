@@ -5,15 +5,9 @@ using System.Windows.Forms.Mac;
 using System.Collections;
 using System.Reflection;
 using Foundation;
-#if XAMARINMAC
 using ObjCRuntime;
 using AppKit;
 using CoreGraphics;
-#else
-using MonoMac.ObjCRuntime;
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-#endif
 
 namespace System.Windows.Forms
 {

@@ -9,17 +9,9 @@ using System.Windows.Forms;
 using System.Windows.Forms.CocoaInternal;
 using MacApi;
 using System.Windows.Forms.Mac;
-#if XAMARINMAC
 using AppKit;
 using Foundation;
 using CoreGraphics;
-#else
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.CoreGraphics;
-using ObjCRuntime = MonoMac.ObjCRuntime;
-using MacApi.CoreGraphics;
-#endif
 
 namespace WinApi
 {

@@ -4,17 +4,9 @@ using System.Drawing;
 using System.Drawing.Mac;
 using System.Drawing.Imaging;
 using System.Windows.Forms.Mac;
-
 using MacApi.LaunchServices;
-
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-#elif XAMARINMAC
 using AppKit;
 using Foundation;
-#endif
-
 
 namespace System.Windows.Forms.CocoaInternal
 {
@@ -22,17 +14,6 @@ namespace System.Windows.Forms.CocoaInternal
 	internal class DataObjectProvider : NSPasteboardItemDataProvider
 	{
 		IDataObject data;
-
-#if MONOMAC
-		public override bool ConformsToProtocol(IntPtr protocol)
-		{
-			if ("NSPasteboardItemDataProvider" == NSString.FromHandle(Mac.Extensions.NSStringFromProtocol(protocol)))
-				return true;
-
-			return base.ConformsToProtocol(protocol);
-		}
-#endif
-
 		public DataObjectProvider(IDataObject data)
 		{
 			this.data = new DataObjectWrapper(data);

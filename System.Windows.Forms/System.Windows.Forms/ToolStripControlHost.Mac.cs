@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Drawing;
-#if XAMARINMAC
 using AppKit;
-#else
-using MonoMac.AppKit;
-using ObjCRuntime = MonoMac.ObjCRuntime;
-#endif
 
 namespace System.Windows.Forms
 {

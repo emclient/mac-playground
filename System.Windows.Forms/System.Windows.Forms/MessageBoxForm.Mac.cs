@@ -1,19 +1,12 @@
-﻿#if MONOMAC || XAMARINMAC
+﻿#if XAMARINMAC
 
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Windows.Forms.CocoaInternal;
-
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.CoreGraphics;
-#elif XAMARINMAC
 using AppKit;
 using Foundation;
 using CoreGraphics;
-#endif
 
 using R = System.Windows.Forms.MessageBoxFormResourcesMac;
 

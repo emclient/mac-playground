@@ -221,15 +221,6 @@ namespace FormsTest
             }
         }
 
-        //		protected override void OnPaint (PaintEventArgs e)
-        //		{
-        //			NSView nsView = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(this.Handle);
-        //			if (nsView != null && nsView.LockFocusIfCanDraw ()) {
-        //				base.OnPaint (e);
-        //				nsView.UnlockFocus ();
-        //			}
-        //		}
-
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             base.OnClosing(e);

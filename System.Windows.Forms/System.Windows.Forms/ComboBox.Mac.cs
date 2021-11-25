@@ -10,16 +10,9 @@ using System.Drawing.Mac;
 using System.Windows.Forms.Mac;
 using System.Collections.Generic;
 using System.Linq;
-
-#if XAMARINMAC
 using AppKit;
 using Foundation;
 using ObjCRuntime;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-#endif
 
 namespace System.Windows.Forms
 {

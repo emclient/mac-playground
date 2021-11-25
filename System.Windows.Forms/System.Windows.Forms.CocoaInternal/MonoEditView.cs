@@ -1,37 +1,16 @@
 ﻿using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-#if XAMARINMAC
 using Foundation;
 using AppKit;
 using CoreGraphics;
 using ObjCRuntime;
-#elif MONOMAC
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using nuint = System.UInt32;
-using nfloat = System.Single;
-#endif
 
 namespace System.Windows.Forms.CocoaInternal
 {
 	//[ExportClass("MonoEditView", "MonoView")]
-	class MonoEditView : MonoView
-#if XAMARINMAC
-	, INSTextInputClient
+	class MonoEditView : MonoView, INSTextInputClient
 	{
-#elif MONOMAC
-	{
-		public override bool ConformsToProtocol(IntPtr protocol)
-		{
-			if ("NSTextInputClient" == NSString.FromHandle(Mac.Extensions.NSStringFromProtocol(protocol)))
-				return true;
-
-			return base.ConformsToProtocol(protocol);
-		}
-#endif
-
 		internal NSAttributedString markedText = new NSMutableAttributedString();
 		internal string insertText = String.Empty;
 

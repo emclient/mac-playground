@@ -6,18 +6,9 @@ using System.Text;
 using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
 using System.Drawing.Mac;
-
-#if XAMARINMAC
 using AppKit;
 using Foundation;
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-using ObjCRuntime = MonoMac.ObjCRuntime;
-#endif
 
 namespace System.Windows.Forms
 {
@@ -392,8 +383,6 @@ namespace System.Windows.Forms
 
 		}
 
-#if XAMARINMAC
-
 		internal class FileProvider : NSPasteboardItemDataProvider
 		{
 			XplatUICocoa driver;
@@ -416,65 +405,5 @@ namespace System.Windows.Forms
 				driver.dndCurrentFileIndex += 1;
 			}
 		}
-
-#elif MONOMAC
-
-		internal class FileProvider : NSObject
-		{
-			XplatUICocoa driver;
-
-			public string[] Filenames;
-			public int CurrentIndex;
-
-			public FileProvider(XplatUICocoa driver)
-			{
-				this.driver = driver;
-				driver.dndCurrentFileIndex = 0;
-			}
-
-			public override bool ConformsToProtocol(IntPtr protocol)
-			{
-				//Console.WriteLine(NSString.FromHandle(Extensions.NSStringFromProtocol(protocol)));
-				if ("NSPasteboardItemDataProvider" == NSString.FromHandle(Mac.Extensions.NSStringFromProtocol(protocol)))
-					return true;
-
-				return base.ConformsToProtocol(protocol);
-			}
-
-			[Export("pasteboardFinishedWithDataProvider:")]
-			public virtual void FinishedWithDataProvider(NSPasteboard pasteboard)
-			{
-				//Console.WriteLine("FileProvider.FinishedWithDataProvider");
-				try
-				{
-					driver.FinishedWithDataProvider(pasteboard);
-				}
-				catch (Exception e)
-				{
-					DebugHelper.WriteLine(e);
-				}
-			}
-
-			// Using IntPtr instead of NSPasteboardItem prevents crashes in Marshaller under MonoMac.
-			[Export("pasteboard:item:provideDataForType:")]
-			public virtual void ProvideDataForType(NSPasteboard pasteboard, IntPtr hItem, string type)
-			{
-				var obj = ObjCRuntime.Runtime.GetNSObject(hItem);
-				var item = obj is NSPasteboardItem ? (NSPasteboardItem)obj : new NSPasteboardItem(hItem);
-
-				//Console.WriteLine($"FileProvider.ProvideDataForType({pasteboard.GetType().Name},{item.GetType().Name},{type.GetType().Name}/{type})");
-
-				try
-				{
-					driver.ProvideDataForType(pasteboard, item, type);
-				}
-				catch (Exception e)
-				{
-					DebugHelper.WriteLine(e);
-				}
-				driver.dndCurrentFileIndex += 1;
-			}
-		}
-#endif
 	}
 }

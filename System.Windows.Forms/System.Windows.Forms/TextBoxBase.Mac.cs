@@ -6,14 +6,8 @@ using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-#elif XAMARINMAC
 using AppKit;
 using Foundation;
-#endif
 
 namespace System.Windows.Forms
 {

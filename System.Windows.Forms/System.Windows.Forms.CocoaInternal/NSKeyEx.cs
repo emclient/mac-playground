@@ -1,12 +1,7 @@
 ﻿using System;
 
-#if XAMARINMAC
 namespace AppKit
-#elif MONOMAC 
-namespace MonoMac.AppKit
-#endif
 {
-#if MONOMAC || XAMARINMAC
 	public enum NSKeyEx
 	{
 		GtLt = 0x0A, // The key placed on the left of the '1' key, on the Czech keyboard: [</>]
@@ -43,5 +38,3 @@ namespace MonoMac.AppKit
 		UpArrow = 0x7E
 	}
 }
-
-#endif

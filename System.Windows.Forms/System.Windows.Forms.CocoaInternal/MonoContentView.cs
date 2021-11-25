@@ -30,22 +30,8 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-
-#if XAMARINMAC
 using AppKit;
-#elif MONOMAC
-using MonoMac.AppKit;
-#endif
-
-#if SDCOMPAT
-using NSRect = System.Drawing.RectangleF;
-#else
-#if XAMARINMAC
-using NSRect = CoreGraphics.CGRect;
-#elif MONOMAC
-using NSRect = MonoMac.CoreGraphics.CGRect;
-#endif
-#endif
+using CoreGraphics;
 
 namespace System.Windows.Forms.CocoaInternal
 {
@@ -55,7 +41,7 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 		}
 
-		public MonoContentView (XplatUICocoa driver, NSRect frameRect, WindowStyles style, WindowExStyles exStyle)
+		public MonoContentView (XplatUICocoa driver, CGRect frameRect, WindowStyles style, WindowExStyles exStyle)
 			: base(driver, frameRect, style, exStyle)
 		{
 		}

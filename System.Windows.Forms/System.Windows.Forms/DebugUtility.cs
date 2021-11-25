@@ -8,10 +8,6 @@ using System.Drawing;
 #if XAMARINMAC
 using CoreGraphics;
 using AppKit;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-using MonoMac.AppKit;
-using ObjCRuntime = MonoMac.ObjCRuntime;
 #endif
 
 namespace System.Windows.Forms

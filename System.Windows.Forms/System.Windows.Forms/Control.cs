@@ -53,12 +53,7 @@ using System.Windows.Forms.Extensions.Drawing;
 
 #if __MACOS__
 using System.Windows.Forms.Mac;
-#if XAMARINMAC
 using AppKit;
-#else
-using MonoMac;
-using MonoMac.AppKit;
-#endif
 #endif
 
 namespace System.Windows.Forms

@@ -1,17 +1,9 @@
-﻿#if MACOS_THEME
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Mac;
 using System.Windows.Forms.Mac;
-
-#if XAMARINMAC
 using AppKit;
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-#endif
 
 namespace System.Windows.Forms
 {
@@ -178,5 +170,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-
-#endif

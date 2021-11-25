@@ -1,12 +1,6 @@
 ﻿using System;
-
-#if MONOMAC
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-#elif XAMARINMAC
 using Foundation;
 using AppKit;
-#endif
 
 namespace MacApi.AppKit
 {

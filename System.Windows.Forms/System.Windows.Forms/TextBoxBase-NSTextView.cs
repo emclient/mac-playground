@@ -3,18 +3,10 @@ using System;
 using System.Windows.Forms.Mac;
 using System.Drawing.Mac;
 using System.Drawing;
-
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-#elif XAMARINMAC
 using AppKit;
 using CoreGraphics;
 using Foundation;
 using ObjCRuntime;
-#endif
 
 namespace System.Windows.Forms
 {

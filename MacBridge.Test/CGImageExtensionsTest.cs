@@ -2,12 +2,7 @@
 using System.Diagnostics;
 using System.Drawing.Mac;
 using NUnit.Framework;
-#if XAMARINMAC
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-#endif
-
 
 namespace MacBridge.Test
 {

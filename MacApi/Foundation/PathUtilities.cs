@@ -2,11 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-#if XAMARINMAC
 using Foundation;
-#else
-using MonoMac.Foundation;
-#endif
 
 namespace MacApi
 {

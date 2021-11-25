@@ -2,15 +2,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.CocoaInternal;
 using System.Windows.Forms.Mac;
-#if XAMARINMAC
 using AppKit;
 using Foundation;
 using ObjCRuntime;
-#else
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-#endif
 
 namespace System.Windows.Forms
 {

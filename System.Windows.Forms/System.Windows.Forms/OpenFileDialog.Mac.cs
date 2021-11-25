@@ -1,16 +1,10 @@
-#if MONOMAC || XAMARINMAC
+#if XAMARINMAC
 
 using System.Windows.Forms.CocoaInternal;
 using System.ComponentModel;
 using System.IO;
-
-#if XAMARINMAC
 using AppKit;
 using Foundation;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-#endif
 
 namespace System.Windows.Forms
 {

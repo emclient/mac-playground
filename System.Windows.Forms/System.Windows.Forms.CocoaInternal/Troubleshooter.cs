@@ -1,20 +1,10 @@
 using System;
 using System.Diagnostics;
 using ObjCRuntime;
-
-#if XAMARINMAC
 using Foundation;
 using AppKit;
 using System.Windows.Forms.CocoaInternal;
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using System.Windows.Forms.CocoaInternal;
-using MonoMac.CoreGraphics;
-using nint = System.Int32;
-using nfloat = System.Single;
-#endif
 
 namespace System.Windows.Forms.CocoaInternal
 {

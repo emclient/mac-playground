@@ -4,14 +4,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
-
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-#elif XAMARINMAC
 using AppKit;
 using CoreGraphics;
-#endif
 
 namespace WinApi
 {

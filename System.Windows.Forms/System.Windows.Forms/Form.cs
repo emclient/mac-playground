@@ -40,12 +40,6 @@ using System.Drawing.Mac;
 #if XAMARINMAC
 using Foundation;
 using System.Windows.Forms.Mac;
-#elif MONOMAC
-using MonoMac.Foundation;
-using AppKit = MonoMac.AppKit;
-using CoreGraphics = MonoMac.CoreGraphics;
-using ObjCRuntime = MonoMac.ObjCRuntime;
-using System.Windows.Forms.Mac;
 #endif
 
 namespace System.Windows.Forms {
