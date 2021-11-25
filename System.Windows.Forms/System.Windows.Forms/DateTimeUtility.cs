@@ -61,7 +61,7 @@ namespace System.Windows.Forms
 				{
 					var defaults = NSUserDefaults.StandardUserDefaults;
 					var languages = defaults["AppleLanguages"] as NSArray;
-					var preferred = NSString.FromHandle(languages.ValueAt(0));
+					var preferred = CFString.FromHandle(languages.ValueAt(0));
 					preferredLocale = NSLocale.FromLocaleIdentifier(preferred);
 				}
 				return preferredLocale;

@@ -288,7 +288,7 @@ namespace System.Windows.Forms.Mac
 		{
 			var selector = new ObjCRuntime.Selector("string");
 			var handle = LibObjc.IntPtr_objc_msgSend(self.Handle, selector.Handle);
-			return handle != IntPtr.Zero ? NSString.FromHandle(handle) : (string)null;
+			return handle != IntPtr.Zero ? CFString.FromHandle(handle) : (string)null;
 		}
 
 		public static void SetString(this NSTextView self, NSString value)

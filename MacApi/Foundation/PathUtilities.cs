@@ -10,32 +10,32 @@ namespace MacApi
 	{
 		public static string UserName
 		{
-			get { return NSString.FromHandle(NSUserName()); }
+			get { return CFString.FromHandle(NSUserName()); }
 		}
 
 		public static string FullUserName
 		{
-			get { return NSString.FromHandle(NSFullUserName()); }
+			get { return CFString.FromHandle(NSFullUserName()); }
 		}
 
 		public static string HomeDirectory
 		{
-			get { return NSString.FromHandle(NSHomeDirectory()); }
+			get { return CFString.FromHandle(NSHomeDirectory()); }
 		}
 
 		public static string HomeDirectoryForUser(string userName)
 		{
-			return NSString.FromHandle(NSHomeDirectoryForUser(new NSString(userName).Handle));
+			return CFString.FromHandle(NSHomeDirectoryForUser(new NSString(userName).Handle));
 		}
 
 		public static string TemporaryDirectory
 		{
-			get { return NSString.FromHandle(NSTemporaryDirectory()); }
+			get { return CFString.FromHandle(NSTemporaryDirectory()); }
 		}
 
 		public static string OpenStepRootDirectory
 		{
-			get { return NSString.FromHandle(NSOpenStepRootDirectory()); }
+			get { return CFString.FromHandle(NSOpenStepRootDirectory()); }
 		}
 
 		public static string LibraryDirectory

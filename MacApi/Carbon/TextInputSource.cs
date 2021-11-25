@@ -117,7 +117,7 @@ namespace MacApi.Carbon
 
 		public string GetStringProperty(string name)
 		{
-			return NSString.FromHandle(TISGetInputSourceProperty(handle, name.Handle()));
+			return CFString.FromHandle(TISGetInputSourceProperty(handle, name.Handle()));
 		}
 
 		#endregion
