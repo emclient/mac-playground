@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using AppKit;
 using CoreGraphics;
 using Foundation;
+using NSKey = MacApi.AppKit.NSKey;
 
 namespace System.Windows.Forms.CocoaInternal
 {

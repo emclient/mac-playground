@@ -8,6 +8,7 @@ using ObjCRuntime;
 using NSPoint = CoreGraphics.CGPoint;
 using NSRect = CoreGraphics.CGRect;
 using NSSize = CoreGraphics.CGSize;
+using NSKey = MacApi.AppKit.NSKey;
 using System.Windows.Forms.Mac;
 
 namespace System.Windows.Forms.CocoaInternal
