@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using CoreFoundation;
 using Foundation;
 
 namespace MacApi.LaunchServices
@@ -46,7 +47,7 @@ namespace MacApi.LaunchServices
 
 		public static string CreatePreferredIdentifier(string tagClass, string tag, string conformingToUti)
 		{
-			return CFString.FromHandle(UTTypeCreatePreferredIdentifierForTag(Handle(tagClass), Handle(tag), Handle(conformingToUti)));
+			return CFString.FromHandle(UTTypeCreatePreferredIdentifierForTag(Handle(tagClass), Handle(tag), Handle(conformingToUti)), true);
 		}
 
 		public static string GetPreferredTag(string uti, string tagClass)
@@ -56,7 +57,7 @@ namespace MacApi.LaunchServices
 			if (tagClass == null)
 				throw new ArgumentNullException(nameof(tagClass));
 
-			return CFString.FromHandle(UTTypeCopyPreferredTagWithClass(((NSString)uti).Handle, ((NSString)tagClass).Handle));
+			return CFString.FromHandle(UTTypeCopyPreferredTagWithClass(((NSString)uti).Handle, ((NSString)tagClass).Handle), true);
 		}
 
 		internal static string UTTagFromTag(string value, string sourceTag, string destinationTag, string defaultValue)

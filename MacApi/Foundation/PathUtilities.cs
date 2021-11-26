@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using CoreFoundation;
 using Foundation;
 
 namespace MacApi
@@ -25,7 +26,7 @@ namespace MacApi
 
 		public static string HomeDirectoryForUser(string userName)
 		{
-			return CFString.FromHandle(NSHomeDirectoryForUser(new NSString(userName).Handle));
+			return CFString.FromHandle(NSHomeDirectoryForUser(((CFString)userName).Handle));
 		}
 
 		public static string TemporaryDirectory
@@ -79,7 +80,7 @@ namespace MacApi
 		public static string[] SearchPathForDirectoriesInDomains(NSSearchPathDirectory directory, NSSearchPathDomainMask domainMask, bool expandTilde)
 		{
 			var handle = NSSearchPathForDirectoriesInDomains(directory, domainMask, expandTilde);
-			return NSArray.StringArrayFromHandle(handle);
+			return CFArray.StringArrayFromHandle(handle);
 		}
 
 		[Serializable]

@@ -31,6 +31,7 @@ using System.Runtime.InteropServices;
 
 using ObjCRuntime;
 using Foundation;
+using MacApi.CoreFoundation;
 
 namespace MacApi.CoreFoundation
 {
@@ -45,7 +46,7 @@ namespace MacApi.CoreFoundation
 		{
 			this.handle = handle;
 			if (!owns)
-				CFObject.CFRetain(handle);
+				CFRetain(handle);
 		}
 
 		~CFBoolean()
@@ -78,7 +79,7 @@ namespace MacApi.CoreFoundation
 		{
 			if (handle != IntPtr.Zero)
 			{
-				CFObject.CFRelease(handle);
+				CFRelease(handle);
 				handle = IntPtr.Zero;
 			}
 		}
@@ -135,5 +136,10 @@ namespace MacApi.CoreFoundation
 			}
 		}
 
+		[DllImport(Constants.CarbonLibrary)]
+		public static extern void CFRetain(IntPtr handle);
+
+		[DllImport(Constants.CarbonLibrary)]
+		public static extern void CFRelease(IntPtr handle);
 	}
 }

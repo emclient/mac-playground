@@ -3,6 +3,7 @@ using System.Globalization;
 
 #if XAMARINMAC
 using System.Windows.Forms.Mac;
+using CoreFoundation;
 using Foundation;
 #endif
 

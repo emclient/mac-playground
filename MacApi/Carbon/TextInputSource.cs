@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using CoreFoundation;
 using MacApi.CoreFoundation;
 using Foundation;
 using ObjCRuntime;
@@ -60,11 +61,8 @@ namespace MacApi.Carbon
 
 		public static TextInputSource[] List(bool all = false)
 		{
-			var sources = new CFArray(TISCreateInputSourceList(IntPtr.Zero, all), true);
-			var list = new TextInputSource[sources.Count];
-			for (var i = 0; i < sources.Count; ++i)
-				list[i] = new TextInputSource(sources.GetValue(i), false);
-			return list;
+			var retained = TISCreateInputSourceList(IntPtr.Zero, all);
+			return CFArray.ArrayFromHandleFunc(retained, (h) => new TextInputSource(h, false), true);
 		}
 
 		public static TextInputSource CurrentKeyboardSource
@@ -98,7 +96,7 @@ namespace MacApi.Carbon
 
 		public string[] Languages
 		{
-			get { return NSArray.StringArrayFromHandle(TISGetInputSourceProperty(handle, kTISPropertyInputSourceLanguages.Handle())); }
+			get { return CFArray.StringArrayFromHandle(TISGetInputSourceProperty(handle, kTISPropertyInputSourceLanguages.Handle())); }
 		}
 
 		public string FirstLanguage
