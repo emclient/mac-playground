@@ -31,7 +31,6 @@ using System.Runtime.InteropServices;
 
 using ObjCRuntime;
 using Foundation;
-using MacApi.CoreFoundation;
 
 namespace MacApi.CoreFoundation
 {

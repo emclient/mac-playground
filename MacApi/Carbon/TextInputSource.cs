@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
 using CoreFoundation;
-using MacApi.CoreFoundation;
 using Foundation;
 using ObjCRuntime;
 

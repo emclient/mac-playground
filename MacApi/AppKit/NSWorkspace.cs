@@ -94,7 +94,20 @@ namespace MacApi.AppKit
 			task.Launch();
 
 			if (activate)
-				NSApplicationEx.Activate(task.ProcessIdentifier);
+			{
+				NSRunningApplication app = null;
+				for (int wait = 5000; wait > 0; wait -= 100)
+				{
+					if (app == null)
+						app = NSRunningApplication.GetRunningApplication(task.ProcessIdentifier);
+
+					if (app != null && app.FinishedLaunching)
+						if (app.Activate(NSApplicationActivationOptions.ActivateIgnoringOtherWindows))
+							break;
+
+					NSThread.SleepFor(0.1);
+				}
+			}
 
 			return task;
 		}
