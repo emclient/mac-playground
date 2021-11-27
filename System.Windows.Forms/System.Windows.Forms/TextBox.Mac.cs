@@ -1,4 +1,3 @@
-#if MACOS_THEME
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -269,4 +268,3 @@ namespace System.Windows.Forms {
 		}
 	}
 }
-#endif

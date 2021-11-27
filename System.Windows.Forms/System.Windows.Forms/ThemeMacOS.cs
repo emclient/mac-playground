@@ -1,5 +1,3 @@
-#if XAMARINMAC
-
 using System.ComponentModel;
 //using System.Data;
 using System.Drawing;
@@ -5614,5 +5612,3 @@ namespace System.Windows.Forms
 
 	} //class
 }
-
-#endif

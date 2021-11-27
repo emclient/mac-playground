@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-#if XAMARINMAC
+#if MAC
 using System.Windows.Forms.Mac;
 using CoreFoundation;
 using Foundation;
@@ -9,7 +9,7 @@ using Foundation;
 
 namespace System.Windows.Forms
 {
-#if __MACOS__
+#if MAC
 	public static class DateTimeUtility
 	{
 		static object localeDidChangeNotification = NSLocale.Notifications.ObserveCurrentLocaleDidChange(OnLocaleDidChange);

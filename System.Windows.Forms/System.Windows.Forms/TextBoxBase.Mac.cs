@@ -1,5 +1,3 @@
-#if MACOS_THEME
-
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -1186,5 +1184,3 @@ namespace System.Windows.Forms
 		public Color SelectionColor { get; set; }
 	}
 }
-
-#endif //MACOS_THEME

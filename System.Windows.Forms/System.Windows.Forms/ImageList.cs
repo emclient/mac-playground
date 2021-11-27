@@ -81,7 +81,7 @@ namespace System.Windows.Forms
 	public sealed class ImageList : System.ComponentModel.Component
 	{
 		#region Private Fields
-#if __MACOS__
+#if MAC
 		private const ColorDepth DefaultColorDepth = ColorDepth.Depth32Bit;
 #else
 		private const ColorDepth DefaultColorDepth = ColorDepth.Depth8Bit;
@@ -234,7 +234,7 @@ namespace System.Windows.Forms
 					if (!Enum.IsDefined(typeof(ColorDepth), value))
 						throw new InvalidEnumArgumentException("value", (int)value, typeof(ColorDepth));
 
-#if __MACOS__
+#if MAC
 					Debug.Assert(value == ColorDepth.Depth32Bit, "ImageList: Only 32-bit color depth supported on macOS");
 #endif
 

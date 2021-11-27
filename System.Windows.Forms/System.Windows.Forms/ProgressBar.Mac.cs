@@ -1,5 +1,3 @@
-#if MACOS_THEME
-
 using System.Drawing;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -466,4 +464,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-#endif //MACOS_THEME

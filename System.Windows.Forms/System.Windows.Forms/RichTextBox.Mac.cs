@@ -1,5 +1,3 @@
-#if MACOS_THEME
-
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -639,4 +637,3 @@ namespace System.Windows.Forms
 		#endregion // Events
 	}
 }
-#endif

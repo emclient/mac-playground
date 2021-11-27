@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0-macos</TargetFrameworks>
     <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFrameworks>
-    <DefineConstants>__MACOS__;XAMARINMAC;__UNIFIED__</DefineConstants>
+    <DefineConstants>MAC</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <EnableDefaultItems Condition="'$(TargetFramework)' != 'net6.0-macos'">false</EnableDefaultItems>
     <EnableDefaultCompileItems Condition="'$(TargetFramework)' != 'net6.0-macos'">false</EnableDefaultCompileItems>

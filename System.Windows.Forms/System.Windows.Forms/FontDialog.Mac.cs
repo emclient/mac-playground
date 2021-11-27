@@ -1,5 +1,3 @@
-#if XAMARINMAC
-
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Mac;
@@ -423,4 +421,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-#endif

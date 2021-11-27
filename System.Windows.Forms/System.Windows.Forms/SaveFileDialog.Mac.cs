@@ -1,5 +1,3 @@
-#if XAMARINMAC
-
 using System;
 using System.Windows.Forms;
 using System.Windows.Forms.CocoaInternal;
@@ -107,5 +105,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-
-#endif // XAMARINMAC

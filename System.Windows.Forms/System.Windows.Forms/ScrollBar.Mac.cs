@@ -1,6 +1,4 @@
-﻿#if MACOS_THEME
-
-using System;
+﻿using System;
 using System.Drawing;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -776,5 +774,3 @@ namespace System.Windows.Forms
 		#endregion UIA Framework Section: Events, Methods and Properties.
 	}
 }
-
-#endif

@@ -29,7 +29,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Reflection;
 
-#if XAMARINMAC
+#if MAC
 using Foundation;
 #endif
 
@@ -69,7 +69,7 @@ namespace System.Windows.Forms
 		private Hashtable uiImages = new Hashtable();
 		private Hashtable cpcolors = new Hashtable ();
 
-#if XAMARINMAC
+#if MAC
 		public SystemResPool()
 		{
 			NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSSystemColorsDidChangeNotification"), (obj) => { Invalidate(); });

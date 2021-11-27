@@ -1,5 +1,3 @@
-#if MACDIALOGS
-
 using System;
 using System.ComponentModel;
 using System.Drawing.Printing;
@@ -335,4 +333,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-#endif

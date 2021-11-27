@@ -1,12 +1,9 @@
-#if MACDIALOGS
-
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.Windows.Forms.CocoaInternal;
 using AppKit;
 using Foundation;
-
-using System.Windows.Forms.CocoaInternal;
 
 namespace System.Windows.Forms
 {
@@ -86,5 +83,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-
-#endif // MACDIALOGS

@@ -1,4 +1,3 @@
-#if !MACOS_THEME
 //
 // System.Windows.Forms.ScrollBar.cs
 //
@@ -1743,4 +1742,3 @@ namespace System.Windows.Forms
 
 	 }
 }
-#endif

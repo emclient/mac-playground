@@ -51,7 +51,7 @@ using System.Security;
 using System.Threading;
 using System.Windows.Forms.Extensions.Drawing;
 
-#if __MACOS__
+#if MAC
 using System.Windows.Forms.Mac;
 using AppKit;
 #endif
@@ -1808,9 +1808,10 @@ namespace System.Windows.Forms
 		
 		private bool UseDoubleBuffering {
 			get {
+#if MAC
 				//if (!ThemeEngine.Current.DoubleBufferingSupported)
 					return false;
-
+#else
 				// Since many of .Net's controls are unmanaged, they are doublebuffered
 				// even though their bits may not be set in managed land.  This allows
 				// us to doublebuffer as well without affecting public style bits.
@@ -1820,6 +1821,7 @@ namespace System.Windows.Forms
 				if (DoubleBuffered)
 					return true;
 				return (control_style & ControlStyles.DoubleBuffer) != 0;
+#endif
 			}
 		}
 
@@ -3050,7 +3052,7 @@ namespace System.Windows.Forms
 		[MWFCategory("Behavior")]
 		public bool TabStop {
 			get {
-#if __MACOS__
+#if MAC
 				if (this is IMacNativeControl) {
 					if (!IsHandleCreated)
 						return false;
@@ -3141,7 +3143,7 @@ namespace System.Windows.Forms
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Control TopLevelControl {
 			get {
-#if __MACOS__
+#if MAC
 				// This method finds the top level control (form) also if @this is a part of titlebar accessory view
 				if (IsHandleCreated) {
 					var contentView = (ObjCRuntime.Runtime.GetNSObject(Handle) as NSView)?.Window?.ContentView;
@@ -5219,7 +5221,7 @@ namespace System.Windows.Forms
 
 		internal virtual void WmDrawFocusRingMask(ref Message m)
 		{
-#if __MACOS__
+#if MAC
 			if (ShowFocusCues)
 				NSBezierPath.FillRect(Handle.ToNSView().Bounds);
 #endif

@@ -1,6 +1,4 @@
-﻿#if XAMARINMAC
-	
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -157,5 +155,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-
-#endif

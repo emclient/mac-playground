@@ -497,7 +497,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		static internal List<NSWindow> GetOrderedWindowList()
 		{
-#if XAMARINMAC
+#if MAC
 			var list = new List<NSWindow>();
 			NSApplication.SharedApplication.EnumerateWindows(NSWindowListOptions.OrderedFrontToBack, (NSWindow window, ref bool stop) =>
 			{

@@ -1,5 +1,4 @@
-﻿#if MACOS_THEME
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Mac;
 using AppKit;
@@ -49,5 +48,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-
-#endif //MACOS_THEME

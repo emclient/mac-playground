@@ -37,7 +37,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Mac;
 
-#if XAMARINMAC
+#if MAC
 using Foundation;
 using System.Windows.Forms.Mac;
 #endif
@@ -357,7 +357,7 @@ namespace System.Windows.Forms {
 		#region Public Constructor & Destructor
 		public Form ()
 		{
-#if XAMARINMAC
+#if MAC
             AppKit.NSApplication.EnsureUIThread();
 			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 #endif
@@ -1968,7 +1968,7 @@ namespace System.Windows.Forms {
 		}
 
 		private void UpdateTransparency() {
-#if __MACOS__
+#if MAC
 			if (IsHandleCreated)
 			{
 				if (Handle.AsMonoView()?.Window is AppKit.NSWindow window)
@@ -2397,15 +2397,15 @@ namespace System.Windows.Forms {
 				if (ActiveControl == null)
 					SelectNextControl(null, true, true, true, false);
 
-#if !__MACOS__
-			// On macOS, this seems to be handled in XplatUICocoa by calling MakeKeyAndOrderFront / setting IsVisible to true
-			if (!this.ShowWithoutActivation)
-			    {
-			    	if (ActiveControl != null)
-			    		SendControlFocus(ActiveControl);
-			    	else
-			    		this.Focus();
-			    }
+#if !MAC
+				// On macOS, this seems to be handled in XplatUICocoa by calling MakeKeyAndOrderFront / setting IsVisible to true
+				if (!this.ShowWithoutActivation)
+				{
+					if (ActiveControl != null)
+						SendControlFocus(ActiveControl);
+					else
+						this.Focus();
+				}
 #endif
 			}
 		}

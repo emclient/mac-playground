@@ -647,7 +647,7 @@ namespace System.Windows.Forms {
 				if (visible != value) {
 					visible = value;
 
-#if !XAMARINMAC
+#if !MAC
 					// Let our control know, too
 					window.is_visible = value;
 #endif

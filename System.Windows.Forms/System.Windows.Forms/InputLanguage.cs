@@ -29,7 +29,7 @@
 using System.Globalization;
 using System.Collections.Generic;
 
-#if XAMARINMAC
+#if MAC
 using MacApi.Carbon;
 #endif
 
@@ -77,7 +77,7 @@ namespace System.Windows.Forms {
 				return default_input;
 			}
 		}
-#if __MACOS__
+#if MAC
 		public static InputLanguageCollection InstalledInputLanguages {
 			get
 			{

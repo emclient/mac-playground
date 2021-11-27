@@ -87,7 +87,7 @@ namespace System.Windows.Forms {
 		#region Constructor & Destructor
 		static XplatUI ()
 		{
-#if XAMARINMAC
+#if MAC
 			driver = XplatUICocoa.GetInstance ();
 #else
 			driver = XplatUIWin32.GetInstance ();

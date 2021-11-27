@@ -5,7 +5,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Drawing;
 
-#if XAMARINMAC
+#if MAC
 using CoreGraphics;
 using AppKit;
 #endif

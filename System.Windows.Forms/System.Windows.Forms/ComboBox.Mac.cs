@@ -1,6 +1,4 @@
-﻿﻿#if MACOS_THEME
-
-using System.Collections;
+﻿﻿using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
@@ -1716,5 +1714,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-
-#endif

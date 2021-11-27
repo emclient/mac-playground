@@ -26,7 +26,7 @@
 
 // NOT COMPLETE
 
-/*#if !XAMARINMAC
+/*#if !MAC
 using Accessibility;
 #endif*/
 using System.Drawing;
@@ -36,7 +36,7 @@ using System.Runtime.InteropServices;
 
 namespace System.Windows.Forms {
 	[ComVisible(true)]
-//#if XAMARINMAC
+//#if MAC
 	public class AccessibleObject : MarshalByRefObject, IReflect {
 /*#else
 	public class AccessibleObject : StandardOleMarshalObject, IReflect, IAccessible {
@@ -470,7 +470,7 @@ namespace System.Windows.Forms {
 		#endregion	// IReflection Methods and Properties
 
 		#region IAccessible Methods and Properties
-/*#if !XAMARINMAC
+/*#if !MAC
 		void IAccessible.accDoDefaultAction(object childID) {
 			throw new NotImplementedException();
 		}
