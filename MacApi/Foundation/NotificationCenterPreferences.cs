@@ -87,7 +87,7 @@ namespace MacApi.Foundation
 			if (cache == null || lastModifiedUtc < t)
 			{
 				lastModifiedUtc = t;
-				cache = NSDictionary.FromFile(path);
+				cache = NSMutableDictionary.FromFile(path);
 			}
 			return cache;
 		}

@@ -3,32 +3,51 @@ using System.Text.RegularExpressions;
 using System.Text;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Foundation;
 using AppKit;
 
 namespace MacApi.AppKit
 {
-    public static class NSWorkspaceEx
-    {
+	public static class NSWorkspaceEx
+	{
 		public static int LaunchApplicationForPath(string path, string[] args, bool activate = true)
-        {
-			var options = NSWorkspaceLaunchOptions.Default;
-			var arguments = NSArray.FromStrings(args);
-			var configuration = NSDictionary.FromObjectAndKey(arguments, NSWorkspace.LaunchConfigurationArguments);
+		{
 			var url = NSUrl.FromFilename(path);
-			var app = NSWorkspace.SharedWorkspace.OpenURL(url, options, configuration, out NSError error);
+			NSRunningApplication? application = null;
+			NSError? error = null;
+
+			if (OperatingSystem.IsMacOSVersionAtLeast(10, 15))
+			{
+				var tcs = new TaskCompletionSource();
+				var configuration = NSWorkspaceOpenConfiguration.Create();
+				configuration.Arguments = args;
+				configuration.Activates = activate;
+				NSWorkspace.SharedWorkspace.OpenUrl(
+					url, configuration, (_application, _error) => {
+						application = _application;
+						error = _error;
+						tcs.SetResult();
+					});
+				tcs.Task.GetAwaiter().GetResult();
+			}
+			else
+			{
+				var options = NSWorkspaceLaunchOptions.Default;
+				var arguments = NSArray.FromStrings(args);
+				var configuration = NSDictionary.FromObjectAndKey(arguments, NSWorkspace.LaunchConfigurationArguments);
+				application = NSWorkspace.SharedWorkspace.OpenURL(url, options, configuration, out error);
+			}
 
 			if (error != null)
-                throw new ApplicationException("NSWorkspace failed to open URL: " + url);
+				throw new ApplicationException("NSWorkspace failed to open URL: " + url);
+			if (application == null)
+				return 0;
+			if (activate)
+				application.Activate(NSApplicationActivationOptions.ActivateIgnoringOtherWindows);
 
-            if (app == null)
-                return 0;
-
-            if (activate)
-                app.Activate(NSApplicationActivationOptions.ActivateIgnoringOtherWindows);
-
-            return app.ProcessIdentifier;
-        }
+			return application.ProcessIdentifier;
+		}
 
 		public static int LaunchAppAndWaitForExit(string path, string args, bool activate = true)
 		{
@@ -158,8 +177,8 @@ namespace MacApi.AppKit
 		static string Unwrap(string s, string prefix="\"", string suffix = "\"")
 		{
 			if (s.Length > prefix.Length+suffix.Length && s.StartsWith(prefix) && s.EndsWith(suffix))
-			    return s.Substring(prefix.Length, s.Length - prefix.Length - suffix.Length);
+				return s.Substring(prefix.Length, s.Length - prefix.Length - suffix.Length);
 			return s;
 		}
-    }
+	}
 }
