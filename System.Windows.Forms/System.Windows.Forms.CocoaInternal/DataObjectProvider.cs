@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Drawing.Mac;
 using System.Drawing.Imaging;
 using System.Windows.Forms.Mac;
-using MacApi.LaunchServices;
 using AppKit;
 using Foundation;
+using MobileCoreServices;
 
 namespace System.Windows.Forms.CocoaInternal
 {
@@ -170,7 +170,10 @@ namespace System.Windows.Forms.CocoaInternal
 
 		protected string CreateDynamicTypeFor(string type)
 		{
-			return UTType.CreatePreferredIdentifier(UTType.kUTTagClassNSPboardType, Pasteboard.NSPasteboardTypeWebArchive, UTType.kUTTypeData);
+			return UTType.CreatePreferredIdentifier(
+				UTType.TagClassNSPboardType,
+				Pasteboard.NSPasteboardTypeWebArchive,
+				UTType.Data);
 		}
 
 		protected void ProvideTiff(NSPasteboard pboard, NSPasteboardItem item, string type)

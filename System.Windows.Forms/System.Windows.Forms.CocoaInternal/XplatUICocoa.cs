@@ -1731,7 +1731,7 @@ namespace System.Windows.Forms {
 				NSDictionary description = screenWrap.DeviceDescription;
 				NSNumber screenNumber = (NSNumber) description["NSScreenNumber"];
 				// FIXME: Find a Cocoa way to do this.
-				CGDisplayMoveCursorToPoint (screenNumber.UInt32Value, new CGPoint (x, y));
+				CGDisplay.MoveCursor (screenNumber.Int32Value, new CGPoint (x, y));
 			}
 		}
 
@@ -2507,10 +2507,6 @@ namespace System.Windows.Forms {
 		// Event Handlers
 		internal override event EventHandler Idle;
 			#endregion Override properties XplatUIDriver
-
-		[DllImport("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
-		extern static void CGDisplayMoveCursorToPoint (UInt32 display, CGPoint point);
-
 	}
 	// Windows / Native messaging support
 

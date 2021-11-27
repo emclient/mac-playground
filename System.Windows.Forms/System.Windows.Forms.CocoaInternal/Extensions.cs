@@ -745,21 +745,6 @@ namespace System.Windows.Forms.Mac
 			return screen?.DeviceDPI().ToSDSize() ?? new Size(72, 72);
 		}
 
-		internal const string FoundationDll = "/System/Library/Frameworks/Foundation.framework/Foundation";
-
-		[DllImport(FoundationDll)]
-		public static extern IntPtr NSStringFromClass(IntPtr handle);
-
-		[DllImport(FoundationDll)]
-		public static extern IntPtr NSStringFromProtocol(IntPtr handle);
-
-		[DllImport(FoundationDll)]
-		public static extern IntPtr NSStringFromSelector(IntPtr handle);
-
-		//NSClassFromString
-		//NSSelectorFromString
-		//NSProtocolFromString
-
 		#region NSPasteboard Extensions
 
 		public static string[] GetFormats(this NSPasteboard pboard)
