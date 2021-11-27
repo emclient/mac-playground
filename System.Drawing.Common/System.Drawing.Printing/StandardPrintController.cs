@@ -51,7 +51,8 @@ namespace System.Drawing.Printing
 				IntPtr.Zero);
 			IntPtr contextHandle;
 			PMSessionGetCGGraphicsContext(sessionHandle, out contextHandle);
-			e.SetGraphics(new Graphics(new CGContext(contextHandle), false));
+			CGContext context = (CGContext)Activator.CreateInstance(typeof(CGContext), new object?[] { contextHandle });
+			e.SetGraphics(new Graphics(context, false));
 			return e.Graphics;
 		}
 

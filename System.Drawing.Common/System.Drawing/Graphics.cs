@@ -253,7 +253,8 @@ namespace System.Drawing {
 		{
 			if (hdc != IntPtr.Zero)
 			{
-				var context = new CGContext(hdc);
+				//var context = new CGContext(hdc);
+				CGContext context = (CGContext)Activator.CreateInstance(typeof(CGContext), new object?[] { hdc });
 				return new Graphics(context);
 			}
 			return null;

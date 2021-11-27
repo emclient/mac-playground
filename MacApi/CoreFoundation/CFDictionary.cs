@@ -157,7 +157,7 @@ namespace MacApi.CoreFoundation
 		public string GetStringValue(string key)
 		{
 			using (var str = new CFString(key))
-				return (string) new CFString(CFDictionaryGetValue(Handle, str.Handle));
+				return (string) CFString.FromHandle(CFDictionaryGetValue(Handle, str.Handle));
 		}
 
 		public int GetInt32Value(string key)

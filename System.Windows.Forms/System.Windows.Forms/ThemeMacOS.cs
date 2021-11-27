@@ -4464,7 +4464,7 @@ namespace System.Windows.Forms
 			public LocalGraphicsContext(Graphics dc)
 			{
 				savedContext = NSGraphicsContext.CurrentContext;
-				cgContext = new CGContext(dc.GetHdc());
+				cgContext = dc.ToCGContext();
 				NSGraphicsContext.CurrentContext = NSGraphicsContext.FromGraphicsPort(cgContext, true);
 				cgContext.SaveState();
 			}
