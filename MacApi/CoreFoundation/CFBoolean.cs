@@ -36,7 +36,7 @@ namespace MacApi.CoreFoundation
 {
 
 	// CFNumber.h
-	partial class CFBoolean : INativeObject, IDisposable
+	partial class CFBoolean : /*INativeObject,*/ IDisposable
 	{
 		IntPtr handle;
 

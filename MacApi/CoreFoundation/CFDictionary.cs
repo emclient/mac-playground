@@ -37,7 +37,7 @@ using ObjCRuntime;
 namespace MacApi.CoreFoundation
 {
 
-	class CFDictionary : INativeObject, IDisposable
+	class CFDictionary : /*INativeObject,*/ IDisposable
 	{
 		public IntPtr Handle { get; private set; }
 
