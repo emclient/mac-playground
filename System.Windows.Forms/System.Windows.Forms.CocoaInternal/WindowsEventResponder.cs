@@ -100,7 +100,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 			var msg = TranslateMouseCore(e, out bool client);
 			var newMouseView = window?.ContentView.HitTest(locationInWindow) ?? window?.ContentView.Superview?.HitTest(locationInWindow);
-			var newMouseViewHandle = newMouseView is MonoView || newMouseView is IMacNativeControl ? newMouseView.Handle : IntPtr.Zero;
+			var newMouseViewHandle = newMouseView is MonoView || newMouseView is IMacNativeControl ? (IntPtr)newMouseView.Handle : IntPtr.Zero;
 			if (newMouseViewHandle == IntPtr.Zero && newMouseView != null)
 			{
 				var c = Control.FromChildHandle(newMouseView.Handle);

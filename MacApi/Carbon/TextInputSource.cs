@@ -8,7 +8,7 @@ namespace MacApi.Carbon
 {
 	//https://github.com/phracker/MacOSX-SDKs/blob/master/MacOSX10.6.sdk/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/Headers/TextInputSources.h
 
-	public partial class TextInputSource : INativeObject, IDisposable
+	public partial class TextInputSource : /*INativeObject,*/ IDisposable
 	{
 		#region GC/RC bridge
 
