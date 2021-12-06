@@ -1141,12 +1141,21 @@ namespace System.Windows.Forms.Mac
 
 		const DragDropEffects UnusedDndEffect = unchecked((DragDropEffects)0xffffffff);
 
+		public static Control GetDropControl(this NSView view)
+		{
+			for (var v = view; v != null; v = v.Superview)
+				if (v is MonoView mv && mv.flags.HasFlag(MonoView.Flags.AllowDrop))
+					if ((Control.FromHandle(mv.Handle) is Control c) && c.AllowDrop)
+						return c;
+			return null;
+		}
+
 		public static NSDragOperation DraggingEnteredInternal(this NSView view, NSDraggingInfo sender)
 		{
 			try
 			{
-				var control = Control.FromHandle(view.Handle);
-				if (null != control && control.AllowDrop)
+				var control = view.GetDropControl();
+				if (null != control)
 				{
 					var e = view.ToDragEventArgs(sender);
 					using var _ = XplatUICocoa.ToggleDraggedData(e);
@@ -1182,8 +1191,8 @@ namespace System.Windows.Forms.Mac
 					}
 				}
 
-				var control = Control.FromHandle(view.Handle);
-				if (null != control && control.AllowDrop)
+				var control = view.GetDropControl();
+				if (null != control)
 				{
 					var e = view.ToDragEventArgs(sender);
 					using var _ = XplatUICocoa.ToggleDraggedData(e);
@@ -1205,8 +1214,8 @@ namespace System.Windows.Forms.Mac
 		{
 			try
 			{
-				var control = Control.FromHandle(view.Handle);
-				if (null != control && control.AllowDrop)
+				var control = view.GetDropControl();
+				if (null != control)
 				{
 					var e = view.ToDragEventArgs(sender);
 					using var _ = XplatUICocoa.ToggleDraggedData(e);
@@ -1231,6 +1240,21 @@ namespace System.Windows.Forms.Mac
 			return XplatUICocoa.GetInstance().NativeToMonoScreen(r.Location);
 		}
 
+		public static void AllowDrop(this NSView view, bool value)
+		{
+			try
+			{
+				if (value)
+					view.RegisterForDraggedTypes(new string[] { XplatUICocoa.IDataObjectPboardType, XplatUICocoa.UTTypeItem });
+				else
+					view.UnregisterDraggedTypes();
+			}
+			catch (Exception e)
+			{
+				Diagnostics.Debug.Assert(false, $"Failed to register for dragged type: {e}");
+			}
+		}
+
 		public static bool PrepareForDragOperationInternal(this NSView view, NSDraggingInfo sender)
 		{
 			foreach (var type in sender.DraggingPasteboard.Types)
@@ -1251,8 +1275,7 @@ namespace System.Windows.Forms.Mac
 		{
 			try
 			{
-				var c = Control.FromHandle(view.Handle);
-				if (c is IDropTarget dt)
+				if (view.GetDropControl() is IDropTarget dt)
 				{
 					var e = view.ToDragEventArgs(sender, XplatUICocoa.DraggingEffects);
 					if (e != null)

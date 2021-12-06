@@ -46,6 +46,7 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			InCreateWindow = 1,
 			InSetFocus = 2,
+			AllowDrop = 4,
 		}
 
 		protected XplatUICocoa driver;
@@ -71,6 +72,7 @@ namespace System.Windows.Forms.CocoaInternal
 			this.flags = Flags.InCreateWindow;
 			this.Style = style;
 			this.ExStyle = exStyle;
+			this.AllowDrop(true);
 			this.eventResponder = new WindowsEventResponder(driver, this);
 			base.NextResponder = eventResponder;
 		}

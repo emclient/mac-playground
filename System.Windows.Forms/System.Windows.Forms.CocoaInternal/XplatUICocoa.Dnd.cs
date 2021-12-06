@@ -54,20 +54,8 @@ namespace System.Windows.Forms
 
 		internal override void SetAllowDrop(IntPtr handle, bool value)
 		{
-			if (ObjCRuntime.Runtime.GetNSObject(handle) is NSView view)
-			{
-				try
-				{
-					if (value)
-						view.RegisterForDraggedTypes(new string[] { IDataObjectPboardType, UTTypeItem });//, NSPasteboard.NSStringType });
-					else
-						view.UnregisterDraggedTypes();
-				}
-				catch (Exception e)
-				{
-					Diagnostics.Debug.Assert(false, $"Failed to register for dragged type: {e}");
-				}
-			}
+			if (ObjCRuntime.Runtime.GetNSObject(handle) is MonoView view)
+				view.flags |= MonoView.Flags.AllowDrop;
 		}
 
 		internal override DragDropEffects StartDrag(IntPtr handle, object data, DragDropEffects allowedEffects)
