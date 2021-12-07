@@ -1145,8 +1145,7 @@ namespace System.Windows.Forms.Mac
 		{
 			for (var v = view; v != null; v = v.Superview)
 				if (v is MonoView mv && mv.flags.HasFlag(MonoView.Flags.AllowDrop))
-					if ((Control.FromHandle(mv.Handle) is Control c) && c.AllowDrop)
-						return c;
+					return Control.FromHandle(mv.Handle);
 			return null;
 		}
 
@@ -1161,7 +1160,7 @@ namespace System.Windows.Forms.Mac
 					using var _ = XplatUICocoa.ToggleDraggedData(e);
 					control.DndEnter(e);
 					if (e.Effect != UnusedDndEffect)
-						return (XplatUICocoa.DraggingEffects = e.Effect).ToDragOperation();
+						return (XplatUICocoa.DraggingEffects = e.Effect.BestOf()).ToDragOperation();
 
 					XplatUICocoa.DraggingEffects = DragDropEffects.None;
 				}
@@ -1198,7 +1197,7 @@ namespace System.Windows.Forms.Mac
 					using var _ = XplatUICocoa.ToggleDraggedData(e);
 					control.DndOver(e);
 					if (e.Effect != UnusedDndEffect)
-						XplatUICocoa.DraggingEffects = e.Effect;
+						XplatUICocoa.DraggingEffects = e.Effect = e.Effect.BestOf();
 
 					return XplatUICocoa.DraggingEffects.ToDragOperation();
 				}
@@ -1224,6 +1223,17 @@ namespace System.Windows.Forms.Mac
 			}
 			catch
 			{
+			}
+		}
+
+		public static DragDropEffects BestOf(this DragDropEffects effect)
+		{
+			switch (effect)
+			{
+				case DragDropEffects.All: return DragDropEffects.Copy;
+				case (DragDropEffects.Copy | DragDropEffects.Move): return DragDropEffects.Copy;
+				case (DragDropEffects.Move | DragDropEffects.Scroll): return DragDropEffects.Move;
+				default: return effect;
 			}
 		}
 
