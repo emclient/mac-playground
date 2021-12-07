@@ -72,7 +72,7 @@ namespace System.Windows.Forms.CocoaInternal
 			this.flags = Flags.InCreateWindow;
 			this.Style = style;
 			this.ExStyle = exStyle;
-			this.AllowDrop(true);
+			this.RegisterForGenericDraggedTypes();
 			this.eventResponder = new WindowsEventResponder(driver, this);
 			base.NextResponder = eventResponder;
 		}

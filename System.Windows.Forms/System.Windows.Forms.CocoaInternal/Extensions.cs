@@ -1240,7 +1240,7 @@ namespace System.Windows.Forms.Mac
 			return XplatUICocoa.GetInstance().NativeToMonoScreen(r.Location);
 		}
 
-		public static void AllowDrop(this NSView view, bool value)
+		public static void RegisterForGenericDraggedTypes(this NSView view, bool value = true)
 		{
 			try
 			{
