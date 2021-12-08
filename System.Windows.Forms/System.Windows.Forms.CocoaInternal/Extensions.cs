@@ -1141,18 +1141,26 @@ namespace System.Windows.Forms.Mac
 
 		const DragDropEffects UnusedDndEffect = unchecked((DragDropEffects)0xffffffff);
 
+		public static Control GetDropControl(this NSView view)
+		{
+			for (var v = view; v != null; v = v.Superview)
+				if (v is MonoView mv && mv.flags.HasFlag(MonoView.Flags.AllowDrop))
+					return Control.FromHandle(mv.Handle);
+			return null;
+		}
+
 		public static NSDragOperation DraggingEnteredInternal(this NSView view, NSDraggingInfo sender)
 		{
 			try
 			{
-				var control = Control.FromHandle(view.Handle);
-				if (null != control && control.AllowDrop)
+				var control = view.GetDropControl();
+				if (null != control)
 				{
 					var e = view.ToDragEventArgs(sender);
 					using var _ = XplatUICocoa.ToggleDraggedData(e);
 					control.DndEnter(e);
 					if (e.Effect != UnusedDndEffect)
-						return (XplatUICocoa.DraggingEffects = e.Effect).ToDragOperation();
+						return (XplatUICocoa.DraggingEffects = e.Effect.BestOf()).ToDragOperation();
 
 					XplatUICocoa.DraggingEffects = DragDropEffects.None;
 				}
@@ -1182,14 +1190,14 @@ namespace System.Windows.Forms.Mac
 					}
 				}
 
-				var control = Control.FromHandle(view.Handle);
-				if (null != control && control.AllowDrop)
+				var control = view.GetDropControl();
+				if (null != control)
 				{
 					var e = view.ToDragEventArgs(sender);
 					using var _ = XplatUICocoa.ToggleDraggedData(e);
 					control.DndOver(e);
 					if (e.Effect != UnusedDndEffect)
-						XplatUICocoa.DraggingEffects = e.Effect;
+						XplatUICocoa.DraggingEffects = e.Effect = e.Effect.BestOf();
 
 					return XplatUICocoa.DraggingEffects.ToDragOperation();
 				}
@@ -1205,8 +1213,8 @@ namespace System.Windows.Forms.Mac
 		{
 			try
 			{
-				var control = Control.FromHandle(view.Handle);
-				if (null != control && control.AllowDrop)
+				var control = view.GetDropControl();
+				if (null != control)
 				{
 					var e = view.ToDragEventArgs(sender);
 					using var _ = XplatUICocoa.ToggleDraggedData(e);
@@ -1215,6 +1223,17 @@ namespace System.Windows.Forms.Mac
 			}
 			catch
 			{
+			}
+		}
+
+		public static DragDropEffects BestOf(this DragDropEffects effect)
+		{
+			switch (effect)
+			{
+				case DragDropEffects.All: return DragDropEffects.Copy;
+				case (DragDropEffects.Copy | DragDropEffects.Move): return DragDropEffects.Copy;
+				case (DragDropEffects.Move | DragDropEffects.Scroll): return DragDropEffects.Move;
+				default: return effect;
 			}
 		}
 
@@ -1229,6 +1248,21 @@ namespace System.Windows.Forms.Mac
 				p = src.ConvertPointToView(p, null);
 			var r = src.Window.ConvertRectToScreen(new CGRect(p, CGSize.Empty));
 			return XplatUICocoa.GetInstance().NativeToMonoScreen(r.Location);
+		}
+
+		public static void RegisterForGenericDraggedTypes(this NSView view, bool value = true)
+		{
+			try
+			{
+				if (value)
+					view.RegisterForDraggedTypes(new string[] { XplatUICocoa.IDataObjectPboardType, XplatUICocoa.UTTypeItem });
+				else
+					view.UnregisterDraggedTypes();
+			}
+			catch (Exception e)
+			{
+				Diagnostics.Debug.Assert(false, $"Failed to register for dragged type: {e}");
+			}
 		}
 
 		public static bool PrepareForDragOperationInternal(this NSView view, NSDraggingInfo sender)
@@ -1251,8 +1285,7 @@ namespace System.Windows.Forms.Mac
 		{
 			try
 			{
-				var c = Control.FromHandle(view.Handle);
-				if (c is IDropTarget dt)
+				if (view.GetDropControl() is IDropTarget dt)
 				{
 					var e = view.ToDragEventArgs(sender, XplatUICocoa.DraggingEffects);
 					if (e != null)
