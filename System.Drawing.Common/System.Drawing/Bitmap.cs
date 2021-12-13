@@ -300,7 +300,7 @@ namespace System.Drawing {
 
 		internal Bitmap (CGImage image)
 		{
-			imageTransform = new CGAffineTransform(1, 0, 0, -1, 0, image.Height);
+			imageTransform = new CGAffineTransform(1, 0, 0, -1, 0, (nfloat)image.Height);
 			InitWithCGImage(image);
 			GuessPixelFormat();
 		}
@@ -340,7 +340,7 @@ namespace System.Drawing {
 
 			SetImageInformation (frame);
 			var cg = imageSource.CreateImage(frame, null);
-			imageTransform = new CGAffineTransform(1, 0, 0, -1, 0, cg.Height);
+			imageTransform = new CGAffineTransform(1, 0, 0, -1, 0, (nfloat)cg.Height);
 			InitWithCGImage (cg);
 			GuessPixelFormat ();
 
