@@ -189,12 +189,12 @@ namespace System.Windows.Forms.Mac
 			return wParam;
 		}
 
-		public static nuint ButtonMaskToWParam(this NSEvent e)
+		public static uint ButtonMaskToWParam(this NSEvent e)
 		{
 			return ButtonMaskToWParam(e.ButtonMask);
 		}
 
-		public static nuint ButtonMaskToWParam(nuint mask)
+		public static uint ButtonMaskToWParam(nuint mask)
 		{
 			uint wParam = 0;
 
@@ -212,7 +212,7 @@ namespace System.Windows.Forms.Mac
 			return wParam;
 		}
 
-		public static nuint ButtonNumberToWParam(this NSEvent e)
+		public static uint ButtonNumberToWParam(this NSEvent e)
 		{
 			switch (e.ButtonNumber)
 			{
