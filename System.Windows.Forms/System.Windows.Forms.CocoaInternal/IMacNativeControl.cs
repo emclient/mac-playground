@@ -5,6 +5,6 @@ namespace System.Windows.Forms
 {
 	public interface IMacNativeControl
 	{
-		NSView CreateView();
+		NSView? CreateView();
 	}
 }
