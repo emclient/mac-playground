@@ -336,12 +336,9 @@ namespace System.Drawing {
 			if (NativeCGImage != null)
 				NativeCGImage.Dispose();
 
-			imageTransform = CGAffineTransform.MakeIdentity();
-
 			SetImageInformation (frame);
-			var cg = imageSource.CreateImage(frame, null);
-			imageTransform = new CGAffineTransform(1, 0, 0, -1, 0, (nfloat)cg.Height);
-			InitWithCGImage (cg);
+			imageTransform = new CGAffineTransform(1, 0, 0, -1, 0, (nfloat)physicalDimension.Height);
+			InitWithCGImage (imageSource.CreateImage(frame, null));
 			GuessPixelFormat ();
 
 			currentFrame = frame;
