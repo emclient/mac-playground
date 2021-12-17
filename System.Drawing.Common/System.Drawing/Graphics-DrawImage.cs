@@ -42,7 +42,7 @@ namespace System.Drawing
 			if (image.nativeMetafilePage != null) {
 				var dst = new CGRect(rect.X, rect.Y, rect.Width, rect.Height);
 				var src = image.nativeMetafilePage.GetBoxRect(CGPDFBox.Media);
-				var scale = (nfloat)(src.Width == 0 || src.Height == 0 ? 1 : Math.Min(dst.Width / src.Width, dst.Height / src.Height));
+				var scale = (float)(src.Width == 0 || src.Height == 0 ? 1 : Math.Min(dst.Width / src.Width, dst.Height / src.Height));
 
 				// Let’s not use image.nativeMetafilePage.GetDrawingTransform(), because it limits the scale to 1.0.
 				var t = CGAffineTransform.MakeTranslation(-src.X, -src.Y);
@@ -293,7 +293,7 @@ namespace System.Drawing
 
 			var transform = image.imageTransform;
 			// Reset our height on the transform to account for subImage
-			transform.y0 = (nfloat)subImage.Height;
+			transform.y0 = (float)subImage.Height;
 
 			// Make sure we scale the image in case the source rectangle
 			// overruns our subimage bouncs width and/or height
@@ -687,7 +687,7 @@ namespace System.Drawing
 			}
 
 			var transform = image.imageTransform;
-			transform.y0 = (nfloat)subImage.Height;
+			transform.y0 = (float)subImage.Height;
 			float scaleX1 = subImage.Width/srcRect1.Width;
 			float scaleY1 = subImage.Height/srcRect1.Height;
 			transform.Scale (scaleX1, scaleY1);
