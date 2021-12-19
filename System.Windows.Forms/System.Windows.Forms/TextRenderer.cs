@@ -40,7 +40,7 @@
 
 using System.Drawing;
 using System.Runtime.InteropServices;
-using System.Text;
+using System.Collections.Generic;
 using System.Drawing.Text;
 
 namespace System.Windows.Forms
@@ -214,12 +214,7 @@ namespace System.Windows.Forms
 						g.FillRectangle(b, bounds);
 
 				if (text != null && text.Length > 0) {
-					StringFormat sf = FlagsToStringFormat(flags);
-
-					// It seems that Win32 TextRenderer behaves likes this
-					if ((flags & TextFormatFlags.WordBreak) == 0 && (flags & TextFormatFlags.TextBoxControl) == 0)
-						sf.FormatFlags |= StringFormatFlags.NoWrap;
-					
+					StringFormat sf = FlagsToStringFormat(flags | (TextFormatFlags)TextFormatFlagsEx.Win32TextRenderer);
 					Rectangle new_bounds = PadDrawStringRectangle(bounds, flags);
 					g.DrawString(text, font, ThemeEngine.Current.ResPool.GetSolidBrush(foreColor), new_bounds, sf);
 				}
@@ -270,7 +265,7 @@ namespace System.Windows.Forms
 				return retval;
 			}
 			else {
-			StringFormat sf = FlagsToStringFormat (flags);
+				StringFormat sf = FlagsToStringFormat (flags);
 
 				Size retval;
 
@@ -406,7 +401,18 @@ namespace System.Windows.Forms
 		#endregion
 		
 #region Private Methods
+		static Dictionary<int, StringFormat> flagsToFormat = new Dictionary<int, StringFormat>();
+		
+		// NOTE: You must not modify the output from this method! Use Clone() if necessary.
 		private static StringFormat FlagsToStringFormat (TextFormatFlags flags)
+		{
+			if (!flagsToFormat.TryGetValue((int)flags, out StringFormat format))
+				flagsToFormat[(int)flags] = format = FlagsToStringFormatInternal(flags);
+			
+			return format;
+		}
+
+		private static StringFormat FlagsToStringFormatInternal (TextFormatFlags flags)
 		{
 			StringFormat sf = new StringFormat ();
 
@@ -466,6 +472,11 @@ namespace System.Windows.Forms
 				sf.FormatFlags |= StringFormatFlags.NoClip;
 
 			sf.FormatFlags |= StringFormatFlags.MeasureTrailingSpaces;
+
+			// It seems that Win32 TextRenderer behaves likes this:
+			if ((flags & (TextFormatFlags)TextFormatFlagsEx.Win32TextRenderer) != 0)
+				if ((flags & TextFormatFlags.WordBreak) == 0 && (flags & TextFormatFlags.TextBoxControl) == 0)
+					sf.FormatFlags |= StringFormatFlags.NoWrap;
 
 			return sf;
 		}

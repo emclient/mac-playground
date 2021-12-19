@@ -58,4 +58,9 @@ namespace System.Windows.Forms {
 		NoPadding = 268435456,
 		LeftAndRightPadding = 536870912
 	}
+
+	internal enum TextFormatFlagsEx 
+	{
+		Win32TextRenderer = 0x40000000
+	}
 }

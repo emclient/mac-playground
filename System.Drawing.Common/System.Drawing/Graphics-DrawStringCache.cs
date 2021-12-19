@@ -77,7 +77,7 @@ namespace System.Drawing
 			else if (brush is LinearGradientBrush lgb)
 				bsh = $"LGB{lgb.LinearColors.Length:X2}{lgb.GetHashCode():X2}";
 
-			var fmt = $"{format.FormatFlags}|{format.HotkeyPrefix}|{format.Alignment}|{format.LineAlignment}|{format.Trimming}";
+			var fmt = $"{(int)format.FormatFlags}|{(int)format.HotkeyPrefix}|{(int)format.Alignment}|{(int)format.LineAlignment}|{(int)format.Trimming}";
 			return $"{s}|{layoutRectangle.Width},{layoutRectangle.Height}|{fnt}|{fmt}|{bsh}";
 		}
 
@@ -166,9 +166,10 @@ namespace System.Drawing
 
 		public string GetKey(string s, Font font, SizeF layoutArea, StringFormat format)
 		{
-			var fnt = $"{font.Name }|{font.Size}|{(font.Italic ? '1' : '0')}{(font.Underline ? '1' : '0')}{(font.Strikeout ? '1' : '0')}";
-			var fmt = $"{format.FormatFlags}|{format.HotkeyPrefix}|{format.Alignment}|{format.LineAlignment}|{format.Trimming}";
-			return $"{s}|{layoutArea.Width},{layoutArea.Height}|{fnt}|{fmt}";
+			return s
+				+ "|" + layoutArea.Width.ToString() + "|" + layoutArea.Height.ToString()
+				+ "|" + font.Name + "|" + font.Size.ToString() + "|" + (font.Italic ? "1" : "0") + (font.Underline ? "1" : "0") + (font.Strikeout ? "1" : "0").ToString()
+				+ "|" + ((int)format.FormatFlags).ToString() + "|" + ((int)format.HotkeyPrefix).ToString() + "|" + ((int)format.Alignment).ToString() + "|" + ((int)format.LineAlignment).ToString() + "|" + ((int)format.Trimming).ToString();
 		}
 
 		internal Entry GetOrCreate(string text, Font font, SizeF layoutArea, StringFormat format, CreateEntryDelegate createEntryDelegate)
