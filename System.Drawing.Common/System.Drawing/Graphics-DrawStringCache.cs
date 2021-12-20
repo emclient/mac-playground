@@ -64,7 +64,7 @@ namespace System.Drawing
 
 		public string GetKey(string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format)
 		{
-			var fnt = $"{font.Name }|{font.Size}|{(font.Italic ? '1' : '0')}{(font.Underline ? '1' : '0')}{(font.Strikeout ? '1' : '0')}";
+			var fnt = $"{font.Name}|{font.Size}|{font.Italic.ToStr()}{font.Underline.ToStr()}{font.Strikeout.ToStr()}";
 			var bsh = "";
 			if (brush is SolidBrush sb)
 				bsh = $"SB{ToString(sb.Color)}";
@@ -78,7 +78,7 @@ namespace System.Drawing
 				bsh = $"LGB{lgb.LinearColors.Length:X2}{lgb.GetHashCode():X2}";
 
 			var fmt = $"{(int)format.FormatFlags}|{(int)format.HotkeyPrefix}|{(int)format.Alignment}|{(int)format.LineAlignment}|{(int)format.Trimming}";
-			return $"{s}|{layoutRectangle.Width},{layoutRectangle.Height}|{fnt}|{fmt}|{bsh}";
+			return $"{s}|{layoutRectangle.Width.ToStr()},{layoutRectangle.Height.ToStr()}|{fnt}|{fmt}|{bsh}";
 		}
 
 		internal string ToString(Color c)
@@ -166,9 +166,10 @@ namespace System.Drawing
 
 		public string GetKey(string s, Font font, SizeF layoutArea, StringFormat format)
 		{
+			const float big = 1e06f;
 			return s
-				+ "|" + layoutArea.Width.ToString() + "|" + layoutArea.Height.ToString()
-				+ "|" + font.Name + "|" + font.Size.ToString() + "|" + (font.Italic ? "1" : "0") + (font.Underline ? "1" : "0") + (font.Strikeout ? "1" : "0").ToString()
+				+ "|" + layoutArea.Width.ToStr() + "|" + layoutArea.Height.ToStr()
+				+ "|" + font.Name + "|" + font.Size.ToString() + "|" + font.Italic.ToStr() + font.Underline.ToStr() + font.Strikeout.ToStr()
 				+ "|" + ((int)format.FormatFlags).ToString() + "|" + ((int)format.HotkeyPrefix).ToString() + "|" + ((int)format.Alignment).ToString() + "|" + ((int)format.LineAlignment).ToString() + "|" + ((int)format.Trimming).ToString();
 		}
 
@@ -201,4 +202,9 @@ namespace System.Drawing
 		}
 	}
 
+	static class Extensions {
+		const float big = 1e07f;
+		public static string ToStr(this float v) => v > big ? "-" : v.ToString();
+		public static string ToStr(this bool v) => v ? "1" : "0";
+	}
 }

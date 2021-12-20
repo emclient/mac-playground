@@ -90,7 +90,7 @@ namespace System.Drawing
 		public SizeF MeasureStringInternal(string text, Font font, SizeF area, StringFormat format, out int charactersFitted, out int linesFilled)
 		{
 #endif
-			if (text == null) {
+			if (string.IsNullOrEmpty(text)) {
 				charactersFitted = linesFilled = 0;
 				return SizeF.Empty;
 			}
