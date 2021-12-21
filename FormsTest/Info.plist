@@ -4,14 +4,14 @@
 <dict>
 	<key>CFBundleName</key>
 	<string>TestApp</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.emclient.testapp</string>
+	<!-- <key>CFBundleIdentifier</key>
+	<string>com.emclient.testapp</string> -->
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.11</string>
+	<string>10.14</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleInfoDictionaryVersion</key>

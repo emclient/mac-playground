@@ -45,7 +45,7 @@ namespace FormsTest
 			replicatorLayer.Frame = view.Bounds;
 			replicatorLayer.InstanceCount = (nint)(1 + view.Bounds.Width / hatchSize);
 			replicatorLayer.PreservesDepth = false;
-			replicatorLayer.InstanceTransform = CATransform3D.MakeTranslation((nfloat)(hatchSize * 2.0), 0, 0);
+			replicatorLayer.InstanceTransform = CATransform3D.MakeTranslation((float)(hatchSize * 2.0), 0, 0);
 
 			if (view.Layer == null)
 				view.Layer = new CALayer();

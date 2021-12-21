@@ -1,8 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-macos;net6.0-windows</TargetFrameworks>
-    <MonoBundlingExtraArgs>--marshal-objectivec-exceptions:disable --registrar:dynamic</MonoBundlingExtraArgs>
-    <RuntimeIdentifier Condition="'$(TargetFramework)' != 'net6.0-windows'">osx-x64</RuntimeIdentifier>
+    <TargetFrameworks>net6.0-windows10.0.19041.0;net6.0-macos</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">net6.0-windows10.0.19041.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">net6.0-macos</TargetFrameworks>
+    <MonoBundlingExtraArgs>--registrar:dynamic</MonoBundlingExtraArgs>
+    <!-- <RuntimeIdentifier Condition="'$(TargetFramework)' != 'net6.0-windows'">osx-x64</RuntimeIdentifier> -->
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <DisableExtraReferences>true</DisableExtraReferences>
@@ -10,6 +12,10 @@
     <OutputType>Exe</OutputType>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <UseWindowsForms Condition="'$(TargetFramework)' == 'net6.0-windows'">true</UseWindowsForms>
+    <UseMonoRuntime>false</UseMonoRuntime>
+    <ApplicationId>com.emclient.testapp</ApplicationId>
+    <ApplicationTitle>FormsTest</ApplicationTitle>
+    <PathMap Condition="'$(Configuration)' == 'Release' OR $(Configuration.EndsWith('- Release'))">$(MSBuildProjectDirectory)/obj/$(Configuration)/$(TargetFramework)/$(RuntimeIdentifier)=.</PathMap>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Resources.Extensions" Version="6.0.0" />

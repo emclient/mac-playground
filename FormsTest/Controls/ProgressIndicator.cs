@@ -42,7 +42,7 @@ namespace FormsTest
 			replicatorLayer.InstanceCount = finCount;
 			replicatorLayer.PreservesDepth = false;
 			replicatorLayer.InstanceColor = color.CGColor;
-			var angle = (nfloat)(Math.PI * 2.0 / (double)finCount);
+			var angle = (float)(Math.PI * 2.0 / (double)finCount);
 			replicatorLayer.InstanceTransform = CATransform3D.MakeRotation(angle, 0, 0, 1);
 
 			if (view.Layer == null)
@@ -58,7 +58,7 @@ namespace FormsTest
 			var instanceLayer = new CALayer();
 			instanceLayer.Frame = new CGRect(midX, 0, layerWidth, layerHeight);
 			instanceLayer.BackgroundColor = color.CGColor;
-			instanceLayer.CornerRadius = (nfloat)(layerWidth / 2.0);
+			instanceLayer.CornerRadius = (float)(layerWidth / 2.0);
 			instanceLayer.Bounds = new CGRect(CGPoint.Empty, new CGSize(layerWidth, layerHeight));
 
 			replicatorLayer.AddSublayer(instanceLayer);
