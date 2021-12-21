@@ -14,6 +14,7 @@
 	<OutputType Condition="'$(TargetFramework)' == 'net6.0-windows'">WinExe</OutputType>
     <UseWindowsForms Condition="'$(TargetFramework)' == 'net6.0-windows'">true</UseWindowsForms>
     <UseMonoRuntime>false</UseMonoRuntime>
+    <CustomResourceTypesSupport>true</CustomResourceTypesSupport>
     <ApplicationId>com.emclient.testapp</ApplicationId>
     <ApplicationTitle>FormsTest</ApplicationTitle>
     <PathMap Condition="'$(Configuration)' == 'Release' OR $(Configuration.EndsWith('- Release'))">$(MSBuildProjectDirectory)/obj/$(Configuration)/$(TargetFramework)/$(RuntimeIdentifier)=.</PathMap>
