@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-windows10.0.19041.0;net6.0-macos</TargetFrameworks>
-    <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">net6.0-windows10.0.19041.0</TargetFrameworks>
+    <TargetFrameworks>net6.0-windows;net6.0-macos</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">net6.0-windows</TargetFrameworks>
     <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">net6.0-macos</TargetFrameworks>
     <MonoBundlingExtraArgs>--registrar:dynamic</MonoBundlingExtraArgs>
     <!-- <RuntimeIdentifier Condition="'$(TargetFramework)' != 'net6.0-windows'">osx-x64</RuntimeIdentifier> -->
@@ -9,8 +9,9 @@
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <DisableExtraReferences>true</DisableExtraReferences>
     <DefineConstants Condition="'$(TargetFramework)' == 'net6.0-macos'">$(DefineConstants);MAC</DefineConstants>
-    <OutputType>Exe</OutputType>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+    <OutputType Condition="'$(TargetFramework)' == 'net6.0-macos'">Exe</OutputType>
+	<OutputType Condition="'$(TargetFramework)' == 'net6.0-windows'">WinExe</OutputType>
     <UseWindowsForms Condition="'$(TargetFramework)' == 'net6.0-windows'">true</UseWindowsForms>
     <UseMonoRuntime>false</UseMonoRuntime>
     <ApplicationId>com.emclient.testapp</ApplicationId>
@@ -24,6 +25,9 @@
     <ProjectReference Include="..\System.Windows.Forms\System.Windows.Forms.csproj" />
     <ProjectReference Include="..\System.Drawing\System.Drawing.csproj" />
     <ProjectReference Include="..\MacApi\MacApi.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
+    <PackageReference Include="Microsoft.Private.Winforms" Version="[6.0.1-dev]" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Forms\ToolstripForm.cs">
