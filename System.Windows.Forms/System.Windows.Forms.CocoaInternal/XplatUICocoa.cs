@@ -2530,19 +2530,5 @@ namespace System.Windows.Forms {
 		{
 			return ((int)msg.lParam & (1 << 24)) != 0;
 		}
-
-		public static MSG RetargetToFirstEnabled(this MSG msg)
-		{
-			var driver = XplatUICocoa.GetInstance();
-			for (var hwnd = msg.hwnd; hwnd != IntPtr.Zero; hwnd = driver.GetParent(hwnd, false))
-			{
-				if (driver.IsEnabled(hwnd))
-				{
-					msg.hwnd = hwnd;
-					break;
-				}
-			}
-			return msg;			
-		}
 	}
 }
