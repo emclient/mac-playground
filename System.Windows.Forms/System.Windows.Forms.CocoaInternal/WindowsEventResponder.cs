@@ -169,7 +169,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		internal void TranslateMouseDown(NSEvent e)
 		{
-			var msg = TranslateMouseCore(e, out bool client);
+			var msg = TranslateMouseCore(e, out bool client, view.FirstEnabledParentOrSelf());
 			msg.wParam = (IntPtr)(e.ModifiersToWParam() | e.ButtonNumberToWParam());
 
 			if (e.ClickCount > 1 && (e.ClickCount & 1) == 0 && prevMouseDown?.Type == e.Type)
@@ -201,7 +201,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		internal void TranslateMouseUp(NSEvent e)
 		{
-			var msg = TranslateMouseCore(e, out bool client, MouseTarget());
+			var msg = TranslateMouseCore(e, out bool client, MouseTarget().FirstEnabledParentOrSelf());
 			msg.message = (client ? Msg.WM_LBUTTONUP : Msg.WM_NCLBUTTONUP).AdjustForButton(e);
 			msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | e.ButtonNumberToWParam());
 			LastMouseDownMsg.hwnd = IntPtr.Zero;

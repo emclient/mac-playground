@@ -262,6 +262,22 @@ namespace System.Windows.Forms.Mac
 			return false;
 		}
 
+		public static bool IsEnabled(this NSView view) {
+			if (view is MonoView miew)
+				return miew.Enabled;
+			if (view is NSControl control)
+				return control.Enabled;
+			return true;
+		}
+
+		public static NSView FirstEnabledParentOrSelf(this NSView self)
+		{
+			for (var v = self; v != null; v = v.Superview)
+				if (v.IsEnabled())
+					return v;
+			return null;
+		}
+
 		public static Control ToControl(this NSView view)
 		{
 			return view.IsSwfControl() ? Control.FromHandle(view.Handle) : Control.FromChildHandle(view.Handle);

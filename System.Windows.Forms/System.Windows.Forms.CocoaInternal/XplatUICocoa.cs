@@ -1434,12 +1434,7 @@ namespace System.Windows.Forms {
 		}
 		
 		internal override bool IsEnabled(IntPtr handle) {
-			NSView vuWrap = handle.ToNSView();
-			if (vuWrap is MonoView)
-				return ((MonoView)vuWrap).Enabled;
-			if (vuWrap is NSControl)
-				return ((NSControl)vuWrap).Enabled;
-			return true;
+			return handle.ToNSView()?.IsEnabled() ?? true;
 		}
 		
 		internal override bool IsVisible(IntPtr handle) {
@@ -2534,6 +2529,20 @@ namespace System.Windows.Forms {
 		public static bool HasExtendedCharFlag(this MSG msg)
 		{
 			return ((int)msg.lParam & (1 << 24)) != 0;
+		}
+
+		public static MSG RetargetToFirstEnabled(this MSG msg)
+		{
+			var driver = XplatUICocoa.GetInstance();
+			for (var hwnd = msg.hwnd; hwnd != IntPtr.Zero; hwnd = driver.GetParent(hwnd, false))
+			{
+				if (driver.IsEnabled(hwnd))
+				{
+					msg.hwnd = hwnd;
+					break;
+				}
+			}
+			return msg;			
 		}
 	}
 }
