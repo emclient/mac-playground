@@ -43,7 +43,7 @@ namespace FormsTest
 			replicatorLayer = new CAReplicatorLayer();
 			replicatorLayer.Frame = new CGRect(0, 0, view.Bounds.Width*2, view.Bounds.Height);
 			replicatorLayer.PreservesDepth = false;
-			replicatorLayer.InstanceCount = (nint)shapeCount;
+			replicatorLayer.InstanceCount = (int)shapeCount;
 			replicatorLayer.InstanceTransform = CATransform3D.MakeTranslation(distance, 0, 0);
 			replicatorLayer.InstanceDelay = -0.06f;
 			if (view.Layer == null)
