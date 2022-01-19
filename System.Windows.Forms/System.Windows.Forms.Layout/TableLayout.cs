@@ -421,6 +421,8 @@ namespace System.Windows.Forms.Layout
 				// Divvy up the space..
 				int index = 0;
 				foreach (RowStyle rs in styles) {
+					if (index >= row_heights.Length)
+						break;
 					if (rs.SizeType == SizeType.Percent) {
 						int height_change = (int)((rs.Height / total_percent) * overlap);
 						if (height_change > 0) {
