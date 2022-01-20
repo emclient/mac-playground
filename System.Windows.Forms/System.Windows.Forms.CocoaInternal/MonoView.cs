@@ -122,6 +122,16 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
+		public override bool BecomeFirstResponder()
+		{
+			return eventResponder.BecomeFirstResponder();
+		}
+
+		public override bool ResignFirstResponder()
+		{
+			return eventResponder.ResignFirstResponder();
+		}
+
 		public override bool AcceptsFirstResponder()
 		{
 			// Skip the normal processing to bypass setting it as first responder. Our
