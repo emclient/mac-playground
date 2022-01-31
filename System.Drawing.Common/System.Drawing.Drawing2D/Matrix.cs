@@ -101,7 +101,7 @@ namespace System.Drawing.Drawing2D
 		// properties
 		public float[] Elements {
 			get {
-				return new float [6] { (float)transform.xx, (float)transform.yx, (float)transform.xy, (float)transform.yy, (float)transform.x0, (float)transform.y0 };
+				return new float [6] { (float)transform.A, (float)transform.B, (float)transform.C, (float)transform.D, (float)transform.Tx, (float)transform.Ty };
 			}
 		}
 		
@@ -114,12 +114,12 @@ namespace System.Drawing.Drawing2D
 		public bool IsInvertible {
 			get {
 				var inverted = transform.Invert ();
-				if (inverted.xx == transform.xx &&
-				    inverted.xy == transform.xy &&
-				    inverted.yx == transform.yx &&
-				    inverted.yy == transform.yy &&
-				    inverted.x0 == transform.x0 &&
-				    inverted.y0 == transform.y0)
+				if (inverted.A == transform.A &&
+				    inverted.B == transform.B &&
+				    inverted.C == transform.C &&
+				    inverted.D == transform.D &&
+				    inverted.Tx == transform.Tx &&
+				    inverted.Ty == transform.Ty)
 					return false;
 				return true;
 			}
@@ -127,19 +127,19 @@ namespace System.Drawing.Drawing2D
 		
 		public float OffsetX {
 			get {
-				return (float)transform.x0;
+				return (float)transform.Tx;
 			}
 		}
 		
 		public float OffsetY {
 			get {
-				return (float)transform.y0;
+				return (float)transform.Ty;
 			}
 		}
 		
 		internal bool IsScaled {
 			get {
-				return transform.xx != 1f || transform.yy != 1f;
+				return transform.A != 1f || transform.D != 1f;
 			}
 		}
 		
@@ -163,9 +163,9 @@ namespace System.Drawing.Drawing2D
 			if (m != null) {
 				var o = m.transform;
 				var t = transform;
-				return (o.x0 == t.x0 && o.y0 == t.y0 &&
-				        o.xx == t.xx && o.yy == t.yy &&
-				        o.xy == t.xy && o.yx == t.yx);
+				return (o.Tx == t.Tx && o.Ty == t.Ty &&
+				        o.A == t.A && o.B == t.B &&
+				        o.C == t.C && o.D == t.D);
 			} else
 				return false;
 		}
@@ -299,8 +299,8 @@ namespace System.Drawing.Drawing2D
 			
 			for (int i = 0; i < pts.Length; i++){
 				var point = pts [i];
-				pts [i] = new Point ((int)(transform.xx * point.X + transform.xy * point.Y + transform.x0),
-				                     (int)(transform.yx * point.X + transform.yy * point.Y + transform.y0));
+				pts [i] = new Point ((int)(transform.A * point.X + transform.C * point.Y + transform.Tx),
+				                     (int)(transform.B * point.X + transform.D * point.Y + transform.Ty));
 			}
 		}
 		
@@ -333,8 +333,8 @@ namespace System.Drawing.Drawing2D
 			
 			for (int i = 0; i < pts.Length; i++){
 				var point = pts [i];
-				pts [i] = new Point ((int)(transform.xx * point.X + transform.xy * point.Y),
-				                     (int)(transform.yx * point.X + transform.yy * point.Y));
+				pts [i] = new Point ((int)(transform.A * point.X + transform.C * point.Y),
+				                     (int)(transform.B * point.X + transform.D * point.Y));
 			}
 		}
 		
@@ -345,8 +345,8 @@ namespace System.Drawing.Drawing2D
 			
 			for (int i = 0; i < pts.Length; i++){
 				var point = pts [i];
-				pts [i] = new PointF ((float)(transform.xx * point.X + transform.xy * point.Y),
-				                      (float)(transform.yx * point.X + transform.yy * point.Y));
+				pts [i] = new PointF ((float)(transform.A * point.X + transform.C * point.Y),
+				                      (float)(transform.B * point.X + transform.D * point.Y));
 			}
 		}
 		

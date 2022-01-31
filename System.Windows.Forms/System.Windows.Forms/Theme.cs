@@ -73,7 +73,7 @@ namespace System.Windows.Forms
 		public SystemResPool()
 		{
 			NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSSystemColorsDidChangeNotification"), (obj) => { Invalidate(); });
-			NSDistributedNotificationCenter.GetDefaultCenter().AddObserver(new NSString("AppleInterfaceThemeChangedNotification"), (obj) => { Invalidate(); });
+			NSDistributedNotificationCenter.DefaultCenter.AddObserver(new NSString("AppleInterfaceThemeChangedNotification"), (obj) => { Invalidate(); });
 		}
 
 		internal void Invalidate()

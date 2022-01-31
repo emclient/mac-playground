@@ -162,7 +162,7 @@ namespace System.Drawing {
 				}
 			}
 
-			g.screenScale = g.context.GetCTM().xx; // view.Layer?.ContentsScale ?? 1f;
+			g.screenScale = g.context.GetCTM().A; // view.Layer?.ContentsScale ?? 1f;
 
 			return g;
 		}

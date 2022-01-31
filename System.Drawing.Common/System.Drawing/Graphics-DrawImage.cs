@@ -293,7 +293,7 @@ namespace System.Drawing
 
 			var transform = image.imageTransform;
 			// Reset our height on the transform to account for subImage
-			transform.y0 = (float)subImage.Height;
+			transform.Ty = (float)subImage.Height;
 
 			// Make sure we scale the image in case the source rectangle
 			// overruns our subimage bouncs width and/or height
@@ -687,7 +687,7 @@ namespace System.Drawing
 			}
 
 			var transform = image.imageTransform;
-			transform.y0 = (float)subImage.Height;
+			transform.Ty = (float)subImage.Height;
 			float scaleX1 = subImage.Width/srcRect1.Width;
 			float scaleY1 = subImage.Height/srcRect1.Height;
 			transform.Scale (scaleX1, scaleY1);

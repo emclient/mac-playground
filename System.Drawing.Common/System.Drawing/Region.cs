@@ -431,8 +431,8 @@ namespace System.Drawing
 			var x = point.X / scale;
 			var y = point.Y / scale;
 
-			point.X = (long)((transform.xx * x + transform.xy * y + transform.x0) * scale);
-			point.Y = (long)((transform.yx * x + transform.yy * y + transform.y0) * scale);
+			point.X = (long)((transform.A * x + transform.C * y + transform.Tx) * scale);
+			point.Y = (long)((transform.B * x + transform.D * y + transform.Ty) * scale);
 
 		}
 

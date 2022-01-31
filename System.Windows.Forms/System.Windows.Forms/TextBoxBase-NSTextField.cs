@@ -406,7 +406,7 @@ namespace System.Windows.Forms
 
 			public override CGRect DrawingRectForBounds(CGRect theRect)
 			{
-				var lineHeight = lm.DefaultLineHeightForFont(Font);
+				var lineHeight = lm.GetDefaultLineHeight(Font);
 
 				// Vertical text position compensation for the case when the text field is too narrow.
 				// 1px is not enough, but 2px would cause artifacts.
