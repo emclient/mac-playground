@@ -1,15 +1,12 @@
 ﻿using System;
-//using MailClient.Common.UI;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Windows.Forms;
-
 namespace FormsTest
 {
 	using System.Collections.Generic;
-	using System.Drawing.Printing;
 	using FormsTest.Experiments;
 	//using MailClient.UI.Forms;
 	//using CocoaMessageBox = MessageBox;
@@ -131,6 +128,7 @@ namespace FormsTest
 			AddButton("QuickLook panel", () => { ToggleQuickLookPanel(); });
 			AddButton("NC Preferences", () => { ReadNotificationCenterPreferences(); });
 			AddButton("Back color", () => { ChangeBackColor(); });
+			AddButton("Text Extraction", () => { TextExtractionTest(); });
 #endif
 
 			//AddButton("Data Grid", () => { new DataGridForm().Show(); });

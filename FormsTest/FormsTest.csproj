@@ -215,6 +215,7 @@
     <Compile Include="Forms\MainForm.Swizzle.cs" />
     <Compile Include="Forms\MainForm.NSBackgroundActivity.cs" />
     <Compile Include="Forms\MainForm.NCPrefs.cs" />
+    <Compile Include="Forms\MainForm.TextExtraction.cs" />
     <!--<Compile Include="Forms\DataGridForm.cs" />-->
     <Compile Include="Forms\DateTimeForm.cs" />
     <Compile Include="Controls\TextureBrushControl.cs" />
