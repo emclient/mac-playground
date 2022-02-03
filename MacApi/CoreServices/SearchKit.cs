@@ -7,9 +7,19 @@ using SearchKit;
 
 namespace MacApi.CoreServices.SearchKit
 {
-
 	public static class SearchKitExtensions
 	{
+		static bool defaultExtractorsLoaded;
+		
+		public static void LoadDefaultExtractorPlugIns()
+		{
+			if (!defaultExtractorsLoaded)
+			{
+				SKLoadDefaultExtractorPlugIns();
+				defaultExtractorsLoaded = true;
+			}
+		}
+
 		public static long GetDocumentID(this SKIndex index, SKDocument document)
 		{
 			return SKIndexGetDocumentID(index.Handle, document.Handle);

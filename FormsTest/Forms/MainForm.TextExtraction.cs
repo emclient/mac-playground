@@ -78,15 +78,9 @@ namespace FormsTest
 			return types;
 		}
 
-		static bool defaultExtractorsLoaded;
 		void ExtractTextWithSearchKit(string path)
 		{
-			if (!defaultExtractorsLoaded)
-			{
-				SearchKitExtensions.SKLoadDefaultExtractorPlugIns();
-				defaultExtractorsLoaded = true;				
-			}
-
+			SearchKitExtensions.LoadDefaultExtractorPlugIns();
 			var terms = ExtractTermsFromFile(path);
 			Console.WriteLine($"--- Terms from: {path} ");
 			Console.WriteLine(string.Join(" ", terms));
