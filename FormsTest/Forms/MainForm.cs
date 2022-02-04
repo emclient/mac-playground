@@ -129,6 +129,7 @@ namespace FormsTest
 			AddButton("NC Preferences", () => { ReadNotificationCenterPreferences(); });
 			AddButton("Back color", () => { ChangeBackColor(); });
 			AddButton("Text Extraction", () => { TextExtractionTest(); });
+			AddButton("Core Data Test", () => { CoreDataTest(); });
 #endif
 
 			//AddButton("Data Grid", () => { new DataGridForm().Show(); });

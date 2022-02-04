@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using CoreData;
 using Foundation;
 using UniformTypeIdentifiers;
 using ObjCRuntime;
@@ -102,6 +103,41 @@ namespace FormsTest
 			return index.GetTerms(document);
 		}
 
+		void CoreDataTest()
+		{
+			var entity = new NSEntityDescription { 
+				Name = "Wrapper",
+				ManagedObjectClassName = "Wrapper",
+				Properties = new NSPropertyDescription[] {
+					new NSAttributeDescription { Name = "FileName", AttributeType = NSAttributeType.String, Optional = true },
+					new NSAttributeDescription { Name = "FileData", AttributeType = NSAttributeType.Binary, Optional = true },
+				}
+			};
+
+			var model = new NSManagedObjectModel() { Entities = new NSEntityDescription[] { entity } };
+			var coordinator = new NSPersistentStoreCoordinator(model);
+			var store = coordinator.AddPersistentStoreWithType(NSPersistentStoreCoordinator.InMemoryStoreType, null, null, null, out var error);
+			
+			var context = new NSManagedObjectContext { PersistentStoreCoordinator = coordinator };
+
+			var wrapper = NSEntityDescription.InsertNewObjectForEntityForName("Wrapper", context) as Wrapper;
+			wrapper.FileName = new NSString("Attachment.txt");
+			wrapper.FileData = NSData.FromString("Attachment content");
+
+			context.Save(out error);
+
+			using var uri = wrapper.ObjectID.URIRepresentation;
+			Console.WriteLine($"CoreData URI: {uri}");
+		}
+
+		[Register("Wrapper")]
+		public class Wrapper : NSManagedObject 
+		{
+			public NSString? FileName { get; set; }
+			public NSData? FileData { get; set; }
+			public Wrapper(IntPtr ptr) : base(ptr) {}
+			public Wrapper(NSEntityDescription description, NSManagedObjectContext context) : base(description, context) {}
+		}
 	}
 #endif
 }
