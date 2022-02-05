@@ -26,6 +26,7 @@ namespace FormsTest
 			foreach (var path in  dlg.FileNames)
 			{
 				ExtractTextWithSearchKit(path);
+				ExtractTextWithSearchKitAndCoreData(path);
 				ExtractTextWithAttributedString(path);
 			}
 		}
@@ -89,14 +90,19 @@ namespace FormsTest
 
 		string[] ExtractTermsFromFile(string path)
 		{
-			var name = System.IO.Path.GetFileName(path);
 			var url = new NSUrl(path, false);
+			return ExtractTermsFromUrl(url);
+		}
+
+		// Takes both file and CoreData URLs
+		string[] ExtractTermsFromUrl(NSUrl url, string? hint = null)
+		{
+			var name = url.LastPathComponent;
 			using var document = new SKDocument(url);
 			using var data = new NSMutableData();
 			var properties = new SKTextAnalysis { MinTermLength = 3 };
 			using var index = SKIndex.CreateWithMutableData(data, name, SKIndexType.Inverted, properties);
 			var docId = index.GetDocumentID(document);
-			var hint = string.Empty;
 			bool added = index.AddDocument(document, hint, true);
 			var state = index.GetDocumentState(document);
 			index.Flush();
@@ -104,6 +110,43 @@ namespace FormsTest
 		}
 
 		void CoreDataTest()
+		{
+			var context = GetCoreDataContext();
+
+			var wrapper = NSEntityDescription.InsertNewObjectForEntityForName("Wrapper", context) as Wrapper;
+			wrapper.FileName = new NSString("Attachment.txt");
+			wrapper.FileData = NSData.FromString("Attachment content");
+
+			context.Save(out var error);
+
+			using var uri = wrapper.ObjectID.URIRepresentation;
+			Console.WriteLine($"CoreData URI: {uri}");
+		}
+
+		string? ExtractTextWithSearchKitAndCoreData(string path)
+		{
+			SearchKitExtensions.LoadDefaultExtractorPlugIns();
+
+			var ext = System.IO.Path.GetExtension(path).Replace(".", "").ToLowerInvariant();
+			var mime = UTType.CreateFromExtension(ext).PreferredMimeType;
+
+			using var context = GetCoreDataContext();
+
+			using var wrapper = NSEntityDescription.InsertNewObjectForEntityForName("Wrapper", context) as Wrapper;
+			wrapper.FileName = new NSString(System.IO.Path.GetFileName(path));
+			wrapper.FileData = NSData.FromFile(path);
+
+			context.Save(out var _);
+			using var url = wrapper.ObjectID.URIRepresentation;
+
+			using var loaded = context.GetExistingObject(wrapper.ObjectID, out var error);
+
+			var dataUrl = url.Append("FileData", false);
+			var terms = ExtractTermsFromUrl(dataUrl, mime);
+			return string.Join(" ", terms);
+		}
+
+		NSManagedObjectContext GetCoreDataContext()
 		{
 			var entity = new NSEntityDescription { 
 				Name = "Wrapper",
@@ -117,17 +160,7 @@ namespace FormsTest
 			var model = new NSManagedObjectModel() { Entities = new NSEntityDescription[] { entity } };
 			var coordinator = new NSPersistentStoreCoordinator(model);
 			var store = coordinator.AddPersistentStoreWithType(NSPersistentStoreCoordinator.InMemoryStoreType, null, null, null, out var error);
-			
-			var context = new NSManagedObjectContext { PersistentStoreCoordinator = coordinator };
-
-			var wrapper = NSEntityDescription.InsertNewObjectForEntityForName("Wrapper", context) as Wrapper;
-			wrapper.FileName = new NSString("Attachment.txt");
-			wrapper.FileData = NSData.FromString("Attachment content");
-
-			context.Save(out error);
-
-			using var uri = wrapper.ObjectID.URIRepresentation;
-			Console.WriteLine($"CoreData URI: {uri}");
+			return new NSManagedObjectContext { PersistentStoreCoordinator = coordinator };
 		}
 
 		[Register("Wrapper")]
