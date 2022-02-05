@@ -26,6 +26,7 @@ namespace FormsTest
 			foreach (var path in  dlg.FileNames)
 			{
 				ExtractTextWithSearchKit(path);
+				ExtractTextWithSearchKitAndDataUrl(path);
 				ExtractTextWithSearchKitAndCoreData(path);
 				ExtractTextWithAttributedString(path);
 			}
@@ -90,14 +91,16 @@ namespace FormsTest
 
 		string[] ExtractTermsFromFile(string path)
 		{
+			var name = System.IO.Path.GetFileName(path);
+			var ext = System.IO.Path.GetExtension(name).Replace(".", "").ToLowerInvariant();
+			var mime = UTType.CreateFromExtension(ext).PreferredMimeType;
 			var url = new NSUrl(path, false);
-			return ExtractTermsFromUrl(url);
+			return ExtractTermsFromUrl(url, name, mime);
 		}
 
 		// Takes both file and CoreData URLs
-		string[] ExtractTermsFromUrl(NSUrl url, string? hint = null)
+		string[] ExtractTermsFromUrl(NSUrl url, string name, string? hint = null)
 		{
-			var name = url.LastPathComponent;
 			using var document = new SKDocument(url);
 			using var data = new NSMutableData();
 			var properties = new SKTextAnalysis { MinTermLength = 3 };
@@ -125,11 +128,14 @@ namespace FormsTest
 
 		string? ExtractTextWithSearchKitAndCoreData(string path)
 		{
+			// This does NOT work - only file scheme is supported by SKIndexAddDocument:
+			// See https://developer.apple.com/documentation/coreservices/1443212-skdocumentcreate
+
 			SearchKitExtensions.LoadDefaultExtractorPlugIns();
 
-			var ext = System.IO.Path.GetExtension(path).Replace(".", "").ToLowerInvariant();
+			var name = System.IO.Path.GetFileName(path);
+			var ext = System.IO.Path.GetExtension(name).Replace(".", "").ToLowerInvariant();
 			var mime = UTType.CreateFromExtension(ext).PreferredMimeType;
-
 			using var context = GetCoreDataContext();
 
 			using var wrapper = NSEntityDescription.InsertNewObjectForEntityForName("Wrapper", context) as Wrapper;
@@ -142,8 +148,28 @@ namespace FormsTest
 			using var loaded = context.GetExistingObject(wrapper.ObjectID, out var error);
 
 			var dataUrl = url.Append("FileData", false);
-			var terms = ExtractTermsFromUrl(dataUrl, mime);
+			var terms = ExtractTermsFromUrl(dataUrl, name, mime);
 			return string.Join(" ", terms);
+		}
+
+		string? ExtractTextWithSearchKitAndDataUrl(string path)
+		{
+			// This does NOT work - only file scheme is supported by SKIndexAddDocument:
+			// See https://developer.apple.com/documentation/coreservices/1443212-skdocumentcreate
+
+			SearchKitExtensions.LoadDefaultExtractorPlugIns();
+
+			var name = System.IO.Path.GetFileName(path);
+			var ext = System.IO.Path.GetExtension(name).Replace(".", "").ToLowerInvariant();
+			var mime = UTType.CreateFromExtension(ext).PreferredMimeType;
+
+			var data = NSData.FromFile(path);
+			var encoded = data.GetBase64EncodedString(NSDataBase64EncodingOptions.None);
+			var prefix = $"data:{mime};base64,";
+			var url = new NSUrl(prefix + encoded);
+
+			var terms = ExtractTermsFromUrl(url, name, mime);
+			return terms != null ? string.Join(" ", terms) : null;
 		}
 
 		NSManagedObjectContext GetCoreDataContext()
