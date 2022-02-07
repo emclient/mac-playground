@@ -130,6 +130,7 @@ namespace FormsTest
 			AddButton("Back color", () => { ChangeBackColor(); });
 			AddButton("Text Extraction", () => { TextExtractionTest(); });
 			AddButton("Core Data Test", () => { CoreDataTest(); });
+			AddButton("RAM Disk Test", () => { RamDiskTest(); });
 #endif
 
 			//AddButton("Data Grid", () => { new DataGridForm().Show(); });

@@ -1,5 +1,6 @@
 #if MAC
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using CoreData;
@@ -23,7 +24,7 @@ namespace FormsTest
 			if (dlg.ShowDialog() != DialogResult.OK)
 				return;
 
-			foreach (var path in  dlg.FileNames)
+			foreach (var path in dlg.FileNames)
 			{
 				ExtractTextWithSearchKit(path);
 				ExtractTextWithSearchKitAndDataUrl(path);
@@ -60,15 +61,15 @@ namespace FormsTest
 
 			if (str == null || error != null)
 				return;
-			
+
 			var keys = attributes.Keys;
-			foreach(var key in keys)
+			foreach (var key in keys)
 			{
 				var value = attributes[key];
 				Console.WriteLine($"{key}:{value}");
 			}
 		}
-		
+
 		public static string[] GetTextTypes()
 		{
 			var cls = Class.GetHandle(typeof(NSAttributedString));
@@ -91,11 +92,17 @@ namespace FormsTest
 
 		string[] ExtractTermsFromFile(string path)
 		{
+			var (name, ext, mime) = Decompose(path);
+			var url = new NSUrl(path, false);
+			return ExtractTermsFromUrl(url, name, mime);
+		}
+
+		(string name, string extension, string mime) Decompose(string path)
+		{
 			var name = System.IO.Path.GetFileName(path);
 			var ext = System.IO.Path.GetExtension(name).Replace(".", "").ToLowerInvariant();
 			var mime = UTType.CreateFromExtension(ext).PreferredMimeType;
-			var url = new NSUrl(path, false);
-			return ExtractTermsFromUrl(url, name, mime);
+			return (name, ext, mime);
 		}
 
 		// Takes both file and CoreData URLs
@@ -112,20 +119,6 @@ namespace FormsTest
 			return index.GetTerms(document);
 		}
 
-		void CoreDataTest()
-		{
-			var context = GetCoreDataContext();
-
-			var wrapper = NSEntityDescription.InsertNewObjectForEntityForName("Wrapper", context) as Wrapper;
-			wrapper.FileName = new NSString("Attachment.txt");
-			wrapper.FileData = NSData.FromString("Attachment content");
-
-			context.Save(out var error);
-
-			using var uri = wrapper.ObjectID.URIRepresentation;
-			Console.WriteLine($"CoreData URI: {uri}");
-		}
-
 		string? ExtractTextWithSearchKitAndCoreData(string path)
 		{
 			// This does NOT work - only file scheme is supported by SKIndexAddDocument:
@@ -133,9 +126,7 @@ namespace FormsTest
 
 			SearchKitExtensions.LoadDefaultExtractorPlugIns();
 
-			var name = System.IO.Path.GetFileName(path);
-			var ext = System.IO.Path.GetExtension(name).Replace(".", "").ToLowerInvariant();
-			var mime = UTType.CreateFromExtension(ext).PreferredMimeType;
+			var (name, ext, mime) = Decompose(path);
 			using var context = GetCoreDataContext();
 
 			using var wrapper = NSEntityDescription.InsertNewObjectForEntityForName("Wrapper", context) as Wrapper;
@@ -159,10 +150,7 @@ namespace FormsTest
 
 			SearchKitExtensions.LoadDefaultExtractorPlugIns();
 
-			var name = System.IO.Path.GetFileName(path);
-			var ext = System.IO.Path.GetExtension(name).Replace(".", "").ToLowerInvariant();
-			var mime = UTType.CreateFromExtension(ext).PreferredMimeType;
-
+			var (name, ext, mime) = Decompose(path);
 			var data = NSData.FromFile(path);
 			var encoded = data.GetBase64EncodedString(NSDataBase64EncodingOptions.None);
 			var prefix = $"data:{mime};base64,";
@@ -172,9 +160,26 @@ namespace FormsTest
 			return terms != null ? string.Join(" ", terms) : null;
 		}
 
+		// CoreData
+
+		void CoreDataTest()
+		{
+			var context = GetCoreDataContext();
+
+			var wrapper = NSEntityDescription.InsertNewObjectForEntityForName("Wrapper", context) as Wrapper;
+			wrapper.FileName = new NSString("Attachment.txt");
+			wrapper.FileData = NSData.FromString("Attachment content");
+
+			context.Save(out var error);
+
+			using var uri = wrapper.ObjectID.URIRepresentation;
+			Console.WriteLine($"CoreData URI: {uri}");
+		}
+
 		NSManagedObjectContext GetCoreDataContext()
 		{
-			var entity = new NSEntityDescription { 
+			var entity = new NSEntityDescription
+			{
 				Name = "Wrapper",
 				ManagedObjectClassName = "Wrapper",
 				Properties = new NSPropertyDescription[] {
@@ -190,12 +195,107 @@ namespace FormsTest
 		}
 
 		[Register("Wrapper")]
-		public class Wrapper : NSManagedObject 
+		public class Wrapper : NSManagedObject
 		{
 			public NSString? FileName { get; set; }
 			public NSData? FileData { get; set; }
-			public Wrapper(IntPtr ptr) : base(ptr) {}
-			public Wrapper(NSEntityDescription description, NSManagedObjectContext context) : base(description, context) {}
+			public Wrapper(IntPtr ptr) : base(ptr) { }
+			public Wrapper(NSEntityDescription description, NSManagedObjectContext context) : base(description, context) { }
+		}
+
+		// RAM Disk
+		public void RamDiskTest()
+		{
+			using (var disk = new RamDisk("Attachments", (ulong)Math.Pow(1024, 3)))
+			{
+			}
+		}
+
+		class RamDisk : IDisposable
+		{
+			public enum Options
+			{
+				Mount = 1,
+				Hidden = 2,
+			}
+
+			const Options DefaultOptions = Options.Mount | Options.Hidden;
+
+			ulong size;
+			Options options;
+			string? mountPoint;
+			string? name;
+			string? id;
+
+			public string RootPath => (mountPoint ?? "/Volumes/") + name ?? string.Empty;
+
+			public RamDisk(string name, ulong size, string? mountPoint = null, Options options = DefaultOptions)
+			{
+				this.name = name;
+				this.size = size;
+				this.options = options;
+				this.mountPoint = mountPoint;
+
+				if (Attach())
+					if (Create())
+						if (options.HasFlag(Options.Hidden))
+							SetVolumeHidden();
+			}
+
+			public void Dispose()
+			{
+				if (!string.IsNullOrEmpty(id))
+				{
+					if (Detach())
+						id = null;
+				}
+			}
+
+			protected bool Attach()
+			{
+				const int bytesPerSector = 512;
+				var sectors = size / bytesPerSector;
+				var mountpoint = this.mountPoint != null ? $" -mountpoint \"{this.mountPoint}\"" : string.Empty;
+
+				var retval = Execute("hdiutil", $"attach ram://{sectors} -nomount {mountpoint}", out var stdout);
+				id = retval == 0 ? stdout.Trim() : null;
+				return retval == 0;
+			}
+
+			public bool Create()
+			{
+				return Execute("diskutil", $"apfs create {id} \"{name}\"", out var _) == 0;
+			}
+	
+			protected bool Detach()
+			{
+				return Execute("hdiutil", $"detach {id} -force", out var _) == 0;
+			}
+
+			protected bool SetVolumeHidden(bool hidden = true)
+			{
+				// Volume hiding (in Finder) should be handled during container disk creation.
+				// However, since we're using a convenience shortcut ("apfs create"), we have to hide it this way.
+
+				var no = hidden ? string.Empty : "no";
+				return Execute("chflags", $"{no}hidden \"{RootPath}\"", out var _) != 0;
+			}
+
+			int Execute(string filename, string args, out string stdout)
+			{
+				var info = new ProcessStartInfo
+				{
+					FileName = filename,
+					Arguments = args,
+					UseShellExecute = false,
+					RedirectStandardOutput = true
+				};
+
+				using var process = Process.Start(info);
+				stdout = process.StandardOutput.ReadToEnd();
+				process.WaitForExit();
+				return process.ExitCode;
+			}
 		}
 	}
 #endif
