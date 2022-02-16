@@ -21,7 +21,7 @@ namespace System.Windows.Forms.CocoaInternal
 		bool disposed;
 		bool key;
 
-		public MonoWindow(IntPtr handle) : base(handle)
+		public MonoWindow(NativeHandle handle) : base(handle)
 		{
 		}
 

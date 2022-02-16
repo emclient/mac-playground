@@ -14,7 +14,7 @@ namespace System.Windows.Forms.CocoaInternal
 		internal NSAttributedString markedText = new NSMutableAttributedString();
 		internal string insertText = String.Empty;
 
-		public MonoEditView(IntPtr instance) : base(instance)
+		public MonoEditView(NativeHandle instance) : base(instance)
 		{
 		}
 

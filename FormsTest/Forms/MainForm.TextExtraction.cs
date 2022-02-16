@@ -199,7 +199,7 @@ namespace FormsTest
 		{
 			public NSString? FileName { get; set; }
 			public NSData? FileData { get; set; }
-			public Wrapper(IntPtr ptr) : base(ptr) { }
+			public Wrapper(NativeHandle ptr) : base(ptr) { }
 			public Wrapper(NSEntityDescription description, NSManagedObjectContext context) : base(description, context) { }
 		}
 

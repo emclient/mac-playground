@@ -62,7 +62,7 @@ namespace System.Windows.Forms.CocoaInternal
 			DisableAutomaticLayerBackingStores();
 		}
 
-		public MonoView(IntPtr instance) : base(instance)
+		public MonoView(NativeHandle instance) : base(instance)
 		{
 		}
 

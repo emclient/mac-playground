@@ -32,12 +32,13 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using AppKit;
 using CoreGraphics;
+using ObjCRuntime;
 
 namespace System.Windows.Forms.CocoaInternal
 {
 	partial class MonoContentView : MonoView
 	{
-		public MonoContentView (IntPtr instance) : base (instance)
+		public MonoContentView (NativeHandle instance) : base (instance)
 		{
 		}
 

@@ -1,12 +1,13 @@
-using System;
-using System.ComponentModel;
-using System.Drawing.Printing;
 using AppKit;
-using System.Windows.Forms.CocoaInternal;
-using System.Drawing;
 using CoreGraphics;
 using Foundation;
+using ObjCRuntime;
+using System;
+using System.ComponentModel;
+using System.Drawing;
 using System.Drawing.Mac;
+using System.Drawing.Printing;
+using System.Windows.Forms.CocoaInternal;
 
 namespace System.Windows.Forms
 {
@@ -314,7 +315,7 @@ namespace System.Windows.Forms
 		public PrintView() : this(CGRect.Empty) { }
 		public PrintView(CGRect frame) : this(frame, 0, 0) { }
 		public PrintView(CGRect frame, WindowStyles style, WindowExStyles exStyle) : base(XplatUICocoa.GetInstance(), frame, style, exStyle) { }
-		public PrintView(IntPtr handle) : base(handle) { }
+		public PrintView(NativeHandle handle) : base(handle) { }
 
 		public delegate bool KnowsPageRangeDelegate(ref NSRange range);
 		public delegate CGRect RectForPageDelegate(nint pageNumber);

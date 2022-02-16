@@ -19,7 +19,7 @@ namespace System.Windows.Forms.CocoaInternal
 		// For emulating MouseUp in ToolStripDropDown when using native menu (that swallows it):
 		internal static MSG LastMouseDownMsg;
 
-		public WindowsEventResponder(IntPtr instance) : base(instance)
+		public WindowsEventResponder(NativeHandle instance) : base(instance)
 		{
 		}
 

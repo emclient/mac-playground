@@ -2296,7 +2296,7 @@ namespace System.Windows.Forms
 			this.date = this.initialDate;
 		}
 
-		public DatePickerPopoverController(IntPtr handle) : base(handle)
+		public DatePickerPopoverController(NativeHandle handle) : base(handle)
 		{
 		}
 

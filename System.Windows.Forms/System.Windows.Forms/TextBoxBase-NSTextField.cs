@@ -459,7 +459,7 @@ namespace System.Windows.Forms
 		{
 		}
 
-		public TextField(IntPtr handle) : base(handle)
+		public TextField(NativeHandle handle) : base(handle)
 		{
 		}
 

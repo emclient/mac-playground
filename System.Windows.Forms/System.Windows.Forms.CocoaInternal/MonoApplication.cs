@@ -24,7 +24,7 @@ namespace System.Windows.Forms.CocoaInternal
 			return instance;
 		}
 
-		public MonoApplication(IntPtr handle) : base(handle)
+		public MonoApplication(NativeHandle handle) : base(handle)
 		{
 			SetupDelegate();
 		}
