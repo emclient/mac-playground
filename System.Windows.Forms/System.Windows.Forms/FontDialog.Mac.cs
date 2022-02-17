@@ -40,6 +40,12 @@ namespace System.Windows.Forms
 			get; set;
 		}
 
+		[DefaultValue(true)]
+		public bool AllowSystemFontButton
+		{
+			get; set;
+		} = true;
+
 		Color color = SystemColors.ControlText;
 		[DefaultValue(typeof(Color), "Black")]
 		public Color Color
@@ -212,6 +218,8 @@ namespace System.Windows.Forms
 			panel.AccessoryView = accessoryView;
 			panel.Delegate = this;
 
+			accessoryView.systemFontButton.Hidden = !owner.AllowSystemFontButton;
+
 			// Preset font:
 			panel.SetPanelFont(owner.Font.ToNSFont(), false);
 
@@ -324,7 +332,7 @@ namespace System.Windows.Forms
 	internal class ModalFontPanelAccessoryView : NSView
 	{
 		NSBox line;
-		NSButton cancelButton, chooseButton, systemFontButton;
+		public NSButton cancelButton, chooseButton, systemFontButton;
 
 		public virtual ModalFontPanelAccessoryView Initialize(NSFontPanel panel, NSObject target)
 		{
