@@ -1100,7 +1100,7 @@ namespace System.Windows.Forms.Mac
 
 		#region Drag and Drop
 
-		public static DragEventArgs ToDragEventArgs(this NSView view, NSDraggingInfo sender, DragDropEffects effect = UnusedDndEffect)
+		public static DragEventArgs ToDragEventArgs(this NSView view, INSDraggingInfo sender, DragDropEffects effect = UnusedDndEffect)
 		{
 			var q = view.ToMonoScreen(sender.DraggingLocation, null);
 			var allowed = XplatUICocoa.DraggingAllowedEffects;
@@ -1165,7 +1165,7 @@ namespace System.Windows.Forms.Mac
 			return null;
 		}
 
-		public static NSDragOperation DraggingEnteredInternal(this NSView view, NSDraggingInfo sender)
+		public static NSDragOperation DraggingEnteredInternal(this NSView view, INSDraggingInfo sender)
 		{
 			try
 			{
@@ -1188,7 +1188,7 @@ namespace System.Windows.Forms.Mac
 			return NSDragOperation.Generic;
 		}
 
-		public static NSDragOperation DraggingUpdatedInternal(this NSView view, NSDraggingInfo sender)
+		public static NSDragOperation DraggingUpdatedInternal(this NSView view, INSDraggingInfo sender)
 		{
 			try
 			{
@@ -1225,7 +1225,7 @@ namespace System.Windows.Forms.Mac
 			return NSDragOperation.Generic;
 		}
 
-		public static void DraggingExitedInternal(this NSView view, NSDraggingInfo sender)
+		public static void DraggingExitedInternal(this NSView view, INSDraggingInfo sender)
 		{
 			try
 			{
@@ -1253,7 +1253,7 @@ namespace System.Windows.Forms.Mac
 			}
 		}
 
-		public static void DraggingEndedInternal(this NSView view, NSDraggingInfo sender)
+		public static void DraggingEndedInternal(this NSView view, INSDraggingInfo sender)
 		{
 			XplatUICocoa.DraggedData = null; // Clear data box for next dragging session
 		}
@@ -1281,7 +1281,7 @@ namespace System.Windows.Forms.Mac
 			}
 		}
 
-		public static bool PrepareForDragOperationInternal(this NSView view, NSDraggingInfo sender)
+		public static bool PrepareForDragOperationInternal(this NSView view, INSDraggingInfo sender)
 		{
 			foreach (var type in sender.DraggingPasteboard.Types)
 			{
@@ -1297,7 +1297,7 @@ namespace System.Windows.Forms.Mac
 			return false;
 		}
 
-		public static bool PerformDragOperationInternal(this NSView view, NSDraggingInfo sender)
+		public static bool PerformDragOperationInternal(this NSView view, INSDraggingInfo sender)
 		{
 			try
 			{

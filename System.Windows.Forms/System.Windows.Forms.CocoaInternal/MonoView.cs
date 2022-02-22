@@ -440,33 +440,39 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		public override NSDragOperation DraggingEntered(NSDraggingInfo sender)
+		[Export("draggingEntered:")]
+		public NSDragOperation DraggingEntered(INSDraggingInfo sender)
 		{
 			return this.DraggingEnteredInternal(sender);
 		}
 
-		public override NSDragOperation DraggingUpdated(NSDraggingInfo sender)
+		[Export("draggingUpdated:")]
+		public NSDragOperation DraggingUpdated(INSDraggingInfo sender)
 		{
 			return this.DraggingUpdatedInternal(sender);
 		}
 
-		public override void DraggingExited(NSDraggingInfo sender)
+		[Export("draggingExited:")]
+		public void DraggingExited(INSDraggingInfo sender)
 		{
 			this.DraggingEnteredInternal(sender);
 		}
 
-		public override void DraggingEnded(NSDraggingInfo sender)
+		[Export("draggingEnded:")]
+		public void DraggingEnded(INSDraggingInfo sender)
 		{
 			// Intentionally not calling base
 			this.DraggingEndedInternal(sender);
 		}
 
-		public override bool PrepareForDragOperation(NSDraggingInfo sender)
+		[Export("prepareForDragOperation:")]
+		public bool PrepareForDragOperation(INSDraggingInfo sender)
 		{
 			return this.PrepareForDragOperationInternal(sender);
 		}
 
-		public override bool PerformDragOperation(NSDraggingInfo sender)
+		[Export("performDragOperation:")]
+		public bool PerformDragOperation(INSDraggingInfo sender)
 		{
 			return this.PerformDragOperationInternal(sender);
 		}
