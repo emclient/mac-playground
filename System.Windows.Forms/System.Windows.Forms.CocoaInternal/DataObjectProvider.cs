@@ -6,7 +6,8 @@ using System.Drawing.Imaging;
 using System.Windows.Forms.Mac;
 using AppKit;
 using Foundation;
-using MobileCoreServices;
+
+using UTType = MacApi.CoreServices.UTType;
 
 namespace System.Windows.Forms.CocoaInternal
 {
@@ -171,7 +172,7 @@ namespace System.Windows.Forms.CocoaInternal
 		protected string CreateDynamicTypeFor(string type)
 		{
 			return UTType.CreatePreferredIdentifier(
-				UTType.TagClassNSPboardType,
+				UTType.NSPboardType,
 				Pasteboard.NSPasteboardTypeWebArchive,
 				UTType.Data);
 		}
