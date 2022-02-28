@@ -1,15 +1,13 @@
 using System;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 using CoreFoundation;
-using CoreServices;
 using Foundation;
 
 namespace MacApi.CoreServices
 {
 	public partial class UTType
     {
-        private string identifier;
+        private readonly string identifier;
 
         internal UTType(string identifier)
         {
@@ -23,8 +21,7 @@ namespace MacApi.CoreServices
 
         public static UTType? CreateFromExtension(string extension)
         {
-            var identifier = GetType(UTTypes.kUTTagClassFilenameExtension, extension, null);
-            return identifier != null ? new UTType(identifier) : null;
+            return GetType(UTTypes.kUTTagClassFilenameExtension, extension, null);
         }
 
         public string Identifier => identifier;
@@ -38,20 +35,18 @@ namespace MacApi.CoreServices
 
         public string? PreferredMimeType => GetPreferredTag(identifier!, UTTypes.kUTTagClassMIMEType);
 
-        public static implicit operator string(UTType type) => type.Identifier;
-
         // CreatePreferredIdentifier
         // typeWithTag:tagClass:conformingToType:
-		public static string? GetType(string tagClass, string tag, string? conformingToUti)
+		public static UTType? GetType(string tagClass, string tag, string? conformingToUti)
 		{
             var handle = UTTypeCreatePreferredIdentifierForTag(Handle(tagClass), Handle(tag), Handle(conformingToUti));
-		    return handle != IntPtr.Zero ? CFString.FromHandle(handle) : null;
+		    return handle != IntPtr.Zero ? new UTType(CFString.FromHandle(handle)) : null;
 		}
 
 		internal static string? GetPreferredTag(string identifier, string tagClass)
 		{
             var handle = UTTypeCopyPreferredTagWithClass(Handle(identifier), Handle(tagClass));
-			return NSString.FromHandle(handle);
+			return CFString.FromHandle(handle);
 		}
 
 		internal static IntPtr Handle(string s)
