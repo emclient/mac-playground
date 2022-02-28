@@ -335,6 +335,6 @@ namespace FormsTest
 			using var tagClass = new NSString(identifier);
 			return UTType.GetType(tag, tagClass, UTTypes.Data).Identifier;
 		}
-	}
 	#endif
+	}
 }

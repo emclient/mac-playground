@@ -23,7 +23,7 @@ namespace MacApi.CoreServices
 
         public static UTType? CreateFromExtension(string extension)
         {
-            var identifier = CreatePreferredIdentifier(UTTypes.kUTTagClassFilenameExtension, extension, null);
+            var identifier = GetType(UTTypes.kUTTagClassFilenameExtension, extension, null);
             return identifier != null ? new UTType(identifier) : null;
         }
 
@@ -40,8 +40,9 @@ namespace MacApi.CoreServices
 
         public static implicit operator string(UTType type) => type.Identifier;
 
+        // CreatePreferredIdentifier
         // typeWithTag:tagClass:conformingToType:
-		public static string? CreatePreferredIdentifier(string tagClass, string tag, string? conformingToUti)
+		public static string? GetType(string tagClass, string tag, string? conformingToUti)
 		{
             var handle = UTTypeCreatePreferredIdentifierForTag(Handle(tagClass), Handle(tag), Handle(conformingToUti));
 		    return handle != IntPtr.Zero ? CFString.FromHandle(handle) : null;
