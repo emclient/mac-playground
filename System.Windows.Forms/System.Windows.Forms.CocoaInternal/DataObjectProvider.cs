@@ -6,7 +6,7 @@ using System.Drawing.Imaging;
 using System.Windows.Forms.Mac;
 using AppKit;
 using Foundation;
-
+using UniformTypeIdentifiers;
 using UTType = MacApi.CoreServices.UTType;
 
 namespace System.Windows.Forms.CocoaInternal
@@ -169,12 +169,12 @@ namespace System.Windows.Forms.CocoaInternal
 			item.SetDataForType(nsdata, Pasteboard.NSPasteboardTypeRTF);
 		}
 
+
 		protected string CreateDynamicTypeFor(string type)
 		{
-			return UTType.CreatePreferredIdentifier(
-				UTType.NSPboardType,
-				Pasteboard.NSPasteboardTypeWebArchive,
-				UTType.Data);
+			const string UTTypeNSPboardType = "kUTTagClassNSPboardType";
+			using var UTTypeNSPasteboardTypeWebArchive = new NSString(Pasteboard.NSPasteboardTypeWebArchive);
+			return UTType.GetType(UTTypeNSPboardType, UTTypeNSPasteboardTypeWebArchive, UTTypes.Data).Identifier;
 		}
 
 		protected void ProvideTiff(NSPasteboard pboard, NSPasteboardItem item, string type)

@@ -23,7 +23,7 @@ namespace MacApi.CoreServices
 
         public static UTType? CreateFromExtension(string extension)
         {
-            var identifier = CreatePreferredIdentifier(UTType.kUTTagClassFilenameExtension, extension, null);
+            var identifier = CreatePreferredIdentifier(UTTypes.kUTTagClassFilenameExtension, extension, null);
             return identifier != null ? new UTType(identifier) : null;
         }
 
@@ -34,13 +34,13 @@ namespace MacApi.CoreServices
             return UTTypeConformsTo(Handle(identifier), Handle(type.Identifier));
         }
 
-        public string? PreferredExtension => GetPreferredTag(identifier!, UTType.kUTTagClassFilenameExtension);
+        public string? PreferredExtension => GetPreferredTag(identifier!, UTTypes.kUTTagClassFilenameExtension);
 
-        public string? PreferredMimeType => GetPreferredTag(identifier!, UTType.kUTTagClassMIMEType);
+        public string? PreferredMimeType => GetPreferredTag(identifier!, UTTypes.kUTTagClassMIMEType);
 
         public static implicit operator string(UTType type) => type.Identifier;
 
-        // ? typeWithTag:tagClass:conformingToType:
+        // typeWithTag:tagClass:conformingToType:
 		public static string? CreatePreferredIdentifier(string tagClass, string tag, string? conformingToUti)
 		{
             var handle = UTTypeCreatePreferredIdentifierForTag(Handle(tagClass), Handle(tag), Handle(conformingToUti));
@@ -74,7 +74,7 @@ namespace MacApi.CoreServices
         internal extern static bool UTTypeConformsTo(IntPtr uti, IntPtr conformsToUti);
     }
 
-    public partial class UTType
+    public partial class UTTypes
     {
         static UTType? mimeType;
         public static UTType MimeType => mimeType ??= new UTType(kUTTagClassMIMEType);
@@ -101,7 +101,7 @@ namespace MacApi.CoreServices
         public static UTType CalendarEvent => calendarEvent ??= new UTType(kUTTypeCalendarEvent);
     }
 
-    public partial class UTType
+    public partial class UTTypes
     {
 		internal const string kApplicationOctetStream = "application/octet-stream";
 
