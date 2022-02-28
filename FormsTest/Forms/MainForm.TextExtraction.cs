@@ -129,7 +129,7 @@ namespace FormsTest
 			var (name, ext, mime) = Decompose(path);
 			using var context = GetCoreDataContext();
 
-			using var wrapper = NSEntityDescription.InsertNewObjectForEntityForName("Wrapper", context) as Wrapper;
+			using var wrapper = NSEntityDescription.InsertNewObject("Wrapper", context) as Wrapper;
 			wrapper.FileName = new NSString(System.IO.Path.GetFileName(path));
 			wrapper.FileData = NSData.FromFile(path);
 
@@ -166,7 +166,7 @@ namespace FormsTest
 		{
 			var context = GetCoreDataContext();
 
-			var wrapper = NSEntityDescription.InsertNewObjectForEntityForName("Wrapper", context) as Wrapper;
+			var wrapper = NSEntityDescription.InsertNewObject("Wrapper", context) as Wrapper;
 			wrapper.FileName = new NSString("Attachment.txt");
 			wrapper.FileData = NSData.FromString("Attachment content");
 
@@ -190,7 +190,7 @@ namespace FormsTest
 
 			var model = new NSManagedObjectModel() { Entities = new NSEntityDescription[] { entity } };
 			var coordinator = new NSPersistentStoreCoordinator(model);
-			var store = coordinator.AddPersistentStoreWithType(NSPersistentStoreCoordinator.InMemoryStoreType, null, null, null, out var error);
+			var store = coordinator.AddPersistentStore(NSPersistentStoreCoordinator.InMemoryStoreType, null, null, null, out var error);
 			return new NSManagedObjectContext { PersistentStoreCoordinator = coordinator };
 		}
 
