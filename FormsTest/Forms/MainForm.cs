@@ -4,6 +4,10 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Windows.Forms;
+#if MAC
+using Foundation;
+using UniformTypeIdentifiers;
+#endif
 namespace FormsTest
 {
 	using System.Collections.Generic;
@@ -131,6 +135,7 @@ namespace FormsTest
 			AddButton("Text Extraction", () => { TextExtractionTest(); });
 			AddButton("Core Data Test", () => { CoreDataTest(); });
 			AddButton("RAM Disk Test", () => { RamDiskTest(); });
+			AddButton("UTType Test", () => { UTTypeTest(); });
 #endif
 
 			//AddButton("Data Grid", () => { new DataGridForm().Show(); });
@@ -314,5 +319,22 @@ namespace FormsTest
 				}
 			}
 		}
+
+#if MAC
+		void UTTypeTest()
+		{
+			const string NSPasteboardTypeWebArchive = "Apple Web Archive pasteboard type";
+			var src = NSPasteboardTypeWebArchive;
+			var dst = CreateDynamicTypeFor(src);
+			Console.WriteLine($"CreateDynamicType({src}) -> {dst}");
+		}
+
+		string CreateDynamicTypeFor(string identifier)
+		{
+			const string tag = "kUTTagClassNSPboardType";
+			using var tagClass = new NSString(identifier);
+			return UTType.GetType(tag, tagClass, UTTypes.Data).Identifier;
+		}
+	#endif
 	}
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms.Mac;
 using AppKit;
 using UniformTypeIdentifiers;
+using ObjCRuntime;
 
 namespace System.Windows.Forms
 {
@@ -105,6 +106,7 @@ namespace System.Windows.Forms
 
 		internal void ApplyFilter(NSSavePanel panel, string filter)
 		{
+			if (panel.RespondsToSelector(new Selector("allowedContentTypes")))
 			if (ExtractContentTypes(filter) is UTType[] contentTypes && panel.SupportsAllowedContentTypes())
 			{
 				panel.AllowedContentTypes = contentTypes;
