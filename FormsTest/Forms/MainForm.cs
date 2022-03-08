@@ -7,6 +7,8 @@ using System.Windows.Forms;
 #if MAC
 using Foundation;
 using UniformTypeIdentifiers;
+using UTType = MacApi.CoreServices.UTType;
+using UTTypes = MacApi.CoreServices.UTTypes;
 #endif
 namespace FormsTest
 {
@@ -284,7 +286,7 @@ namespace FormsTest
 			if (!window.TitlebarAppearsTransparent)
 			{
 				window.TitlebarAppearsTransparent = true;
-				window.StyleMask |= AppKit.NSWindowStyle.TexturedBackground;
+				//window.StyleMask |= AppKit.NSWindowStyle.TexturedBackground;
 				window.BackgroundColor = AppKit.NSColor.Red;
 
 				//var box = new AppKit.NSBox(CoreGraphics.CGRect.FromLTRB(0, 0, 100, 20));
@@ -296,7 +298,7 @@ namespace FormsTest
 			else
 			{	
 				window.TitlebarAppearsTransparent = false;
-				window.StyleMask &= ~AppKit.NSWindowStyle.TexturedBackground;
+				//window.StyleMask &= ~AppKit.NSWindowStyle.TexturedBackground;
 				window.BackgroundColor = AppKit.NSColor.WindowBackground;
 				//window.RemoveTitlebarAccessoryViewControllerAtIndex(0);
 			}
@@ -333,7 +335,7 @@ namespace FormsTest
 		{
 			const string tag = "kUTTagClassNSPboardType";
 			using var tagClass = new NSString(identifier);
-			return UTType.GetType(tag, tagClass, UTTypes.Data).Identifier;
+			return UTType.GetType(tag, tagClass, UTTypes.Data.Identifier).Identifier;
 		}
 	#endif
 	}

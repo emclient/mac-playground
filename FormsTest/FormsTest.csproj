@@ -11,12 +11,13 @@
     <DefineConstants Condition="'$(TargetFramework)' == 'net6.0-macos'">$(DefineConstants);MAC</DefineConstants>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <OutputType Condition="'$(TargetFramework)' == 'net6.0-macos'">Exe</OutputType>
-	<OutputType Condition="'$(TargetFramework)' == 'net6.0-windows'">WinExe</OutputType>
+	  <OutputType Condition="'$(TargetFramework)' == 'net6.0-windows'">WinExe</OutputType>
     <UseWindowsForms Condition="'$(TargetFramework)' == 'net6.0-windows'">true</UseWindowsForms>
     <UseMonoRuntime>false</UseMonoRuntime>
     <CustomResourceTypesSupport>true</CustomResourceTypesSupport>
     <ApplicationId>com.emclient.testapp</ApplicationId>
     <ApplicationTitle>FormsTest</ApplicationTitle>
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-macos'">10.14</SupportedOSPlatformVersion>
     <PathMap Condition="'$(Configuration)' == 'Release' OR $(Configuration.EndsWith('- Release'))">$(MSBuildProjectDirectory)/obj/$(Configuration)/$(TargetFramework)/$(RuntimeIdentifier)=.</PathMap>
   </PropertyGroup>
   <ItemGroup>
@@ -288,4 +289,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+  <Import Project="MailClient.macOS.targets" Condition="'$([MSBuild]::GetTargetPlatformIdentifier($(TargetFramework)))' == 'macos'" />
+
 </Project>
