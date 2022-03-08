@@ -40,15 +40,24 @@
   </Target>
 
   <PropertyGroup>
-    <CreateAppBundleDependsOn>$(CreateAppBundleDependsOn);GenerateAssemblyVersionInfo;BuildIndexer</CreateAppBundleDependsOn>
-    <MacExtensionsDir>../../MacExtensions</MacExtensionsDir>
+    <CreateAppBundleDependsOn>$(CreateAppBundleDependsOn);GenerateAssemblyVersionInfo;CollectIndexerInputs;BuildIndexer</CreateAppBundleDependsOn>
+    <MacExtensionsDir>$(ProjectDir)../../MacExtensions</MacExtensionsDir>
   </PropertyGroup>
-  <Target Name="BuildIndexer" Inputs="$(MacExtensionsDir)/Indexer/Indexer.xcodeproj" Outputs="$(OutputPath)Indexer.xcarchive">
+
+  <Target Name="CollectIndexerInputs">
+    <ItemGroup>
+      <_IndexerInputs Include="$(ProjectDir)..\..\MacExtensions\**\*" />
+      <_IndexerInputs Remove="$(ProjectDir)..\..\MacExtensions\bin\**\*" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="BuildIndexer" Inputs="@(_IndexerInputs)" Outputs="$(AppBundleDir)/Contents/MonoBundle/libIndexer.dylib">
     <Message Text="Building Indexer" />
     <Exec Command='xcodebuild archive -scheme Indexer -project $(MacExtensionsDir)/Indexer/Indexer.xcodeproj -configuration "$(Configuration)" -archivePath "$(OutputPath)Indexer.xcarchive"' />
     <Exec Condition="'$(RuntimeIdentifier)' == 'osx-arm64'" Command='lipo -thin arm64 "$(OutputPath)Indexer.xcarchive/Products/usr/lib/libIndexer.dylib" -output "$(OutputPath)Indexer.xcarchive/Products/usr/lib/libIndexer.dylib"' />
     <Exec Condition="'$(RuntimeIdentifier)' == 'osx-x64'" Command='lipo -thin x86_64 "$(OutputPath)Indexer.xcarchive/Products/usr/lib/libIndexer.dylib" -output "$(OutputPath)Indexer.xcarchive/Products/usr/lib/libIndexer.dylib"' />
-    <Exec Command='cp "$(OutputPath)Indexer.xcarchive/Products/usr/lib/libIndexer.dylib" $(AppBundleDir)/Contents/MonoBundle' />
+    <Exec Command='mkdir -p "$(AppBundleDir)/Contents/MonoBundle"' />
+    <Exec Command='cp "$(OutputPath)Indexer.xcarchive/Products/usr/lib/libIndexer.dylib" "$(AppBundleDir)/Contents/MonoBundle"' />
   </Target>
 
   <!-- Installer package -->
