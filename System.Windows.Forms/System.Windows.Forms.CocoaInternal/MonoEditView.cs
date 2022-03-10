@@ -103,7 +103,7 @@ namespace System.Windows.Forms.CocoaInternal
 		}
 
 		[Export("firstRectForCharacterRange:actualRange:")]
-		unsafe public virtual CGRect GetFirstRect(NSRange characterRange, out NSRange actualRange)
+		public virtual CGRect GetFirstRect(NSRange characterRange, out NSRange actualRange)
 		{
 			actualRange = new NSRange();
 
@@ -112,15 +112,12 @@ namespace System.Windows.Forms.CocoaInternal
 				return Window.ConvertRectToScreen(XplatUICocoa.CaretView.ConvertRectToView(Bounds, null));
 
 			// EMC textboxes - teporary solution
-			var r = new Rectangle[1] { new Rectangle() };
-			fixed (void* ptr = &r[0])
+			var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(XplatUIWin32.RECT)));
+			var result = driver.SendMessage(Handle, Msg.WM_IME_GETCURRENTPOSITION, IntPtr.Zero, ptr);
+			if (result == (IntPtr)1 && Marshal.PtrToStructure<XplatUIWin32.RECT>(ptr) is XplatUIWin32.RECT r)
 			{
-				var result = driver.SendMessage(Handle, Msg.WM_IME_GETCURRENTPOSITION, IntPtr.Zero, new IntPtr(ptr));
-				if (result == (IntPtr)1)
-				{
-					var rect = new CGRect(Bounds.Left + r[0].X, Bounds.Top + r[0].Y, r[0].Width, r[0].Height);
-					return Window.ConvertRectToScreen(ConvertRectToView(rect, null));
-				}
+				var rect = new CGRect(Bounds.Left + r.left, Bounds.Top + r.top, r.right - r.left, r.bottom - r.top);
+				return Window.ConvertRectToScreen(ConvertRectToView(rect, null));
 			}
 
 			// fallback
