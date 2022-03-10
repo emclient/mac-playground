@@ -112,11 +112,11 @@ namespace System.Windows.Forms.CocoaInternal
 				return Window.ConvertRectToScreen(XplatUICocoa.CaretView.ConvertRectToView(Bounds, null));
 
 			// EMC textboxes - teporary solution
-			var first = Bounds;
+			var first = new CGRect(Bounds.Location, CGSize.Empty);
 			var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(XplatUIWin32.RECT)));
 			var result = driver.SendMessage(Handle, Msg.WM_IME_GETCURRENTPOSITION, IntPtr.Zero, ptr);
 			if (result == (IntPtr)1 && Marshal.PtrToStructure<XplatUIWin32.RECT>(ptr) is XplatUIWin32.RECT r)
-				first.Offset(r.left, 0);
+				first = new CGRect(first.Location.X + r.left, first.Location.Y + r.top, r.right - r.left, r.bottom - r.top);
 			Marshal.FreeHGlobal(ptr);
 			return Window.ConvertRectToScreen(ConvertRectToView(first, null));
 		}
