@@ -112,16 +112,13 @@ namespace System.Windows.Forms.CocoaInternal
 				return Window.ConvertRectToScreen(XplatUICocoa.CaretView.ConvertRectToView(Bounds, null));
 
 			// EMC textboxes - teporary solution
+			var first = Bounds;
 			var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(XplatUIWin32.RECT)));
 			var result = driver.SendMessage(Handle, Msg.WM_IME_GETCURRENTPOSITION, IntPtr.Zero, ptr);
 			if (result == (IntPtr)1 && Marshal.PtrToStructure<XplatUIWin32.RECT>(ptr) is XplatUIWin32.RECT r)
-			{
-				var rect = new CGRect(Bounds.Left + r.left, Bounds.Top + r.top, r.right - r.left, r.bottom - r.top);
-				return Window.ConvertRectToScreen(ConvertRectToView(rect, null));
-			}
-
-			// fallback
-			return Window.ConvertRectToScreen(ConvertRectToView(Bounds, null));
+				first.Offset(r.left, 0);
+			Marshal.FreeHGlobal(ptr);
+			return Window.ConvertRectToScreen(ConvertRectToView(first, null));
 		}
 
 		[Export("insertText:replacementRange:")]
