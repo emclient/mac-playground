@@ -5,11 +5,14 @@ using System.Linq;
 using System.Windows.Forms;
 using CoreData;
 using Foundation;
-using UniformTypeIdentifiers;
 using ObjCRuntime;
 using MacApi;
 using MacApi.CoreServices.SearchKit;
 using SearchKit;
+using System.Runtime.InteropServices;
+using UniformTypeIdentifiers;
+using UTType = MacApi.CoreServices.UTType;
+using UTTypes = MacApi.CoreServices.UTTypes;
 #endif
 
 namespace FormsTest
@@ -26,10 +29,17 @@ namespace FormsTest
 
 			foreach (var path in dlg.FileNames)
 			{
-				ExtractTextWithSearchKit(path);
-				ExtractTextWithSearchKitAndDataUrl(path);
-				ExtractTextWithSearchKitAndCoreData(path);
-				ExtractTextWithAttributedString(path);
+				try
+				{
+					ExtractTextWithSearchKit(path);
+					ExtractTextWithSearchKitAndDataUrl(path);
+					ExtractTextWithSearchKitAndCoreData(path);
+					ExtractTextWithAttributedString(path);
+				} 
+				catch (Exception e)
+				{
+					Console.WriteLine(e);
+				}
 			}
 		}
 
@@ -105,18 +115,36 @@ namespace FormsTest
 			return (name, ext, mime);
 		}
 
-		// Takes both file and CoreData URLs
+		[DllImport("Indexer")]
+		static extern IntPtr extractTermsFromUrl(IntPtr url);
+
 		string[] ExtractTermsFromUrl(NSUrl url, string name, string? hint = null)
 		{
-			using var document = new SKDocument(url);
-			using var data = new NSMutableData();
-			var properties = new SKTextAnalysis { MinTermLength = 3 };
-			using var index = SKIndex.CreateWithMutableData(data, name, SKIndexType.Inverted, properties);
-			var docId = index.GetDocumentID(document);
-			bool added = index.AddDocument(document, hint, true);
-			var state = index.GetDocumentState(document);
-			index.Flush();
-			return index.GetTerms(document);
+			var handle = extractTermsFromUrl(url.Handle);
+			return CoreFoundation.CFArray.StringArrayFromHandle(handle) ?? Array.Empty<string>();
+		}
+
+		// Takes both file and CoreData URLs
+		string[] ExtractTermsFromUrlManaged(NSUrl url, string name, string? hint = null)
+		{
+
+			try
+			{
+				using var document = new SKDocument(url);
+				using var data = new NSMutableData();
+				var properties = new SKTextAnalysis { MinTermLength = 3 };
+				using var index = SKIndex.CreateWithMutableData(data, name, SKIndexType.Inverted, properties);
+				var docId = index.GetDocumentID(document);
+				bool added = index.AddDocument(document, hint, true);
+				var state = index.GetDocumentState(document);
+				index.Flush();
+				return index.GetTerms(document);
+			}
+			catch (Exception e)
+			{
+				Console.Error.WriteLine(e);
+				return new string[] {};
+			}
 		}
 
 		string? ExtractTextWithSearchKitAndCoreData(string path)
