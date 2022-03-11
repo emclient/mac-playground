@@ -68,6 +68,8 @@ namespace System.Windows.Forms
 				var items = CreateDraggingItems(view, DraggedData = data);
 				if (items != null && items.Length != 0)
 				{
+					var filter = new DragDropFilter();
+					Application.AddMessageFilter(filter);
 					DraggingAllowedEffects = allowedEffects;
 					DraggingEffects = DragDropEffects.None;
 					try
@@ -81,6 +83,7 @@ namespace System.Windows.Forms
 					{
 						draggingSource.ViewHandle = IntPtr.Zero;
 						draggingSession = null;
+						Application.RemoveMessageFilter(filter);
 					}
 					return DraggingEffects;
 				}
@@ -391,6 +394,16 @@ namespace System.Windows.Forms
 			{
 				driver.ProvideDataForType(pasteboard, item, type);
 				driver.dndCurrentFileIndex += 1;
+			}
+		}
+
+		internal class DragDropFilter : IMessageFilter
+		{
+			public bool PreFilterMessage(ref Message m)
+			{
+				if (m.Msg >= (int)Msg.WM_MOUSEFIRST && m.Msg <= (int)Msg.WM_MOUSELAST)
+					return true;
+				return false;
 			}
 		}
 	}
