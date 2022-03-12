@@ -455,7 +455,7 @@ namespace System.Windows.Forms.CocoaInternal
 		[Export("draggingExited:")]
 		public void DraggingExited(INSDraggingInfo sender)
 		{
-			this.DraggingEnteredInternal(sender);
+			this.DraggingExitedInternal(sender);
 		}
 
 		[Export("draggingEnded:")]
