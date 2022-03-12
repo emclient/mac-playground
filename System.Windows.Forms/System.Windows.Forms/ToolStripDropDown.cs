@@ -1002,6 +1002,8 @@ namespace System.Windows.Forms
 
 		#region Private Methods
 
+		internal Control SourceControlInternal => source_control;
+
 		internal void SetSourceControl(Control control)
 		{
 			source_control = control;
