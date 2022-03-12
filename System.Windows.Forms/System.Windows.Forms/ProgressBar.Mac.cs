@@ -32,6 +32,7 @@ namespace System.Windows.Forms
 
 			indicator.MinValue = minimum;
 			indicator.MaxValue = maximum;
+			indicator.DoubleValue = Math.Max(val, minimum);
 
 			if (style == ProgressBarStyle.Marquee)
 				indicator.StartAnimation(indicator);
