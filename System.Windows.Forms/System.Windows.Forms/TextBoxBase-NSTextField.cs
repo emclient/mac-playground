@@ -368,7 +368,7 @@ namespace System.Windows.Forms
 
 			internal string[] TextFieldGetCompletions(NSControl control, NSTextView textView, string[] words, NSRange charRange, ref nint index)
 			{
-				var prefix = textView.String?.Substring(0, (int)charRange.Location + (int)charRange.Length) ?? String.Empty;
+				var prefix = textView.Value?.Substring(0, (int)charRange.Location + (int)charRange.Length) ?? String.Empty;
 
 				var completions = new List<string>();
 				foreach(string s in owner.auto_complete_custom_source)

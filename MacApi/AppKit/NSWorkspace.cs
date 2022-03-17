@@ -36,7 +36,7 @@ namespace MacApi.AppKit
 				var options = NSWorkspaceLaunchOptions.Default;
 				var arguments = NSArray.FromStrings(args);
 				var configuration = NSDictionary.FromObjectAndKey(arguments, NSWorkspace.LaunchConfigurationArguments);
-				application = NSWorkspace.SharedWorkspace.OpenURL(url, options, configuration, out error);
+				application = NSWorkspace.SharedWorkspace.OpenUrl(url, options, configuration, out error);
 			}
 
 			if (error != null)

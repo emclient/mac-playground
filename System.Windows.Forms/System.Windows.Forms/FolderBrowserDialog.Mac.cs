@@ -39,7 +39,7 @@ namespace System.Windows.Forms
 				if (!String.IsNullOrWhiteSpace(SelectedPath) && System.IO.Directory.Exists(SelectedPath) && IsSubfolderOf(SelectedPath, RootFolder))
 					panel.DirectoryUrl = NSUrl.FromFilename(SelectedPath);
 
-				if (NSPanelButtonType.Ok != (NSPanelButtonType)(int)panel.RunModal())
+				if (NSModalResponse.OK != (NSModalResponse)(int)panel.RunModal())
 					return false;
 
 				SelectedPath = panel.Url.Path;

@@ -3,6 +3,8 @@ using AppKit;
 using PrintCore;
 using CoreFoundation;
 using CoreGraphics;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace System.Drawing.Printing
 {
@@ -34,8 +36,8 @@ namespace System.Drawing.Printing
 			var printInfo = document.DefaultPageSettings.print_info;
 			printInfo.Printer = NSPrinter.PrinterWithName(document.PrinterSettings.PrinterName);
 
-			sessionHandle = printInfo.GetPMPrintSession();
-			var result = PMSessionBeginCGDocumentNoDialog(sessionHandle, printSettings.Handle, printInfo.GetPMPageFormat());
+			sessionHandle = GetPMPrintSession(printInfo);
+			var result = PMSessionBeginCGDocumentNoDialog(sessionHandle, printSettings.Handle, GetPMPageFormat(printInfo));
 		}
 
 		public override void OnEndPrint(PrintDocument document, PrintEventArgs e)
@@ -47,13 +49,27 @@ namespace System.Drawing.Printing
 		{
 			var result = PMSessionBeginPageNoDialog(
 				sessionHandle,
-				e.PageSettings == null || e.PageSettings == document.DefaultPageSettings ? IntPtr.Zero : e.PageSettings.print_info.GetPMPageFormat(),
+				e.PageSettings == null || e.PageSettings == document.DefaultPageSettings ? IntPtr.Zero : GetPMPageFormat(e.PageSettings.print_info),
 				IntPtr.Zero);
 			IntPtr contextHandle;
 			PMSessionGetCGGraphicsContext(sessionHandle, out contextHandle);
 			CGContext context = (CGContext)Activator.CreateInstance(typeof(CGContext), new object?[] { contextHandle });
 			e.SetGraphics(new Graphics(context, false));
 			return e.Graphics;
+		}
+
+		private static IntPtr GetPMPrintSession(NSPrintInfo printInfo)
+		{
+			var m = printInfo.GetType().GetMethod("GetPMPrintSession", BindingFlags.Instance | BindingFlags.NonPublic);
+			Debug.Assert(m != null);
+			return m == null ? IntPtr.Zero : (IntPtr)m.Invoke(printInfo, Array.Empty<object>());
+		}
+
+		private static IntPtr GetPMPageFormat(NSPrintInfo printInfo)
+		{
+			var m = printInfo.GetType().GetMethod("GetPMPageFormat", BindingFlags.Instance | BindingFlags.NonPublic);
+			Debug.Assert(m != null);
+			return m == null ? IntPtr.Zero : (IntPtr)m.Invoke(printInfo, Array.Empty<object>());
 		}
 
 		public const string PrintCoreLibrary = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/PrintCore.framework/PrintCore";

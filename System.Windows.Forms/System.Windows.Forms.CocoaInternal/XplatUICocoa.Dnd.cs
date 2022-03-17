@@ -327,7 +327,7 @@ namespace System.Windows.Forms
 			var resized = new NSImage(size);
 			resized.LockFocus();
 			NSGraphicsContext.CurrentContext.ImageInterpolation = NSImageInterpolation.High;
-			image.DrawInRect(new CGRect(0, 0, size.Width, size.Height), new CGRect(CGPoint.Empty, image.Size), NSCompositingOperation.Copy, 1.0f);
+			image.Draw(new CGRect(0, 0, size.Width, size.Height), new CGRect(CGPoint.Empty, image.Size), NSCompositingOperation.Copy, 1.0f);
 			resized.UnlockFocus();
 			return resized;
 		}

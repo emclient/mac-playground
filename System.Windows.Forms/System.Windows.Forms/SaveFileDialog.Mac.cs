@@ -57,7 +57,7 @@ namespace System.Windows.Forms
 					if (!String.IsNullOrWhiteSpace(FileName))
 						panel.NameFieldStringValue = AdjustExtensionToMatchFilter(FileName, panel.AllowedFileTypes);
 
-					if (NSPanelButtonType.Ok != (NSPanelButtonType)(int)panel.RunModal())
+					if (NSModalResponse.OK != (NSModalResponse)(int)panel.RunModal())
 						return false;
 
 					FileName = SelectedPath = panel.Url.Path;

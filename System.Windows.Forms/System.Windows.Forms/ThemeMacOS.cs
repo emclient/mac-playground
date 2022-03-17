@@ -1435,7 +1435,7 @@ namespace System.Windows.Forms
 		#region ListBox
 
 		// Background color of the active (focused) highlited item in lists (not text)
-		Color? colorHighlightItem = typeof(NSColor).RespondsToSelector("selectedContentBackgroundColor") ? NSColor.SelectedContentBackgroundColor.ToSDColor() : (Color?)null;
+		Color? colorHighlightItem = typeof(NSColor).RespondsToSelector("selectedContentBackgroundColor") ? NSColor.SelectedContentBackground.ToSDColor() : (Color?)null;
 
 		internal virtual Color ColorHighlightItem
 		{
@@ -1444,7 +1444,7 @@ namespace System.Windows.Forms
 		}
 
 		// Background color of the inactive (not focused) highlited item in lists (not text)
-		Color? colorInactiveHighlightItem = typeof(NSColor).RespondsToSelector("unemphasizedSelectedContentBackgroundColor") ? NSColor.UnemphasizedSelectedContentBackgroundColor.ToSDColor() : (Color?)null;
+		Color? colorInactiveHighlightItem = typeof(NSColor).RespondsToSelector("unemphasizedSelectedContentBackgroundColor") ? NSColor.UnemphasizedSelectedContentBackground.ToSDColor() : (Color?)null;
 
 		internal virtual Color ColorInactiveHighlightItem
 		{
@@ -2578,7 +2578,7 @@ namespace System.Windows.Forms
 			var r = rectangle.ToRectangleF();
 			r.Width -= 1; r.Height -= 1;
 			var circle_color = typeof(NSColor).GetClass().RespondsToSelector(new ObjCRuntime.Selector("controlAccentColor"))
-				? NSColor.ControlAccentColor.ToSDColor() : Color.FromArgb(10, 96, 254);
+				? NSColor.ControlAccent.ToSDColor() : Color.FromArgb(10, 96, 254);
 			using (Pen pen = new Pen(circle_color, strokeWidth))
 				dc.DrawRoundRect(pen, r, cornerRadius);
 		}

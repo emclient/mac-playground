@@ -264,7 +264,7 @@ namespace System.Windows.Forms
 			NSGraphicsContext.CurrentContext.ImageInterpolation = NSImageInterpolation.High;
 			var dstRect = new CGRect (icon.Size.Width / 2, 0, icon.Size.Width / 2, icon.Size.Height / 2);
 			var srcRect = new CGRect (0, 0, badge.Size.Width, badge.Size.Height);
-			badge.DrawInRect (dstRect, srcRect, NSCompositingOperation.SourceOver, 1.0f);
+			badge.Draw (dstRect, srcRect, NSCompositingOperation.SourceOver, 1.0f);
 			result.UnlockFocus ();
 			return result;
 		}

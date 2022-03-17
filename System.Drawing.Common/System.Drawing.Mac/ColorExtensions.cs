@@ -63,7 +63,7 @@ namespace System.Drawing.Mac
 					case KnownColor.ControlLight: return NSColor.ControlHighlight;
 					case KnownColor.ControlLightLight: return NSColor.ControlBackground;
 					// KnownColor.Desktop
-					case KnownColor.GrayText: return NSColor.SystemGrayColor;
+					case KnownColor.GrayText: return NSColor.SystemGray;
 					case KnownColor.Highlight: return NSColor.SelectedTextBackground;
 					case KnownColor.HighlightText: return NSColor.SelectedText;
 					// KnownColor.HotTrack
