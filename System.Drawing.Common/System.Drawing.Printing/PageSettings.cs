@@ -108,8 +108,10 @@ namespace System.Drawing.Printing {
 			get { return paper_size; }
 			set {
 				paper_size = value;
+				var orientation = print_info.Orientation;
 				print_info.PaperName = paper_size.PaperName;
 				print_info.PaperSize = new CGSize(paper_size.Width, paper_size.Height);
+				print_info.Orientation = orientation; // Needs to be restored after changing paper name/size
 			}
 		}
 
