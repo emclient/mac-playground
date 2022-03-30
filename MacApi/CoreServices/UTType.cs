@@ -28,7 +28,15 @@ namespace MacApi.CoreServices
 
         public bool ConformsTo(UTType type)
         {
-            return UTTypeConformsTo(Handle(identifier), Handle(type.Identifier));
+			var me = CFString.CreateNative(identifier);
+			var other = CFString.CreateNative(type.Identifier);
+
+			var ret = UTTypeConformsTo(me, other);
+
+			CFString.ReleaseNative(me);
+			CFString.ReleaseNative(other);
+
+            return ret;
         }
 
         public string? PreferredExtension => GetPreferredTag(identifier!, UTTypes.kUTTagClassFilenameExtension);
@@ -39,19 +47,30 @@ namespace MacApi.CoreServices
         // typeWithTag:tagClass:conformingToType:
 		public static UTType? GetType(string tagClass, string tag, string? conformingToUti)
 		{
-            var handle = UTTypeCreatePreferredIdentifierForTag(Handle(tagClass), Handle(tag), Handle(conformingToUti));
-		    return handle != IntPtr.Zero ? new UTType(CFString.FromHandle(handle)) : null;
+			var hclass = CFString.CreateNative(tagClass);
+            var htag = CFString.CreateNative(tag);
+            var huti = CFString.CreateNative(conformingToUti);
+
+            var handle = UTTypeCreatePreferredIdentifierForTag(hclass, htag, huti);
+
+			CFString.ReleaseNative(hclass);
+            CFString.ReleaseNative(htag);
+            CFString.ReleaseNative(huti);
+
+            return UTType.CreateFromIdentifier(CFString.FromHandle(handle, true));
 		}
 
 		internal static string? GetPreferredTag(string identifier, string tagClass)
 		{
-            var handle = UTTypeCopyPreferredTagWithClass(Handle(identifier), Handle(tagClass));
-			return CFString.FromHandle(handle);
-		}
+			var hid = CFString.CreateNative(identifier);
+			var hclass = CFString.CreateNative(tagClass);
 
-		internal static IntPtr Handle(string s)
-		{
-			return s != null ? ((NSString)s).Handle : IntPtr.Zero;
+            var handle = UTTypeCopyPreferredTagWithClass(hid, hclass);
+
+			CFString.ReleaseNative(hid);
+			CFString.ReleaseNative(hclass);
+            
+            return CFString.FromHandle(handle, true);
 		}
 
         public override string ToString()
