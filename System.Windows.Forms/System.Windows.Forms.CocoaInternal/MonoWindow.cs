@@ -72,17 +72,23 @@ namespace System.Windows.Forms.CocoaInternal
 			if (ok)
 			{
 				var c = XplatUICocoa.GetHandle(next);
-				if (prevFocus != c && !(next is MonoWindow))
+				if (prevFocus != c)
 				{
 					if (prevFocus != IntPtr.Zero)
 						driver.SendMessage(prevFocus, Msg.WM_KILLFOCUS, c, IntPtr.Zero);
 
-					// If sending WM_SETFOCUS causes another immediate change of focus, we need to have prevFocus updated
-					var oldPrefFocus = prevFocus;
-					prevFocus = c;
+					if (next is not MonoWindow) {
+						// If sending WM_SETFOCUS causes another immediate change of focus, we need to have prevFocus updated
+						var oldPrefFocus = prevFocus;
+						prevFocus = c;
 
-					if (c != IntPtr.Zero)
-						driver.SendMessage(c, Msg.WM_SETFOCUS, oldPrefFocus, IntPtr.Zero);
+						if (c != IntPtr.Zero)
+							driver.SendMessage(c, Msg.WM_SETFOCUS, oldPrefFocus, IntPtr.Zero);
+					}
+					else 
+					{
+						prevFocus = IntPtr.Zero; // We only killed the focus
+					}
 				}
 				else
 				{
