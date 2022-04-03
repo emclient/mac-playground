@@ -29,42 +29,44 @@ namespace System.Windows.Forms
 
 			public virtual NSView CreateView()
 			{
-				var text = owner.Text;
-				scrollView = new NSScrollView(owner.Bounds.ToCGRect());
+				if (textView == null)
+				{
+					var text = owner.Text;
+					scrollView = new NSScrollView(owner.Bounds.ToCGRect());
 
-				var contentSize = scrollView.ContentSize;
-				textView = new NSTextView(new CGRect(0, 0, contentSize.Width, contentSize.Height));
-				//textView.MinSize = new CGSize(MinimumSize.Width, MinimumSize.Height);
-				//textView.MaxSize = new CGSize(MaximumSize.Width, MaximumSize.Height);
-				textView.VerticallyResizable = true;
-				textView.HorizontallyResizable = true;
-				textView.AutoresizingMask = NSViewResizingMask.WidthSizable | NSViewResizingMask.HeightSizable;
-				textView.TextContainer.ContainerSize = new CGSize(contentSize.Width, float.MaxValue);
-				textView.TextContainer.WidthTracksTextView = true;
-				textView.RichText = owner.richtext;
-				textView.ShouldUpdateTouchBarItemIdentifiers = TextViewUpdateTouchBarItemIdentifiers;
+					var contentSize = scrollView.ContentSize;
+					textView = new NSTextView(new CGRect(0, 0, contentSize.Width, contentSize.Height));
+					//textView.MinSize = new CGSize(MinimumSize.Width, MinimumSize.Height);
+					//textView.MaxSize = new CGSize(MaximumSize.Width, MaximumSize.Height);
+					textView.VerticallyResizable = true;
+					textView.HorizontallyResizable = true;
+					textView.AutoresizingMask = NSViewResizingMask.WidthSizable | NSViewResizingMask.HeightSizable;
+					textView.TextContainer.ContainerSize = new CGSize(contentSize.Width, float.MaxValue);
+					textView.TextContainer.WidthTracksTextView = true;
+					textView.RichText = owner.richtext;
+					textView.ShouldUpdateTouchBarItemIdentifiers = TextViewUpdateTouchBarItemIdentifiers;
 
-				if (NSProcessInfo.ProcessInfo.IsOperatingSystemAtLeastVersion(new NSOperatingSystemVersion(10,12,1)))
-					textView.AutomaticTextCompletionEnabled = true;
-				
-				textView.LinkClicked = TextViewLinkClicked;
+					if (NSProcessInfo.ProcessInfo.IsOperatingSystemAtLeastVersion(new NSOperatingSystemVersion(10,12,1)))
+						textView.AutomaticTextCompletionEnabled = true;
+					
+					textView.LinkClicked = TextViewLinkClicked;
 
-				textView.TextDidChange += TextViewTextDidChange;
-				textView.DoCommandBySelector = TextViewDoCommandBySelector;
-				textView.AllowsUndo(true);
+					textView.TextDidChange += TextViewTextDidChange;
+					textView.DoCommandBySelector = TextViewDoCommandBySelector;
+					textView.AllowsUndo(true);
 
-				scrollView.DocumentView = textView;
+					scrollView.DocumentView = textView;
 
-				ApplyBorderStyle(owner.BorderStyle);
-				ApplyForeColor(owner.ForeColor, owner.forecolor_set);
-				ApplyBackColor(owner.BackColor, owner.backcolor_set);
-				ApplyAlignment(owner.alignment);
-				ApplyFont(owner.Font);
-				ApplyScrollbars(owner.scrollbars);
-				ApplyReadOnly(owner.read_only);
-				ApplyEnabled(owner.Enabled);
-				ApplyText(text);
-
+					ApplyBorderStyle(owner.BorderStyle);
+					ApplyForeColor(owner.ForeColor, owner.forecolor_set);
+					ApplyBackColor(owner.BackColor, owner.backcolor_set);
+					ApplyAlignment(owner.alignment);
+					ApplyFont(owner.Font);
+					ApplyScrollbars(owner.scrollbars);
+					ApplyReadOnly(owner.read_only);
+					ApplyEnabled(owner.Enabled);
+					ApplyText(text);
+				}
 				return scrollView;
 			}
 
@@ -356,6 +358,14 @@ namespace System.Windows.Forms
 				if (textView != null && textView.Window.FirstResponder == textView)
 					NSApplication.SharedApplication.SendAction(new Selector("redo:"), textView, NSApplication.SharedApplication);
 				return true;
+			}
+
+			public Point GetPositionFromCharIndex(int index)
+			{
+				CreateView();
+				var range = textView.LayoutManager.GetGlyphRange(new NSRange(index, 1), out NSRange _);
+				var rect = textView.LayoutManager.GetBoundingRect(range, textView.TextContainer);
+				return rect.Location.ToSDPoint();
 			}
 
 			// Delegate ------------

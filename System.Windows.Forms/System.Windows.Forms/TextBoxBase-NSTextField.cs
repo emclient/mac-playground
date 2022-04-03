@@ -28,35 +28,37 @@ namespace System.Windows.Forms
 
 			public virtual NSView CreateView()
 			{
-				text = owner.Text;
-				var size = owner.Bounds.Size;
-
-				using (var restore = new NSControlSetCellClass(typeof(NSTextField), typeof(TextFieldCell)))
-					textField = new TextField(new CGRect(0, 0, size.Width, size.Height));
-
-				textField.TextShouldBeginEditing = TextFieldShouldBeginEditing;
-				textField.Changed += TextFieldChanged;
-				textField.DoCommandBySelector = DoCommandBySelector;
-				textField.GetCompletions = TextFieldGetCompletions;
-				textField.Formatter = formatter = new Formatter(this);
-				textField.UsesSingleLineMode = true;
-				if (textField.Cell is NSTextFieldCell cell)
+				if (textField == null)
 				{
-					// This is what makes the field really "single-line" - with horizontal scrolling.
-					cell.Wraps = false;
-					cell.Scrollable = true;
+					text = owner.Text;
+					var size = owner.Bounds.Size;
+
+					using (var restore = new NSControlSetCellClass(typeof(NSTextField), typeof(TextFieldCell)))
+						textField = new TextField(new CGRect(0, 0, size.Width, size.Height));
+
+					textField.TextShouldBeginEditing = TextFieldShouldBeginEditing;
+					textField.Changed += TextFieldChanged;
+					textField.DoCommandBySelector = DoCommandBySelector;
+					textField.GetCompletions = TextFieldGetCompletions;
+					textField.Formatter = formatter = new Formatter(this);
+					textField.UsesSingleLineMode = true;
+					if (textField.Cell is NSTextFieldCell cell)
+					{
+						// This is what makes the field really "single-line" - with horizontal scrolling.
+						cell.Wraps = false;
+						cell.Scrollable = true;
+					}
+
+					ApplyBorderStyle(owner.BorderStyle);
+					ApplyForeColor(owner.ForeColor, owner.forecolor_set);
+					ApplyBackColor(owner.BackColor, owner.backcolor_set);
+					ApplyAlignment(owner.alignment);
+					ApplyFont(owner.Font);
+					ApplyScrollbars(owner.scrollbars);
+					ApplyReadOnly(owner.read_only);
+					ApplyEnabled(owner.is_enabled);
+					ApplyText(text);
 				}
-
-				ApplyBorderStyle(owner.BorderStyle);
-				ApplyForeColor(owner.ForeColor, owner.forecolor_set);
-				ApplyBackColor(owner.BackColor, owner.backcolor_set);
-				ApplyAlignment(owner.alignment);
-				ApplyFont(owner.Font);
-				ApplyScrollbars(owner.scrollbars);
-				ApplyReadOnly(owner.read_only);
-				ApplyEnabled(owner.is_enabled);
-				ApplyText(text);
-
 				return textField;
 			}
 
@@ -284,6 +286,31 @@ namespace System.Windows.Forms
 			public virtual bool Redo()
 			{
 				return SendActionToTextView("redo:");
+			}
+
+			public Point GetPositionFromCharIndex(int index)
+			{
+				CreateView();
+				
+				// TODO: Cache these helper objects if this method is going to be called often.
+				var bounds = textField.Cell.TitleRectForBounds(textField.Bounds);
+				using var container = new NSTextContainer();
+				using var manager = new NSLayoutManager();
+				using var storage = new NSTextStorage();
+				manager.AddTextContainer(container);
+				storage.AddLayoutManager(manager);
+				container.LineFragmentPadding = 2;
+				manager.TypesetterBehavior = NSTypesetterBehavior.Specific_10_2_WithCompatibility;
+
+				container.ContainerSize = bounds.Size;
+				storage.BeginEditing();
+				storage.SetString(textField.AttributedStringValue);
+				storage.EndEditing();
+
+				var range = manager.GetGlyphRange(new NSRange(index, 1), out NSRange _);
+				var rect = manager.GetBoundingRect(range, container);
+
+				return rect.Location.ToSDPoint();
 			}
 
 			internal virtual void ApplyText(string value)

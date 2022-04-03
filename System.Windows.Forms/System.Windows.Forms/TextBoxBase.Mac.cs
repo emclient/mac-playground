@@ -678,8 +678,7 @@ namespace System.Windows.Forms
 
 		public virtual Point GetPositionFromCharIndex(int index)
 		{
-			NotImplemented(MethodBase.GetCurrentMethod(), index);
-			return Point.Empty;
+			return imp.GetPositionFromCharIndex(index);
 		}
 
 		public int GetFirstCharIndexFromLine(int lineNumber)
@@ -1146,6 +1145,8 @@ namespace System.Windows.Forms
 		int SelectionLength { get; }
 		void Select(int start, int length);
 		Color SelectionColor { get; set; }
+
+		Point GetPositionFromCharIndex(int index);
 	}
 
 	internal class TextBoxBase_Dummy : ITextBoxBaseImp
@@ -1182,5 +1183,11 @@ namespace System.Windows.Forms
 		public int SelectionLength { get; }
 		public void Select(int start, int length) { }
 		public Color SelectionColor { get; set; }
+
+		public Point GetPositionFromCharIndex(int index)
+		{
+			//NotImplemented(MethodBase.GetCurrentMethod(), index);
+			return Point.Empty;
+		}
 	}
 }
