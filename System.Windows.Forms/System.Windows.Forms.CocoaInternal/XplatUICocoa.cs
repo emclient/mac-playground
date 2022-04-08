@@ -1978,13 +1978,18 @@ namespace System.Windows.Forms {
 				RequestNCRecalc (handle);
 		}
 
-		internal override void SetWindowMinMax (IntPtr handle, Rectangle maximized, Size min, Size max) {
-			NSView vuWrap = handle.ToNSView();
-			vuWrap.Window.MinSize = min.ToCGSize();
-			if (max.IsEmpty)
-				vuWrap.Window.MaxSize = new CGSize(float.MaxValue, float.MaxValue);
-			else
-				vuWrap.Window.MaxSize = max.ToCGSize();
+		internal override void SetWindowMinMax (IntPtr handle, Rectangle maximized, Size min, Size max)
+		{
+			NSWindow window = handle.ToNSView().Window;
+			window.MinSize = min.ToCGSize();
+			CGSize cax = max.IsEmpty ? new CGSize(float.MaxValue, float.MaxValue) : max.ToCGSize();
+			window.MaxSize = cax;
+
+			CGRect frame = window.Frame;
+			if (cax.Width < frame.Size.Width || cax.Height < frame.Size.Height) {
+				frame.Size = new CGSize((float)Math.Min(frame.Size.Width, cax.Width), (float)Math.Min(frame.Size.Height, cax.Height));
+				window.SetFrame(frame, false);
+			}
 		}
 
 		internal override void SetWindowPos (IntPtr handle, int x, int y, int width, int height)
