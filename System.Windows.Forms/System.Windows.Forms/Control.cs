@@ -2466,22 +2466,28 @@ namespace System.Windows.Forms
 						typeof (DockStyle));
 				}
 
-				dock_style = value;
-				anchor_style = AnchorStyles.Top | AnchorStyles.Left;
+				SuspendLayout();
 
-				if (dock_style == DockStyle.None) {
-					bounds = explicit_bounds;
-				} else {
-					bounds = explicit_bounds;
+				try {
+					dock_style = value;
+					anchor_style = AnchorStyles.Top | AnchorStyles.Left;
+
+					if (dock_style == DockStyle.None) {
+						SetBoundsInternal (explicit_bounds.Left, explicit_bounds.Top, explicit_bounds.Width, explicit_bounds.Height, BoundsSpecified.None);
+					} else {
+						SetBoundsInternal (explicit_bounds.Left, explicit_bounds.Top, explicit_bounds.Width, explicit_bounds.Height, BoundsSpecified.All);
+					}
+
+					if (parent != null) {
+						parent.LayoutEngine.InitLayout (this, BoundsSpecified.None);
+						parent.PerformLayout (this, "Dock");
+					}
+
+					OnDockChanged(EventArgs.Empty);
 				}
-
-				if (parent != null) {
-					parent.LayoutEngine.InitLayout (this, BoundsSpecified.None);
-					parent.PerformLayout (this, "Dock");
-				} else if (Controls.Count > 0)
-					PerformLayout ();
-
-				OnDockChanged(EventArgs.Empty);
+				finally {
+					ResumeLayout();
+				}
 			}
 		}
 
