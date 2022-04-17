@@ -1711,7 +1711,7 @@ namespace System.Windows.Forms {
 		}
 		
 		internal override void SetCursor (IntPtr window, IntPtr cursor) {
-			if (window.ToNSObject() is MonoView vuWrap && vuWrap.Cursor != cursor) {
+			if (window.ToNSObject() is MonoView vuWrap) {
 				vuWrap.Cursor = cursor;
 				if (LastEnteredHwnd == window && (Grab.Hwnd == IntPtr.Zero || Grab.Hwnd == window))
 					OverrideCursor(cursor);
