@@ -18,14 +18,29 @@ namespace FormsTest
 		{
 			base.OnLoad(e);
 
-            var img0 = picturebox2.Image;
-            var img1 = Resources.Providers.ResourceManager.GetObject("Windows Live Hotmail_Small");
-            var img2 = Resources.Providers.Windows_Live_Hotmail_Small;
+            picturebox1.Image = Resources.Providers.iCloud;
+            picturebox2.Image = Resources.Providers.iCloud_Small;
+            picturebox3.Image = Resources.Providers.Windows_Live_Hotmail;
+            picturebox4.Image = Resources.Providers.Windows_Live_Hotmail_Small;
 
-            picturebox3.ImageLocation = null;
-            picturebox3.Image = img1 as Image;
-            picturebox4.Image = img2;
+
 		}
+
+        protected void button1_Click(object sender, EventArgs e)
+        {
+            var wh = new int[] { -1, -1, 0, 0, 1, 1 };
+            for (int i = 0; i < wh.Length; i += 2)
+            {
+                try
+                {
+                    var img = new Bitmap(wh[i], wh[1+i]);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[{wh[i]},{wh[1+i]}] {ex}");
+                }
+            }
+        }
     }
 }
 //image = Resources.Providers.Providers.ResourceManager.GetObject(providerName + """", Resources.Providers.Providers.Culture) as System.Drawing.Bitmap;

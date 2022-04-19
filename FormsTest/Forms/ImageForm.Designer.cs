@@ -51,7 +51,7 @@
 
 			// textbox1
 			this.picturebox1.AutoSize = true;
-            this.picturebox1.Name = "textbox1";
+            this.picturebox1.Name = "picturebox1";
             this.picturebox1.Size = new System.Drawing.Size(100, 100);
 			this.picturebox1.TabIndex = 0;
             this.picturebox1.ImageLocation = "Resources/Hotmail.png";
@@ -60,7 +60,7 @@
 
 			// textbox2
 			this.picturebox2.AutoSize = true;
-			this.picturebox2.Name = "textbox1";
+			this.picturebox2.Name = "picturebox2";
 			this.picturebox2.Size = new System.Drawing.Size(100, 100);
 			this.picturebox2.TabIndex = 1;
             this.picturebox2.ImageLocation = "Resources/Hotmail_Small.png";
@@ -68,7 +68,7 @@
 
 			// textbox3
 			this.picturebox3.AutoSize = true;
-			this.picturebox3.Name = "textbox3";
+			this.picturebox3.Name = "picturebox3";
 			//this.picturebox3.Size = new System.Drawing.Size(100, 100);
 			this.picturebox3.TabIndex = 2;
             //this.picturebox3.ImageLocation = "Resources/iCloud.png";
@@ -76,15 +76,22 @@
 
 			// textbox4
 			this.picturebox4.AutoSize = true;
-			this.picturebox4.Name = "textbox4";
+			this.picturebox4.Name = "picturebox4";
 			this.picturebox4.Size = new System.Drawing.Size(100, 100);
 			this.picturebox4.TabIndex = 3;
             //this.picturebox4.ImageLocation = "Resources/iCloud_Small.png";
             this.picturebox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Normal;
 
-			this.panel1.Controls.Add(picturebox1);			this.panel1.Controls.Add(picturebox2);
+            this.button1 = new System.Windows.Forms.Button();
+            this.button1.AutoSize = true;
+            this.button1.Text = "Push me";
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+
+			this.panel1.Controls.Add(picturebox1);
+			this.panel1.Controls.Add(picturebox2);
 			this.panel1.Controls.Add(picturebox3);
 			this.panel1.Controls.Add(picturebox4);
+			this.panel1.Controls.Add(button1);
 
 			// TextBoxForm
 			this.MinimumSize = new System.Drawing.Size(0, 0);
@@ -111,5 +118,6 @@
         private System.Windows.Forms.PictureBox picturebox2;
         private System.Windows.Forms.PictureBox picturebox3;
         private System.Windows.Forms.PictureBox picturebox4;
+        private System.Windows.Forms.Button button1;
 	}
 }
