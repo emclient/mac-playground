@@ -571,10 +571,13 @@ namespace System.Drawing {
 
 		CGImage NewCGImage(int width, int height, int bitsPerComponent, int bitsPerPixel, int bytesPerRow, CGColorSpace colorSpace, CGBitmapFlags bitmapFlags, CGDataProvider provider, nfloat[] decode, bool shouldInterpolate, CGColorRenderingIntent intent)
 		{
-			var image = new CGImage(width, height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpace, bitmapFlags, dataProvider, decode, shouldInterpolate, intent);
-			if (image == null)
+			try
 			{
-				var e = new ArgumentException("Failed to create CGImage");
+				return new CGImage(width, height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpace, bitmapFlags, dataProvider, decode, shouldInterpolate, intent);
+			}
+			catch (Exception inner)
+			{
+				var e = new ArgumentException("Failed to create CGImage", inner);
 				e.Data["width"] = width;
 				e.Data["height"] = height;
 				e.Data["bitsPerComponent"] = bitsPerComponent;
@@ -586,8 +589,8 @@ namespace System.Drawing {
 				e.Data["decode"] = decode;
 				e.Data["shouldInterpolate"] = shouldInterpolate;
 				e.Data["intent"] = intent;
+				throw e;
 			}
-			return image;
 		}
 
 		internal CGBitmapContext GetRenderableContext()

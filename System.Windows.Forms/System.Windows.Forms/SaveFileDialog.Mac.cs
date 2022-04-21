@@ -35,7 +35,9 @@ namespace System.Windows.Forms
 
 		protected override bool RunDialog(IntPtr hwndOwner)
 		{
-			var currentDirectory = Environment.CurrentDirectory;
+			string currentDirectory = null;
+			try { currentDirectory = Environment.CurrentDirectory; } catch (Exception e) { Console.WriteLine($"Failed to get current directory: {e}"); }
+
 			try
 			{
 				using (var context = new ModalDialogContext())
