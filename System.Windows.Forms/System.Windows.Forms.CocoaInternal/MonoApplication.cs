@@ -67,50 +67,5 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			get { return Application.MessageLoop; }
 		}
-
-		public override NSObject TargetForAction(Selector theAction, NSObject theTarget, NSObject sender)
-		{
-			if (theAction == null)
-				return null;
-
-			if (theTarget != null && theTarget.RespondsToSelector(theAction))
-				return theTarget;
-
-			return base.TargetForAction(theAction, theTarget, sender);
-		}
-
-		public override bool SendAction(Selector theAction, NSObject theTarget, NSObject sender)
-		{
-			if (theAction == null)
-				return false;
-
-			if (base.SendAction(theAction, theTarget, sender))
-				return true;
-
-			// FIXME
-			// The following code should not be necessary, it should have been done by base. What am I missing?
-			// It's here to make autocompletion work properly:
-			// Without this, double clicking a word in a completion list of a text field (initial wizard) does not work.
-
-			if (theAction.Name == "tableAction:") // Prevent crashes when used with certain other selectors.
-			if (theTarget != null && theTarget.RespondsToSelector(theAction))
-			{
-				try
-				{
-					var signature = theTarget.GetMethodSignature(theAction);
-					var invocation = signature.ToInvocation();
-					invocation.Selector = theAction;
-					if (signature.NumberOfArguments > 2)
-						invocation.SetArgument(sender, 2);
-					invocation.Invoke(theTarget);
-					return true;
-				}
-				catch (Exception e)
-				{
-					Console.WriteLine($"Exception in invocation of '{theAction.Name}':{e}");
-				}
-			}
-			return false;
-		}
 	}
 }
