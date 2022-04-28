@@ -3250,41 +3250,11 @@ namespace System.Windows.Forms
 			get {
 				CreateParams create_params = new CreateParams();
 
-				try {
-					create_params.Caption = Text;
-				}
-				catch {
-					create_params.Caption = text;
-				}
-
-				try {
-					create_params.X = Left;
-				}
-				catch {
-					create_params.X = this.bounds.X;
-				}
-
-				try {
-					create_params.Y = Top;
-				}
-				catch {
-					create_params.Y = this.bounds.Y;
-				}
-
-				try {
-					create_params.Width = Width;
-				}
-				catch {
-					create_params.Width = this.bounds.Width;
-				}
-
-				try {
-					create_params.Height = Height;
-				}
-				catch {
-					create_params.Height = this.bounds.Height;
-				}
-
+				create_params.Caption = text;
+				create_params.X = this.bounds.X;
+				create_params.Y = this.bounds.Y;
+				create_params.Width = this.bounds.Width;
+				create_params.Height = this.bounds.Height;
 
 				create_params.ClassName = XplatUI.GetDefaultClassName (GetType ());
 				create_params.ClassStyle = (int)(XplatUIWin32.ClassStyle.CS_OWNDC | XplatUIWin32.ClassStyle.CS_DBLCLKS);
