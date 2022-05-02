@@ -256,7 +256,8 @@ namespace System.Windows.Forms
 			dtfi.CalendarWeekRule = cul.DateTimeFormat.CalendarWeekRule;
 
 			var f = Formatters["f"];
-			dtfi.Calendar = cul.Calendar;
+			
+			dtfi.TrySetCalendar(cul.Calendar, cul.OptionalCalendars);
 			dtfi.DateSeparator = GetDateSeparator();
 			dtfi.TimeSeparator = GetTimeSeparator();
 			dtfi.DayNames = f.StandaloneWeekdaySymbols;
@@ -278,6 +279,31 @@ namespace System.Windows.Forms
 			dtfi.YearMonthPattern = cul.DateTimeFormat.YearMonthPattern;
 
 			return dtfi;
+		}
+
+		static bool TrySetCalendar(this DateTimeFormatInfo info, Calendar current, Calendar[] all)
+		{
+			if (info.TrySetCalendar(current))
+				return true;
+
+			foreach (var calendar in all)
+				if (info.TrySetCalendar(current))
+					return true;
+
+			return false;
+		}
+
+		static bool TrySetCalendar(this DateTimeFormatInfo info, Calendar calendar)
+		{
+			try
+			{
+				info.Calendar = calendar;
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
 		}
 
 		static string[] Append(string[] array, string value)
