@@ -61,16 +61,6 @@ namespace System.Windows.Forms.Mac
 			return (NSString)value;
 		}
 
-		public static NSDate ToNSDate(this DateTime datetime)
-		{
-			return NSDate.FromTimeIntervalSinceReferenceDate((datetime.ToUniversalTime() - reference).TotalSeconds);
-		}
-
-		public static DateTime ToDateTime(this NSDate date)
-		{
-			return reference.AddSeconds(date.SecondsSinceReferenceDate).ToLocalTime();
-		}
-
 		internal static void ToKeyMsg(this NSEvent e, out Msg msg, out IntPtr wParam, out IntPtr lParam)
 		{
 			var key = KeysConverter.GetKeys(e);

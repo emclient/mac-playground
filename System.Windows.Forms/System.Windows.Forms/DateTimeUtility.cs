@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Globalization;
 
 #if MAC
-using System.Windows.Forms.Mac;
 using CoreFoundation;
 using Foundation;
 #endif
@@ -10,7 +9,7 @@ using Foundation;
 namespace System.Windows.Forms
 {
 #if MAC
-	public static class DateTimeUtility
+	static class DateTimeUtility
 	{
 		static object localeDidChangeNotification = NSLocale.Notifications.ObserveCurrentLocaleDidChange(OnLocaleDidChange);
 		static DateTime reference = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
@@ -411,18 +410,18 @@ namespace System.Windows.Forms
 			return ToString(dateTime, null);
 		}
 
-		public static string ToString(DateTime dateTime, string format)
+		public static string ToString(DateTime dateTime, string? format)
 		{
 			if (String.IsNullOrEmpty(format))
 				format = "G";
 
 			if (Formatters.TryGetValue(format, out NSDateFormatter formatter))
-				return formatter.ToString(dateTime.ToNSDate());
+				return formatter.ToString((NSDate)dateTime);
 
 			return ToString(dateTime, format, PreferredCulture);
 		}
 
-		public static string ToString(DateTime dateTime, string format, CultureInfo culture)
+		public static string ToString(DateTime dateTime, string? format, CultureInfo culture)
 		{
 			if (culture.Calendar.MinSupportedDateTime <= dateTime && dateTime <= culture.Calendar.MaxSupportedDateTime)
 				return dateTime.ToString(format, culture);
@@ -435,19 +434,18 @@ namespace System.Windows.Forms
 			return ToString(dateTime);
 		}
 
-		internal static string ToSafeString(this DateTime dateTime, string format)
+		internal static string ToSafeString(this DateTime dateTime, string? format)
 		{
 			return ToString(dateTime, format);
 		}
 
-		public static string ToSafeString(this DateTime dateTime, string format, CultureInfo culture)
+		public static string ToSafeString(this DateTime dateTime, string? format, CultureInfo culture)
 		{
 			return ToString(dateTime, format, culture);
 		}
 	}
-
 #else
-	internal static class DateTimeUtility
+	static class DateTimeUtility
 	{
 		public static CultureInfo PreferredCulture
 		{
@@ -464,12 +462,12 @@ namespace System.Windows.Forms
 			return ToString(dateTime, null);
 		}
 
-		public static string ToString(DateTime dateTime, string format)
+		public static string ToString(DateTime dateTime, string? format)
 		{
 			return ToString(dateTime, format, CultureInfo.CurrentCulture);
 		}
 
-		public static string ToString(DateTime dateTime, string format, CultureInfo culture)
+		public static string ToString(DateTime dateTime, string? format, CultureInfo culture)
 		{
 			if (culture.Calendar.MinSupportedDateTime <= dateTime && dateTime <= culture.Calendar.MaxSupportedDateTime)
 				return dateTime.ToString(format, culture);
@@ -481,12 +479,12 @@ namespace System.Windows.Forms
 			return ToString(dateTime);
 		}
 
-		internal static string ToSafeString(this DateTime dateTime, string format)
+		internal static string ToSafeString(this DateTime dateTime, string? format)
 		{
 			return ToString(dateTime, format);
 		}
 
-		public static string ToSafeString(this DateTime dateTime, string format, CultureInfo culture)
+		public static string ToSafeString(this DateTime dateTime, string? format, CultureInfo culture)
 		{
 			return ToString(dateTime, format, culture);
 		}

@@ -2292,7 +2292,7 @@ namespace System.Windows.Forms
 
 		public DatePickerPopoverController(DateTime initialDate) : base(null, null)
 		{
-			this.initialDate = initialDate.ToNSDate();
+			this.initialDate = (NSDate)initialDate;
 			this.date = this.initialDate;
 		}
 
@@ -2403,7 +2403,7 @@ namespace System.Windows.Forms
 		{
 			if (DateChanged != null)
 			{
-				try { DateChanged(this, new DateRangeEventArgs(date.ToDateTime(), date.ToDateTime())); } 
+				try { DateChanged(this, new DateRangeEventArgs((DateTime)date, (DateTime)date)); } 
 				catch (Exception e) { Diagnostics.Debug.Assert(false, $"Exception in DateChanged user handler: {e}");}
 			}
 		}
