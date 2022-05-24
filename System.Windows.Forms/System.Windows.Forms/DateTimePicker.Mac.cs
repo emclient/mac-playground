@@ -2292,7 +2292,7 @@ namespace System.Windows.Forms
 
 		public DatePickerPopoverController(DateTime initialDate) : base(null, null)
 		{
-			this.initialDate = (NSDate)initialDate;
+			this.initialDate = (NSDate)initialDate.UnspecifiedTo(DateTimeKind.Local);
 			this.date = this.initialDate;
 		}
 
