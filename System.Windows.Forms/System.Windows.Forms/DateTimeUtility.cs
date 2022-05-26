@@ -416,7 +416,7 @@ namespace System.Windows.Forms
 				format = "G";
 
 			if (Formatters.TryGetValue(format, out NSDateFormatter formatter))
-				return formatter.ToString((NSDate)dateTime);
+				return formatter.ToString((NSDate)dateTime.UnspecifiedTo(DateTimeKind.Local));
 
 			return ToString(dateTime, format, PreferredCulture);
 		}
@@ -442,6 +442,11 @@ namespace System.Windows.Forms
 		public static string ToSafeString(this DateTime dateTime, string? format, CultureInfo culture)
 		{
 			return ToString(dateTime, format, culture);
+		}
+
+		public static DateTime UnspecifiedTo(this DateTime dateTime, DateTimeKind kind)
+		{
+			return dateTime.Kind == DateTimeKind.Unspecified ? DateTime.SpecifyKind(dateTime, kind) : dateTime;
 		}
 	}
 #else
