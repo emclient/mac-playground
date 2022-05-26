@@ -89,7 +89,7 @@ namespace System.Windows.Forms
 					{
 						try
 						{
-							var c = CultureInfo.GetCultureInfo($"{locale.LanguageCode}-{locale.ScriptCode}".Replace("zh-Hans", "zh-CN"));
+							var c = CultureInfo.GetCultureInfo($"{locale.LanguageCode}-{locale.ScriptCode}");
 							if (!c.IsNeutralCulture)
 								return preferredCulture = c;
 						}
