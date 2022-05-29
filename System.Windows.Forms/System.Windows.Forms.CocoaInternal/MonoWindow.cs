@@ -135,6 +135,9 @@ namespace System.Windows.Forms.CocoaInternal
 			if (disposed)
 				return;
 
+			if (!IsVisible && theEvent.IsMouse(out var _))
+				return;
+
 			lastEventType = theEvent.Type;
 			currentEvent = theEvent;
 
