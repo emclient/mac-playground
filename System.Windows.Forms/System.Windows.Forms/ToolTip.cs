@@ -697,6 +697,14 @@ namespace System.Windows.Forms {
 
 			Control c = (Control)window;
 			
+			Form form = c.FindForm();
+			if (form == null || form.WindowState == FormWindowState.Minimized)
+			{
+				timer.Stop();
+				state = TipState.Down;
+				return;
+			}
+
 			Point display_point = c.PointToScreen (Point.Empty);
 			display_point.X += point.X;
 			display_point.Y += point.Y;
@@ -853,6 +861,9 @@ namespace System.Windows.Forms {
 			// ShowAlways controls whether the controls in non-active forms
 			// can display its tooltips, even if they are not current active control.
 			if (!show_always && control.FindForm () != Form.ActiveForm)
+				return;
+
+			if (!control.FindForm().Visible)
 				return;
 
 			string text = (string)tooltip_strings[control];
