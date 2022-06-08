@@ -737,6 +737,9 @@ namespace System.Windows.Forms {
 
 			UnhookFormEvents ();
 			tooltip_window.Visible = false;
+
+			// Prevent hidden windows from re-appearing when their owner gets deminiaturized.
+			XplatUI.SetOwner(tooltip_window.Handle, IntPtr.Zero);
 		}
 		#endregion	// Public Instance Methods
 
@@ -820,20 +823,17 @@ namespace System.Windows.Forms {
 
 		private void Form_Resize (object sender, EventArgs e)
 		{
-			Form f = (Form)sender;
-
-			if (f.WindowState == FormWindowState.Minimized)
-				tooltip_window.Visible = false;
+			Hide(active_control);
 		}
 
 		private void Form_Closed (object sender, EventArgs e)
 		{
-			tooltip_window.Visible = false;
+			Hide(active_control);
 		}
 
 		private void Form_Deactivate (object sender, EventArgs e)
 		{
-			tooltip_window.Visible = false;
+			Hide(active_control);
 		}
 
 		internal void Present (Control control, string text)

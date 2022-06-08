@@ -1,7 +1,9 @@
 ﻿﻿using System.Drawing;
+using System.Drawing.Mac;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Windows.Forms.Mac;
 using Foundation;
 using AppKit;
 using ObjCRuntime;
@@ -9,7 +11,6 @@ using NSPoint = CoreGraphics.CGPoint;
 using NSRect = CoreGraphics.CGRect;
 using NSSize = CoreGraphics.CGSize;
 using NSKey = MacApi.AppKit.NSKey;
-using System.Windows.Forms.Mac;
 
 namespace System.Windows.Forms.CocoaInternal
 {
@@ -48,6 +49,8 @@ namespace System.Windows.Forms.CocoaInternal
 			WillStartLiveResize += WindowWillStartLiveResize;
 			DidEndLiveResize += WindowDidEndLiveResize;
 			DidMove += WindowDidMove;
+			DidMiniaturize += WindowDidMiniaturize;
+			DidDeminiaturize += WindowDidDeminiaturize;
 		}
 
 		void UnregisterEventHandlers()
@@ -58,6 +61,8 @@ namespace System.Windows.Forms.CocoaInternal
 			WillStartLiveResize -= WindowWillStartLiveResize;
 			DidEndLiveResize -= WindowDidEndLiveResize;
 			DidMove -= WindowDidMove;
+			DidMiniaturize -= WindowDidMiniaturize;
+			DidDeminiaturize -= WindowDidDeminiaturize;
 		}
 
 		internal virtual void WindowWillClose(object sender, EventArgs e)
@@ -228,7 +233,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 			if (e.Type == NSEventType.LeftMouseDown)
 			{
-				var topLevelParent = IntPtr.Zero; // FIXME
+				var topLevelParent = hitTestControl?.TopLevelControl?.Handle ?? IntPtr.Zero;
 				mouseActivate = (MouseActivate)driver.SendMessage(ContentView.Handle, Msg.WM_MOUSEACTIVATE, topLevelParent, hitTestControlHandle).ToInt32();
 				if (mouseActivate == MouseActivate.MA_NOACTIVATEANDEAT)// || mouseActivate == MouseActivate.MA_ACTIVATEANDEAT)
 					return true;
@@ -408,6 +413,20 @@ namespace System.Windows.Forms.CocoaInternal
 		internal virtual void WindowDidMove(object sender, EventArgs e)
 		{
 			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
+		}
+
+		internal virtual void WindowDidMiniaturize(object sender, EventArgs e)
+		{
+			var size = this.Frame.Size.ToSDSize();
+			var lParam = (IntPtr)((size.Height << 16) | (int)(short)size.Width);
+			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_SIZE, (IntPtr)SIZE.SIZE_MINIMIZED, IntPtr.Zero);
+		}
+
+		internal virtual void WindowDidDeminiaturize(object sender, EventArgs e)
+		{
+			var size = this.Frame.Size.ToSDSize();
+			var lParam = (IntPtr)((size.Height << 16) | (int)(short)size.Width);
+			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_SIZE, (IntPtr)SIZE.SIZE_RESTORED, lParam);
 		}
 
 		protected virtual void OnNcMouseDown(NSEvent e)

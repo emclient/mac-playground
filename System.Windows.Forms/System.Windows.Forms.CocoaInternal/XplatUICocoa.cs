@@ -1903,7 +1903,7 @@ namespace System.Windows.Forms {
 		internal override bool SetOwner (IntPtr hWnd, IntPtr hWndOwner) {
 			// TODO: Handle other cases, where objects are not top level windows but views.
 
-			if (hWnd == IntPtr.Zero || hWndOwner == IntPtr.Zero)
+			if (hWnd == IntPtr.Zero)
 				return false;
 
 			MonoWindow winWrap = hWnd.ToNSView()?.Window as MonoWindow;

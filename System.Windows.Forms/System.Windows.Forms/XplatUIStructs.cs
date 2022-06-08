@@ -1191,4 +1191,19 @@ namespace System.Windows.Forms
 		ATTR_INPUT_ERROR = 4,
 		ATTR_FIXEDCONVERTED = 5,
 	}
+
+	[Flags]
+#if PUBLIC_TYPES
+    public
+#else
+	internal
+#endif
+	enum SIZE
+	{
+		SIZE_MAXHIDE = 4,
+		SIZE_MAXIMIZED = 2,
+		SIZE_MAXSHOW = 3,
+		SIZE_MINIMIZED = 1,
+		SIZE_RESTORED = 0,
+	}
 }

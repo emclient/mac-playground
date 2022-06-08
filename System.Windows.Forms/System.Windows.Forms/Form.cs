@@ -1982,7 +1982,25 @@ namespace System.Windows.Forms {
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected override void DefWndProc(ref Message m) {
-			base.DefWndProc (ref m);
+
+			switch ((Msg)m.Msg) {
+				case Msg.WM_SIZE:
+					WmSize(ref m);
+					break;
+				default:
+					base.DefWndProc (ref m);
+					break;
+			}
+		}
+
+		internal void WmSize(ref Message m)
+		{
+#if MAC
+			// On mac, forms do NOT change their size when minimimized.
+			// However, popups and tooltips relay on it. This is to make them happy and let them hide.
+			OnSizeChanged(EventArgs.Empty);
+			OnClientSizeChanged(EventArgs.Empty);
+#endif
 		}
 
 		protected override void Dispose(bool disposing)
