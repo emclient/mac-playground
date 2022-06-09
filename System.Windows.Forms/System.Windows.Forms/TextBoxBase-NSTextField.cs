@@ -238,15 +238,15 @@ namespace System.Windows.Forms
 
 			public virtual void SelectAll()
 			{
-				if (textField != null)
-					textField.SelectText(textField);
+				if (textField.CurrentEditor is NSText text)
+					text.PerformSelector(new ObjCRuntime.Selector("selectAll:"));
 			}
 
 			public virtual void SelectAllNoScroll()
 			{
 				// FIXME
-				if (textField != null)
-					textField.SelectText(textField);
+				if (textField.CurrentEditor is NSText text)
+					text.PerformSelector(new ObjCRuntime.Selector("selectAll:"));
 			}
 
 			public virtual void Copy()
