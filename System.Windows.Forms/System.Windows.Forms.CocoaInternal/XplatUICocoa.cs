@@ -1981,6 +1981,9 @@ namespace System.Windows.Forms {
 		internal override void SetWindowMinMax (IntPtr handle, Rectangle maximized, Size min, Size max)
 		{
 			NSWindow window = handle.ToNSView().Window;
+			if (window == null)
+				return;
+
 			window.MinSize = min.ToCGSize();
 			CGSize cax = max.IsEmpty ? new CGSize(float.MaxValue, float.MaxValue) : max.ToCGSize();
 			window.MaxSize = cax;
