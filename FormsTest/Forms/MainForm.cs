@@ -147,6 +147,7 @@ namespace FormsTest
 			AddButton("File Descriptors", () => { (fd = new FileDescriptors()).RunTest(); });
 			AddButton("Catch When", () => { CatchWhen.RunTest(); });
 			AddButton("Print Preview", () => { PrintPreview(); });
+			AddButton("AutoSize Form", () => { ShowAutoSizeForm(); });
 		}
 
 		FileDescriptors fd;
@@ -338,5 +339,10 @@ namespace FormsTest
 			return UTType.GetType(tag, tagClass, UTTypes.Data.Identifier).Identifier;
 		}
 	#endif
+
+		public void ShowAutoSizeForm()
+		{
+			new AutoSizeForm().Show();
+		}
 	}
 }
