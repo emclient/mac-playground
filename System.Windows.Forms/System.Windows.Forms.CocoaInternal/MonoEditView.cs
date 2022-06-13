@@ -22,12 +22,11 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 		}
 
-		#region INSTextInputView
+		#region INSTextInputClient
 
-		public virtual bool HasMarkedText
+		public bool HasMarkedText
 		{
 			// Until this returns false, interpretKeyEvents continues to call insertText !
-			[Export("hasMarkedText")]
 			get
 			{
 				var result = markedText.Length != 0;
@@ -36,9 +35,8 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		public virtual NSRange MarkedRange
+		public NSRange MarkedRange
 		{
-			[Export("markedRange")]
 			get
 			{
 				GetSelection(out var start, out var _);
@@ -49,9 +47,8 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		public virtual NSRange SelectedRange
+		public NSRange SelectedRange
 		{
-			[Export("selectedRange")]
 			get
 			{
 				GetSelection(out var start, out var end);
@@ -61,20 +58,17 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		public virtual NSString[] ValidAttributesForMarkedText
+		public NSString[] ValidAttributesForMarkedText
 		{
-			[Export("validAttributesForMarkedText")]
 			get { return validAttributesForMarkedText; }
 		}
 
-		public virtual NSWindowLevel WindowLevel
+		public NSWindowLevel WindowLevel
 		{
-			[Export("windowLevel")]
 			get { return Window?.Level ?? NSWindowLevel.Normal; }
 		}
 
-		[Export("attributedSubstringForProposedRange:actualRange:")]
-		public virtual NSAttributedString GetAttributedSubstring(NSRange proposedRange, out NSRange actualRange)
+		public NSAttributedString GetAttributedSubstring(NSRange proposedRange, out NSRange actualRange)
 		{
 			var text = GetText();
 
@@ -95,15 +89,13 @@ namespace System.Windows.Forms.CocoaInternal
 			return result;
 		}
 
-		[Export("characterIndexForPoint:")]
-		public virtual nuint GetCharacterIndex(CGPoint point)
+		public nuint GetCharacterIndex(CGPoint point)
 		{
 			//Debug.WriteLine($"characterIndexForPoint:{point}");
 			return 0;
 		}
 
-		[Export("firstRectForCharacterRange:actualRange:")]
-		public virtual CGRect GetFirstRect(NSRange characterRange, out NSRange actualRange)
+		public CGRect GetFirstRect(NSRange characterRange, out NSRange actualRange)
 		{
 			actualRange = new NSRange();
 
@@ -121,8 +113,7 @@ namespace System.Windows.Forms.CocoaInternal
 			return Window.ConvertRectToScreen(ConvertRectToView(first, null));
 		}
 
-		[Export("insertText:replacementRange:")]
-		public virtual void InsertText(NSObject text, NSRange replacementRange)
+		public void InsertText(NSObject text, NSRange replacementRange)
 		{
 			//Debug.WriteLine($"insertText:{text}, replacementRange:{replacementRange}");
 
@@ -141,8 +132,7 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		[Export("setMarkedText:selectedRange:replacementRange:")]
-		public virtual void SetMarkedText(NSObject text, NSRange selectedRange, NSRange replacementRange)
+		public void SetMarkedText(NSObject text, NSRange selectedRange, NSRange replacementRange)
 		{
 			//Debug.WriteLine($"setMarkedText:{text}, selectedRange:{selectedRange}, replacementRange:{replacementRange}");
 
@@ -163,8 +153,7 @@ namespace System.Windows.Forms.CocoaInternal
 				Application.SendMessage(Handle, Msg.WM_IME_COMPOSITION, IntPtr.Zero, lParam);
 		}
 
-		[Export("unmarkText")]
-		public virtual void UnmarkText()
+		public void UnmarkText()
 		{
 			markedText = new NSMutableAttributedString();
 		}
@@ -179,7 +168,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		#endregion INSTextInputView
 
-		unsafe public virtual string GetText()
+		unsafe public string GetText()
 		{
 			var length = Math.Max(0, (int)Application.SendMessage(Handle, Msg.WM_GETTEXTLENGTH, IntPtr.Zero, IntPtr.Zero));
 			var buffer = new char[length + 1];
@@ -190,7 +179,7 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		unsafe public virtual void GetSelection(out int from, out int to)
+		unsafe public void GetSelection(out int from, out int to)
 		{
 			var range = new int[] { 0, 0 };
 			fixed (int* start = &range[0], end = &range[1])
