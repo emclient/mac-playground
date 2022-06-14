@@ -286,7 +286,7 @@ namespace System.Windows.Forms
 				return true;
 
 			foreach (var calendar in all)
-				if (info.TrySetCalendar(current))
+				if (info.TrySetCalendar(calendar))
 					return true;
 
 			return false;
