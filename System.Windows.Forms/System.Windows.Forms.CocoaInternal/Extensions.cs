@@ -575,6 +575,7 @@ namespace System.Windows.Forms.Mac
 			var parts = (GetKeysConverter().ConvertToString(keys) ?? "").Split('+');
 			keyEquivalent = (mods != 0 && parts.Length > 1) ? parts[parts.Length - 1].ToLowerInvariant() : null;
 			keyEquivalent = keyEquivalent?.KeysAsStringToSymbol();
+
 			return mask != 0 && keyEquivalent != null;
 		}
 
@@ -683,9 +684,51 @@ namespace System.Windows.Forms.Mac
 			"End", "↘",
 			"Space", "␣",
 			"Left", "←",
-			 "Up", "↑",
-			 "Right", "→",
-			 "Down", "↓",
+			"Up", "↑",
+			"Right", "→",
+			"Down", "↓",
+
+			"PrintScreen", "0xF72E",
+			"Insert", "0xF727",
+			"Execute", "0xF742",
+			"Help", "0xF746",
+			"Scroll", "0xF72F",
+
+			 "F1", "\xF704",
+			 "F2", "\xF705",
+			 "F3", "\xF706",
+			 "F4", "\xF707",
+			 "F5", "\xF708",
+			 "F6", "\xF709",
+			 "F7", "\xF70A",
+			 "F8", "\xF70B",
+			 "F9", "\xF70C",
+			 "F10", "\xF70D",
+			 "F11", "\xF70E",
+			 "F12", "\xF70F",
+			 "F13", "\xF710",
+			 "F14", "\xF711",
+			 "F15", "\xF712",
+			 "F16", "\xF713",
+			 "F17", "\xF714",
+			 "F18", "\xF715",
+			 "F19", "\xF716",
+			 "F20", "\xF717",
+			 "F21", "\xF718",
+			 "F22", "\xF719",
+			 "F23", "\xF71A",
+			 "F24", "\xF71B",
+			 "F25", "\xF71C",
+			 "F26", "\xF71D",
+			 "F27", "\xF71E",
+			 "F28", "\xF71F",
+			 "F29", "\xF720",
+			 "F30", "\xF721",
+			 "F31", "\xF722",
+			 "F32", "\xF723",
+			 "F33", "\xF724",
+			 "F34", "\xF725",
+			 "F35", "\xF726",
 		};
 
 		public static int GetUnicodeStringLength(this byte[] self, int max = -1)
