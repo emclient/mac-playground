@@ -20,6 +20,24 @@
             }
         },
         {
+            "label": "build (arm64)",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/FormsTest/FormsTest.csproj",
+                "/p:RuntimeIdentifiers=osx-arm64",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "MSBUILDENSURESTDOUTFORTASKPROCESSES": "1"
+                }
+            }
+        },
+        {
             "label": "publish",
             "command": "dotnet",
             "type": "process",

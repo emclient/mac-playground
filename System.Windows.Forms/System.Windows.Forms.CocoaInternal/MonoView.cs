@@ -180,11 +180,9 @@ namespace System.Windows.Forms.CocoaInternal
 
 		internal void SendWindowPosChanged(CGSize newSize, bool force = false)
 		{
-			if (!flags.HasFlag(Flags.InCreateWindow) || force)
-			{
-				PerformNCCalc(newSize);
-				driver.SendMessage(Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
-			}
+			// Formerly guarded by (why?): if (!flags.HasFlag(Flags.InCreateWindow) || force)
+			PerformNCCalc(newSize);
+			driver.SendMessage(Handle, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		public override bool Hidden

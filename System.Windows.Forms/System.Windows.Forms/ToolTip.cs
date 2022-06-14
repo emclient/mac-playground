@@ -739,7 +739,8 @@ namespace System.Windows.Forms {
 			tooltip_window.Visible = false;
 
 			// Prevent hidden windows from re-appearing when their owner gets deminiaturized.
-			XplatUI.SetOwner(tooltip_window.Handle, IntPtr.Zero);
+			if (tooltip_window.IsHandleCreated)
+				XplatUI.SetOwner(tooltip_window.Handle, IntPtr.Zero);
 		}
 		#endregion	// Public Instance Methods
 
