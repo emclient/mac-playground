@@ -319,6 +319,25 @@ namespace System.Windows.Forms
 			p = ReplaceNotQuoted(p, "E", "ddd");
 			p = ReplaceNotQuoted(p, "a", "tt");
 			p = ReplaceNotQuoted(p, 'y', "yyyy");
+			p = ReplaceNotQuoted(p, "GGGGG", "gg");
+			p = ReplaceNotQuoted(p, "G", "g");
+			return p;
+		}
+
+		static string DateTimePatternToNative(string p)
+		{
+			p = ReplaceNotQuoted(p, "dddd", "EEEE");
+			p = ReplaceNotQuoted(p, "ddd", "E");
+			p = ReplaceNotQuoted(p, "tt", "aa");
+			p = ReplaceNotQuoted(p, "t", "a");
+			p = ReplaceNotQuoted(p, "yyyy", "y");
+			p = ReplaceNotQuoted(p, "gg", "GGGGG");
+			p = ReplaceNotQuoted(p, "g", "G");
+
+			p = ReplaceNotQuoted(p, "mm", "*");
+			p = ReplaceNotQuoted(p, "m", "MMM");
+			p = ReplaceNotQuoted(p, "*", "mm");
+
 			return p;
 		}
 
@@ -355,7 +374,7 @@ namespace System.Windows.Forms
 		{
 			while (true)
 			{
-				string next = DateTimeUtility.ReplaceNotQuoted(s, "y", "");
+				string next = DateTimeUtility.ReplaceNotQuoted(s, what, with);
 				if (s == next)
 					break;
 				s = next;
