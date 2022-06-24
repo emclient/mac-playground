@@ -290,12 +290,12 @@ namespace System.Windows.Forms {
 			cancelButton.Click += new EventHandler (OnClickCancelButton);
 			okButton.Click += new EventHandler (OnClickOkButton);
 			
-			hueTextBox.KeyPress += new KeyPressEventHandler (OnKeyPressTextBoxes);
-			satTextBox.KeyPress += new KeyPressEventHandler (OnKeyPressTextBoxes);
-			briTextBox.KeyPress += new KeyPressEventHandler (OnKeyPressTextBoxes);
-			redTextBox.KeyPress += new KeyPressEventHandler (OnKeyPressTextBoxes);
-			greenTextBox.KeyPress += new KeyPressEventHandler (OnKeyPressTextBoxes);
-			blueTextBox.KeyPress += new KeyPressEventHandler (OnKeyPressTextBoxes);
+			hueTextBox.KeyDown += new KeyEventHandler (OnKeyDownTextBoxes);
+			satTextBox.KeyDown += new KeyEventHandler (OnKeyDownTextBoxes);
+			briTextBox.KeyDown += new KeyEventHandler (OnKeyDownTextBoxes);
+			redTextBox.KeyDown += new KeyEventHandler (OnKeyDownTextBoxes);
+			greenTextBox.KeyDown += new KeyEventHandler (OnKeyDownTextBoxes);
+			blueTextBox.KeyDown += new KeyEventHandler (OnKeyDownTextBoxes);
 			
 			hueTextBox.TextChanged += new EventHandler (OnTextChangedTextBoxes);
 			satTextBox.TextChanged += new EventHandler (OnTextChangedTextBoxes);
@@ -547,13 +547,8 @@ namespace System.Windows.Forms {
 				textbox.Text = textBox_text_old;
 		}
 		
-		void OnKeyPressTextBoxes (object sender, KeyPressEventArgs e)
+		void OnKeyDownTextBoxes (object sender, KeyEventArgs e)
 		{
-			if (Char.IsLetter (e.KeyChar) || Char.IsWhiteSpace (e.KeyChar) || Char.IsPunctuation (e.KeyChar) || e.KeyChar == ',') {
-				e.Handled = true;
-				return; 
-			}
-			
 			internal_textbox_change = true;
 		}
 		
@@ -574,6 +569,13 @@ namespace System.Windows.Forms {
 			
 			string text = tmp_box.Text;
 			
+			var filtered = FilterText(text);
+			if (filtered != text)
+			{
+				(sender as TextBox).Text = filtered;
+				return;
+			}
+
 			int val = 0;
 			
 			try {
@@ -678,6 +680,15 @@ namespace System.Windows.Forms {
 			edit_textbox = null;
 		}
 		
+		internal string FilterText(string text)
+		{
+			var filtered = string.Empty;
+			foreach (var character in text)
+				if (char.IsNumber(character))
+					filtered += character;
+			return filtered;
+		}
+
 		internal void UpdateControls (Color acolor)
 		{
 			selectedColorPanel.BackColor = acolor;
