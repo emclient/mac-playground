@@ -114,7 +114,7 @@ namespace System.Windows.Forms {
 			// hueTextBox
 			hueTextBox.Location = new Point (324, 203);
 			hueTextBox.Size = new Size (27, 21);
-			hueTextBox.TabIndex = 11;
+			hueTextBox.TabIndex = 14;
 			hueTextBox.MaxLength = 3;
 			// satTextBox
 			satTextBox.Location = new Point (324, 225);
@@ -231,11 +231,11 @@ namespace System.Windows.Forms {
 			// baseColorControl
 			baseColorControl.Location = new Point (3, 6);
 			baseColorControl.Size = new Size (212, 231);
-			baseColorControl.TabIndex = 13;
+			baseColorControl.TabStop = false;
 			// colorMatrixControl
 			colorMatrixControl.Location = new Point (227, 7);
 			colorMatrixControl.Size = new Size (179, 190);
-			colorMatrixControl.TabIndex = 14;
+			colorMatrixControl.TabStop = false;
 			// triangleControl
 			triangleControl.Location = new Point (432, 0);
 			triangleControl.Size = new Size (16, 204);
