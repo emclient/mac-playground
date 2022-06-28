@@ -613,15 +613,8 @@ namespace System.Drawing {
 
 			if (bitmapBlock != IntPtr.Zero && (PixelFormat & PixelFormat.Indexed) == 0 && this.NativeCGImage.BitsPerPixel == 32) {
 				try {
-					cachedContext =
-						new CGBitmapContext (
-							bitmapBlock, 
-							this.NativeCGImage.Width,
-							this.NativeCGImage.Height, 
-							this.NativeCGImage.BitsPerComponent,
-							this.NativeCGImage.BytesPerRow,
-							this.NativeCGImage.ColorSpace,
-							this.NativeCGImage.BitmapInfo);
+					CGImage i = this.NativeCGImage;
+					cachedContext = new CGBitmapContext(bitmapBlock, i.Width,i.Height, i.BitsPerComponent, i.BytesPerRow, i.ColorSpace, i.BitmapInfo);
 				}
 				catch (Exception) {
 					InitWithCGImage (NativeCGImage);
@@ -679,16 +672,17 @@ namespace System.Drawing {
 				break;
 			}
 
-			var bytesPerRow = (width * (int)NativeCGImage.BitsPerPixel + 7) / 8;
+			var img = NativeCGImage;
+			var bytesPerRow = (width * (int)img.BitsPerPixel + 7) / 8;
 			var newBitmapBlock = Marshal.AllocHGlobal(height * bytesPerRow);
-			var newBitmapContext = new CGBitmapContext(newBitmapBlock, width, height, NativeCGImage.BitsPerComponent, bytesPerRow, NativeCGImage.ColorSpace, NativeCGImage.AlphaInfo);
+			var newBitmapContext = new CGBitmapContext(newBitmapBlock, width, height, img.BitsPerComponent, bytesPerRow, img.ColorSpace, img.AlphaInfo);
 			newBitmapContext.ConcatCTM(rotateFlip);
-			newBitmapContext.DrawImage(new CGRect(0, 0, NativeCGImage.Width, NativeCGImage.Height), NativeCGImage);
+			newBitmapContext.DrawImage(new CGRect(0, 0, img.Width, img.Height), img);
 			newBitmapContext.Flush();
 
 			// If the width or height is not the seme we need to switch the dpiHeight and dpiWidth
 			// We should be able to get around this with set resolution later.
-			if (NativeCGImage.Width != width || NativeCGImage.Height != height)
+			if (img.Width != width || img.Height != height)
 			{
 				var temp = dpiWidth;
 				dpiHeight = dpiWidth;
