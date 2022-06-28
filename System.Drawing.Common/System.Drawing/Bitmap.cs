@@ -576,7 +576,7 @@ namespace System.Drawing {
 					dirty = false;
 					var i = base.NativeCGImage;
 					if (i != null)
-						base.NativeCGImage =  NewCGImage ((int)i.Width, (int)i.Height, (int)i.BitsPerComponent, (int)i.BitsPerPixel, (int)i.BytesPerRow, i.ColorSpace, i.BitmapInfo, i.DataProvider, null, i.ShouldInterpolate, i.RenderingIntent);
+						base.NativeCGImage = GetRenderableContext().ToImage();
 				}
 				return base.NativeCGImage;
 			}
