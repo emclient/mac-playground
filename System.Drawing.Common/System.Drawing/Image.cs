@@ -64,7 +64,7 @@ namespace System.Drawing {
 
 		// This is obtained from a Bitmap
 		// Right now that is all we support
-		internal CGImage NativeCGImage;
+		private CGImage nativeCGImage;
 		protected ColorPalette palette;
 
 		// This is obtained from a PDF file.  Not supported right now.
@@ -254,7 +254,12 @@ namespace System.Drawing {
 
 		protected virtual void Dispose (bool disposing)
 		{
-			// TODO
+			if (disposing) {
+				if (nativeCGImage != null) {
+					nativeCGImage.Dispose();
+					nativeCGImage = null;
+				}
+			}
 		}
 		
 		public static Image FromStream (Stream stream)
@@ -488,6 +493,16 @@ namespace System.Drawing {
 			Tag = tag;
 		}
 
+		internal virtual CGImage NativeCGImage {
+			get { return nativeCGImage; }
+			set
+			{
+				if (nativeCGImage != value) {
+					nativeCGImage?.Dispose();
+					nativeCGImage = value;
+				}
+			}
+		}
 
 		public void SaveAdd(EncoderParameters encoderParams)
 		{

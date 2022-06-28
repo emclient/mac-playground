@@ -73,6 +73,7 @@ namespace System.Drawing {
 		private CGDataProvider dataProvider;
 		// For images created from PNG, JPEG or other data
 		private CGImageSource imageSource;
+		private bool dirty;
 
 		public Bitmap (string filename)
 			: this (filename, useIcm: false)
@@ -569,6 +570,18 @@ namespace System.Drawing {
 			cachedContext = bitmap;
 		}
 
+		internal override CGImage NativeCGImage {
+			get {
+				if (dirty) {
+					dirty = false;
+					var i = base.NativeCGImage;
+					if (i != null)
+						base.NativeCGImage =  NewCGImage ((int)i.Width, (int)i.Height, (int)i.BitsPerComponent, (int)i.BitsPerPixel, (int)i.BytesPerRow, i.ColorSpace, i.BitmapInfo, i.DataProvider, null, i.ShouldInterpolate, i.RenderingIntent);
+				}
+				return base.NativeCGImage;
+			}
+		}
+
 		CGImage NewCGImage(int width, int height, int bitsPerComponent, int bitsPerPixel, int bytesPerRow, CGColorSpace colorSpace, CGBitmapFlags bitmapFlags, CGDataProvider provider, nfloat[] decode, bool shouldInterpolate, CGColorRenderingIntent intent)
 		{
 			try
@@ -748,11 +761,7 @@ namespace System.Drawing {
 
 		protected override void Dispose (bool disposing)
 		{
-			if (disposing){
-				if (NativeCGImage != null){
-					NativeCGImage.Dispose ();
-					NativeCGImage = null;
-				}
+			if (disposing) {
 				if (dataProvider != null) {
 					dataProvider.Dispose ();
 					dataProvider = null;
@@ -796,8 +805,8 @@ namespace System.Drawing {
 			if (y < 0 || y > NativeCGImage.Height - 1)
 				throw new InvalidEnumArgumentException ("Parameter must be positive and < Height.");
 
-			if (cachedContext == null || cachedContext.Handle == IntPtr.Zero)
-				GetRenderableContext ();
+			dirty = true;
+			GetRenderableContext ();
 
 			// We are going to cheat here by drawing directly to the cached context that is 
 			// associated to the image.  This way we do not have to play with pixels and offsets
@@ -1049,6 +1058,8 @@ namespace System.Drawing {
 			if ((ImageLockMode)data.Reserved == ImageLockMode.ReadOnly)
 				return;
 			
+			dirty = true;
+
 			if (NativeCGImage.BitsPerPixel == 32) {
 				if (!ConversionHelpers.sTablesInitialized)
 					ConversionHelpers.CalculateTables ();
