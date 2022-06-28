@@ -574,9 +574,7 @@ namespace System.Drawing {
 			get {
 				if (dirty) {
 					dirty = false;
-					var i = base.NativeCGImage;
-					if (i != null)
-						base.NativeCGImage = GetRenderableContext().ToImage();
+					base.NativeCGImage = GetRenderableContext().ToImage();
 				}
 				return base.NativeCGImage;
 			}
