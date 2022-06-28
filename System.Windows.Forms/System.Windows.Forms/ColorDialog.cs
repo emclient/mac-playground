@@ -1818,6 +1818,15 @@ namespace System.Windows.Forms {
 				
 				base.OnMouseDown (e);
 			}
+
+			protected override void OnMouseMove (MouseEventArgs e)
+			{
+ 				if (e.Button == MouseButtons.Left && e.Y < 196 && e.Y > 8) {
+					colorDialog.triangleControl.TrianglePosition = (int)((float)(189 - e.Y) * step);
+				}
+
+				base.OnMouseMove (e);
+			}
 			
 			// this one is for ColorMatrixControl
 			public void ShowColor (int hue, int sat)
