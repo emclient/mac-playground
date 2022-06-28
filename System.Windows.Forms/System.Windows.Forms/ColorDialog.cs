@@ -1781,6 +1781,9 @@ namespace System.Windows.Forms {
 			private DrawingBitmap bitmap;
 			
 			private ColorDialog colorDialog = null;
+
+			private bool dirty;
+			private int hue, sat;
 			
 			public BrightnessControl (ColorDialog colorDialog)
 			{
@@ -1807,6 +1810,9 @@ namespace System.Windows.Forms {
 			
 			protected override void OnPaint (PaintEventArgs e)
 			{
+				if (dirty)
+					bitmap.Draw (hue, sat);
+
 				e.Graphics.DrawImage (bitmap.Bitmap, 0, 0);
 				
 				base.OnPaint (e);
@@ -1831,7 +1837,9 @@ namespace System.Windows.Forms {
 			// this one is for ColorMatrixControl
 			public void ShowColor (int hue, int sat)
 			{
-				bitmap.Draw (hue, sat);
+				this.dirty = true;
+				this.hue = hue;
+				this.sat = sat;
 				Invalidate ();
 				Update ();
 			}
@@ -1841,9 +1849,7 @@ namespace System.Windows.Forms {
 				set {
 					int hue, sat;
 					HSB.GetHueSaturation (value, out hue, out sat);
-					bitmap.Draw (hue, sat);
-					Invalidate ();
-					Update ();
+					ShowColor (hue, sat);
 				}
 			}
 		}
