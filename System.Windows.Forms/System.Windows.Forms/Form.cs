@@ -2626,10 +2626,16 @@ namespace System.Windows.Forms {
 			bool cancelled = FireClosingEvents (CloseReason, cancel);
 			if (!cancelled) {
 				if (!last_check || DialogResult != DialogResult.None) {
-					if (mdi_container != null)
-						foreach (Form mdi_child in mdi_container.MdiChildren)
-							mdi_child.FireClosedEvents (CloseReason);
+					if (!is_modal) {
+						if (mdi_container != null)
+							foreach (Form mdi_child in mdi_container.MdiChildren)
+								mdi_child.FireClosedEvents (CloseReason.MdiFormClosing);
 
+						Form[] ownedForms = OwnedForms;
+						for (int i = ownedForms.Length - 1; i >= 0; --i)
+							if (ownedForms[i] != null)
+								ownedForms[i].FireClosedEvents (CloseReason.FormOwnerClosing);
+					}
 					FireClosedEvents (CloseReason);
 				}
 				closing = true;
@@ -2661,10 +2667,25 @@ namespace System.Windows.Forms {
 
 			bool mdi_cancel = false;
 			
-			// Give any MDI children the opportunity to cancel the close
-			if (mdi_container != null)
-				foreach (Form mdi_child in mdi_container.MdiChildren)
-					mdi_cancel = mdi_child.FireClosingEvents (CloseReason.MdiFormClosing, mdi_cancel);
+			if (!is_modal) {
+				// Give any MDI children the opportunity to cancel the close
+				if (mdi_container != null)
+					foreach (Form mdi_child in mdi_container.MdiChildren)
+						mdi_cancel = mdi_child.FireClosingEvents (CloseReason.MdiFormClosing, mdi_cancel);
+
+				// Give any child form the opportunity to cancel the close
+				Form[] ownedForms = this.OwnedForms;
+				for (int i = ownedForms.Length - 1; i >= 0; i--) {
+					FormClosingEventArgs cfe = new FormClosingEventArgs(CloseReason.FormOwnerClosing, mdi_cancel);
+					if (ownedForms[i] != null) {
+						ownedForms[i].OnFormClosing(cfe);
+						if (cfe.Cancel) {
+							mdi_cancel = true;
+							break;
+						}
+					}
+				}
+			}
 
 			bool validate_cancel = false;
 			if (!suppress_closing_events)
