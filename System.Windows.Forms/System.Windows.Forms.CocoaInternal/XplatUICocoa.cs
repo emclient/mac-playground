@@ -1751,11 +1751,12 @@ namespace System.Windows.Forms {
 			else
 			{
 				var view = handle.ToNSView();
-				if (view.Window == null)
+				var window = view?.Window;
+				if (window == null)
 					return;
 
-				if (view != null && keyWindow != view.Window)
-					view.Window.MakeKeyAndOrderFront(view.Window);
+				if (view != null && keyWindow != window)
+					window.MakeKeyAndOrderFront(window);
 
 				// Sometimes the FirstResponder is some deeply nested native view (eg. inside WebView). When the
 				// active window is changed to other one and then back, Form.WmActivate tries to restore focus to the
@@ -1763,7 +1764,7 @@ namespace System.Windows.Forms {
 				// usually not the same one as FirstResponder. We tried to check if FirstResponder is one of those
 				// nested views and skip the focus change if it is essentially trying to focus the control that is
 				// already focused.
-				if (view.Window != null && GetSWFFirstResponder(view.Window) != view.Handle)
+				if (window != null && GetSWFFirstResponder(window) != view.Handle)
 				{
 					if (view is MonoView monoView)
 					{
@@ -1773,8 +1774,14 @@ namespace System.Windows.Forms {
 					}
 					else
 					{
-						view.Window.MakeFirstResponder(view);
+						window.MakeFirstResponder(view);
 					}
+				}
+
+				// OrderFront does not work for child windows. The last added one is the top one.
+				if (window?.ParentWindow is NSWindow parent) {
+					parent.RemoveChildWindow(window);
+					parent.AddChildWindow(window, NSWindowOrderingMode.Above);
 				}
 			}
 		}
