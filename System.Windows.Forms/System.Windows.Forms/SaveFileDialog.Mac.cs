@@ -24,6 +24,10 @@ namespace System.Windows.Forms
 		// Gets or sets a value indicating whether the New Folder button appears in the folder browser dialog box.
 		public bool ShowNewFolderButton { get; set; }
 
+		internal override NSSavePanel Panel { get { return panel; } }
+
+		internal NSSavePanel panel;
+
 		public override void Reset()
 		{
 			base.Reset();
@@ -42,7 +46,7 @@ namespace System.Windows.Forms
 			{
 				using (var context = new ModalDialogContext())
 				{
-					var panel = new NSSavePanel();
+					using var panel = this.panel = new NSSavePanel();
 
 					panel.CanSelectHiddenExtension = true;
 					panel.ExtensionHidden = false;
@@ -71,6 +75,8 @@ namespace System.Windows.Forms
 			{
 				if (RestoreDirectory && currentDirectory != null && Directory.Exists(currentDirectory))
 					Environment.CurrentDirectory = currentDirectory;
+				
+				panel = null;					
 			}
 		}
 

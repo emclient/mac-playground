@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms.Mac;
 using AppKit;
 using UniformTypeIdentifiers;
 using ObjCRuntime;
+using CoreGraphics;
 
 namespace System.Windows.Forms
 {
@@ -13,7 +15,24 @@ namespace System.Windows.Forms
 	[DefaultEvent ("FileOk")]
 	public abstract class FileDialog : CommonDialog
 	{
+		internal class FilterItem
+		{
+			public string Label { get; set; }
+			public string[] Extensions;
+		}
+
 		protected static readonly object EventFileOk = new object ();
+		
+		internal List<FilterItem> FilterItems { get; set; }
+
+		// Accessory view items:
+		internal NSStackView stack;
+		internal NSTextField label;
+		internal NSPopUpButton popup;
+
+		internal abstract NSSavePanel Panel { get; }
+		
+		static readonly CGSize defaultViewSize = new CGSize(200, 80);
 
 		[DefaultValue(true)]
 		public bool AddExtension { get; set; }
@@ -104,8 +123,13 @@ namespace System.Windows.Forms
 		{
 		}
 
-		internal void ApplyFilter(NSSavePanel panel, string filter)
+		internal virtual void ApplyFilter(NSSavePanel panel, string filter)
 		{
+			panel.AccessoryView = null;
+			FilterItems = null;
+			
+			var items = new List<FilterItem>();
+
 			if (panel.RespondsToSelector(new Selector("allowedContentTypes")))
 			if (ExtractContentTypes(filter) is UTType[] contentTypes && panel.SupportsAllowedContentTypes())
 			{
@@ -114,31 +138,39 @@ namespace System.Windows.Forms
 			}
 
 			var interlaced = filter.Split('|');
-			if (interlaced.Length == 0)
-				return;
-
-			var groups = interlaced.Where((value, index) => index % 2 != 0).ToList();
-			var extensions = new List<string>();
-			foreach (var group in groups)
+			for (int i = 0; i < interlaced.Length / 2; ++i)
 			{
-				var items = group.Split(';');
-				foreach (var item in items)
-				{
-					var position = item.LastIndexOf('.');
-					var extension = position < 0 ? item : item.Substring(1 + position);
-
-					if (!String.IsNullOrWhiteSpace(extension))
-					{
-						if ("*".Equals(extension, StringComparison.InvariantCulture))
-							panel.AllowsOtherFileTypes  = true;
-						else
-							extensions.Add(extension);
-					}
-				}
+				var item = new FilterItem {
+					Label = interlaced[2 * i],
+					Extensions = ExtractExtensions(interlaced[1 + 2 * i])
+				};
+				items.Add(item);
 			}
 
-			if (extensions.Count != 0)
-				panel.AllowedFileTypes = extensions.ToArray();
+			this.FilterItems = items;
+
+			if (items != null)
+				panel.AccessoryView = CreateFileTypeAccessoryView(items);
+
+			var index = Math.Max(0, FilterIndex - 1);
+			if (index >= 0 && index < items.Count)
+			{
+				popup.SelectItem(index);
+				SelectFilterItem(index);
+			}
+		}
+
+		internal virtual string[] ExtractExtensions(string csv, char separator = ';')
+		{
+			var extensions = new List<string>();
+			var items = csv.Split(separator);
+			foreach (var item in items)
+			{
+				var position = item.LastIndexOf('.');
+				var extension = position < 0 ? item : item.Substring(1 + position);
+				extensions.Add(extension);
+			}
+			return extensions.ToArray();
 		}
 
 		static readonly string ContentTypesPrefix = "ContentTypes:";
@@ -154,6 +186,70 @@ namespace System.Windows.Forms
 				return utts.ToArray();
 			}
 			return null;
+		}
+
+		internal NSView CreateFileTypeAccessoryView(IList<FilterItem> items)
+		{
+			var vert = new NSStackView(new CGRect(CGPoint.Empty, defaultViewSize));
+			vert.Orientation = NSUserInterfaceLayoutOrientation.Vertical;
+			vert.Alignment = NSLayoutAttribute.CenterX;
+			vert.EdgeInsets = new NSEdgeInsets(10, 10, 10, 10);
+
+			var stack = new NSStackView(new CGRect(CGPoint.Empty, defaultViewSize));
+			stack.Orientation = NSUserInterfaceLayoutOrientation.Horizontal;
+			stack.Alignment = NSLayoutAttribute.Baseline;
+			vert.AddView(stack, NSStackViewGravity.Leading);
+
+			var label = new NSTextField();
+			label.Bezeled = false;
+			label.DrawsBackground = false;
+			label.Editable = false;
+			label.Selectable = false;
+			label.StringValue = "Format:";
+			//stack.AddView(label, NSStackViewGravity.Leading);
+
+			popup = new NSPopUpButton();
+			popup.BezelStyle = NSBezelStyle.Rounded;
+			popup.Alignment = NSTextAlignment.Natural;
+			popup.Activated += OnFormatPopupActivated;
+			stack.AddView(popup, NSStackViewGravity.Leading);
+
+			foreach (var item in items)
+			 	popup.AddItem(item.Label);
+
+			return vert;
+		}
+
+		internal virtual void SelectFilterItem(int index)
+		{
+			var items = FilterItems;
+			if (items != null && index >= 0 && index < items.Count)
+			{
+				var extensions = items[index].Extensions;
+				if (extensions != null)
+				{
+					var asterisk = Array.IndexOf(extensions, "*") != -1;
+					if (extensions.Length == 1 && asterisk)
+					{
+						Panel.AllowedFileTypes = null;
+						Panel.AllowsOtherFileTypes  = true;
+					}
+					else if (extensions.Length > 0)
+					{
+						Panel.AllowedFileTypes = extensions; // Changes the extension in the text field
+						Panel.AllowsOtherFileTypes = asterisk;
+					}
+				}
+			}
+		}
+
+		internal virtual void OnFormatPopupActivated(object sender, EventArgs e)
+		{
+			if (sender is NSPopUpButton popup)
+			{
+				var index = (int)popup.IndexOfSelectedItem;
+				SelectFilterItem(index);
+			}
 		}
 	}
 }
