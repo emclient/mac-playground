@@ -1975,7 +1975,7 @@ namespace System.Windows.Forms {
 				window.MakeKeyAndOrderFront(window);
 			else if (window.ParentWindow == null)
 				window.OrderFront(window);
-			else
+			else if (window.ParentWindow.IsVisible)
 				window.OrderWindow(NSWindowOrderingMode.Above, window.ParentWindow.WindowNumber);
 		}
 
