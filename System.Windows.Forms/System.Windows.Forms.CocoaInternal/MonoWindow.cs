@@ -231,10 +231,11 @@ namespace System.Windows.Forms.CocoaInternal
 			var hitTestControl = Control.FromChildHandle(hitTestHandle);
 			var hitTestControlHandle = hitTestControl?.Handle ?? IntPtr.Zero;
 
-			if (e.Type == NSEventType.LeftMouseDown)
+			if (e.Type == NSEventType.LeftMouseDown && hitTestControlHandle != IntPtr.Zero)
 			{
 				var topLevelParent = hitTestControl?.TopLevelControl?.Handle ?? IntPtr.Zero;
-				mouseActivate = (MouseActivate)driver.SendMessage(ContentView.Handle, Msg.WM_MOUSEACTIVATE, topLevelParent, hitTestControlHandle).ToInt32();
+				var lParam = new IntPtr(((int)(Msg.WM_LBUTTONDOWN) << 16) | (int)HitTest.HTCLIENT);
+				mouseActivate = (MouseActivate)driver.SendMessage(hitTestControlHandle, Msg.WM_MOUSEACTIVATE, topLevelParent, lParam);
 				if (mouseActivate == MouseActivate.MA_NOACTIVATEANDEAT)// || mouseActivate == MouseActivate.MA_ACTIVATEANDEAT)
 					return true;
 			}
