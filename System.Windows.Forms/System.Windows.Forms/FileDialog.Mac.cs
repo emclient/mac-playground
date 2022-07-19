@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Windows.Forms.Mac;
 using AppKit;
+using Foundation;
 using UniformTypeIdentifiers;
+using MacApi;
 using ObjCRuntime;
 using CoreGraphics;
 
@@ -231,7 +230,9 @@ namespace System.Windows.Forms
 					var asterisk = Array.IndexOf(extensions, "*") != -1;
 					if (extensions.Length == 1 && asterisk)
 					{
-						Panel.AllowedFileTypes = null;
+						// Xamarin's AllowedFileTypes throws when passing null here:
+						var selector = Selector.GetHandle("setAllowedFileTypes:");
+						LibObjc.void_objc_msgSend_IntPtr(Panel.Handle, selector, IntPtr.Zero);
 						Panel.AllowsOtherFileTypes  = true;
 					}
 					else if (extensions.Length > 0)
