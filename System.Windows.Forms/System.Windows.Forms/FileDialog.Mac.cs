@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Windows.Forms.Mac;
 using AppKit;
-using Foundation;
 using UniformTypeIdentifiers;
 using MacApi;
 using ObjCRuntime;
@@ -154,8 +153,9 @@ namespace System.Windows.Forms
 			var index = Math.Max(0, FilterIndex - 1);
 			if (index >= 0 && index < items.Count)
 			{
-				popup.SelectItem(index);
 				SelectFilterItem(index);
+				if (popup.IndexOfSelectedItem != index)
+					popup.SelectItem(index);
 			}
 		}
 
@@ -224,6 +224,10 @@ namespace System.Windows.Forms
 			var items = FilterItems;
 			if (items != null && index >= 0 && index < items.Count)
 			{
+				// Disabling all files in the beginning is necessary for proper status updates
+				Panel.AllowsOtherFileTypes  = false;
+				Panel.AllowedFileTypes = new string[] {};
+
 				var extensions = items[index].Extensions;
 				if (extensions != null)
 				{
@@ -241,6 +245,8 @@ namespace System.Windows.Forms
 						Panel.AllowsOtherFileTypes = asterisk;
 					}
 				}
+				
+				Panel.ValidateVisibleColumns();
 			}
 		}
 

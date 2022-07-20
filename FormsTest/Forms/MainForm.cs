@@ -26,8 +26,10 @@ namespace FormsTest
         Pair[] Dialogs = {
             new Pair { Name = "Color Dialog", Action = delegate { new ColorDialog().ShowDialog(); } },
             new Pair { Name = "Open File", Action = delegate { new OpenFileDialog().ShowDialog(); } },
-            new Pair { Name = "Save File", Action = delegate { 
-                new SaveFileDialog().ShowDialog(); } },
+            new Pair { Name = "Open File w Filter", Action = OpenFileDialogWithFilter1 },
+            new Pair { Name = "Open File w Filter 2", Action = OpenFileDialogWithFilter2 },
+            new Pair { Name = "Save File", Action = delegate { new SaveFileDialog().ShowDialog(); } },
+            new Pair { Name = "Save File w Filter", Action = SaveFileDialogWithFilter1 },
             new Pair { Name = "Choose Folder", Action = delegate { 
 					var dlg = new FolderBrowserDialog();
 					dlg.Description = "Vyber nějakou složku vosle";
@@ -343,6 +345,28 @@ namespace FormsTest
 		public void ShowAutoSizeForm()
 		{
 			new AutoSizeForm().Show();
+		}
+
+		static void OpenFileDialogWithFilter1()
+		{
+			using var dlg = new OpenFileDialog();
+			dlg.Filter = "PNG Files|*.png|JPEG Files|*.jpg;*.jpeg";
+			dlg.FilterIndex = 2;
+			dlg.ShowDialog();
+		}
+
+		static void OpenFileDialogWithFilter2()
+		{
+			using var dlg = new OpenFileDialog();
+			dlg.Filter = "PNG Files|*.png|JPEG Files|*.jpg;*.jpeg|All files|*.*";
+			dlg.ShowDialog();
+		}
+
+		static void SaveFileDialogWithFilter1()
+		{
+			using var dlg = new SaveFileDialog();
+			dlg.Filter = "PNG Files|*.png|JPEG Files|*.jpg;*.jpeg";
+			dlg.ShowDialog();
 		}
 	}
 }
