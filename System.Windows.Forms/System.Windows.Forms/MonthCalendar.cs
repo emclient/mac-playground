@@ -53,6 +53,7 @@ namespace System.Windows.Forms {
 		DateTime 		min_date;
 		int 			scroll_change;
 		SelectionRange 		selection_range;
+		DateTime 		focused_date;
 		bool 			show_today;
 		bool 			show_today_circle;
 		bool 			show_week_numbers;
@@ -121,6 +122,7 @@ namespace System.Windows.Forms {
 			// initialise default values 
 			DateTime now = DateTime.Now.Date;
 			selection_range = new SelectionRange (now, now);
+			focused_date = now;
 			today_date = now;
 			current_month = new DateTime (now.Year , now.Month, 1);
 
@@ -602,6 +604,10 @@ namespace System.Windows.Forms {
 						}
 					}
 
+					if (focused_date < selection_range.Start)
+						focused_date = selection_range.Start;
+					else if (focused_date > selection_range.End)
+						focused_date = selection_range.End;
 
 					// invalidate the region required	
 					SelectionRange new_range = new SelectionRange (diff_start, diff_end);
@@ -1040,6 +1046,80 @@ namespace System.Windows.Forms {
 			}
 
 			return base.IsInputKey (keyData);
+		}
+
+		protected override bool ProcessDialogKey(Keys keyData)
+		{
+			if ((keyData & (Keys.Alt | Keys.Control)) == Keys.None)
+			{
+				is_shift_pressed = false;
+				Keys key = keyData & Keys.KeyCode;
+				bool shift = (keyData & Keys.Shift) != 0;
+				switch (key) {
+					case Keys.Left: return MoveLeft(shift);
+					case Keys.Right: return MoveRight(shift);
+					case Keys.Up: return MoveUp(shift);
+					case Keys.Down: return MoveDown(shift);
+				}
+			}
+			return base.ProcessDialogKey(keyData);
+		}
+
+		internal virtual bool MoveLeft(bool shift)
+		{
+			if (shift) 
+			{
+				var range = focused_date > SelectionRange.Start
+					? new SelectionRange(SelectionRange.Start, focused_date = focused_date.AddDays(-1))
+					: new SelectionRange(focused_date = focused_date.AddDays(-1), SelectionRange.End);
+				SelectionRange = range;
+			}
+			else
+				SelectDate(focused_date.AddDays(-1));
+
+			Invalidate();
+			return true;
+		}
+
+		internal virtual bool MoveRight(bool shift)
+		{
+			if (shift) {
+				if ((SelectionRange.End - SelectionRange.Start).Days < MaxSelectionCount - 1)
+					SelectionRange = focused_date < SelectionRange.End
+						? new SelectionRange(focused_date = focused_date.AddDays(1), SelectionRange.End)
+						: new SelectionRange(SelectionRange.Start, focused_date = focused_date.AddDays(1));
+			} else {
+				SelectDate(focused_date.AddDays(1));
+			}
+			
+			Invalidate();
+			return true;
+		}
+
+		internal virtual bool MoveUp(bool shift)
+		{
+			if (shift)
+				SelectionRange = focused_date < SelectionRange.End
+					? new SelectionRange(focused_date = focused_date.AddDays(-7), SelectionRange.End)
+					: new SelectionRange(SelectionRange.Start, focused_date = focused_date.AddDays(-7));
+			else
+				SelectDate(focused_date.AddDays(-7));
+
+			Invalidate();
+			return true;
+		}
+
+		internal virtual bool MoveDown(bool shift)
+		{
+			if (shift)
+				SelectionRange = focused_date < SelectionRange.End
+					? new SelectionRange(focused_date = focused_date.AddDays(Math.Min(7, (SelectionRange.End - SelectionRange.Start).Days)), SelectionRange.End)
+					: new SelectionRange(SelectionRange.Start, focused_date = SelectionRange.Start.AddDays(Math.Min(MaxSelectionCount, 7 * (1 + (SelectionRange.End - SelectionRange.Start).Days / 7) - 1)));
+			else
+				SelectDate(focused_date.AddDays(7));
+
+			Invalidate();
+			return true;
 		}
 
 		// not sure why this needs to be overriden
