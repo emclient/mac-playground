@@ -1,4 +1,5 @@
 using System.Windows.Forms.CocoaInternal;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using AppKit;
@@ -70,10 +71,12 @@ namespace System.Windows.Forms
 
 		protected virtual string[] GetFileNames(NSOpenPanel panel)
 		{
-			string[] filenames = new string[panel.Urls.Length];
-			for (int i = 0; i < filenames.Length; ++i)
-				filenames[i] = panel.Urls[i].Path;
-			return filenames;
+			var filenames = new List<string>();
+			var urls = panel.Urls;
+			foreach (var url in urls)
+				if (url.Path != null)
+					filenames.Add(url.Path);
+			return filenames.ToArray();
 		}
 
 		public Stream OpenFile()
