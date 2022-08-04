@@ -328,13 +328,13 @@ namespace System.Windows.Forms.Layout
 			// no row with Percent styling clips its contents.
 			// (per http://msdn.microsoft.com/en-us/library/ms171690.aspx)
 			for (int rowspan = 0; rowspan < max_rowspan; ++rowspan) {
-				for (index = rowspan; index < row_heights.Length - rowspan; ++index) {
+				for (index = 0; index < row_heights.Length - rowspan; ++index) {
 					RowStyle rs = index < row_styles.Count ? row_styles[index] : default_row_style;
 					if (rs.SizeType == SizeType.AutoSize || (auto_size && rs.SizeType == SizeType.Percent)) {
 						int max_height = row_heights[index];
 						// Find the tallest control in the row
 						for (int i = 0; i < columns; i++) {
-							Control c = actual_positions[i, index - rowspan];
+							Control c = actual_positions[i, index];
 							if (c != null && c != dummy_control && c.VisibleInternal) {
 								// Skip any controls not being sized in this pass.
 								if (settings.GetRowSpan (c) != rowspan + 1)
