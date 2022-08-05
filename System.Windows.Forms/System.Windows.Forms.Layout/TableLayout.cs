@@ -328,42 +328,47 @@ namespace System.Windows.Forms.Layout
 			// no row with Percent styling clips its contents.
 			// (per http://msdn.microsoft.com/en-us/library/ms171690.aspx)
 			for (int rowspan = 0; rowspan < max_rowspan; ++rowspan) {
-				for (index = rowspan; index < row_heights.Length - rowspan; ++index) {
+				for (index = rowspan; index < row_heights.Length; ++index) {
 					RowStyle rs = index < row_styles.Count ? row_styles[index] : default_row_style;
-					if (rs.SizeType == SizeType.AutoSize || (auto_size && rs.SizeType == SizeType.Percent)) {
-						int max_height = row_heights[index];
-						// Find the tallest control in the row
-						for (int i = 0; i < columns; i++) {
-							Control c = actual_positions[i, index - rowspan];
-							if (c != null && c != dummy_control && c.VisibleInternal) {
-								// Skip any controls not being sized in this pass.
-								if (settings.GetRowSpan (c) != rowspan + 1)
-									continue;
+					int max_height = row_heights[index];
+					// Find the tallest control in the row
+					for (int i = 0; i < columns; i++) {
+						Control c = actual_positions[i, index - rowspan];
+						if (c != null && c != dummy_control && c.VisibleInternal) {
+							// Skip any controls not being sized in this pass.
+							if (settings.GetRowSpan (c) != rowspan + 1)
+								continue;
 
-								int current_width = 0;
-								int column_span = settings.GetColumnSpan(c);
-								for (int j = i; j < i + column_span && j < column_widths.Length; j++) {
-									current_width += column_widths[j];
-								}
-
-								// Calculate the maximum control height.
-								if (!minimum_sizes || c.AutoSizeInternal)
-									max_height = Math.Max (max_height, GetControlSize(c, new Size(current_width - c.Margin.Horizontal, 0)).Height + c.Margin.Vertical);
-								else
-									max_height = c.MinimumSize.Height;
+							int current_width = 0;
+							int column_span = settings.GetColumnSpan(c);
+							for (int j = i; j < i + column_span && j < column_widths.Length; j++) {
+								current_width += column_widths[j];
 							}
-						}
 
-						if (rs.SizeType == SizeType.Percent)
+							// Calculate the maximum control height.
+							if (!minimum_sizes || c.AutoSizeInternal)
+								max_height = Math.Max (max_height, GetControlSize(c, new Size(current_width - c.Margin.Horizontal, 0)).Height + c.Margin.Vertical);
+							else
+								max_height = c.MinimumSize.Height;
+						}
+					}
+
+					if (rs.SizeType == SizeType.Percent && auto_size)
 							max_percent_size = Math.Max(max_percent_size, max_height / rs.Height);
 
-						// Subtract the height of prior rows, if any.
-						for (int i = Math.Max (index - rowspan, 0); i < index; ++i)
-							max_height -= row_heights[i];
+					// Subtract the height of prior rows, if any.
+					for (int i = Math.Max (index - rowspan, 0); i < index; ++i)
+						max_height -= row_heights[i];
 
-						// If necessary, increase this row's height.
-						if (max_height > row_heights[index])
-							row_heights[index] = max_height;
+					// If necessary, try to find suitable row and increase it's height.
+					if (max_height > row_heights[index]) {
+						for (int j = index; j >= index - rowspan; --j) {
+							RowStyle style = j < row_styles.Count ? row_styles[j] : default_row_style;
+							if (style.SizeType == SizeType.AutoSize) {
+								row_heights[j] += max_height - row_heights[index];
+								break;
+							}
+						}
 					}
 				}
 			}
