@@ -191,6 +191,9 @@
     <Compile Include="Forms\WebForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\TablesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Resources\Providers.Designer.cs">
       <DependentUpon>Providers.resx</DependentUpon>
     </Compile>
