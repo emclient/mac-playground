@@ -353,8 +353,8 @@ namespace System.Windows.Forms.Layout
 						}
 					}
 
-					if (rs.SizeType == SizeType.Percent && auto_size)
-							max_percent_size = Math.Max(max_percent_size, max_height / rs.Height);
+					if (rs.SizeType == SizeType.Percent)
+						max_percent_size = Math.Max(max_percent_size, max_height / rs.Height);
 
 					// Subtract the height of prior rows, if any.
 					for (int i = Math.Max (index - rowspan, 0); i < index; ++i)
@@ -364,7 +364,7 @@ namespace System.Windows.Forms.Layout
 					if (max_height > row_heights[index]) {
 						for (int j = index; j >= index - rowspan; --j) {
 							RowStyle style = j < row_styles.Count ? row_styles[j] : default_row_style;
-							if (style.SizeType == SizeType.AutoSize) {
+							if (style.SizeType == SizeType.AutoSize || style.SizeType == SizeType.Percent) {
 								row_heights[j] += max_height - row_heights[index];
 								break;
 							}
@@ -516,9 +516,13 @@ namespace System.Windows.Forms.Layout
 
 			// Shrink the table vertically by shrinking it's rows, if necessary
 			if (boundBySize && size.Height > 0 && available_height < 0) {
-				// Calculate the minimum heights for each column
-				int[] row_min_heights = new int[row_heights.Length];
+				// Calculate the minimum heights for each row
 				CalculateRowHeights (settings, actual_positions, max_rowspan, settings.RowStyles, auto_size, column_widths, row_heights, true);
+
+				// Shrink rows with Percent sizing
+				int[] row_min_heights = new int[row_heights.Length];
+				for (int i = 0; i < row_heights.Length && i < settings.RowStyles.Count; ++i)
+					row_min_heights[i] = settings.RowStyles[i].SizeType == SizeType.Percent ? 0 : row_heights[i];
 				available_height += Shrink(row_heights, row_min_heights, -available_height, max_rowspan);
 			}
 
