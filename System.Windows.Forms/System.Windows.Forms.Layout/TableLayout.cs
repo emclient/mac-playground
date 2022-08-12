@@ -519,11 +519,18 @@ namespace System.Windows.Forms.Layout
 				// Calculate the minimum heights for each row
 				CalculateRowHeights (settings, actual_positions, max_rowspan, settings.RowStyles, auto_size, column_widths, row_heights, true);
 
-				// Shrink rows with Percent sizing
+				// Shrink rows with Percent sizing first
 				int[] row_min_heights = new int[row_heights.Length];
 				for (int i = 0; i < row_heights.Length && i < settings.RowStyles.Count; ++i)
 					row_min_heights[i] = settings.RowStyles[i].SizeType == SizeType.Percent ? 0 : row_heights[i];
 				available_height += Shrink(row_heights, row_min_heights, -available_height, max_rowspan);
+
+				// Shrink all rows if necessary
+				if (available_height < 0) {
+					for (int i = 0; i < row_heights.Length && i < settings.RowStyles.Count; ++i)
+						row_min_heights[i] = 0;
+					available_height += Shrink(row_heights, row_min_heights, -available_height, max_rowspan);
+				}
 			}
 
 			// Finally, assign the remaining space to Percent rows, if any.
