@@ -18,12 +18,12 @@ namespace FormsTest
 		{
 			base.OnLoad(e);
 
-			var systemAssembly = typeof(System.Net.WebClient).Assembly;
-			var loggingType = systemAssembly.GetType("System.Net.Logging", false);
+			var type = typeof(Microsoft.Extensions.Logging.LoggerFactory);
+			var assembly = type.Assembly;
 
-			var nonPublicStaticProperties = loggingType.GetMembers(System.Reflection.BindingFlags.SetProperty | System.Reflection.BindingFlags.GetProperty | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
-			var nonPublicStaticFields = loggingType.GetMembers(System.Reflection.BindingFlags.SetField | System.Reflection.BindingFlags.GetField | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
-			var nonPublicStaticMethods = loggingType.GetMethods(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+			var nonPublicStaticProperties = type.GetMembers(System.Reflection.BindingFlags.SetProperty | System.Reflection.BindingFlags.GetProperty | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+			var nonPublicStaticFields = type.GetMembers(System.Reflection.BindingFlags.SetField | System.Reflection.BindingFlags.GetField | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+			var nonPublicStaticMethods = type.GetMethods(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
 
 			textbox4.AppendText("\n\nNon Public Static Properties:");
 			foreach (var p in nonPublicStaticProperties)

@@ -6788,6 +6788,11 @@ namespace System.Windows.Forms
 			set { child_controls_ = value; }
 		}
 
+		public override string ToString()
+		{
+			return $"{GetType().Name}, \"{Text}\", {Name}, {Size.Width}x{Size.Height}, {GetType().FullName}";
+		}
+
 		internal class Focusing : IDisposable
 		{
 			public static bool Enabled = false; // Inactive by default (experimental, unsafe)

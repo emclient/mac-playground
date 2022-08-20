@@ -85,6 +85,7 @@ namespace FormsTest
 			AddButton("Layout 2", () => { new DebugLayoutForm2().Show(); });
 			AddButton("Layout 3", () => { new DebugLayoutForm3().Show(); });
 			AddButton("Layout 4", () => { new DebugLayoutForm4().Show(); });
+			AddButton("Tables", () => { new TablesForm().Show(); });
 			/*AddButton("Editor", () =>
 			{
 				var f = new Form() { Size = new Size(500, 300), Text = "Editor" };
