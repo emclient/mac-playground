@@ -224,10 +224,6 @@ namespace System.Windows.Forms
 			var items = FilterItems;
 			if (items != null && index >= 0 && index < items.Count)
 			{
-				// Disabling all files in the beginning is necessary for proper status updates
-				Panel.AllowsOtherFileTypes  = false;
-				Panel.AllowedFileTypes = new string[] {};
-
 				var extensions = items[index].Extensions;
 				if (extensions != null)
 				{

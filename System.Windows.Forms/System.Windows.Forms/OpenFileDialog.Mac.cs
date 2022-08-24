@@ -38,7 +38,7 @@ namespace System.Windows.Forms
 			{
 				using (var context = new ModalDialogContext())
 				{
-					using var panel = this.panel = new NSOpenPanel();
+					using var panel = this.panel = NSOpenPanel.OpenPanel;
 					
 					panel.AllowsMultipleSelection = Multiselect;
 					panel.ResolvesAliases = true;
@@ -100,13 +100,16 @@ namespace System.Windows.Forms
 	{
 		public static bool AccessoryViewDisclosed(this NSOpenPanel panel, bool? value = null)
 		{
-			var sel = Selector.GetHandle("isAccessoryViewDisclosed");
-			var result = LibObjc.bool_objc_msgSend(panel.Handle, sel);
+			var sel = new Selector("isAccessoryViewDisclosed");
+			if (!panel.RespondsToSelector(sel))
+				return true;
+
+			var result = LibObjc.bool_objc_msgSend(panel.Handle, sel.Handle);
 
 			if (value.HasValue)
 			{
-				sel = Selector.GetHandle("setAccessoryViewDisclosed:");
-				LibObjc.void_objc_msgSend_Bool(panel.Handle, sel, value.Value);
+				sel = new Selector("setAccessoryViewDisclosed:");
+				LibObjc.void_objc_msgSend_Bool(panel.Handle, sel.Handle, value.Value);
 			}
 
 			return result;

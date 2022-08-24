@@ -46,7 +46,7 @@ namespace System.Windows.Forms
 			{
 				using (var context = new ModalDialogContext())
 				{
-					using var panel = this.panel = new NSSavePanel();
+					using var panel = this.panel = NSSavePanel.SavePanel;
 
 					panel.CanSelectHiddenExtension = true;
 					panel.ExtensionHidden = false;
