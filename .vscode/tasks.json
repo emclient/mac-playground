@@ -10,7 +10,9 @@
                 "${workspaceFolder}/FormsTest/FormsTest.csproj",
                 "/p:RuntimeIdentifiers=osx-x64",
                 "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "/consoleloggerparameters:NoSummary",
+                "/p:CodeSigningKey=Mac Developer",
+                "/p:EnableCodeSigning=true",
             ],
             "problemMatcher": "$msCompile",
             "options": {
@@ -28,7 +30,9 @@
                 "${workspaceFolder}/FormsTest/FormsTest.csproj",
                 "/p:RuntimeIdentifiers=osx-arm64",
                 "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "/consoleloggerparameters:NoSummary",
+                "/p:CodeSigningKey=Mac Developer",
+                "/p:EnableCodeSigning=true",
             ],
             "problemMatcher": "$msCompile",
             "options": {

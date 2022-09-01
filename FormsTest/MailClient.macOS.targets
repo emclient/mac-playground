@@ -15,28 +15,18 @@
     <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="2.0.74" ExcludeAssets="native;build;buildTransitive" />
   </ItemGroup>
 
-  <!-- Workaround for https://github.com/xamarin/xamarin-macios/issues/13417 -->
+   <!-- Workaround for https://github.com/xamarin/xamarin-macios/issues/14522 -->
   <PropertyGroup>
-    <CodesignDependsOn>CodeSignAdditionalBinaries;$(CodesignDependsOn)</CodesignDependsOn>
+    <_CodesignAppBundleDependsOn>$(_CodesignAppBundleDependsOn);FixCodeSignInput</_CodesignAppBundleDependsOn>
   </PropertyGroup>
-  <Target Name="CodeSignAdditionalBinaries" Condition="'$(_CodeSigningKey)' != ''">
+  <Target Name="FixCodeSignInput">
     <ItemGroup>
-      <_AdditionalBinaries Include="$(AppBundleDir)\Contents\MonoBundle\*.dylib" />
-      <_AdditionalBinaries Include="$(AppBundleDir)\Contents\MonoBundle\createdump" />
+      <_CodesignItemsUnfiltered Include="@(_CodesignItems)" />
+      <_CodesignItems Remove="@(_CodesignItems)" />
     </ItemGroup>
-    <Codesign
-      Condition="'$(IsMacEnabled)' == 'true'"
-      SessionId="$(BuildSessionId)"
-      ToolExe="$(CodesignExe)"
-      ToolPath="$(CodesignPath)"
-      CodesignAllocate="$(_CodesignAllocate)"
-      DisableTimestamp="$(_CodesignDisableTimestamp)"
-      Keychain="$(CodesignKeychain)"
-      Resources="@(_AdditionalBinaries)"
-      SigningKey="$(_CodeSigningKey)"
-      ExtraArgs="$(CodesignExtraArgs)"
-      UseHardenedRuntime="$(UseHardenedRuntime)"
-      UseSecureTimestamp="$(UseHardenedRuntime)" />
+    <RemoveDuplicates Inputs="@(_CodesignItemsUnfiltered)">
+      <Output TaskParameter="Filtered" ItemName="_CodesignItems"/>
+    </RemoveDuplicates>
   </Target>
 
   <PropertyGroup>
