@@ -222,19 +222,17 @@
     <Compile Include="Forms\MainForm.Swizzle.cs" />
     <Compile Include="Forms\MainForm.NSBackgroundActivity.cs" />
     <Compile Include="Forms\MainForm.NCPrefs.cs" />
-    <Compile Include="Forms\MainForm.UNNotifications.cs" />
     <Compile Include="Forms\MainForm.TextExtraction.cs" />
+    <Compile Include="Forms\MainForm.PrintPreview.cs" />
     <!--<Compile Include="Forms\DataGridForm.cs" />-->
     <Compile Include="Forms\DateTimeForm.cs" />
+    <Compile Include="Forms\NotificationsForm.cs" Condition="'$(TargetFramework)' == 'net6.0-macos'" />
     <Compile Include="Controls\TextureBrushControl.cs" />
     <Compile Include="Controls\TextureBrushControl2.cs" />
     <Compile Include="Experiments\FileDescriptors.cs">
       <SubType></SubType>
     </Compile>
     <Compile Include="Experiments\CatchWhen.cs">
-      <SubType></SubType>
-    </Compile>
-    <Compile Include="Forms\MainForm.PrintPreview.cs">
       <SubType></SubType>
     </Compile>
   </ItemGroup>

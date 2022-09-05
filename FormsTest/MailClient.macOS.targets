@@ -30,7 +30,8 @@
   </Target>
 
   <PropertyGroup>
-    <CreateAppBundleDependsOn>$(CreateAppBundleDependsOn);GenerateAssemblyNBGVVersionInfo;CollectIndexerInputs;BuildIndexer</CreateAppBundleDependsOn>
+    <!-- <CreateAppBundleDependsOn>$(CreateAppBundleDependsOn);GenerateAssemblyNBGVVersionInfo;CollectIndexerInputs;BuildIndexer</CreateAppBundleDependsOn> -->
+    <CreateAppBundleDependsOn>$(CreateAppBundleDependsOn);GenerateAssemblyNBGVVersionInfo</CreateAppBundleDependsOn>
     <MacExtensionsDir>$(ProjectDir)../../MacExtensions</MacExtensionsDir>
   </PropertyGroup>
 

@@ -1,7 +1,10 @@
-﻿using System;
+﻿#if MAC
+using System;
 using System.Drawing;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using UserNotifications;
 
 namespace FormsTest
 {
@@ -13,9 +16,13 @@ namespace FormsTest
 		System.ComponentModel.IContainer components = null;
 		FlowLayoutPanel panel1;
 
+		Controller controller;
+
 		public NotificationsForm()
 		{
 			InitializeComponent();
+
+			UNUserNotificationCenter.Current.Delegate = controller = new Controller(this);
 		}
 
 		private void InitializeComponent()
@@ -37,19 +44,19 @@ namespace FormsTest
 			var button1 = new Button();
 			button1.AutoSize = true;
 			button1.Click += button1_Click;
-			button1.Text = "Button 1";
+			button1.Text = "Print Settings";
 			panel1.Controls.Add(button1);
 
 			var button2 = new Button();
 			button2.AutoSize = true;
 			button2.Click += button2_Click;
-			button2.Text = "Button 2";
+			button2.Text = "Request Authorization";
 			panel1.Controls.Add(button2);
 
 			var button3 = new Button();
 			button3.AutoSize = true;
-			button1.Click += button3_Click;
-			button3.Text = "Button 3";
+			button3.Click += button3_Click;
+			button3.Text = "Timer Notification";
 			panel1.Controls.Add(button3);
 
 			// TablesForm
@@ -60,9 +67,9 @@ namespace FormsTest
 			Controls.Add(panel1);
 			FormBorderStyle = FormBorderStyle.Sizable;
 			SizeGripStyle = SizeGripStyle.Show;
-			Name = "TablesForm";
+			Name = "NotificationsForm";
 			Padding = new Padding(6);
-			Text = "TablesForm";
+			Text = "Notifications";
 
 			panel1.ResumeLayout(true);
 			ResumeLayout(false);
@@ -83,14 +90,115 @@ namespace FormsTest
 
 		protected void button1_Click(object? sender, EventArgs e)
 		{
+			controller.PrintSettings();
 		}
 
 		protected void button2_Click(object? sender, EventArgs e)
 		{
+			controller.RequestAuthorization();
 		}
 
 		protected void button3_Click(object? sender, EventArgs e)
 		{
+			controller.AddTimerNotification();
+		}
+	}
+
+	class Controller : UNUserNotificationCenterDelegate
+	{
+		NotificationsForm form;
+		
+		object locker = new Object();
+		HashSet<string> ids = new HashSet<string>();
+
+		public Controller(NotificationsForm form)
+		{
+			this.form = form;
+		}
+		
+		public void PrintSettings()
+		{
+			Console.WriteLine($"PrintSettings");
+
+			var center = UNUserNotificationCenter.Current;
+			center.GetNotificationSettings((settings) => {
+				Console.WriteLine($"GetNotificationSettings => {settings}");
+			});
+		}
+
+		public void RequestAuthorization()
+		{
+			Console.WriteLine($"RequestAuthorization");
+
+			var center = UNUserNotificationCenter.Current;
+			center.GetNotificationSettings((settings) => {
+				if (settings.AuthorizationStatus == UNAuthorizationStatus.NotDetermined)
+				{
+					var options = UNAuthorizationOptions.Badge | UNAuthorizationOptions.Alert;
+					center.RequestAuthorization(options, (granted, error) => {
+						Console.WriteLine($"RequestAuthorization => {granted}, {error}");
+					});
+				}
+				else
+				{
+					Console.WriteLine($"Authorization already granted");
+				}
+			});
+		}
+
+		public void AddTimerNotification()
+		{
+			Console.WriteLine($"AddTimerNotification");
+
+			var center = UNUserNotificationCenter.Current;
+
+			var content = new UNMutableNotificationContent
+			{
+				Title = "Timer Notification",
+				Subtitle = "Subtitle"
+			};
+			
+			var trigger = UNTimeIntervalNotificationTrigger.CreateTrigger(1, false);
+
+			string identifier = Guid.NewGuid().ToString();
+			lock(locker)
+				ids.Add(identifier);
+
+			var request = UNNotificationRequest.FromIdentifier(identifier, content, trigger);
+
+			Console.WriteLine($"AddNotificationRequest({identifier}, {content.Title}, {content.Subtitle})");
+
+			UNUserNotificationCenter.Current.AddNotificationRequest(request, (error) => {
+				if (error == null)
+					Console.WriteLine($" - ADDED");
+				else
+					Console.WriteLine($" - FAILED:{error}");
+			});
+		}
+
+		public override void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
+		{
+			Console.WriteLine($"WillPresentNotification: {notification}");
+
+			var identifier = notification.Request.Identifier;
+			Console.WriteLine($"Identifier: {identifier}");
+
+			completionHandler(UNNotificationPresentationOptions.Alert);
+		}
+
+		public override void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
+		{
+			Console.WriteLine($"DidReceiveNotificationResponse: {response}");
+
+			var identifier = response.Notification.Request.Identifier;
+			Console.WriteLine($"Identifier: {identifier}");
+
+			lock(locker)
+			 	ids.Remove(identifier);
+
+			completionHandler();
 		}
 	}
 }
+
+#endif //MAC
