@@ -1,9 +1,10 @@
-﻿#if MAC
+﻿#if __UNIFIED__
 using System;
 using System.Drawing;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using Foundation;
 using UserNotifications;
 
 namespace FormsTest
@@ -20,9 +21,10 @@ namespace FormsTest
 
 		public NotificationsForm()
 		{
-			InitializeComponent();
+			controller = new Controller(this);
+			UNUserNotificationCenter.Current.Delegate = controller;
 
-			UNUserNotificationCenter.Current.Delegate = controller = new Controller(this);
+			InitializeComponent();
 		}
 
 		private void InitializeComponent()
@@ -41,23 +43,14 @@ namespace FormsTest
 			panel1.FlowDirection = FlowDirection.TopDown;
 			panel1.Padding = new Padding(1);
 
-			var button1 = new Button();
-			button1.AutoSize = true;
-			button1.Click += button1_Click;
-			button1.Text = "Print Settings";
-			panel1.Controls.Add(button1);
-
-			var button2 = new Button();
-			button2.AutoSize = true;
-			button2.Click += button2_Click;
-			button2.Text = "Request Authorization";
-			panel1.Controls.Add(button2);
-
-			var button3 = new Button();
-			button3.AutoSize = true;
-			button3.Click += button3_Click;
-			button3.Text = "Timer Notification";
-			panel1.Controls.Add(button3);
+			AddButton("Print Settings", controller.PrintSettings);
+			AddButton("Request Authorization", controller.RequestAuthorization);
+			AddButton("Timer Notification", controller.AddTimerNotification);
+			AddButton("Calendar Notification", controller.AddCalendarNotification);
+			AddButton("One Action Notification", controller.AddOneButtonNotification);
+			AddButton("Twoo Actions Notification", controller.AddTwoActionsNotification);
+			AddButton("Three Actions Notification", controller.AddThreeActionsNotification);
+			AddButton("Four Actions Notification", controller.AddFourActionsNotification);
 
 			// TablesForm
 			MinimumSize = new Size(100, 100);
@@ -88,20 +81,42 @@ namespace FormsTest
 			base.OnLoad(e);
 		}
 
-		protected void button1_Click(object? sender, EventArgs e)
+		protected Button AddButton(string title, Action action)
 		{
-			controller.PrintSettings();
+			var button = new Button();
+			button.AutoSize = true;
+			button.Click += (a, b) => action();
+			button.Text = title;
+			panel1.Controls.Add(button);
+			return button;
 		}
 
-		protected void button2_Click(object? sender, EventArgs e)
+		protected void grid_ColumnHeaderDoubleClick(object? sender, DataGridViewCellMouseEventArgs e)
 		{
-			controller.RequestAuthorization();
+			Console.WriteLine($"{e}");
 		}
+	}
 
-		protected void button3_Click(object? sender, EventArgs e)
-		{
-			controller.AddTimerNotification();
-		}
+	class CategoryID
+	{
+		public const string Plain = "Plain";
+		public const string Simple = "Simple";
+		public const string Double = "Double";
+		public const string Triple = "Triple";
+		public const string Quadruple = "Quadruple";
+	}
+
+	class ActionID
+	{
+		public const string Snooze = "Snooze";
+		public const string Open = "Open";
+		public const string Delete = "Delete";
+		public const string Reply = "Reply";
+	}
+
+	class IntentID
+	{
+		public const string Snooze = "Default";
 	}
 
 	class Controller : UNUserNotificationCenterDelegate
@@ -114,8 +129,46 @@ namespace FormsTest
 		public Controller(NotificationsForm form)
 		{
 			this.form = form;
+			InitializeCategories();
 		}
-		
+
+		public void InitializeCategories()
+		{
+			var snoozeAction = UNNotificationAction.FromIdentifier(ActionID.Snooze, "Snooze", UNNotificationActionOptions.None);
+			var openAction = UNNotificationAction.FromIdentifier(ActionID.Open, "Open", UNNotificationActionOptions.Foreground);
+			var deleteAction = UNNotificationAction.FromIdentifier(ActionID.Delete, "Delete", UNNotificationActionOptions.Destructive);
+			var replyAction = UNNotificationAction.FromIdentifier(ActionID.Reply, "Reply", UNNotificationActionOptions.Foreground);
+
+			var cats = new UNNotificationCategory[] {
+				UNNotificationCategory.FromIdentifier(
+					CategoryID.Plain,
+					new UNNotificationAction[] { },
+					new string[] {},
+					UNNotificationCategoryOptions.None),
+				UNNotificationCategory.FromIdentifier(
+					CategoryID.Simple,
+					new UNNotificationAction[] { openAction },
+					new string[] {},
+					UNNotificationCategoryOptions.None),
+				UNNotificationCategory.FromIdentifier(
+					CategoryID.Double,
+					new UNNotificationAction[] { openAction, replyAction },
+					new string[] {},
+					UNNotificationCategoryOptions.None),
+				UNNotificationCategory.FromIdentifier(
+					CategoryID.Triple,
+					new UNNotificationAction[] { openAction, replyAction, deleteAction },
+					new string[] {},
+					UNNotificationCategoryOptions.None),
+				UNNotificationCategory.FromIdentifier(
+					CategoryID.Quadruple, 
+					new UNNotificationAction[] { snoozeAction, openAction, replyAction, deleteAction }, 
+					new string[] {},
+					UNNotificationCategoryOptions.None),
+			};
+			UNUserNotificationCenter.Current.SetNotificationCategories(new NSSet<UNNotificationCategory>(cats));
+		}
+
 		public void PrintSettings()
 		{
 			Console.WriteLine($"PrintSettings");
@@ -149,31 +202,71 @@ namespace FormsTest
 		public void AddTimerNotification()
 		{
 			Console.WriteLine($"AddTimerNotification");
+			AddRequest(CategoryID.Plain, "Plain (Timer Trigger)", "No actions", NewTimerTrigger());
+		}
 
+		public void AddCalendarNotification()
+		{
+			Console.WriteLine($"AddCalendarNotification");
+			AddRequest(CategoryID.Plain, "Plain (Calendar Trigger)", "No actions", NewCalendarTrigger());
+		}
+
+		public void AddOneButtonNotification()
+		{
+			Console.WriteLine($"AddOneButtonNotification");
+			AddRequest(CategoryID.Simple, "Simple", "One action");
+		}
+
+		public void AddTwoActionsNotification()
+		{
+			Console.WriteLine($"AddTwoActionsNotification");
+			AddRequest(CategoryID.Double, "Double", "Two actions");
+		}
+
+		public void AddThreeActionsNotification()
+		{
+			Console.WriteLine($"AddThreeActionsNotification");
+			AddRequest(CategoryID.Triple, "Triple", "Three actions");
+		}
+
+		public void AddFourActionsNotification()
+		{
+			Console.WriteLine($"AddFourActionsNotification");
+			AddRequest(CategoryID.Quadruple, "Quadruple", "Four actions");
+		}
+
+		public void AddRequest(string category, string title, string? subtitle = null, UNNotificationTrigger? trigger = null)
+		{
 			var center = UNUserNotificationCenter.Current;
-
 			var content = new UNMutableNotificationContent
 			{
-				Title = "Timer Notification",
-				Subtitle = "Subtitle"
+				Title = title,
+				Subtitle = subtitle ?? "",
+				CategoryIdentifier = category
 			};
 			
-			var trigger = UNTimeIntervalNotificationTrigger.CreateTrigger(1, false);
-
 			string identifier = Guid.NewGuid().ToString();
 			lock(locker)
 				ids.Add(identifier);
 
-			var request = UNNotificationRequest.FromIdentifier(identifier, content, trigger);
+			var request = UNNotificationRequest.FromIdentifier(identifier, content, trigger ?? NewTimerTrigger(2));
 
 			Console.WriteLine($"AddNotificationRequest({identifier}, {content.Title}, {content.Subtitle})");
-
 			UNUserNotificationCenter.Current.AddNotificationRequest(request, (error) => {
-				if (error == null)
-					Console.WriteLine($" - ADDED");
-				else
-					Console.WriteLine($" - FAILED:{error}");
+				Console.WriteLine( error != null ? $"- FAILED: {error}" : " - ADDED");
 			});
+		}
+
+		UNNotificationTrigger NewTimerTrigger(double seconds = 2.0)
+		{
+			return UNTimeIntervalNotificationTrigger.CreateTrigger(seconds, false);
+		}
+
+		UNNotificationTrigger NewCalendarTrigger(double seconds = 2.0)
+		{
+			var date = (NSDate)DateTime.Now.AddSeconds(2);
+			var components =  NSCalendar.CurrentCalendar.Components(NSCalendarUnit.Year | NSCalendarUnit.Month | NSCalendarUnit.Day | NSCalendarUnit.Hour | NSCalendarUnit.Minute | NSCalendarUnit.Second, date);
+			return  UNCalendarNotificationTrigger.CreateTrigger(components, false);
 		}
 
 		public override void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
@@ -183,7 +276,7 @@ namespace FormsTest
 			var identifier = notification.Request.Identifier;
 			Console.WriteLine($"Identifier: {identifier}");
 
-			completionHandler(UNNotificationPresentationOptions.Alert);
+			completionHandler(UNNotificationPresentationOptions.Banner);
 		}
 
 		public override void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
@@ -201,4 +294,4 @@ namespace FormsTest
 	}
 }
 
-#endif //MAC
+#endif
