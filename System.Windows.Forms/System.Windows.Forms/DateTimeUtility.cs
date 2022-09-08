@@ -76,7 +76,7 @@ namespace System.Windows.Forms
 			{
 				if (preferredCulture == null)
 				{
-					var locale = PreferredLocale;
+					var locale = NSLocale.AutoUpdatingCurrentLocale;
 					try
 					{
 						var c = CultureInfo.GetCultureInfo(locale.Identifier);
@@ -134,7 +134,7 @@ namespace System.Windows.Forms
 
 		static Dictionary<string, NSDateFormatter> CreateFormatters()
 		{
-			var locale = PreferredLocale;
+			var locale = NSLocale.AutoUpdatingCurrentLocale;
 
 			Dictionary<string, NSDateFormatter> d = new Dictionary<string, NSDateFormatter>();
 
@@ -260,11 +260,11 @@ namespace System.Windows.Forms
 			dtfi.DateSeparator = GetDateSeparator();
 			dtfi.TimeSeparator = GetTimeSeparator();
 			dtfi.DayNames = f.StandaloneWeekdaySymbols;
-			dtfi.MonthGenitiveNames = Append(f.StandaloneMonthSymbols, "");
-			dtfi.MonthNames = Append(f.MonthSymbols, "");
+			dtfi.MonthGenitiveNames = Append(f.StandaloneMonthSymbols, String.Empty, 13);
+			dtfi.MonthNames = Append(f.MonthSymbols, String.Empty, 13);
 			dtfi.AbbreviatedDayNames = f.ShortStandaloneWeekdaySymbols;
-			dtfi.AbbreviatedMonthNames = Append(f.ShortStandaloneMonthSymbols, String.Empty);
-			dtfi.AbbreviatedMonthGenitiveNames = Append(f.ShortMonthSymbols, String.Empty);
+			dtfi.AbbreviatedMonthNames = Append(f.ShortStandaloneMonthSymbols, String.Empty, 13);
+			dtfi.AbbreviatedMonthGenitiveNames = Append(f.ShortMonthSymbols, String.Empty, 13);
 			dtfi.AMDesignator = f.AMSymbol;
 			dtfi.PMDesignator = f.PMSymbol;
 			dtfi.FirstDayOfWeek = cul.DateTimeFormat.FirstDayOfWeek;
@@ -305,8 +305,11 @@ namespace System.Windows.Forms
 			}
 		}
 
-		static string[] Append(string[] array, string value)
+		static string[] Append(string[] array, string value, int maxLength = -1)
 		{
+			if (maxLength >= 0 && array.Length >= maxLength)
+				return array;
+
 			var z = new string[1 + array.Length];
 			array.CopyTo(z, 0);
 			z[z.Length - 1] = value;

@@ -2324,7 +2324,7 @@ namespace System.Windows.Forms
 			View.AddSubview(line);
 
 			numericDatePicker = new NSDatePicker();
-			numericDatePicker.Locale = DateTimeUtility.PreferredLocale;
+			numericDatePicker.Locale = NSLocale.AutoUpdatingCurrentLocale;
 			numericDatePicker.DateValue = date;
 			numericDatePicker.Bezeled = false;
 			numericDatePicker.DatePickerStyle = NSDatePickerStyle.TextFieldAndStepper;
@@ -2340,7 +2340,7 @@ namespace System.Windows.Forms
 			View.AddSubview(line);
 
 			graphicalDatePicker = new NSDatePicker();
-			graphicalDatePicker.Locale = DateTimeUtility.PreferredLocale;
+			graphicalDatePicker.Locale = NSLocale.AutoUpdatingCurrentLocale;
 			graphicalDatePicker.DateValue = date;
 			graphicalDatePicker.Bezeled = false;
 			graphicalDatePicker.DatePickerStyle = NSDatePickerStyle.ClockAndCalendar;
