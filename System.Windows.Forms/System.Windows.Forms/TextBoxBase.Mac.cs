@@ -609,7 +609,7 @@ namespace System.Windows.Forms
 
 		public void ScrollToCaret()
 		{
-			NotImplemented(MethodBase.GetCurrentMethod());
+			Imp.ScrollToCaret();
 		}
 
 		public void Select(int start, int length)
@@ -1147,6 +1147,8 @@ namespace System.Windows.Forms
 		Color SelectionColor { get; set; }
 
 		Point GetPositionFromCharIndex(int index);
+
+		void ScrollToCaret();
 	}
 
 	internal class TextBoxBase_Dummy : ITextBoxBaseImp
@@ -1189,5 +1191,7 @@ namespace System.Windows.Forms
 			//NotImplemented(MethodBase.GetCurrentMethod(), index);
 			return Point.Empty;
 		}
+
+		public void ScrollToCaret() {}
 	}
 }

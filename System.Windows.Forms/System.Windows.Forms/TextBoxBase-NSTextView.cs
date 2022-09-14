@@ -368,6 +368,12 @@ namespace System.Windows.Forms
 				return rect.Location.ToSDPoint();
 			}
 
+			public void ScrollToCaret()
+			{
+				if (textView.SelectedRanges is NSArray ranges && ranges.Count > 0 && ranges.GetItem<NSObject>(0) is NSValue value)
+					textView.ScrollRangeToVisible(new NSRange(value.RangeValue.Location, 0));
+			}
+
 			// Delegate ------------
 
 			internal virtual void TextViewTextDidChange(object sender, EventArgs e)
