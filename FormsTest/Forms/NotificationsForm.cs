@@ -16,6 +16,7 @@ namespace FormsTest
 		/// </summary>
 		System.ComponentModel.IContainer components = null;
 		FlowLayoutPanel panel1;
+		TextBox textbox1;
 
 		Controller controller;
 
@@ -32,16 +33,25 @@ namespace FormsTest
 			components = new Container();
 
 			this.panel1 = new FlowLayoutPanel();
+			this.textbox1 = new TextBox();
             this.SuspendLayout();
 
 			// panel1
 			panel1.SuspendLayout();
 			panel1.AutoSize = true;
 			panel1.BorderStyle = BorderStyle.FixedSingle;
-			panel1.Dock = DockStyle.Fill;
+			panel1.Dock = DockStyle.Left;
 			panel1.Name = "panel1";
 			panel1.FlowDirection = FlowDirection.TopDown;
 			panel1.Padding = new Padding(1);
+
+			textbox1.Dock = DockStyle.Fill;
+			textbox1.Text = "Nazdar";
+			textbox1.AutoSize = false;
+			textbox1.Multiline = true;
+			textbox1.AcceptsTab = true;
+			textbox1.AcceptsReturn = true;
+			textbox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 
 			AddButton("Print Settings", controller.PrintSettings);
 			AddButton("Request Authorization", controller.RequestAuthorization);
@@ -51,12 +61,14 @@ namespace FormsTest
 			AddButton("Twoo Actions Notification", controller.AddTwoActionsNotification);
 			AddButton("Three Actions Notification", controller.AddThreeActionsNotification);
 			AddButton("Four Actions Notification", controller.AddFourActionsNotification);
+			AddButton("Clear Console", () => textbox1.Clear() );
 
 			// TablesForm
 			MinimumSize = new Size(100, 100);
 			AutoScaleDimensions = new SizeF(96F, 96F);
 			AutoScaleMode = AutoScaleMode.Dpi;
-			ClientSize = new Size(480, 320);
+			ClientSize = new Size(640, 360);
+			Controls.Add(textbox1);
 			Controls.Add(panel1);
 			FormBorderStyle = FormBorderStyle.Sizable;
 			SizeGripStyle = SizeGripStyle.Show;
@@ -93,7 +105,20 @@ namespace FormsTest
 
 		protected void grid_ColumnHeaderDoubleClick(object? sender, DataGridViewCellMouseEventArgs e)
 		{
-			Console.WriteLine($"{e}");
+			WriteLine($"{e}");
+		}
+
+		public void WriteLine(string line)
+		{
+			this.BeginInvoke(() =>
+			{
+				textbox1.AppendText(line);
+				textbox1.AppendText(Environment.NewLine);
+				textbox1.SelectionStart = textbox1.TextLength;
+				textbox1.ScrollToCaret();
+			});
+			
+			Console.WriteLine(line);
 		}
 	}
 
@@ -171,17 +196,18 @@ namespace FormsTest
 
 		public void PrintSettings()
 		{
-			Console.WriteLine($"PrintSettings");
+			var n = NSLocale.CurrentLocaleDidChangeNotification;
+			form.WriteLine($"PrintSettings");
 
 			var center = UNUserNotificationCenter.Current;
 			center.GetNotificationSettings((settings) => {
-				Console.WriteLine($"GetNotificationSettings => {settings}");
+				form.WriteLine($"GetNotificationSettings => {settings}");
 			});
 		}
 
 		public void RequestAuthorization()
 		{
-			Console.WriteLine($"RequestAuthorization");
+			form.WriteLine($"RequestAuthorization");
 
 			var center = UNUserNotificationCenter.Current;
 			center.GetNotificationSettings((settings) => {
@@ -189,49 +215,49 @@ namespace FormsTest
 				{
 					var options = UNAuthorizationOptions.Badge | UNAuthorizationOptions.Alert;
 					center.RequestAuthorization(options, (granted, error) => {
-						Console.WriteLine($"RequestAuthorization => {granted}, {error}");
+						form.WriteLine($"RequestAuthorization => {granted}, {error}");
 					});
 				}
 				else
 				{
-					Console.WriteLine($"Authorization already granted");
+					form.WriteLine($"Authorization already granted");
 				}
 			});
 		}
 
 		public void AddTimerNotification()
 		{
-			Console.WriteLine($"AddTimerNotification");
+			form.WriteLine($"AddTimerNotification");
 			AddRequest(CategoryID.Plain, "Plain (Timer Trigger)", "No actions", NewTimerTrigger());
 		}
 
 		public void AddCalendarNotification()
 		{
-			Console.WriteLine($"AddCalendarNotification");
+			form.WriteLine($"AddCalendarNotification");
 			AddRequest(CategoryID.Plain, "Plain (Calendar Trigger)", "No actions", NewCalendarTrigger());
 		}
 
 		public void AddOneButtonNotification()
 		{
-			Console.WriteLine($"AddOneButtonNotification");
+			form.WriteLine($"AddOneButtonNotification");
 			AddRequest(CategoryID.Simple, "Simple", "One action");
 		}
 
 		public void AddTwoActionsNotification()
 		{
-			Console.WriteLine($"AddTwoActionsNotification");
+			form.WriteLine($"AddTwoActionsNotification");
 			AddRequest(CategoryID.Double, "Double", "Two actions");
 		}
 
 		public void AddThreeActionsNotification()
 		{
-			Console.WriteLine($"AddThreeActionsNotification");
+			form.WriteLine($"AddThreeActionsNotification");
 			AddRequest(CategoryID.Triple, "Triple", "Three actions");
 		}
 
 		public void AddFourActionsNotification()
 		{
-			Console.WriteLine($"AddFourActionsNotification");
+			form.WriteLine($"AddFourActionsNotification");
 			AddRequest(CategoryID.Quadruple, "Quadruple", "Four actions");
 		}
 
@@ -251,9 +277,9 @@ namespace FormsTest
 
 			var request = UNNotificationRequest.FromIdentifier(identifier, content, trigger ?? NewTimerTrigger(2));
 
-			Console.WriteLine($"AddNotificationRequest({identifier}, {content.Title}, {content.Subtitle})");
+			form.WriteLine($"AddNotificationRequest({identifier}, {content.Title}, {content.Subtitle})");
 			UNUserNotificationCenter.Current.AddNotificationRequest(request, (error) => {
-				Console.WriteLine( error != null ? $"- FAILED: {error}" : " - ADDED");
+				form.WriteLine( error != null ? $"- FAILED: {error}" : " - ADDED");
 			});
 		}
 
@@ -271,20 +297,20 @@ namespace FormsTest
 
 		public override void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
 		{
-			Console.WriteLine($"WillPresentNotification: {notification}");
+			form.WriteLine($"WillPresentNotification: {notification}");
 
 			var identifier = notification.Request.Identifier;
-			Console.WriteLine($"Identifier: {identifier}");
+			form.WriteLine($"Identifier: {identifier}");
 
 			completionHandler(UNNotificationPresentationOptions.Banner);
 		}
 
 		public override void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
 		{
-			Console.WriteLine($"DidReceiveNotificationResponse: {response}");
+			form.WriteLine($"DidReceiveNotificationResponse: {response}");
 
 			var identifier = response.Notification.Request.Identifier;
-			Console.WriteLine($"Identifier: {identifier}");
+			form.WriteLine($"Identifier: {identifier}");
 
 			lock(locker)
 			 	ids.Remove(identifier);
