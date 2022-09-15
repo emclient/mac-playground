@@ -61,6 +61,7 @@ namespace FormsTest
 			AddButton("Twoo Actions Notification", controller.AddTwoActionsNotification);
 			AddButton("Three Actions Notification", controller.AddThreeActionsNotification);
 			AddButton("Four Actions Notification", controller.AddFourActionsNotification);
+			AddButton("Remove All notifications", controller.RemoveAllNotifications);
 			AddButton("Clear Console", () => textbox1.Clear() );
 
 			// TablesForm
@@ -154,7 +155,7 @@ namespace FormsTest
 		public Controller(NotificationsForm form)
 		{
 			this.form = form;
-			InitializeCategories();
+			//InitializeCategories();
 		}
 
 		public void InitializeCategories()
@@ -164,34 +165,77 @@ namespace FormsTest
 			var deleteAction = UNNotificationAction.FromIdentifier(ActionID.Delete, "Delete", UNNotificationActionOptions.Destructive);
 			var replyAction = UNNotificationAction.FromIdentifier(ActionID.Reply, "Reply", UNNotificationActionOptions.Foreground);
 
+			var options = UNNotificationCategoryOptions.CustomDismissAction;
+
 			var cats = new UNNotificationCategory[] {
 				UNNotificationCategory.FromIdentifier(
 					CategoryID.Plain,
 					new UNNotificationAction[] { },
 					new string[] {},
-					UNNotificationCategoryOptions.None),
+					options),
 				UNNotificationCategory.FromIdentifier(
 					CategoryID.Simple,
 					new UNNotificationAction[] { openAction },
 					new string[] {},
-					UNNotificationCategoryOptions.None),
+					options),
 				UNNotificationCategory.FromIdentifier(
 					CategoryID.Double,
 					new UNNotificationAction[] { openAction, replyAction },
 					new string[] {},
-					UNNotificationCategoryOptions.None),
+					options),
 				UNNotificationCategory.FromIdentifier(
 					CategoryID.Triple,
 					new UNNotificationAction[] { openAction, replyAction, deleteAction },
 					new string[] {},
-					UNNotificationCategoryOptions.None),
+					options),
 				UNNotificationCategory.FromIdentifier(
 					CategoryID.Quadruple, 
 					new UNNotificationAction[] { snoozeAction, openAction, replyAction, deleteAction }, 
 					new string[] {},
-					UNNotificationCategoryOptions.None),
+					options),
 			};
 			UNUserNotificationCenter.Current.SetNotificationCategories(new NSSet<UNNotificationCategory>(cats));
+		}
+
+		void RegisterCategory(string categoryID)
+		{
+			var actions = CreateActions(categoryID);
+			var options = UNNotificationCategoryOptions.CustomDismissAction;
+			var category = UNNotificationCategory.FromIdentifier(categoryID, actions, new string[] {}, options);
+			var cats = new UNNotificationCategory[] { category };
+			UNUserNotificationCenter.Current.SetNotificationCategories(new NSSet<UNNotificationCategory>(cats));
+		}
+
+		UNNotificationAction[] CreateActions(string categoryID)
+		{
+			switch (categoryID)
+			{
+				default:
+				case CategoryID.Plain:
+					return new UNNotificationAction[] { };
+				case CategoryID.Simple:
+					return new UNNotificationAction[] { 
+						UNNotificationAction.FromIdentifier(ActionID.Open, "Open", UNNotificationActionOptions.Foreground)
+					};
+				case CategoryID.Double:
+					return new UNNotificationAction[] {
+						UNNotificationAction.FromIdentifier(ActionID.Open, "Open", UNNotificationActionOptions.Foreground),
+						UNNotificationAction.FromIdentifier(ActionID.Delete, "Delete", UNNotificationActionOptions.Destructive)
+					};
+				case CategoryID.Triple:
+					return new UNNotificationAction[] {
+						UNNotificationAction.FromIdentifier(ActionID.Open, "Open", UNNotificationActionOptions.Foreground),
+						UNNotificationAction.FromIdentifier(ActionID.Delete, "Delete", UNNotificationActionOptions.Destructive),
+						UNNotificationAction.FromIdentifier(ActionID.Reply, "Reply", UNNotificationActionOptions.Foreground)
+					};
+				case CategoryID.Quadruple:
+					return new UNNotificationAction[] {
+						UNNotificationAction.FromIdentifier(ActionID.Snooze, "Snooze", UNNotificationActionOptions.None),
+						UNNotificationAction.FromIdentifier(ActionID.Open, "Open", UNNotificationActionOptions.Foreground),
+						UNNotificationAction.FromIdentifier(ActionID.Delete, "Delete", UNNotificationActionOptions.Destructive),
+						UNNotificationAction.FromIdentifier(ActionID.Reply, "Reply", UNNotificationActionOptions.Foreground)
+					};
+			}
 		}
 
 		public void PrintSettings()
@@ -261,8 +305,25 @@ namespace FormsTest
 			AddRequest(CategoryID.Quadruple, "Quadruple", "Four actions");
 		}
 
+		public void RemoveAllNotifications()
+		{
+			form.WriteLine($"RemoveAllNotifications");
+			UNUserNotificationCenter.Current.GetPendingNotificationRequests((requests) => {
+				form.WriteLine($"Removing {requests.Length} pending request(s)");
+				UNUserNotificationCenter.Current.RemoveAllPendingNotificationRequests();
+			});
+
+			UNUserNotificationCenter.Current.GetDeliveredNotifications((notifications) => {
+				form.WriteLine($"Removing {notifications.Length} delivered notification(s)");
+				UNUserNotificationCenter.Current.RemoveAllDeliveredNotifications();
+			});
+		}
+
 		public void AddRequest(string category, string title, string? subtitle = null, UNNotificationTrigger? trigger = null)
 		{
+			// Try to register category just in time (since we do not have notification categories in emc)
+			RegisterCategory(category);
+
 			var center = UNUserNotificationCenter.Current;
 			var content = new UNMutableNotificationContent
 			{
@@ -310,7 +371,7 @@ namespace FormsTest
 			form.WriteLine($"DidReceiveNotificationResponse: {response}");
 
 			var identifier = response.Notification.Request.Identifier;
-			form.WriteLine($"Identifier: {identifier}");
+			form.WriteLine($"Identifier: {identifier}, IsDefault:{response.IsDefaultAction}, IsCustom:{response.IsCustomAction}, IsDismiss:{response.IsDismissAction}");
 
 			lock(locker)
 			 	ids.Remove(identifier);
