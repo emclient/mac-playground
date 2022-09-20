@@ -57,10 +57,12 @@ namespace FormsTest
 			AddButton("Request Authorization", controller.RequestAuthorization);
 			AddButton("Timer Notification", controller.AddTimerNotification);
 			AddButton("Calendar Notification", controller.AddCalendarNotification);
-			AddButton("One Action Notification", controller.AddOneButtonNotification);
-			AddButton("Twoo Actions Notification", controller.AddTwoActionsNotification);
-			AddButton("Three Actions Notification", controller.AddThreeActionsNotification);
-			AddButton("Four Actions Notification", controller.AddFourActionsNotification);
+			AddButton("One Action", controller.AddOneButtonNotification);
+			AddButton("Two Actions", controller.AddTwoActionsNotification);
+			AddButton("Three Actions", controller.AddThreeActionsNotification);
+			AddButton("Four Actions", controller.AddFourActionsNotification);
+			AddButton("Default Sound", controller.AddNotificationWithDefaultSound);
+			AddButton("CUstom Sound", controller.AddNotificationWithCustomSound);
 			AddButton("Remove All notifications", controller.RemoveAllNotifications);
 			AddButton("Clear Console", () => textbox1.Clear() );
 
@@ -255,17 +257,12 @@ namespace FormsTest
 
 			var center = UNUserNotificationCenter.Current;
 			center.GetNotificationSettings((settings) => {
-				if (settings.AuthorizationStatus == UNAuthorizationStatus.NotDetermined)
-				{
-					var options = UNAuthorizationOptions.Badge | UNAuthorizationOptions.Alert;
-					center.RequestAuthorization(options, (granted, error) => {
-						form.WriteLine($"RequestAuthorization => {granted}, {error}");
-					});
-				}
-				else
-				{
-					form.WriteLine($"Authorization already granted");
-				}
+				form.WriteLine($"Authorization status: {settings.AuthorizationStatus}");
+				//var options = UNAuthorizationOptions.Badge | UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound | UNAuthorizationOptions.CriticalAlert | UNAuthorizationOptions.TimeSensitive;
+				var options = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound | UNAuthorizationOptions.CriticalAlert;
+				center.RequestAuthorization(options, (granted, error) => {
+					form.WriteLine($"RequestAuthorization => {granted}, {error}");
+				});
 			});
 		}
 
@@ -305,6 +302,20 @@ namespace FormsTest
 			AddRequest(CategoryID.Quadruple, "Quadruple", "Four actions");
 		}
 
+		public void AddNotificationWithDefaultSound()
+		{
+			form.WriteLine($"AddNotificationWithSound");
+			AddRequest(CategoryID.Simple, "With Default Sound", "No actions", null, UNNotificationSound.Default);
+		}
+
+		public void AddNotificationWithCustomSound()
+		{
+			form.WriteLine($"AddNotificationWithCustomSound");
+			
+			var name = "new_mail.wav";
+			AddRequest(CategoryID.Simple, "With custom sound", "No actions", null, UNNotificationSound.GetSound(name)) ;
+		}
+
 		public void RemoveAllNotifications()
 		{
 			form.WriteLine($"RemoveAllNotifications");
@@ -319,7 +330,7 @@ namespace FormsTest
 			});
 		}
 
-		public void AddRequest(string category, string title, string? subtitle = null, UNNotificationTrigger? trigger = null)
+		public void AddRequest(string category, string title, string? subtitle = null, UNNotificationTrigger? trigger = null, UNNotificationSound? sound = null)
 		{
 			// Try to register category just in time (since we do not have notification categories in emc)
 			RegisterCategory(category);
@@ -329,7 +340,8 @@ namespace FormsTest
 			{
 				Title = title,
 				Subtitle = subtitle ?? "",
-				CategoryIdentifier = category
+				CategoryIdentifier = category,
+				Sound = sound
 			};
 			
 			string identifier = Guid.NewGuid().ToString();

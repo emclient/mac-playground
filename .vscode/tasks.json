@@ -10,7 +10,7 @@
                 "${workspaceFolder}/FormsTest/FormsTest.csproj",
                 "/p:TargetFramework=net6.0-macos",
                 "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "/consoleloggerparameters:NoSummary",
             ],
             "problemMatcher": "$msCompile",
             "options": {
@@ -29,7 +29,7 @@
                 "/p:TargetFramework=net6.0-macos",
                 "/p:RuntimeIdentifiers=osx-x64",
                 "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "/consoleloggerparameters:NoSummary",
             ],
             "problemMatcher": "$msCompile",
             "options": {
@@ -49,7 +49,7 @@
                 "/p:RuntimeIdentifiers=osx-arm64",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary",
-                "/p:CodeSigningKey=Mac Developer",
+                "/p:CodeSigningKey=Apple Development: Jiri Volejnik (8YTD656N9T)",
                 "/p:EnableCodeSigning=true",
             ],
             "problemMatcher": "$msCompile",

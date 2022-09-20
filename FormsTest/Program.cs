@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 #if MAC
 using MacApi.Posix;
 using AppKit;
+using UserNotifications;
 #endif
 
 namespace FormsTest
@@ -60,6 +61,7 @@ namespace FormsTest
 			//CefApp.
 
 			CreateMacMenu();
+			InitNotifications();
 
 			var f = new MainForm();
 			f.Show();
@@ -71,7 +73,6 @@ namespace FormsTest
 		}
 
 #if MAC
-
 		static void CreateMacMenu()
 		{
 			var menuBar = new NSMenu("");
@@ -114,6 +115,21 @@ namespace FormsTest
 			menuBar.SetSubmenu(helpMenu, helpMenuItem);
 
 			NSApplication.SharedApplication.Menu = menuBar;
+		}
+
+		static void InitNotifications()
+		{
+			Console.WriteLine($"RequestAuthorization");
+
+			var center = UNUserNotificationCenter.Current;
+			center.GetNotificationSettings((settings) => {
+				Console.WriteLine($"Authorization status: {settings.AuthorizationStatus}");
+				var options = UNAuthorizationOptions.Badge | UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound | UNAuthorizationOptions.CriticalAlert | UNAuthorizationOptions.TimeSensitive;
+				center.RequestAuthorization(options, (granted, error) => {
+					Console.WriteLine($"RequestAuthorization => {granted}, {error}");
+				});
+			});
+
 		}
 
 		private static void CloseWindowItem_Activated(object sender, EventArgs e)
@@ -177,6 +193,10 @@ namespace FormsTest
 		}
 #else
 		static void CreateMacMenu()
+		{
+		}
+
+		static void InitNotifications()
 		{
 		}
 

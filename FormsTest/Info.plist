@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleName</key>
-	<string>TestApp</string>
+	<string>FormsTest</string>
 	<!-- <key>CFBundleIdentifier</key>
 	<string>com.emclient.testapp</string> -->
 	<key>CFBundleShortVersionString</key>
@@ -33,10 +33,5 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>CFBundleLocalizations</key>
-	<array>
-		<string>en</string>
-		<string>de</string>
-	</array>
 </dict>
 </plist>

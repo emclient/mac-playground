@@ -15,8 +15,13 @@
     <UseWindowsForms Condition="'$(TargetFramework)' == 'net6.0-windows'">true</UseWindowsForms>
     <UseMonoRuntime>false</UseMonoRuntime>
     <CustomResourceTypesSupport>true</CustomResourceTypesSupport>
+    <ExtrasEnableEmbeddedResourceCodeGenerator>false</ExtrasEnableEmbeddedResourceCodeGenerator>
     <ApplicationId>com.emclient.testapp</ApplicationId>
     <ApplicationTitle>FormsTest</ApplicationTitle>
+    <Company>eM Client s.r.o.</Company>
+    <Product>FormsTest</Product>
+    <Brand></Brand>
+    <MonoBundlingExtraArgs>--registrar:static</MonoBundlingExtraArgs>
     <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-macos'">10.14</SupportedOSPlatformVersion>
     <PathMap Condition="'$(Configuration)' == 'Release' OR $(Configuration.EndsWith('- Release'))">$(MSBuildProjectDirectory)/obj/$(Configuration)/$(TargetFramework)/$(RuntimeIdentifier)=.</PathMap>
   </PropertyGroup>
@@ -275,29 +280,11 @@
     <None Include="Controls\ControlStatusBar.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="car.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="new_mail.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Hotmail_Small.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Hotmail.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\iCloud_Small.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\iCloud.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="App.ico" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="car.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="new_mail.wav" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
-  <Import Project="MailClient.macOS.targets" Condition="'$([MSBuild]::GetTargetPlatformIdentifier($(TargetFramework)))' == 'macos'" />
+  <Import Project="FormsTest.macOS.targets" Condition="'$([MSBuild]::GetTargetPlatformIdentifier($(TargetFramework)))' == 'macos'" />
 
 </Project>
