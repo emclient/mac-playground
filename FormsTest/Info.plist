@@ -4,12 +4,10 @@
 <dict>
 	<key>CFBundleName</key>
 	<string>FormsTest</string>
-	<!-- <key>CFBundleIdentifier</key>
-	<string>com.emclient.testapp</string> -->
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>9.2</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>9.2.697</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.14</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -19,9 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
-	<string>????</string>
+	<string>eMFT</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>${AuthorCopyright}</string>
+	<string>eM Client s.r.o.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSMainStoryboardFile</key>
