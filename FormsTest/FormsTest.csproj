@@ -16,7 +16,7 @@
     <UseMonoRuntime>false</UseMonoRuntime>
     <CustomResourceTypesSupport>true</CustomResourceTypesSupport>
     <ExtrasEnableEmbeddedResourceCodeGenerator>false</ExtrasEnableEmbeddedResourceCodeGenerator>
-    <ApplicationId>com.emclient.testapp</ApplicationId>
+    <ApplicationId>com.emclient.formstest.1</ApplicationId>
     <ApplicationTitle>FormsTest</ApplicationTitle>
     <Company>eM Client s.r.o.</Company>
     <Product>FormsTest</Product>

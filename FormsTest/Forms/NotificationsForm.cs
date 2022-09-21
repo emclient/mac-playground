@@ -258,11 +258,35 @@ namespace FormsTest
 			var center = UNUserNotificationCenter.Current;
 			center.GetNotificationSettings((settings) => {
 				form.WriteLine($"Authorization status: {settings.AuthorizationStatus}");
-				//var options = UNAuthorizationOptions.Badge | UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound | UNAuthorizationOptions.CriticalAlert | UNAuthorizationOptions.TimeSensitive;
-				var options = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound | UNAuthorizationOptions.CriticalAlert;
-				center.RequestAuthorization(options, (granted, error) => {
-					form.WriteLine($"RequestAuthorization => {granted}, {error}");
-				});
+
+				if (settings.AuthorizationStatus != UNAuthorizationStatus.Authorized && settings.AuthorizationStatus != UNAuthorizationStatus.Provisional)
+				{
+					var options = UNAuthorizationOptions.Badge | UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound;
+
+					// Requesting critical alerts first causes rejecting it at first, but iut invokes the UI request the next time
+					if (NSProcessInfo.ProcessInfo.OperatingSystemVersion.Major >= 12)
+						options |= UNAuthorizationOptions.CriticalAlert;
+
+					form.WriteLine($"Requesting authoriztion with criticalAlert...");
+
+					// The following requires entitlement "com.apple.developer.usernotifications.time-sensitive"
+					// And the provisioning profile is also required to contain time sensitive alerts option
+					options |= UNAuthorizationOptions.TimeSensitive;
+					center.RequestAuthorization(options, (granted, error) => {
+
+						form.WriteLine($"Authorization granted: {granted}, {error}");
+
+						if (!granted)
+						{
+							form.WriteLine($"Requesting authoriztion again without with criticalAlert...");
+							
+							options &= ~UNAuthorizationOptions.CriticalAlert;
+							center.RequestAuthorization(options, (granted, error) => {
+								form.WriteLine($"Authorization granted: {granted}, {error}");
+							});
+						}
+					});
+				}
 			});
 		}
 
