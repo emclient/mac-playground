@@ -62,7 +62,8 @@ namespace FormsTest
 			AddButton("Three Actions", controller.AddThreeActionsNotification);
 			AddButton("Four Actions", controller.AddFourActionsNotification);
 			AddButton("Default Sound", controller.AddNotificationWithDefaultSound);
-			AddButton("CUstom Sound", controller.AddNotificationWithCustomSound);
+			AddButton("Custom Sound", controller.AddNotificationWithCustomSound);
+			AddButton("Time Sensitive", controller.AddTimeSensitiveNotification);
 			AddButton("Remove All notifications", controller.RemoveAllNotifications);
 			AddButton("Clear Console", () => textbox1.Clear() );
 
@@ -263,8 +264,8 @@ namespace FormsTest
 				{
 					var options = UNAuthorizationOptions.Badge | UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound;
 
-					// Requesting critical alerts first causes rejecting it at first, but iut invokes the UI request the next time
-					if (NSProcessInfo.ProcessInfo.OperatingSystemVersion.Major >= 12)
+					// Requesting critical alerts first causes rejecting it at first, but it invokes the UI request the next time
+					if (NSProcessInfo.ProcessInfo.IsMontereyOrHigher())
 						options |= UNAuthorizationOptions.CriticalAlert;
 
 					form.WriteLine($"Requesting authoriztion with criticalAlert...");
@@ -340,6 +341,12 @@ namespace FormsTest
 			AddRequest(CategoryID.Simple, "With custom sound", "No actions", null, UNNotificationSound.GetSound(name)) ;
 		}
 
+		public void AddTimeSensitiveNotification()
+		{
+			form.WriteLine($"AddNotificationWithCustomSound");
+			AddRequest(CategoryID.Simple, "Time Sensitive", "No actions", null, null, UNNotificationInterruptionLevel.TimeSensitive) ;
+		}
+
 		public void RemoveAllNotifications()
 		{
 			form.WriteLine($"RemoveAllNotifications");
@@ -354,7 +361,7 @@ namespace FormsTest
 			});
 		}
 
-		public void AddRequest(string category, string title, string? subtitle = null, UNNotificationTrigger? trigger = null, UNNotificationSound? sound = null)
+		public void AddRequest(string category, string title, string? subtitle = null, UNNotificationTrigger? trigger = null, UNNotificationSound? sound = null, UNNotificationInterruptionLevel? level = null)
 		{
 			// Try to register category just in time (since we do not have notification categories in emc)
 			RegisterCategory(category);
@@ -363,11 +370,17 @@ namespace FormsTest
 			var content = new UNMutableNotificationContent
 			{
 				Title = title,
-				Subtitle = subtitle ?? "",
 				CategoryIdentifier = category,
-				Sound = sound
+				Sound = sound,
 			};
-			
+
+			if (subtitle != null)
+				content.Subtitle = subtitle;
+
+			if (NSProcessInfo.ProcessInfo.IsMontereyOrHigher())
+				if (level != null)
+					content.InterruptionLevel = (UNNotificationInterruptionLevel)level;
+
 			string identifier = Guid.NewGuid().ToString();
 			lock(locker)
 				ids.Add(identifier);
@@ -399,7 +412,7 @@ namespace FormsTest
 			var identifier = notification.Request.Identifier;
 			form.WriteLine($"Identifier: {identifier}");
 
-			completionHandler(UNNotificationPresentationOptions.Banner);
+			completionHandler(UNNotificationPresentationOptions.Alert);
 		}
 
 		public override void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
@@ -413,6 +426,14 @@ namespace FormsTest
 			 	ids.Remove(identifier);
 
 			completionHandler();
+		}
+	}
+
+	static class NotificationExtensions
+	{
+		public static bool IsMontereyOrHigher(this NSProcessInfo info)
+		{
+			return info.OperatingSystemVersion.Major >= 12;
 		}
 	}
 }
