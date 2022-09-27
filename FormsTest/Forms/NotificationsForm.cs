@@ -64,6 +64,7 @@ namespace FormsTest
 			AddButton("Default Sound", controller.AddNotificationWithDefaultSound);
 			AddButton("Custom Sound", controller.AddNotificationWithCustomSound);
 			AddButton("Time Sensitive", controller.AddTimeSensitiveNotification);
+			AddButton("Text Input", controller.AddTextInputNotification);
 			AddButton("Remove All notifications", controller.RemoveAllNotifications);
 			AddButton("Clear Console", () => textbox1.Clear() );
 
@@ -133,6 +134,7 @@ namespace FormsTest
 		public const string Double = "Double";
 		public const string Triple = "Triple";
 		public const string Quadruple = "Quadruple";
+		public const string TextInput = "TextInput";
 	}
 
 	class ActionID
@@ -141,6 +143,7 @@ namespace FormsTest
 		public const string Open = "Open";
 		public const string Delete = "Delete";
 		public const string Reply = "Reply";
+		public const string InstantReply = "InstantReply";
 	}
 
 	class IntentID
@@ -167,6 +170,7 @@ namespace FormsTest
 			var openAction = UNNotificationAction.FromIdentifier(ActionID.Open, "Open", UNNotificationActionOptions.Foreground);
 			var deleteAction = UNNotificationAction.FromIdentifier(ActionID.Delete, "Delete", UNNotificationActionOptions.Destructive);
 			var replyAction = UNNotificationAction.FromIdentifier(ActionID.Reply, "Reply", UNNotificationActionOptions.Foreground);
+			var instantReplyAction = UNNotificationAction.FromIdentifier(ActionID.InstantReply, "InstantReply", UNNotificationActionOptions.Foreground);
 
 			var options = UNNotificationCategoryOptions.CustomDismissAction;
 
@@ -194,6 +198,11 @@ namespace FormsTest
 				UNNotificationCategory.FromIdentifier(
 					CategoryID.Quadruple, 
 					new UNNotificationAction[] { snoozeAction, openAction, replyAction, deleteAction }, 
+					new string[] {},
+					options),
+				UNNotificationCategory.FromIdentifier(
+					CategoryID.TextInput, 
+					new UNNotificationAction[] { instantReplyAction },
 					new string[] {},
 					options),
 			};
@@ -237,6 +246,10 @@ namespace FormsTest
 						UNNotificationAction.FromIdentifier(ActionID.Open, "Open", UNNotificationActionOptions.Foreground),
 						UNNotificationAction.FromIdentifier(ActionID.Delete, "Delete", UNNotificationActionOptions.Destructive),
 						UNNotificationAction.FromIdentifier(ActionID.Reply, "Reply", UNNotificationActionOptions.Foreground)
+					};
+				case CategoryID.TextInput:
+					return new UNNotificationAction[] {
+						UNTextInputNotificationAction.FromIdentifier(ActionID.InstantReply, "Instant Reply", UNNotificationActionOptions.Foreground, "Reply", "Type something here"),
 					};
 			}
 		}
@@ -345,6 +358,12 @@ namespace FormsTest
 		{
 			form.WriteLine($"AddNotificationWithCustomSound");
 			AddRequest(CategoryID.Simple, "Time Sensitive", "No actions", null, null, UNNotificationInterruptionLevel.TimeSensitive) ;
+		}
+
+		public void AddTextInputNotification()
+		{
+			form.WriteLine($"AddTextInputNotification");
+			AddRequest(CategoryID.TextInput, "Text Input", "No actions");
 		}
 
 		public void RemoveAllNotifications()
