@@ -786,6 +786,11 @@ namespace System.Windows.Forms.Mac
 			return (version.Major == 10 && version.Minor >= 15) || version.Major > 10;
 		}
 
+		public static bool IsMontereyOrHigher(this NSProcessInfo info)
+		{
+			return info.OperatingSystemVersion.Major >= 12;
+		}
+
 		public static Size GetDeviceDpi(this Control control)
 		{
 			var form = control?.FindForm() ?? Form.ActiveForm;

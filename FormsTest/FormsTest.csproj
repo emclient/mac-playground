@@ -15,8 +15,13 @@
     <UseWindowsForms Condition="'$(TargetFramework)' == 'net6.0-windows'">true</UseWindowsForms>
     <UseMonoRuntime>false</UseMonoRuntime>
     <CustomResourceTypesSupport>true</CustomResourceTypesSupport>
-    <ApplicationId>com.emclient.testapp</ApplicationId>
+    <ExtrasEnableEmbeddedResourceCodeGenerator>false</ExtrasEnableEmbeddedResourceCodeGenerator>
+    <ApplicationId>com.emclient.formstest.1</ApplicationId>
     <ApplicationTitle>FormsTest</ApplicationTitle>
+    <Company>eM Client s.r.o.</Company>
+    <Product>FormsTest</Product>
+    <Brand></Brand>
+    <MonoBundlingExtraArgs>--registrar:static</MonoBundlingExtraArgs>
     <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-macos'">10.14</SupportedOSPlatformVersion>
     <PathMap Condition="'$(Configuration)' == 'Release' OR $(Configuration.EndsWith('- Release'))">$(MSBuildProjectDirectory)/obj/$(Configuration)/$(TargetFramework)/$(RuntimeIdentifier)=.</PathMap>
   </PropertyGroup>
@@ -223,17 +228,16 @@
     <Compile Include="Forms\MainForm.NSBackgroundActivity.cs" />
     <Compile Include="Forms\MainForm.NCPrefs.cs" />
     <Compile Include="Forms\MainForm.TextExtraction.cs" />
+    <Compile Include="Forms\MainForm.PrintPreview.cs" />
     <!--<Compile Include="Forms\DataGridForm.cs" />-->
     <Compile Include="Forms\DateTimeForm.cs" />
+    <Compile Include="Forms\NotificationsForm.cs" Condition="'$(TargetFramework)' == 'net6.0-macos'" />
     <Compile Include="Controls\TextureBrushControl.cs" />
     <Compile Include="Controls\TextureBrushControl2.cs" />
     <Compile Include="Experiments\FileDescriptors.cs">
       <SubType></SubType>
     </Compile>
     <Compile Include="Experiments\CatchWhen.cs">
-      <SubType></SubType>
-    </Compile>
-    <Compile Include="Forms\MainForm.PrintPreview.cs">
       <SubType></SubType>
     </Compile>
   </ItemGroup>
@@ -272,30 +276,15 @@
     <None Include="Properties\Resources.resx" />
     <None Include="application.ico" />
     <None Include="Info.plist" />
-    <None Include="Resources\Hotmail_Small.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Hotmail.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\iCloud_Small.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\iCloud.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Controls\ControlWaiting.resx" />
     <None Include="Controls\ControlStatusBar.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="car.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="App.ico" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="car.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="new_mail.wav" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
-  <Import Project="MailClient.macOS.targets" Condition="'$([MSBuild]::GetTargetPlatformIdentifier($(TargetFramework)))' == 'macos'" />
+  <Import Project="FormsTest.macOS.targets" Condition="'$([MSBuild]::GetTargetPlatformIdentifier($(TargetFramework)))' == 'macos'" />
 
 </Project>

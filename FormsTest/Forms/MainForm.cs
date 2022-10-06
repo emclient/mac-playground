@@ -140,7 +140,8 @@ namespace FormsTest
 			AddButton("Text Extraction", () => { TextExtractionTest(); });
 			AddButton("Core Data Test", () => { CoreDataTest(); });
 			AddButton("RAM Disk Test", () => { RamDiskTest(); });
-			AddButton("UTType Test", () => { UTTypeTest(); });
+			//AddButton("UTType Test", () => { UTTypeTest(); });
+			AddButton("UNNotifications", () => { new NotificationsForm().Show(); });
 #endif
 
 			//AddButton("Data Grid", () => { new DataGridForm().Show(); });
@@ -341,6 +342,7 @@ namespace FormsTest
 			using var tagClass = new NSString(identifier);
 			return UTType.GetType(tag, tagClass, UTTypes.Data.Identifier).Identifier;
 		}
+
 	#endif
 
 		public void ShowAutoSizeForm()

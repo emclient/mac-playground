@@ -313,6 +313,11 @@ namespace System.Windows.Forms
 				return rect.Location.ToSDPoint();
 			}
 
+			public void ScrollToCaret()
+			{
+				NotImplemented(MethodBase.GetCurrentMethod());
+			}
+
 			internal virtual void ApplyText(string value)
 			{
 				if (textField != null && value != null)

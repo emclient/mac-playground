@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 #if MAC
 using MacApi.Posix;
 using AppKit;
+using UserNotifications;
 #endif
 
 namespace FormsTest
@@ -71,7 +72,6 @@ namespace FormsTest
 		}
 
 #if MAC
-
 		static void CreateMacMenu()
 		{
 			var menuBar = new NSMenu("");

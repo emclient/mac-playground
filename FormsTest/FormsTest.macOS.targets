@@ -1,0 +1,30 @@
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <UseHardenedRuntime>true</UseHardenedRuntime>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <OutputType>Exe</OutputType>
+    <RuntimeIdentifiers Condition="'$(RuntimeIdentifiers)' == ''">osx-x64;osx-arm64</RuntimeIdentifiers>
+    <DefineConstants>$(DefineConstants);NO_DESIGNER</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.257301" />
+    <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="2.0.74" ExcludeAssets="native;build;buildTransitive" />
+  </ItemGroup>
+
+  <!-- Workaround for https://github.com/xamarin/xamarin-macios/issues/14522 -->
+  <PropertyGroup>
+    <_CodesignAppBundleDependsOn>$(_CodesignAppBundleDependsOn);FixCodeSignInput</_CodesignAppBundleDependsOn>
+  </PropertyGroup>
+  <Target Name="FixCodeSignInput">
+    <ItemGroup>
+      <_CodesignItemsUnfiltered Include="@(_CodesignItems)" />
+      <_CodesignItems Remove="@(_CodesignItems)" />
+    </ItemGroup>
+    <RemoveDuplicates Inputs="@(_CodesignItemsUnfiltered)">
+      <Output TaskParameter="Filtered" ItemName="_CodesignItems"/>
+    </RemoveDuplicates>
+  </Target>
+
+</Project>
