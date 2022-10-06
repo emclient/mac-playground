@@ -141,7 +141,7 @@ namespace FormsTest
 			AddButton("Core Data Test", () => { CoreDataTest(); });
 			AddButton("RAM Disk Test", () => { RamDiskTest(); });
 			//AddButton("UTType Test", () => { UTTypeTest(); });
-			AddButton("UNNotifications", () => { new NotificationsForm().Show(); });
+			//AddButton("UNNotifications", () => { new NotificationsForm().Show(); });
 #endif
 
 			//AddButton("Data Grid", () => { new DataGridForm().Show(); });
