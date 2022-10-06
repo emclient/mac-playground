@@ -9,6 +9,8 @@ using UIKit;
 using CoreGraphics;
 using CoreText;
 using Foundation;
+using System.Drawing.Printing;
+using ObjCRuntime;
 
 namespace System.Drawing.Mac
 {
@@ -58,6 +60,18 @@ namespace System.Drawing.Mac
 		{
 			return new Rectangle(r.X + x, r.Y + y, r.Width, r.Height);
 		}
+
+		public static Rectangle Inset(this Rectangle r, int left, int top, int right, int bottom)
+		{
+			return new Rectangle(r.X + left, r.Y + top, r.Width - right - left, r.Height - bottom - top);
+		}
+
+#if __MACOS__
+		public static Rectangle Inset(this Rectangle r, Margins m)
+		{
+			return r.Inset(m.Left, m.Top, m.Right, m.Bottom);
+		}
+#endif
 
 		public static CGPoint Move(this CGPoint p, nfloat x, nfloat y)
 		{
@@ -324,5 +338,12 @@ namespace System.Drawing.Mac
 		{
 			return graphics.context;
 		}
+
+#if __MACOS__
+		public static PageSettings ToPageSettings(this NSPrintInfo printInfo)
+		{
+			return new PageSettings(printInfo);
+		}
+#endif
 	}
 }

@@ -38,7 +38,7 @@ namespace System.Windows.Forms.VisualStyles
 
 		static IVisualStyles Initialize ()
 		{
-#if XAMARINMAC
+#if MAC
 			return new VisualStylesUnsupported();
 #else
 			return new VisualStylesNative();

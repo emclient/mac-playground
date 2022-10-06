@@ -4,17 +4,11 @@ using System.Drawing;
 using System.Drawing.Mac;
 using System.Drawing.Imaging;
 using System.Windows.Forms.Mac;
-
-using MacApi.LaunchServices;
-
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-#elif XAMARINMAC
 using AppKit;
 using Foundation;
-#endif
-
+using UniformTypeIdentifiers;
+using UTType = MacApi.CoreServices.UTType;
+using UTTypes = MacApi.CoreServices.UTTypes;
 
 namespace System.Windows.Forms.CocoaInternal
 {
@@ -22,17 +16,6 @@ namespace System.Windows.Forms.CocoaInternal
 	internal class DataObjectProvider : NSPasteboardItemDataProvider
 	{
 		IDataObject data;
-
-#if MONOMAC
-		public override bool ConformsToProtocol(IntPtr protocol)
-		{
-			if ("NSPasteboardItemDataProvider" == NSString.FromHandle(Mac.Extensions.NSStringFromProtocol(protocol)))
-				return true;
-
-			return base.ConformsToProtocol(protocol);
-		}
-#endif
-
 		public DataObjectProvider(IDataObject data)
 		{
 			this.data = new DataObjectWrapper(data);
@@ -187,21 +170,38 @@ namespace System.Windows.Forms.CocoaInternal
 			item.SetDataForType(nsdata, Pasteboard.NSPasteboardTypeRTF);
 		}
 
+
 		protected string CreateDynamicTypeFor(string type)
 		{
-			return UTType.CreatePreferredIdentifier(UTType.kUTTagClassNSPboardType, Pasteboard.NSPasteboardTypeWebArchive, UTType.kUTTypeData);
+			const string UTTypeNSPboardType = "kUTTagClassNSPboardType";
+			using var UTTypeNSPasteboardTypeWebArchive = new NSString(Pasteboard.NSPasteboardTypeWebArchive);
+			return UTType.GetType(UTTypeNSPboardType, UTTypeNSPasteboardTypeWebArchive, UTTypes.Data.Identifier)?.Identifier;
 		}
 
 		protected void ProvideTiff(NSPasteboard pboard, NSPasteboardItem item, string type)
 		{
-			if (data.GetData(DataFormats.Bitmap) is Image image)
-				item.SetDataForType(image.ToNSData(ImageFormat.Tiff), Pasteboard.NSPasteboardTypeTIFF);
+			try
+			{
+				if (data.GetData(DataFormats.Bitmap) is Image image)
+					item.SetDataForType(image.ToNSData(ImageFormat.Tiff), Pasteboard.NSPasteboardTypeTIFF);
+			}
+			catch (ObjectDisposedException)
+			{
+				Diagnostics.Debug.Assert(false);
+			}
 		}
 
 		protected void ProvidePng(NSPasteboard pboard, NSPasteboardItem item, string type)
 		{
-			if (data.GetData(DataFormats.Bitmap) is Image image)
-				item.SetDataForType(image.ToNSData(ImageFormat.Png), Pasteboard.NSPasteboardTypePNG);
+			try
+			{
+				if (data.GetData(DataFormats.Bitmap) is Image image)
+					item.SetDataForType(image.ToNSData(ImageFormat.Png), Pasteboard.NSPasteboardTypePNG);
+			}
+			catch (ObjectDisposedException)
+			{
+				Diagnostics.Debug.Assert(false);
+			}
 		}
 
 		protected string GetHtmlWithoutMetadata()

@@ -12,10 +12,18 @@ namespace MacApi.PrintCore
 			return PMSessionSetDestination(session.Handle, settings.Handle, destType, new NSString(format).Handle, destination.Handle);
 		}
 
+		public static int SetCurrentPrinter(this PMPrintSession session, PMPrinter printer)
+		{
+			return PMSessionSetCurrentPMPrinter(session.Handle, printer.Handle);
+		}
+
 		#region internals
 
 		[DllImport(Constants.PrintCoreLibrary)]
 		internal static extern int PMSessionSetDestination(IntPtr printSession, IntPtr printSettings, PMDestinationType destType, IntPtr strDestFormat, IntPtr urlDestLocation);
+
+		[DllImport(Constants.PrintCoreLibrary)]
+		internal extern static int PMSessionSetCurrentPMPrinter(IntPtr session, IntPtr printer);
 
 		#endregion
 	}

@@ -1,0 +1,43 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Launch (Console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/FormsTest/bin/Debug/net6.0-macos/FormsTest.app/Contents/MacOS/FormsTest",
+            "args": [],
+            "cwd": "${workspaceFolder}/FormsTest",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": ".NET Core Launch (Console, x64)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build (x64)",
+            "program": "${workspaceFolder}/FormsTest/bin/Debug/net6.0-macos/FormsTest.app/Contents/MacOS/FormsTest",
+            "args": [],
+            "cwd": "${workspaceFolder}/FormsTest",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": ".NET Core Launch (Console, arm64)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build (arm64)",
+            "program": "${workspaceFolder}/FormsTest/bin/Debug/net6.0-macos/FormsTest.app/Contents/MacOS/FormsTest",
+            "args": [],
+            "cwd": "${workspaceFolder}/FormsTest",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+    ]
+}

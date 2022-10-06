@@ -1,0 +1,89 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/FormsTest/FormsTest.csproj",
+                "/p:TargetFramework=net6.0-macos",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary",
+            ],
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "MSBUILDENSURESTDOUTFORTASKPROCESSES": "1"
+                }
+            }
+        },
+        {
+            "label": "build (x64)",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/FormsTest/FormsTest.csproj",
+                "/p:TargetFramework=net6.0-macos",
+                "/p:RuntimeIdentifiers=osx-x64",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary",
+            ],
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "MSBUILDENSURESTDOUTFORTASKPROCESSES": "1"
+                }
+            }
+        },
+        {
+            "label": "build (arm64)",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/FormsTest/FormsTest.csproj",
+                "/p:TargetFramework=net6.0-macos",
+                "/p:RuntimeIdentifiers=osx-arm64",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary",
+                //"/p:CodeSigningKey=Mac Developer",
+                "/p:CodesignProvision=Forms Test 1",
+                "/p:EnableCodeSigning=true",
+            ],
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "MSBUILDENSURESTDOUTFORTASKPROCESSES": "1"
+                }
+            }
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/FormsTest/FormsTest.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "${workspaceFolder}/FormsTest/FormsTest.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

@@ -30,32 +30,19 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-
-#if XAMARINMAC
 using AppKit;
-#elif MONOMAC
-using MonoMac.AppKit;
-#endif
-
-#if SDCOMPAT
-using NSRect = System.Drawing.RectangleF;
-#else
-#if XAMARINMAC
-using NSRect = CoreGraphics.CGRect;
-#elif MONOMAC
-using NSRect = MonoMac.CoreGraphics.CGRect;
-#endif
-#endif
+using CoreGraphics;
+using ObjCRuntime;
 
 namespace System.Windows.Forms.CocoaInternal
 {
 	partial class MonoContentView : MonoView
 	{
-		public MonoContentView (IntPtr instance) : base (instance)
+		public MonoContentView (NativeHandle instance) : base (instance)
 		{
 		}
 
-		public MonoContentView (XplatUICocoa driver, NSRect frameRect, WindowStyles style, WindowExStyles exStyle)
+		public MonoContentView (XplatUICocoa driver, CGRect frameRect, WindowStyles style, WindowExStyles exStyle)
 			: base(driver, frameRect, style, exStyle)
 		{
 		}

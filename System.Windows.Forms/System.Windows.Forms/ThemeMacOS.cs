@@ -1,5 +1,3 @@
-#if XAMARINMAC || MONOMAC
-
 using System.ComponentModel;
 //using System.Data;
 using System.Drawing;
@@ -14,18 +12,10 @@ using System.Windows.Forms.resources;
 using System.Drawing.Mac;
 using System.Windows.Forms.Extensions.Drawing;
 using System.Windows.Forms.CocoaInternal;
-
-#if XAMARINMAC
 using AppKit;
 using Foundation;
 using CoreText;
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.CoreText;
-using MonoMac.CoreGraphics;
-#endif
 
 namespace System.Windows.Forms
 {
@@ -1445,7 +1435,7 @@ namespace System.Windows.Forms
 		#region ListBox
 
 		// Background color of the active (focused) highlited item in lists (not text)
-		Color? colorHighlightItem = typeof(NSColor).RespondsToSelector("selectedContentBackgroundColor") ? NSColor.SelectedContentBackgroundColor.ToSDColor() : (Color?)null;
+		Color? colorHighlightItem = typeof(NSColor).RespondsToSelector("selectedContentBackgroundColor") ? NSColor.SelectedContentBackground.ToSDColor() : (Color?)null;
 
 		internal virtual Color ColorHighlightItem
 		{
@@ -1454,7 +1444,7 @@ namespace System.Windows.Forms
 		}
 
 		// Background color of the inactive (not focused) highlited item in lists (not text)
-		Color? colorInactiveHighlightItem = typeof(NSColor).RespondsToSelector("unemphasizedSelectedContentBackgroundColor") ? NSColor.UnemphasizedSelectedContentBackgroundColor.ToSDColor() : (Color?)null;
+		Color? colorInactiveHighlightItem = typeof(NSColor).RespondsToSelector("unemphasizedSelectedContentBackgroundColor") ? NSColor.UnemphasizedSelectedContentBackground.ToSDColor() : (Color?)null;
 
 		internal virtual Color ColorInactiveHighlightItem
 		{
@@ -2588,7 +2578,7 @@ namespace System.Windows.Forms
 			var r = rectangle.ToRectangleF();
 			r.Width -= 1; r.Height -= 1;
 			var circle_color = typeof(NSColor).GetClass().RespondsToSelector(new ObjCRuntime.Selector("controlAccentColor"))
-				? NSColor.ControlAccentColor.ToSDColor() : Color.FromArgb(10, 96, 254);
+				? NSColor.ControlAccent.ToSDColor() : Color.FromArgb(10, 96, 254);
 			using (Pen pen = new Pen(circle_color, strokeWidth))
 				dc.DrawRoundRect(pen, r, cornerRadius);
 		}
@@ -4472,7 +4462,7 @@ namespace System.Windows.Forms
 			public LocalGraphicsContext(Graphics dc)
 			{
 				savedContext = NSGraphicsContext.CurrentContext;
-				cgContext = new CGContext(dc.GetHdc());
+				cgContext = dc.ToCGContext();
 				NSGraphicsContext.CurrentContext = NSGraphicsContext.FromGraphicsPort(cgContext, true);
 				cgContext.SaveState();
 			}
@@ -5622,5 +5612,3 @@ namespace System.Windows.Forms
 
 	} //class
 }
-
-#endif

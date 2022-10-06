@@ -2,18 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
-using ObjCRuntime = MonoMac.ObjCRuntime;
-
-#elif XAMARINMAC
 using AppKit;
 using CoreGraphics;
 using Foundation;
-#endif
+using NSKey = MacApi.AppKit.NSKey;
 
 namespace System.Windows.Forms.CocoaInternal
 {

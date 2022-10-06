@@ -64,6 +64,13 @@ namespace System.Drawing.Printing {
 			paper_size = pageSettings.PaperSize;
 		}
 
+		internal PageSettings(NSPrintInfo printInfo) : this()
+		{
+			PrinterSettings = new PrinterSettings();
+			print_info = printInfo;
+			paper_size = new PaperSize(print_info.LocalizedPaperName, (int)print_info.PaperSize.Width, (int)print_info.PaperSize.Height);
+		}
+
 		internal static NSPrinter PrinterWithNameOrDefaultPrinter(string printerName)
 		{
 			NSPrinter printer = null;
@@ -75,8 +82,8 @@ namespace System.Drawing.Printing {
 		public Rectangle Bounds
 		{
 			get {
-				return print_info.ImageablePageBounds.ToRectangle();
-				//return new Rectangle(0, 0, PaperSize.Width, PaperSize.Height);
+				//return print_info.ImageablePageBounds.ToRectangle();
+				return new Rectangle(Point.Empty, print_info.PaperSize.ToSDSize());
 			}
 		}
 
@@ -101,8 +108,10 @@ namespace System.Drawing.Printing {
 			get { return paper_size; }
 			set {
 				paper_size = value;
+				var orientation = print_info.Orientation;
 				print_info.PaperName = paper_size.PaperName;
 				print_info.PaperSize = new CGSize(paper_size.Width, paper_size.Height);
+				print_info.Orientation = orientation; // Needs to be restored after changing paper name/size
 			}
 		}
 

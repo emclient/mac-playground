@@ -1,18 +1,10 @@
-#if MACOS_THEME
-
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-#elif XAMARINMAC
 using AppKit;
 using Foundation;
-#endif
 
 namespace System.Windows.Forms
 {
@@ -645,4 +637,3 @@ namespace System.Windows.Forms
 		#endregion // Events
 	}
 }
-#endif

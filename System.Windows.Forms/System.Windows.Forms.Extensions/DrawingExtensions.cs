@@ -154,7 +154,7 @@ namespace System.Windows.Forms.Extensions.Drawing
 
 		public static bool IsTransparent(this Color c)
 		{
-#if __MACOS__
+#if MAC
 			return System.Drawing.Mac.ColorExtensions.IsTransparent(c);
 #else
 			return c.A != 255;

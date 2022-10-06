@@ -1,19 +1,10 @@
-﻿#if MONOMAC || XAMARINMAC
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Windows.Forms.CocoaInternal;
-
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.CoreGraphics;
-#elif XAMARINMAC
 using AppKit;
 using Foundation;
 using CoreGraphics;
-#endif
 
 using R = System.Windows.Forms.MessageBoxFormResourcesMac;
 
@@ -273,7 +264,7 @@ namespace System.Windows.Forms
 			NSGraphicsContext.CurrentContext.ImageInterpolation = NSImageInterpolation.High;
 			var dstRect = new CGRect (icon.Size.Width / 2, 0, icon.Size.Width / 2, icon.Size.Height / 2);
 			var srcRect = new CGRect (0, 0, badge.Size.Width, badge.Size.Height);
-			badge.DrawInRect (dstRect, srcRect, NSCompositingOperation.SourceOver, 1.0f);
+			badge.Draw (dstRect, srcRect, NSCompositingOperation.SourceOver, 1.0f);
 			result.UnlockFocus ();
 			return result;
 		}
@@ -297,5 +288,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-
-#endif

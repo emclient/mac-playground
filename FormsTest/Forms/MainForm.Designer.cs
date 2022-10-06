@@ -56,7 +56,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 50;
-            this.button1.Text = "Chcípni";
+            this.button1.Text = "Quit";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -67,8 +67,8 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 40;
-            this.button2.Text = "Poroď";
-            this.toolTip.SetToolTip(this.button2, "Otevře okno s prohlížečem .... jhgsd lsakhfg lfhgwlf khgwdfljk whgfljwhgf ljhwdfg" +
+            this.button2.Text = "New Form";
+            this.toolTip.SetToolTip(this.button2, "Open a new window like this" +
         " ljshdfg jlwdhfg");
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);

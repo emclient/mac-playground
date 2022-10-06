@@ -6,18 +6,9 @@ using System.Text;
 using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
 using System.Drawing.Mac;
-
-#if XAMARINMAC
 using AppKit;
 using Foundation;
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-using ObjCRuntime = MonoMac.ObjCRuntime;
-#endif
 
 namespace System.Windows.Forms
 {
@@ -52,15 +43,19 @@ namespace System.Windows.Forms
 
 		internal static NSEvent LastMouseDown = null;
 
+		public static IDisposable ToggleDraggedData(DragEventArgs e) { return new TempDraggedData(e); }
+
+		class TempDraggedData : IDisposable
+		{
+			object prev;
+			public TempDraggedData(DragEventArgs e) { prev = DraggedData; DraggedData = e.Data; }
+			public void Dispose() { DraggedData = prev; }
+		}
+
 		internal override void SetAllowDrop(IntPtr handle, bool value)
 		{
 			if (ObjCRuntime.Runtime.GetNSObject(handle) is MonoView view)
-			{
-				if (value)
-					view.RegisterForDraggedTypes(new string[] { IDataObjectPboardType, UTTypeItem });//, NSPasteboard.NSStringType });
-				else
-					view.UnregisterDraggedTypes();
-			}
+				view.flags = value ? view.flags | MonoView.Flags.AllowDrop : view.flags & ~MonoView.Flags.AllowDrop;
 		}
 
 		internal override DragDropEffects StartDrag(IntPtr handle, object data, DragDropEffects allowedEffects)
@@ -73,6 +68,8 @@ namespace System.Windows.Forms
 				var items = CreateDraggingItems(view, DraggedData = data);
 				if (items != null && items.Length != 0)
 				{
+					var filter = new DragDropFilter();
+					Application.AddMessageFilter(filter);
 					DraggingAllowedEffects = allowedEffects;
 					DraggingEffects = DragDropEffects.None;
 					try
@@ -86,6 +83,7 @@ namespace System.Windows.Forms
 					{
 						draggingSource.ViewHandle = IntPtr.Zero;
 						draggingSession = null;
+						Application.RemoveMessageFilter(filter);
 					}
 					return DraggingEffects;
 				}
@@ -329,7 +327,7 @@ namespace System.Windows.Forms
 			var resized = new NSImage(size);
 			resized.LockFocus();
 			NSGraphicsContext.CurrentContext.ImageInterpolation = NSImageInterpolation.High;
-			image.DrawInRect(new CGRect(0, 0, size.Width, size.Height), new CGRect(CGPoint.Empty, image.Size), NSCompositingOperation.Copy, 1.0f);
+			image.Draw(new CGRect(0, 0, size.Width, size.Height), new CGRect(CGPoint.Empty, image.Size), NSCompositingOperation.Copy, 1.0f);
 			resized.UnlockFocus();
 			return resized;
 		}
@@ -376,8 +374,6 @@ namespace System.Windows.Forms
 
 		}
 
-#if XAMARINMAC
-
 		internal class FileProvider : NSPasteboardItemDataProvider
 		{
 			XplatUICocoa driver;
@@ -401,64 +397,14 @@ namespace System.Windows.Forms
 			}
 		}
 
-#elif MONOMAC
-
-		internal class FileProvider : NSObject
+		internal class DragDropFilter : IMessageFilter
 		{
-			XplatUICocoa driver;
-
-			public string[] Filenames;
-			public int CurrentIndex;
-
-			public FileProvider(XplatUICocoa driver)
+			public bool PreFilterMessage(ref Message m)
 			{
-				this.driver = driver;
-				driver.dndCurrentFileIndex = 0;
-			}
-
-			public override bool ConformsToProtocol(IntPtr protocol)
-			{
-				//Console.WriteLine(NSString.FromHandle(Extensions.NSStringFromProtocol(protocol)));
-				if ("NSPasteboardItemDataProvider" == NSString.FromHandle(Mac.Extensions.NSStringFromProtocol(protocol)))
+				if (m.Msg >= (int)Msg.WM_MOUSEFIRST && m.Msg <= (int)Msg.WM_MOUSELAST)
 					return true;
-
-				return base.ConformsToProtocol(protocol);
-			}
-
-			[Export("pasteboardFinishedWithDataProvider:")]
-			public virtual void FinishedWithDataProvider(NSPasteboard pasteboard)
-			{
-				//Console.WriteLine("FileProvider.FinishedWithDataProvider");
-				try
-				{
-					driver.FinishedWithDataProvider(pasteboard);
-				}
-				catch (Exception e)
-				{
-					DebugHelper.WriteLine(e);
-				}
-			}
-
-			// Using IntPtr instead of NSPasteboardItem prevents crashes in Marshaller under MonoMac.
-			[Export("pasteboard:item:provideDataForType:")]
-			public virtual void ProvideDataForType(NSPasteboard pasteboard, IntPtr hItem, string type)
-			{
-				var obj = ObjCRuntime.Runtime.GetNSObject(hItem);
-				var item = obj is NSPasteboardItem ? (NSPasteboardItem)obj : new NSPasteboardItem(hItem);
-
-				//Console.WriteLine($"FileProvider.ProvideDataForType({pasteboard.GetType().Name},{item.GetType().Name},{type.GetType().Name}/{type})");
-
-				try
-				{
-					driver.ProvideDataForType(pasteboard, item, type);
-				}
-				catch (Exception e)
-				{
-					DebugHelper.WriteLine(e);
-				}
-				driver.dndCurrentFileIndex += 1;
+				return false;
 			}
 		}
-#endif
 	}
 }

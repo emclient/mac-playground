@@ -1,19 +1,10 @@
 using System.Drawing;
 using System.Drawing.Mac;
 using System.Windows.Forms.Mac;
-#if XAMARINMAC
 using Foundation;
 using AppKit;
 using CoreGraphics;
 using ObjCRuntime;
-#elif MONOMAC
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.ObjCRuntime;
-using nint = System.Int32;
-using nuint = System.UInt32;
-#endif
 
 namespace System.Windows.Forms.CocoaInternal
 {
@@ -28,7 +19,7 @@ namespace System.Windows.Forms.CocoaInternal
 		// For emulating MouseUp in ToolStripDropDown when using native menu (that swallows it):
 		internal static MSG LastMouseDownMsg;
 
-		public WindowsEventResponder(IntPtr instance) : base(instance)
+		public WindowsEventResponder(NativeHandle instance) : base(instance)
 		{
 		}
 
@@ -109,7 +100,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 			var msg = TranslateMouseCore(e, out bool client);
 			var newMouseView = window?.ContentView.HitTest(locationInWindow) ?? window?.ContentView.Superview?.HitTest(locationInWindow);
-			var newMouseViewHandle = newMouseView is MonoView || newMouseView is IMacNativeControl ? newMouseView.Handle : IntPtr.Zero;
+			var newMouseViewHandle = newMouseView is MonoView || newMouseView is IMacNativeControl ? (IntPtr)newMouseView.Handle : IntPtr.Zero;
 			if (newMouseViewHandle == IntPtr.Zero && newMouseView != null)
 			{
 				var c = Control.FromChildHandle(newMouseView.Handle);
@@ -178,7 +169,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		internal void TranslateMouseDown(NSEvent e)
 		{
-			var msg = TranslateMouseCore(e, out bool client);
+			var msg = TranslateMouseCore(e, out bool client, view.FirstEnabledParentOrSelf());
 			msg.wParam = (IntPtr)(e.ModifiersToWParam() | e.ButtonNumberToWParam());
 
 			if (e.ClickCount > 1 && (e.ClickCount & 1) == 0 && prevMouseDown?.Type == e.Type)
@@ -210,7 +201,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		internal void TranslateMouseUp(NSEvent e)
 		{
-			var msg = TranslateMouseCore(e, out bool client, MouseTarget());
+			var msg = TranslateMouseCore(e, out bool client, MouseTarget().FirstEnabledParentOrSelf());
 			msg.message = (client ? Msg.WM_LBUTTONUP : Msg.WM_NCLBUTTONUP).AdjustForButton(e);
 			msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | e.ButtonNumberToWParam());
 			LastMouseDownMsg.hwnd = IntPtr.Zero;

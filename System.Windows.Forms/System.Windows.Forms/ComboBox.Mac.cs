@@ -1,6 +1,4 @@
-﻿﻿#if MACOS_THEME
-
-using System.Collections;
+﻿﻿using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
@@ -10,16 +8,9 @@ using System.Drawing.Mac;
 using System.Windows.Forms.Mac;
 using System.Collections.Generic;
 using System.Linq;
-
-#if XAMARINMAC
 using AppKit;
 using Foundation;
 using ObjCRuntime;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-#endif
 
 namespace System.Windows.Forms
 {
@@ -1701,7 +1692,7 @@ namespace System.Windows.Forms
 
 			public virtual string[] ComboGetCompletions(NSControl control, NSTextView textView, string[] words, NSRange charRange, ref nint index)
 			{
-				var prefix = textView.String?.Substring(0, (int)charRange.Location + (int)charRange.Length) ?? String.Empty;
+				var prefix = textView.Value?.Substring(0, (int)charRange.Location + (int)charRange.Length) ?? String.Empty;
 
 				var completions = new List<string>();
 				foreach (var item in owner.items)
@@ -1723,5 +1714,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-
-#endif

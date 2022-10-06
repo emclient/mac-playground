@@ -1,7 +1,6 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>xamarinmac20</TargetFrameworks>
-    <TargetFrameworks Condition="'$(SkipMacNet6Projects)' != 'true'">$(TargetFrameworks);net6.0-macos;net6.0-windows</TargetFrameworks>
+    <TargetFrameworks>net6.0-macos</TargetFrameworks>
     <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.1</TargetFrameworks>
     <DefineConstants>NET_4_5</DefineConstants>
     <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
@@ -15,16 +14,16 @@
     <AssemblyVersion>5.0.0</AssemblyVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'xamarinmac20' OR '$(TargetFramework)' == 'net6.0-macos'">
-    <DefineConstants>$(DefineConstants);__MACOS__;XAMARINMAC;MACDIALOGS;MACOS_THEME</DefineConstants>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
+    <DefineConstants>$(DefineConstants);MAC;MACOS_THEME</DefineConstants>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' != 'xamarinmac20'">
+  <ItemGroup>
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
-    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20' OR '$(TargetFramework)' == 'net6.0-macos'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
     <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
     <ProjectReference Include="..\MacApi\MacApi.csproj" />
   </ItemGroup>
@@ -220,7 +219,6 @@
     <Compile Include="System.Windows.Forms\ColumnWidthChangedEventHandler.cs" />
     <Compile Include="System.Windows.Forms\ColumnWidthChangingEventArgs.cs" />
     <Compile Include="System.Windows.Forms\ColumnWidthChangingEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\ComboBox.cs" />
     <Compile Include="System.Windows.Forms\ComboBoxRenderer.cs" />
     <Compile Include="System.Windows.Forms\ComboBoxStyle.cs" />
     <Compile Include="System.Windows.Forms\CommonDialog.cs" />
@@ -376,7 +374,6 @@
     <Compile Include="System.Windows.Forms\DateBoldEventHandler.cs" />
     <Compile Include="System.Windows.Forms\DateRangeEventArgs.cs" />
     <Compile Include="System.Windows.Forms\DateRangeEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\DateTimePicker.cs" />
     <Compile Include="System.Windows.Forms\DateTimePickerFormat.cs" />
     <Compile Include="System.Windows.Forms\Day.cs" />
     <Compile Include="System.Windows.Forms\DialogResult.cs" />
@@ -414,11 +411,6 @@
     <Compile Include="System.Windows.Forms\FlowDirection.cs" />
     <Compile Include="System.Windows.Forms\FlowLayoutPanel.cs" />
     <Compile Include="System.Windows.Forms\FlowLayoutSettings.cs" />
-    <Compile Include="System.Windows.Forms\FolderBrowserDialog.cs" />
-    <Compile Include="System.Windows.Forms\FontDialog.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="System.Windows.Forms\FontDialog.Mac.cs" />
     <Compile Include="System.Windows.Forms\Form.cs" />
     <Compile Include="System.Windows.Forms\FormBorderStyle.cs" />
     <Compile Include="System.Windows.Forms\FormClosedEventArgs.cs" />
@@ -602,13 +594,10 @@
     <Compile Include="System.Windows.Forms\NumericUpDownAcceleration.cs" />
     <Compile Include="System.Windows.Forms\NumericUpDownAccelerationCollection.cs" />
     <Compile Include="System.Windows.Forms\OpacityConverter.cs" />
-    <Compile Include="System.Windows.Forms\OpenFileDialog.cs" />
     <Compile Include="System.Windows.Forms\OpenTreeNodeEnumerator.cs" />
     <Compile Include="System.Windows.Forms\Orientation.cs" />
     <Compile Include="System.Windows.Forms\OSFeature.cs" />
     <Compile Include="System.Windows.Forms\OwnerDrawPropertyBag.cs" />
-    <!--<Compile Include="System.Windows.Forms\Padding.cs" />
-    <Compile Include="System.Windows.Forms\PaddingConverter.cs" />-->
     <Compile Include="System.Windows.Forms\PageSetupDialog.cs" />
     <Compile Include="System.Windows.Forms\PaintEventArgs.cs" />
     <Compile Include="System.Windows.Forms\PaintEventHandler.cs" />
@@ -624,12 +613,10 @@
     <Compile Include="System.Windows.Forms\PreviewKeyDownEventArgs.cs" />
     <Compile Include="System.Windows.Forms\PreviewKeyDownEventHandler.cs" />
     <Compile Include="System.Windows.Forms\PrintControllerWithStatusDialog.cs" />
-    <Compile Include="System.Windows.Forms\PrintDialog.cs" />
     <Compile Include="System.Windows.Forms\PrintPreviewControl.cs" />
     <Compile Include="System.Windows.Forms\PrintPreviewDialog.cs" />
     <Compile Include="System.Windows.Forms\ProfessionalColors.cs" />
     <Compile Include="System.Windows.Forms\ProfessionalColorTable.cs" />
-    <Compile Include="System.Windows.Forms\ProgressBar.cs" />
     <Compile Include="System.Windows.Forms\ProgressBarRenderer.cs" />
     <Compile Include="System.Windows.Forms\ProgressBarStyle.cs" />
     <Compile Include="System.Windows.Forms\PropertyGrid.cs" />
@@ -655,7 +642,6 @@
     <Compile Include="System.Windows.Forms\RelatedPropertyManager.cs" />
     <Compile Include="System.Windows.Forms\RetrieveVirtualItemEventArgs.cs" />
     <Compile Include="System.Windows.Forms\RetrieveVirtualItemEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\RichTextBox.cs" />
     <Compile Include="System.Windows.Forms\RichTextBoxFinds.cs" />
     <Compile Include="System.Windows.Forms\RichTextBoxLanguageOptions.cs" />
     <Compile Include="System.Windows.Forms\RichTextBoxScrollBars.cs" />
@@ -666,12 +652,9 @@
     <Compile Include="System.Windows.Forms\RightToLeft.cs" />
     <Compile Include="System.Windows.Forms\RootGridEntry.cs" />
     <Compile Include="System.Windows.Forms\RowStyle.cs" />
-    <Compile Include="System.Windows.Forms\SaveFileDialog.cs" />
     <Compile Include="System.Windows.Forms\Screen.cs" />
     <!--<Compile Include="System.Windows.Forms\ScreenOrientation.cs" />-->
     <Compile Include="System.Windows.Forms\ScrollableControl.cs" />
-    <Compile Include="System.Windows.Forms\ScrollableControl.Mac.cs" />
-    <Compile Include="System.Windows.Forms\ScrollBar.cs" />
     <Compile Include="System.Windows.Forms\ScrollBarRenderer.cs" />
     <Compile Include="System.Windows.Forms\ScrollBars.cs" />
     <Compile Include="System.Windows.Forms\ScrollButton.cs" />
@@ -730,9 +713,6 @@
     <Compile Include="System.Windows.Forms\TabPage.cs" />
     <Compile Include="System.Windows.Forms\TabRenderer.cs" />
     <Compile Include="System.Windows.Forms\TabSizeMode.cs" />
-    <Compile Include="System.Windows.Forms\TextBox.cs" />
-    <Compile Include="System.Windows.Forms\TextBoxBase.cs" />
-    <Compile Include="System.Windows.Forms\TextBoxBase.Mac.cs" />
     <Compile Include="System.Windows.Forms\TextBoxRenderer.cs" />
     <Compile Include="System.Windows.Forms\TextBoxTextRenderer.cs" />
     <Compile Include="System.Windows.Forms\TextControl.cs" />
@@ -874,7 +854,6 @@
     <Compile Include="System.Windows.Forms\XplatUIDriver.cs" />
     <Compile Include="System.Windows.Forms\XplatUIStructs.cs" />
     <Compile Include="System.Windows.Forms\MessageBoxForm.cs" />
-    <Compile Include="System.Windows.Forms\UpDownBase.Mono.cs" />
     <Compile Include="System.Windows.Forms.Extensions\DrawingExtensions.cs" />
     <Compile Include="System.Windows.Forms.Extensions\IOExtensions.cs" />
     <Compile Include="System.Windows.Forms\HtmlClip.cs" />
@@ -882,67 +861,84 @@
     <Compile Include="resources\Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Include="System.Windows.Forms\PrintDialog.Mac.cs" />
     <Compile Include="System.Drawing.Design\*.cs" />
     <Compile Include="TypeForwards.cs" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
-    <Compile Include="System.Windows.Forms\Win32DnD.cs" />
-    <Compile Include="System.Windows.Forms\XplatUIWin32.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\UXTheme.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStylesNative.cs" />
+    <Compile Include="System.Windows.Forms\ComboBox.Win.cs" />
+    <Compile Include="System.Windows.Forms\DateTimePicker.Win.cs" />
+    <Compile Include="System.Windows.Forms\FileDialog.Win.cs" />
+    <Compile Include="System.Windows.Forms\FolderBrowserDialog.Win.cs" />
+    <Compile Include="System.Windows.Forms\FontDialog.Win.cs" />
+    <Compile Include="System.Windows.Forms\OpenFileDialog.Win.cs" />
+    <Compile Include="System.Windows.Forms\PrintDialog.Win.cs" />
+    <Compile Include="System.Windows.Forms\ProgressBar.Win.cs" />
+    <Compile Include="System.Windows.Forms\RichTextBox.Win.cs" />
+    <Compile Include="System.Windows.Forms\SaveFileDialog.Win.cs" />
+    <Compile Include="System.Windows.Forms\ScrollBar.Win.cs" />
+    <Compile Include="System.Windows.Forms\TextBox.Win.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase.Win.cs" />
+    <Compile Include="System.Windows.Forms\UpDownBase.Win.cs" />
+    <Compile Include="System.Windows.Forms\Win32DnD.cs" />
+    <Compile Include="System.Windows.Forms\XplatUIWin32.cs" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20' OR '$(TargetFramework)' == 'net6.0-macos'">
-    <Compile Include="System.Windows.Forms\DebugUtility.cs" />
-    <Compile Include="System.Windows.Forms\XplatUIWin32.Structs.cs" />
-    <Compile Include="System.Windows.Forms\MessageBoxForm.Mac.cs" />
-    <Compile Include="System.Windows.Forms\FileDialog.Mac.cs" />
-    <Compile Include="System.Windows.Forms\OpenFileDialog.Mac.cs" />
-    <Compile Include="System.Windows.Forms\FolderBrowserDialog.Mac.cs" />
-    <Compile Include="System.Windows.Forms\SaveFileDialog.Mac.cs" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
     <Compile Include="System.Windows.Forms.CocoaInternal\Cursor.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectPasteboard.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectProvider.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectWrapper.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\Enums.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\Extensions.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\IMacNativeControl.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\KeysConverter.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\ModalDialogContext.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoApplication.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoApplicationDelegate.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoContentView.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoEditView.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoView.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\Pasteboard.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\Structs.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\XplatUICocoa.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\MonoWindow.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\MonoView.Debug.cs">
       <DependentUpon>MonoView.cs</DependentUpon>
     </Compile>
-    <Compile Include="System.Windows.Forms.CocoaInternal\MonoApplication.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\MonoApplicationDelegate.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\Troubleshooter.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\MonoContentView.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\ModalDialogContext.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\Swizzle.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\KeysConverter.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\MonoWindow.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\NSKeyEx.cs" />
-    <Compile Include="System.Windows.Forms\ThemeMacOS.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\IMacNativeControl.cs" />
-    <Compile Include="System.Windows.Forms\Button.Mac.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\Pasteboard.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\Structs.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\Swizzle.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\Troubleshooter.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\WindowsEventResponder.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\XplatUICocoa.cs" />
+    <Compile Include="System.Windows.Forms.CocoaInternal\XplatUICocoa.Dnd.cs" />
+    <Compile Include="System.Windows.Forms\Button.Mac.cs" />
     <Compile Include="System.Windows.Forms\ComboBox.Mac.cs" />
     <Compile Include="System.Windows.Forms\DateTimePicker.Mac.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\Extensions.cs" />
-    <Compile Include="System.Windows.Forms\UpDownBase.Mac.cs" />
-    <Compile Include="System.Windows.Forms\ScrollBar.Mac.cs" />
+    <Compile Include="System.Windows.Forms\DebugUtility.cs" />
+    <Compile Include="System.Windows.Forms\FileDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\FolderBrowserDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\FontDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\MessageBoxForm.Mac.cs" />
+    <Compile Include="System.Windows.Forms\OpenFileDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\PrintDialog.Mac.cs" />
     <Compile Include="System.Windows.Forms\ProgressBar.Mac.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\XplatUICocoa.Dnd.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\MonoEditView.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItem.Mac.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripSeparator.Mac.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripControlHost.Mac.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripDropDown.Mac.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripMenuItem.Mac.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectProvider.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectPasteboard.cs" />
-    <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectWrapper.cs" />
     <Compile Include="System.Windows.Forms\RichTextBox.Mac.cs" />
+    <Compile Include="System.Windows.Forms\SaveFileDialog.Mac.cs" />
+    <Compile Include="System.Windows.Forms\ScrollableControl.Mac.cs" />
+    <Compile Include="System.Windows.Forms\ScrollBar.Mac.cs" />
     <Compile Include="System.Windows.Forms\TextBox.Mac.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase-NSSecureTextField.cs" />
     <Compile Include="System.Windows.Forms\TextBoxBase-NSTextField.cs" />
     <Compile Include="System.Windows.Forms\TextBoxBase-NSTextView.cs" />
-    <Compile Include="System.Windows.Forms\TextBoxBase-NSSecureTextField.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase.Mac.cs" />
+    <Compile Include="System.Windows.Forms\ThemeMacOS.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripControlHost.Mac.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripDropDown.Mac.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItem.Mac.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripMenuItem.Mac.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripSeparator.Mac.cs" />
+    <Compile Include="System.Windows.Forms\UpDownBase.Mac.cs" />
+    <Compile Include="System.Windows.Forms\XplatUIWin32.Structs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
@@ -1192,18 +1188,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsDesktop.App.Ref" Version="5.0.0" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
-    <PackageReference Include="Microsoft.NETCore.App.Ref" Version="5.0.0" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
+    <PackageReference Include="Microsoft.WindowsDesktop.App.Ref" Version="6.0.9" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
+    <PackageReference Include="Microsoft.NETCore.App.Ref" Version="6.0.9" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
   </ItemGroup>
   <PropertyGroup>
-    <ApiCompatExcludeAttributeList>..\ApiCompatExcludeAttributes.txt</ApiCompatExcludeAttributeList>
-    <ApiCompatExcludeAttributeList Condition="'$(TargetFramework)' == 'xamarinmac20'">$(ApiCompatExcludeAttributeList),ApiCompatExcludeAttributes.Mobile.txt</ApiCompatExcludeAttributeList>
-    <ContractDependencyPaths>$(PkgMicrosoft_NETCore_App_Ref)\ref\net5.0</ContractDependencyPaths>
+    <ApiCompatExcludeAttributeList>..\ApiCompatExcludeAttributes.txt,ApiCompatExcludeAttributes.Mobile.txt</ApiCompatExcludeAttributeList>
+    <ContractDependencyPaths>$(PkgMicrosoft_NETCore_App_Ref)\ref\net6.0</ContractDependencyPaths>
   </PropertyGroup>
   <ItemGroup>
-    <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\net5.0\System.Windows.Forms.dll" />
+    <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\net6.0\System.Windows.Forms.dll" />
   </ItemGroup>
   <ItemGroup Condition="'$(SkipMacProjects)' != 'true'">
-    <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="6.0.0-beta.20569.4" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="6.0.0-beta.21466.2" PrivateAssets="All" />
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using CoreGraphics;
+using ObjCRuntime;
 
 namespace System.Drawing
 {
@@ -462,14 +463,14 @@ namespace System.Drawing
 			var x = rectangle.X;
 			var y = rectangle.Y;
 
-			rectangle.X = (float)(transform.xx * x + transform.xy * y + transform.x0);
-			rectangle.Y = (float)(transform.yx * x + transform.yy * y + transform.y0);
+			rectangle.X = (float)(transform.A * x + transform.C * y + transform.Tx);
+			rectangle.Y = (float)(transform.B * x + transform.D * y + transform.Ty);
 
 			x = rectangle.Width;
 			y = rectangle.Height;
 
-			rectangle.Width = (float)(transform.xx * x + transform.xy * y + transform.x0);
-			rectangle.Height = (float)(transform.yx * x + transform.yy * y + transform.y0);
+			rectangle.Width = (float)(transform.A * x + transform.C * y + transform.Tx);
+			rectangle.Height = (float)(transform.B * x + transform.D * y + transform.Ty);
 
 		}
 
@@ -484,14 +485,14 @@ namespace System.Drawing
 			var x = rectangle.X;
 			var y = rectangle.Y;
 
-			rectangle.X = (float)(transform.xx * x + transform.xy * y + transform.x0);
-			rectangle.Y = (float)(transform.yx * x + transform.yy * y + transform.y0);
+			rectangle.X = (float)(transform.A * x + transform.C * y + transform.Tx);
+			rectangle.Y = (float)(transform.B * x + transform.D * y + transform.Ty);
 
 			x = rectangle.Width;
 			y = rectangle.Height;
 
-			rectangle.Width = (float)(transform.xx * x + transform.xy * y + transform.x0);
-			rectangle.Height = (float)(transform.yx * x + transform.yy * y + transform.y0);
+			rectangle.Width = (float)(transform.A * x + transform.C * y + transform.Tx);
+			rectangle.Height = (float)(transform.B * x + transform.D * y + transform.Ty);
 
 			return new RectangleF (rectangle.Location, rectangle.Size);;
 		}

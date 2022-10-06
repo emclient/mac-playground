@@ -67,19 +67,10 @@ using System.Runtime.InteropServices;
 using Cocoa = System.Windows.Forms.CocoaInternal;
 using System.Windows.Forms.Mac;
 /// Cocoa Version
-#if XAMARINMAC
 using Foundation;
 using AppKit;
 using System.Windows.Forms.CocoaInternal;
 using CoreGraphics;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using System.Windows.Forms.CocoaInternal;
-using MonoMac.CoreGraphics;
-using nint = System.Int32;
-using nfloat = System.Single;
-#endif
 
 namespace System.Windows.Forms {
 
@@ -450,7 +441,7 @@ namespace System.Windows.Forms {
 						evt.Window.SendEvent(evt);
 					else {
 						// Discard mouse events for other windows if we have a modal one...
-						if (!isMouseEvt || NSApp.ModalWindow == null || NSApp.ModalWindow == evt.Window  || evt.Window == null || evt.Window.WorksWhenModal() || evt.Window.IsChildOf(NSApp.ModalWindow))
+						if (!isMouseEvt || NSApp.ModalWindow == null || NSApp.ModalWindow == evt.Window  || evt.Window == null || evt.Window.WorksWhenModal || evt.Window.IsChildOf(NSApp.ModalWindow))
 							NSApp.SendEvent(evt);
 
 						// ... but still use mouse click to activate the app if necessary.
@@ -1443,12 +1434,7 @@ namespace System.Windows.Forms {
 		}
 		
 		internal override bool IsEnabled(IntPtr handle) {
-			NSView vuWrap = handle.ToNSView();
-			if (vuWrap is MonoView)
-				return ((MonoView)vuWrap).Enabled;
-			if (vuWrap is NSControl)
-				return ((NSControl)vuWrap).Enabled;
-			return true;
+			return handle.ToNSView()?.IsEnabled() ?? true;
 		}
 		
 		internal override bool IsVisible(IntPtr handle) {
@@ -1725,7 +1711,7 @@ namespace System.Windows.Forms {
 		}
 		
 		internal override void SetCursor (IntPtr window, IntPtr cursor) {
-			if (window.ToNSObject() is MonoView vuWrap && vuWrap.Cursor != cursor) {
+			if (window.ToNSObject() is MonoView vuWrap) {
 				vuWrap.Cursor = cursor;
 				if (LastEnteredHwnd == window && (Grab.Hwnd == IntPtr.Zero || Grab.Hwnd == window))
 					OverrideCursor(cursor);
@@ -1740,7 +1726,7 @@ namespace System.Windows.Forms {
 				NSDictionary description = screenWrap.DeviceDescription;
 				NSNumber screenNumber = (NSNumber) description["NSScreenNumber"];
 				// FIXME: Find a Cocoa way to do this.
-				CGDisplayMoveCursorToPoint (screenNumber.UInt32Value, new CGPoint (x, y));
+				CGDisplay.MoveCursor (screenNumber.Int32Value, new CGPoint (x, y));
 			}
 		}
 
@@ -1765,11 +1751,12 @@ namespace System.Windows.Forms {
 			else
 			{
 				var view = handle.ToNSView();
-				if (view.Window == null)
+				var window = view?.Window;
+				if (window == null)
 					return;
 
-				if (view != null && keyWindow != view.Window)
-					view.Window.MakeKeyAndOrderFront(view.Window);
+				if (view != null && keyWindow != window)
+					window.MakeKeyAndOrderFront(window);
 
 				// Sometimes the FirstResponder is some deeply nested native view (eg. inside WebView). When the
 				// active window is changed to other one and then back, Form.WmActivate tries to restore focus to the
@@ -1777,7 +1764,7 @@ namespace System.Windows.Forms {
 				// usually not the same one as FirstResponder. We tried to check if FirstResponder is one of those
 				// nested views and skip the focus change if it is essentially trying to focus the control that is
 				// already focused.
-				if (view.Window != null && GetSWFFirstResponder(view.Window) != view.Handle)
+				if (window != null && GetSWFFirstResponder(window) != view.Handle)
 				{
 					if (view is MonoView monoView)
 					{
@@ -1787,14 +1774,21 @@ namespace System.Windows.Forms {
 					}
 					else
 					{
-						view.Window.MakeFirstResponder(view);
+						window.MakeFirstResponder(view);
 					}
+				}
+
+				// OrderFront does not work for child windows. The last added one is the top one.
+				if (window?.ParentWindow is NSWindow parent) {
+					parent.RemoveChildWindow(window);
+					parent.AddChildWindow(window, NSWindowOrderingMode.Above);
 				}
 			}
 		}
 
 		internal override void SetIcon (IntPtr handle, Icon icon)
 		{
+/*
 #if MONOMAC // The native mac application package already contains the app icon.
 			ApplicationContext context = Application.MWFThread.Current.Context;
 			if ( context != null && context.MainForm != null && context.MainForm.Handle == handle) {
@@ -1815,6 +1809,7 @@ namespace System.Windows.Forms {
 				}
 			}
 #endif
+*/
 		}
 
 		internal override void SetModal(IntPtr handle, bool Modal)
@@ -1872,7 +1867,6 @@ namespace System.Windows.Forms {
 			return IntPtr.Zero;
 		}
 
-#if XAMARINMAC
 		internal override void SetTimer(Timer timer)
 		{
 			if (timer.window != IntPtr.Zero)
@@ -1891,24 +1885,6 @@ namespace System.Windows.Forms {
 			NSRunLoop.Main.AddTimer(nstimer, NSRunLoopMode.Common);
 			NSRunLoop.Main.AddTimer(nstimer, NSRunLoopMode.EventTracking);
 		}
-#elif MONOMAC
-		internal override void SetTimer (Timer timer) {
-			if (timer.window != IntPtr.Zero)
-				KillTimer(timer);
-
-			var nstimer = NSTimer.CreateRepeatingScheduledTimer(TimeSpan.FromMilliseconds(timer.Interval), () => {
-				if (NSThread.IsMain)
-					FireTick(timer);
-				else 
-					NSApplication.SharedApplication.InvokeOnMainThread(() => { FireTick(timer); });
-			});
-			nstimer.Retain();
-			timer.window = nstimer.Handle;
-
-			NSRunLoop.Main.AddTimer(nstimer, NSRunLoopMode.Common);
-			NSRunLoop.Main.AddTimer(nstimer, NSRunLoopMode.EventTracking);
-		}
-#endif
 
 		internal void FireTick(Timer timer)
 		{
@@ -1934,7 +1910,7 @@ namespace System.Windows.Forms {
 		internal override bool SetOwner (IntPtr hWnd, IntPtr hWndOwner) {
 			// TODO: Handle other cases, where objects are not top level windows but views.
 
-			if (hWnd == IntPtr.Zero || hWndOwner == IntPtr.Zero)
+			if (hWnd == IntPtr.Zero)
 				return false;
 
 			MonoWindow winWrap = hWnd.ToNSView()?.Window as MonoWindow;
@@ -1999,7 +1975,7 @@ namespace System.Windows.Forms {
 				window.MakeKeyAndOrderFront(window);
 			else if (window.ParentWindow == null)
 				window.OrderFront(window);
-			else
+			else if (window.ParentWindow.IsVisible)
 				window.OrderWindow(NSWindowOrderingMode.Above, window.ParentWindow.WindowNumber);
 		}
 
@@ -2009,13 +1985,21 @@ namespace System.Windows.Forms {
 				RequestNCRecalc (handle);
 		}
 
-		internal override void SetWindowMinMax (IntPtr handle, Rectangle maximized, Size min, Size max) {
-			NSView vuWrap = handle.ToNSView();
-			vuWrap.Window.MinSize = min.ToCGSize();
-			if (max.IsEmpty)
-				vuWrap.Window.MaxSize = new CGSize(float.MaxValue, float.MaxValue);
-			else
-				vuWrap.Window.MaxSize = max.ToCGSize();
+		internal override void SetWindowMinMax (IntPtr handle, Rectangle maximized, Size min, Size max)
+		{
+			NSWindow window = handle.ToNSView().Window;
+			if (window == null)
+				return;
+
+			window.MinSize = min.ToCGSize();
+			CGSize cax = max.IsEmpty ? new CGSize(float.MaxValue, float.MaxValue) : max.ToCGSize();
+			window.MaxSize = cax;
+
+			CGRect frame = window.Frame;
+			if (cax.Width < frame.Size.Width || cax.Height < frame.Size.Height) {
+				frame.Size = new CGSize((float)Math.Min(frame.Size.Width, cax.Width), (float)Math.Min(frame.Size.Height, cax.Height));
+				window.SetFrame(frame, false);
+			}
 		}
 
 		internal override void SetWindowPos (IntPtr handle, int x, int y, int width, int height)
@@ -2522,21 +2506,13 @@ namespace System.Windows.Forms {
 		{
 			get
 			{
-#if MACOS_THEME
 				return new Size(1, 1);
-#else
-				return new Size(2, 2);
-#endif
 			}
 		}
 
 		// Event Handlers
 		internal override event EventHandler Idle;
 			#endregion Override properties XplatUIDriver
-
-		[DllImport("/System/Library/Frameworks/CoreGraphics.framework/Versions/Current/CoreGraphics")]
-		extern static void CGDisplayMoveCursorToPoint (UInt32 display, CGPoint point);
-
 	}
 	// Windows / Native messaging support
 
@@ -2560,7 +2536,7 @@ namespace System.Windows.Forms {
 	internal static class MSGExtension {
 		public static NSEvent ToNSEvent(this MSG msg) {
 			var handle = GCHandle.Alloc(msg);
-			var ptr = (int)GCHandle.ToIntPtr (handle).ToInt64();
+			var ptr = (nint)GCHandle.ToIntPtr (handle).ToInt64();
 
 			return NSEvent.OtherEvent (NSEventType.ApplicationDefined, CGPoint.Empty, 0, NSDate.Now.SecondsSinceReferenceDate, 0, null, XplatUICocoa.NSEventTypeWindowsMessage, ptr, 0);
 		}

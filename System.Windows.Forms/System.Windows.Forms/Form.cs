@@ -37,14 +37,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Mac;
 
-#if XAMARINMAC
+#if MAC
 using Foundation;
-using System.Windows.Forms.Mac;
-#elif MONOMAC
-using MonoMac.Foundation;
-using AppKit = MonoMac.AppKit;
-using CoreGraphics = MonoMac.CoreGraphics;
-using ObjCRuntime = MonoMac.ObjCRuntime;
 using System.Windows.Forms.Mac;
 #endif
 
@@ -363,7 +357,7 @@ namespace System.Windows.Forms {
 		#region Public Constructor & Destructor
 		public Form ()
 		{
-#if XAMARINMAC
+#if MAC
             AppKit.NSApplication.EnsureUIThread();
 			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 #endif
@@ -1974,7 +1968,7 @@ namespace System.Windows.Forms {
 		}
 
 		private void UpdateTransparency() {
-#if __MACOS__
+#if MAC
 			if (IsHandleCreated)
 			{
 				if (Handle.AsMonoView()?.Window is AppKit.NSWindow window)
@@ -1988,7 +1982,25 @@ namespace System.Windows.Forms {
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected override void DefWndProc(ref Message m) {
-			base.DefWndProc (ref m);
+
+			switch ((Msg)m.Msg) {
+				case Msg.WM_SIZE:
+					WmSize(ref m);
+					break;
+				default:
+					base.DefWndProc (ref m);
+					break;
+			}
+		}
+
+		internal void WmSize(ref Message m)
+		{
+#if MAC
+			// On mac, forms do NOT change their size when minimimized.
+			// However, popups and tooltips relay on it. This is to make them happy and let them hide.
+			OnSizeChanged(EventArgs.Empty);
+			OnClientSizeChanged(EventArgs.Empty);
+#endif
 		}
 
 		protected override void Dispose(bool disposing)
@@ -2403,15 +2415,15 @@ namespace System.Windows.Forms {
 				if (ActiveControl == null)
 					SelectNextControl(null, true, true, true, false);
 
-#if !__MACOS__
-			// On macOS, this seems to be handled in XplatUICocoa by calling MakeKeyAndOrderFront / setting IsVisible to true
-			if (!this.ShowWithoutActivation)
-			    {
-			    	if (ActiveControl != null)
-			    		SendControlFocus(ActiveControl);
-			    	else
-			    		this.Focus();
-			    }
+#if !MAC
+				// On macOS, this seems to be handled in XplatUICocoa by calling MakeKeyAndOrderFront / setting IsVisible to true
+				if (!this.ShowWithoutActivation)
+				{
+					if (ActiveControl != null)
+						SendControlFocus(ActiveControl);
+					else
+						this.Focus();
+				}
 #endif
 			}
 		}
@@ -2614,10 +2626,16 @@ namespace System.Windows.Forms {
 			bool cancelled = FireClosingEvents (CloseReason, cancel);
 			if (!cancelled) {
 				if (!last_check || DialogResult != DialogResult.None) {
-					if (mdi_container != null)
-						foreach (Form mdi_child in mdi_container.MdiChildren)
-							mdi_child.FireClosedEvents (CloseReason);
+					if (!is_modal) {
+						if (mdi_container != null)
+							foreach (Form mdi_child in mdi_container.MdiChildren)
+								mdi_child.FireClosedEvents (CloseReason.MdiFormClosing);
 
+						Form[] ownedForms = OwnedForms;
+						for (int i = ownedForms.Length - 1; i >= 0; --i)
+							if (ownedForms[i] != null)
+								ownedForms[i].FireClosedEvents (CloseReason.FormOwnerClosing);
+					}
 					FireClosedEvents (CloseReason);
 				}
 				closing = true;
@@ -2649,10 +2667,25 @@ namespace System.Windows.Forms {
 
 			bool mdi_cancel = false;
 			
-			// Give any MDI children the opportunity to cancel the close
-			if (mdi_container != null)
-				foreach (Form mdi_child in mdi_container.MdiChildren)
-					mdi_cancel = mdi_child.FireClosingEvents (CloseReason.MdiFormClosing, mdi_cancel);
+			if (!is_modal) {
+				// Give any MDI children the opportunity to cancel the close
+				if (mdi_container != null)
+					foreach (Form mdi_child in mdi_container.MdiChildren)
+						mdi_cancel = mdi_child.FireClosingEvents (CloseReason.MdiFormClosing, mdi_cancel);
+
+				// Give any child form the opportunity to cancel the close
+				Form[] ownedForms = this.OwnedForms;
+				for (int i = ownedForms.Length - 1; i >= 0; i--) {
+					FormClosingEventArgs cfe = new FormClosingEventArgs(CloseReason.FormOwnerClosing, mdi_cancel);
+					if (ownedForms[i] != null) {
+						ownedForms[i].OnFormClosing(cfe);
+						if (cfe.Cancel) {
+							mdi_cancel = true;
+							break;
+						}
+					}
+				}
+			}
 
 			bool validate_cancel = false;
 			if (!suppress_closing_events)
@@ -2866,7 +2899,7 @@ namespace System.Windows.Forms {
 					is_visible = true;
 			}
 			
-			if (!IsMdiChild && !IsDisposed) {
+			if (is_modal && !IsDisposed) {
 				switch (StartPosition) {
 					case FormStartPosition.CenterScreen:
 						this.CenterToScreen ();

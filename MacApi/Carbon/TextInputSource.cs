@@ -1,19 +1,14 @@
 using System;
 using System.Runtime.InteropServices;
-using MacApi.CoreFoundation;
-#if XAMARINMAC
+using CoreFoundation;
 using Foundation;
 using ObjCRuntime;
-#elif MONOMAC
-using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-#endif
 
 namespace MacApi.Carbon
 {
 	//https://github.com/phracker/MacOSX-SDKs/blob/master/MacOSX10.6.sdk/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/Headers/TextInputSources.h
 
-	public partial class TextInputSource : INativeObject, IDisposable
+	public partial class TextInputSource : /*INativeObject,*/ IDisposable
 	{
 		#region GC/RC bridge
 
@@ -65,11 +60,8 @@ namespace MacApi.Carbon
 
 		public static TextInputSource[] List(bool all = false)
 		{
-			var sources = new CFArray(TISCreateInputSourceList(IntPtr.Zero, all), true);
-			var list = new TextInputSource[sources.Count];
-			for (var i = 0; i < sources.Count; ++i)
-				list[i] = new TextInputSource(sources.GetValue(i), false);
-			return list;
+			var retained = TISCreateInputSourceList(IntPtr.Zero, all);
+			return CFArray.ArrayFromHandleFunc(retained, (h) => new TextInputSource(h, false), true);
 		}
 
 		public static TextInputSource CurrentKeyboardSource
@@ -103,7 +95,7 @@ namespace MacApi.Carbon
 
 		public string[] Languages
 		{
-			get { return NSArray.StringArrayFromHandle(TISGetInputSourceProperty(handle, kTISPropertyInputSourceLanguages.Handle())); }
+			get { return CFArray.StringArrayFromHandle(TISGetInputSourceProperty(handle, kTISPropertyInputSourceLanguages.Handle())); }
 		}
 
 		public string FirstLanguage
@@ -122,7 +114,7 @@ namespace MacApi.Carbon
 
 		public string GetStringProperty(string name)
 		{
-			return NSString.FromHandle(TISGetInputSourceProperty(handle, name.Handle()));
+			return CFString.FromHandle(TISGetInputSourceProperty(handle, name.Handle()));
 		}
 
 		#endregion

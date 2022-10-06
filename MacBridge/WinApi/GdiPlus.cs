@@ -1,17 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
-
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-#elif XAMARINMAC
 using AppKit;
 using CoreGraphics;
-#endif
 
 namespace WinApi
 {
@@ -75,7 +69,13 @@ namespace WinApi
             return true;
         }
 
-        public static IntPtr GetStockObject(StockObjects fnObject)
+		public static IntPtr GetCurrentObject(IntPtr hdc, uint uObjectType)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return IntPtr.Zero;
+		}
+
+		public static IntPtr GetStockObject(StockObjects fnObject)
         {
             NotImplemented(MethodBase.GetCurrentMethod());
             return IntPtr.Zero;

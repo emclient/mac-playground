@@ -1,11 +1,15 @@
 ﻿using System;
-//using MailClient.Common.UI;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Windows.Forms;
-
+#if MAC
+using Foundation;
+using UniformTypeIdentifiers;
+using UTType = MacApi.CoreServices.UTType;
+using UTTypes = MacApi.CoreServices.UTTypes;
+#endif
 namespace FormsTest
 {
 	using System.Collections.Generic;
@@ -22,8 +26,10 @@ namespace FormsTest
         Pair[] Dialogs = {
             new Pair { Name = "Color Dialog", Action = delegate { new ColorDialog().ShowDialog(); } },
             new Pair { Name = "Open File", Action = delegate { new OpenFileDialog().ShowDialog(); } },
-            new Pair { Name = "Save File", Action = delegate { 
-                new SaveFileDialog().ShowDialog(); } },
+            new Pair { Name = "Open File w Filter", Action = OpenFileDialogWithFilter1 },
+            new Pair { Name = "Open File w Filter 2", Action = OpenFileDialogWithFilter2 },
+            new Pair { Name = "Save File", Action = delegate { new SaveFileDialog().ShowDialog(); } },
+            new Pair { Name = "Save File w Filter", Action = SaveFileDialogWithFilter1 },
             new Pair { Name = "Choose Folder", Action = delegate { 
 					var dlg = new FolderBrowserDialog();
 					dlg.Description = "Vyber nějakou složku vosle";
@@ -79,6 +85,7 @@ namespace FormsTest
 			AddButton("Layout 2", () => { new DebugLayoutForm2().Show(); });
 			AddButton("Layout 3", () => { new DebugLayoutForm3().Show(); });
 			AddButton("Layout 4", () => { new DebugLayoutForm4().Show(); });
+			AddButton("Tables", () => { new TablesForm().Show(); });
 			/*AddButton("Editor", () =>
 			{
 				var f = new Form() { Size = new Size(500, 300), Text = "Editor" };
@@ -130,6 +137,11 @@ namespace FormsTest
 			AddButton("QuickLook panel", () => { ToggleQuickLookPanel(); });
 			AddButton("NC Preferences", () => { ReadNotificationCenterPreferences(); });
 			AddButton("Back color", () => { ChangeBackColor(); });
+			AddButton("Text Extraction", () => { TextExtractionTest(); });
+			AddButton("Core Data Test", () => { CoreDataTest(); });
+			AddButton("RAM Disk Test", () => { RamDiskTest(); });
+			//AddButton("UTType Test", () => { UTTypeTest(); });
+			AddButton("UNNotifications", () => { new NotificationsForm().Show(); });
 #endif
 
 			//AddButton("Data Grid", () => { new DataGridForm().Show(); });
@@ -139,6 +151,7 @@ namespace FormsTest
 			AddButton("File Descriptors", () => { (fd = new FileDescriptors()).RunTest(); });
 			AddButton("Catch When", () => { CatchWhen.RunTest(); });
 			AddButton("Print Preview", () => { PrintPreview(); });
+			AddButton("AutoSize Form", () => { ShowAutoSizeForm(); });
 		}
 
 		FileDescriptors fd;
@@ -220,15 +233,6 @@ namespace FormsTest
             }
         }
 
-        //		protected override void OnPaint (PaintEventArgs e)
-        //		{
-        //			NSView nsView = (NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(this.Handle);
-        //			if (nsView != null && nsView.LockFocusIfCanDraw ()) {
-        //				base.OnPaint (e);
-        //				nsView.UnlockFocus ();
-        //			}
-        //		}
-
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             base.OnClosing(e);
@@ -241,8 +245,7 @@ namespace FormsTest
 
         private void button2_Click(object sender, System.EventArgs e)
         {
-            //var form = new LayoutForm();
-            //form.Show();
+            new MainForm().Show();
         }
 
         private void button3_Click(object sender, System.EventArgs e)
@@ -278,19 +281,6 @@ namespace FormsTest
             base.WndProc(ref m);
         }
 
-		void ShowPrintDialog()
-		{
-
-			//https://github.com/brunophilipe/Noto/blob/master/Noto/View%20Controllers/Printing/PrintingView.swift
-			//https://nshipster.com/uiprintinteractioncontroller/
-			//https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Printing/osxp_printingapi/osxp_printingapi.html#//apple_ref/doc/uid/10000083i-CH2-SW2
-			//https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Printing/osxp_printapps/osxp_printapps.html#//apple_ref/doc/uid/20000861-BAJBFGED
-			//https://developer.apple.com/documentation/appkit/nsprintinfo?language=objc
-			var dialog = new PrintDialog();
-			//dialog.PrinterSettings = 
-			dialog.ShowDialog(this);
-		}
-
 		void ChangeBackColor()
 		{
 #if MAC
@@ -300,7 +290,7 @@ namespace FormsTest
 			if (!window.TitlebarAppearsTransparent)
 			{
 				window.TitlebarAppearsTransparent = true;
-				window.StyleMask |= AppKit.NSWindowStyle.TexturedBackground;
+				//window.StyleMask |= AppKit.NSWindowStyle.TexturedBackground;
 				window.BackgroundColor = AppKit.NSColor.Red;
 
 				//var box = new AppKit.NSBox(CoreGraphics.CGRect.FromLTRB(0, 0, 100, 20));
@@ -312,7 +302,7 @@ namespace FormsTest
 			else
 			{	
 				window.TitlebarAppearsTransparent = false;
-				window.StyleMask &= ~AppKit.NSWindowStyle.TexturedBackground;
+				//window.StyleMask &= ~AppKit.NSWindowStyle.TexturedBackground;
 				window.BackgroundColor = AppKit.NSColor.WindowBackground;
 				//window.RemoveTitlebarAccessoryViewControllerAtIndex(0);
 			}
@@ -334,6 +324,51 @@ namespace FormsTest
 					Debug.WriteLine($"Selected color:{dialog.Color}");
 				}
 			}
+		}
+
+#if MAC
+		void UTTypeTest()
+		{
+			const string NSPasteboardTypeWebArchive = "Apple Web Archive pasteboard type";
+			var src = NSPasteboardTypeWebArchive;
+			var dst = CreateDynamicTypeFor(src);
+			Console.WriteLine($"CreateDynamicType({src}) -> {dst}");
+		}
+
+		string CreateDynamicTypeFor(string identifier)
+		{
+			const string tag = "kUTTagClassNSPboardType";
+			using var tagClass = new NSString(identifier);
+			return UTType.GetType(tag, tagClass, UTTypes.Data.Identifier).Identifier;
+		}
+
+	#endif
+
+		public void ShowAutoSizeForm()
+		{
+			new AutoSizeForm().Show();
+		}
+
+		static void OpenFileDialogWithFilter1()
+		{
+			using var dlg = new OpenFileDialog();
+			dlg.Filter = "PNG Files|*.png|JPEG Files|*.jpg;*.jpeg";
+			dlg.FilterIndex = 2;
+			dlg.ShowDialog();
+		}
+
+		static void OpenFileDialogWithFilter2()
+		{
+			using var dlg = new OpenFileDialog();
+			dlg.Filter = "PNG Files|*.png|JPEG Files|*.jpg;*.jpeg|All files|*.*";
+			dlg.ShowDialog();
+		}
+
+		static void SaveFileDialogWithFilter1()
+		{
+			using var dlg = new SaveFileDialog();
+			dlg.Filter = "PNG Files|*.png|JPEG Files|*.jpg;*.jpeg";
+			dlg.ShowDialog();
 		}
 	}
 }

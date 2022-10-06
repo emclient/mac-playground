@@ -1,5 +1,4 @@
-﻿#if MACOS_THEME
-// Permission is hereby granted, free of charge, to any person obtaining
+﻿// Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
 // without limitation the rights to use, copy, modify, merge, publish,
@@ -34,19 +33,11 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms.Mac;
 using System.Windows.Forms.resources;
 
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.CoreGraphics;
-using NSRectEdge = MonoMac.AppKit.NSRectEdge;
-using nfloat = System.Single;
-using ObjCRuntime = MonoMac.ObjCRuntime;
-#elif XAMARINMAC
 using Foundation;
 using AppKit;
 using CoreGraphics;
+using ObjCRuntime;
 using NSRectEdge = AppKit.NSRectEdge;
-#endif
 
 namespace System.Windows.Forms
 {
@@ -2301,11 +2292,11 @@ namespace System.Windows.Forms
 
 		public DatePickerPopoverController(DateTime initialDate) : base(null, null)
 		{
-			this.initialDate = initialDate.ToNSDate();
+			this.initialDate = (NSDate)initialDate.UnspecifiedTo(DateTimeKind.Local);
 			this.date = this.initialDate;
 		}
 
-		public DatePickerPopoverController(IntPtr handle) : base(handle)
+		public DatePickerPopoverController(NativeHandle handle) : base(handle)
 		{
 		}
 
@@ -2333,7 +2324,7 @@ namespace System.Windows.Forms
 			View.AddSubview(line);
 
 			numericDatePicker = new NSDatePicker();
-			numericDatePicker.Locale = DateTimeUtility.PreferredLocale;
+			numericDatePicker.Locale = NSLocale.AutoUpdatingCurrentLocale;
 			numericDatePicker.DateValue = date;
 			numericDatePicker.Bezeled = false;
 			numericDatePicker.DatePickerStyle = NSDatePickerStyle.TextFieldAndStepper;
@@ -2349,7 +2340,7 @@ namespace System.Windows.Forms
 			View.AddSubview(line);
 
 			graphicalDatePicker = new NSDatePicker();
-			graphicalDatePicker.Locale = DateTimeUtility.PreferredLocale;
+			graphicalDatePicker.Locale = NSLocale.AutoUpdatingCurrentLocale;
 			graphicalDatePicker.DateValue = date;
 			graphicalDatePicker.Bezeled = false;
 			graphicalDatePicker.DatePickerStyle = NSDatePickerStyle.ClockAndCalendar;
@@ -2412,11 +2403,10 @@ namespace System.Windows.Forms
 		{
 			if (DateChanged != null)
 			{
-				try { DateChanged(this, new DateRangeEventArgs(date.ToDateTime(), date.ToDateTime())); } 
+				try { DateChanged(this, new DateRangeEventArgs((DateTime)date, (DateTime)date)); } 
 				catch (Exception e) { Diagnostics.Debug.Assert(false, $"Exception in DateChanged user handler: {e}");}
 			}
 		}
 	}
 
 }
-#endif

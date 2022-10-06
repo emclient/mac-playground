@@ -35,7 +35,6 @@
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Security.Permissions;
 using System.Runtime.InteropServices;
 using ImageIO;
 using CoreGraphics;

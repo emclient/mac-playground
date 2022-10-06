@@ -40,7 +40,7 @@ namespace FormsTest
 			pbar = new ProgressBar();
 			pbar.Style = ProgressBarStyle.Marquee;
 			pbar.Size = new Size(100, 5);
-			pbar.Location = Right(d);
+			pbar.Location = RightFrom(d);
 			Controls.Add(pbar);
 
 			Button g;
@@ -53,7 +53,7 @@ namespace FormsTest
 
 			pind = new ProgressIndicator();
 			pind.Size = new Size(16, 16);
-			pind.Location = Right(f);
+			pind.Location = RightFrom(f);
 			pind.BackColor = Color.White;
 			Controls.Add(pind);
 
@@ -65,7 +65,7 @@ namespace FormsTest
 
 			hbar = new HatchedBar();
 			hbar.Size = new Size(100, 4);
-			hbar.Location = Right(g);
+			hbar.Location = RightFrom(g);
 			hbar.BackColor = Color.White;
 			Controls.Add(hbar);
 
@@ -77,7 +77,7 @@ namespace FormsTest
 
 			spheres = new RunningDots();
 			spheres.Size = new Size(100, 3);
-			spheres.Location = Right(g);
+			spheres.Location = RightFrom(g);
 			Controls.Add(spheres);
 #endif
 			var c = new Button();
@@ -93,7 +93,7 @@ namespace FormsTest
 			Controls.Add(g);
 
 			dots = new ControlWaiting();
-			dots.Location = Right(g);
+			dots.Location = RightFrom(g);
 			dots.Size = new Size(100, 10);
 			dots.BackColor = Color.Transparent;
 			dots.Style = ControlWaiting.WaitingStyle.Line;
@@ -106,7 +106,7 @@ namespace FormsTest
 			Controls.Add(a);
 
 			circle = new ControlWaiting();
-			circle.Location = Right(a);
+			circle.Location = RightFrom(a);
 			circle.Size = new Size(16, 16);
 			circle.BackColor = Color.Transparent;
 			Controls.Add(circle);
@@ -120,7 +120,7 @@ namespace FormsTest
 			bar = new ControlStatusBar();
 			bar.Size = new Size(100, 18);
 			bar.SetInfiniteProgress("Synchronizing...");
-			bar.Location = Right(b);
+			bar.Location = RightFrom(b);
 			Controls.Add(bar);
 		}
 
@@ -143,7 +143,7 @@ namespace FormsTest
 			return pos + new Size(0, 5);
 		}
 
-		private Point Right(Control control = null)
+		private Point RightFrom(Control control = null)
 		{
 			var pos = new Point(5, 5);
 			if (control != null)

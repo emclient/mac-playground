@@ -1,41 +1,20 @@
 ﻿using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-#if XAMARINMAC
 using Foundation;
 using AppKit;
 using CoreGraphics;
 using ObjCRuntime;
-#elif MONOMAC
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using nuint = System.UInt32;
-using nfloat = System.Single;
-#endif
 
 namespace System.Windows.Forms.CocoaInternal
 {
 	//[ExportClass("MonoEditView", "MonoView")]
-	class MonoEditView : MonoView
-#if XAMARINMAC
-	, INSTextInputClient
+	class MonoEditView : MonoView, INSTextInputClient
 	{
-#elif MONOMAC
-	{
-		public override bool ConformsToProtocol(IntPtr protocol)
-		{
-			if ("NSTextInputClient" == NSString.FromHandle(Mac.Extensions.NSStringFromProtocol(protocol)))
-				return true;
-
-			return base.ConformsToProtocol(protocol);
-		}
-#endif
-
 		internal NSAttributedString markedText = new NSMutableAttributedString();
 		internal string insertText = String.Empty;
 
-		public MonoEditView(IntPtr instance) : base(instance)
+		public MonoEditView(NativeHandle instance) : base(instance)
 		{
 		}
 
@@ -43,12 +22,11 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 		}
 
-		#region INSTextInputView
+		#region INSTextInputClient
 
-		public virtual bool HasMarkedText
+		public bool HasMarkedText
 		{
 			// Until this returns false, interpretKeyEvents continues to call insertText !
-			[Export("hasMarkedText")]
 			get
 			{
 				var result = markedText.Length != 0;
@@ -57,9 +35,8 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		public virtual NSRange MarkedRange
+		public NSRange MarkedRange
 		{
-			[Export("markedRange")]
 			get
 			{
 				GetSelection(out var start, out var _);
@@ -70,9 +47,8 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		public virtual NSRange SelectedRange
+		public NSRange SelectedRange
 		{
-			[Export("selectedRange")]
 			get
 			{
 				GetSelection(out var start, out var end);
@@ -82,20 +58,17 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		public virtual NSString[] ValidAttributesForMarkedText
+		public NSString[] ValidAttributesForMarkedText
 		{
-			[Export("validAttributesForMarkedText")]
 			get { return validAttributesForMarkedText; }
 		}
 
-		public virtual NSWindowLevel WindowLevel
+		public NSWindowLevel WindowLevel
 		{
-			[Export("windowLevel")]
 			get { return Window?.Level ?? NSWindowLevel.Normal; }
 		}
 
-		[Export("attributedSubstringForProposedRange:actualRange:")]
-		public virtual NSAttributedString GetAttributedSubstring(NSRange proposedRange, out NSRange actualRange)
+		public NSAttributedString GetAttributedSubstring(NSRange proposedRange, out NSRange actualRange)
 		{
 			var text = GetText();
 
@@ -116,15 +89,13 @@ namespace System.Windows.Forms.CocoaInternal
 			return result;
 		}
 
-		[Export("characterIndexForPoint:")]
-		public virtual nuint GetCharacterIndex(CGPoint point)
+		public nuint GetCharacterIndex(CGPoint point)
 		{
 			//Debug.WriteLine($"characterIndexForPoint:{point}");
 			return 0;
 		}
 
-		[Export("firstRectForCharacterRange:actualRange:")]
-		unsafe public virtual CGRect GetFirstRect(NSRange characterRange, out NSRange actualRange)
+		public CGRect GetFirstRect(NSRange characterRange, out NSRange actualRange)
 		{
 			actualRange = new NSRange();
 
@@ -133,23 +104,16 @@ namespace System.Windows.Forms.CocoaInternal
 				return Window.ConvertRectToScreen(XplatUICocoa.CaretView.ConvertRectToView(Bounds, null));
 
 			// EMC textboxes - teporary solution
-			var r = new Rectangle[1] { new Rectangle() };
-			fixed (void* ptr = &r[0])
-			{
-				var result = driver.SendMessage(Handle, Msg.WM_IME_GETCURRENTPOSITION, IntPtr.Zero, new IntPtr(ptr));
-				if (result == (IntPtr)1)
-				{
-					var rect = new CGRect(Bounds.Left + r[0].X, Bounds.Top + r[0].Y, r[0].Width, r[0].Height);
-					return Window.ConvertRectToScreen(ConvertRectToView(rect, null));
-				}
-			}
-
-			// fallback
-			return Window.ConvertRectToScreen(ConvertRectToView(Bounds, null));
+			var first = new CGRect(Bounds.Location, CGSize.Empty);
+			var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(XplatUIWin32.RECT)));
+			var result = driver.SendMessage(Handle, Msg.WM_IME_GETCURRENTPOSITION, IntPtr.Zero, ptr);
+			if (result == (IntPtr)1 && Marshal.PtrToStructure<XplatUIWin32.RECT>(ptr) is XplatUIWin32.RECT r)
+				first = new CGRect(first.Location.X + r.left, first.Location.Y + r.top, r.right - r.left, r.bottom - r.top);
+			Marshal.FreeHGlobal(ptr);
+			return Window.ConvertRectToScreen(ConvertRectToView(first, null));
 		}
 
-		[Export("insertText:replacementRange:")]
-		public virtual void InsertText(NSObject text, NSRange replacementRange)
+		public void InsertText(NSObject text, NSRange replacementRange)
 		{
 			//Debug.WriteLine($"insertText:{text}, replacementRange:{replacementRange}");
 
@@ -168,8 +132,7 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		[Export("setMarkedText:selectedRange:replacementRange:")]
-		public virtual void SetMarkedText(NSObject text, NSRange selectedRange, NSRange replacementRange)
+		public void SetMarkedText(NSObject text, NSRange selectedRange, NSRange replacementRange)
 		{
 			//Debug.WriteLine($"setMarkedText:{text}, selectedRange:{selectedRange}, replacementRange:{replacementRange}");
 
@@ -190,8 +153,7 @@ namespace System.Windows.Forms.CocoaInternal
 				Application.SendMessage(Handle, Msg.WM_IME_COMPOSITION, IntPtr.Zero, lParam);
 		}
 
-		[Export("unmarkText")]
-		public virtual void UnmarkText()
+		public void UnmarkText()
 		{
 			markedText = new NSMutableAttributedString();
 		}
@@ -206,7 +168,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		#endregion INSTextInputView
 
-		unsafe public virtual string GetText()
+		unsafe public string GetText()
 		{
 			var length = Math.Max(0, (int)Application.SendMessage(Handle, Msg.WM_GETTEXTLENGTH, IntPtr.Zero, IntPtr.Zero));
 			var buffer = new char[length + 1];
@@ -217,7 +179,7 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		unsafe public virtual void GetSelection(out int from, out int to)
+		unsafe public void GetSelection(out int from, out int to)
 		{
 			var range = new int[] { 0, 0 };
 			fixed (int* start = &range[0], end = &range[1])

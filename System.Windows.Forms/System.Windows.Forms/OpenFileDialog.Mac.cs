@@ -1,30 +1,25 @@
-#if MONOMAC || XAMARINMAC
-
 using System.Windows.Forms.CocoaInternal;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-
-#if XAMARINMAC
 using AppKit;
 using Foundation;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-#endif
+using ObjCRuntime;
+using MacApi;
 
 namespace System.Windows.Forms
 {
 	public class OpenFileDialog : FileDialog
 	{
-		#region properies
-
 		// Gets or sets the path selected by the user.
 		public string SelectedPath { get; set; }
 
 		[DefaultValue(false)]
 		public bool Multiselect { get; set; }
 
-		#endregion //properies
+		internal override NSSavePanel Panel { get { return panel; } }
+
+		internal NSOpenPanel panel;
 
 		public override void Reset()
 		{
@@ -36,22 +31,28 @@ namespace System.Windows.Forms
 
 		protected override bool RunDialog(IntPtr hwndOwner)
 		{
-			var currentDirectory = Environment.CurrentDirectory;
+			string currentDirectory = null;
+			try { currentDirectory = Environment.CurrentDirectory; } catch { }
+
 			try
 			{
 				using (var context = new ModalDialogContext())
 				{
-					var panel = new NSOpenPanel();
+					using var panel = this.panel = NSOpenPanel.OpenPanel;
+					
 					panel.AllowsMultipleSelection = Multiselect;
 					panel.ResolvesAliases = true;
 
-					if (!String.IsNullOrWhiteSpace(InitialDirectory) && System.IO.Directory.Exists(InitialDirectory))
+					if (!String.IsNullOrWhiteSpace(InitialDirectory) && Directory.Exists(InitialDirectory))
 						panel.DirectoryUrl = NSUrl.FromFilename(InitialDirectory);
+
+					if (!String.IsNullOrEmpty(Filter))
+						ApplyFilter(panel, Filter);
 
 					if (!String.IsNullOrWhiteSpace(FileName))
 						panel.NameFieldStringValue = FileName;
 
-					if (NSPanelButtonType.Ok != (NSPanelButtonType)(int)panel.RunModal())
+					if (NSModalResponse.OK != (NSModalResponse)(int)panel.RunModal())
 						return false;
 
 					FileNames = GetFileNames(panel);
@@ -62,16 +63,20 @@ namespace System.Windows.Forms
 			finally
 			{
 				if (RestoreDirectory && currentDirectory != null && Directory.Exists(currentDirectory))
-					Environment.CurrentDirectory = currentDirectory;
+					try { Environment.CurrentDirectory = currentDirectory; } catch { }
+
+				panel = null;					
 			}
 		}
 
 		protected virtual string[] GetFileNames(NSOpenPanel panel)
 		{
-			string[] filenames = new string[panel.Urls.Length];
-			for (int i = 0; i < filenames.Length; ++i)
-				filenames[i] = panel.Urls[i].Path;
-			return filenames;
+			var filenames = new List<string>();
+			var urls = panel.Urls;
+			foreach (var url in urls)
+				if (url.Path != null)
+					filenames.Add(url.Path);
+			return filenames.ToArray();
 		}
 
 		public Stream OpenFile()
@@ -81,7 +86,33 @@ namespace System.Windows.Forms
 
 			return new FileStream(FileName, FileMode.Open, FileAccess.Read);
 		}
+
+		internal override void ApplyFilter(NSSavePanel panel, string filter)
+		{
+			base.ApplyFilter(panel, filter);
+
+			if (this.panel?.AccessoryView != null)
+				this.panel.AccessoryViewDisclosed(true);
+		}
+	}
+
+	static class OpenPanelExtensions
+	{
+		public static bool AccessoryViewDisclosed(this NSOpenPanel panel, bool? value = null)
+		{
+			var sel = new Selector("isAccessoryViewDisclosed");
+			if (!panel.RespondsToSelector(sel))
+				return true;
+
+			var result = LibObjc.bool_objc_msgSend(panel.Handle, sel.Handle);
+
+			if (value.HasValue)
+			{
+				sel = new Selector("setAccessoryViewDisclosed:");
+				LibObjc.void_objc_msgSend_Bool(panel.Handle, sel.Handle, value.Value);
+			}
+
+			return result;
+		}
 	}
 }
-
-#endif //MAC

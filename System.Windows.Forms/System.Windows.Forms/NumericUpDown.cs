@@ -113,7 +113,7 @@ namespace System.Windows.Forms {
 			thousands_separator = false;
 
 			Text = "0";
-#if MACOS_THEME
+#if MAC
 			txtView.preprocessText = PreprocessText;
 #endif
 		}

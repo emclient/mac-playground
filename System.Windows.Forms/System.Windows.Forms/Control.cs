@@ -51,14 +51,9 @@ using System.Security;
 using System.Threading;
 using System.Windows.Forms.Extensions.Drawing;
 
-#if __MACOS__
+#if MAC
 using System.Windows.Forms.Mac;
-#if XAMARINMAC
 using AppKit;
-#else
-using MonoMac;
-using MonoMac.AppKit;
-#endif
 #endif
 
 namespace System.Windows.Forms
@@ -1813,9 +1808,10 @@ namespace System.Windows.Forms
 		
 		private bool UseDoubleBuffering {
 			get {
+#if MAC
 				//if (!ThemeEngine.Current.DoubleBufferingSupported)
 					return false;
-
+#else
 				// Since many of .Net's controls are unmanaged, they are doublebuffered
 				// even though their bits may not be set in managed land.  This allows
 				// us to doublebuffer as well without affecting public style bits.
@@ -1825,6 +1821,7 @@ namespace System.Windows.Forms
 				if (DoubleBuffered)
 					return true;
 				return (control_style & ControlStyles.DoubleBuffer) != 0;
+#endif
 			}
 		}
 
@@ -2469,22 +2466,28 @@ namespace System.Windows.Forms
 						typeof (DockStyle));
 				}
 
-				dock_style = value;
-				anchor_style = AnchorStyles.Top | AnchorStyles.Left;
+				SuspendLayout();
 
-				if (dock_style == DockStyle.None) {
-					bounds = explicit_bounds;
-				} else {
-					bounds = explicit_bounds;
+				try {
+					dock_style = value;
+					anchor_style = AnchorStyles.Top | AnchorStyles.Left;
+
+					if (dock_style == DockStyle.None) {
+						SetBoundsInternal (explicit_bounds.Left, explicit_bounds.Top, explicit_bounds.Width, explicit_bounds.Height, BoundsSpecified.None);
+					} else {
+						SetBoundsInternal (explicit_bounds.Left, explicit_bounds.Top, explicit_bounds.Width, explicit_bounds.Height, BoundsSpecified.All);
+					}
+
+					if (parent != null) {
+						parent.LayoutEngine.InitLayout (this, BoundsSpecified.None);
+						parent.PerformLayout (this, "Dock");
+					}
+
+					OnDockChanged(EventArgs.Empty);
 				}
-
-				if (parent != null) {
-					parent.LayoutEngine.InitLayout (this, BoundsSpecified.None);
-					parent.PerformLayout (this, "Dock");
-				} else if (Controls.Count > 0)
-					PerformLayout ();
-
-				OnDockChanged(EventArgs.Empty);
+				finally {
+					ResumeLayout();
+				}
 			}
 		}
 
@@ -3055,7 +3058,7 @@ namespace System.Windows.Forms
 		[MWFCategory("Behavior")]
 		public bool TabStop {
 			get {
-#if __MACOS__
+#if MAC
 				if (this is IMacNativeControl) {
 					if (!IsHandleCreated)
 						return false;
@@ -3146,13 +3149,15 @@ namespace System.Windows.Forms
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Control TopLevelControl {
 			get {
-#if __MACOS__
+#if MAC
 				// This method finds the top level control (form) also if @this is a part of titlebar accessory view
 				if (IsHandleCreated) {
 					var contentView = (ObjCRuntime.Runtime.GetNSObject(Handle) as NSView)?.Window?.ContentView;
-					if (contentView != null)
+					while (contentView != null)
 						if (Control.FromHandle(contentView.Handle) is Form f)
 							return f;
+						else
+							contentView = contentView.Window.ParentWindow?.ContentView;
 				}
 #endif
 				Control	p = this;
@@ -3245,41 +3250,11 @@ namespace System.Windows.Forms
 			get {
 				CreateParams create_params = new CreateParams();
 
-				try {
-					create_params.Caption = Text;
-				}
-				catch {
-					create_params.Caption = text;
-				}
-
-				try {
-					create_params.X = Left;
-				}
-				catch {
-					create_params.X = this.bounds.X;
-				}
-
-				try {
-					create_params.Y = Top;
-				}
-				catch {
-					create_params.Y = this.bounds.Y;
-				}
-
-				try {
-					create_params.Width = Width;
-				}
-				catch {
-					create_params.Width = this.bounds.Width;
-				}
-
-				try {
-					create_params.Height = Height;
-				}
-				catch {
-					create_params.Height = this.bounds.Height;
-				}
-
+				create_params.Caption = text;
+				create_params.X = this.bounds.X;
+				create_params.Y = this.bounds.Y;
+				create_params.Width = this.bounds.Width;
+				create_params.Height = this.bounds.Height;
 
 				create_params.ClassName = XplatUI.GetDefaultClassName (GetType ());
 				create_params.ClassStyle = (int)(XplatUIWin32.ClassStyle.CS_OWNDC | XplatUIWin32.ClassStyle.CS_DBLCLKS);
@@ -5222,7 +5197,7 @@ namespace System.Windows.Forms
 
 		internal virtual void WmDrawFocusRingMask(ref Message m)
 		{
-#if __MACOS__
+#if MAC
 			if (ShowFocusCues)
 				NSBezierPath.FillRect(Handle.ToNSView().Bounds);
 #endif
@@ -6811,6 +6786,11 @@ namespace System.Windows.Forms
 		{
 			get { return Focusing.isActive ? focusing_controls ?? child_controls_ : child_controls_; }
 			set { child_controls_ = value; }
+		}
+
+		public override string ToString()
+		{
+			return $"{GetType().Name}, \"{Text}\", {Name}, {Size.Width}x{Size.Height}, {GetType().FullName}";
 		}
 
 		internal class Focusing : IDisposable

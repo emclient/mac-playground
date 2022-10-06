@@ -114,7 +114,7 @@ namespace System.Windows.Forms {
 			// hueTextBox
 			hueTextBox.Location = new Point (324, 203);
 			hueTextBox.Size = new Size (27, 21);
-			hueTextBox.TabIndex = 11;
+			hueTextBox.TabIndex = 14;
 			hueTextBox.MaxLength = 3;
 			// satTextBox
 			satTextBox.Location = new Point (324, 225);
@@ -231,11 +231,11 @@ namespace System.Windows.Forms {
 			// baseColorControl
 			baseColorControl.Location = new Point (3, 6);
 			baseColorControl.Size = new Size (212, 231);
-			baseColorControl.TabIndex = 13;
+			baseColorControl.TabStop = false;
 			// colorMatrixControl
 			colorMatrixControl.Location = new Point (227, 7);
 			colorMatrixControl.Size = new Size (179, 190);
-			colorMatrixControl.TabIndex = 14;
+			colorMatrixControl.TabStop = false;
 			// triangleControl
 			triangleControl.Location = new Point (432, 0);
 			triangleControl.Size = new Size (16, 204);
@@ -290,12 +290,12 @@ namespace System.Windows.Forms {
 			cancelButton.Click += new EventHandler (OnClickCancelButton);
 			okButton.Click += new EventHandler (OnClickOkButton);
 			
-			hueTextBox.KeyPress += new KeyPressEventHandler (OnKeyPressTextBoxes);
-			satTextBox.KeyPress += new KeyPressEventHandler (OnKeyPressTextBoxes);
-			briTextBox.KeyPress += new KeyPressEventHandler (OnKeyPressTextBoxes);
-			redTextBox.KeyPress += new KeyPressEventHandler (OnKeyPressTextBoxes);
-			greenTextBox.KeyPress += new KeyPressEventHandler (OnKeyPressTextBoxes);
-			blueTextBox.KeyPress += new KeyPressEventHandler (OnKeyPressTextBoxes);
+			hueTextBox.KeyDown += new KeyEventHandler (OnKeyDownTextBoxes);
+			satTextBox.KeyDown += new KeyEventHandler (OnKeyDownTextBoxes);
+			briTextBox.KeyDown += new KeyEventHandler (OnKeyDownTextBoxes);
+			redTextBox.KeyDown += new KeyEventHandler (OnKeyDownTextBoxes);
+			greenTextBox.KeyDown += new KeyEventHandler (OnKeyDownTextBoxes);
+			blueTextBox.KeyDown += new KeyEventHandler (OnKeyDownTextBoxes);
 			
 			hueTextBox.TextChanged += new EventHandler (OnTextChangedTextBoxes);
 			satTextBox.TextChanged += new EventHandler (OnTextChangedTextBoxes);
@@ -547,13 +547,8 @@ namespace System.Windows.Forms {
 				textbox.Text = textBox_text_old;
 		}
 		
-		void OnKeyPressTextBoxes (object sender, KeyPressEventArgs e)
+		void OnKeyDownTextBoxes (object sender, KeyEventArgs e)
 		{
-			if (Char.IsLetter (e.KeyChar) || Char.IsWhiteSpace (e.KeyChar) || Char.IsPunctuation (e.KeyChar) || e.KeyChar == ',') {
-				e.Handled = true;
-				return; 
-			}
-			
 			internal_textbox_change = true;
 		}
 		
@@ -574,6 +569,13 @@ namespace System.Windows.Forms {
 			
 			string text = tmp_box.Text;
 			
+			var filtered = FilterText(text);
+			if (filtered != text)
+			{
+				(sender as TextBox).Text = filtered;
+				return;
+			}
+
 			int val = 0;
 			
 			try {
@@ -678,6 +680,15 @@ namespace System.Windows.Forms {
 			edit_textbox = null;
 		}
 		
+		internal string FilterText(string text)
+		{
+			var filtered = string.Empty;
+			foreach (var character in text)
+				if (char.IsNumber(character))
+					filtered += character;
+			return filtered;
+		}
+
 		internal void UpdateControls (Color acolor)
 		{
 			selectedColorPanel.BackColor = acolor;
@@ -1770,6 +1781,9 @@ namespace System.Windows.Forms {
 			private DrawingBitmap bitmap;
 			
 			private ColorDialog colorDialog = null;
+
+			private bool dirty;
+			private int hue, sat;
 			
 			public BrightnessControl (ColorDialog colorDialog)
 			{
@@ -1796,6 +1810,9 @@ namespace System.Windows.Forms {
 			
 			protected override void OnPaint (PaintEventArgs e)
 			{
+				if (dirty)
+					bitmap.Draw (hue, sat);
+
 				e.Graphics.DrawImage (bitmap.Bitmap, 0, 0);
 				
 				base.OnPaint (e);
@@ -1807,11 +1824,22 @@ namespace System.Windows.Forms {
 				
 				base.OnMouseDown (e);
 			}
+
+			protected override void OnMouseMove (MouseEventArgs e)
+			{
+ 				if (e.Button == MouseButtons.Left && e.Y < 196 && e.Y > 8) {
+					colorDialog.triangleControl.TrianglePosition = (int)((float)(189 - e.Y) * step);
+				}
+
+				base.OnMouseMove (e);
+			}
 			
 			// this one is for ColorMatrixControl
 			public void ShowColor (int hue, int sat)
 			{
-				bitmap.Draw (hue, sat);
+				this.dirty = true;
+				this.hue = hue;
+				this.sat = sat;
 				Invalidate ();
 				Update ();
 			}
@@ -1821,9 +1849,7 @@ namespace System.Windows.Forms {
 				set {
 					int hue, sat;
 					HSB.GetHueSaturation (value, out hue, out sat);
-					bitmap.Draw (hue, sat);
-					Invalidate ();
-					Update ();
+					ShowColor (hue, sat);
 				}
 			}
 		}

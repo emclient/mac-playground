@@ -1,27 +1,40 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>xamarinmac20</TargetFrameworks>
-    <TargetFrameworks Condition="'$(SkipMacNet6Projects)' != 'true'">$(TargetFrameworks);net6.0-macos;net6.0-windows</TargetFrameworks>
-    <MonoBundlingExtraArgs>--marshal-objectivec-exceptions:disable --registrar:dynamic</MonoBundlingExtraArgs>
-    <RuntimeIdentifier Condition="'$(TargetFramework)' != 'net6.0-windows'">osx-x64</RuntimeIdentifier>
+    <TargetFrameworks>net6.0-windows;net6.0-macos</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">net6.0-windows</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">net6.0-macos</TargetFrameworks>
+    <MonoBundlingExtraArgs>--registrar:dynamic</MonoBundlingExtraArgs>
+    <!-- <RuntimeIdentifier Condition="'$(TargetFramework)' != 'net6.0-windows'">osx-x64</RuntimeIdentifier> -->
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <DisableExtraReferences>true</DisableExtraReferences>
-    <DefineConstants Condition="'$(TargetFramework)' == 'xamarinmac20' OR '$(TargetFramework)' == 'net6.0-macos'">$(DefineConstants);MAC;XAMARINMAC</DefineConstants>
-    <OutputType>Exe</OutputType>
+    <DefineConstants Condition="'$(TargetFramework)' == 'net6.0-macos'">$(DefineConstants);MAC</DefineConstants>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+    <OutputType Condition="'$(TargetFramework)' == 'net6.0-macos'">Exe</OutputType>
+	  <OutputType Condition="'$(TargetFramework)' == 'net6.0-windows'">WinExe</OutputType>
     <UseWindowsForms Condition="'$(TargetFramework)' == 'net6.0-windows'">true</UseWindowsForms>
+    <UseMonoRuntime>false</UseMonoRuntime>
+    <CustomResourceTypesSupport>true</CustomResourceTypesSupport>
+    <ExtrasEnableEmbeddedResourceCodeGenerator>false</ExtrasEnableEmbeddedResourceCodeGenerator>
+    <ApplicationId>com.emclient.formstest.1</ApplicationId>
+    <ApplicationTitle>FormsTest</ApplicationTitle>
+    <Company>eM Client s.r.o.</Company>
+    <Product>FormsTest</Product>
+    <Brand></Brand>
+    <MonoBundlingExtraArgs>--registrar:static</MonoBundlingExtraArgs>
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-macos'">10.14</SupportedOSPlatformVersion>
+    <PathMap Condition="'$(Configuration)' == 'Release' OR $(Configuration.EndsWith('- Release'))">$(MSBuildProjectDirectory)/obj/$(Configuration)/$(TargetFramework)/$(RuntimeIdentifier)=.</PathMap>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
-    <ProjectReference Include="..\System.Private.CoreLib\System.Private.CoreLib.csproj" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20' OR '$(TargetFramework)' == 'net6.0-macos'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
     <ProjectReference Include="..\System.Windows.Forms\System.Windows.Forms.csproj" />
     <ProjectReference Include="..\System.Drawing\System.Drawing.csproj" />
     <ProjectReference Include="..\MacApi\MacApi.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
+    <PackageReference Include="Microsoft.Private.Winforms" Version="[6.0.1-dev]" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Forms\ToolstripForm.cs">
@@ -87,11 +100,11 @@
     <Compile Include="LayoutIssues\ControlSettingsSpellChecker.Designer.cs">
       <DependentUpon>ControlSettingsSpellChecker.cs</DependentUpon>
     </Compile>
-    <Compile Include="LayoutIssues\FormLinkMessageBox\FormLinkMessageBox.cs">
+    <Compile Include="LayoutIssues\AutoSizeForm\AutoSizeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LayoutIssues\FormLinkMessageBox\FormLinkMessageBox.Designer.cs">
-      <DependentUpon>FormLinkMessageBox.cs</DependentUpon>
+    <Compile Include="LayoutIssues\AutoSizeForm\AutoSizeForm.Designer.cs">
+      <DependentUpon>AutoSizeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LayoutIssues\ControlExpandablePanel.cs">
       <SubType>UserControl</SubType>
@@ -174,10 +187,16 @@
     <EmbeddedResource Include="Forms\TextBoxForm.resx">
       <DependentUpon>TextBoxForm.cs</DependentUpon>
     </EmbeddedResource>
+    <Compile Include="Forms\AutoSizeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\TextureBrushForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\WebForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TablesForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Resources\Providers.Designer.cs">
@@ -208,17 +227,17 @@
     <Compile Include="Forms\MainForm.Swizzle.cs" />
     <Compile Include="Forms\MainForm.NSBackgroundActivity.cs" />
     <Compile Include="Forms\MainForm.NCPrefs.cs" />
+    <Compile Include="Forms\MainForm.TextExtraction.cs" />
+    <Compile Include="Forms\MainForm.PrintPreview.cs" />
     <!--<Compile Include="Forms\DataGridForm.cs" />-->
     <Compile Include="Forms\DateTimeForm.cs" />
+    <Compile Include="Forms\NotificationsForm.cs" Condition="'$(TargetFramework)' == 'net6.0-macos'" />
     <Compile Include="Controls\TextureBrushControl.cs" />
     <Compile Include="Controls\TextureBrushControl2.cs" />
     <Compile Include="Experiments\FileDescriptors.cs">
       <SubType></SubType>
     </Compile>
     <Compile Include="Experiments\CatchWhen.cs">
-      <SubType></SubType>
-    </Compile>
-    <Compile Include="Forms\MainForm.PrintPreview.cs">
       <SubType></SubType>
     </Compile>
   </ItemGroup>
@@ -242,8 +261,8 @@
     <EmbeddedResource Include="LayoutIssues\ControlSettingsSpellChecker.resx">
       <DependentUpon>ControlSettingsSpellChecker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LayoutIssues\FormLinkMessageBox\FormLinkMessageBox.resx">
-      <DependentUpon>FormLinkMessageBox.cs</DependentUpon>
+    <EmbeddedResource Include="LayoutIssues\AutoSizeForm\AutoSizeForm.resx">
+      <DependentUpon>AutoSizeForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="LayoutIssues\ControlExpandablePanel.resx">
@@ -256,29 +275,16 @@
   <ItemGroup>
     <None Include="Properties\Resources.resx" />
     <None Include="application.ico" />
-    <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
-    <None Include="Resources\Hotmail_Small.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Hotmail.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\iCloud_Small.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\iCloud.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Controls\ControlWaiting.resx" />
     <None Include="Controls\ControlStatusBar.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="car.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="App.ico" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="car.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="new_mail.wav" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
+
+  <Import Project="FormsTest.macOS.targets" Condition="'$([MSBuild]::GetTargetPlatformIdentifier($(TargetFramework)))' == 'macos'" />
+
 </Project>

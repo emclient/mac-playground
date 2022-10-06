@@ -46,6 +46,7 @@ using System.Drawing.Mac;
 using CoreGraphics;
 using Foundation;
 using ImageIO;
+using ObjCRuntime;
 
 namespace System.Drawing {
 	
@@ -72,6 +73,7 @@ namespace System.Drawing {
 		private CGDataProvider dataProvider;
 		// For images created from PNG, JPEG or other data
 		private CGImageSource imageSource;
+		private bool dirty;
 
 		public Bitmap (string filename)
 			: this (filename, useIcm: false)
@@ -299,7 +301,7 @@ namespace System.Drawing {
 
 		internal Bitmap (CGImage image)
 		{
-			imageTransform = new CGAffineTransform(1, 0, 0, -1, 0, image.Height);
+			imageTransform = new CGAffineTransform(1, 0, 0, -1, 0, (float)image.Height);
 			InitWithCGImage(image);
 			GuessPixelFormat();
 		}
@@ -335,12 +337,9 @@ namespace System.Drawing {
 			if (NativeCGImage != null)
 				NativeCGImage.Dispose();
 
-			imageTransform = CGAffineTransform.MakeIdentity();
-
 			SetImageInformation (frame);
-			var cg = imageSource.CreateImage(frame, null);
-			imageTransform = new CGAffineTransform(1, 0, 0, -1, 0, cg.Height);
-			InitWithCGImage (cg);
+			imageTransform = new CGAffineTransform(1, 0, 0, -1, 0, physicalDimension.Height);
+			InitWithCGImage (imageSource.CreateImage(frame, null));
 			GuessPixelFormat ();
 
 			currentFrame = frame;
@@ -571,12 +570,25 @@ namespace System.Drawing {
 			cachedContext = bitmap;
 		}
 
+		internal override CGImage NativeCGImage {
+			get {
+				if (dirty) {
+					dirty = false;
+					base.NativeCGImage = GetRenderableContext().ToImage();
+				}
+				return base.NativeCGImage;
+			}
+		}
+
 		CGImage NewCGImage(int width, int height, int bitsPerComponent, int bitsPerPixel, int bytesPerRow, CGColorSpace colorSpace, CGBitmapFlags bitmapFlags, CGDataProvider provider, nfloat[] decode, bool shouldInterpolate, CGColorRenderingIntent intent)
 		{
-			var image = new CGImage(width, height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpace, bitmapFlags, dataProvider, decode, shouldInterpolate, intent);
-			if (image == null)
+			try
 			{
-				var e = new ArgumentException("Failed to create CGImage");
+				return new CGImage(width, height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpace, bitmapFlags, dataProvider, decode, shouldInterpolate, intent);
+			}
+			catch (Exception inner)
+			{
+				var e = new ArgumentException("Failed to create CGImage", inner);
 				e.Data["width"] = width;
 				e.Data["height"] = height;
 				e.Data["bitsPerComponent"] = bitsPerComponent;
@@ -588,8 +600,8 @@ namespace System.Drawing {
 				e.Data["decode"] = decode;
 				e.Data["shouldInterpolate"] = shouldInterpolate;
 				e.Data["intent"] = intent;
+				throw e;
 			}
-			return image;
 		}
 
 		internal CGBitmapContext GetRenderableContext()
@@ -599,15 +611,8 @@ namespace System.Drawing {
 
 			if (bitmapBlock != IntPtr.Zero && (PixelFormat & PixelFormat.Indexed) == 0 && this.NativeCGImage.BitsPerPixel == 32) {
 				try {
-					cachedContext =
-						new CGBitmapContext (
-							bitmapBlock, 
-							this.NativeCGImage.Width,
-							this.NativeCGImage.Height, 
-							this.NativeCGImage.BitsPerComponent,
-							this.NativeCGImage.BytesPerRow,
-							this.NativeCGImage.ColorSpace,
-							this.NativeCGImage.BitmapInfo);
+					CGImage i = this.NativeCGImage;
+					cachedContext = new CGBitmapContext(bitmapBlock, i.Width,i.Height, i.BitsPerComponent, i.BytesPerRow, i.ColorSpace, i.BitmapInfo);
 				}
 				catch (Exception) {
 					InitWithCGImage (NativeCGImage);
@@ -665,16 +670,17 @@ namespace System.Drawing {
 				break;
 			}
 
-			var bytesPerRow = (width * (int)NativeCGImage.BitsPerPixel + 7) / 8;
+			var img = NativeCGImage;
+			var bytesPerRow = (width * (int)img.BitsPerPixel + 7) / 8;
 			var newBitmapBlock = Marshal.AllocHGlobal(height * bytesPerRow);
-			var newBitmapContext = new CGBitmapContext(newBitmapBlock, width, height, NativeCGImage.BitsPerComponent, bytesPerRow, NativeCGImage.ColorSpace, NativeCGImage.AlphaInfo);
+			var newBitmapContext = new CGBitmapContext(newBitmapBlock, width, height, img.BitsPerComponent, bytesPerRow, img.ColorSpace, img.AlphaInfo);
 			newBitmapContext.ConcatCTM(rotateFlip);
-			newBitmapContext.DrawImage(new CGRect(0, 0, NativeCGImage.Width, NativeCGImage.Height), NativeCGImage);
+			newBitmapContext.DrawImage(new CGRect(0, 0, img.Width, img.Height), img);
 			newBitmapContext.Flush();
 
 			// If the width or height is not the seme we need to switch the dpiHeight and dpiWidth
 			// We should be able to get around this with set resolution later.
-			if (NativeCGImage.Width != width || NativeCGImage.Height != height)
+			if (img.Width != width || img.Height != height)
 			{
 				var temp = dpiWidth;
 				dpiHeight = dpiWidth;
@@ -747,11 +753,7 @@ namespace System.Drawing {
 
 		protected override void Dispose (bool disposing)
 		{
-			if (disposing){
-				if (NativeCGImage != null){
-					NativeCGImage.Dispose ();
-					NativeCGImage = null;
-				}
+			if (disposing) {
 				if (dataProvider != null) {
 					dataProvider.Dispose ();
 					dataProvider = null;
@@ -795,8 +797,8 @@ namespace System.Drawing {
 			if (y < 0 || y > NativeCGImage.Height - 1)
 				throw new InvalidEnumArgumentException ("Parameter must be positive and < Height.");
 
-			if (cachedContext == null || cachedContext.Handle == IntPtr.Zero)
-				GetRenderableContext ();
+			dirty = true;
+			GetRenderableContext ();
 
 			// We are going to cheat here by drawing directly to the cached context that is 
 			// associated to the image.  This way we do not have to play with pixels and offsets
@@ -1048,6 +1050,8 @@ namespace System.Drawing {
 			if ((ImageLockMode)data.Reserved == ImageLockMode.ReadOnly)
 				return;
 			
+			dirty = true;
+
 			if (NativeCGImage.BitsPerPixel == 32) {
 				if (!ConversionHelpers.sTablesInitialized)
 					ConversionHelpers.CalculateTables ();

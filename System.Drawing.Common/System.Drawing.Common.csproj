@@ -1,7 +1,6 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>xamarinmac20</TargetFrameworks>
-    <TargetFrameworks Condition="'$(SkipMacNet6Projects)' != 'true'">$(TargetFrameworks);net6.0-macos;net6.0-ios</TargetFrameworks>
+    <TargetFrameworks>net6.0-macos;net6.0-ios</TargetFrameworks>
     <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFrameworks>
     <DefineConstants>MAISONABE;STATIC_PREMULTIPLY_TABLES</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -16,19 +15,19 @@
 
   <!-- Check API compatibility against System.Drawing.Common from .NET 5 -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsDesktop.App.Ref" Version="5.0.0" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
-    <PackageReference Include="Microsoft.NETCore.App.Ref" Version="5.0.0" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
+    <PackageReference Include="Microsoft.WindowsDesktop.App.Ref" Version="6.0.9" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
+    <PackageReference Include="Microsoft.NETCore.App.Ref" Version="6.0.9" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
   </ItemGroup>
   <PropertyGroup>
     <ApiCompatExcludeAttributeList>..\ApiCompatExcludeAttributes.txt</ApiCompatExcludeAttributeList>
-    <ContractDependencyPaths>$(PkgMicrosoft_NETCore_App_Ref)\ref\net5.0</ContractDependencyPaths>
+    <ContractDependencyPaths>$(PkgMicrosoft_NETCore_App_Ref)\ref\net6.0</ContractDependencyPaths>
     <ApiCompatBaseline Condition="'$(TargetFramework)' == 'net6.0-ios'">ApiCompatBaseline.iOS.txt</ApiCompatBaseline>
   </PropertyGroup>
   <ItemGroup>
-    <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\net5.0\System.Drawing.Common.dll" />
+    <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\net6.0\System.Drawing.Common.dll" />
   </ItemGroup>
   <ItemGroup Condition="'$(SkipMacProjects)' != 'true'">
-    <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="6.0.0-beta.20569.4" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="6.0.0-beta.21466.2" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
@@ -46,11 +45,7 @@
     <Compile Include="Utilities\ClipperLib\clipper.cs" />
     <Compile Include="System.Drawing.Mac\*.cs" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20'">
-    <Compile Include="System.Drawing.Primitives\*.cs" />
-    <Compile Remove="System.Drawing\Forwards.cs" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'xamarinmac20' OR '$(TargetFramework)' == 'net6.0-macos'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
     <Compile Include="System.Drawing.Printing\*.cs" />
   </ItemGroup>
   <ItemGroup>

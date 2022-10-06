@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 using CoreGraphics;
 using System.Drawing.Mac;
+using ObjCRuntime;
 
 namespace System.Drawing.Drawing2D 
 {

@@ -9,6 +9,7 @@
 using System;
 using System.Drawing.Mac;
 using CoreGraphics;
+using ObjCRuntime;
 
 namespace System.Drawing.Drawing2D 
 {

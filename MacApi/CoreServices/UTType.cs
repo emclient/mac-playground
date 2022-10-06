@@ -1,86 +1,144 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
-
-#if MONOMAC
-using MonoMac.Foundation;
-#elif XAMARINMAC
+using CoreFoundation;
 using Foundation;
-#endif
 
-namespace MacApi.LaunchServices
+namespace MacApi.CoreServices
 {
-	public class UTType
-	{
-		public const string kUTTypeData = "public.data";
-		public const string kUTTypeUTF8PlainText = "public.utf8-plain-text";
-		public const string kUTTypeText = "public.text";
-		public const string kUTTypeEmailMessage = "public.email-message";
-		public const string kUTTypeItem = "public.item";
-		public const string kUTTypeImage = "public.image";
-		public const string kUTTypeContent = "public.content";
-		public const string kUTTypeAudio = "public.audio";
-		public const string kUTTypeVideo = "public.video";
-		public const string kUTTypeContact = "public.contact";
-		public const string kUTTypeRTF = "public.rtf";
-		public const string NSFilesPromisePboardType = "Apple files promise pasteboard type";
-		public const string kUTTypePDF = "com.adobe.pdf";
-		public const string kUTTypeVCard = "public.vcard";
-		public const string kUTTypeToDoItem = "public.to-do-item";
-		public const string kUTTypeCalendarEvent = "public.calendar-event";
+	public partial class UTType
+    {
+        private readonly string identifier;
 
-		public const string kPasteboardTypeFileURLPromise = "com.apple.pasteboard.promised-file-url";
-		public const string kPasteboardTypeFilePromiseContent = "com.apple.pasteboard.promised-file-content-type";
-		public const string NSPasteboardTypeHTML = "public.html";
-		public const string NSDocumentTypeDocumentAttribute = "DocumentType";
-		public const string NSRTFTextDocumentType = "NSRTF";
+        internal UTType(string identifier)
+        {
+            this.identifier = identifier;
+        }
 
-		public const string kUTTagClassNSPboardType = "com.apple.nspboard-type";
-		public const string kUTTagClassMIMEType = "public.mime-type";
-		public const string kUTTagClassFilenameExtension = "public.filename-extension";
-		public const string kApplicationOctetStream = "application/octet-stream";
+        public static UTType? CreateFromIdentifier(string identifier)
+        {
+            return string.IsNullOrEmpty(identifier) ? null : new UTType(identifier);
+        }
 
-		public static string MimeTypeFromExtension(string extension)
+        public static UTType? CreateFromExtension(string extension)
+        {
+            return GetType(UTTypes.kUTTagClassFilenameExtension, extension, null);
+        }
+
+        public string Identifier => identifier;
+
+        public bool ConformsTo(UTType type)
+        {
+			var me = CFString.CreateNative(identifier);
+			var other = CFString.CreateNative(type.Identifier);
+
+			var ret = UTTypeConformsTo(me, other);
+
+			CFString.ReleaseNative(me);
+			CFString.ReleaseNative(other);
+
+            return ret;
+        }
+
+        public string? PreferredExtension => GetPreferredTag(identifier!, UTTypes.kUTTagClassFilenameExtension);
+
+        public string? PreferredMimeType => GetPreferredTag(identifier!, UTTypes.kUTTagClassMIMEType);
+
+        // CreatePreferredIdentifier
+        // typeWithTag:tagClass:conformingToType:
+		public static UTType? GetType(string tagClass, string tag, string? conformingToUti)
 		{
-			return UTTagFromTag(extension.StartsWith(".") ? extension.Substring(1) : extension, kUTTagClassFilenameExtension, kUTTagClassMIMEType, kApplicationOctetStream);
+			var hclass = CFString.CreateNative(tagClass);
+            var htag = CFString.CreateNative(tag);
+            var huti = CFString.CreateNative(conformingToUti);
+
+            var handle = UTTypeCreatePreferredIdentifierForTag(hclass, htag, huti);
+
+			CFString.ReleaseNative(hclass);
+            CFString.ReleaseNative(htag);
+            CFString.ReleaseNative(huti);
+
+            return UTType.CreateFromIdentifier(CFString.FromHandle(handle, true));
 		}
 
-		public static string ExtensionFromMimeType(string mimeType, string defaultValue = kApplicationOctetStream)
+		internal static string? GetPreferredTag(string identifier, string tagClass)
 		{
-			return UTTagFromTag(mimeType, kUTTagClassMIMEType, kUTTagClassFilenameExtension, defaultValue);
+			var hid = CFString.CreateNative(identifier);
+			var hclass = CFString.CreateNative(tagClass);
+
+            var handle = UTTypeCopyPreferredTagWithClass(hid, hclass);
+
+			CFString.ReleaseNative(hid);
+			CFString.ReleaseNative(hclass);
+            
+            return CFString.FromHandle(handle, true);
 		}
 
-		public static string CreatePreferredIdentifier(string tagClass, string tag, string conformingToUti)
-		{
-			return NSString.FromHandle(UTTypeCreatePreferredIdentifierForTag(Handle(tagClass), Handle(tag), Handle(conformingToUti)));
-		}
+        public override string ToString()
+        {
+            return $"identifier='{identifier}', prefMimeType:{PreferredMimeType}, prefExtension:{PreferredExtension}";
+        }
+    }
 
-		public static string GetPreferredTag(string uti, string tagClass)
-		{
-			if (uti == null)
-				throw new ArgumentNullException(nameof(uti));
-			if (tagClass == null)
-				throw new ArgumentNullException(nameof(tagClass));
-
-			return NSString.FromHandle(UTTypeCopyPreferredTagWithClass(((NSString)uti).Handle, ((NSString)tagClass).Handle));
-		}
-
-		internal static string UTTagFromTag(string value, string sourceTag, string destinationTag, string defaultValue)
-		{
-			var uti = UTType.CreatePreferredIdentifier(sourceTag, value, null);
-			if (uti != null)
-				return UTType.GetPreferredTag(uti, destinationTag) ?? defaultValue;
-			return defaultValue;
-		}
-
-		internal static IntPtr Handle(string s)
-		{
-			return s != null ? ((NSString)s).Handle : IntPtr.Zero;
-		}
-
+    public partial class UTType
+    {
 		[DllImport(Constants.CoreServicesLibrary)]
 		internal extern static IntPtr UTTypeCreatePreferredIdentifierForTag(IntPtr tagClass, IntPtr tag, IntPtr uti);
 		[DllImport(Constants.CoreServicesLibrary)]
 		internal extern static IntPtr UTTypeCopyPreferredTagWithClass(IntPtr uti, IntPtr tagClass);
+		[DllImport(Constants.CoreServicesLibrary)]
+        internal extern static bool UTTypeConformsTo(IntPtr uti, IntPtr conformsToUti);
+    }
 
-	}
+    public partial class UTTypes
+    {
+        static UTType? mimeType;
+        public static UTType MimeType => mimeType ??= new UTType(kUTTagClassMIMEType);
+
+        static UTType? filenameExtension;
+        public static UTType FilenameExtension => filenameExtension ??= new UTType(kUTTagClassFilenameExtension);
+
+        static UTType? pboardType;
+        public static UTType NSPboardType => pboardType ??= new UTType(kUTTagClassNSPboardType);
+
+        static UTType? data;
+        public static UTType Data => data ??= new UTType(kUTTypeData);
+
+        static UTType? pdf;
+        public static UTType Pdf => pdf ??= new UTType(kUTTypePDF);
+
+        static UTType? emailMessage;
+        public static UTType EmailMessage => emailMessage ??= new UTType(kUTTypeEmailMessage);
+
+        static UTType? vcard;
+        public static UTType VCard => vcard ??= new UTType(kUTTypeVCard);
+
+        static UTType? calendarEvent;
+        public static UTType CalendarEvent => calendarEvent ??= new UTType(kUTTypeCalendarEvent);
+    }
+
+    public partial class UTTypes
+    {
+		internal const string kApplicationOctetStream = "application/octet-stream";
+
+		internal const string kUTTagClassFilenameExtension = "public.filename-extension";
+		internal const string kUTTagClassNSPboardType = "com.apple.nspboard-type";
+		internal const string kUTTagClassMIMEType = "public.mime-type";
+
+		internal const string kUTTypeData = "public.data";
+		internal const string kUTTypeUTF8PlainText = "public.utf8-plain-text";
+		internal const string kUTTypeText = "public.text";
+		internal const string kUTTypeEmailMessage = "public.email-message";
+		internal const string kUTTypeItem = "public.item";
+		internal const string kUTTypeImage = "public.image";
+		internal const string kUTTypeContent = "public.content";
+		internal const string kUTTypeAudio = "public.audio";
+		internal const string kUTTypeVideo = "public.video";
+		internal const string kUTTypeContact = "public.contact";
+		internal const string kUTTypeRTF = "public.rtf";
+		internal const string NSFilesPromisePboardType = "Apple files promise pasteboard type";
+		internal const string kUTTypePDF = "com.adobe.pdf";
+		internal const string kUTTypeVCard = "public.vcard";
+		internal const string kUTTypeToDoItem = "public.to-do-item";
+		internal const string kUTTypeCalendarEvent = "public.calendar-event";
+    }
 }

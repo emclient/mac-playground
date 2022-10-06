@@ -36,7 +36,7 @@ namespace MacApi.CoreFoundation
 {
 
 	// CFNumber.h
-	partial class CFBoolean : INativeObject, IDisposable
+	partial class CFBoolean : /*INativeObject,*/ IDisposable
 	{
 		IntPtr handle;
 
@@ -45,7 +45,7 @@ namespace MacApi.CoreFoundation
 		{
 			this.handle = handle;
 			if (!owns)
-				CFObject.CFRetain(handle);
+				CFRetain(handle);
 		}
 
 		~CFBoolean()
@@ -78,7 +78,7 @@ namespace MacApi.CoreFoundation
 		{
 			if (handle != IntPtr.Zero)
 			{
-				CFObject.CFRelease(handle);
+				CFRelease(handle);
 				handle = IntPtr.Zero;
 			}
 		}
@@ -135,5 +135,10 @@ namespace MacApi.CoreFoundation
 			}
 		}
 
+		[DllImport(Constants.CarbonLibrary)]
+		public static extern void CFRetain(IntPtr handle);
+
+		[DllImport(Constants.CarbonLibrary)]
+		public static extern void CFRelease(IntPtr handle);
 	}
 }

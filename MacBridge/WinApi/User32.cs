@@ -9,17 +9,9 @@ using System.Windows.Forms;
 using System.Windows.Forms.CocoaInternal;
 using MacApi;
 using System.Windows.Forms.Mac;
-#if XAMARINMAC
 using AppKit;
 using Foundation;
 using CoreGraphics;
-#else
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-using MonoMac.CoreGraphics;
-using ObjCRuntime = MonoMac.ObjCRuntime;
-using MacApi.CoreGraphics;
-#endif
 
 namespace WinApi
 {
@@ -170,11 +162,17 @@ namespace WinApi
 
         public delegate bool EnumWindowProc(IntPtr hWnd,IntPtr parameter);
 
-        public static bool EnumChildWindows(IntPtr window, EnumWindowProc callback, IntPtr i)
+        public static bool EnumChildWindows(IntPtr hwnd, EnumWindowProc callback, IntPtr parameter)
         {
-            // TODO;
-			NotImplemented(MethodBase.GetCurrentMethod());
-            return false;
+			if (callback != null && (ObjCRuntime.Runtime.GetNSObject(hwnd) as NSView)?.Window is NSWindow parent)
+			{
+				var windows = NSApplication.SharedApplication.OrderedWindows();
+				foreach(var window in windows)
+					if (window.ParentWindow == parent && window.ContentView is NSView view)
+						if (!callback(view.Handle, parameter))
+							return false;
+			}
+            return true;
         }
 
         public static int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount)

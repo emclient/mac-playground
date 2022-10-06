@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
+using System.Text;
 using System.Windows.Forms;
 
 namespace FormsTest
@@ -11,6 +13,8 @@ namespace FormsTest
 		FlowLayoutPanel panel1;
 		DateTimePicker picker1;
 		MonthCalendar monthCal1;
+
+		TextBox textBox1;
 
 		public DateTimeForm()
 		{
@@ -24,6 +28,7 @@ namespace FormsTest
 			panel1 = new FlowLayoutPanel();
 			picker1 = new DateTimePicker();
 			monthCal1 = new MonthCalendar();
+			textBox1 = new TextBox();
 
 			// panel1
 			panel1.SuspendLayout();
@@ -58,8 +63,21 @@ namespace FormsTest
 			//monthCal1.TitleForeColor = calendarTitleForeColor;
 			//monthCal1.TrailingForeColor = calendarTrailingForeColor;
 
+			// textBox1
+			this.textBox1.AutoSize = false;
+			this.textBox1.Name = "textBox1";
+			this.textBox1.Size = new System.Drawing.Size(250, 300);
+			this.textBox1.TabIndex = 5;
+			this.textBox1.Font = System.Drawing.SystemFonts.MenuFont;
+			this.textBox1.Multiline = true;
+			this.textBox1.AcceptsTab = true;
+			this.textBox1.AcceptsReturn = true;
+			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+
+
 			panel1.Controls.Add(picker1);
 			panel1.Controls.Add(monthCal1);
+			panel1.Controls.Add(textBox1);
 
 			// DateTimeForm
 			MinimumSize = new Size (100,100);
@@ -76,6 +94,43 @@ namespace FormsTest
 			panel1.ResumeLayout(true);
 			ResumeLayout(false);
 			PerformLayout();
+		}
+
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
+
+			var cal = new HebrewCalendar();
+ 			var cul = CultureInfo.CreateSpecificCulture("he-IL");
+			cul.DateTimeFormat.Calendar = cal;
+
+			var sb = new StringBuilder();
+
+			var today = DateTime.Now;
+			var toyear = cal.GetYear(today);
+			var newyear = cal.ToDateTime(toyear, 1, 1, 0, 0, 0, 0, cal.GetEra(today));
+
+			var ddd = cal.ToDateTime(toyear, 1, 1, 0, 0, 0, 0, cal.GetEra(today));
+
+			for (var j = 0; j < 10; ++j)
+			{
+				var y = toyear + j;
+				var dd = cal.AddYears(ddd, j);
+				sb.AppendLine($"({y}) {dd.ToString("y", cul)}");
+				sb.AppendLine($"---------------");
+
+				var months = cal.GetMonthsInYear(y);
+				for (int i = 0; i < months; ++i)
+				{
+					var d = cal.AddMonths(dd, i);
+					var MMMM = d.ToString("MMMM", cul);
+					sb.AppendLine($"({1 + i}) {MMMM}");
+				}
+
+				sb.AppendLine();
+			}
+
+			textBox1.Text = sb.ToString();
 		}
 
 		protected override void Dispose(bool disposing)

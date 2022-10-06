@@ -2,6 +2,7 @@
 using System.Text;
 using System.Reflection;
 using MacApi;
+using Foundation;
 
 namespace WinApi
 {
@@ -13,7 +14,7 @@ namespace WinApi
 			switch (nameFormat)
 			{
 				case ExtendedNameFormat.NameDisplay:
-					value = FoundationStatic.FullUserName;
+					value = NSFileManager.FullUserName;
 					break;
 
 				case ExtendedNameFormat.NameUnknown:

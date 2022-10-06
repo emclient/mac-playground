@@ -30,13 +30,14 @@
 
 using System;
 using System.Runtime.InteropServices;
+using CoreFoundation;
 using Foundation;
 using ObjCRuntime;
 
 namespace MacApi.CoreFoundation
 {
 
-	class CFDictionary : INativeObject, IDisposable
+	class CFDictionary : /*INativeObject,*/ IDisposable
 	{
 		public IntPtr Handle { get; private set; }
 
@@ -51,7 +52,7 @@ namespace MacApi.CoreFoundation
 		public CFDictionary(IntPtr handle, bool owns)
 		{
 			if (!owns)
-				CFObject.CFRetain(handle);
+				CFRetain(handle);
 			this.Handle = handle;
 		}
 
@@ -77,7 +78,7 @@ namespace MacApi.CoreFoundation
 		{
 			if (Handle != IntPtr.Zero)
 			{
-				CFObject.CFRelease(Handle);
+				CFRelease(Handle);
 				Handle = IntPtr.Zero;
 			}
 		}
@@ -156,9 +157,7 @@ namespace MacApi.CoreFoundation
 		public string GetStringValue(string key)
 		{
 			using (var str = new CFString(key))
-			{
-				return CFString.FetchString(CFDictionaryGetValue(Handle, str.Handle));
-			}
+				return (string) CFString.FromHandle(CFDictionaryGetValue(Handle, str.Handle));
 		}
 
 		public int GetInt32Value(string key)
@@ -216,6 +215,12 @@ namespace MacApi.CoreFoundation
 
 		[DllImport(Constants.CoreFoundationLibrary)]
 		extern static bool CFDictionaryContainsKey(IntPtr theDict, IntPtr key);
+
+		[DllImport(Constants.CarbonLibrary)]
+		public static extern void CFRetain(IntPtr handle);
+
+		[DllImport(Constants.CarbonLibrary)]
+		public static extern void CFRelease(IntPtr handle);
 	}
 
 	static class CFMutableDictionary

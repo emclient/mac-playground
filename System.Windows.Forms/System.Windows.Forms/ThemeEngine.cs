@@ -45,7 +45,7 @@ namespace System.Windows.Forms
 				theme_var = theme_var.ToLower ();
 			}
 
-#if MACOS_THEME
+#if MAC
 			theme = new ThemeMacOS();
 #else
 			if (Application.VisualStylesEnabled) {

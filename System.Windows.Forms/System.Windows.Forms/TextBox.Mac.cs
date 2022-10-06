@@ -1,4 +1,3 @@
-#if MACOS_THEME
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -107,7 +106,7 @@ namespace System.Windows.Forms {
 		public bool UseSystemPasswordChar
 		{
 			get { return use_system_password_char; }
-			set 
+			set
 			{
 				if (use_system_password_char != value)
 				{
@@ -199,6 +198,10 @@ namespace System.Windows.Forms {
 			}
 		}
 
+		[DefaultValue("")]
+		[Localizable(true)]
+		public virtual string PlaceholderText { get; set; } = string.Empty; // PAF: FIXME: Just dummy accessor, no real functionality present
+
 		#endregion // Public Instance Properties
 
 		public void Paste(string text)
@@ -265,4 +268,3 @@ namespace System.Windows.Forms {
 		}
 	}
 }
-#endif

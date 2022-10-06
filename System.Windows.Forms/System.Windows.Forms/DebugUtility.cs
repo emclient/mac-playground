@@ -5,13 +5,9 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Drawing;
 
-#if XAMARINMAC
+#if MAC
 using CoreGraphics;
 using AppKit;
-#elif MONOMAC
-using MonoMac.CoreGraphics;
-using MonoMac.AppKit;
-using ObjCRuntime = MonoMac.ObjCRuntime;
 #endif
 
 namespace System.Windows.Forms

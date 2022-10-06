@@ -22,6 +22,7 @@ using AppKit;
 #elif __IOS__
 using UIKit;
 #endif
+using ObjCRuntime;
 using MatrixOrder = System.Drawing.Drawing2D.MatrixOrder;
 
 namespace System.Drawing {
@@ -161,7 +162,7 @@ namespace System.Drawing {
 				}
 			}
 
-			g.screenScale = g.context.GetCTM().xx; // view.Layer?.ContentsScale ?? 1f;
+			g.screenScale = g.context.GetCTM().A; // view.Layer?.ContentsScale ?? 1f;
 
 			return g;
 		}
@@ -169,12 +170,6 @@ namespace System.Drawing {
 		public static Graphics FromHwnd(IntPtr hwnd)
 		{
 			return FromHwnd(hwnd, true);
-		}
-#endif
-
-		public static Graphics FromCurrentContext()
-		{
-			return new Graphics ();
 		}
 
 		private static CGBitmapContext DefaultContext { get; } = CreateDefaultContext();
@@ -185,6 +180,12 @@ namespace System.Drawing {
 			var context = new CGBitmapContext(IntPtr.Zero, 1, 1, 8, 4, CGColorSpace.CreateDeviceRGB(), CGImageAlphaInfo.PremultipliedFirst);
 			context.ScaleCTM(scaleFactor, -scaleFactor);
 			return context;
+		}
+#endif
+
+		public static Graphics FromCurrentContext()
+		{
+			return new Graphics ();
 		}
 
 		internal float GraphicsUnitConvertX (float x)
@@ -252,7 +253,8 @@ namespace System.Drawing {
 		{
 			if (hdc != IntPtr.Zero)
 			{
-				var context = new CGContext(hdc);
+				//var context = new CGContext(hdc);
+				CGContext context = (CGContext)Activator.CreateInstance(typeof(CGContext), new object?[] { hdc });
 				return new Graphics(context);
 			}
 			return null;

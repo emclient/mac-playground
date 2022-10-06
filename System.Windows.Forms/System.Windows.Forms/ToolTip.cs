@@ -103,11 +103,7 @@ namespace System.Windows.Forms {
 				XplatUI.SetTopmost(this.window.Handle, true);
 
 				// Workaround for missing support of WM_MOUSEACTIVATE that causes ToolTip to eat mouse clicks for controls beneath.
-#if MONOMAC
-				((MonoMac.AppKit.NSView)MonoMac.ObjCRuntime.Runtime.GetNSObject(this.Handle)).Window.IgnoresMouseEvents = true;
-#elif XAMARINMAC
 				((AppKit.NSView)ObjCRuntime.Runtime.GetNSObject(this.Handle)).Window.IgnoresMouseEvents = true;
-#endif
 			}
 
 			protected override CreateParams CreateParams {
@@ -701,6 +697,14 @@ namespace System.Windows.Forms {
 
 			Control c = (Control)window;
 			
+			Form form = c.FindForm();
+			if (form == null || form.WindowState == FormWindowState.Minimized)
+			{
+				timer.Stop();
+				state = TipState.Down;
+				return;
+			}
+
 			Point display_point = c.PointToScreen (Point.Empty);
 			display_point.X += point.X;
 			display_point.Y += point.Y;
@@ -733,6 +737,10 @@ namespace System.Windows.Forms {
 
 			UnhookFormEvents ();
 			tooltip_window.Visible = false;
+
+			// Prevent hidden windows from re-appearing when their owner gets deminiaturized.
+			if (tooltip_window.IsHandleCreated)
+				XplatUI.SetOwner(tooltip_window.Handle, IntPtr.Zero);
 		}
 		#endregion	// Public Instance Methods
 
@@ -816,20 +824,17 @@ namespace System.Windows.Forms {
 
 		private void Form_Resize (object sender, EventArgs e)
 		{
-			Form f = (Form)sender;
-
-			if (f.WindowState == FormWindowState.Minimized)
-				tooltip_window.Visible = false;
+			Hide(active_control);
 		}
 
 		private void Form_Closed (object sender, EventArgs e)
 		{
-			tooltip_window.Visible = false;
+			Hide(active_control);
 		}
 
 		private void Form_Deactivate (object sender, EventArgs e)
 		{
-			tooltip_window.Visible = false;
+			Hide(active_control);
 		}
 
 		internal void Present (Control control, string text)
@@ -857,6 +862,9 @@ namespace System.Windows.Forms {
 			// ShowAlways controls whether the controls in non-active forms
 			// can display its tooltips, even if they are not current active control.
 			if (!show_always && control.FindForm () != Form.ActiveForm)
+				return;
+
+			if (!control.FindForm().Visible)
 				return;
 
 			string text = (string)tooltip_strings[control];

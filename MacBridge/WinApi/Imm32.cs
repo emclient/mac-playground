@@ -1,14 +1,10 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Windows.Forms.CocoaInternal;
 using System.Text;
-#if XAMARINMAC
 using Foundation;
-#else
-using MonoMac.Foundation;
-#endif
 
 namespace WinApi
 {
@@ -17,6 +13,18 @@ namespace WinApi
 		public static IntPtr ImmGetContext(IntPtr hWnd)
 		{
 			return hWnd;
+		}
+
+		public static bool ImmGetOpenStatus(IntPtr hWnd)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return false;
+		}
+
+		public static bool ImmSetOpenStatus(IntPtr hWnd, bool b)
+		{
+			NotImplemented(MethodBase.GetCurrentMethod());
+			return false;
 		}
 
 		public static IntPtr ImmReleaseContext(IntPtr hWnd, IntPtr hIMC)

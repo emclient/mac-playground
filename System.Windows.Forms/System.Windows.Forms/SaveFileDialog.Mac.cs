@@ -1,5 +1,3 @@
-#if MONOMAC || XAMARINMAC
-
 using System;
 using System.Windows.Forms;
 using System.Windows.Forms.CocoaInternal;
@@ -7,14 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-
-#if XAMARINMAC
 using AppKit;
 using Foundation;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-#endif
 
 namespace System.Windows.Forms
 {
@@ -32,6 +24,10 @@ namespace System.Windows.Forms
 		// Gets or sets a value indicating whether the New Folder button appears in the folder browser dialog box.
 		public bool ShowNewFolderButton { get; set; }
 
+		internal override NSSavePanel Panel { get { return panel; } }
+
+		internal NSSavePanel panel;
+
 		public override void Reset()
 		{
 			base.Reset();
@@ -43,12 +39,14 @@ namespace System.Windows.Forms
 
 		protected override bool RunDialog(IntPtr hwndOwner)
 		{
-			var currentDirectory = Environment.CurrentDirectory;
+			string currentDirectory = null;
+			try { currentDirectory = Environment.CurrentDirectory; } catch (Exception e) { Console.WriteLine($"Failed to get current directory: {e}"); }
+
 			try
 			{
 				using (var context = new ModalDialogContext())
 				{
-					var panel = new NSSavePanel();
+					using var panel = this.panel = NSSavePanel.SavePanel;
 
 					panel.CanSelectHiddenExtension = true;
 					panel.ExtensionHidden = false;
@@ -65,8 +63,7 @@ namespace System.Windows.Forms
 					if (!String.IsNullOrWhiteSpace(FileName))
 						panel.NameFieldStringValue = AdjustExtensionToMatchFilter(FileName, panel.AllowedFileTypes);
 
-
-					if (NSPanelButtonType.Ok != (NSPanelButtonType)(int)panel.RunModal())
+					if (NSModalResponse.OK != (NSModalResponse)(int)panel.RunModal())
 						return false;
 
 					FileName = SelectedPath = panel.Url.Path;
@@ -78,6 +75,8 @@ namespace System.Windows.Forms
 			{
 				if (RestoreDirectory && currentDirectory != null && Directory.Exists(currentDirectory))
 					Environment.CurrentDirectory = currentDirectory;
+				
+				panel = null;					
 			}
 		}
 
@@ -100,36 +99,6 @@ namespace System.Windows.Forms
 			return retValue;
 		}
 
-		internal void ApplyFilter(NSSavePanel panel, string filter)
-		{
-			var interlaced = filter.Split('|');
-			if (interlaced.Length == 0)
-				return;
-
-			var groups = interlaced.Where((value, index) => index % 2 != 0).ToList();
-			var extensions = new List<string>();
-			foreach (var group in groups)
-			{
-				var items = group.Split(';');
-				foreach (var item in items)
-				{
-					var position = item.LastIndexOf('.');
-					var extension = position < 0 ? item : item.Substring(1 + position);
-
-					if (!String.IsNullOrWhiteSpace(extension))
-					{
-						if ("*".Equals(extension, StringComparison.InvariantCulture))
-							panel.AllowsOtherFileTypes = true;
-						else
-							extensions.Add(extension);
-					}
-				}
-			}
-
-			if (extensions.Count != 0)
-				panel.AllowedFileTypes = extensions.ToArray();
-		}
-
 		protected virtual string AdjustExtensionToMatchFilter(string filename, IList<string> extensions)
 		{
 			if (string.IsNullOrEmpty(filename) || extensions == null || extensions.Count == 0)
@@ -144,5 +113,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-
-#endif //MONOMAC

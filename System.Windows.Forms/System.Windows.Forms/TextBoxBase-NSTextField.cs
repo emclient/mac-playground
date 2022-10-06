@@ -1,23 +1,13 @@
-#if MACOS_THEME
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Mac;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms.Mac;
-
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-using nint = System.Int32;
-#elif XAMARINMAC
 using AppKit;
 using CoreGraphics;
 using Foundation;
 using ObjCRuntime;
-#endif
 
 namespace System.Windows.Forms
 {
@@ -38,35 +28,37 @@ namespace System.Windows.Forms
 
 			public virtual NSView CreateView()
 			{
-				text = owner.Text;
-				var size = owner.Bounds.Size;
-
-				using (var restore = new NSControlSetCellClass(typeof(NSTextField), typeof(TextFieldCell)))
-					textField = new TextField(new CGRect(0, 0, size.Width, size.Height));
-
-				textField.TextShouldBeginEditing = TextFieldShouldBeginEditing;
-				textField.Changed += TextFieldChanged;
-				textField.DoCommandBySelector = DoCommandBySelector;
-				textField.GetCompletions = TextFieldGetCompletions;
-				textField.Formatter = formatter = new Formatter(this);
-				textField.UsesSingleLineMode = true;
-				if (textField.Cell is NSTextFieldCell cell)
+				if (textField == null)
 				{
-					// This is what makes the field really "single-line" - with horizontal scrolling.
-					cell.Wraps = false;
-					cell.Scrollable = true;
+					text = owner.Text;
+					var size = owner.Bounds.Size;
+
+					using (var restore = new NSControlSetCellClass(typeof(NSTextField), typeof(TextFieldCell)))
+						textField = new TextField(new CGRect(0, 0, size.Width, size.Height));
+
+					textField.TextShouldBeginEditing = TextFieldShouldBeginEditing;
+					textField.Changed += TextFieldChanged;
+					textField.DoCommandBySelector = DoCommandBySelector;
+					textField.GetCompletions = TextFieldGetCompletions;
+					textField.Formatter = formatter = new Formatter(this);
+					textField.UsesSingleLineMode = true;
+					if (textField.Cell is NSTextFieldCell cell)
+					{
+						// This is what makes the field really "single-line" - with horizontal scrolling.
+						cell.Wraps = false;
+						cell.Scrollable = true;
+					}
+
+					ApplyBorderStyle(owner.BorderStyle);
+					ApplyForeColor(owner.ForeColor, owner.forecolor_set);
+					ApplyBackColor(owner.BackColor, owner.backcolor_set);
+					ApplyAlignment(owner.alignment);
+					ApplyFont(owner.Font);
+					ApplyScrollbars(owner.scrollbars);
+					ApplyReadOnly(owner.read_only);
+					ApplyEnabled(owner.is_enabled);
+					ApplyText(text);
 				}
-
-				ApplyBorderStyle(owner.BorderStyle);
-				ApplyForeColor(owner.ForeColor, owner.forecolor_set);
-				ApplyBackColor(owner.BackColor, owner.backcolor_set);
-				ApplyAlignment(owner.alignment);
-				ApplyFont(owner.Font);
-				ApplyScrollbars(owner.scrollbars);
-				ApplyReadOnly(owner.read_only);
-				ApplyEnabled(owner.is_enabled);
-				ApplyText(text);
-
 				return textField;
 			}
 
@@ -246,15 +238,15 @@ namespace System.Windows.Forms
 
 			public virtual void SelectAll()
 			{
-				if (textField != null)
-					textField.SelectText(textField);
+				if (textField.CurrentEditor is NSText text)
+					text.PerformSelector(new ObjCRuntime.Selector("selectAll:"));
 			}
 
 			public virtual void SelectAllNoScroll()
 			{
 				// FIXME
-				if (textField != null)
-					textField.SelectText(textField);
+				if (textField.CurrentEditor is NSText text)
+					text.PerformSelector(new ObjCRuntime.Selector("selectAll:"));
 			}
 
 			public virtual void Copy()
@@ -294,6 +286,36 @@ namespace System.Windows.Forms
 			public virtual bool Redo()
 			{
 				return SendActionToTextView("redo:");
+			}
+
+			public Point GetPositionFromCharIndex(int index)
+			{
+				CreateView();
+				
+				// TODO: Cache these helper objects if this method is going to be called often.
+				var bounds = textField.Cell.TitleRectForBounds(textField.Bounds);
+				using var container = new NSTextContainer();
+				using var manager = new NSLayoutManager();
+				using var storage = new NSTextStorage();
+				manager.AddTextContainer(container);
+				storage.AddLayoutManager(manager);
+				container.LineFragmentPadding = 2;
+				manager.TypesetterBehavior = NSTypesetterBehavior.Specific_10_2_WithCompatibility;
+
+				container.ContainerSize = bounds.Size;
+				storage.BeginEditing();
+				storage.SetString(textField.AttributedStringValue);
+				storage.EndEditing();
+
+				var range = manager.GetGlyphRange(new NSRange(index, 1), out NSRange _);
+				var rect = manager.GetBoundingRect(range, container);
+
+				return rect.Location.ToSDPoint();
+			}
+
+			public void ScrollToCaret()
+			{
+				NotImplemented(MethodBase.GetCurrentMethod());
 			}
 
 			internal virtual void ApplyText(string value)
@@ -378,7 +400,7 @@ namespace System.Windows.Forms
 
 			internal string[] TextFieldGetCompletions(NSControl control, NSTextView textView, string[] words, NSRange charRange, ref nint index)
 			{
-				var prefix = textView.String?.Substring(0, (int)charRange.Location + (int)charRange.Length) ?? String.Empty;
+				var prefix = textView.Value?.Substring(0, (int)charRange.Location + (int)charRange.Length) ?? String.Empty;
 
 				var completions = new List<string>();
 				foreach(string s in owner.auto_complete_custom_source)
@@ -416,7 +438,7 @@ namespace System.Windows.Forms
 
 			public override CGRect DrawingRectForBounds(CGRect theRect)
 			{
-				var lineHeight = lm.DefaultLineHeightForFont(Font);
+				var lineHeight = lm.GetDefaultLineHeight(Font);
 
 				// Vertical text position compensation for the case when the text field is too narrow.
 				// 1px is not enough, but 2px would cause artifacts.
@@ -469,7 +491,7 @@ namespace System.Windows.Forms
 		{
 		}
 
-		public TextField(IntPtr handle) : base(handle)
+		public TextField(NativeHandle handle) : base(handle)
 		{
 		}
 
@@ -487,5 +509,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-
-#endif //MACOS_THEME

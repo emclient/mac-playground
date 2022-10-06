@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-#if XAMARINMAC
-using System.Windows.Forms.Mac;
+#if MAC
+using CoreFoundation;
 using Foundation;
 #endif
 
 namespace System.Windows.Forms
 {
-#if __MACOS__
-	public static class DateTimeUtility
+#if MAC
+	static class DateTimeUtility
 	{
 		static object localeDidChangeNotification = NSLocale.Notifications.ObserveCurrentLocaleDidChange(OnLocaleDidChange);
 		static DateTime reference = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
@@ -61,7 +61,7 @@ namespace System.Windows.Forms
 				{
 					var defaults = NSUserDefaults.StandardUserDefaults;
 					var languages = defaults["AppleLanguages"] as NSArray;
-					var preferred = NSString.FromHandle(languages.ValueAt(0));
+					var preferred = CFString.FromHandle(languages.ValueAt(0));
 					preferredLocale = NSLocale.FromLocaleIdentifier(preferred);
 				}
 				return preferredLocale;
@@ -76,7 +76,7 @@ namespace System.Windows.Forms
 			{
 				if (preferredCulture == null)
 				{
-					var locale = PreferredLocale;
+					var locale = NSLocale.AutoUpdatingCurrentLocale;
 					try
 					{
 						var c = CultureInfo.GetCultureInfo(locale.Identifier);
@@ -89,7 +89,7 @@ namespace System.Windows.Forms
 					{
 						try
 						{
-							var c = CultureInfo.GetCultureInfo($"{locale.LanguageCode}-{locale.ScriptCode}".Replace("zh-Hans", "zh-CN"));
+							var c = CultureInfo.GetCultureInfo($"{locale.LanguageCode}-{locale.ScriptCode}");
 							if (!c.IsNeutralCulture)
 								return preferredCulture = c;
 						}
@@ -134,7 +134,7 @@ namespace System.Windows.Forms
 
 		static Dictionary<string, NSDateFormatter> CreateFormatters()
 		{
-			var locale = PreferredLocale;
+			var locale = NSLocale.AutoUpdatingCurrentLocale;
 
 			Dictionary<string, NSDateFormatter> d = new Dictionary<string, NSDateFormatter>();
 
@@ -255,15 +255,16 @@ namespace System.Windows.Forms
 			dtfi.CalendarWeekRule = cul.DateTimeFormat.CalendarWeekRule;
 
 			var f = Formatters["f"];
-			dtfi.Calendar = cul.Calendar;
+			
+			dtfi.TrySetCalendar(cul.Calendar, cul.OptionalCalendars);
 			dtfi.DateSeparator = GetDateSeparator();
 			dtfi.TimeSeparator = GetTimeSeparator();
 			dtfi.DayNames = f.StandaloneWeekdaySymbols;
-			dtfi.MonthGenitiveNames = Append(f.StandaloneMonthSymbols, "");
-			dtfi.MonthNames = Append(f.MonthSymbols, "");
+			dtfi.MonthGenitiveNames = Append(f.StandaloneMonthSymbols, String.Empty, 13);
+			dtfi.MonthNames = Append(f.MonthSymbols, String.Empty, 13);
 			dtfi.AbbreviatedDayNames = f.ShortStandaloneWeekdaySymbols;
-			dtfi.AbbreviatedMonthNames = Append(f.ShortStandaloneMonthSymbols, String.Empty);
-			dtfi.AbbreviatedMonthGenitiveNames = Append(f.ShortMonthSymbols, String.Empty);
+			dtfi.AbbreviatedMonthNames = Append(f.ShortStandaloneMonthSymbols, String.Empty, 13);
+			dtfi.AbbreviatedMonthGenitiveNames = Append(f.ShortMonthSymbols, String.Empty, 13);
 			dtfi.AMDesignator = f.AMSymbol;
 			dtfi.PMDesignator = f.PMSymbol;
 			dtfi.FirstDayOfWeek = cul.DateTimeFormat.FirstDayOfWeek;
@@ -279,8 +280,36 @@ namespace System.Windows.Forms
 			return dtfi;
 		}
 
-		static string[] Append(string[] array, string value)
+		static bool TrySetCalendar(this DateTimeFormatInfo info, Calendar current, Calendar[] all)
 		{
+			if (info.TrySetCalendar(current))
+				return true;
+
+			foreach (var calendar in all)
+				if (info.TrySetCalendar(calendar))
+					return true;
+
+			return false;
+		}
+
+		static bool TrySetCalendar(this DateTimeFormatInfo info, Calendar calendar)
+		{
+			try
+			{
+				info.Calendar = calendar;
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
+		static string[] Append(string[] array, string value, int maxLength = -1)
+		{
+			if (maxLength >= 0 && array.Length >= maxLength)
+				return array;
+
 			var z = new string[1 + array.Length];
 			array.CopyTo(z, 0);
 			z[z.Length - 1] = value;
@@ -293,6 +322,25 @@ namespace System.Windows.Forms
 			p = ReplaceNotQuoted(p, "E", "ddd");
 			p = ReplaceNotQuoted(p, "a", "tt");
 			p = ReplaceNotQuoted(p, 'y', "yyyy");
+			p = ReplaceNotQuoted(p, "GGGGG", "gg");
+			p = ReplaceNotQuoted(p, "G", "g");
+			return p;
+		}
+
+		static string DateTimePatternToNative(string p)
+		{
+			p = ReplaceNotQuoted(p, "dddd", "EEEE");
+			p = ReplaceNotQuoted(p, "ddd", "E");
+			p = ReplaceNotQuoted(p, "tt", "aa");
+			p = ReplaceNotQuoted(p, "t", "a");
+			p = ReplaceNotQuoted(p, "yyyy", "y");
+			p = ReplaceNotQuoted(p, "gg", "GGGGG");
+			p = ReplaceNotQuoted(p, "g", "G");
+
+			p = ReplaceNotQuoted(p, "mm", "*");
+			p = ReplaceNotQuoted(p, "m", "MMM");
+			p = ReplaceNotQuoted(p, "*", "mm");
+
 			return p;
 		}
 
@@ -329,7 +377,7 @@ namespace System.Windows.Forms
 		{
 			while (true)
 			{
-				string next = DateTimeUtility.ReplaceNotQuoted(s, "y", "");
+				string next = DateTimeUtility.ReplaceNotQuoted(s, what, with);
 				if (s == next)
 					break;
 				s = next;
@@ -339,9 +387,10 @@ namespace System.Windows.Forms
 
 		static bool IsSingular(string s, int pos)
 		{
-			for (int i = Math.Max(0, pos - 1); i < Math.Min(pos, s.Length - 1); ++i)
-				if (i != pos && s[i] == s[pos])
-					return false;
+			if (pos > 0 && s.Length > pos && s[pos-1] == s[pos])
+				return false;
+			if (s.Length > pos + 1 && s[pos+1] == s[pos])
+				return false;
 			return true;
 		}
 
@@ -383,18 +432,18 @@ namespace System.Windows.Forms
 			return ToString(dateTime, null);
 		}
 
-		public static string ToString(DateTime dateTime, string format)
+		public static string ToString(DateTime dateTime, string? format)
 		{
 			if (String.IsNullOrEmpty(format))
 				format = "G";
 
 			if (Formatters.TryGetValue(format, out NSDateFormatter formatter))
-				return formatter.ToString(dateTime.ToNSDate());
+				return formatter.ToString((NSDate)dateTime.UnspecifiedTo(DateTimeKind.Local));
 
 			return ToString(dateTime, format, PreferredCulture);
 		}
 
-		public static string ToString(DateTime dateTime, string format, CultureInfo culture)
+		public static string ToString(DateTime dateTime, string? format, CultureInfo culture)
 		{
 			if (culture.Calendar.MinSupportedDateTime <= dateTime && dateTime <= culture.Calendar.MaxSupportedDateTime)
 				return dateTime.ToString(format, culture);
@@ -407,19 +456,23 @@ namespace System.Windows.Forms
 			return ToString(dateTime);
 		}
 
-		internal static string ToSafeString(this DateTime dateTime, string format)
+		internal static string ToSafeString(this DateTime dateTime, string? format)
 		{
 			return ToString(dateTime, format);
 		}
 
-		public static string ToSafeString(this DateTime dateTime, string format, CultureInfo culture)
+		public static string ToSafeString(this DateTime dateTime, string? format, CultureInfo culture)
 		{
 			return ToString(dateTime, format, culture);
 		}
-	}
 
+		public static DateTime UnspecifiedTo(this DateTime dateTime, DateTimeKind kind)
+		{
+			return dateTime.Kind == DateTimeKind.Unspecified ? DateTime.SpecifyKind(dateTime, kind) : dateTime;
+		}
+	}
 #else
-	internal static class DateTimeUtility
+	static class DateTimeUtility
 	{
 		public static CultureInfo PreferredCulture
 		{
@@ -436,12 +489,12 @@ namespace System.Windows.Forms
 			return ToString(dateTime, null);
 		}
 
-		public static string ToString(DateTime dateTime, string format)
+		public static string ToString(DateTime dateTime, string? format)
 		{
 			return ToString(dateTime, format, CultureInfo.CurrentCulture);
 		}
 
-		public static string ToString(DateTime dateTime, string format, CultureInfo culture)
+		public static string ToString(DateTime dateTime, string? format, CultureInfo culture)
 		{
 			if (culture.Calendar.MinSupportedDateTime <= dateTime && dateTime <= culture.Calendar.MaxSupportedDateTime)
 				return dateTime.ToString(format, culture);
@@ -453,12 +506,12 @@ namespace System.Windows.Forms
 			return ToString(dateTime);
 		}
 
-		internal static string ToSafeString(this DateTime dateTime, string format)
+		internal static string ToSafeString(this DateTime dateTime, string? format)
 		{
 			return ToString(dateTime, format);
 		}
 
-		public static string ToSafeString(this DateTime dateTime, string format, CultureInfo culture)
+		public static string ToSafeString(this DateTime dateTime, string? format, CultureInfo culture)
 		{
 			return ToString(dateTime, format, culture);
 		}

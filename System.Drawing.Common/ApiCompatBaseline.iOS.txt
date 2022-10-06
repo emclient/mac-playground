@@ -26,3 +26,22 @@ TypesMustExist : Type 'System.Drawing.Printing.PrintRange' does not exist in the
 TypesMustExist : Type 'System.Drawing.Printing.QueryPageSettingsEventArgs' does not exist in the implementation but it does exist in the contract.
 TypesMustExist : Type 'System.Drawing.Printing.QueryPageSettingsEventHandler' does not exist in the implementation but it does exist in the contract.
 TypesMustExist : Type 'System.Drawing.Printing.StandardPrintController' does not exist in the implementation but it does exist in the contract.
+
+# .NET 6
+CannotRemoveAttribute : Attribute 'System.Diagnostics.CodeAnalysis.NotNullWhenAttribute' exists on parameter 'obj' on member 'System.Drawing.CharacterRange.Equals(System.Object)' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Diagnostics.CodeAnalysis.RequiresUnreferencedCodeAttribute' exists on 'System.Drawing.FontConverter.GetProperties(System.ComponentModel.ITypeDescriptorContext, System.Object, System.Attribute[])' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.Versioning.SupportedOSPlatformAttribute' exists on 'System.Drawing.Graphics.GetContextInfo()' in the contract but not the implementation.
+MembersMustExist : Member 'public void System.Drawing.Graphics.GetContextInfo(System.Drawing.PointF)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Drawing.Graphics.GetContextInfo(System.Drawing.PointF, System.Drawing.Region)' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public System.Numerics.Matrix3x2 System.Drawing.Graphics.TransformElements.get()' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Drawing.Graphics.TransformElements.set(System.Numerics.Matrix3x2)' does not exist in the implementation but it does exist in the contract.
+CannotRemoveAttribute : Attribute 'System.Diagnostics.CodeAnalysis.NotNullWhenAttribute' exists on parameter 'image' on member 'System.Drawing.ImageAnimator.CanAnimate(System.Drawing.Image)' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Diagnostics.CodeAnalysis.RequiresUnreferencedCodeAttribute' exists on 'System.Drawing.ImageConverter.GetProperties(System.ComponentModel.ITypeDescriptorContext, System.Object, System.Attribute[])' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Diagnostics.CodeAnalysis.NotNullWhenAttribute' exists on parameter 'value' on member 'System.Drawing.ToolboxBitmapAttribute.Equals(System.Object)' in the contract but not the implementation.
+MembersMustExist : Member 'public void System.Drawing.Drawing2D.Matrix..ctor(System.Numerics.Matrix3x2)' does not exist in the implementation but it does exist in the contract.
+CannotRemoveAttribute : Attribute 'System.Diagnostics.CodeAnalysis.NotNullWhenAttribute' exists on parameter 'obj' on member 'System.Drawing.Drawing2D.Matrix.Equals(System.Object)' in the contract but not the implementation.
+MembersMustExist : Member 'public System.Numerics.Matrix3x2 System.Drawing.Drawing2D.Matrix.MatrixElements.get()' does not exist in the implementation but it does exist in the contract.
+MembersMustExist : Member 'public void System.Drawing.Drawing2D.Matrix.MatrixElements.set(System.Numerics.Matrix3x2)' does not exist in the implementation but it does exist in the contract.
+CannotRemoveAttribute : Attribute 'System.Diagnostics.CodeAnalysis.NotNullWhenAttribute' exists on parameter 'o' on member 'System.Drawing.Imaging.FrameDimension.Equals(System.Object)' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Diagnostics.CodeAnalysis.NotNullWhenAttribute' exists on parameter 'o' on member 'System.Drawing.Imaging.ImageFormat.Equals(System.Object)' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Diagnostics.CodeAnalysis.NotNullWhenAttribute' exists on parameter 'obj' on member 'System.Drawing.Printing.Margins.Equals(System.Object)' in the contract but not the implementation.

@@ -1,21 +1,10 @@
-#if MONOMAC || XAMARINMAC
-
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Mac;
-using System.Security.Permissions;
-
-#if XAMARINMAC
 using AppKit;
 using CoreGraphics;
 using Foundation;
 using ObjCRuntime;
-#elif MONOMAC
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-#endif
 
 using Strings = System.Windows.Forms.resources.Strings;
 
@@ -50,6 +39,12 @@ namespace System.Windows.Forms
 		{
 			get; set;
 		}
+
+		[DefaultValue(true)]
+		public bool AllowSystemFontButton
+		{
+			get; set;
+		} = true;
 
 		Color color = SystemColors.ControlText;
 		[DefaultValue(typeof(Color), "Black")]
@@ -139,7 +134,6 @@ namespace System.Windows.Forms
 			remove { }
 		}
 
-		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
 		protected override IntPtr HookProc(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
 		{
 			return IntPtr.Zero;
@@ -223,6 +217,8 @@ namespace System.Windows.Forms
 			accessoryView.Initialize(panel, this);
 			panel.AccessoryView = accessoryView;
 			panel.Delegate = this;
+
+			accessoryView.systemFontButton.Hidden = !owner.AllowSystemFontButton;
 
 			// Preset font:
 			panel.SetPanelFont(owner.Font.ToNSFont(), false);
@@ -336,7 +332,7 @@ namespace System.Windows.Forms
 	internal class ModalFontPanelAccessoryView : NSView
 	{
 		NSBox line;
-		NSButton cancelButton, chooseButton, systemFontButton;
+		public NSButton cancelButton, chooseButton, systemFontButton;
 
 		public virtual ModalFontPanelAccessoryView Initialize(NSFontPanel panel, NSObject target)
 		{
@@ -433,4 +429,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-#endif

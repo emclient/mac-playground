@@ -13,7 +13,7 @@ namespace System.Windows.Forms {
 
 		public bool UseNativeControl = false;
 
-		public NSView CreateView()
+		NSView IMacNativeControl.CreateView()
 		{
 			if (!UseNativeControl)
 				return null;

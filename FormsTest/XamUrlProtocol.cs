@@ -1,4 +1,4 @@
-﻿#if MAC && XAMARINMAC
+﻿#if MAC
 
 using System;
 using System.Runtime.InteropServices;

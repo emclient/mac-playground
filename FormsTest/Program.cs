@@ -14,12 +14,8 @@ using System.Runtime.InteropServices;
 
 #if MAC
 using MacApi.Posix;
-#if XAMARINMAC
 using AppKit;
-#else //MONOMAC
-using MonoMac.AppKit;
-#endif
-
+using UserNotifications;
 #endif
 
 namespace FormsTest
@@ -76,7 +72,6 @@ namespace FormsTest
 		}
 
 #if MAC
-
 		static void CreateMacMenu()
 		{
 			var menuBar = new NSMenu("");
@@ -110,6 +105,13 @@ namespace FormsTest
 			editMenu.AddItem(pasteItem);
 			menuBar.AddItem(editMenuItem);
 			menuBar.SetSubmenu(editMenu, editMenuItem);
+
+			var helpMenuItem = new NSMenuItem();
+			var helpMenu = new NSMenu("Help");
+			var openLogDirectoryItem = new NSMenuItem("Open Log Directory") { };
+			helpMenu.AddItem(openLogDirectoryItem);
+			menuBar.AddItem(helpMenuItem);
+			menuBar.SetSubmenu(helpMenu, helpMenuItem);
 
 			NSApplication.SharedApplication.Menu = menuBar;
 		}
@@ -170,7 +172,7 @@ namespace FormsTest
 			}
 			finally
 			{
-				for (int j = i - 1; j >= 0; --j) 					a[j].Close(); 			}
+				for (int j = i - 1; j >= 0; --j)					a[j].Close();			}
 			Console.WriteLine($"#{i}");
 		}
 #else

@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-
-#if MONOMAC
-using MonoMac.ObjCRuntime;
-#elif XAMARINMAC
 using ObjCRuntime;
-#endif
 
 namespace System.Windows.Forms.Mac
 {

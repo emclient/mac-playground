@@ -29,10 +29,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Reflection;
 
-#if XAMARINMAC
+#if MAC
 using Foundation;
-#elif MONOMAC
-using MonoMac.Foundation;
 #endif
 
 namespace System.Windows.Forms
@@ -71,11 +69,11 @@ namespace System.Windows.Forms
 		private Hashtable uiImages = new Hashtable();
 		private Hashtable cpcolors = new Hashtable ();
 
-#if XAMARINMAC || MONOMAC
+#if MAC
 		public SystemResPool()
 		{
 			NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSSystemColorsDidChangeNotification"), (obj) => { Invalidate(); });
-			NSDistributedNotificationCenter.GetDefaultCenter().AddObserver(new NSString("AppleInterfaceThemeChangedNotification"), (obj) => { Invalidate(); });
+			NSDistributedNotificationCenter.DefaultCenter.AddObserver(new NSString("AppleInterfaceThemeChangedNotification"), (obj) => { Invalidate(); });
 		}
 
 		internal void Invalidate()

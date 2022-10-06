@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Drawing.Mac;
 using System.Windows.Forms.Mac;
-#if XAMARINMAC
 using AppKit;
-#else
-using MonoMac.AppKit;
-#endif
 
 namespace System.Windows.Forms
 {
@@ -16,6 +12,12 @@ namespace System.Windows.Forms
 			var nsMenuItem = base.ToNSMenuItem();
 			nsMenuItem.Submenu = HasDropDownItems ? DropDown.ToNSMenu() : null;
 			nsMenuItem.State = PaintCheck ? CheckState.ToCellState() : NSCellStateValue.Off;
+
+			if (this.ShortcutKeys.ToKeyEquivalentAndModifiers(out var equivalent, out var modifiers))
+			{
+				nsMenuItem.KeyEquivalent = equivalent;
+				nsMenuItem.KeyEquivalentModifierMask = modifiers;
+			}
 
 			CheckedChanged += (sender, e) => { nsMenuItem.State = PaintCheck ? CheckState.ToCellState() : NSCellStateValue.Off; };
 

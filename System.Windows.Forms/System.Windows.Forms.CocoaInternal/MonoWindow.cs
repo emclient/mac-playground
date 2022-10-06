@@ -1,35 +1,16 @@
 ﻿﻿using System.Drawing;
+using System.Drawing.Mac;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Diagnostics;
-
-#if XAMARINMAC
+using System.Windows.Forms.Mac;
 using Foundation;
 using AppKit;
-#elif MONOMAC
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using ObjCRuntime = MonoMac.ObjCRuntime;
-#endif
-
-#if SDCOMPAT
-using NSRect = System.Drawing.RectangleF;
-using NSSize = System.Drawing.SizeF;
-using nint = System.Int32;
-#else
-#if XAMARINMAC
+using ObjCRuntime;
 using NSPoint = CoreGraphics.CGPoint;
 using NSRect = CoreGraphics.CGRect;
 using NSSize = CoreGraphics.CGSize;
-using System.Windows.Forms.Mac;
-#elif MONOMAC
-using NSPoint = MonoMac.CoreGraphics.CGPoint;
-using NSRect = MonoMac.CoreGraphics.CGRect;
-using NSSize = MonoMac.CoreGraphics.CGSize;
-using nint = System.Int32;
-using System.Windows.Forms.Mac;
-#endif
-#endif
+using NSKey = MacApi.AppKit.NSKey;
 
 namespace System.Windows.Forms.CocoaInternal
 {
@@ -41,7 +22,7 @@ namespace System.Windows.Forms.CocoaInternal
 		bool disposed;
 		bool key;
 
-		public MonoWindow(IntPtr handle) : base(handle)
+		public MonoWindow(NativeHandle handle) : base(handle)
 		{
 		}
 
@@ -68,6 +49,8 @@ namespace System.Windows.Forms.CocoaInternal
 			WillStartLiveResize += WindowWillStartLiveResize;
 			DidEndLiveResize += WindowDidEndLiveResize;
 			DidMove += WindowDidMove;
+			DidMiniaturize += WindowDidMiniaturize;
+			DidDeminiaturize += WindowDidDeminiaturize;
 		}
 
 		void UnregisterEventHandlers()
@@ -78,6 +61,8 @@ namespace System.Windows.Forms.CocoaInternal
 			WillStartLiveResize -= WindowWillStartLiveResize;
 			DidEndLiveResize -= WindowDidEndLiveResize;
 			DidMove -= WindowDidMove;
+			DidMiniaturize -= WindowDidMiniaturize;
+			DidDeminiaturize -= WindowDidDeminiaturize;
 		}
 
 		internal virtual void WindowWillClose(object sender, EventArgs e)
@@ -92,17 +77,23 @@ namespace System.Windows.Forms.CocoaInternal
 			if (ok)
 			{
 				var c = XplatUICocoa.GetHandle(next);
-				if (prevFocus != c && !(next is MonoWindow))
+				if (prevFocus != c)
 				{
 					if (prevFocus != IntPtr.Zero)
 						driver.SendMessage(prevFocus, Msg.WM_KILLFOCUS, c, IntPtr.Zero);
 
-					// If sending WM_SETFOCUS causes another immediate change of focus, we need to have prevFocus updated
-					var oldPrefFocus = prevFocus;
-					prevFocus = c;
+					if (next is not MonoWindow) {
+						// If sending WM_SETFOCUS causes another immediate change of focus, we need to have prevFocus updated
+						var oldPrefFocus = prevFocus;
+						prevFocus = c;
 
-					if (c != IntPtr.Zero)
-						driver.SendMessage(c, Msg.WM_SETFOCUS, oldPrefFocus, IntPtr.Zero);
+						if (c != IntPtr.Zero)
+							driver.SendMessage(c, Msg.WM_SETFOCUS, oldPrefFocus, IntPtr.Zero);
+					}
+					else 
+					{
+						prevFocus = IntPtr.Zero; // We only killed the focus
+					}
 				}
 				else
 				{
@@ -147,6 +138,9 @@ namespace System.Windows.Forms.CocoaInternal
 
 			// See notes in IsKeyWindow below.
 			if (disposed)
+				return;
+
+			if (!IsVisible && theEvent.IsMouse(out var _))
 				return;
 
 			lastEventType = theEvent.Type;
@@ -237,10 +231,11 @@ namespace System.Windows.Forms.CocoaInternal
 			var hitTestControl = Control.FromChildHandle(hitTestHandle);
 			var hitTestControlHandle = hitTestControl?.Handle ?? IntPtr.Zero;
 
-			if (e.Type == NSEventType.LeftMouseDown)
+			if (e.Type == NSEventType.LeftMouseDown && hitTestControlHandle != IntPtr.Zero)
 			{
-				var topLevelParent = IntPtr.Zero; // FIXME
-				mouseActivate = (MouseActivate)driver.SendMessage(ContentView.Handle, Msg.WM_MOUSEACTIVATE, topLevelParent, hitTestControlHandle).ToInt32();
+				var topLevelParent = hitTestControl?.TopLevelControl?.Handle ?? IntPtr.Zero;
+				var lParam = new IntPtr(((int)(Msg.WM_LBUTTONDOWN) << 16) | (int)HitTest.HTCLIENT);
+				mouseActivate = (MouseActivate)driver.SendMessage(hitTestControlHandle, Msg.WM_MOUSEACTIVATE, topLevelParent, lParam);
 				if (mouseActivate == MouseActivate.MA_NOACTIVATEANDEAT)// || mouseActivate == MouseActivate.MA_ACTIVATEANDEAT)
 					return true;
 			}
@@ -421,6 +416,20 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
 
+		internal virtual void WindowDidMiniaturize(object sender, EventArgs e)
+		{
+			var size = this.Frame.Size.ToSDSize();
+			var lParam = (IntPtr)((size.Height << 16) | (int)(short)size.Width);
+			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_SIZE, (IntPtr)SIZE.SIZE_MINIMIZED, IntPtr.Zero);
+		}
+
+		internal virtual void WindowDidDeminiaturize(object sender, EventArgs e)
+		{
+			var size = this.Frame.Size.ToSDSize();
+			var lParam = (IntPtr)((size.Height << 16) | (int)(short)size.Width);
+			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_SIZE, (IntPtr)SIZE.SIZE_RESTORED, lParam);
+		}
+
 		protected virtual void OnNcMouseDown(NSEvent e)
 		{
 			var p = driver.NativeToMonoScreen(Frame.Location);
@@ -517,7 +526,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		static internal List<NSWindow> GetOrderedWindowList()
 		{
-#if XAMARINMAC
+#if MAC
 			var list = new List<NSWindow>();
 			NSApplication.SharedApplication.EnumerateWindows(NSWindowListOptions.OrderedFrontToBack, (NSWindow window, ref bool stop) =>
 			{

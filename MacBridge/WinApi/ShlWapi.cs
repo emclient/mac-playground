@@ -1,9 +1,5 @@
 ﻿using System;
-#if XAMARINMAC
 using Foundation;
-#else
-using MonoMac.Foundation;
-#endif
 using System.Runtime.InteropServices;
 
 namespace WinApi

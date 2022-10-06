@@ -61,13 +61,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-
-#if XAMARINMAC
 using AppKit;
-#elif MONOMAC
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-#endif
 
 namespace System.Windows.Forms.CocoaInternal {
 	internal class Cursor {

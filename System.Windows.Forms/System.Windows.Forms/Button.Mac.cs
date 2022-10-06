@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Drawing.Mac;
 using System.Windows.Forms.Mac;
-#if XAMARINMAC
 using AppKit;
-#else
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-#endif
 
 namespace System.Windows.Forms
 {
@@ -93,13 +88,13 @@ namespace System.Windows.Forms
 
 		internal override Drawing.Size GetPreferredSizeCore(Drawing.Size proposedSize)
 		{
-			if (this.AutoSize)
-				return NativeButton.SizeThatFits(proposedSize.ToCGSize()).ToSDSize();
+			if (this.AutoSize && NativeButton is NSButton button)
+				return button.SizeThatFits(proposedSize.ToCGSize()).ToSDSize();
 
 			return base.GetPreferredSizeCore(proposedSize);
 		}
 
-		internal virtual NSButton NativeButton
+		internal virtual NSButton? NativeButton
 		{
 			get
 			{

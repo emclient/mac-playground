@@ -1,6 +1,4 @@
-﻿#if !MACOS_THEME
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms
@@ -367,5 +365,3 @@ namespace System.Windows.Forms
 #endregion // UpDownSpinner Sub-class
 	}
 }
-
-#endif

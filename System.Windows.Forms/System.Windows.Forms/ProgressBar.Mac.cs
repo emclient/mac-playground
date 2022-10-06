@@ -1,14 +1,7 @@
-#if MACOS_THEME
-
 using System.Drawing;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-
-#if MONOMAC
-using MonoMac.AppKit;
-#elif XAMARINMAC
 using AppKit;
-#endif
 
 namespace System.Windows.Forms
 {
@@ -39,6 +32,7 @@ namespace System.Windows.Forms
 
 			indicator.MinValue = minimum;
 			indicator.MaxValue = maximum;
+			indicator.DoubleValue = Math.Max(val, minimum);
 
 			if (style == ProgressBarStyle.Marquee)
 				indicator.StartAnimation(indicator);
@@ -471,4 +465,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-#endif //MACOS_THEME

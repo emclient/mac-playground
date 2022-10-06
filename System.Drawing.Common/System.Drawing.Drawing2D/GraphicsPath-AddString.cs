@@ -32,6 +32,7 @@ using System.Drawing;
 using CoreGraphics;
 using CoreText;
 using Foundation;
+using ObjCRuntime;
 
 namespace System.Drawing.Drawing2D 
 {
@@ -185,8 +186,9 @@ namespace System.Drawing.Drawing2D
 					{
 						if (glyphIndex > 0) 
 						{
-							textMatrix.x0 += glyphPositions [glyphIndex].X - glyphPositions[glyphIndex - 1].X;
-							textMatrix.y0 += glyphPositions [glyphIndex].Y - glyphPositions[glyphIndex - 1].Y;
+							textMatrix.Translate(
+								glyphPositions [glyphIndex].X - glyphPositions[glyphIndex - 1].X,
+								glyphPositions [glyphIndex].Y - glyphPositions[glyphIndex - 1].Y);
 						}
 
 						var glyphPath = font.nativeFont.GetPathForGlyph (glyphs [glyphIndex]);

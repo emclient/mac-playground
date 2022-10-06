@@ -1,6 +1,3 @@
-#if MONOMAC || XAMARINMAC
-#else
-
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -35,118 +32,80 @@ using System.Drawing;
 using System.IO;
 
 namespace System.Windows.Forms {
-	public sealed class OpenFileDialog : FileDialog {
+	[Designer ("System.Windows.Forms.Design.SaveFileDialogDesigner, " + Consts.AssemblySystem_Design)]
+	public sealed class SaveFileDialog : FileDialog {
 		#region Public Constructors
-		public OpenFileDialog ()
+		public SaveFileDialog ()
 		{
 			form.SuspendLayout ();
 			
-			form.Text = "Open";
-			
-			CheckFileExists = true;
-			
-			OpenSaveButtonText = "Open";
-			SearchSaveLabel = "Look in:";
-			fileDialogType = FileDialogType.OpenFileDialog;
+			form.Text = "Save As";
+
+			FileTypeLabel = "Save as type:";
+			OpenSaveButtonText = "Save";
+			SearchSaveLabel = "Save in:";
+			fileDialogType = FileDialogType.SaveFileDialog;
 			
 			form.ResumeLayout (false);
 		}
 		#endregion	// Public Constructors
 		
 		#region Public Instance Properties
+		[DefaultValue(false)]
+		public bool CreatePrompt {
+			set {
+				createPrompt = value;
+			}
+			
+			get {
+				return createPrompt;
+			}
+		}
+		
 		[DefaultValue(true)]
-		public override bool CheckFileExists {
-			get {
-				return base.CheckFileExists;
+		public bool OverwritePrompt {
+			set {
+				overwritePrompt = value;
 			}
 			
-			set {
-				base.CheckFileExists = value;
-			}
-		}
-		
-		[DefaultValue(false)]
-		public bool Multiselect {
 			get {
-				return base.BMultiSelect;
-			}
-			
-			set {
-				base.BMultiSelect = value;
+				return overwritePrompt;
 			}
 		}
-		
-		[DefaultValue(false)]
-		public new bool ReadOnlyChecked {
-			get {
-				return base.ReadOnlyChecked;
-			}
-			
-			set {
-				base.ReadOnlyChecked = value;
-			}
-		}
-		
-		[Browsable (false)]
-		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
-		public string SafeFileName {
-			get { return Path.GetFileName (FileName); }
-		}
-
-		[Browsable (false)]
-		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
-		public string[] SafeFileNames {
-			get {
-				string[] files = FileNames;
-				
-				for (int i = 0; i < files.Length; i++)
-					files[i] = Path.GetFileName (files[i]);
-					
-				return files;
-			 }
-		}
-
-		[DefaultValue(false)]
-		public new bool ShowReadOnly {
-			get {
-				return base.ShowReadOnly;
-			}
-			
-			set {
-				base.ShowReadOnly = value;
-			}
-		}
-		
 		#endregion	// Public Instance Properties
 		
 		#region Public Instance Methods
 		public Stream OpenFile ()
 		{
-			if (FileName.Length == 0)
+			if (FileName == null)
 				throw new ArgumentNullException ("OpenFile", "FileName is null");
 			
-			return new FileStream (FileName, FileMode.Open, FileAccess.Read);
+			Stream retValue;
+			
+			try {
+				retValue = new FileStream (FileName, FileMode.Create, FileAccess.ReadWrite);
+			} catch (Exception) {
+				retValue = null;
+			}
+			
+			return retValue;
 		}
 		#endregion	// Public Instance Methods
 		
 		public override void Reset ()
 		{
 			base.Reset ();
-			base.BMultiSelect = false;
-			base.CheckFileExists = true;
-			base.ReadOnlyChecked = false;
-			base.ShowReadOnly = false;
+			overwritePrompt = true;
+			createPrompt = false;
 		}
 
 		internal override string DialogTitle {
 			get {
 				string title = base.DialogTitle;
 				if (title.Length == 0)
-					title = "Open";
+					title = "Save As";
 				return title;
 			}
 		}
 	}
 }
-
-#endif // MONOMAC

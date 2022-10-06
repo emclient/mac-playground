@@ -37,7 +37,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Resources;
 
-#if MONOMAC || XAMARINMAC
+#if MAC
 using MessageBoxForm = System.Windows.Forms.MessageBoxFormMac;
 #else
 using MessageBoxForm = System.Windows.Forms.MessageBoxFormNative;

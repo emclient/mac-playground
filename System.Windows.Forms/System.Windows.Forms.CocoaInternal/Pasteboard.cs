@@ -58,14 +58,8 @@
 
 using System.Collections.Generic;
 using System.Windows.Forms.Mac;
-
-#if XAMARINMAC
 using Foundation;
 using AppKit;
-#elif MONOMAC
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-#endif
 
 namespace System.Windows.Forms.CocoaInternal {
 	internal static class Pasteboard {

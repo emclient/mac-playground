@@ -4,8 +4,8 @@
 
 using System;
 using System.Collections.Generic;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
+using Foundation;
+using AppKit;
 
 namespace System.Windows.Forms.CocoaInternal
 {
