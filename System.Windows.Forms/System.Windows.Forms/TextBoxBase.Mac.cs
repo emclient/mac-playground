@@ -41,6 +41,8 @@ namespace System.Windows.Forms
 		internal AutoCompleteMode auto_complete_mode = AutoCompleteMode.None;
 		internal AutoCompleteSource auto_complete_source = AutoCompleteSource.None;
 
+		internal Func<int[], string[], bool> ShouldChangeTextsInRanges { get; set; }
+
 		// Just to make friends happy
 		internal bool has_been_focused = false;
 		internal bool show_caret_w_selection = false;
@@ -120,6 +122,22 @@ namespace System.Windows.Forms
 
 		internal virtual void HandleLinkClicked(NSTextView textView, NSObject link, nuint charIndex)
 		{
+		}
+
+		internal virtual bool TextViewShouldChangeTextInRanges(NSTextView textView, NSValue[] affectedRanges, string[] replacementStrings)
+		{
+			if (ShouldChangeTextsInRanges == null)
+				return true;
+
+			var ranges = new int[affectedRanges.Length * 2];
+			for(var i = 0; i < affectedRanges.Length; ++i)
+			{
+				var range = affectedRanges[i].RangeValue;
+				ranges[2 * i] = (int)range.Location;
+				ranges[2 * i + 1] = (int)range.Length;
+			}
+			
+			return ShouldChangeTextsInRanges(ranges, replacementStrings);
 		}
 
 		// macOS-specific, but intentionally protected
