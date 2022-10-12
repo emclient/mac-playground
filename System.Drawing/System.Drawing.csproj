@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <!-- PrivateAssets="All": don't flow package references to callers -->
-    <PackageReference Include="Microsoft.WindowsDesktop.App.Ref" Version="6.0.9" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" NoWarn="NU1701" />
+    <PackageReference Include="Microsoft.WindowsDesktop.App.Ref" Version="6.0.10" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" NoWarn="NU1701" />
     <PackageReference Include="Microsoft.DotNet.GenFacades" Version="6.0.0-beta.21467.3" PrivateAssets="All" />
   </ItemGroup>
 
