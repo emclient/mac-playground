@@ -160,6 +160,7 @@ namespace System.Windows.Forms {
 		internal override IntPtr InitializeDriver()
 		{
 			Troubleshooter.Initialize();
+			MonoWindow.InitPanelCategory();
 
 			NSApp = MonoApplication.CreateShared();
 

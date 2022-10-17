@@ -33,8 +33,8 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			this.driver = driver;
 			this.ReleasedWhenClosed = true;
-			this.isPanel = isPanel;
-
+			this.IsPanel = isPanel;
+			
 			// Disable tabbing on Sierra until we properly support it
 			var setTabbingModeSelector = new ObjCRuntime.Selector("setTabbingMode:");
 			if (this.RespondsToSelector(setTabbingModeSelector))
@@ -111,7 +111,7 @@ namespace System.Windows.Forms.CocoaInternal
 			{
 				if (ContentView is MonoView monoView)
 				{
-					if (isPanel)
+					if (IsPanel)
 					 	return false;
 					if (IsKeyWindow)
 						return true;
@@ -347,7 +347,7 @@ namespace System.Windows.Forms.CocoaInternal
 				// is sent by the Cocoa framework, to eventually make another view the "key".
 				// Since the Mono bridge between native NSWindow and managed Form objects still exists at the moment,
 				// this "IsKeyWindow" c# getter gets invoked, regardless the fact that it is already disposed.
-				if (isPanel)
+				if (IsPanel)
 					return true;
 
 				if (disposed)
@@ -563,6 +563,25 @@ namespace System.Windows.Forms.CocoaInternal
 		}
 
 		public NSWindow Owner { get; set; }
+
+		internal static void InitPanelCategory()
+		{
+			try { initNSWindowPanelCategory(); } catch { }
+		}
+
+		public virtual bool IsPanel
+		{
+			get { return isPanel; }
+			set { try { if (isPanel != value) setIsPanel(Handle, isPanel = value); } catch { } }
+		}
+
+		const string MacLib = "MacLib";
+
+		[DllImport(MacLib)]
+		internal static extern void initNSWindowPanelCategory();
+
+		[DllImport(MacLib)]
+		static extern void setIsPanel(NativeHandle window, bool value);
 	}
 }
 
