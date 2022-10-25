@@ -32,7 +32,7 @@ namespace System.Windows.Forms.CocoaInternal
 			: base(contentRect, aStyle, bufferingType, deferCreation)
 		{
 			this.driver = driver;
-			this.ReleasedWhenClosed = true;
+			this.ReleasedWhenClosed = false;
 			this.IsPanel = isPanel;
 			
 			// Disable tabbing on Sierra until we properly support it
@@ -334,7 +334,7 @@ namespace System.Windows.Forms.CocoaInternal
  * 
  *	Commented out until we figure out why it causes crashes on some systems (seen on Mojave).
  *
-/ 
+*/ 
 		public override bool IsKeyWindow
 		{
 			get
@@ -354,22 +354,10 @@ namespace System.Windows.Forms.CocoaInternal
 					return key;
 
 				// This allows WebView to change cursor when hovering over DOM nodes even if it's window is not key (pop-ups etc).
-				return base.IsKeyWindow;// || IsDeliveringMouseMovedToWebHTMLView();
+				return base.IsKeyWindow;
 			}
 		}
 
-		protected bool IsDeliveringMouseMovedToWebHTMLView()
-		{
-			if (currentEvent?.Type == NSEventType.MouseMoved)
-			{
-				var view = (ContentView.Superview ?? ContentView).HitTest(currentEvent.LocationInWindow);
-				return view?.Class.Handle == WebHTMLViewClassHandle;
-			}
-			return false;
-		}
-
-		static IntPtr WebHTMLViewClassHandle = MacApi.LibObjc.objc_getClass("WebHTMLView");
-*/
 		public override void OrderWindow(NSWindowOrderingMode place, nint relativeTo)
 		{
 			var wasVisible = IsVisible;
@@ -564,24 +552,11 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public NSWindow Owner { get; set; }
 
-		internal static void InitPanelCategory()
-		{
-			try { initNSWindowPanelCategory(); } catch { }
-		}
-
 		public virtual bool IsPanel
 		{
 			get { return isPanel; }
-			set { try { if (isPanel != value) setIsPanel(Handle, isPanel = value); } catch { } }
+			set { isPanel = value; }
 		}
-
-		const string MacLib = "MacLib";
-
-		[DllImport(MacLib)]
-		internal static extern void initNSWindowPanelCategory();
-
-		[DllImport(MacLib)]
-		static extern void setIsPanel(NativeHandle window, bool value);
 	}
 }
 
