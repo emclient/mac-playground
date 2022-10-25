@@ -831,7 +831,9 @@ namespace System.Windows.Forms {
 				WholeRect = NSWindow.ContentRectFor(WholeRect, attributes);
 				//SetAutomaticControlDragTrackingEnabledForWindow (, true);
 				//ParentHandle = WindowView;
-				windowWrapper = new MonoWindow(WholeRect, attributes, NSBackingStore.Buffered, true, this);
+
+				windowWrapper = new MonoWindow(WholeRect, attributes, NSBackingStore.Buffered, true, this, cp.ClassName == "PANEL");
+
 				WindowHandle = (IntPtr) windowWrapper.Handle;
 
 				if ((cp.ClassStyle & 0x20000) != 0) // CS_DROPSHADOW

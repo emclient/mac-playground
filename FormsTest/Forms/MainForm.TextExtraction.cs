@@ -115,7 +115,7 @@ namespace FormsTest
 			return (name, ext, mime);
 		}
 
-		[DllImport("Indexer")]
+		[DllImport("MacLib")]
 		static extern IntPtr extractTermsFromUrl(IntPtr url);
 
 		string[] ExtractTermsFromUrl(NSUrl url, string name, string? hint = null)

@@ -21,18 +21,20 @@ namespace System.Windows.Forms.CocoaInternal
 		bool dragging;
 		bool disposed;
 		bool key;
+		bool isPanel;
 
 		public MonoWindow(NativeHandle handle) : base(handle)
 		{
 		}
 
 		//[Export ("initWithContentRect:styleMask:backing:defer:"), CompilerGenerated]
-		internal MonoWindow(NSRect contentRect, NSWindowStyle aStyle, NSBackingStore bufferingType, bool deferCreation, XplatUICocoa driver)
+		internal MonoWindow(NSRect contentRect, NSWindowStyle aStyle, NSBackingStore bufferingType, bool deferCreation, XplatUICocoa driver, bool isPanel = false)
 			: base(contentRect, aStyle, bufferingType, deferCreation)
 		{
 			this.driver = driver;
-			this.ReleasedWhenClosed = true;
-
+			this.ReleasedWhenClosed = false;
+			this.IsPanel = isPanel;
+			
 			// Disable tabbing on Sierra until we properly support it
 			var setTabbingModeSelector = new ObjCRuntime.Selector("setTabbingMode:");
 			if (this.RespondsToSelector(setTabbingModeSelector))
@@ -109,6 +111,8 @@ namespace System.Windows.Forms.CocoaInternal
 			{
 				if (ContentView is MonoView monoView)
 				{
+					if (IsPanel)
+					 	return false;
 					if (IsKeyWindow)
 						return true;
 					if (lastEventType == NSEventType.LeftMouseDown && (mouseActivate == MouseActivate.MA_NOACTIVATE || mouseActivate == MouseActivate.MA_NOACTIVATEANDEAT))
@@ -330,7 +334,7 @@ namespace System.Windows.Forms.CocoaInternal
  * 
  *	Commented out until we figure out why it causes crashes on some systems (seen on Mojave).
  *
- * 
+*/ 
 		public override bool IsKeyWindow
 		{
 			get
@@ -343,26 +347,16 @@ namespace System.Windows.Forms.CocoaInternal
 				// is sent by the Cocoa framework, to eventually make another view the "key".
 				// Since the Mono bridge between native NSWindow and managed Form objects still exists at the moment,
 				// this "IsKeyWindow" c# getter gets invoked, regardless the fact that it is already disposed.
+				if (IsPanel)
+					return true;
 
 				if (disposed)
 					return key;
 
 				// This allows WebView to change cursor when hovering over DOM nodes even if it's window is not key (pop-ups etc).
-				return base.IsKeyWindow || IsDeliveringMouseMovedToWebHTMLView();
+				return base.IsKeyWindow;
 			}
 		}
-*/
-		protected bool IsDeliveringMouseMovedToWebHTMLView()
-		{
-			if (currentEvent?.Type == NSEventType.MouseMoved)
-			{
-				var view = (ContentView.Superview ?? ContentView).HitTest(currentEvent.LocationInWindow);
-				return view?.Class.Handle == WebHTMLViewClassHandle;
-			}
-			return false;
-		}
-
-		static IntPtr WebHTMLViewClassHandle = MacApi.LibObjc.objc_getClass("WebHTMLView");
 
 		public override void OrderWindow(NSWindowOrderingMode place, nint relativeTo)
 		{
@@ -557,6 +551,12 @@ namespace System.Windows.Forms.CocoaInternal
 		}
 
 		public NSWindow Owner { get; set; }
+
+		public virtual bool IsPanel
+		{
+			get { return isPanel; }
+			set { isPanel = value; }
+		}
 	}
 }
 
