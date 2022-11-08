@@ -1698,7 +1698,7 @@ namespace System.Windows.Forms {
 					disable.Add (form);
 			foreach (Form form in disable){
 				disabled_by_showdialog.Add (form);
-				form.Enabled = false;
+				// form.Enabled = false;
 			}
 			modal_dialogs.Add(this);
 
