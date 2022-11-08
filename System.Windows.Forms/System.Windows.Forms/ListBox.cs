@@ -32,6 +32,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.ComponentModel.Design.Serialization;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -202,7 +203,7 @@ namespace System.Windows.Forms
 
 		[Browsable (false)]
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
-		public new event EventHandler TextChanged {
+		public new event EventHandler? TextChanged {
 			add { base.TextChanged += value; }
 			remove { base.TextChanged -= value; }
 		}
@@ -345,6 +346,7 @@ namespace System.Windows.Forms
 			}
 		}
 
+		[AllowNull]
 		public override Font Font {
 			get { return base.Font; }
 			set { base.Font = value; }
@@ -609,6 +611,7 @@ namespace System.Windows.Forms
 		[Browsable (false)]
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
+		[AllowNull]
 		public override string Text {
 			get {
 				if (SelectionMode != SelectionMode.None && SelectedIndex != -1)

@@ -33,6 +33,7 @@ using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Resources;
@@ -407,6 +408,7 @@ namespace System.Windows.Forms
 		}
 
 		[DefaultValue("")]
+		[AllowNull]
 		public string DefaultExt {
 			get {
 				if (defaultExt == null)
@@ -439,6 +441,7 @@ namespace System.Windows.Forms
 		}
 		
 		[DefaultValue("")]
+		[AllowNull]
 		public string FileName {
 			get {
 				if (fileNames == null || fileNames.Length == 0)
@@ -498,6 +501,7 @@ namespace System.Windows.Forms
 		
 		[DefaultValue("")]
 		[Localizable(true)]
+		[AllowNull]
 		public string Filter {
 			get {
 				return filter;
@@ -538,6 +542,7 @@ namespace System.Windows.Forms
 		}
 		
 		[DefaultValue("")]
+		[AllowNull]
 		public string InitialDirectory {
 			get {
 				if (initialDirectory == null)

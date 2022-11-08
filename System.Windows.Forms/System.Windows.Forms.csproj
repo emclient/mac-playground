@@ -170,6 +170,7 @@
     <Compile Include="System.Windows.Forms\AxHost.cs" />
     <Compile Include="System.Windows.Forms\BaseCollection.cs" />
     <Compile Include="System.Windows.Forms\BatteryChargeStatus.cs" />
+    <Compile Include="System.Windows.Forms\BindableComponent.cs" />
     <Compile Include="System.Windows.Forms\Binding.cs" />
     <Compile Include="System.Windows.Forms\BindingCompleteContext.cs" />
     <Compile Include="System.Windows.Forms\BindingCompleteEventArgs.cs" />
@@ -455,7 +456,8 @@
     <Compile Include="System.Windows.Forms\IBindableComponent.cs" />
     <Compile Include="System.Windows.Forms\IBounds.cs" />
     <Compile Include="System.Windows.Forms\IButtonControl.cs" />
-    <Compile Include="System.Windows.Forms\ICommandExecutor.cs" />
+    <Compile Include="System.Windows.Forms\ICommandBindingTargetProvider.cs" />
+    <Compile Include="System.Windows.Forms\ICommandExecutor.cs" />    
     <Compile Include="System.Windows.Forms\IComponentEditorPageSite.cs" />
     <Compile Include="System.Windows.Forms\IContainerControl.cs" />
     <Compile Include="System.Windows.Forms\ICurrencyManagerProvider.cs" />

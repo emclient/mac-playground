@@ -10,7 +10,8 @@ namespace System.Windows.Forms
 {
     [TypeConverter(typeof(PaddingConverter))]
     [Serializable] // This type is participating in resx serialization scenarios.
-    public struct Padding
+    [Runtime.CompilerServices.TypeForwardedFrom("System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")]
+    public struct Padding : IEquatable<Padding>
     {
         private bool _all; // Do NOT rename (binary serialization).
         private int _top; // Do NOT rename (binary serialization).
@@ -137,8 +138,14 @@ namespace System.Windows.Forms
                 return false;
             }
 
-            return this == otherPadding;
+            return Equals(otherPadding);
         }
+
+        public bool Equals(Padding other)
+            => Left == other.Left
+                && Top == other.Top
+                && Right == other.Right
+                && Bottom == other.Bottom;
 
         /// <summary>
         ///  Performs vector addition of two <see cref='Padding'/> objects.
