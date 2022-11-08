@@ -96,6 +96,9 @@ namespace System.Windows.Forms.CocoaInternal
 			var location = NSEvent.CurrentMouseLocation;
 			var number = NSWindow.WindowNumberAtPoint(location, 0);
 			var window = NSApplication.SharedApplication.WindowWithWindowNumber(number) ?? e.Window;
+			if (window == null)
+				return;
+
 			var locationInWindow = window.ConvertPointFromScreenSafe(location);
 
 			var msg = TranslateMouseCore(e, out bool client);
