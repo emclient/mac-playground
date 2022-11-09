@@ -43,6 +43,7 @@ using System.ComponentModel.Design;
 using System.ComponentModel.Design.Serialization;
 using System.Collections;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Reflection;
@@ -168,6 +169,7 @@ namespace System.Windows.Forms
 		Point auto_scroll_offset;
 		private AutoSizeMode auto_size_mode;
 		private bool suppressing_key_press;
+		private object? data_context;
 
 		#endregion	// Local Variables
 
@@ -1100,6 +1102,56 @@ namespace System.Windows.Forms
 			}
 		}
 		#endregion	// Internal Properties
+
+		#region Data Binding
+
+		/// <summary>
+		///  Gets or sets the data context for the purpose of data binding.
+		///  This is an ambient property.
+		/// </summary>
+		/// <remarks>
+		///  Data context is a concept that allows elements to inherit information from their parent elements
+		///  about the data source that is used for binding. It's the duty of deriving controls which inherit from
+		///  this class to handle the provided data source accordingly. For example, UserControls, which use
+		///  <see cref="BindingSource"/> components for data binding scenarios could either handle the
+		///  <see cref="DataContextChanged"/> event or override <see cref="OnDataContextChanged(EventArgs)"/> to provide
+		///  the relevant data from the data context to a BindingSource component's <see cref="BindingSource.DataSource"/>.
+		/// </remarks>
+		//[SRCategory(nameof(SR.CatData))]
+		[Browsable(false)]
+		[Bindable(true)]
+		public virtual object? DataContext
+		{
+			get
+			{
+				return data_context ?? parent?.DataContext;
+			}
+			set
+			{
+				if (Equals (value, DataContext)) {
+					return;
+				}
+
+				// When DataContext was different than its parent before, but now it is about to become the same,
+				// we're removing it altogether, so it can inherit the value from its parent.
+				if (data_context != null && Equals (parent?.DataContext, value)) {
+					data_context = null;
+					OnDataContextChanged (EventArgs.Empty);
+					return;
+				}
+
+				data_context = value;
+				OnDataContextChanged (EventArgs.Empty);
+			}
+		}
+
+		private bool ShouldSerializeDataContext()
+			=> data_context != null;
+
+		private void ResetDataContext()
+			=> data_context = null;
+
+		#endregion
 
 		#region Private & Internal Methods
 		
@@ -2377,6 +2429,7 @@ namespace System.Windows.Forms
 		
 		[AmbientValue(null)]
 		[MWFCategory("Appearance")]
+		[AllowNull]
 		public virtual Cursor Cursor {
 			get {
 				if (use_wait_cursor)
@@ -2584,6 +2637,7 @@ namespace System.Windows.Forms
 		[AmbientValue(null)]
 		[Localizable(true)]
 		[MWFCategory("Appearance")]
+		[AllowNull]
 		public virtual Font Font {
 			[return: MarshalAs (UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof (Font))]
 			get {
@@ -2823,6 +2877,7 @@ namespace System.Windows.Forms
 		}
 
 		[Browsable(false)]
+		[AllowNull]
 		public string Name {
 			get {
 				return name;
@@ -3097,6 +3152,7 @@ namespace System.Windows.Forms
 		[Localizable(true)]
 		[BindableAttribute(true)]
 		[MWFCategory("Appearance")]
+		[AllowNull]
 		public virtual string Text {
 			get {
 				// Our implementation ignores ControlStyles.CacheText - we always cache
@@ -5794,6 +5850,22 @@ namespace System.Windows.Forms
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected virtual void OnDataContextChanged(EventArgs e)
+		{
+			if (is_disposing)
+			{
+				return;
+			}
+
+			if (Events[DataContextEvent] is EventHandler eventHandler)
+			{
+				eventHandler(this, e);
+			}
+
+			for (int i = 0; i < child_controls.Count; i++) child_controls[i].OnDataContextChanged (e);
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected virtual void OnDockChanged(EventArgs e) {
 			EventHandler eh = (EventHandler)(Events [DockChangedEvent]);
 			if (eh != null)
@@ -6165,6 +6237,32 @@ namespace System.Windows.Forms
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		protected virtual void OnParentCursorChanged (EventArgs e)
 		{
+			if (cursor is null)
+			{
+				OnCursorChanged(e);
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected virtual void OnParentDataContextChanged (EventArgs e)
+		{
+			if (data_context != null)
+			{
+				// If this DataContext was the same as the Parent's just became,
+				if (Equals (data_context, Parent.DataContext))
+				{
+					// we need to make it ambient again by removing it.
+					data_context = null;
+
+					// Even though internally we don't store it any longer, and the
+					// value we had stored therefore changed, technically the value
+					// remains the same, so we don't raise the DataContextChanged event.
+					return;
+				}
+			}
+
+			// In every other case we're going to raise the event.
+			OnDataContextChanged (e);
 		}
 
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
@@ -6346,6 +6444,7 @@ namespace System.Windows.Forms
 		static object ControlAddedEvent = new object ();
 		static object ControlRemovedEvent = new object ();
 		static object CursorChangedEvent = new object ();
+		static object DataContextEvent = new object ();
 		static object DockChangedEvent = new object ();
 		static object DoubleClickEvent = new object ();
 		static object DragDropEvent = new object ();
@@ -6485,6 +6584,12 @@ namespace System.Windows.Forms
 		public event DragEventHandler DragDrop {
 			add { Events.AddHandler (DragDropEvent, value); }
 			remove { Events.RemoveHandler (DragDropEvent, value); }
+		}
+
+		public event EventHandler? DataContextChanged
+		{
+			add { Events.AddHandler (DataContextEvent, value); }
+			remove { Events.RemoveHandler (DataContextEvent, value); }
 		}
 
 		public event DragEventHandler DragEnter {

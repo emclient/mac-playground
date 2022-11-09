@@ -34,6 +34,7 @@
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Globalization;
@@ -891,6 +892,7 @@ namespace System.Windows.Forms
 		[Bindable (false)]
 		[Browsable (false)]
 		[EditorBrowsable (EditorBrowsableState.Never)]
+		[AllowNull]
 		public override string Text {
 			get { return base.Text; } 
 			set {

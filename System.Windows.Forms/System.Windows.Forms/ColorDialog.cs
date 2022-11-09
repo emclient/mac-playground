@@ -26,6 +26,7 @@
 // COMPLETE
 
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Globalization;
 using System.Resources;
@@ -396,6 +397,7 @@ namespace System.Windows.Forms {
 		
 		[Browsable(false)]
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
+		[AllowNull]
 		public int[] CustomColors {
 			get {
 				return customColors;

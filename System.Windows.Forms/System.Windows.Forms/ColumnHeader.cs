@@ -28,6 +28,7 @@
 
 
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 
 namespace System.Windows.Forms
@@ -291,6 +292,7 @@ namespace System.Windows.Forms
 		}
 
 		[Localizable (true)]
+		[AllowNull]
 		public string Text {
 			get { return text; }
 			set {

@@ -29,6 +29,7 @@
 
 // COMPLETE
 
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
@@ -211,7 +212,7 @@ namespace System.Windows.Forms
 
 		[Browsable (false)]
 		[EditorBrowsable (EditorBrowsableState.Never)]
-		public new event EventHandler TextChanged {
+		public new event EventHandler? TextChanged {
 			add { base.TextChanged += value; }
 			remove { base.TextChanged -= value; }
 		}
@@ -386,6 +387,7 @@ namespace System.Windows.Forms
 
 		[EditorBrowsable (EditorBrowsableState.Never)]
 		[Browsable (false)]
+		[AllowNull]
 		public override Font Font
 		{
 			get { return base.Font; }
@@ -576,6 +578,7 @@ namespace System.Windows.Forms
 		[Bindable (false)]
 		[Browsable (false)]
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
+		[AllowNull]
 		public override string Text {
 			 get { return base.Text;  }
 			 set { base.Text = value; }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms.Mac;
 using AppKit;
 using UniformTypeIdentifiers;
@@ -49,12 +50,14 @@ namespace System.Windows.Forms
 		public FileDialogCustomPlacesCollection CustomPlaces { get; protected set; }
 
 		[DefaultValue("")]
+		[AllowNull]
 		public string DefaultExt { get; set; }
 	
 		[DefaultValue(true)]
 		public bool DereferenceLinks { get; set; }
 
 		[DefaultValue("")]
+		[AllowNull]
 		public string FileName { get; set; }
 
 		[Browsable(false)]
@@ -63,12 +66,14 @@ namespace System.Windows.Forms
 
 		[DefaultValue("")]
 		[Localizable(true)]
+		[AllowNull]
 		public string Filter { get; set; }
 
 		[DefaultValue(1)]
 		public int FilterIndex { get; set; }
 
 		[DefaultValue("")]
+		[AllowNull]
 		public string InitialDirectory { get; set; }
 
 		[DefaultValue(false)]
@@ -82,6 +87,7 @@ namespace System.Windows.Forms
 
 		[DefaultValue("")]
 		[Localizable(true)]
+		[AllowNull]
 		public string Title { get; set; }
 
 		[DefaultValue(true)]

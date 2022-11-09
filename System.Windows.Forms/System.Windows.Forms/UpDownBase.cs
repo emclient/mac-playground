@@ -29,6 +29,7 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -289,6 +290,7 @@ namespace System.Windows.Forms
 		}
 
 		[Localizable(true)]
+		[AllowNull]
 		public override string Text {
 			get {
 				if (txtView != null) {

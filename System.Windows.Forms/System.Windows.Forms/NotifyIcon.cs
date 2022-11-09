@@ -27,6 +27,7 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Text;
 
@@ -620,6 +621,7 @@ namespace System.Windows.Forms {
 		[Editor ("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design,
 			 typeof (System.Drawing.Design.UITypeEditor))]
 		[Localizable (true)]
+		[AllowNull]
 		public string Text {
 			get {
 				return text;

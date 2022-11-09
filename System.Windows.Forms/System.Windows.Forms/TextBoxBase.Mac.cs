@@ -1,5 +1,6 @@
 using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -279,6 +280,7 @@ namespace System.Windows.Forms
 		[Editor("System.Windows.Forms.Design.StringArrayEditor, " + Consts.AssemblySystem_Design, typeof(System.Drawing.Design.UITypeEditor))]
 		[Localizable(true)]
 		[MWFCategory("Appearance")]
+		[AllowNull]
 		public string[] Lines
 		{
 			get
@@ -437,6 +439,7 @@ namespace System.Windows.Forms
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[AllowNull]
 		public virtual string SelectedText
 		{
 			get { return Imp.SelectedText; }
@@ -485,6 +488,7 @@ namespace System.Windows.Forms
 
 		[Editor("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design, typeof (System.Drawing.Design.UITypeEditor))]
 		[Localizable(true)]
+		[AllowNull]
 		public override string Text
 		{
 			get { return Imp.Text; }

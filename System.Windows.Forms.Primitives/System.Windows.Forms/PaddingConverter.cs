@@ -5,6 +5,7 @@
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design.Serialization;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows.Forms.Primitives.Resources;
 
@@ -166,6 +167,7 @@ namespace System.Windows.Forms
 
         public override bool GetCreateInstanceSupported(ITypeDescriptorContext? context) => true;
 
+        [RequiresUnreferencedCode(TrimmingConstants.TypeConverterGetPropertiesMessage)]
         public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext? context, object value, Attribute[] attributes)
         {
             PropertyDescriptorCollection props = TypeDescriptor.GetProperties(typeof(Padding), attributes);

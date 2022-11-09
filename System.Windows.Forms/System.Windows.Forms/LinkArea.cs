@@ -36,7 +36,7 @@ namespace System.Windows.Forms
 {
 	[Serializable]
 	[TypeConverter(typeof(LinkArea.LinkAreaConverter))]
-	public struct LinkArea
+	public struct LinkArea : IEquatable<LinkArea>
 	{
 		#region LinkAreaConverter Class
 		public class LinkAreaConverter : TypeConverter {
@@ -148,14 +148,17 @@ namespace System.Windows.Forms
 		
 		#region Methods
 
-		public override bool Equals (object o)
+		public override bool Equals(object? o)
 		{
-			if (!(o is LinkArea)) 
-				return false;			
+			if (o is not LinkArea a) {
+				return false;
+			}
 
-			LinkArea comp = (LinkArea) o;
-			return (comp.Start == start && comp.Length == length);
+			return Equals(a);
 		}
+
+		public bool Equals(LinkArea other)
+			=> other.Start == start && other.Length == length;
 
 		public override int GetHashCode ()
 		{

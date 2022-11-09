@@ -4,6 +4,7 @@ using Foundation;
 using ObjCRuntime;
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Mac;
 using System.Drawing.Printing;
@@ -81,6 +82,7 @@ namespace System.Windows.Forms
 		[Browsable(false)]
 		[DefaultValue(null)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[AllowNull]
 		public PrinterSettings PrinterSettings
 		{
 			get

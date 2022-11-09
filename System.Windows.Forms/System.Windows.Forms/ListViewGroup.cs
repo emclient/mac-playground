@@ -29,6 +29,7 @@ using System;
 using System.Text;
 using System.Runtime.Serialization;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 
 namespace System.Windows.Forms
@@ -100,6 +101,7 @@ namespace System.Windows.Forms
 
 		#region ListViewGroup properties
 
+		[AllowNull]
 		public string Header {
 			get { return header; }
 			set {

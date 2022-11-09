@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace System.Windows.Forms
@@ -10,7 +11,7 @@ namespace System.Windows.Forms
     /// <summary>
     ///  Implements a Windows message.
     /// </summary>
-    public struct Message
+    public struct Message : IEquatable<Message>
     {
 #if DEBUG
         private static readonly TraceSwitch s_allWinMessages = new TraceSwitch("AllWinMessages", "Output every received message");
@@ -29,7 +30,9 @@ namespace System.Windows.Forms
         /// <summary>
         ///  Gets the <see cref='LParam'/> value, and converts the value to an object.
         /// </summary>
-        public object? GetLParam(Type cls) => Marshal.PtrToStructure(LParam, cls);
+        public object? GetLParam(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+            Type cls) => Marshal.PtrToStructure(LParam, cls);
 
         public static Message Create(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
         {
@@ -58,12 +61,15 @@ namespace System.Windows.Forms
                 return false;
             }
 
-            return HWnd == m.HWnd &&
-                   Msg == m.Msg &&
-                   WParam == m.WParam &&
-                   LParam == m.LParam &&
-                   Result == m.Result;
+            return Equals(m);
         }
+
+        public bool Equals(Message other)
+            => HWnd == other.HWnd
+                && Msg == other.Msg
+                && WParam == other.WParam
+                && LParam == other.LParam
+                && Result == other.Result;
 
         public static bool operator ==(Message a, Message b) => a.Equals(b);
 
