@@ -590,6 +590,7 @@ namespace System.Windows.Forms
 
 		[DefaultValue("")]
 		[Localizable(true)]
+		[AllowNull]
 		public string Title {
 			get {
 				if (title == null)

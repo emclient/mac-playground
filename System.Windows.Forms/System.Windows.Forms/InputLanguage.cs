@@ -28,6 +28,7 @@
 
 using System.Globalization;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 #if MAC
 using MacApi.Carbon;
@@ -56,6 +57,7 @@ namespace System.Windows.Forms {
 		#endregion	// Private Constructor
 
 		#region Public Static Properties
+		[AllowNull]
 		public static InputLanguage CurrentInputLanguage {
 			get {
 				if (current_input == null)

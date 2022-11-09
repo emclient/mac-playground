@@ -35,6 +35,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Mac;
 
 #if MAC
@@ -3029,6 +3030,7 @@ namespace System.Windows.Forms {
 		}
 
 		[SettingsBindable (true)]
+		[AllowNull]
 		public override string Text {
 			get {
 				return base.Text;

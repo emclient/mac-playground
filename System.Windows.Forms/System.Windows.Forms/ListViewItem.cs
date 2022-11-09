@@ -26,6 +26,7 @@
 
 using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Runtime.Serialization;
 
@@ -1231,6 +1232,7 @@ namespace System.Windows.Forms
 			}
 
 			[Localizable (true)]
+			[AllowNull]
 			public string Name {
 				get {
 					if (name == null)
@@ -1256,6 +1258,7 @@ namespace System.Windows.Forms
 			}
 
 			[Localizable (true)]
+			[AllowNull]
 			public string Text {
 				get { return text; }
 				set { 

@@ -30,6 +30,7 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Globalization;
@@ -537,6 +538,7 @@ namespace System.Windows.Forms
 		[EditorBrowsable (EditorBrowsableState.Never)]
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
 		[Browsable (false)]
+		[AllowNull]
 		public new string [] Lines {
 			get {
 				string text = Text;
@@ -555,6 +557,7 @@ namespace System.Windows.Forms
 		[RefreshProperties (RefreshProperties.Repaint)]
 		[MergablePropertyAttribute (false)]
 		[DefaultValue ("")]
+		[AllowNull]
 		public string Mask {
 			get {
 				if (is_empty_mask)
@@ -699,6 +702,7 @@ namespace System.Windows.Forms
 			}
 		}
 		
+		[AllowNull]
 		public override string SelectedText {
 			get {
 				return base.SelectedText;
@@ -724,6 +728,7 @@ namespace System.Windows.Forms
 		[Localizable (true)]
 		[RefreshProperties (RefreshProperties.Repaint)]
 		[DefaultValue ("")]
+		[AllowNull]
 		public override string Text {
 			get {
 				if (is_empty_mask || setting_text)

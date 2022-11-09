@@ -29,6 +29,7 @@
 
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Drawing.Imaging;
@@ -722,6 +723,7 @@ namespace System.Windows.Forms
 		[SettingsBindable (true)]
 		[Editor ("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design,
 			 typeof (System.Drawing.Design.UITypeEditor))]
+		[AllowNull]
 		public override string Text {
 			get { return base.Text; }
 			set { base.Text = value; }

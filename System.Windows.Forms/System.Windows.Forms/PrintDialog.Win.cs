@@ -31,6 +31,7 @@ using System.ComponentModel.Design;
 using System.ComponentModel.Design.Serialization;
 using System.Collections;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Reflection;
@@ -167,6 +168,7 @@ namespace System.Windows.Forms
 		[Browsable(false)]
 		[DefaultValue(null)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[AllowNull]
 		public PrinterSettings PrinterSettings {
 			get {
 				if (current_settings == null)

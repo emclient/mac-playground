@@ -29,6 +29,7 @@ using System.ComponentModel.Design;
 using System.ComponentModel.Design.Serialization;
 using System.Collections;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Reflection;
@@ -155,6 +156,7 @@ namespace System.Windows.Forms {
 		[Browsable(false)]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[AllowNull]
 		public override string Text {
 			get { return base.Text; }
 			set { base.Text = value; }
