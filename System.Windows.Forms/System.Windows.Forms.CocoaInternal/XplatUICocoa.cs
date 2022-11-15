@@ -1904,8 +1904,16 @@ namespace System.Windows.Forms {
 		{
 			NSView vuWrap = hWnd.ToNSView();
 			NSWindow winWrap = vuWrap.Window;
-			if (winWrap != null)
-				winWrap.Level = Enabled ? NSWindowLevel.ModalPanel : NSWindowLevel.Normal;
+			if (winWrap != null) {
+				var level = Enabled ? NSWindowLevel.ModalPanel : NSWindowLevel.Normal;
+				if (winWrap.Level != level) {
+					var parent = winWrap.ParentWindow;
+					// Removing from parent prevents reordering windows
+					parent?.RemoveChildWindow(winWrap);
+					winWrap.Level = level;
+					parent?.AddChildWindow(winWrap, NSWindowOrderingMode.Above);
+				}
+			}
 			return true;
 		}
 
