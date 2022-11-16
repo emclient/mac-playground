@@ -1075,9 +1075,11 @@ namespace System.Windows.Forms {
 						monoView.DrawBorders();	
 					break;
 				}
-				case Msg.WM_MOUSEACTIVATE:
-					return new IntPtr((int)MouseActivate.MA_ACTIVATE); // Shoudn't we send it to the parent?
-
+				case Msg.WM_MOUSEACTIVATE: {
+					var parent = GetParent(msg.HWnd, false);
+					msg.Result = parent != IntPtr.Zero ? NativeWindow.WndProc(parent, (Msg)msg.Msg, msg.WParam, msg.LParam) : (IntPtr)(int)MouseActivate.MA_ACTIVATE;
+					return msg.Result;
+				}
 				case Msg.WM_QUERYENDSESSION:
 					return new IntPtr(1);
 			}
