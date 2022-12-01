@@ -1309,7 +1309,11 @@ namespace System.Windows.Forms {
 			}
 			if (!(CurrentMonth.Year + years > MaxDate.Year)) {
 				newDate = CurrentMonth.AddYears (years);
-				if (MaxDate >= newDate && MinDate <= newDate) {
+				if (newDate > MaxDate) {
+					CurrentMonth = MaxDate;
+				} else if (newDate < MinDate) {
+					CurrentMonth = MinDate;
+				} else {
 					CurrentMonth = newDate;
 				}
 			}
