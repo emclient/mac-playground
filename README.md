@@ -3,9 +3,9 @@
 This is a mix of code that was developed during our effort to port eM Client to macOS. It is a hodgepodge of various projects and experiments. The notable ones are listed below. The code is released as-is.
 
 To test the experiments:
-* Open MacPlayground.sln in Visual Studio for Mac
-* Set solution configuration to Xamarin - Debug
-* Set default project to FormsTest.app
+* Install .NET6 SDK for Mac
+* Install dotnet macos workload
+* Open solution folder in Visual Studio Code (not in MS Visual Studio)
 * Run
 
 ## System.Drawing
