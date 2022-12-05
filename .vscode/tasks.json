@@ -49,9 +49,6 @@
                 "/p:RuntimeIdentifiers=osx-arm64",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary",
-                //"/p:CodeSigningKey=Mac Developer",
-                "/p:CodesignProvision=Forms Test 1",
-                "/p:EnableCodeSigning=true",
             ],
             "problemMatcher": "$msCompile",
             "options": {
