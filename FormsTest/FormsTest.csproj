@@ -1,18 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-windows;net6.0-macos</TargetFrameworks>
-    <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">net6.0-windows</TargetFrameworks>
-    <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">net6.0-macos</TargetFrameworks>
-    <MonoBundlingExtraArgs>--registrar:dynamic</MonoBundlingExtraArgs>
-    <!-- <RuntimeIdentifier Condition="'$(TargetFramework)' != 'net6.0-windows'">osx-x64</RuntimeIdentifier> -->
+    <TargetFrameworks>net7.0-windows;net7.0-macos</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">net7.0-windows</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">net7.0-macos</TargetFrameworks>
+    <!-- <RuntimeIdentifier Condition="'$(TargetFramework)' != 'net7.0-windows'">osx-x64</RuntimeIdentifier> -->
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <DisableExtraReferences>true</DisableExtraReferences>
-    <DefineConstants Condition="'$(TargetFramework)' == 'net6.0-macos'">$(DefineConstants);MAC</DefineConstants>
+    <DefineConstants Condition="'$(TargetFramework)' == 'net7.0-macos'">$(DefineConstants);MAC</DefineConstants>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
-    <OutputType Condition="'$(TargetFramework)' == 'net6.0-macos'">Exe</OutputType>
-	  <OutputType Condition="'$(TargetFramework)' == 'net6.0-windows'">WinExe</OutputType>
-    <UseWindowsForms Condition="'$(TargetFramework)' == 'net6.0-windows'">true</UseWindowsForms>
+    <OutputType Condition="'$(TargetFramework)' == 'net7.0-macos'">Exe</OutputType>
+	  <OutputType Condition="'$(TargetFramework)' == 'net7.0-windows'">WinExe</OutputType>
+    <UseWindowsForms Condition="'$(TargetFramework)' == 'net7.0-windows'">true</UseWindowsForms>
     <UseMonoRuntime>false</UseMonoRuntime>
     <CustomResourceTypesSupport>true</CustomResourceTypesSupport>
     <ExtrasEnableEmbeddedResourceCodeGenerator>false</ExtrasEnableEmbeddedResourceCodeGenerator>
@@ -21,19 +20,19 @@
     <Company>eM Client s.r.o.</Company>
     <Product>FormsTest</Product>
     <Brand></Brand>
-    <MonoBundlingExtraArgs>--registrar:static</MonoBundlingExtraArgs>
-    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-macos'">10.15</SupportedOSPlatformVersion>
+    <Registrar>managed-static</Registrar>
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net7.0-macos'">10.15</SupportedOSPlatformVersion>
     <PathMap Condition="'$(Configuration)' == 'Release' OR $(Configuration.EndsWith('- Release'))">$(MSBuildProjectDirectory)/obj/$(Configuration)/$(TargetFramework)/$(RuntimeIdentifier)=.</PathMap>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-macos'">
     <ProjectReference Include="..\System.Windows.Forms\System.Windows.Forms.csproj" />
     <ProjectReference Include="..\System.Drawing\System.Drawing.csproj" />
     <ProjectReference Include="..\MacApi\MacApi.csproj" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-windows'">
     <PackageReference Include="Microsoft.Private.Winforms" Version="[6.0.1-dev]" />
   </ItemGroup>
   <ItemGroup>
@@ -231,7 +230,7 @@
     <Compile Include="Forms\MainForm.PrintPreview.cs" />
     <!--<Compile Include="Forms\DataGridForm.cs" />-->
     <Compile Include="Forms\DateTimeForm.cs" />
-    <Compile Include="Forms\NotificationsForm.cs" Condition="'$(TargetFramework)' == 'net6.0-macos'" />
+    <Compile Include="Forms\NotificationsForm.cs" Condition="'$(TargetFramework)' == 'net7.0-macos'" />
     <Compile Include="Controls\TextureBrushControl.cs" />
     <Compile Include="Controls\TextureBrushControl2.cs" />
     <Compile Include="Experiments\FileDescriptors.cs">

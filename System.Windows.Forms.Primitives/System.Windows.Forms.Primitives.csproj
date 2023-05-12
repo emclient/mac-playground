@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-macos</TargetFrameworks>
+    <TargetFrameworks>net7.0-macos</TargetFrameworks>
     <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <EnableDefaultItems Condition="'$(TargetFramework)' == 'netstandard2.1'">false</EnableDefaultItems>

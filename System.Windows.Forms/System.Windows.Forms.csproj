@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-macos</TargetFrameworks>
+    <TargetFrameworks>net7.0-macos</TargetFrameworks>
     <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.1</TargetFrameworks>
     <DefineConstants>NET_4_5</DefineConstants>
     <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
@@ -14,16 +14,16 @@
     <AssemblyVersion>5.0.0</AssemblyVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net7.0-macos'">
     <DefineConstants>$(DefineConstants);MAC;MACOS_THEME</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-windows'">
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-macos'">
     <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
     <ProjectReference Include="..\MacApi\MacApi.csproj" />
   </ItemGroup>
@@ -866,7 +866,7 @@
     <Compile Include="System.Drawing.Design\*.cs" />
     <Compile Include="TypeForwards.cs" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-windows'">
     <Compile Include="System.Windows.Forms.VisualStyles\UXTheme.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStylesNative.cs" />
     <Compile Include="System.Windows.Forms\ComboBox.Win.cs" />
@@ -886,7 +886,7 @@
     <Compile Include="System.Windows.Forms\Win32DnD.cs" />
     <Compile Include="System.Windows.Forms\XplatUIWin32.cs" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-macos'">
     <Compile Include="System.Windows.Forms.CocoaInternal\Cursor.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectPasteboard.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectProvider.cs" />

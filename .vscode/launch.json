@@ -10,7 +10,11 @@
             "args": [],
             "cwd": "${workspaceFolder}/FormsTest",
             "console": "internalConsole",
-            "stopAtEntry": false
+            "stopAtEntry": false,
+            "logging": {
+                "engineLogging": true
+            },
+            "debugServer": 4711
         },
         {
             "name": ".NET Core Launch (Console, x64)",
