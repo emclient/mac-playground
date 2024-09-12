@@ -102,10 +102,9 @@ namespace FormsTest
 		{
 			FontFamily ff = font.FontFamily;
 			float lineSpace = ff.GetLineSpacing(font.Style);
-			float ascent = fontHeight * ff.GetCellAscent(font.Style) / lineSpace;
-			float descent = fontHeight * ff.GetCellDescent(font.Style) / lineSpace;
-			float lineHeight = fontHeight;
-			return (ascent, descent, fontHeight);
+			float ascent = ff.GetCellAscent(font.Style);
+			float descent = ff.GetCellDescent(font.Style);
+			return (ascent, descent, lineSpace);
 		}
 
 		public static (float ascent, float descent, float lineSpacing) GetFontOffsetsScaled(this Control control, Font font)

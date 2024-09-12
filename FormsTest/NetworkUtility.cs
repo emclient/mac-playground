@@ -107,7 +107,7 @@ namespace FormsTest
 			if (oldIsNetworkAvailable != isNetworkAvailable)
 			{
 				oldIsNetworkAvailable = isNetworkAvailable;
-				networkAvailabilityChanged?.Invoke(sender, isNetworkAvailable ? new OnlineStatusEventArgs() : new OnlineStatusEventArgs(OfflineReason.NetworkAvailability));
+				networkAvailabilityChanged?.Invoke(reachability, EventArgs.Empty);
 			}
 		}
 #endif
