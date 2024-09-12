@@ -67,6 +67,9 @@ namespace System.Windows.Forms
 			get {
 				if (this.drop_down == null) {
 					this.drop_down = CreateDefaultDropDown ();
+					if (this is not ToolStripOverflowButton) {
+						this.drop_down.is_auto_generated = true;
+					}
 					this.drop_down.ItemAdded += new ToolStripItemEventHandler (DropDown_ItemAdded);
 				}
 			
@@ -171,8 +174,13 @@ namespace System.Windows.Forms
 							if (tsi is ToolStripMenuItem)
 								ToolStripManager.RemoveToolStripMenuItem ((ToolStripMenuItem)tsi);
 
-					if (drop_down != null)
+					if (drop_down != null) {
 						ToolStripManager.RemoveToolStrip (drop_down);
+						if (drop_down.is_auto_generated) {
+							drop_down.Dispose ();
+							drop_down = null;
+						}
+					}
 				}
 				base.Dispose (disposing);
 			}

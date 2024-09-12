@@ -57,7 +57,7 @@ namespace System.Windows.Forms
 		private bool reject_input_on_first_failure;
 		private HorizontalAlignment text_align;
 		private MaskFormat cut_copy_mask_format;
-		private bool use_system_password_char;
+		private new bool use_system_password_char;
 		private Type validating_type;
 		private bool is_empty_mask;
 		private bool setting_text;

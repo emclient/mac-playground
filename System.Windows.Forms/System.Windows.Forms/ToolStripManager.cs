@@ -97,15 +97,6 @@ namespace System.Windows.Forms
 			}
 		}
 
-		internal static bool IsChildOfActiveToolStrip(IntPtr hitTestHandle)
-		{
-			foreach (var toolStrip in activeToolStrips)
-				if (Contains(toolStrip.window.Handle, hitTestHandle))
-					return true;
-
-			return false;
-		}
-
 		static bool Contains(IntPtr root, IntPtr child)
 		{
 			if (root == IntPtr.Zero)
@@ -571,8 +562,6 @@ namespace System.Windows.Forms
 			return false;
 		}
 
-		internal static List<ToolStrip> activeToolStrips = new List<ToolStrip>();
-
 		internal static void SetActiveToolStrip (ToolStrip toolStrip, bool keyboard)
 		{
 			if (Application.KeyboardCapture != null)
@@ -586,16 +575,6 @@ namespace System.Windows.Forms
 			activated_by_keyboard = keyboard;
 				
 			toolStrip.KeyboardActive = true;
-
-			if (!activeToolStrips.Contains(toolStrip))
-				activeToolStrips.Add(toolStrip);
-		}
-
-		internal static void ToolStripDropDownDismissed(ToolStripDropDown toolStrip, ToolStripDropDownCloseReason reason)
-		{
-			if (activeToolStrips.Remove(toolStrip))
-				if (activeToolStrips.Count > 0)
-					SetActiveToolStrip(activeToolStrips[activeToolStrips.Count - 1], reason == ToolStripDropDownCloseReason.Keyboard);
 		}
 
 		internal static void AddToolStripMenuItem (ToolStripMenuItem tsmi)
@@ -625,40 +604,26 @@ namespace System.Windows.Forms
 		{
 			if (AppClicked != null) AppClicked (null, EventArgs.Empty);
 			
-			if (Application.KeyboardCapture != null)
-				Application.KeyboardCapture.Dismiss (ToolStripDropDownCloseReason.AppClicked);
-
-			activeToolStrips.Clear();
+			Application.KeyboardCapture?.Dismiss (ToolStripDropDownCloseReason.AppClicked);
 		}
 
 		internal static void FireAppClickedInternal()
 		{
-			if (Application.KeyboardCapture != null)
-				Application.KeyboardCapture.GetTopLevelToolStrip().Dismiss(ToolStripDropDownCloseReason.AppClicked);
-
-			activeToolStrips.Clear();
+			Application.KeyboardCapture?.GetTopLevelToolStrip()?.Dismiss(ToolStripDropDownCloseReason.AppClicked);
 		}
 
 		internal static void FireAppFocusChanged (Form form)
 		{
 			if (AppFocusChange != null) AppFocusChange (form, EventArgs.Empty);
 
-			if (Application.KeyboardCapture != null)
-			{
-				activeToolStrips.Remove(Application.KeyboardCapture);
-				Application.KeyboardCapture.Dismiss(ToolStripDropDownCloseReason.AppFocusChange);
-			}
+			Application.KeyboardCapture?.GetTopLevelToolStrip()?.Dismiss(ToolStripDropDownCloseReason.AppFocusChange);
 		}
 
 		internal static void FireAppFocusChanged (object sender)
 		{
 			if (AppFocusChange != null) AppFocusChange (sender, EventArgs.Empty);
 
-			if (Application.KeyboardCapture != null)
-			{
-				activeToolStrips.Remove(Application.KeyboardCapture);
-				Application.KeyboardCapture.Dismiss(ToolStripDropDownCloseReason.AppFocusChange);
-			}
+			Application.KeyboardCapture?.GetTopLevelToolStrip()?.Dismiss(ToolStripDropDownCloseReason.AppFocusChange);
 		}
 
 		private static void OnRendererChanged (EventArgs e)

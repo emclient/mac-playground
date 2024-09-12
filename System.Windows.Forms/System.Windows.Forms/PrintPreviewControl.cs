@@ -225,6 +225,7 @@ namespace System.Windows.Forms {
 				UpdateScrollBars();
 			}
 			catch (Exception e) {
+				_ = e;
 				page_infos = new PreviewPageInfo[0];
 				image_cache = new Image[0];
 				//MessageBox.Show (e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

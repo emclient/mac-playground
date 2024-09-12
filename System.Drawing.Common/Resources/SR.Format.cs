@@ -11,7 +11,7 @@ namespace System
     {
         internal static string Format(string resourceFormat, params object?[]? args)
         {
-            return string.Format(resourceFormat, args);
+            return string.Format(resourceFormat, args ?? Array.Empty<object>());
         }
     }
 }

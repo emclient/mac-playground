@@ -43,6 +43,43 @@ namespace System.Windows.Forms {
 	internal partial class XplatUIWin32 {
 		#region Private Structs
 		[StructLayout(LayoutKind.Sequential)]
+		internal struct SIZE {
+			internal int		width;
+			internal int		height;
+
+			public SIZE (int width, int height)
+			{
+				this.width = width;
+				this.height = height;
+			}
+
+			public int Width {
+				get { return width; }
+				set { width = value; }
+			}
+
+			public int Height { 
+				get { return height; }
+				set { height = value; }
+			}
+
+			public Size ToSize() {
+				return new Size (width, height);
+			}
+
+			public static SIZE FromSize (Size size) {
+				return new SIZE (size.Width, size.Height);
+			}
+			public override int GetHashCode ()
+			{
+				return ((Width << 0x1a) | (Width >> 6)) ^ ((Height << 7) | (Height >> 0x19));
+			}
+			public override string ToString () {
+				return String.Format("SIZE width={0}, height={1}", width, height);
+			}
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
 		internal struct RECT {
 			internal int		left;
 			internal int		top;

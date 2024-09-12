@@ -85,5 +85,10 @@ namespace System.Windows.Forms {
 			}
 		}
 		#endregion	// Public Instance Properties
+
+		public override string ToString()
+		{
+			return $"x:{x}, y:{y}, buttons:{buttons}, clicks:{clicks}, delta:{delta}";
+		}
 	}
 }

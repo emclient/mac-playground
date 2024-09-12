@@ -47,6 +47,7 @@ namespace System.Windows.Forms.CocoaInternal
 			InCreateWindow = 1,
 			InSetFocus = 2,
 			AllowDrop = 4,
+			ApplyCustomMenuItemWorkaround = 8,
 		}
 
 		protected XplatUICocoa driver;
@@ -75,6 +76,8 @@ namespace System.Windows.Forms.CocoaInternal
 			this.RegisterForGenericDraggedTypes();
 			this.eventResponder = new WindowsEventResponder(driver, this);
 			base.NextResponder = eventResponder;
+
+			this.SetClipsToBounds(true);
 		}
 
 		static void DisableAutomaticLayerBackingStores()
@@ -168,8 +171,15 @@ namespace System.Windows.Forms.CocoaInternal
 		public override void ViewDidMoveToWindow()
 		{
 			base.ViewDidMoveToWindow();
+			
+			if (Window == null)
+				return;
+
 			UpdateTrackingAreas();
 			SendWindowPosChanged(Frame.Size, true);
+
+			if (this.EnclosingMenuItem() != null && OperatingSystem.IsMacOSVersionAtLeast(14, 0, 0))
+				flags |= Flags.ApplyCustomMenuItemWorkaround;
 		}
 
 		internal virtual void FinishCreateWindow()
@@ -279,7 +289,7 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.SendMessage(Handle, Msg.WM_EFFECTIVE_APPEARANCE_CHANGED, IntPtr.Zero, IntPtr.Zero);
 		}
 
-		public override void DrawRect(CGRect dirtyRect)
+				public override void DrawRect(CGRect dirtyRect)
 		{
 			if (!dirtyRect.IsEmpty)
 			{
@@ -292,6 +302,10 @@ namespace System.Windows.Forms.CocoaInternal
 
 				this.DirtyRectangle = null;
 			}
+
+			// Workaround for not not delivering mouseMoved events to custom menu items in Sonoma
+			if (flags.HasFlag(Flags.ApplyCustomMenuItemWorkaround))
+				Window.AcceptsMouseMovedEvents = true;
 		}
 
 		public override void SetFrameSize(CGSize newSize)
@@ -300,30 +314,17 @@ namespace System.Windows.Forms.CocoaInternal
 			SendWindowPosChanged(newSize);
 		}
 
-		public override CGRect Frame
-		{
-			get { return base.Frame; }
-			set
-			{
-				if (base.Frame != value)
-				{
-					base.Frame = value;
-					SendWindowPosChanged(Frame.Size);
-				}
-			}
-		}
+		
+
+		static XplatUIWin32.NCCALCSIZE_PARAMS ncp;
+		static IntPtr ncpptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(XplatUIWin32.NCCALCSIZE_PARAMS)));
 
 		public void PerformNCCalc(CGSize newSize)
 		{
-			//FIXME! Should not reference Win32 variant here or NEED to do so.
-			var ncp = new XplatUIWin32.NCCALCSIZE_PARAMS ();
 			ncp.rgrc1 = new XplatUIWin32.RECT(0, 0, (int)newSize.Width, (int)newSize.Height);
-
-			IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(ncp));
-			Marshal.StructureToPtr(ncp, ptr, true);
-			NativeWindow.WndProc(Handle, Msg.WM_NCCALCSIZE, (IntPtr) 1, ptr);
-			ncp = (XplatUIWin32.NCCALCSIZE_PARAMS) Marshal.PtrToStructure (ptr, typeof (XplatUIWin32.NCCALCSIZE_PARAMS));
-			Marshal.FreeHGlobal(ptr);
+			Marshal.StructureToPtr(ncp, ncpptr, true);
+			NativeWindow.WndProc(Handle, Msg.WM_NCCALCSIZE, (IntPtr) 1, ncpptr);
+			ncp = (XplatUIWin32.NCCALCSIZE_PARAMS) Marshal.PtrToStructure(ncpptr, typeof(XplatUIWin32.NCCALCSIZE_PARAMS));
 
 			var savedBounds = ClientBounds;
 			ClientBounds = CGRect.FromLTRB(ncp.rgrc1.left, ncp.rgrc1.top, ncp.rgrc1.right, ncp.rgrc1.bottom);
@@ -383,7 +384,8 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			// Caching cursor (this.Cursor) does not work well, because of logic in Control.Cursor getter.
 			var hwnd = driver.Grab.Hwnd != default ? driver.Grab.Hwnd : (IntPtr)Handle;
-			var cursor = Control.FromHandle(hwnd)?.Cursor?.Handle ?? IntPtr.Zero;
+			var hittest = Application.SendMessage(hwnd, Msg.WM_NCHITTEST, IntPtr.Zero, IntPtr.Zero);
+			var cursor = hittest == 0 ? IntPtr.Zero : (Control.FromHandle(hwnd)?.Cursor?.Handle ?? IntPtr.Zero);
 			driver.OverrideCursor(cursor);
 		}
 
@@ -415,7 +417,6 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
-		// Experimental
 		public override void DrawFocusRingMask()
 		{
 			driver.SendMessage(Handle, Msg.WM_DRAW_FOCUS_RING_MASK, IntPtr.Zero, IntPtr.Zero);
@@ -434,43 +435,52 @@ namespace System.Windows.Forms.CocoaInternal
 						return rect;
 					}
 				}
-				return Bounds;
+				return base.FocusRingMaskBounds;
 			}
 		}
 
-		[Export("draggingEntered:")]
-		public NSDragOperation DraggingEntered(INSDraggingInfo sender)
+		public Func<NSEventGestureAxis, bool>? WantsScrollEventsForSwipeTrackingOnAxisDelegate { get; set; }
+
+		public override bool WantsScrollEventsForSwipeTrackingOnAxis(NSEventGestureAxis axis)
+		{
+			return WantsScrollEventsForSwipeTrackingOnAxisDelegate?.Invoke(axis) ?? false;	
+		}
+
+		public Func<NSEvent, bool>? ScrollWheelDelegate { get; set; }
+		public override void ScrollWheel(NSEvent theEvent)
+		{
+			bool processed = ScrollWheelDelegate?.Invoke(theEvent) ?? false;
+			if (!processed)
+				eventResponder.ScrollWheel(theEvent);
+		}
+
+		public override NSDragOperation DraggingEntered(INSDraggingInfo sender)
 		{
 			return this.DraggingEnteredInternal(sender);
 		}
 
-		[Export("draggingUpdated:")]
-		public NSDragOperation DraggingUpdated(INSDraggingInfo sender)
+		public override NSDragOperation DraggingUpdated(INSDraggingInfo sender)
 		{
 			return this.DraggingUpdatedInternal(sender);
 		}
 
-		[Export("draggingExited:")]
-		public void DraggingExited(INSDraggingInfo sender)
+		public override void DraggingExited(INSDraggingInfo sender)
 		{
 			this.DraggingExitedInternal(sender);
 		}
 
-		[Export("draggingEnded:")]
-		public void DraggingEnded(INSDraggingInfo sender)
+		public override void DraggingEnded(INSDraggingInfo sender)
 		{
 			// Intentionally not calling base
 			this.DraggingEndedInternal(sender);
 		}
 
-		[Export("prepareForDragOperation:")]
-		public bool PrepareForDragOperation(INSDraggingInfo sender)
+		public override bool PrepareForDragOperation(INSDraggingInfo sender)
 		{
 			return this.PrepareForDragOperationInternal(sender);
 		}
 
-		[Export("performDragOperation:")]
-		public bool PerformDragOperation(INSDraggingInfo sender)
+		public override bool PerformDragOperation(INSDraggingInfo sender)
 		{
 			return this.PerformDragOperationInternal(sender);
 		}
@@ -502,7 +512,7 @@ namespace System.Windows.Forms.CocoaInternal
 		public virtual bool IsAccessibilityElement
 		{
 			[Export("isAccessibilityElement")]
-			get { return true; }
+			get { return AccessibilityRole != null; }
 		}
 
 		public override string AccessibilityRole

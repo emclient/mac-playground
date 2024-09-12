@@ -8,7 +8,7 @@
             "args": [
                 "build",
                 "${workspaceFolder}/FormsTest/FormsTest.csproj",
-                "/p:TargetFramework=net6.0-macos",
+                "/p:TargetFramework=net8.0-macos",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary",
             ],
@@ -26,7 +26,7 @@
             "args": [
                 "build",
                 "${workspaceFolder}/FormsTest/FormsTest.csproj",
-                "/p:TargetFramework=net6.0-macos",
+                "/p:TargetFramework=net8.0-macos",
                 "/p:RuntimeIdentifiers=osx-x64",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary",
@@ -45,7 +45,7 @@
             "args": [
                 "build",
                 "${workspaceFolder}/FormsTest/FormsTest.csproj",
-                "/p:TargetFramework=net6.0-macos",
+                "/p:TargetFramework=net8.0-macos",
                 "/p:RuntimeIdentifiers=osx-arm64",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary",

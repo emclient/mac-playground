@@ -90,5 +90,9 @@ namespace System.Windows.Forms {
 			}
 		}
 		#endregion	// Public Instance Properties
+
+		public override string ToString() {
+			return $"Type:{Type}, NewValue:{OldValue}, NewValue:{OldValue}, {ScrollOrientation}";
+		}
 	}
 }

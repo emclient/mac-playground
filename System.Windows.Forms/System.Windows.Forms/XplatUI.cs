@@ -459,10 +459,10 @@ namespace System.Windows.Forms {
 			driver.BeginMoveResize (handle);
 		}
 
-		internal static bool CalculateWindowRect (ref Rectangle ClientRect, CreateParams cp, out Rectangle WindowRect)
+		internal static bool CalculateWindowRect (IntPtr hwnd, ref Rectangle ClientRect, CreateParams cp, out Rectangle WindowRect)
 		{
-			DriverDebug ("CalculateWindowRect ({0}, {1}): Called", ClientRect, cp);
-			return driver.CalculateWindowRect (ref ClientRect, cp, out WindowRect);
+			DriverDebug ("CalculateWindowRect ({0}, {1}, {2}): Called", ClientRect, cp);
+			return driver.CalculateWindowRect (hwnd, ref ClientRect, cp, out WindowRect);
 		}
 
 		internal static void CaretVisible (IntPtr handle, bool visible)
@@ -1017,6 +1017,12 @@ namespace System.Windows.Forms {
 		{
 			DriverDebug ("SetWindowStyle ({0}): Called", Window (handle));
 			driver.SetWindowStyle (handle, cp);
+		}
+
+		internal static IntPtr GetWindowFromPoint (int x, int y)
+		{
+			DriverDebug ("GetWindowFromPoint ({0}, {1}): Called", x, y);
+			return driver.GetWindowFromPoint(x, y);
 		}
 
 		internal static double GetWindowTransparency (IntPtr handle)

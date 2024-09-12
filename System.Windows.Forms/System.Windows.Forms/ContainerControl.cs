@@ -141,11 +141,14 @@ namespace System.Windows.Forms {
 						fire_enter = false;
 						break;
 					}
+
+					// clear our idea of the active control as we go back up
+					ContainerControl walk_container = walk.Parent?.GetContainerControl() as ContainerControl;
+					if (walk_container != null)
+						walk_container.active_control = null;
+
 					using (_ = new Focusing(false))
 						walk.FireLeave ();
-					/* clear our idea of the active control as we go back up */
-					if (walk is ContainerControl)
-						((ContainerControl)walk).active_control = null;
 
 					if (walk.CausesValidation)
 						validation_chain.Add (walk);
@@ -197,8 +200,8 @@ namespace System.Windows.Forms {
 					}
 				}
 
-				walk = this;
-				Control ctl = this;
+				walk = value;
+				Control ctl = value;
 				while (walk != null) {
 					if (walk.Parent is ContainerControl) {
 						((ContainerControl) walk.Parent).active_control = ctl;
@@ -794,8 +797,9 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		internal void ChildControlRemoved (Control control)
+		internal void ChildControlRemoved (Control control, Control oldParent)
 		{
+			ContainerControl cc;
 			ContainerControl top_container = FindForm ();
 			if (top_container == null)
 				top_container = this;
@@ -810,11 +814,51 @@ namespace System.Windows.Forms {
 			}
 
 			if (control == active_control || control.Contains (active_control)) {
-				SelectNextControl (this, true, true, true, true);
-				if (control == active_control || control.Contains (active_control)) {
-					active_control = null;
+				bool selected = SelectNextControl (this, true, true, true, true);
+				if (selected && active_control != control) {
+					if (active_control.Parent != null) {
+						FocusActiveControlInternal();
+					}
+				} else {
+					SetActiveControl(null);
+				}
+			} else if (active_control == null && Parent != null) {
+				// The last control of an active container was removed. Focus needs to be given to the next
+				// control in the Form.
+				cc = Parent.GetContainerControl() as ContainerControl;
+				if (cc is not null && cc.ActiveControl == this)
+				{
+					Form f = FindForm();
+					if (f != null) {
+						f.SelectNextControl(this, true, true, true, true);
+					}
+				}
+     		}
+
+			// Two controls in UserControls that don't take focus via UI can have bad behavior if ...
+			// When a control is removed from a container, not only do we need to clear the unvalidatedControl of that
+			// container potentially, but the unvalidatedControl of all its container parents, up the chain, needs to
+			// now point to the old parent of the disappearing control.
+			cc = this;
+			while (cc is not null) {
+				Control parent = cc.Parent;
+				if (parent is null) {
+					break;
+				} else {
+					cc = parent.GetContainerControl() as ContainerControl;
+				}
+
+				if (cc is not null &&
+					cc.unvalidated_control is not null &&
+					(cc.unvalidated_control == control || control.Contains(cc.unvalidated_control)))
+				{
+					cc.unvalidated_control = oldParent;
 				}
 			}
+
+			if (control == unvalidated_control || control.Contains(unvalidated_control)) {
+				unvalidated_control = null;
+			}			
 		}
 
 		// Check that this control (or any child) is included in the pending validation chain

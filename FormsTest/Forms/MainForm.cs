@@ -7,8 +7,6 @@ using System.Windows.Forms;
 #if MAC
 using Foundation;
 using UniformTypeIdentifiers;
-using UTType = MacApi.CoreServices.UTType;
-using UTTypes = MacApi.CoreServices.UTTypes;
 #endif
 namespace FormsTest
 {
@@ -142,6 +140,7 @@ namespace FormsTest
 			AddButton("RAM Disk Test", () => { RamDiskTest(); });
 			//AddButton("UTType Test", () => { UTTypeTest(); });
 			AddButton("UNNotifications", () => { new NotificationsForm().Show(); });
+			//AddButton("NSUserDefaults", () => { TestNSUserDefaults(); });
 #endif
 
 			//AddButton("Data Grid", () => { new DataGridForm().Show(); });
@@ -151,7 +150,15 @@ namespace FormsTest
 			AddButton("File Descriptors", () => { (fd = new FileDescriptors()).RunTest(); });
 			AddButton("Catch When", () => { CatchWhen.RunTest(); });
 			AddButton("Print Preview", () => { PrintPreview(); });
-			AddButton("AutoSize Form", () => { ShowAutoSizeForm(); });
+			//AddButton("AutoSize Form", () => { ShowAutoSizeForm(); });
+
+			AddButton("DrawString Form", () => { new DrawStringForm().Show(); });
+			AddButton("DrawText Form", () => { new DrawTextForm().Show(); });
+			AddButton("Label Form", () => { new LabelForm().Show(); });
+			AddButton("ScrollBar", () => { new ScrollBarsForm().Show(); });
+			AddButton("Regions", () => { new RegionsForm().Show(); });
+
+			AddButton("Cancellation", () => { new CancellationForm().Show(); });
 		}
 
 		FileDescriptors fd;
@@ -245,8 +252,8 @@ namespace FormsTest
 
         private void button2_Click(object sender, System.EventArgs e)
         {
-            //var form = new LayoutForm();
-            //form.Show();
+            var form = new MainForm();
+            form.Show();
         }
 
         private void button3_Click(object sender, System.EventArgs e)
@@ -336,14 +343,22 @@ namespace FormsTest
 			Console.WriteLine($"CreateDynamicType({src}) -> {dst}");
 		}
 
-		string CreateDynamicTypeFor(string identifier)
+		string? CreateDynamicTypeFor(string identifier)
 		{
 			const string tag = "kUTTagClassNSPboardType";
 			using var tagClass = new NSString(identifier);
-			return UTType.GetType(tag, tagClass, UTTypes.Data.Identifier).Identifier;
+			return UTType.GetType(tag, tagClass, UTTypes.Data)?.Identifier;
 		}
 
-	#endif
+		void TestNSUserDefaults()
+		{
+			var defaults = new NSUserDefaults();
+			var domain = "com.parallels.Parallels Desktop";
+			var dict = defaults.PersistentDomainForName(domain);
+			Console.WriteLine($"{dict}");
+		}
+
+#endif
 
 		public void ShowAutoSizeForm()
 		{

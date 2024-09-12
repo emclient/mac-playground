@@ -51,10 +51,8 @@ namespace System.Drawing.Printing
 				sessionHandle,
 				e.PageSettings == null || e.PageSettings == document.DefaultPageSettings ? IntPtr.Zero : GetPMPageFormat(e.PageSettings.print_info),
 				IntPtr.Zero);
-			IntPtr contextHandle;
-			PMSessionGetCGGraphicsContext(sessionHandle, out contextHandle);
-			CGContext context = (CGContext)Activator.CreateInstance(typeof(CGContext), new object?[] { contextHandle });
-			e.SetGraphics(new Graphics(context, false));
+			PMSessionGetCGGraphicsContext(sessionHandle, out var contextHandle);
+			e.SetGraphics(Graphics.FromHdc(contextHandle));
 			return e.Graphics;
 		}
 

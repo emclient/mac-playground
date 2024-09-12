@@ -18,9 +18,14 @@ namespace System.Drawing.Mac
 	{
 		public static int ToInt(this nfloat f)
 		{
-			return (int)(f >= int.MaxValue ? int.MaxValue : f <= int.MinValue ? int.MinValue : Math.Round(f));
+			return (int)(f >= int.MaxValue ? int.MaxValue : f <= int.MinValue ? int.MinValue : Math.Floor(f));
 		}
 
+		public static CGPoint ToCGPoint(this PointF p)
+		{
+			return new CGPoint(p.X, p.Y);
+		}
+		
 		public static CGRect ToCGRect(this Rectangle r)
 		{
 			return new CGRect(r.X, r.Y, r.Width, r.Height);
@@ -34,6 +39,11 @@ namespace System.Drawing.Mac
 		public static Rectangle ToRectangle(this CGRect r)
 		{
 			return new Rectangle(r.X.ToInt(), r.Y.ToInt(), r.Width.ToInt(), r.Height.ToInt());
+		}
+
+		public static RectangleF ToRectangleF(this CGRect r)
+		{
+			return new RectangleF((float)r.X, (float)r.Y, (float)r.Width, (float)r.Height);
 		}
 
 		public static CGRect Flipped(this CGRect r, nfloat height)
@@ -98,6 +108,11 @@ namespace System.Drawing.Mac
 			return new Point(p.X.ToInt(), p.Y.ToInt());
 		}
 
+		public static PointF ToPointF(this CGPoint p)
+		{
+			return new PointF((float)p.X, (float)p.Y);
+		}
+
 		public static CGPoint Flipped(this CGPoint p, nfloat height)
 		{
 			return new CGPoint(p.X, height - p.Y);
@@ -125,6 +140,20 @@ namespace System.Drawing.Mac
 			//return (float)(lineHeight + ascenderDelta);
 
 			return (float)NMath.Ceiling(font.AscentMetric + font.DescentMetric + font.LeadingMetric + 1);
+		}
+
+		public static void GetOffsets(this Font font, out float ascent, out float descent, out float spacing)
+		{
+			var f = font.nativeFont;
+			ascent = (float)f.AscentMetric;
+			descent = (float)f.DescentMetric;
+			spacing = f.GetLineHeight();
+		}
+
+		public static float GetExtraAscent(this Font font)
+		{
+			var f = font.nativeFont;
+			return (float)(f.LeadingMetric == 0 ? f.AscentMetric * 0.2f : 0);
 		}
 
 		public static CTTextAlignment ToCTTextAlignment(this ContentAlignment a)
@@ -180,6 +209,16 @@ namespace System.Drawing.Mac
 					return value.CGSizeValue;
 
 			Debug.Assert(false, $"Failed to get screen resolution for '{screen.LocalizedName}'");
+			return new CGSize(72, 72);
+		}
+
+		public static CGSize DeviceDPI(this NSWindow window)
+		{
+			var desc = window.DeviceDescription;
+			if (desc != null)
+				if (desc["NSDeviceResolution"] is NSValue value)
+					return value.CGSizeValue;
+
 			return new CGSize(72, 72);
 		}
 
@@ -334,9 +373,30 @@ namespace System.Drawing.Mac
 			return -1;
 		}
 
+		public static void SetRepresentationProvider(this Image image, Func<Size, Image> provider)
+		{
+			image.representationProvider = provider;
+		}
+
 		public static CGContext ToCGContext(this Graphics graphics)
 		{
 			return graphics.context;
+		}
+
+		public static Size ConvertToDeviceResolution(this Graphics graphics, Size size)
+		{
+			return new Size(
+				Math.Abs((int)(size.Width * graphics.screenScale)),
+				Math.Abs((int)(size.Height * graphics.screenScale))
+			);
+		}
+
+		public static CGSize ConvertToDeviceResolution(this Graphics graphics, CGSize size)
+		{
+			return new CGSize(
+				Math.Abs(size.Width * graphics.screenScale),
+				Math.Abs(size.Height * graphics.screenScale)
+			);
 		}
 
 #if __MACOS__

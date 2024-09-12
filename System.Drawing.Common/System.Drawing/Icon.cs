@@ -188,7 +188,7 @@ namespace System.Drawing
 				throw new NullReferenceException ("outputStream");
 
 			using (var stream = this.imageData.Data.AsStream())
-				stream.CopyTo(outputStream);
+				stream.CopyTo(outputStream, 64 * 1024);
 		}
 			
 		public Bitmap ToBitmap ()

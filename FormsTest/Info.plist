@@ -8,8 +8,6 @@
 	<string>9.2</string>
 	<key>CFBundleVersion</key>
 	<string>9.2.697</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>10.15</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleInfoDictionaryVersion</key>

@@ -1,27 +1,23 @@
-﻿﻿using System.Drawing;
-using System.Drawing.Mac;
-using System.Runtime.InteropServices;
+﻿using System.Drawing.Mac;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows.Forms.Mac;
 using Foundation;
 using AppKit;
 using ObjCRuntime;
-using NSPoint = CoreGraphics.CGPoint;
 using NSRect = CoreGraphics.CGRect;
 using NSSize = CoreGraphics.CGSize;
-using NSKey = MacApi.AppKit.NSKey;
 
 namespace System.Windows.Forms.CocoaInternal
 {
 	class MonoWindow : NSWindow
 	{
 		XplatUICocoa driver;
-		IntPtr prevFocus;
 		bool dragging;
 		bool disposed;
-		bool key;
+		bool key = false;
 		bool isPanel;
+		int dpi;
+		bool? movable;
 
 		public MonoWindow(NativeHandle handle) : base(handle)
 		{
@@ -34,7 +30,8 @@ namespace System.Windows.Forms.CocoaInternal
 			this.driver = driver;
 			this.ReleasedWhenClosed = false;
 			this.IsPanel = isPanel;
-			
+			this.dpi = (int)this.DeviceDPI().Width;
+
 			// Disable tabbing on Sierra until we properly support it
 			var setTabbingModeSelector = new ObjCRuntime.Selector("setTabbingMode:");
 			if (this.RespondsToSelector(setTabbingModeSelector))
@@ -53,6 +50,10 @@ namespace System.Windows.Forms.CocoaInternal
 			DidMove += WindowDidMove;
 			DidMiniaturize += WindowDidMiniaturize;
 			DidDeminiaturize += WindowDidDeminiaturize;
+			DidChangeBackingProperties += WindowDidChangeBackingProperties;
+			WillEnterFullScreen += WindowWillEnterFullScreen;
+			DidFailToEnterFullScreen += WindowDidFailToEnterFullScreen;
+			DidExitFullScreen += WindowDidExitFullScreen;
 		}
 
 		void UnregisterEventHandlers()
@@ -65,6 +66,10 @@ namespace System.Windows.Forms.CocoaInternal
 			DidMove -= WindowDidMove;
 			DidMiniaturize -= WindowDidMiniaturize;
 			DidDeminiaturize -= WindowDidDeminiaturize;
+			DidChangeBackingProperties -= WindowDidChangeBackingProperties;
+			WillEnterFullScreen -= WindowWillEnterFullScreen;
+			DidFailToEnterFullScreen -= WindowDidFailToEnterFullScreen;
+			DidExitFullScreen -= WindowDidExitFullScreen;
 		}
 
 		internal virtual void WindowWillClose(object sender, EventArgs e)
@@ -72,34 +77,43 @@ namespace System.Windows.Forms.CocoaInternal
 			UnregisterEventHandlers();
 		}
 
-		public override bool MakeFirstResponder(NSResponder aResponder)
+		public override bool MakeFirstResponder(NSResponder first)
 		{
-			var ok = base.MakeFirstResponder(aResponder);
-			var next = FirstResponder;
+			if (IsNoActivate || IsMouseActivateNoActivate)
+				return false;
+
+			// Prevent SWF controls based on native controls to gain focus if not appropriate.
+			// The AcceptsFirstResponder property would have to be overriden, which is not always possible.
+			if (first != null && first is not MonoView)
+				if (Control.FromChildHandle(first.Handle) is Control c)
+					if (!c.CanFocus)
+						return false;
+
+			var ok = base.MakeFirstResponder(first);
 			if (ok)
 			{
-				var c = XplatUICocoa.GetHandle(next);
-				if (prevFocus != c)
+				var hwnd = XplatUICocoa.GetHandle(first);
+				if (driver.FocusHwnd != hwnd)
 				{
-					if (prevFocus != IntPtr.Zero)
-						driver.SendMessage(prevFocus, Msg.WM_KILLFOCUS, c, IntPtr.Zero);
+					if (driver.FocusHwnd != IntPtr.Zero)
+						driver.SendMessage(driver.FocusHwnd, Msg.WM_KILLFOCUS, hwnd, IntPtr.Zero);
 
-					if (next is not MonoWindow) {
-						// If sending WM_SETFOCUS causes another immediate change of focus, we need to have prevFocus updated
-						var oldPrefFocus = prevFocus;
-						prevFocus = c;
+					if (first is not MonoWindow) {
+						// If sending WM_SETFOCUS causes another immediate change of focus, we need to have prev focus updated
+						var prev = driver.FocusHwnd;
+						driver.FocusHwnd = hwnd;
 
-						if (c != IntPtr.Zero)
-							driver.SendMessage(c, Msg.WM_SETFOCUS, oldPrefFocus, IntPtr.Zero);
+						if (hwnd != IntPtr.Zero)
+							driver.SendMessage(hwnd, Msg.WM_SETFOCUS, prev, IntPtr.Zero);
 					}
 					else 
 					{
-						prevFocus = IntPtr.Zero; // We only killed the focus
+						driver.FocusHwnd = IntPtr.Zero; // We only killed the focus
 					}
 				}
 				else
 				{
-					prevFocus = c;
+					driver.FocusHwnd = hwnd;
 				}
 			}
 			return ok;
@@ -109,17 +123,8 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			get
 			{
-				if (ContentView is MonoView monoView)
-				{
-					if (IsPanel)
-					 	return false;
-					if (IsKeyWindow)
-						return true;
-					if (lastEventType == NSEventType.LeftMouseDown && (mouseActivate == MouseActivate.MA_NOACTIVATE || mouseActivate == MouseActivate.MA_NOACTIVATEANDEAT))
-						return false;
-					if (0 != (monoView.ExStyle & WindowExStyles.WS_EX_NOACTIVATE))
-						return false;
-				}
+				if (IsNoActivate || IsMouseActivateNoActivate)
+					return false;
 				return true;
 			}
 		}
@@ -128,13 +133,12 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			get
 			{
-				return CanBecomeKeyWindow && ParentWindow == null;
+				return !IsPanel && CanBecomeKeyWindow && ParentWindow == null;
 			}
 		}
 
 		MouseActivate mouseActivate = MouseActivate.MA_ACTIVATE;
-		NSEventType lastEventType = NSEventType.ApplicationDefined;
-		NSEvent currentEvent;
+		NSEventType currentEventType = 0;
 
 		public override void SendEvent(NSEvent theEvent)
 		{
@@ -147,8 +151,7 @@ namespace System.Windows.Forms.CocoaInternal
 			if (!IsVisible && theEvent.IsMouse(out var _))
 				return;
 
-			lastEventType = theEvent.Type;
-			currentEvent = theEvent;
+			currentEventType = theEvent.Type;
 
 			switch (theEvent.Type)
 			{
@@ -175,25 +178,6 @@ namespace System.Windows.Forms.CocoaInternal
 					break;
 				case NSEventType.KeyUp:
 				case NSEventType.KeyDown:
-					// Emulation of ToolStrip's modal filter
-					if (Application.KeyboardCapture is ToolStripDropDown capture)
-					{
-						var resp = FirstResponder;
-						var h = resp?.Handle ?? IntPtr.Zero;
-						if (h != IntPtr.Zero)
-							if (!ToolStripManager.IsChildOfActiveToolStrip(h))
-								resp = capture.Handle.AsNSObject<NSResponder>();
-
-						if (resp != null)
-						{
-							if (theEvent.Type == NSEventType.KeyDown)
-								resp.KeyDown(theEvent);
-							else
-								resp.KeyUp(theEvent);
-							return;
-						}
-					}
-
 					// Deliver key messages also to SWF controls that are wrappers of native controls.
 					// This gives them a the chance to handle special keys
 					if (!FirstResponder.IsSwfControl() && !(FirstResponder is WindowsEventResponder))
@@ -201,10 +185,13 @@ namespace System.Windows.Forms.CocoaInternal
 						var control = Control.FromChildHandle(FirstResponder.Handle);
 						if (control != null && control.Handle.ToNSObject() is NSView obj)
 						{
-							theEvent.ToKeyMsg(out Msg msg, out IntPtr wParam, out IntPtr lParam);
-							if (theEvent.KeyCode != (int)NSKey.Escape) // Preserve ESC for closing IME window 
-							if (IntPtr.Zero != driver.SendMessage(control.Handle, msg, wParam, lParam))
-								return;
+							if (theEvent.ToKeyMsg(out Msg msg, out IntPtr wParam, out IntPtr lParam))
+							{
+								if (theEvent.KeyCode == (int)NSKey.Escape)
+									break; // Preserve ESC for closing IME window 
+								if (IntPtr.Zero == driver.SendMessage(control.Handle, msg, wParam, lParam))
+									return; // Processed by a SWF parent
+							}
 						}
 					}
 
@@ -212,30 +199,18 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 
 			base.SendEvent(theEvent);
-			currentEvent = null;
+			currentEventType = 0;
 		}
 
 		// Returns true if processing should continue (base.SendEvent should be called), false if not
-		protected virtual bool PreprocessMouseDown(NSEvent e)
+		internal virtual bool PreprocessMouseDown(NSEvent e)
 		{
-			bool hitTestCalled = false;
-			NSView hitTestView = null;
-
-			if (ToolStripManager.activeToolStrips.Count != 0)
-			{
-				hitTestCalled = true;
-				hitTestView = (ContentView.Superview ?? ContentView).HitTest(e.LocationInWindow);
-				if (hitTestView != null && !ToolStripManager.IsChildOfActiveToolStrip(hitTestView.Handle))
-					ToolStripManager.FireAppClicked();
-			}
-
-			if (!hitTestCalled)
-				hitTestView = (ContentView.Superview ?? ContentView).HitTest(e.LocationInWindow);
+			var hitTestView = (ContentView.Superview ?? ContentView).HitTest(e.LocationInWindow);
 			var hitTestHandle = hitTestView?.Handle ?? IntPtr.Zero;
 			var hitTestControl = Control.FromChildHandle(hitTestHandle);
 			var hitTestControlHandle = hitTestControl?.Handle ?? IntPtr.Zero;
 
-			if (e.Type == NSEventType.LeftMouseDown && hitTestControlHandle != IntPtr.Zero)
+			if (e.Type == NSEventType.LeftMouseDown && hitTestControlHandle != IntPtr.Zero && e.ClickCount == 1)
 			{
 				var topLevelParent = hitTestControl?.TopLevelControl?.Handle ?? IntPtr.Zero;
 				var lParam = new IntPtr(((int)(Msg.WM_LBUTTONDOWN) << 16) | (int)HitTest.HTCLIENT);
@@ -252,8 +227,18 @@ namespace System.Windows.Forms.CocoaInternal
 			{
 				if (!hitTestView.IsSwfControl())
 				{
-					var p = driver.NativeToMonoScreen(this.ConvertPointToScreenSafe(e.LocationInWindow));
-					driver.SendParentNotify(hitTestControlHandle, Msg.WM_LBUTTONDOWN, p.X, p.Y);
+					NSApplication.SharedApplication.BeginInvokeOnMainThread( () => 
+					{
+						for (var v = hitTestView; v != null; v = v.Superview)
+						{
+							if (v.Superview != null && v.Superview.IsSwfControl())
+							{
+								var p = driver.NativeToMonoScreen(this.ConvertPointToScreenSafe(e.LocationInWindow));
+								driver.SendParentNotify(v.Handle, Msg.WM_LBUTTONDOWN, p.X, p.Y);
+								break;
+							}
+						}
+					});
 				}
 			}
 
@@ -288,7 +273,10 @@ namespace System.Windows.Forms.CocoaInternal
 		protected virtual bool PreprocessScrollWheel(NSEvent e)
 		{
 			var view = (ContentView.Superview ?? ContentView).HitTest(e.LocationInWindow);
-			if (view != null && !view.IsSwfControl() && Control.FromChildHandle(view.Handle) is Control control)
+			Control capture = Application.KeyboardCapture;
+			Control target = Control.FromChildHandle(view?.Handle ?? NativeHandle.Zero);
+			var control = capture ?? target;
+			if (view != null && !view.IsSwfControl() && control != null)
 			{
 				// This is to allow SWF wrappers of native views to handle messages before the native view swallows them (WebView, for example).
 
@@ -313,6 +301,11 @@ namespace System.Windows.Forms.CocoaInternal
 						return true;
 				}
 			}
+
+			// Don't deliver scrollwheel messages to controls outside of the current toolstrip (if any)
+			if (capture != null && !capture.Contains(target))
+				return true;
+
 			return false;
 		}
 
@@ -339,6 +332,10 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			get
 			{
+				// This allows panels (inactive popups) to update mouse cursor when hovering over controls
+				if (IsPanel)
+					return true;
+
 				// NOTE:
 				// The 'disposed' protection is necessary, because the native NSWindow lasts longer than the Form.
 				// The NSWindow is NOT destroyed in DestroyHandle(), it's just closed, and the final "release"
@@ -347,8 +344,6 @@ namespace System.Windows.Forms.CocoaInternal
 				// is sent by the Cocoa framework, to eventually make another view the "key".
 				// Since the Mono bridge between native NSWindow and managed Form objects still exists at the moment,
 				// this "IsKeyWindow" c# getter gets invoked, regardless the fact that it is already disposed.
-				if (IsPanel)
-					return true;
 
 				if (disposed)
 					return key;
@@ -424,6 +419,75 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_SIZE, (IntPtr)SIZE.SIZE_RESTORED, lParam);
 		}
 
+		internal virtual void WindowWillEnterFullScreen(object sender, EventArgs e)
+		{
+			// Let's temporarily change the IsMovable property
+			// -----------------------------------------------
+			// This is a workaround for an Apple's bug, where the window will be misplaced
+			// if it is not movable, if it is in fullscreen mode and if it gets moved to another
+			// display (when the containing display gets disconnected).
+			movable = IsMovable;
+			IsMovable = true;
+		}
+
+		internal virtual void WindowDidFailToEnterFullScreen(object sender, EventArgs e)
+		{
+			RestoreIsMovable();
+		}
+
+		internal virtual void WindowDidExitFullScreen(object sender, EventArgs e)
+		{
+			RestoreIsMovable();
+		}
+
+		void RestoreIsMovable()
+		{
+			if (movable.HasValue) {
+				IsMovable = movable.Value;
+				movable = null;
+			}
+		}
+
+		public override void SetFrame(NSRect rect, bool display)
+		{
+			base.SetFrame(rect, display);
+		}
+
+		public override void SetFrame(NSRect rect, bool display, bool animate)
+		{
+			base.SetFrame(rect, display, animate);
+		}
+
+		unsafe internal virtual void WindowDidChangeBackingProperties(object sender, EventArgs e)
+		{
+			var dpi = (int)this.DeviceDPI().Width;
+			if (this.dpi != dpi)
+			{
+				this.dpi = dpi;
+
+				ContentView.TraverseSubviews((view) => Application.SendMessage(view.Handle, Msg.WM_DPICHANGED_BEFOREPARENT, IntPtr.Zero, IntPtr.Zero));
+				
+				var wParam = (IntPtr)((dpi & 0xFFFF) | (dpi << 16));
+				var rect = new XplatUIWin32.RECT[] { XplatUIWin32.RECT.FromRectangle(Frame.ToRectangle()) };
+				var size = rect[0].Size;
+
+				var result = Application.SendMessage(ContentView.Handle, Msg.WM_GETDPISCALEDSIZE, wParam, Control.MakeParam(size.Width, size.Height));
+				if (result != 0) 
+				{
+					rect[0].right = rect[0].left + Control.LowOrder(result);
+					rect[0].bottom = rect[0].top + Control.HighOrder(result);
+				}
+
+				fixed (void* ptr = &rect[0])
+					Application.SendMessage(ContentView.Handle, Msg.WM_DPICHANGED, wParam, new IntPtr(ptr));
+
+				ContentView.TraverseSubviews((view) => {
+					Application.SendMessage(view.Handle, Msg.WM_DPICHANGED_AFTERPARENT, IntPtr.Zero, IntPtr.Zero);
+					view.NeedsDisplay = true;
+				});
+			}
+		}
+
 		protected virtual void OnNcMouseDown(NSEvent e)
 		{
 			var p = driver.NativeToMonoScreen(Frame.Location);
@@ -460,6 +524,13 @@ namespace System.Windows.Forms.CocoaInternal
 			driver.SendMessage(ContentView?.Handle ?? IntPtr.Zero, Msg.WM_MOVE, IntPtr.Zero, (IntPtr)lParam);
 		}
 
+		bool IsNoActivate => ContentView is MonoView view && view.ExStyle.HasFlag(WindowExStyles.WS_EX_NOACTIVATE);
+
+		bool IsMouseActivateNoActivate
+			=> currentEventType == NSEventType.LeftMouseDown
+			&& (mouseActivate == MouseActivate.MA_NOACTIVATE || mouseActivate == MouseActivate.MA_NOACTIVATEANDEAT)
+			&& driver.setFocusCount == 0; // Allow explicit SetFocus() calls during left mouse down
+
 		public override void BecomeKeyWindow()
 		{
 			base.BecomeKeyWindow();
@@ -467,16 +538,11 @@ namespace System.Windows.Forms.CocoaInternal
 			if (CanBecomeMainWindow)
 				MakeMainWindow();
 
-			// FIXME: Set LParam
-			//driver.SendMessage(ContentView.Handle, Msg.WM_NCACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, (IntPtr)(-1));
-			driver.SendMessage(ContentView.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
-
-			if ((key = IsKeyWindow) && FirstResponder != null) // For the case that previous WM_ACTIVATE in fact did not activate this window.
+			if (!IsNoActivate && !IsMouseActivateNoActivate)
 			{
-				if (FirstResponder == this)
-					MakeFirstResponder(ContentView); // InitialResponder?
-				else
-					driver.SendMessage(FirstResponder.Handle, Msg.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
+				// FIXME: Set LParam
+				//driver.SendMessage(ContentView.Handle, Msg.WM_NCACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, (IntPtr)(-1));
+				driver.SendMessage(ContentView.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_ACTIVE, IntPtr.Zero);
 			}
 
 			/*foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
@@ -490,32 +556,19 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			var newKeyWindow = NSApplication.SharedApplication.KeyWindow;
 
+			if (FirstResponder is MonoView || FirstResponder is WindowsEventResponder)
+				MakeFirstResponder(null); // Sends WM_KILLFOCUS
+
 			base.ResignKeyWindow();
 
 			//driver.SendMessage(ContentView.Handle, Msg.WM_NCACTIVATE, (IntPtr)WindowActiveFlags.WA_INACTIVE, (IntPtr)(-1));
 			driver.SendMessage(ContentView.Handle, Msg.WM_ACTIVATE, (IntPtr)WindowActiveFlags.WA_INACTIVE, newKeyWindow != null ? newKeyWindow.ContentView.Handle : IntPtr.Zero);
-
-			if (!(key = IsKeyWindow) && FirstResponder != null) // For the case that previous WM_ACTIVATE in fact did not deactivate this window.
-				driver.SendMessage(FirstResponder.Handle, Msg.WM_KILLFOCUS, IntPtr.Zero, IntPtr.Zero);
 
 			/*foreach (NSWindow utility_window in XplatUICocoa.UtilityWindows)
 			{
 				if (utility_window != this && utility_window.IsVisible)
 					utility_window.OrderOut(utility_window);
 			}*/
-		}
-
-		internal virtual void ActivateNextWindow()
-		{
-			var windows = NSApplication.SharedApplication.OrderedWindows();
-			foreach (var window in windows)
-			{
-				if (window is MonoWindow && window != this && window.IsVisible && !window.IsMiniaturized && !window.IsSheet && window.CanBecomeKeyWindow)
-				{
-					window.MakeKeyWindow();
-					break;
-				}
-			}
 		}
 
 		static internal List<NSWindow> GetOrderedWindowList()
@@ -556,6 +609,24 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			get { return isPanel; }
 			set { isPanel = value; }
+		}
+	}
+
+	public static class MonoWindowExtensions {
+		public static void ActivateNextWindow(this NSWindow me, bool onlyForm = false)
+		{
+			var windows = NSApplication.SharedApplication.OrderedWindows();
+			foreach (var window in windows)
+			{
+				if (window != me && window.IsVisible && !window.IsMiniaturized && !window.IsSheet && window.CanBecomeKeyWindow)
+				{
+					if (onlyForm && !(window is MonoWindow))
+						continue;
+
+					window.MakeKeyWindow();
+					break;
+				}
+			}
 		}
 	}
 }

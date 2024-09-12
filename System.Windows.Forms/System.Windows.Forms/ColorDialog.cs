@@ -79,7 +79,8 @@ namespace System.Windows.Forms {
 			form.SuspendLayout ();
 			
 			form.Text = "Color";
-			
+			form.ForeColor = SystemColors.ControlText;
+
 			form.FormBorderStyle = FormBorderStyle.FixedDialog;
 			form.MaximizeBox = false;
 			
@@ -944,7 +945,7 @@ namespace System.Windows.Forms {
 					ControlPaint.DrawBorder3D (pe.Graphics, 3, 3, 19, 17, Border3DStyle.Sunken);
 					
 					if (isSelected) {
-						pe.Graphics.DrawRectangle (ThemeEngine.Current.ResPool.GetPen (Color.Black),
+						pe.Graphics.DrawRectangle (ThemeEngine.Current.ResPool.GetPen (SystemColors.ControlText),
 									   new Rectangle (2, 2, 20, 18));
 					}
 					
@@ -1435,7 +1436,7 @@ namespace System.Windows.Forms {
 			void OnSmallColorControlClick (object sender, EventArgs e)
 			{
 				// previous selected smallcolorcontrol
-				if (selectedSmallColorControl != (SmallColorControl)sender)
+				if (selectedSmallColorControl != (SmallColorControl)sender && selectedSmallColorControl != null)
 					selectedSmallColorControl.IsSelected = false;
 				
 				selectedSmallColorControl = (SmallColorControl)sender;
@@ -1896,9 +1897,8 @@ namespace System.Windows.Forms {
 			
 			protected override void OnPaint (PaintEventArgs e)
 			{
-				Draw (e);
-				
 				base.OnPaint (e);
+				Draw (e);
 			}
 			
 			private void Draw (PaintEventArgs e)
@@ -1912,7 +1912,7 @@ namespace System.Windows.Forms {
 					new Point (8, currentTrianglePosition + 8)
 				};
 				
-				e.Graphics.FillPolygon (ThemeEngine.Current.ResPool.GetSolidBrush (Color.Black), trianglePoints);
+				e.Graphics.FillPolygon (ThemeEngine.Current.ResPool.GetSolidBrush (SystemColors.WindowFrame), trianglePoints);
 			}
 			
 			protected override void OnMouseDown (MouseEventArgs e)

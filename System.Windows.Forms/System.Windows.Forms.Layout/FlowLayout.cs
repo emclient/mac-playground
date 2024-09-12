@@ -42,6 +42,15 @@ namespace System.Windows.Forms.Layout
 		{
 		}
 
+		internal FlowDirection GetFlowDirection(FlowLayoutSettings settings, RightToLeft rtl)
+		{
+			if (settings.FlowDirection == FlowDirection.LeftToRight && rtl == RightToLeft.Yes
+			|| settings.FlowDirection == FlowDirection.RightToLeft && rtl == RightToLeft.No)
+				return FlowDirection.RightToLeft;
+
+			return settings.FlowDirection;
+		}
+
 		public override bool Layout (object container, LayoutEventArgs args)
 		{
 			if (container is ToolStripPanel)
@@ -66,7 +75,8 @@ namespace System.Windows.Forms.Layout
 			Point currentLocation;
 
 			// Set our starting point based on flow direction
-			switch (settings.FlowDirection) {
+			FlowDirection direction = GetFlowDirection(settings,  parent.RightToLeft);
+			switch (direction) {
 				case FlowDirection.BottomUp:
 					currentLocation = new Point (parentDisplayRectangle.Left, parentDisplayRectangle.Bottom);
 					break;
@@ -85,6 +95,7 @@ namespace System.Windows.Forms.Layout
 			List<Control> rowControls = new List<Control> ();
 
 			foreach (Control c in parent.Controls) {
+
 				// Only apply layout to visible controls.
 				if (!c.VisibleInternal) { continue; }
 
@@ -95,7 +106,7 @@ namespace System.Windows.Forms.Layout
 					c.SetBoundsInternal (c.Left, c.Top, new_size.Width, new_size.Height, BoundsSpecified.None);
 				}
 
-				switch (settings.FlowDirection) {
+				switch (direction) {
 					case FlowDirection.BottomUp:
 						// Decide if it's time to start a new column
 						// - Our settings must be WrapContents, and we ran out of room or the previous control's FlowBreak == true
@@ -388,7 +399,8 @@ namespace System.Windows.Forms.Layout
 			Point currentLocation;
 
 			// Set our starting point based on flow direction
-			switch (settings.FlowDirection) {
+			FlowDirection direction = GetFlowDirection(settings,  parent.RightToLeft);
+			switch (direction) {
 				case FlowDirection.BottomUp:
 					currentLocation = new Point (parentDisplayRectangle.Left, parentDisplayRectangle.Bottom);
 					break;
@@ -414,7 +426,7 @@ namespace System.Windows.Forms.Layout
 				if (c.AutoSize == true)
 					c.SetBounds (new Rectangle (c.Location, c.GetPreferredSize (c.Size)));
 
-				switch (settings.FlowDirection) {
+				switch (direction) {
 					case FlowDirection.BottomUp:
 						// Decide if it's time to start a new column
 						// - Our settings must be WrapContents, and we ran out of room or the previous control's FlowBreak == true

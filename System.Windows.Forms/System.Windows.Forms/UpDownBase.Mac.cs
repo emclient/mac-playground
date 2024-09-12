@@ -15,7 +15,6 @@ namespace System.Windows.Forms
 			InternalBorderStyle = BorderStyle.None;
 
 			spnSpinner = new UpDownStepper();
-			spnSpinner.Offset = new Size(-1, -1);
 			spnSpinner.UpButton += (sender, e) => { UpButton(); };
 			spnSpinner.DownButton += (sender, e) => { DownButton(); };
 
@@ -28,21 +27,9 @@ namespace System.Windows.Forms
 			txtView.SetStyle(ControlStyles.Selectable, true);
 
 			spnSpinner.Size = spnSpinner.PreferredSize;
-			spnSpinner.Dock = DockStyle.Right;
 
-			txtView.Dock = DockStyle.Left; 
-
-			SuspendLayout();
 			Controls.Add(spnSpinner);
 			Controls.Add(txtView);
-			ResumeLayout();
-
-			SuspendLayout();
-			txtView.Size = new Size(Width - spnSpinner.Width - 4, txtView.PreferredHeight);
-			txtView.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-			spnSpinner.Size = spnSpinner.PreferredSize;
-			spnSpinner.Anchor = AnchorStyles.Right;
-			ResumeLayout();
 
 			Height = PreferredHeight;
 
@@ -65,9 +52,31 @@ namespace System.Windows.Forms
 
 		protected virtual void OnTextBoxResize(object source, EventArgs e)
 		{
-			Height = PreferredHeight;
-			txtView.Top = (ClientSize.Height - txtView.Height) / 2;
-			spnSpinner.Top = (ClientSize.Height - spnSpinner.Height) / 2;
+		}
+		
+		protected override void OnLayout (LayoutEventArgs e)
+		{
+			base.OnLayout(e);
+
+			if (txtView != null && spnSpinner != null)
+			{
+				const int gap = 4;
+				spnSpinner.Size = new Size(spnSpinner.PreferredSize.Width, Height);
+				txtView.Size = new Size(Width - spnSpinner.Width - gap, Height);
+				txtView.Top = (ClientSize.Height - txtView.Height) / 2;
+				spnSpinner.Top = (ClientSize.Height - spnSpinner.Height) / 2;
+
+				if (RtlTranslateLeftRight(UpDownAlign) == LeftRightAlignment.Right)
+				{
+					txtView.Left = 0;
+					spnSpinner.Left = txtView.Right + gap;
+				}
+				else
+				{
+					spnSpinner.Left = 0;
+					txtView.Left = spnSpinner.Right + gap;
+				}
+			}
 		}
 
 		[Browsable(false)]
@@ -137,7 +146,7 @@ namespace System.Windows.Forms
 		public override Size GetPreferredSize(Size proposedSize)
 		{
 			if (stepper != null)
-				return stepper.SizeThatFits(proposedSize.ToCGSize()).ToSDSize();
+				return stepper.SizeThatFits(proposedSize.ToCGSize()).Inflate(2,2).ToSDSize();
 			
 			return new Size(13, 23);
 		}

@@ -44,7 +44,7 @@ namespace System.Windows.Forms.RTF {
 		DestinationDelegate[]	callbacks;
 
 		public DestinationCallback() {
-			callbacks = new DestinationDelegate[Enum.GetValues(typeof(Minor)).Length];
+			callbacks = new DestinationDelegate[Enum.GetValues<Minor>().Length];
 		}
 
 		public DestinationDelegate this[Minor c] {

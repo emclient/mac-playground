@@ -261,8 +261,8 @@ namespace System.Windows.Forms.Layout
 			// no column with Percent styling clips its contents.
 			// (per http://msdn.microsoft.com/en-us/library/ms171690.aspx)
 			for (int colspan = 0; colspan < max_colspan; ++colspan) {
-				for (index = colspan; index < column_widths.Length - colspan; ++index) {
-					ColumnStyle cs = index < col_styles.Count ? col_styles[index] : default_column_style;
+				for (index = colspan; index < column_widths.Length; ++index) {
+					ColumnStyle cs = GetStyle(col_styles, index);
 					if (cs.SizeType == SizeType.AutoSize || (auto_size && cs.SizeType == SizeType.Percent)) {
 						int max_width = column_widths[index];
 						// Find the widest control in the column
@@ -288,8 +288,13 @@ namespace System.Windows.Forms.Layout
 							max_width -= column_widths[i];						
 
 						// If necessary, increase this column's width.
-						if (max_width > column_widths[index])
-							column_widths[index] = max_width;
+						if (max_width > column_widths[index]) {
+							bool allAutoSized = true;
+							for (int j = Math.Max (index - colspan, 0); j < index; ++j)
+								allAutoSized &= GetStyle(col_styles, j).SizeType == SizeType.AutoSize;
+							if (allAutoSized)
+								column_widths[index] = max_width;
+						}
 					}
 				}
 			}
@@ -329,7 +334,7 @@ namespace System.Windows.Forms.Layout
 			// (per http://msdn.microsoft.com/en-us/library/ms171690.aspx)
 			for (int rowspan = 0; rowspan < max_rowspan; ++rowspan) {
 				for (index = rowspan; index < row_heights.Length; ++index) {
-					RowStyle rs = index < row_styles.Count ? row_styles[index] : default_row_style;
+					RowStyle rs = GetStyle(row_styles, index);
 					int max_height = row_heights[index];
 					// Find the tallest control in the row
 					for (int i = 0; i < columns; i++) {
@@ -363,7 +368,7 @@ namespace System.Windows.Forms.Layout
 					// If necessary, try to find suitable row and increase it's height.
 					if (max_height > row_heights[index]) {
 						for (int j = index; j >= index - rowspan; --j) {
-							RowStyle style = j < row_styles.Count ? row_styles[j] : default_row_style;
+							RowStyle style = GetStyle(row_styles, j);
 							if (style.SizeType == SizeType.AutoSize || style.SizeType == SizeType.Percent) {
 								row_heights[j] += max_height - row_heights[index];
 								break;
@@ -380,6 +385,16 @@ namespace System.Windows.Forms.Layout
 			}
 		}
 
+		static ColumnStyle GetStyle(TableLayoutColumnStyleCollection styles, int index)
+		{
+			return index < styles.Count ? styles[index] : default_column_style;
+		}
+
+		static RowStyle GetStyle(TableLayoutRowStyleCollection styles, int index)
+		{
+			return index < styles.Count ? styles[index] : default_row_style;
+		}
+
 		private static int RedistributePercents (int overlap, TableLayoutColumnStyleCollection styles, int[] column_widths)
 		{
 			int saved = 0;
@@ -387,21 +402,29 @@ namespace System.Windows.Forms.Layout
 			if (overlap > 0) {
 				// Find the total percent (not always 100%)
 				float total_percent = 0;
-				foreach (ColumnStyle cs in styles) {
-					if (cs.SizeType == SizeType.Percent)
-						total_percent += cs.Width;
-				}
-
-				// Divvy up the space..
+				int total_width = 0;
 				int index = 0;
 				foreach (ColumnStyle cs in styles) {
 					if (index >= column_widths.Length)
 						break;
 					if (cs.SizeType == SizeType.Percent) {
-						int width_change = (int)((cs.Width / total_percent) * overlap);
-						if (width_change > 0) {
-							column_widths[index] += width_change;
-							saved += width_change;
+						total_percent += cs.Width;
+						total_width += column_widths[index];
+					}
+					index++;
+				}
+
+				// Divvy up the space..
+				index = 0;
+				int new_total_width =  total_width + overlap;
+				foreach (ColumnStyle cs in styles) {
+					if (index >= column_widths.Length)
+						break;
+					if (cs.SizeType == SizeType.Percent) {
+						int new_width = (int)(cs.Width / total_percent * new_total_width);
+						if (new_width > column_widths[index]) {
+							saved += new_width - column_widths[index];
+							column_widths[index] = new_width;
 						}
 					}
 					index++;
@@ -418,21 +441,29 @@ namespace System.Windows.Forms.Layout
 			if (overlap > 0) {
 				// Find the total percent (not always 100%)
 				float total_percent = 0;
-				foreach (RowStyle rs in styles) {
-					if (rs.SizeType == SizeType.Percent)
-						total_percent += rs.Height;
-				}
-
-				// Divvy up the space..
+				int total_height = 0;
 				int index = 0;
 				foreach (RowStyle rs in styles) {
 					if (index >= row_heights.Length)
 						break;
 					if (rs.SizeType == SizeType.Percent) {
-						int height_change = (int)((rs.Height / total_percent) * overlap);
-						if (height_change > 0) {
-							row_heights[index] += height_change;
-							saved += height_change;
+						total_percent += rs.Height;
+						total_height += row_heights[index];
+					}
+					index++;
+				}
+
+				// Divvy up the space..
+				index = 0;
+				int new_total_height =  total_height + overlap;
+				foreach (RowStyle rs in styles) {
+					if (index >= row_heights.Length)
+						break;
+					if (rs.SizeType == SizeType.Percent) {
+						int new_height = (int)(rs.Height / total_percent * new_total_height);
+						if (new_height > row_heights[index]) {
+							saved += new_height - row_heights[index];
+							row_heights[index] = new_height;
 						}
 					}
 					index++;
@@ -451,8 +482,8 @@ namespace System.Windows.Forms.Layout
 			bool auto_size_h = auto_size && size.Width == 0;
 			bool boundBySize = !measureOnly;
 
-			column_widths = new int[actual_positions.GetLength (0)];
-			row_heights = new int[actual_positions.GetLength (1)];
+			column_widths = new int[columns];
+			row_heights = new int[rows];
 
 			// Calculate the bounded size only if we are in default layout and docked, otherwise calculate unbounded.
 			if (measureOnly && size.Width > 0) {
@@ -487,6 +518,18 @@ namespace System.Windows.Forms.Layout
 				int[] col_min_widths = new int[column_widths.Length];
 				CalculateColumnWidths (settings, actual_positions, max_colspan, settings.ColumnStyles, auto_size_h, col_min_widths, true);
 				available_width += Shrink(column_widths, col_min_widths, -available_width, max_colspan);
+
+				// Shrink columns with Percent sizing first
+				for (int i = 0; i < column_widths.Length && i < settings.ColumnStyles.Count; ++i)
+					col_min_widths[i] = settings.ColumnStyles[i].SizeType == SizeType.Percent ? 0 : column_widths[i];
+				available_width += Shrink(column_widths, col_min_widths, -available_width, max_colspan);
+
+				// Shrink all columns if necessary
+				if (available_width < 0) {
+					for (int i = 0; i < column_widths.Length && i < settings.ColumnStyles.Count; ++i)
+						col_min_widths[i] = 0;
+					available_width += Shrink(column_widths, col_min_widths, -available_width, max_rowspan);
+				}
 			}
 
 			// Finally, assign the remaining space to Percent columns, if any.
@@ -516,19 +559,21 @@ namespace System.Windows.Forms.Layout
 
 			// Shrink the table vertically by shrinking it's rows, if necessary
 			if (boundBySize && size.Height > 0 && available_height < 0) {
-				// Calculate the minimum heights for each row
-				CalculateRowHeights (settings, actual_positions, max_rowspan, settings.RowStyles, auto_size, column_widths, row_heights, true);
 
-				// Shrink rows with Percent sizing first
-				int[] row_min_heights = new int[row_heights.Length];
-				for (int i = 0; i < row_heights.Length && i < settings.RowStyles.Count; ++i)
-					row_min_heights[i] = settings.RowStyles[i].SizeType == SizeType.Percent ? 0 : row_heights[i];
-				available_height += Shrink(row_heights, row_min_heights, -available_height, max_rowspan);
+				int safe_rows = Math.Min(row_heights.Length, settings.RowStyles.Count);
 
-				// Shrink all rows if necessary
+				// Shrink percent rows first
+				int[] row_min_heights_perc = new int[safe_rows];
+				for (int i = 0; i < safe_rows; ++i)
+					row_min_heights_perc[i] = settings.RowStyles[i].SizeType == SizeType.Percent ? 0 : row_heights[i];
+				available_height += Shrink(row_heights, row_min_heights_perc, -available_height, max_rowspan);
+
+				// Shrink all types of rows if necessary
 				if (available_height < 0) {
-					for (int i = 0; i < row_heights.Length && i < settings.RowStyles.Count; ++i)
+					int[] row_min_heights = new int[safe_rows];
+					for (int i = 0; i < safe_rows; ++i)
 						row_min_heights[i] = 0;
+					CalculateRowHeights (settings, actual_positions, max_rowspan, settings.RowStyles, auto_size, column_widths, row_min_heights, true);
 					available_height += Shrink(row_heights, row_min_heights, -available_height, max_rowspan);
 				}
 			}
@@ -556,8 +601,10 @@ namespace System.Windows.Forms.Layout
 		// The 'min_sizes' array tells the smalles appropriate values for column sizes. 
 		static int Shrink(int[] sizes, int[] min_sizes, int overlap, int max_span)
 		{
+			int safe_length = Math.Min(sizes.Length, min_sizes.Length);
+
 			int n = 0;
-			for (int index = 0; index < sizes.Length; ++index)
+			for (int index = 0; index < safe_length; ++index)
 				if (sizes[index] > min_sizes[index])
 					n++;
 
@@ -565,7 +612,7 @@ namespace System.Windows.Forms.Layout
 			if (n != 0) {
 				int step = overlap < n ? 1 : overlap / n;
 				for (int span = 0; span < max_span && overlap > 0; ++span) {
-					for (int index = span; index < sizes.Length - span && overlap > 0; ++index) {
+					for (int index = span; index < safe_length - span && overlap > 0; ++index) {
 						int reserve = sizes[index] - min_sizes[index];
 						if (reserve > 0 && reserve != int.MaxValue) {
 							int d = step > reserve ? reserve : step;

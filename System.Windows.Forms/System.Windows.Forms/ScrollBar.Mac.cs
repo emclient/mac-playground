@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Drawing.Mac;
 using AppKit;
+using CoreGraphics;
 
 namespace System.Windows.Forms
 {
@@ -14,8 +15,14 @@ namespace System.Windows.Forms
 	[DefaultProperty("Value")]
 	public abstract partial class ScrollBar : Control, IMacNativeControl
 	{
-		NSScroller scroller;
+		// NSScrollView supports automatic showing/hiding the bar
+		// when scrolling/not moving the mouse according the system settings.
+		// NSScroller disables transparent scroller background.
+		internal static bool UseNSScrollView = true;
+		internal static NSControlSize DefaultControlSize = NSControlSize.Regular; //NSControlSize.Small
 
+		NSScroller scroller;
+		NSScrollView scrollview;
 		int minimum = 0;
 		int maximum = 100;
 		int large_change = 10;
@@ -29,36 +36,67 @@ namespace System.Windows.Forms
 
 		public NSView CreateView()
 		{
-			var scrollView = new NSScrollView();
-			if (vert)
+			NSView? view = null;
+			if (!UseNSScrollView)
 			{
-				scrollView.HasVerticalScroller = true;
-				scroller = scrollView.VerticalScroller;
+				scroller = new NSScroller(Bounds.ToCGRect());
+				scroller.Activated += HandleScroller;
+				view = scroller;
 			}
 			else
 			{
-				scrollView.HasHorizontalScroller = true;
-				scroller = scrollView.HorizontalScroller;
-			}
-			scroller.RemoveFromSuperview();
-			scroller.Frame = Bounds.ToCGRect();
+				scrollview = new NSScrollView(Bounds.ToCGRect()) {
+					HasVerticalScroller = vert,
+					HasHorizontalScroller = !vert,
+					AutohidesScrollers = true,
+					DrawsBackground = false,
+				};
 
-			scroller.DoubleValue = 0.0;
-			scroller.Activated += HandleScroller;
+				var ctrlsize = DefaultControlSize;
+				if (scrollview.HasHorizontalScroller)
+					scrollview.HorizontalScroller.ControlSize = ctrlsize;
+				if (scrollview.HasVerticalScroller)
+					scrollview.VerticalScroller.ControlSize = ctrlsize;
+
+				scrollview.DocumentView = new NSView(new CGRect(CGPoint.Empty, scrollview.Bounds.Size));
+
+				if (scrollview.HorizontalScroller != null)
+					scrollview.HorizontalScroller.Activated += HandleScroller;
+				if (scrollview.VerticalScroller != null)
+					scrollview.VerticalScroller.Activated += HandleScroller;
+
+				view = scrollview;
+			}
 
 			UpdateScroller();
-			return scroller;
+
+			return view;
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			if (scroller != null)
+				scroller.Activated -= HandleScroller;
+			if (scrollview?.HorizontalScroller != null)
+				scrollview.HorizontalScroller.Activated -= HandleScroller;
+			if (scrollview?.VerticalScroller != null)
+				scrollview.VerticalScroller.Activated -= HandleScroller;
+
+			base.Dispose(disposing);
+		}
+
+		public override Size GetPreferredSize(Size proposedSize)
+		{
+			var scroller = vert ? scrollview.VerticalScroller : scrollview.HorizontalScroller;
+			var width = (int)NSScroller.GetScrollerWidth(scroller.ControlSize, scroller.ScrollerStyle);
+			return vert
+				? new Size(width, proposedSize.Height != int.MaxValue ? proposedSize.Height : 0)
+				: new Size(proposedSize.Width != int.MaxValue ? proposedSize.Width : 0, width);
 		}
 
 		internal virtual void HandleScroller(object sender, EventArgs e)
 		{
-			double val = scroller.DoubleValue;
-			double scale = maximum - minimum - large_change;
-			double pos = scale * val + minimum;
-
-			int newPosition = (int)Math.Round(pos);
-
-			Value = newPosition;
+			UpdateValue();
 
 			OnScroll(new ScrollEventArgs(ScrollEventType.ThumbPosition, position));
 			OnScroll(new ScrollEventArgs(ScrollEventType.EndScroll, position));
@@ -66,16 +104,71 @@ namespace System.Windows.Forms
 
 		internal virtual void UpdateScroller()
 		{
+			if (Math.Round(doubleValue) != position)
+				doubleValue = position;
+
+			if (scrollview != null)
+			{
+				var docFrame = scrollview.DocumentView.Bounds;
+				var scale = large_change == 0 ? 0 : (double)(maximum - minimum + 1) / large_change;
+				var size = vert 
+					? new CGSize(docFrame.Width, scale * scrollview.Bounds.Height)
+					: new CGSize(scale * scrollview.Bounds.Width, docFrame.Height);
+
+				double range = maximum - minimum - large_change + 1;
+				double norm = range != 0 ? (doubleValue - minimum) / range : 0;
+
+				norm = Math.Min(Math.Max(0, norm), 1);
+
+				var p = vert
+					? new CGPoint(docFrame.X, (scrollview.IsFlipped ? 1 - norm : norm) * (size.Height - scrollview.DocumentVisibleRect.Height))
+					: new CGPoint(norm * (size.Width - scrollview.DocumentVisibleRect.Width), docFrame.Y);
+
+				// Update visible range of the document view according to min/max/val
+				scrollview.ContentView.ScrollToPoint(p);
+				scrollview.DocumentView.SetFrameSize(size);
+				
+				// Update scrollbar according to the visible range
+				scrollview.ReflectScrolledClipView(scrollview.ContentView);
+			}
+
+			var scroller = this.scroller;// ?? scrollview?.VerticalScroller ?? scrollview?.HorizontalScroller;
+
 			if (scroller != null)
 			{
-				double scale = maximum - minimum - large_change;
-				double pos = position - minimum;
-				double val = (scale != 0.0) ? pos / scale : 0.0;
-
-				scroller.KnobProportion = ((float)(large_change)) / (float)(maximum - minimum);
-
+				double range = maximum - minimum - large_change + 1;
+				double pos = doubleValue - minimum;
+				double val = (range != 0.0) ? pos / range : 0.0;
 				scroller.DoubleValue = val;
+
+				if (this.scroller != null)
+					this.scroller.KnobProportion = (nfloat)large_change / (maximum - minimum + 1);
 			}
+		}
+
+		double doubleValue = 0.0;
+
+		internal virtual void UpdateValue()
+		{
+			var scroller = this.scroller ?? scrollview.VerticalScroller ?? scrollview.HorizontalScroller;
+			if (scroller != null)
+			{
+				double val = scroller.DoubleValue;
+				double scale = maximum - minimum - large_change + 1;
+				double pos = scale * val + minimum;
+
+				int round = (int)Math.Round(pos);
+				if (round != doubleValue)
+					doubleValue = pos;
+				
+				Value = round;
+			}
+		}
+
+		protected override void OnSizeChanged(EventArgs e) 
+		{
+			base.OnSizeChanged(e);
+			UpdateScroller();
 		}
 
 		#region events
@@ -512,12 +605,9 @@ namespace System.Windows.Forms
 				{
 					position = value;
 
-					OnValueChanged(EventArgs.Empty);
+					UpdateScroller();
 
-					if (IsHandleCreated)
-					{
-						UpdateScroller();
-					}
+					OnValueChanged(EventArgs.Empty);
 				}
 			}
 		}

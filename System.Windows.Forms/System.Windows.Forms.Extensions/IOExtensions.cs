@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 
@@ -10,7 +10,7 @@ namespace System.Windows.Forms.Extensions.IO
 		{
 			using (var ms = new MemoryStream())
 			{
-				stream.CopyTo(ms);
+				stream.CopyTo(ms, 64 * 1024);
 				return ms.ToArray();
 			}
 		}

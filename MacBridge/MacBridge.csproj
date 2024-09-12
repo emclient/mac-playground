@@ -1,16 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-macos</TargetFrameworks>
-    <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net8.0-macos</TargetFrameworks>
     <DefineConstants>MAC</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DisableExtraReferences>true</DisableExtraReferences>
-    <EnableDefaultItems Condition="'$(TargetFramework)' == 'netstandard2.1'">false</EnableDefaultItems>
-    <EnableDefaultCompileItems Condition="'$(TargetFramework)' == 'netstandard2.1'">false</EnableDefaultCompileItems>
-    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' == 'netstandard2.1'">false</EnableDefaultEmbeddedResourceItems>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
+  <ItemGroup>
     <Compile Include="..\..\..\WinApi\GdiPlus.Structs.cs">
       <Link>WinApi\GdiPlus.Structs.cs</Link>
     </Compile>
@@ -32,17 +28,11 @@
     <Compile Include="..\..\..\WinApi\Uxtheme.Structs.cs">
       <Link>WinApi\Uxtheme.Structs.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\WinApi\WinGdi.Structs.cs">
-      <Link>WinApi\WinGdi.Structs.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\WinApi\ComDlg32.Structs.cs">
       <Link>WinApi\ComDlg32.Structs.cs</Link>
     </Compile>
     <Compile Include="..\..\..\WinApi\Ole32.Structs.cs">
       <Link>WinApi\Ole32.Structs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\WinApi\DwmApi.Structs.cs">
-      <Link>WinApi\Dwmapi.Structs.cs</Link>
     </Compile>
     <Compile Include="..\..\..\WinApi\Shell32.Interfaces.cs">
       <Link>WinApi\Shell32.Interfaces.cs</Link>
@@ -52,12 +42,6 @@
     </Compile>
     <Compile Include="..\..\..\WinApi\ObjIdl.Types.cs">
       <Link>WinApi\ObjIdl.Types.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\WinApi\AdvApi32.Structs.cs">
-      <Link>WinApi\AdvApi32.Structs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\WinApi\ShCore.Structs.cs">
-      <Link>WinApi\ShCore.Structs.cs</Link>
     </Compile>
     <Compile Include="..\..\..\WinApi\Mpr.Structs.cs">
       <Link>WinApi\Mpr.Structs.cs</Link>
@@ -172,6 +156,9 @@
     </Compile>
     <Compile Include="..\..\..\WinApi\UIAutomation\Text\TextPatternRangeEndpoint.cs">
       <Link>WinApi\UIAutomation\Text\TextPatternRangeEndpoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\WinApi\UIAutomation\Provider\ITransformProvider.cs">
+      <Link>WinApi\UIAutomation\Provider\ITransformProvider.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

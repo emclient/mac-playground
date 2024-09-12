@@ -631,6 +631,12 @@ namespace System.Windows.Forms
 
 		public override void DrawCheckBox (Graphics g, CheckBox cb, Rectangle glyphArea, Rectangle textBounds, Rectangle imageBounds, Rectangle clipRectangle)
 		{
+			if (cb.FlatStyle == FlatStyle.Flat || cb.FlatStyle == FlatStyle.Popup)
+			{
+				glyphArea.Height -= 2;
+				glyphArea.Width -= 2;
+			}
+
 			DrawCheckBoxGlyph(g, cb, glyphArea);
 
 			// If we have an image, draw it
@@ -644,16 +650,19 @@ namespace System.Windows.Forms
 
 		public virtual void DrawCheckBoxGlyph (Graphics g, CheckBox cb, Rectangle glyphArea)
 		{
-			var cell = SharedCheckBoxCell(cb);
+			DrawCheckBoxGlyph (g, glyphArea, cb.Checked, cb.Focused, cb.Enabled, cb.ShowFocusCues);
+		}
 
-			var bounds = new CGRect(CGPoint.Empty, cell.CellSize);
-			var imageRect = cell.ImageRectForBounds(bounds);
-			var offset = imageRect.Location;
+		public virtual void DrawCheckBoxGlyph (Graphics g, Rectangle glyphArea, bool check, bool focused, bool enabled, bool showFocusCues)
+		{
+			var cell = SharedCheckBoxCell();
+			cell.State = check ? NSCellStateValue.On : NSCellStateValue.Off;
+			cell.Enabled = enabled;
 
-			var frame = glyphArea.ToCGRect().Move(offset.X - 1, offset.Y);
+			var frame = glyphArea.ToCGRect();
 			var view = NSView.FocusView();
 
-			if (cb.Focused && cb.Enabled && cb.ShowFocusCues)
+			if (focused && enabled && showFocusCues)
 				cell.DrawFocusRing(frame, view);
 
 			cell.DrawWithFrame(frame, view);
@@ -682,13 +691,7 @@ namespace System.Windows.Forms
 
 		internal int CheckSize
 		{
-			get
-			{
-				var cell = SharedCheckBoxCell();
-				var bounds = new CGRect(CGPoint.Empty, cell.CellSize);
-				var rect = cell.ImageRectForBounds(bounds);
-				return rect.Size.ToSDSize().Height;
-			}
+			get { return SharedCheckBoxCell().CellSize.ToSDSize().Height; }
 		}
 
 		internal int RBSize
@@ -957,11 +960,9 @@ namespace System.Windows.Forms
 			if (ctrl.ThreeDCheckBoxes == false)
 				state |= ButtonState.Flat;
 
-			Rectangle checkbox_rect = new Rectangle (2, (item_rect.Height - 11) / 2, CheckSize, CheckSize);
-			ControlPaint.DrawCheckBox (e.Graphics,
-				item_rect.X + checkbox_rect.X, item_rect.Y + checkbox_rect.Y,
-				checkbox_rect.Width, checkbox_rect.Height,
-				state);
+			Rectangle checkbox_rect = new Rectangle (2, (item_rect.Height - CheckSize) / 2, CheckSize, CheckSize);
+			Rectangle glyph_rect = new Rectangle(item_rect.X + checkbox_rect.X, item_rect.Y + checkbox_rect.Y, checkbox_rect.Width, checkbox_rect.Height);
+			DrawCheckBoxGlyph(e.Graphics, glyph_rect, state.HasFlag(ButtonState.Checked), e.State.HasFlag(DrawItemState.Focus), !state.HasFlag(ButtonState.Inactive), false);
 
 			item_rect.X += checkbox_rect.Right;
 			item_rect.Width -= checkbox_rect.Right;
@@ -983,10 +984,10 @@ namespace System.Windows.Forms
 				ResPool.GetSolidBrush (fore_color),
 				item_rect, ctrl.StringFormat);
 					
-			if ((e.State & DrawItemState.Focus) == DrawItemState.Focus) {
-				CPDrawFocusRectangle (e.Graphics, item_rect,
-					fore_color, back_color);
-			}
+		}
+		
+		public override int CheckBoxSize() {
+			return CheckSize;
 		}
 		
 		#endregion // CheckedListBox
@@ -2935,8 +2936,8 @@ namespace System.Windows.Forms
 		public virtual void DrawRadioButtonGlyph (Graphics g, RadioButton rb, Rectangle glyphArea)
 		{
 			var cell = GetSharedRadioButtonCell(rb);
-			var frame = glyphArea.ToCGRect();// rb.ClientRectangle.ToCGRect();
-			var view = NSView.FocusView(); //CocoaInternal.MonoView.FocusedView;
+			var frame = glyphArea.ToCGRect();
+			var view = NSView.FocusView();
 
 			if (rb.Focused && rb.Enabled && rb.ShowFocusCues)
 				cell.DrawFocusRing(frame, view);
@@ -3065,7 +3066,7 @@ namespace System.Windows.Forms
 		}
 
 		public override int ScrollBarButtonSize {
-			get { return (int)NSScroller.ScrollerWidth; }
+			get { return (int)NSScroller.GetScrollerWidth(NSControlSize.Regular, NSScrollerStyle.Legacy); }
 		}
 
 		public override bool ScrollBarHasHotElementStyles {
@@ -4300,7 +4301,7 @@ namespace System.Windows.Forms
 		}
 
 		public override void CPDrawBorder3D (Graphics graphics, Rectangle rectangle, Border3DStyle style, Border3DSide sides) {
-			CPDrawBorder3D(graphics, rectangle, style, sides, ColorControl);
+			CPDrawBorder3D(graphics, rectangle, style, sides, SystemColors.WindowFrame);
 		}
 
 		public override void CPDrawBorder3D (Graphics graphics, Rectangle rectangle, Border3DStyle style, Border3DSide sides, Color control_color)
@@ -4315,7 +4316,7 @@ namespace System.Windows.Forms
 				rect.Height += 4;
 			}
 			
-			Pen pen = ResPool.GetPen(NSColor.Grid.ToSDColor());
+			Pen pen = ResPool.GetPen(control_color);
 
 			if ((sides & Border3DSide.Middle) != 0) {
 				Brush brush = is_ColorControl ? SystemBrushes.Control : ResPool.GetSolidBrush (control_color);

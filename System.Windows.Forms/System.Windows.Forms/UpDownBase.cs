@@ -400,11 +400,6 @@ namespace System.Windows.Forms
 			base.OnHandleDestroyed (e);
 		}
 
-		protected override void OnLayout (LayoutEventArgs e)
-		{
-			base.OnLayout(e);
-		}
-
 		protected override void OnMouseDown (MouseEventArgs e)
 		{
 			base.OnMouseDown (e);
@@ -478,11 +473,6 @@ namespace System.Windows.Forms
 				UserEdit = true;
 
 			OnTextChanged(e);
-		}
-
-		internal override int OverrideHeight (int height)
-		{
-			return Math.Min (height, PreferredHeight);
 		}
 
 		protected abstract void UpdateEditText ();

@@ -676,10 +676,19 @@ namespace System.Windows.Forms {
 
 				dialog_result = value;
 				if (dialog_result != DialogResult.None && is_modal) {
-					RaiseCloseEvents (false, false); // .Net doesn't send WM_CLOSE here.
 					XplatUI.PostMessage(IntPtr.Zero, Msg.WM_NULL, IntPtr.Zero, IntPtr.Zero); // Allows exiting the modal run loop
 				}
 			}
+		}
+
+		internal bool CheckCloseDialog(bool closingOnly) {
+        	if (dialog_result == DialogResult.None && Visible) {
+                return false;
+            }
+
+			RaiseCloseEvents(false, false);
+
+			return dialog_result != DialogResult.None || !Visible;
 		}
 
 		[DefaultValue(FormBorderStyle.Sizable)]
@@ -2193,6 +2202,11 @@ namespace System.Windows.Forms {
 				return true;
 			}
 
+			if (!Modal && keyData.IsCloseWindow() ) {
+				Close();
+				return true;
+			}
+
 			// Handle keyboard cues state.
 			if ((keyData & Keys.Alt) != 0) {
 				Control toplevel = TopLevelControl;
@@ -2277,7 +2291,7 @@ namespace System.Windows.Forms {
 			if (need_refresh && activated != null)
 				activated.Invalidate ();
 
-			if (control_activated && prev != activated && this.IsRunningOnMac && GetCreateParams().ClassName == "EDIT")
+			if (control_activated && prev != activated && OperatingSystem.IsMacOS() && GetCreateParams().ClassName == "EDIT")
 				XplatUI.SendMessage(activated.Handle, Msg.WM_SELECT_ALL, IntPtr.Zero, IntPtr.Zero);
 
 			return control_activated;
@@ -2363,7 +2377,7 @@ namespace System.Windows.Forms {
 
 			clientsize_set = new Size(x, y);
 
-			if (XplatUI.CalculateWindowRect(ref ClientRect, cp, out WindowRect)) {
+			if (XplatUI.CalculateWindowRect(window.Handle, ref ClientRect, cp, out WindowRect)) {
 				SetBounds(bounds.X, bounds.Y, WindowRect.Width, WindowRect.Height, BoundsSpecified.Size);
 			}
 		}
@@ -2508,6 +2522,16 @@ namespace System.Windows.Forms {
 				break;
 			}
 
+			case Msg.WM_GETDPISCALEDSIZE: {
+				WmGetDpiScaledSize(ref m);
+				return;
+			}
+
+			case Msg.WM_DPICHANGED: {
+				WmDpiChanged(ref m);
+				break;
+			}
+
 			default: {
 				base.WndProc (ref m);
 				break;
@@ -2517,6 +2541,25 @@ namespace System.Windows.Forms {
 		#endregion	// Protected Instance Methods
 
 #region WM methods
+
+		private void WmGetDpiScaledSize(ref Message m)
+		{
+			DefWndProc(ref m);
+
+			Size desiredSize = new Size(LowOrder(m.LParam), HighOrder(m.LParam));
+			m.Result = OnGetDpiScaledSize(DeviceDpi, LowOrder(m.WParam), ref desiredSize)
+				? Size.Width & 0xffff + Size.Height << 16
+				: 0;
+		}
+
+		unsafe private void WmDpiChanged(ref Message m)
+		{
+ 			DefWndProc(ref m);
+			
+			DpiChangedEventArgs e = new DpiChangedEventArgs(this.DeviceDpi, m);
+			
+			OnDpiChanged(e);
+		}
 
 		private void WmDestroy (ref Message m)
 		{
@@ -2769,7 +2812,10 @@ namespace System.Windows.Forms {
 
 			if (m.WParam != (IntPtr)WindowActiveFlags.WA_INACTIVE) {
 				if (is_loaded) {
-					SelectActiveControl ();
+ 					if (ActiveControl == null)
+						SelectNextControl(null, true, true, true, false);
+
+ 					InnerMostActiveContainerControl.FocusActiveControlInternal();
 				}
 
 				IsActive = true;
@@ -2828,6 +2874,19 @@ namespace System.Windows.Forms {
 #endregion
 
 		#region Internal / Private Methods
+
+ 		internal ContainerControl InnerMostActiveContainerControl
+        {
+            get
+            {
+                ContainerControl ret = this;
+                while (ret.ActiveControl is ContainerControl) {
+                    ret = (ContainerControl) ret.ActiveControl;
+                }
+                return ret;
+            }
+        }
+
 		internal void ActivateFocusCues ()
 		{
 			bool need_refresh = !show_focus_cues;
@@ -3066,6 +3125,7 @@ namespace System.Windows.Forms {
 		static object ResizeBeginEvent = new object ();
 		static object RightToLeftLayoutChangedEvent = new object ();
 		static object ShownEvent = new object ();
+		static object DpiChangedEvent = new object ();
 
 		[Browsable (true)]
 		[EditorBrowsable (EditorBrowsableState.Always)]
@@ -3200,8 +3260,6 @@ namespace System.Windows.Forms {
 					new_size.Width = Math.Max (new_size.Width, ExplicitBounds.Width);
 					new_size.Height = Math.Max (new_size.Height, ExplicitBounds.Height);
 				}
-				if (new_size == Size)
-					return;
 
 				SetBoundsInternal (bounds.X, bounds.Y, new_size.Width, new_size.Height, BoundsSpecified.None);
 			}
@@ -3237,6 +3295,20 @@ namespace System.Windows.Forms {
 		protected virtual void OnShown (EventArgs e)
 		{
 			EventHandler eh = (EventHandler) (Events [ShownEvent]);
+			if (eh != null)
+				eh (this, e);
+		}
+
+		[Browsable(true)]
+		protected virtual bool OnGetDpiScaledSize (int deviceDpiOld, int deviceDpiNew, ref Size desiredSize)
+		{
+			return false;
+		}
+
+		[Browsable(true)]
+		protected virtual void OnDpiChanged (DpiChangedEventArgs e)
+		{
+			EventHandler eh = (EventHandler) Events [DpiChangedEvent];
 			if (eh != null)
 				eh (this, e);
 		}

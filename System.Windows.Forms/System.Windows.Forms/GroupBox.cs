@@ -149,6 +149,8 @@ namespace System.Windows.Forms
 
 		public GroupBox ()
 		{
+			AccessibleRole = AccessibleRole.Grouping;
+
 			TabStop = false;
 			flat_style = FlatStyle.Standard;
 

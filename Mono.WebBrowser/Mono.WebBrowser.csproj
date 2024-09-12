@@ -1,10 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-macos;net6.0-ios</TargetFrameworks>
-    <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net8.0-macos</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup>
     <NoWarn>1701;1702;CS8632;CS0108</NoWarn>
   </PropertyGroup>
 </Project>

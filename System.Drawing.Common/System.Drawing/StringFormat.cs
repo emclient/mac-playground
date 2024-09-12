@@ -44,6 +44,7 @@ namespace System.Drawing {
 		public StringFormat ()
 		{
 			Alignment = StringAlignment.Near;
+			Trimming = StringTrimming.Character;
 		}
 
 		public StringFormat (StringFormat format)

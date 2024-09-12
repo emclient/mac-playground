@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-macos;net6.0-ios</TargetFrameworks>
+    <TargetFrameworks>net8.0-macos</TargetFrameworks>
     <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <!-- PrivateAssets="All": don't flow package references to callers -->
-    <PackageReference Include="Microsoft.WindowsDesktop.App.Ref" Version="7.0.0" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" NoWarn="NU1701" />
+    <PackageReference Include="Microsoft.WindowsDesktop.App.Ref" Version="7.0.3" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" NoWarn="NU1701" />
     <PackageReference Include="Microsoft.DotNet.GenFacades" Version="6.0.0-beta.21467.3" PrivateAssets="All" />
   </ItemGroup>
 

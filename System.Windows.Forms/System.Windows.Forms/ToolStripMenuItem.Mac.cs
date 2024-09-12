@@ -7,21 +7,37 @@ namespace System.Windows.Forms
 {
 	public partial class ToolStripMenuItem
 	{
+		NSMenuItem nsMenuItem;
 		protected internal override NSMenuItem ToNSMenuItem()
 		{
-			var nsMenuItem = base.ToNSMenuItem();
+			if (nsMenuItem == null)
+			{
+				nsMenuItem = base.ToNSMenuItem();
+				Disposed += this_Disposed;
+				CheckedChanged += this_CheckedChanged;
+			}
+
 			nsMenuItem.Submenu = HasDropDownItems ? DropDown.ToNSMenu() : null;
 			nsMenuItem.State = PaintCheck ? CheckState.ToCellState() : NSCellStateValue.Off;
 
-			if (this.ShortcutKeys.ToKeyEquivalentAndModifiers(out var equivalent, out var modifiers))
+			if (ShortcutKeys.ToKeyEquivalentAndModifiers(out var equivalent, out var modifiers)
+			|| (ShortcutKeyDisplayString?.ToKeyEquivalentAndModifiers(out equivalent, out modifiers) ?? false))
 			{
 				nsMenuItem.KeyEquivalent = equivalent;
 				nsMenuItem.KeyEquivalentModifierMask = modifiers;
 			}
-
-			CheckedChanged += (sender, e) => { nsMenuItem.State = PaintCheck ? CheckState.ToCellState() : NSCellStateValue.Off; };
-
 			return nsMenuItem;
+		}
+		void this_CheckedChanged(object sender, EventArgs e)
+		{
+			nsMenuItem.State = PaintCheck ? CheckState.ToCellState() : NSCellStateValue.Off;
+		}
+
+		void this_Disposed(object sender, EventArgs e)
+		{
+			Disposed -= this_Disposed;
+			CheckedChanged -= this_CheckedChanged;
+			nsMenuItem = null;
 		}
 
 		internal bool ShowCheckMargin

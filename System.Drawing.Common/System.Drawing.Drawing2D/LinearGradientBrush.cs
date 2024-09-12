@@ -472,11 +472,13 @@ namespace System.Drawing.Drawing2D
 			
 			shadingColors = new nfloat[size,4];
 			positions = colorBlend.Positions;
+			factors = new float[size];
 
 			float[] cgColor;
 			for (int s = 0; s < size; s++)
 			{
 				cgColor = colorBlend.Colors[s].ElementsCGRGBA();
+				factors[s] = 1f;
 				//Console.WriteLine("shadingIndex {0} position {1} factor {2}",s, positions[s], factor);
 				for (int c = 0; c < 4; c++)
 				{

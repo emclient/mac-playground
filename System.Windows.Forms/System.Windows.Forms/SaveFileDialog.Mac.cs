@@ -1,10 +1,8 @@
-using System;
-using System.Windows.Forms;
-using System.Windows.Forms.CocoaInternal;
-using System.IO;
-using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows.Forms.CocoaInternal;
+using System.Windows.Forms.Mac;
+using System.IO;
 using AppKit;
 using Foundation;
 
@@ -63,6 +61,7 @@ namespace System.Windows.Forms
 					if (!String.IsNullOrWhiteSpace(FileName))
 						panel.NameFieldStringValue = AdjustExtensionToMatchFilter(FileName, panel.AllowedFileTypes);
 
+					NSApplication.SharedApplication.BeginInvokeOnMainThread(NSApplication.SharedApplication.Menu.InvokeMenuWillOpenDeep);
 					if (NSModalResponse.OK != (NSModalResponse)(int)panel.RunModal())
 						return false;
 

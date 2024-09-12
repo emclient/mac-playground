@@ -56,14 +56,39 @@ namespace System.Drawing
 		int miss = 0;
 #endif
 
+#if __MACOS__
+		List<NSObject> observers;
+
+		List<NSObject> AddObservers()
+		{
+			var observers = new List<NSObject>();
+			observers.Add(NSNotificationCenter.DefaultCenter.AddObserver(new NSString("EffectiveAppearanceDidChange"), (_) => Clear()));
+			observers.Add(NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSSystemColorsDidChangeNotification"), (_) => Clear()));
+			observers.Add(NSDistributedNotificationCenter.DefaultCenter.AddObserver(new NSString("AppleInterfaceThemeChangedNotification"), (_) => Clear()));
+			return observers;
+		}
+#else
+		static List<NSObject> AddObservers()
+		{
+			return new List<NSObject>();
+		}
+#endif
+
 		public DrawStringCache(int capacity, bool enabled = true)
 		{
 			this.enabled = enabled;
 			lurch = new LruCache<string, Entry>(capacity);
+			AddObservers();
+		}
+
+		public void Clear()
+		{
+			lurch.Clear();
 		}
 
 		public string GetKey(string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format)
 		{
+			font ??= SystemFonts.DefaultFont;
 			var fnt = $"{font.Name}|{font.Size}|{font.Italic.ToStr()}{font.Underline.ToStr()}{font.Strikeout.ToStr()}";
 			var bsh = "";
 			if (brush is SolidBrush sb)
@@ -133,7 +158,7 @@ namespace System.Drawing
 			public Entry(string text, Font font, SizeF layoutArea, StringFormat format)
 			{
 				this.text = text;
-				this.font = font;
+				this.font = font ?? SystemFonts.DefaultFont;
 				this.layoutArea = layoutArea;
 				this.format = format;
 			}
@@ -142,7 +167,7 @@ namespace System.Drawing
 			{
 				return
 					Equals(this.text, text)
-						&& this.font.Equals(font)
+						&& this.font.Equals(font ?? SystemFonts.DefaultFont)
 						&& this.layoutArea.Equals(layoutArea)
 						&& this.format.Equals(format);
 			}
@@ -166,7 +191,7 @@ namespace System.Drawing
 
 		public string GetKey(string s, Font font, SizeF layoutArea, StringFormat format)
 		{
-			const float big = 1e06f;
+			font ??= SystemFonts.DefaultFont;
 			return s
 				+ "|" + layoutArea.Width.ToStr() + "|" + layoutArea.Height.ToStr()
 				+ "|" + font.Name + "|" + font.Size.ToString() + "|" + font.Italic.ToStr() + font.Underline.ToStr() + font.Strikeout.ToStr()

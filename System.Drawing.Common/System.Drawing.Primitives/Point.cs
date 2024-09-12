@@ -169,5 +169,7 @@ namespace System.Drawing
         private static short HighInt16(int n) => unchecked((short)((n >> 16) & 0xffff));
 
         private static short LowInt16(int n) => unchecked((short)(n & 0xffff));
+
+        public override string ToString() => $"{{{x}, {y}}}";
     }
 }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Mac;
 using System.Windows.Forms.Mac;
-using System.Collections;
-using System.Reflection;
-using Foundation;
-using ObjCRuntime;
 using AppKit;
 using CoreGraphics;
 
@@ -13,11 +8,20 @@ namespace System.Windows.Forms
 {
 	public partial class ToolStripItem
 	{
-		private NSMenuItem nativeMenuItem;
+		private NSMenuItem nsMenuItem;
 		
 		protected internal virtual NSMenuItem ToNSMenuItem()
 		{
-			var nsMenuItem = nativeMenuItem ?? new NSMenuItem();
+			if (nsMenuItem == null)
+			{
+				nsMenuItem = new NSMenuItem();
+
+				Disposed += this_Disposed;
+				VisibleChanged += this_VisibleChanged;
+				EnabledChanged += this_EnabledChanged;
+				TextChanged += this_TextChanged;
+			}
+
 			if (DisplayStyle == ToolStripItemDisplayStyle.ImageAndText || DisplayStyle == ToolStripItemDisplayStyle.Text)
 				nsMenuItem.Title = (Text ?? String.Empty).Replace("&", "");
 			nsMenuItem.Enabled = Enabled;
@@ -29,13 +33,34 @@ namespace System.Windows.Forms
 				nsMenuItem.Image = variation.ToNSImage();
 				nsMenuItem.Image.Size = size;
 			}
+			else
+			{
+				nsMenuItem.Image = null;
+			}
 
-			VisibleChanged += (sender, e) => { nsMenuItem.Hidden = !InternalVisible; };
-			EnabledChanged += (sender, e) => { nsMenuItem.Enabled = Enabled; };
-			TextChanged += (sender, e) => { nsMenuItem.Title = (Text ?? String.Empty).Replace("&", ""); };
-
-			return nativeMenuItem = nsMenuItem;
+			return nsMenuItem;
 		}
+
+		void this_Disposed(object sender, EventArgs e)
+		{
+			Disposed -= this_Disposed;
+			
+			if (nsMenuItem != null)
+			{
+				VisibleChanged -= this_VisibleChanged;
+				EnabledChanged -= this_EnabledChanged;
+				TextChanged -= this_TextChanged;
+
+				nsMenuItem.Menu?.RemoveItem(nsMenuItem);
+
+				nsMenuItem.Dispose();
+				nsMenuItem = null;
+			}
+		}
+
+		void this_VisibleChanged(object sender, EventArgs e) => nsMenuItem.Hidden = !InternalVisible;
+		void this_EnabledChanged(object sender, EventArgs e) => nsMenuItem.Enabled = Enabled;
+		void this_TextChanged(object sender, EventArgs e) => nsMenuItem.Title = (Text ?? String.Empty).Replace("&", "");
 
 		protected virtual CGSize AdjustImageSize(CGSize size)
 		{

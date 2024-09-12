@@ -815,7 +815,7 @@ namespace System.Drawing {
 
 		public void SetResolution (float xDpi, float yDpi)
 		{
-			throw new NotImplementedException ();
+			//throw new NotImplementedException ();
 		}
 
 		public void MakeTransparent() 
@@ -1005,7 +1005,7 @@ namespace System.Drawing {
 					Save(dest);
 
 				using (var ms = imageData.AsStream())
-					ms.CopyTo(stream);
+					ms.CopyTo(stream, 64 * 1024);
 			}
 		}
 
@@ -1014,7 +1014,7 @@ namespace System.Drawing {
 			return LockBits (rect, flags, format, new BitmapData());
 		}
 
-		public BitmapData LockBits (Rectangle rect, ImageLockMode flags, PixelFormat format, BitmapData bitmapData)
+		public BitmapData LockBits (Rectangle rect, ImageLockMode flags, PixelFormat pixelFormat, BitmapData bitmapData)
 		{
 			// We don't support conversion
 			if (PixelFormat != pixelFormat)
@@ -1035,10 +1035,10 @@ namespace System.Drawing {
 			bitmapData.Reserved = (int)flags;
 
 			if (flags != ImageLockMode.WriteOnly) {
-				if (NativeCGImage.BitsPerPixel == 32) {
+				if (NativeCGImage.BitsPerPixel == 32 && (PixelFormat & PixelFormat.Indexed) == 0) {
 					if (!ConversionHelpers.sTablesInitialized)
 						ConversionHelpers.CalculateTables ();
-					Convert_P_RGBA_8888_To_BGRA_8888 (bitmapBlock, bitmapData.Stride * bitmapData.Height);
+					Convert_P_RGBA_8888_To_BGRA_8888 (bitmapData.Scan0, bitmapData.Width, bitmapData.Height, bitmapData.Stride);
 				}
 			}
 				
@@ -1050,23 +1050,25 @@ namespace System.Drawing {
 			if ((ImageLockMode)data.Reserved == ImageLockMode.ReadOnly)
 				return;
 			
-			dirty = true;
-
-			if (NativeCGImage.BitsPerPixel == 32) {
+			if (NativeCGImage.BitsPerPixel == 32  && (PixelFormat & PixelFormat.Indexed) == 0) {
 				if (!ConversionHelpers.sTablesInitialized)
 					ConversionHelpers.CalculateTables ();
-				Convert_BGRA_8888_To_P_RGBA_8888 (bitmapBlock, data.Stride * data.Height);
+				Convert_BGRA_8888_To_P_RGBA_8888 (data.Scan0, data.Width, data.Height, data.Stride);
 			}
+
+			// Set the dirty flag *after* accessing the NativeCGImage getter, to avoid losing changes in the bitmap data.
+			dirty = true;
 		}
 
 		// Our internal format is pre-multiplied alpha
-		static unsafe void Convert_P_RGBA_8888_To_BGRA_8888(IntPtr bitmapBlock, int size)
+		static unsafe void Convert_P_RGBA_8888_To_BGRA_8888(IntPtr bitmapBlock, int width, int height, int stride)
 		{
 			byte temp = 0;
 			byte alpha = 0;
 			byte* buffer = (byte*)bitmapBlock;
 
-			for (int x = 0; x < size; x+=4) 
+			for (int y = 0; y < height; ++y, buffer += stride)
+			for (int x = 0; x < width*4; x +=4) 
 			{
 				alpha = buffer [x + 3];  // Save off alpha
 				temp = buffer [x];  // save off red
@@ -1083,13 +1085,14 @@ namespace System.Drawing {
 		}
 			
 		// Our internal format is pre-multiplied alpha
-		static unsafe void Convert_BGRA_8888_To_P_RGBA_8888(IntPtr bitmapBlock, int size)
+		static unsafe void Convert_BGRA_8888_To_P_RGBA_8888(IntPtr bitmapBlock, int width, int height, int stride)
 		{
 			byte temp = 0;
 			byte alpha = 0;
 			byte* buffer = (byte*)bitmapBlock;
 
-			for (int sd = 0; sd < size; sd+=4) 
+			for (int y = 0; y < height; ++y, buffer += stride)
+			for (int sd = 0; sd < width*4; sd+=4) 
 			{
 				alpha = buffer [sd + 3];
 				temp = buffer [sd];  // save off blue

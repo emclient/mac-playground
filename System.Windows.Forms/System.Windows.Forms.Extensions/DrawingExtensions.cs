@@ -151,14 +151,5 @@ namespace System.Windows.Forms.Extensions.Drawing
 		{
 			return Rectangle.FromLTRB(rect.Left - l, rect.Y - t, rect.Right + r, rect.Bottom + b);
 		}
-
-		public static bool IsTransparent(this Color c)
-		{
-#if MAC
-			return System.Drawing.Mac.ColorExtensions.IsTransparent(c);
-#else
-			return c.A != 255;
-#endif
-		}
 	}
 }

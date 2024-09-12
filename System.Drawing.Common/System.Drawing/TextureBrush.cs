@@ -9,6 +9,7 @@
 using System;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Drawing.Mac;
 using CoreGraphics;
 using ObjCRuntime;
 using MatrixOrder = System.Drawing.Drawing2D.MatrixOrder;
@@ -249,7 +250,7 @@ namespace System.Drawing
 			if (graphics.LastBrush == this && !changed)
 				return;
 
-			variation = Graphics.GetRepresentation(graphics.context, textureImage, textureImage.Size);
+			variation = graphics.GetRepresentation(textureImage, textureImage.Size);
 
 			// obtain our width and height so we can set the pattern rectangle
 			float textureWidth = textureImage.Width;
@@ -272,7 +273,7 @@ namespace System.Drawing
 			graphics.context.SetFillColorSpace(patternSpace);
 			patternSpace.Dispose();
 
-			var sz = graphics.context.ConvertSizeToDeviceSpace(new CGSize(textureWidth, textureHeight));
+			var sz = graphics.ConvertToDeviceResolution(new CGSize(textureWidth, textureHeight));
 
 			// Pattern default work variables
 			//var patternRect = new CGRect(HALF_PIXEL_X,HALF_PIXEL_Y,

@@ -141,7 +141,9 @@ namespace System.Windows.Forms.CocoaInternal
 				msg.hwnd = driver.LastEnteredHwnd;
 				msg.message = Msg.WM_MOUSELEAVE;
 				driver.LastEnteredHwnd = IntPtr.Zero;
-				Application.SendMessage(ref msg);
+
+				if (HitTest.HTNOWHERE != (HitTest)Application.SendMessage(msg.hwnd, Msg.WM_NCHITTEST, msg.wParam, msg.lParam))
+					Application.SendMessage(ref msg);
 			}
 			// And then notify the new window that mouse entered it
 			if (newMouseViewHandle != IntPtr.Zero)
@@ -149,7 +151,9 @@ namespace System.Windows.Forms.CocoaInternal
 				msg.hwnd = newMouseViewHandle;
 				msg.message = Msg.WM_MOUSE_ENTER;
 				driver.LastEnteredHwnd = newMouseViewHandle;
-				Application.SendMessage(ref msg);
+
+				if (HitTest.HTNOWHERE != (HitTest)Application.SendMessage(msg.hwnd, Msg.WM_NCHITTEST, msg.wParam, msg.lParam))
+					Application.SendMessage(ref msg);
 			}
 		}
 
@@ -173,6 +177,10 @@ namespace System.Windows.Forms.CocoaInternal
 		internal void TranslateMouseDown(NSEvent e)
 		{
 			var msg = TranslateMouseCore(e, out bool client, view.FirstEnabledParentOrSelf());
+
+			if (HitTest.HTNOWHERE == (HitTest)Application.SendMessage(msg.hwnd, Msg.WM_NCHITTEST, msg.wParam, msg.lParam))
+				return;
+			
 			msg.wParam = (IntPtr)(e.ModifiersToWParam() | e.ButtonNumberToWParam());
 
 			if (e.ClickCount > 1 && (e.ClickCount & 1) == 0 && prevMouseDown?.Type == e.Type)
@@ -205,6 +213,10 @@ namespace System.Windows.Forms.CocoaInternal
 		internal void TranslateMouseUp(NSEvent e)
 		{
 			var msg = TranslateMouseCore(e, out bool client, MouseTarget().FirstEnabledParentOrSelf());
+
+			if (HitTest.HTNOWHERE == (HitTest)Application.SendMessage(msg.hwnd, Msg.WM_NCHITTEST, msg.wParam, msg.lParam))
+				return;
+
 			msg.message = (client ? Msg.WM_LBUTTONUP : Msg.WM_NCLBUTTONUP).AdjustForButton(e);
 			msg.wParam = (IntPtr)(e.ModifierFlags.ToWParam() | e.ButtonNumberToWParam());
 			LastMouseDownMsg.hwnd = IntPtr.Zero;
@@ -223,6 +235,10 @@ namespace System.Windows.Forms.CocoaInternal
 		public override void MouseMoved(NSEvent theEvent)
 		{
 			var msg = TranslateMouseCore(theEvent, out bool client, MouseTarget());
+
+			if (HitTest.HTNOWHERE == (HitTest)Application.SendMessage(msg.hwnd, Msg.WM_NCHITTEST, msg.wParam, msg.lParam))
+				return;
+
 			msg.wParam = (IntPtr)theEvent.ModifierFlags.ToWParam();
 			msg.message = client ? Msg.WM_MOUSEMOVE : Msg.WM_NCMOUSEMOVE;
 			Application.SendMessage(ref msg);
@@ -257,23 +273,28 @@ namespace System.Windows.Forms.CocoaInternal
 		{
 			var msg = TranslateMouseCore(e, out bool _);
 
-			if (e.ScrollingDeltaY != 0)
+			var handled = false;
+			var auxiliary = e.Phase != NSEventPhase.Changed;
+			if (e.ScrollingDeltaY != 0 || auxiliary)
 			{
 				int delta = e.ScaledAndQuantizedDeltaY();
 				msg.message = Msg.WM_MOUSEWHEEL;
 				msg.wParam = (IntPtr)(((int)e.ModifiersToWParam() & 0xFFFF) | (delta << 16));
 				msg.lParam = (IntPtr)((msg.pt.x & 0xFFFF) | (msg.pt.y << 16));
-				Application.SendMessage(ref msg);
+				handled = Application.SendMessage(ref msg).ToInt64() == 0;
 			}
 
-			if (e.ScrollingDeltaX != 0)
+			if (e.ScrollingDeltaX != 0 || auxiliary)
 			{
 				int delta = e.ScaledAndQuantizedDeltaX();
 				msg.message = Msg.WM_MOUSEHWHEEL;
 				msg.wParam = (IntPtr)(((int)e.ModifiersToWParam() & 0xFFFF) | (delta << 16));
 				msg.lParam = (IntPtr)((msg.pt.x & 0xFFFF) | (msg.pt.y << 16));
-				Application.SendMessage(ref msg);
+				handled = Application.SendMessage(ref msg).ToInt64() == 0;
 			}
+
+			if (!handled)
+				base.ScrollWheel(e);
 		}
 
 		internal MSG TranslateMouseCore(NSEvent e, out bool isClient, NSView target = null)
@@ -322,15 +343,57 @@ namespace System.Windows.Forms.CocoaInternal
 		#region Keyboard
 
 		internal IntPtr wmCharLParam;
+		
+		MSG pendingWmKeyDown;
 
-		public override void KeyDown(NSEvent theEvent)
+		internal void OnImeCompositionBegin()
 		{
-			TranslateKeyboardEvent(theEvent);
+			pendingWmKeyDown.wParam = (IntPtr)(int)Keys.ProcessKey;
 		}
 
-		public override void KeyUp(NSEvent theEvent)
+		internal void OnImeCompositionContinue()
 		{
-			TranslateKeyboardEvent(theEvent);
+			pendingWmKeyDown.wParam = (IntPtr)(int)Keys.ProcessKey;
+		}
+
+		internal void OnImeCompositionEnd()
+		{
+			pendingWmKeyDown.wParam = (IntPtr)(int)Keys.ProcessKey;
+		}
+
+		bool DeferWmKey(Msg msg, IntPtr wParam, IntPtr lParam)
+		{
+			// WM_KEYDOWN should be sent with Keys.ProcessKey if IME composition is being constructed.
+			// Therefore, we have to wait until we see if the IME composition is in progress or not, if the view is editable.
+			if (view is MonoEditView)
+			{
+				pendingWmKeyDown = new MSG { hwnd = view.Handle, message = msg, wParam = wParam, lParam = lParam };
+				return true;
+			}
+			pendingWmKeyDown.hwnd = IntPtr.Zero;
+			return false;
+		}
+
+		public override void KeyDown(NSEvent e)
+		{
+			var isKnownKey = e.ToKeyMsg(out Msg msg, out IntPtr wParam, out IntPtr lParam);
+			if (isKnownKey && !DeferWmKey(msg, wParam, lParam))
+				driver.SendMessage(view.Handle, msg, wParam, lParam);
+
+			wmCharLParam = isKnownKey ? lParam : IntPtr.Zero;
+			view.InterpretKeyEvents(new[] { e });
+			wmCharLParam = IntPtr.Zero;
+
+			if (isKnownKey)
+				SendPendingWmKeyDown();
+		}
+
+		public override void KeyUp(NSEvent e)
+		{
+			if (e.ToKeyMsg(out Msg msg, out IntPtr wParam, out IntPtr lParam))
+				driver.SendMessage(view.Handle, msg, wParam, lParam);
+			else
+				base.KeyUp(e);
 		}
 
 		public override void FlagsChanged(NSEvent theEvent)
@@ -351,30 +414,6 @@ namespace System.Windows.Forms.CocoaInternal
 				driver.SendMessage(view.Handle, (NSEventModifierMask.CommandKeyMask & flags) != 0 ? Msg.WM_KEYDOWN : Msg.WM_KEYUP, (IntPtr)VirtualKeys.VK_LWIN, IntPtr.Zero);
 		}
 
-		void TranslateKeyboardEvent(NSEvent e)
-		{
-			e.ToKeyMsg(out Msg msg, out IntPtr wParam, out IntPtr lParam);
-			//Debug.WriteLine ("keyCode={0}, characters=\"{1}\", key='{2}', chars='{3}'", e.KeyCode, chars, key, chars);
-
-			// See the comment above SendPendingWmKeyDown() if you want to ask 'what the hell is this?'.
-			isWmKeyDownPending = e.Type == NSEventType.KeyDown && (view is MonoEditView);
-			if (isWmKeyDownPending)
-				pendingWmKeyDown = new MSG { hwnd = view.Handle, message = msg, wParam = wParam, lParam = lParam };
-			else
-				driver.SendMessage(view.Handle, msg, wParam, lParam);
-
-			// On Windows, this would normally be done in TranslateMessage
-			if (e.Type == NSEventType.KeyDown)// && (view is MonoEditView))
-			{
-				wmCharLParam = lParam;
-				view.InterpretKeyEvents(new[] { e });
-				wmCharLParam = IntPtr.Zero;
-			}
-		}
-
-		MSG pendingWmKeyDown;
-		bool isWmKeyDownPending;
-
 		/// <summary>
 		/// This handles a problem with control keys - like Esc, Enter, Arrows, Tab etc:
 		/// If we sent WM_KEYDOWN regardless of InterpretKeyEvents, the event would afect both IME and the control/dialog.
@@ -383,10 +422,10 @@ namespace System.Windows.Forms.CocoaInternal
 		/// </summary>
 		internal virtual void SendPendingWmKeyDown()
 		{
-			if (isWmKeyDownPending)
+			if (pendingWmKeyDown.hwnd != IntPtr.Zero)
 			{
 				driver.SendMessage(pendingWmKeyDown.hwnd, pendingWmKeyDown.message, pendingWmKeyDown.wParam, pendingWmKeyDown.lParam);
-				isWmKeyDownPending = false;
+				pendingWmKeyDown.hwnd = IntPtr.Zero;
 			}
 		}
 
@@ -398,6 +437,8 @@ namespace System.Windows.Forms.CocoaInternal
 			// Not doing this would result in not deleting the originally typed character, event if it should have been replaced by IME.
 			if (replacementRange.Location == 0)
 				SendKey(view.Handle, (IntPtr)VirtualKeys.VK_BACK, IntPtr.Zero);
+
+			SendPendingWmKeyDown();
 
 			string str = text.ToString();
 			if (!String.IsNullOrEmpty(str))

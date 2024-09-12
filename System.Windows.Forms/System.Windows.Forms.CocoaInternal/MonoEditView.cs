@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Windows.Forms.Mac;
 using Foundation;
 using AppKit;
 using CoreGraphics;
@@ -13,6 +15,7 @@ namespace System.Windows.Forms.CocoaInternal
 	{
 		internal NSAttributedString markedText = new NSMutableAttributedString();
 		internal string insertText = String.Empty;
+		internal bool isComposing;
 
 		public MonoEditView(NativeHandle instance) : base(instance)
 		{
@@ -56,6 +59,10 @@ namespace System.Windows.Forms.CocoaInternal
 				//Debug.WriteLine($"selectedRange -> {result}");
 				return result;
 			}
+			set 
+			{
+				SetSelection((int)value.Location, (int)(value.Location + value.Length));
+			}
 		}
 
 		public NSString[] ValidAttributesForMarkedText
@@ -91,7 +98,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public nuint GetCharacterIndex(CGPoint point)
 		{
-			//Debug.WriteLine($"characterIndexForPoint:{point}");
+			this.NotImplemented(MethodBase.GetCurrentMethod());
 			return 0;
 		}
 
@@ -115,16 +122,22 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public void InsertText(NSObject text, NSRange replacementRange)
 		{
-			//Debug.WriteLine($"insertText:{text}, replacementRange:{replacementRange}");
+			//Console.WriteLine($"insertText:{text}, replacementRange:{replacementRange}, isComposing:{isComposing}");
 
-			if (markedText.Length != 0)
+			if (isComposing)
 			{
+				isComposing = false;
+				eventResponder.OnImeCompositionEnd();
+
 				// Commit IME session
 				insertText = text.ToString();
 				markedText = new NSAttributedString();
 				var lParam = new IntPtr((int)(GCS.GCS_RESULTSTR | GCS.GCS_COMPATTR | GCS.GCS_COMPCLAUSE | GCS.GCS_CURSORPOS));
 				Application.SendMessage(Handle, Msg.WM_IME_COMPOSITION, IntPtr.Zero, lParam);
 				Application.SendMessage(Handle, Msg.WM_IME_ENDCOMPOSITION, IntPtr.Zero, lParam);
+
+				// There's probably no notification in macOS text input system about closing the candidate window, so here we emulate it. lParam is not set, however.
+				Application.SendMessage(Handle, Msg.WM_IME_NOTIFY, new IntPtr((int)Imn.IMN_CLOSECANDIDATE), IntPtr.Zero);
 			}
 			else
 			{
@@ -134,15 +147,25 @@ namespace System.Windows.Forms.CocoaInternal
 
 		public void SetMarkedText(NSObject text, NSRange selectedRange, NSRange replacementRange)
 		{
-			//Debug.WriteLine($"setMarkedText:{text}, selectedRange:{selectedRange}, replacementRange:{replacementRange}");
+			//Console.WriteLine($"setMarkedText:{text}, selectedRange:{selectedRange}, replacementRange:{replacementRange}");
 
 			var value = text is NSAttributedString str ? str : new NSAttributedString(text.ToString());
 
 			// Start session
 			if (markedText.Length == 0 && value.Length != 0)
 			{
+				eventResponder.OnImeCompositionBegin();
+
+				// There's probably no notification in macOS text input system about opening the candidate window, so here we emulate it. lParam is not set, however.
+				Application.SendMessage(Handle, Msg.WM_IME_NOTIFY, new IntPtr((int)Imn.IMN_OPENCANDIDATE), IntPtr.Zero);
+
 				Application.SendMessage(Handle, Msg.WM_IME_STARTCOMPOSITION, IntPtr.Zero, IntPtr.Zero);
 				insertText = string.Empty;
+				isComposing = true;
+			}
+			else
+			{
+				eventResponder.OnImeCompositionContinue();
 			}
 
 			markedText = value;
@@ -168,7 +191,7 @@ namespace System.Windows.Forms.CocoaInternal
 
 		#endregion INSTextInputView
 
-		unsafe public string GetText()
+		unsafe public virtual string GetText()
 		{
 			var length = Math.Max(0, (int)Application.SendMessage(Handle, Msg.WM_GETTEXTLENGTH, IntPtr.Zero, IntPtr.Zero));
 			var buffer = new char[length + 1];
@@ -179,13 +202,140 @@ namespace System.Windows.Forms.CocoaInternal
 			}
 		}
 
+		unsafe public virtual void SetText(string value)
+		{
+			this.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
 		unsafe public void GetSelection(out int from, out int to)
 		{
 			var range = new int[] { 0, 0 };
 			fixed (int* start = &range[0], end = &range[1])
 				Application.SendMessage(Handle, Msg.EM_GETSEL, new IntPtr(start), new IntPtr(end));
-			from = range[0];
-			to = range[1];
+			
+			if (range[0] < range[1])
+			{
+				from = range[0];
+				to = range[1];
+			}
+			else
+			{
+				from = range[1];
+				to = range[0];
+			}
+		}
+
+		unsafe public void SetSelection(int from, int to)
+		{
+			var range = new int[] { Math.Min(from, to), Math.Max(from, to) };
+			fixed (int* start = &range[0], end = &range[1])
+				Application.SendMessage(Handle, Msg.EM_SETSEL, new IntPtr(start), new IntPtr(end));
+		}
+
+		// Accessibility
+
+		public override string AccessibilityRole => "AXTextArea"; // Using Area instead of Field makes grammarly to react for some reason
+
+		public override bool IsAccessibilitySelectorAllowed(Selector selector)
+		{
+			switch (selector.Name)
+			{
+				case "accessibilityValue": return true;
+			}
+
+			return base.IsAccessibilitySelectorAllowed(selector);
+		}
+
+		public override bool AccessibilityEnabled => Control.FromHandle(Handle)?.Enabled ?? false;
+		
+		[Export("accessibilityIsValueAttributeSettable")]
+		public virtual bool AccessibilityIsValueAttributeSettable() => true;
+
+		public override NSObject AccessibilityValue
+		{
+			get => new NSString(GetText());
+			set => SetText(value?.ToString() ?? string.Empty);
+		}
+
+		[Export("accessibilitySetValue:forAttribute:")]
+		public virtual void AccessibilitySetValue(NSObject value, NSString attribute)
+		{
+			this.NotImplemented(MethodBase.GetCurrentMethod());
+		}
+
+		public override nint AccessibilityNumberOfCharacters => GetText().Length;
+
+		public override string AccessibilitySelectedText
+		{
+			get
+			{
+				var range = SelectedRange;
+				var text = GetText();
+				return text.Substring((int)range.Location, (int)range.Length);
+			}
+			set
+			{
+				this.NotImplemented(MethodBase.GetCurrentMethod());
+			}
+		}
+
+		public virtual bool AccessibilityIsSelectedTextRangeAttributeSettable
+		{
+			[Export("accessibilityIsSelectedTextRangeAttributeSettable")]
+			get => true;
+		}
+
+		[Export("accessibilitySetSelectedTextRangeAttribute:")]
+		public virtual void AccessibilitySetSelectedTextRangeAttribute(NSRange value)
+		{
+			AccessibilitySelectedTextRange = value;
+		}
+
+		public override NSRange AccessibilitySelectedTextRange
+		{
+			get => SelectedRange;
+			set => SelectedRange = value;
+		}
+
+		public override nint AccessibilityInsertionPointLineNumber
+		{
+			get
+			{
+				this.NotImplemented(MethodBase.GetCurrentMethod());
+				return 0;
+			}
+			set
+			{
+				this.NotImplemented(MethodBase.GetCurrentMethod());
+			}
+		}
+
+		[Export("accessibilityFrameForRange:")]
+		public virtual CGRect AccessibilityFrameForRange(NSRange range)
+		{
+			// TODO: Fix for multiline text box and for longer texts that don't fit the box
+			var p = GetCharacterPosition((int)range.Location);
+			var q = GetCharacterPosition((int)range.Location + (int)range.Length);
+			var rect = new CGRect(p.X, p.Y, q.X - p.X, GetLineHeight());
+			//Console.WriteLine($"AccessibilityFrameForRange({range})->{rect}");
+			return rect;
+		}
+
+		unsafe CGPoint GetCharacterPosition(int index)
+		{
+			var pt = new POINT[1];
+			fixed (POINT* ptr = &pt[0])
+				Application.SendMessage(Handle, Msg.EM_POSFROMCHAR, new IntPtr(ptr), new IntPtr(index));
+
+			var frame = AccessibilityFrame;
+			return new CGPoint(frame.Location.X + pt[0].x, frame.Location.Y + pt[0].y);
+		}
+
+		int GetLineHeight(int defaultValue = 0)
+		{
+			if (Control.FromHandle(Handle) is Control c)
+				return c.Font.Height;
+			return defaultValue;
 		}
 	}
 }

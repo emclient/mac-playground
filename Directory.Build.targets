@@ -1,0 +1,59 @@
+<Project>
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);CS8632;SYSLIB0011</NoWarn>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-macos'">
+    <DefineConstants>$(DefineConstants);MAC</DefineConstants>
+    <SupportedOSPlatformVersion>11.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(EnableDefaultItems)' == 'true' ">
+    <None Remove="**/*.sql" />
+    <None Remove="**/*.js" />
+    <None Remove="**/*.css" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(EnableDefaultItems)' == 'true' ">
+    <EmbeddedResource Include="**/*.sql" />
+    <EmbeddedResource Include="**/*.js" />
+    <EmbeddedResource Include="**/*.css" />
+  </ItemGroup>
+
+  <!-- Xamarin.Mac Preview 14 workaround -->
+  <ItemGroup Condition=" '$(EnableDefaultmacOSItems)' == 'true' ">
+    <BundleResource Remove="Resources/**/*.cs" />
+    <BundleResource Remove="Resources/**/*.resx" />
+  </ItemGroup>
+
+  <!-- Precompiled localization satellite assemblies -->
+  <Target Name="ComputePrecompiledSatelliteAssemblies" BeforeTargets="ComputeIntermediateSatelliteAssemblies">
+    <ItemGroup>
+      <PrecompiledLocalizationFiles Include="$(MSBuildThisFileDirectory)\Localization\*\$(ProjectName).resources.dll" />
+      <PrecompiledLocalizationFiles Include="$(MSBuildThisFileDirectory)\Localization\*\$(AssemblyName).resources.dll" />
+      <IntermediateSatelliteAssembliesWithTargetPath Include="@(PrecompiledLocalizationFiles)">
+        <Culture>%(RecursiveDir)</Culture>
+        <TargetPath>%(RecursiveDir)$(AssemblyName).resources.dll</TargetPath>
+      </IntermediateSatelliteAssembliesWithTargetPath>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="AddInternalsVisibleTo" BeforeTargets="GetAssemblyAttributes">
+    <ItemGroup Condition="!$(AssemblyName.EndsWith('.Test'))">
+      <InternalsVisibleToSuffix Include=".Test" />
+    </ItemGroup>
+
+    <!-- Handle InternalsVisibleTo -->
+    <ItemGroup Condition="'@(InternalsVisibleTo->Count())' &gt; 0">
+      <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+        <_Parameter1>%(InternalsVisibleTo.Identity)</_Parameter1>
+      </AssemblyAttribute>
+    </ItemGroup>
+
+    <!-- Handle InternalsVisibleToSuffix -->
+    <ItemGroup Condition="@(InternalsVisibleToSuffix->Count()) &gt; 0">
+      <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+        <_Parameter1>$(AssemblyName)%(InternalsVisibleToSuffix.Identity)</_Parameter1>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
+</Project>

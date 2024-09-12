@@ -1894,7 +1894,7 @@ namespace System.Windows.Forms
 			button_pressed = ctrl_pressed = shift_pressed = false;
 		}
 
-		private void Scroll (ScrollBar scrollbar, int delta)
+		private void Scroll (ScrollBar scrollbar, int delta, double scale = 1)
 		{
 			if (delta == 0 || !scrollbar.Visible || !scrollbar.Enabled)
 				return;
@@ -1905,7 +1905,7 @@ namespace System.Windows.Forms
 			else
 				max = vscrollbar.Maximum - (items_area.Height / ItemHeight) + 1;
 
-			int val = scrollbar.Value + delta;
+			int val = scrollbar.Value + (int)(delta * scale);
 			if (val > max)
 				val = max;
 			else if (val < scrollbar.Minimum)
@@ -1917,13 +1917,17 @@ namespace System.Windows.Forms
 		{
 			if (Items.Count == 0)
 				return;
-
+#if MAC
+			if (vscrollbar.Height > 0)
+				Scroll (vscrollbar, -me.Delta, (vscrollbar.Maximum - vscrollbar.Minimum) / (double)vscrollbar.Height / 2);
+#else
 			int lines = me.Delta / 120;
 
 			if (MultiColumn)
 				Scroll (hscrollbar, -SystemInformation.MouseWheelScrollLines * lines);
 			else
 				Scroll (vscrollbar, -lines);
+#endif
 		}
 
 		internal override void OnPaintInternal (PaintEventArgs pevent)

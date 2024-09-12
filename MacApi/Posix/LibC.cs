@@ -40,6 +40,41 @@ namespace MacApi.Posix
 			}
 		}
 
+		public class Dup2 : IDisposable
+		{
+			IntPtr file;
+			int dup;
+
+			public Dup2(string path, FileNo fno, string mode)
+			{
+				file = fopen(path, mode);
+				if (file != IntPtr.Zero)
+				{
+					var desc = fileno(file);
+					if (desc != -1)
+						dup = dup2(desc, (int)fno);
+				}
+			}
+
+			public void Dispose()
+			{
+				if (file != IntPtr.Zero)
+					fflush(file);
+
+				if (dup != -1) 
+				{
+					close(dup);
+					dup = -1;
+				}
+
+				if (file != IntPtr.Zero)
+				{
+					fclose(file);
+					file = IntPtr.Zero;
+				} 
+			}
+		}
+
 		unsafe public static string GetCPUBrand(string defaultValue = "N/A")
 		{
 			const string key = "machdep.cpu.brand_string";
@@ -128,6 +163,12 @@ namespace MacApi.Posix
 			SEEK_END = 2
 		}
 
+		public enum FileNo {
+			StdIn = 0,
+			StdOut = 1,
+			StdErr = 2
+		}
+
 		[DllImport(Constants.libcLibrary, SetLastError = true)]
 		public static extern IntPtr fopen(string path, string mode);
 
@@ -147,7 +188,22 @@ namespace MacApi.Posix
 		public static extern int fflush(IntPtr stream);
 
 		[DllImport(Constants.libcLibrary, SetLastError = true)]
-		public static extern IntPtr open(string path, FileMode mode);
+		public static extern int open(string path, FileMode mode);
+
+		[DllImport(Constants.libcLibrary, SetLastError = true)]
+		public static extern int close(int path);
+
+		[DllImport(Constants.libcLibrary, SetLastError = true)]
+		public static extern int fileno(IntPtr file);
+
+		[DllImport(Constants.libcLibrary, SetLastError = true)]
+		public static extern int dup2(int oldFd, int newFd);
+
+		[DllImport(Constants.libcLibrary, SetLastError = true)]
+		public static extern IntPtr fdopen(int fildes, string mode);
+
+		[DllImport(Constants.libcLibrary, SetLastError = true)]
+		public static extern IntPtr freopen(string path, string mode, IntPtr file);
 
 		[DllImport(Constants.libcLibrary)]
 		public static extern void exit(int status);

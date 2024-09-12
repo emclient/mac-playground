@@ -280,6 +280,8 @@ namespace System.Windows.Forms {
 
 		internal abstract void SetWindowStyle(IntPtr handle, CreateParams cp);
 
+		internal abstract IntPtr GetWindowFromPoint(int x, int y);
+
 		internal abstract double GetWindowTransparency(IntPtr handle);
 		internal abstract void SetWindowTransparency(IntPtr handle, double transparency, Color key);
 		internal abstract TransparencySupport SupportsTransparency();
@@ -331,7 +333,7 @@ namespace System.Windows.Forms {
 		internal abstract bool SetTopmost(IntPtr hWnd, bool Enabled);
 		internal abstract bool SetOwner(IntPtr hWnd, IntPtr hWndOwner);
 
-		internal abstract bool CalculateWindowRect(ref Rectangle ClientRect, CreateParams cp, out Rectangle WindowRect);
+		internal abstract bool CalculateWindowRect(IntPtr hwnd, ref Rectangle ClientRect, CreateParams cp, out Rectangle WindowRect);
 
 		internal abstract Region GetClipRegion(IntPtr hwnd);
 		internal abstract void SetClipRegion(IntPtr hwnd, Region region);

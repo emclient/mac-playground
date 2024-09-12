@@ -17,6 +17,7 @@ namespace System.Drawing
 		const int DrawStringCacheCapacity = 2000;
 		static DrawStringCache DrawStringCache = new DrawStringCache(DrawStringCacheCapacity);
 		static MeasureStringCache MeasureStringCache = new MeasureStringCache(DrawStringCacheCapacity);
+		static Brush DefaultBrush = new SolidBrush(SystemColors.ControlText);
 
 		public Region[] MeasureCharacterRanges(string text, Font font, RectangleF layoutRect, StringFormat stringFormat)
 		{
@@ -180,6 +181,15 @@ namespace System.Drawing
 		{
 			bool noWrap = (format.FormatFlags & StringFormatFlags.NoWrap) != 0;
 			bool wholeLines = (format.FormatFlags & StringFormatFlags.LineLimit) != 0;
+			var trimming = format.Trimming;
+
+			// This seems to be inappropriate, but it's how it works on Windows
+			if (!noWrap && trimming == StringTrimming.None)
+				trimming = StringTrimming.Word;
+
+			if (format.FormatFlags.HasFlag(StringFormatFlags.NoClip))
+				trimming = StringTrimming.None;
+
 			using (var typesetter = new CTTypesetter(attributedString))
 			{
 				var lines = new List<CTLine>();
@@ -188,46 +198,63 @@ namespace System.Drawing
 				float y = 0;
 				while (start < length && y < layoutBox.Height && (!wholeLines || y + lineHeight <= layoutBox.Height))
 				{
-					if (format.Trimming != StringTrimming.None)
-					{
-						// Keep the last line in full when trimming is enabled
-						bool lastLine;
-						if (!wholeLines)
-							lastLine = y + lineHeight >= layoutBox.Height;
-						else
-							lastLine = y + lineHeight + lineHeight > layoutBox.Height;
-						if (lastLine)
-							noWrap = true;
-					}
+					// Keep the last line in full when trimming is enabled
+					bool lastLine;
+					if (!wholeLines)
+						lastLine = y + lineHeight >= layoutBox.Height;
+					else
+						lastLine = y + lineHeight + lineHeight > layoutBox.Height;
+					if (lastLine)
+						noWrap = true;
 
 					// Now we ask the typesetter to break off a line for us.
 					// This also will take into account line feeds embedded in the text.
 					//  Example: "This is text \n with a line feed embedded inside it"
 					var count = (int)typesetter.SuggestLineBreak(start, noWrap ? double.MaxValue : layoutBox.Width);
 					var line = typesetter.GetLine(new NSRange(start, count));
-
-					// Note: trimming may return a null line i.e. not enough space for any characters
+					if (line == null)
+						break;
+						
 					var trim = line;
-					switch (format.Trimming)
+					
+					// Note: trimming may return a null line i.e. not enough space for any characters
+					switch (trimming)
 					{
+						case StringTrimming.Word:
+							if (noWrap)
+							{
+								var n = (int)typesetter.SuggestLineBreak(start, layoutBox.Width);
+								trim = typesetter.GetLine(new NSRange(start, n));
+							}
+							break;
 						case StringTrimming.Character:
-							trim = line.GetTruncatedLine(noWrap ? nfloat.MaxValue : layoutBox.Width, CTLineTruncation.End, null);
+							if (noWrap)
+							{
+								var n = (int)typesetter.SuggestClusterBreak(start, layoutBox.Width);
+								line.Dispose();
+								line = typesetter.GetLine(new NSRange(start, n));
+							}
+							trim = line.GetTruncatedLine(layoutBox.Width, CTLineTruncation.End, null);
 							break;
 						case StringTrimming.EllipsisWord: // Fall thru for now
 						case StringTrimming.EllipsisCharacter:
+							// Trimming when not necessary causes bad results
+							if (!noWrap || line.GetBounds(CTLineBoundsOptions.UseOpticalBounds).Width <= layoutBox.Width)
+								break;
+
 							using (CTLine ellipsisToken = EllipsisToken(font, format))
 							{
-								// Trimming when not necessary causes bad results
-								if (line.GetBounds(CTLineBoundsOptions.UseOpticalBounds).Width <= layoutBox.Width)
-									break;
-
-								trim = line.GetTruncatedLine(layoutBox.Width, CTLineTruncation.End, ellipsisToken);
+								// Trim right whitespaces, because they break ellipsis truncation
+								var width = line.GetTypographicBounds(out _, out _, out _);
+								using var trunc = line.GetTruncatedLine(width - line.TrailingWhitespaceWidth, CTLineTruncation.End, null);
+								
+								trim = trunc.GetTruncatedLine(layoutBox.Width, CTLineTruncation.End, ellipsisToken);
 
 								//Put back the first letter if we got ellipsis only.
  								if (trim == null || trim.GlyphCount == 1 && trim.GetGlyphRuns()[0].GetGlyphs()[0] == ellipsisToken.GetGlyphRuns()[0].GetGlyphs()[0])
 								{
 									var plain = attributedString.Value.Substring(0, 1) + "\u2026";
-									var attributed = buildAttributedString(plain, font, format, lastBrushColor);
+									using var attributed = buildAttributedString(plain, font, format, lastBrushColor);
 									trim = new CTLine(attributed);
 								}
 							}
@@ -280,6 +307,11 @@ namespace System.Drawing
 			if (String.IsNullOrEmpty(s))
 				return;
 
+			if (font == null)
+				font = SystemFonts.DefaultFont;
+			if (brush == null)
+				brush = DefaultBrush;
+
 			var c = DrawStringCache.GetOrCreate(s, font, brush, layoutRectangle, format ?? StringFormat.GenericDefault, CreateCacheEntry);
 			DrawString(c, layoutRectangle.Location);
 		}
@@ -330,7 +362,7 @@ namespace System.Drawing
 				if (format.LineAlignment == StringAlignment.Far)
 					c.textPosition.Y += c.boundsHeight - (c.lines.Count * c.lineHeight);
 				else if (format.LineAlignment == StringAlignment.Center)
-					c.textPosition.Y += (c.boundsHeight - (c.lines.Count * c.lineHeight)) / 2;
+					c.textPosition.Y += Math.Max(0, (c.boundsHeight - (c.lines.Count * c.lineHeight)) / 2);
 			}
 			else
 			{
@@ -464,6 +496,22 @@ namespace System.Drawing
 			SmoothingMode = savedSmoothingMode;
 		}	
 
+		static CTParagraphStyle? defaultParagraphStyle;
+		internal static CTParagraphStyle DefaultParagraphStyle
+		{
+			get 
+			{
+				if (defaultParagraphStyle == null)
+				{
+					var settings = new CTParagraphStyleSettings();
+					settings.DefaultTabInterval = 28;
+					settings.TabStops = new CTTextTab[] {};
+					defaultParagraphStyle = new CTParagraphStyle(settings);
+				}
+				return defaultParagraphStyle;
+			}
+		}
+
         private static NSAttributedString buildAttributedString(string text, Font font, StringFormat format = null, Color? fontColor = null) 
 		{
 			var ctAttributes = new CTStringAttributes ();
@@ -478,6 +526,8 @@ namespace System.Drawing
 				ctAttributes.UnderlineStyle = CTUnderlineStyle.Single;
 			}
             // font.Strikeout - Not used by CoreText, we have to process it ourselves
+
+			ctAttributes.ParagraphStyle = DefaultParagraphStyle;
 
             if (text.IndexOf('\0') >= 0)
                 text = text.Replace("\0", "");

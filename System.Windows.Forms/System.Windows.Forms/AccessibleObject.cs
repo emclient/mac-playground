@@ -58,7 +58,7 @@ namespace System.Windows.Forms {
 			this.owner = null;
 			this.value = null;
 			this.name = null;
-			this.role = AccessibleRole.Default;
+			this.role = AccessibleRole.None;
 			this.default_action = null;
 			this.description = null;
 			this.help = null;
@@ -69,7 +69,7 @@ namespace System.Windows.Forms {
 
 		#region Private Constructors
 		internal AccessibleObject(Control owner) : this () {
-			this.owner=owner;
+			this.owner = owner;
 		}
 		#endregion	// Private Constructors
 
@@ -88,7 +88,7 @@ namespace System.Windows.Forms {
 
 		public virtual string Description {
 			get {
-				return description;
+				return description ?? owner?.AccessibleDescription;
 			}
 		}
 
@@ -106,7 +106,7 @@ namespace System.Windows.Forms {
 
 		public virtual string Name {
 			get {
-				return name;
+				return name ?? owner?.AccessibleName;
 			}
 
 			set {
@@ -125,7 +125,7 @@ namespace System.Windows.Forms {
 
 		public virtual AccessibleRole Role {
 			get {
-				return role;
+				return (role != AccessibleRole.None) ? role : owner?.AccessibleRole ?? AccessibleRole.None;
 			}
 		}
 

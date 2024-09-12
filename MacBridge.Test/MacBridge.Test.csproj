@@ -1,13 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-macos</TargetFrameworks>
-    <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net8.0-macos</TargetFrameworks>
     <DefineConstants>MAC</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DisableExtraReferences>true</DisableExtraReferences>
-    <EnableDefaultItems Condition="'$(TargetFramework)' == 'netstandard2.1'">false</EnableDefaultItems>
-    <EnableDefaultCompileItems Condition="'$(TargetFramework)' == 'netstandard2.1'">false</EnableDefaultCompileItems>
-    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' == 'netstandard2.1'">false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\MacBridge\MacBridge.csproj" />

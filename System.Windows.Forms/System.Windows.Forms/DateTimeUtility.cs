@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-#if MAC
+#if MAC || IOS
 using CoreFoundation;
 using Foundation;
 #endif
 
 namespace System.Windows.Forms
 {
-#if MAC
+#if MAC || IOS
 	static class DateTimeUtility
 	{
 		static object localeDidChangeNotification = NSLocale.Notifications.ObserveCurrentLocaleDidChange(OnLocaleDidChange);
@@ -26,6 +26,8 @@ namespace System.Windows.Forms
 			baselineFormatter = null;
 			formatters = null;
 			cdtf = null;
+
+			CultureInfo.CurrentCulture = PreferredCulture;
 
 			if (LocaleDidChange != null)
 				LocaleDidChange(sender, new EventArgs());
@@ -85,11 +87,23 @@ namespace System.Windows.Forms
 					}
 					catch { }
 
+					var languageCode = locale.LanguageCode ?? "en";
+					if (locale.CountryCode != null)
+					{
+						try
+						{
+							var c = CultureInfo.GetCultureInfo($"{languageCode}-{locale.CountryCode}");
+							if (!c.IsNeutralCulture)
+								return preferredCulture = c;
+						}
+						catch { }
+					}
+
 					if (locale.ScriptCode != null)
 					{
 						try
 						{
-							var c = CultureInfo.GetCultureInfo($"{locale.LanguageCode}-{locale.ScriptCode}");
+							var c = CultureInfo.GetCultureInfo($"{languageCode}-{locale.ScriptCode}");
 							if (!c.IsNeutralCulture)
 								return preferredCulture = c;
 						}
@@ -98,7 +112,23 @@ namespace System.Windows.Forms
 
 					try
 					{
-						var c = CultureInfo.CreateSpecificCulture(locale.LanguageCode);
+						var c = CultureInfo.CreateSpecificCulture(languageCode);
+						if (!c.IsNeutralCulture)
+							return preferredCulture = c;
+					}
+					catch { }
+
+					try
+					{
+						var c = CultureInfo.GetCultureInfo($"{languageCode}-US");
+						if (!c.IsNeutralCulture)
+							return preferredCulture = c;
+					}
+					catch { }
+
+					try
+					{
+						var c = CultureInfo.CreateSpecificCulture($"{languageCode}-US");
 						if (!c.IsNeutralCulture)
 							return preferredCulture = c;
 					}
@@ -221,7 +251,7 @@ namespace System.Windows.Forms
 			if (!current.PMSymbol.Equals(baseline.PMSymbol))
 				merged.PMSymbol = current.PMSymbol;
 
-			if (!current.DateFormat.Equals(baseline.DateFormat))
+			if (!current.DateFormat.Equals(baseline.DateFormat) && !String.IsNullOrEmpty(mergedDateFormat))
 			{
 				var format = merged.DateFormat;
 				if (baselineDateFormat != currentDateFormat)

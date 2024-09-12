@@ -44,7 +44,7 @@ namespace System.Windows.Forms.RTF {
 		ClassDelegate[]	callbacks;
 
 		public ClassCallback() {
-			callbacks = new ClassDelegate[Enum.GetValues(typeof(Major)).Length];
+			callbacks = new ClassDelegate[Enum.GetValues<Major>().Length];
 		}
 
 		public ClassDelegate this[TokenClass c] {

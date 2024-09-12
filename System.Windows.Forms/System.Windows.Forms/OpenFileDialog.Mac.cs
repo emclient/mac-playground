@@ -1,4 +1,5 @@
 using System.Windows.Forms.CocoaInternal;
+using System.Windows.Forms.Mac;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -52,6 +53,7 @@ namespace System.Windows.Forms
 					if (!String.IsNullOrWhiteSpace(FileName))
 						panel.NameFieldStringValue = FileName;
 
+					NSApplication.SharedApplication.BeginInvokeOnMainThread(NSApplication.SharedApplication.Menu.InvokeMenuWillOpenDeep);
 					if (NSModalResponse.OK != (NSModalResponse)(int)panel.RunModal())
 						return false;
 

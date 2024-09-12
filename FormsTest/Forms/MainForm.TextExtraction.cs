@@ -11,8 +11,6 @@ using MacApi.CoreServices.SearchKit;
 using SearchKit;
 using System.Runtime.InteropServices;
 using UniformTypeIdentifiers;
-using UTType = MacApi.CoreServices.UTType;
-using UTTypes = MacApi.CoreServices.UTTypes;
 #endif
 
 namespace FormsTest

@@ -814,6 +814,12 @@ namespace System.Windows.Forms
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
+			switch (keyData)
+			{
+			 	case Keys.Back:
+			 		return false;
+			}
+
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
 		protected override bool ProcessDialogKey(Keys keyData)
@@ -853,7 +859,7 @@ namespace System.Windows.Forms
 			{
 				base.WndProc(ref m);
 
-				m.Result = (IntPtr)1; // Do not deliver the original event to the native field editor.
+				m.Result = (IntPtr)0; // Do not deliver the original event to the native field editor.
 				return;
 			}
 
