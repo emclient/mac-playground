@@ -172,6 +172,10 @@ namespace System.Windows.Forms {
 		}
 		#endregion	// DataObject.Entry class
 
+		internal interface IDropDataProvider {
+			object GetData(string format);
+		}
+
 		#region Local Variables
 		private Entry	entries;
 		#endregion	// Local Variables
@@ -237,6 +241,10 @@ namespace System.Windows.Forms {
 			}
 			if (e == null)
 				return null;
+
+			if (e.Data is IDropDataProvider provider)
+				return provider.GetData(format);
+
 			return e.Data;
 		}
 

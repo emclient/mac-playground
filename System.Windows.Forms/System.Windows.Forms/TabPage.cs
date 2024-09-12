@@ -26,6 +26,7 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
@@ -156,6 +157,7 @@ namespace System.Windows.Forms {
 		[Editor ("System.Windows.Forms.Design.ImageIndexEditor, " + Consts.AssemblySystem_Design,
 			 typeof (System.Drawing.Design.UITypeEditor))]
 		[TypeConverter (typeof (ImageKeyConverter))]
+		[AllowNull]
 		public string ImageKey
 		{
 			get { return imageKey; }
@@ -185,6 +187,7 @@ namespace System.Windows.Forms {
 		[EditorBrowsable (EditorBrowsableState.Always)]
 		[Browsable(true)]
 		[Localizable(true)]
+		[AllowNull]
 		public override string Text {
 			get { return base.Text; }
 			set {
@@ -197,6 +200,7 @@ namespace System.Windows.Forms {
 
 		[Localizable(true)]
 		[DefaultValue("")]
+		[AllowNull]
 		public string ToolTipText {
 			get { return tooltip_text; }
 			set {

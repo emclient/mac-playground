@@ -1,7 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
 using CoreFoundation;
-using MacApi.CoreFoundation;
+using Foundation;
+using ObjCRuntime;
 
 namespace MacApi.CoreGraphics
 {
@@ -13,10 +14,10 @@ namespace MacApi.CoreGraphics
 			if (h == IntPtr.Zero)
 				throw new ApplicationException("Not running within Quartz GUI session");
 
-			using (var d = new CFDictionary(h, true))
+			using (var d = Runtime.GetINativeObject<NSDictionary>(h, true))
 			{
 				var kCGSSessionScreenIsLocked = new CFString("CGSSessionScreenIsLocked");
-				var locked = CFDictionary.GetBooleanValue(d.Handle, kCGSSessionScreenIsLocked.Handle);
+				var locked = d["CGSSessionScreenIsLocked"] is NSNumber num ? num.BoolValue : false;
 				return locked;
 			}
 		}

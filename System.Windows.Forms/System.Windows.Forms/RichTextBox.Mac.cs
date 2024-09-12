@@ -406,7 +406,7 @@ namespace System.Windows.Forms
 			NotImplemented(MethodBase.GetCurrentMethod());
 		}
 
-		public void Redo()
+		public new void Redo()
 		{
 			NotImplemented(MethodBase.GetCurrentMethod());
 		}

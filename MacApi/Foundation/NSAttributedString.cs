@@ -2,7 +2,6 @@ using Foundation;
 using ObjCRuntime;
 using System.Linq;
 using UniformTypeIdentifiers;
-using UTType = MacApi.CoreServices.UTType;
 
 namespace MacApi.Foundation
 {

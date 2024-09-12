@@ -95,11 +95,13 @@ namespace System.Windows.Forms {
 		internal List<NSObject> observers = new List<NSObject>();
 
 		// Cocoa Specific
+		internal IntPtr FocusHwnd;
 		internal GrabStruct Grab;
 		internal IntPtr LastEnteredHwnd;
 		internal Cocoa.Caret Caret;
 		internal readonly Stack<IntPtr> ModalSessions = new Stack<IntPtr>();
-		internal Size initialScreenSize;
+		internal static Size initialScreenSize;
+		internal int setFocusCount;
 
 		// Message loop
 		private static bool GetMessageResult;
@@ -212,7 +214,7 @@ namespace System.Windows.Forms {
 				return;
 			}
 
-			point = windowWrapper.ConvertScreenToBase (point);
+			point = windowWrapper.ConvertPointFromScreen (point);
 			point = viewWrapper.ConvertPointFromView (point, null);
 			if (viewWrapper is IClientView) {
 				point.X -= ((IClientView)viewWrapper).ClientBounds.X;
@@ -230,7 +232,7 @@ namespace System.Windows.Forms {
 					point.Y += ((IClientView)viewWrapper).ClientBounds.Y;
 				}
 				point = viewWrapper.ConvertPointToView (point, null);
-				point = windowWrapper.ConvertBaseToScreen (point);
+				point = windowWrapper.ConvertPointToScreen (point);
 			}
 		}
 
@@ -368,7 +370,7 @@ namespace System.Windows.Forms {
 			CGPoint native_point = MonoToNativeScreen (point);
 			NSWindow windowWrapper = viewWrapper.Window;
 
-			native_point = windowWrapper.ConvertScreenToBase(native_point);
+			native_point = windowWrapper.ConvertPointFromScreen(native_point);
 			native_point = viewWrapper.ConvertPointFromView (native_point, null);
 
 			Point converted_point = NativeToMonoFramed (native_point, viewWrapper);
@@ -386,7 +388,7 @@ namespace System.Windows.Forms {
 			NSWindow windowWrapper = viewWrapper.Window;
 
 			native_point = viewWrapper.ConvertPointToView (native_point, null);
-			native_point = windowWrapper.ConvertBaseToScreen(native_point);
+			native_point = windowWrapper.ConvertPointToScreen(native_point);
 
 			Point converted_point = NativeToMonoScreen (native_point);
 
@@ -400,9 +402,8 @@ namespace System.Windows.Forms {
 			AppKit.NSApplication.EnsureUIThread ();
 
 			NSDate? timeout = wait ? NSDate.DistantFuture : NSDate.DistantPast;
-			NSEvent evt;
 			NSRunLoopMode mode = draggingSession == null ? (ModalSessions.Count == 0 ? NSRunLoopMode.Default : NSRunLoopMode.ModalPanel) : NSRunLoopMode.EventTracking;
-			evt = NSApp.NextEvent((NSEventMask)NSEventMask.AnyEvent, timeout, mode, dequeue);
+			NSEvent evt = NSApp.NextEvent((NSEventMask)NSEventMask.AnyEvent, timeout, mode, dequeue);
 			if (evt == null)
 				return false;
 
@@ -412,7 +413,10 @@ namespace System.Windows.Forms {
 				return true;
 			}
 
-			if (dequeue) {
+			if (!dequeue)
+				return true;
+			
+			try {
 				if (ReverseWindowMapped && NSEvent.CurrentPressedMouseButtons == 0)
 				{
 					ReverseWindow.OrderOut(ReverseWindow);
@@ -430,27 +434,30 @@ namespace System.Windows.Forms {
 				if (isMouseEvt && evt.Window == null && evt.WindowNumber != 0)
 					evt = evt.RetargetMouseEvent(evt.LocationInWindow, flags);
 
-				if (Grab.Hwnd != IntPtr.Zero && isMouseEvt && evt.Window != null) {
+				if (isMouseEvt && Grab.Hwnd != IntPtr.Zero) {
 					var grabView = Grab.Hwnd.ToNSView();
-					if (grabView.Window.WindowNumber != evt.WindowNumber)
-						evt = evt.RetargetMouseEvent(grabView, flags);
+					evt = evt.RetargetMouseEvent(grabView, flags);
 					grabView.DispatchMouseEvent(evt);
 				} else {
-					// When KeyboardCapture is set (ToolStrip menus), deliver key events directly, to avoid filtering, such as in case of HTMLWebView which eats KeyDown.
-					if (Application.KeyboardCapture != null && (evt.Type == NSEventType.KeyUp || evt.Type == NSEventType.KeyDown) && evt.Window != null)
-						evt.Window.SendEvent(evt);
-					else {
-						// Discard mouse events for other windows if we have a modal one...
-						if (!isMouseEvt || NSApp.ModalWindow == null || NSApp.ModalWindow == evt.Window  || evt.Window == null || evt.Window.WorksWhenModal || evt.Window.IsChildOf(NSApp.ModalWindow))
-							NSApp.SendEvent(evt);
 
-						// ... but still use mouse click to activate the app if necessary.
-						if (flags.HasFlag(NSMouseFlags.Down) && NSApp.ModalWindow != evt.Window && NSApp.ModalWindow != null && !NSApp.Active)
-							NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
-					}
+					// Close toolstrips of a modal form when clicking another form
+					if (flags.HasFlag(NSMouseFlags.Down) && NSApp.ModalWindow != null && evt.Window != NSApp.ModalWindow && evt.Window != null) 
+						if (!evt.Window.IsChildOf(NSApp.ModalWindow))
+							ToolStripManager.FireAppClicked();
+
+					// Ignore mouse events for other windows when there is a modal window...
+					if (!isMouseEvt || NSApp.ModalWindow == null || NSApp.ModalWindow == evt.Window || evt.Window == null || evt.Window.WorksWhenModal || evt.Window.IsChildOf(NSApp.ModalWindow))
+						NSApp.SendEvent(evt);
+
+					// ... but still use mouse click to activate the app if necessary.
+					if (flags.HasFlag(NSMouseFlags.Down) && NSApp.ModalWindow != evt.Window && NSApp.ModalWindow != null && !NSApp.Active)
+						NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
 				}
 
 				NSApp.UpdateWindows();
+			} finally {
+				if (evt.Type == NSEventType.LeftMouseUp)
+					LastMouseDown = null;
 			}
 
 			return true;
@@ -506,7 +513,7 @@ namespace System.Windows.Forms {
 				return;
 			if (viewWrapper is MonoView && ((MonoView)viewWrapper).ExStyle.HasFlag(WindowExStyles.WS_EX_NOPARENTNOTIFY))
 				return;			
-			if (viewWrapper.Superview == null || !(viewWrapper.Superview is MonoView))
+			if (viewWrapper.Superview == null || !(viewWrapper.Superview.IsSwfControl()))
 				return;
 
 			if (cause == Msg.WM_CREATE || cause == Msg.WM_DESTROY)
@@ -561,7 +568,7 @@ namespace System.Windows.Forms {
 		private void CleanupCachedWindows(IntPtr handle)
 		{
 			if (GetFocus() == handle) {
-				NSApplication.SharedApplication.KeyWindow.MakeFirstResponder(null);
+				FocusHwnd = IntPtr.Zero;
 			}
 
 			if (Grab.Hwnd == handle) {
@@ -629,9 +636,16 @@ namespace System.Windows.Forms {
 				}
 			}
 		}
-		
-		internal override bool CalculateWindowRect (ref Rectangle ClientRect, CreateParams cp, 
-							    out Rectangle WindowRect) {
+
+		internal override bool CalculateWindowRect(IntPtr hwnd, ref Rectangle ClientRect, CreateParams cp, out Rectangle WindowRect) {
+			if (hwnd != IntPtr.Zero && ObjCRuntime.Runtime.GetNSObject(hwnd) is NSView view && view.Window?.ContentView == view) {
+				// In case of the content view, we need to use the instance variant 
+				// of the FrameRectFor method, since it takes the titlebar accessory view into account.
+				var nsrect = view.Window.FrameRectFor(MonoToNativeScreen(ClientRect));
+				WindowRect = NativeToMonoScreen(nsrect);
+				return true;
+			}
+
 			if (cp.WindowStyle.HasFlag(WindowStyles.WS_CHILD)) {
 				WindowRect = ClientRect;
 			} else {
@@ -732,6 +746,7 @@ namespace System.Windows.Forms {
 			{
 				native &= ~(NSWindowStyle.Titled | NSWindowStyle.Miniaturizable | NSWindowStyle.Resizable | NSWindowStyle.Closable);
 			}
+
 			return native;
 		}
 
@@ -831,7 +846,9 @@ namespace System.Windows.Forms {
 				WholeRect = NSWindow.ContentRectFor(WholeRect, attributes);
 				//SetAutomaticControlDragTrackingEnabledForWindow (, true);
 				//ParentHandle = WindowView;
-				windowWrapper = new MonoWindow(WholeRect, attributes, NSBackingStore.Buffered, true, this);
+
+				windowWrapper = new MonoWindow(WholeRect, attributes, NSBackingStore.Buffered, true, this, cp.ClassName == "PANEL");
+
 				WindowHandle = (IntPtr) windowWrapper.Handle;
 
 				if ((cp.ClassStyle & 0x20000) != 0) // CS_DROPSHADOW
@@ -961,6 +978,9 @@ namespace System.Windows.Forms {
 		
 		internal override IntPtr DefWndProc (ref Message msg) {
 			switch ((Msg) msg.Msg) {
+				case Msg.WM_KEYDOWN:
+				case Msg.WM_KEYUP:
+					return 1;
 				case Msg.WM_IME_COMPOSITION:
 					SendMessage(msg.HWnd, Msg.WM_CHAR, msg.WParam, msg.LParam);
 					break;
@@ -1059,6 +1079,11 @@ namespace System.Windows.Forms {
 					msg.Result = parent != IntPtr.Zero ? NativeWindow.WndProc(parent, (Msg)msg.Msg, msg.WParam, msg.LParam) : (IntPtr)1;
 					return msg.Result;
 				}
+				case Msg.WM_CONTEXTMENU: {
+					var parent = GetParent(msg.HWnd, false);
+					msg.Result = parent != IntPtr.Zero ? NativeWindow.WndProc(parent, (Msg)msg.Msg, msg.WParam, msg.LParam) : IntPtr.Zero;
+					return msg.Result;
+				}
 				case Msg.WM_CANCELMODE:
 				{
 					if (Grab.Hwnd != IntPtr.Zero) {
@@ -1073,9 +1098,11 @@ namespace System.Windows.Forms {
 						monoView.DrawBorders();	
 					break;
 				}
-				case Msg.WM_MOUSEACTIVATE:
-					return new IntPtr((int)MouseActivate.MA_ACTIVATE); // Shoudn't we send it to the parent?
-
+				case Msg.WM_MOUSEACTIVATE: {
+					var parent = GetParent(msg.HWnd, false);
+					msg.Result = parent != IntPtr.Zero ? NativeWindow.WndProc(parent, (Msg)msg.Msg, msg.WParam, msg.LParam) : (IntPtr)(int)MouseActivate.MA_ACTIVATE;
+					return msg.Result;
+				}
 				case Msg.WM_QUERYENDSESSION:
 					return new IntPtr(1);
 			}
@@ -1238,19 +1265,15 @@ namespace System.Windows.Forms {
 		
 		internal override void GetCursorPos (IntPtr handle, out int x, out int y)
 		{
-			CGPoint nspt = NSEvent.CurrentMouseLocation;
-			Point pt = NativeToMonoScreen (nspt);
-			x = (int) pt.X;
-			y = (int) pt.Y;
+			Point pt = NativeToMonoScreen(NSEvent.CurrentMouseLocation);
+			if (handle != IntPtr.Zero)
+				pt = ConvertScreenPointToClient(handle, pt);
+			x = pt.X;
+			y = pt.Y;
 		}
 
 		internal override IntPtr GetFocus() {
-			var keyWindow = NSApplication.SharedApplication.KeyWindow;
-			if (keyWindow != null) {
-				var responder = keyWindow.FirstResponder;
-				return GetHandle(responder);
- 			}
-			return IntPtr.Zero;
+			return FocusHwnd;
 		}
 
 		internal static IntPtr GetHandle(NSObject o) {
@@ -1261,6 +1284,8 @@ namespace System.Windows.Forms {
 			if (o is WindowsEventResponder wer)
 				return wer.view.Handle;
 			if (o is MonoView)
+				return o.Handle;
+			if (o.IsSwfControl())
 				return o.Handle;
 
 			// wrapped native control or text field with the field editor
@@ -1742,6 +1767,15 @@ namespace System.Windows.Forms {
 
 		internal override void SetFocus(IntPtr handle)
 		{
+			try {
+				++setFocusCount; 
+				SetFocusInternal(handle);
+			} finally {
+				--setFocusCount;
+			}
+		}
+		internal void SetFocusInternal(IntPtr handle)
+		{
 			var keyWindow = NSApplication.SharedApplication.KeyWindow;
 			if (handle == IntPtr.Zero)
 			{
@@ -1902,8 +1936,16 @@ namespace System.Windows.Forms {
 		{
 			NSView vuWrap = hWnd.ToNSView();
 			NSWindow winWrap = vuWrap.Window;
-			if (winWrap != null)
-				winWrap.Level = Enabled ? NSWindowLevel.ModalPanel : NSWindowLevel.Normal;
+			if (winWrap != null) {
+				var level = Enabled ? NSWindowLevel.ModalPanel : NSWindowLevel.Normal;
+				if (winWrap.Level != level) {
+					var parent = winWrap.ParentWindow;
+					// Removing from parent prevents reordering windows
+					parent?.RemoveChildWindow(winWrap);
+					winWrap.Level = level;
+					parent?.AddChildWindow(winWrap, NSWindowOrderingMode.Above);
+				}
+			}
 			return true;
 		}
 
@@ -1952,6 +1994,9 @@ namespace System.Windows.Forms {
 					winWrap.OrderOut(winWrap);
 					if (winWrap is MonoWindow monoWindow && monoWindow.Owner != null)
 						monoWindow.Owner.RemoveChildWindow(winWrap);
+
+					if (NSApplication.SharedApplication.KeyWindow == null)
+						winWrap.ActivateNextWindow();
 				}
 			} else {
 				// AppKit sets the FirstResponder to null when hiding a view that is
@@ -1971,12 +2016,26 @@ namespace System.Windows.Forms {
 
 		void ShowWindow(NSWindow window, bool activate)
 		{
+			Console.WriteLine($"ShowWindow:{window.Title}, activate={activate}");
 			if (activate)
 				window.MakeKeyAndOrderFront(window);
 			else if (window.ParentWindow == null)
 				window.OrderFront(window);
 			else if (window.ParentWindow.IsVisible)
 				window.OrderWindow(NSWindowOrderingMode.Above, window.ParentWindow.WindowNumber);
+		}
+
+		void ActivateNextWindow() {
+			var next = FindNextKeyWindowCandidate();
+			if (next != null)
+				next.MakeKeyAndOrderFront(NSApp);
+		}
+		NSWindow FindNextKeyWindowCandidate() {
+			var windows = MonoWindow.GetOrderedWindowList();
+			foreach (var window in windows)
+				if (window.CanBecomeKeyWindow)
+					return window;
+			return null;
 		}
 
 		internal override void SetBorderStyle (IntPtr handle, FormBorderStyle border_style) {
@@ -2135,6 +2194,9 @@ namespace System.Windows.Forms {
 #if DriverDebug
 			Console.WriteLine ("SetZOrder ({0}, {1}, {2}, {3})", hwnd, afterHwnd, Top, Bottom);
 #endif
+			// We don't want to reorder siblings of the ContentView. It could break titlebar, window's semaphore etc.
+			if (itVuWrap?.Window?.ContentView == itVuWrap)
+				return false;
 
 			if (IntPtr.Zero != after_handle) {
 				afterVuWrap = after_handle.ToNSView();
@@ -2155,7 +2217,7 @@ namespace System.Windows.Forms {
 						afterVuWrap = afterSuperVuWrap;
 				}
 
-				// Copy the array because it needs to be mutable and because it is volitile.
+				// Copy the array because it needs to be mutable and because it is volatile.
 				List<NSView> subviews = new List<NSView> (itSuperVuWrap.Subviews);
 				int oldIndex = subviews.IndexOf (itVuWrap);
 
@@ -2513,6 +2575,47 @@ namespace System.Windows.Forms {
 		// Event Handlers
 		internal override event EventHandler Idle;
 			#endregion Override properties XplatUIDriver
+
+        internal override IntPtr GetWindowFromPoint(int x, int y)
+        {
+            return ViewFromScreenPoint(new CGPoint(x, initialScreenSize.Height - y))?.Handle ?? IntPtr.Zero;
+		}
+
+		internal NSView? ViewFromScreenPoint(CGPoint screenLocation)
+		{
+			nint below = 0;
+			while (true)
+			{
+				var wnum = NSWindow.WindowNumberAtPoint(screenLocation, below);
+				var window = NSApplication.SharedApplication.WindowWithWindowNumber(wnum);
+				if (window == null)
+					break;
+
+				var windowLocation = window.ConvertPointFromScreen(screenLocation);
+				var view = window.ContentView.HitTest(windowLocation);
+
+				// Embedded native control? => Find MonoView parent
+				while (view != null && !(view is MonoView))
+					view = view.Superview;
+
+				if (view == null)
+					break;
+
+				if (view.IsSwfControl() && HTTransparent(view.Handle))
+				{
+					below = wnum;
+					continue;
+				}
+				return view;
+			}
+
+            return null;
+        }
+
+		internal static bool HTTransparent(IntPtr hwnd)
+		{
+			return -1 == XplatUI.SendMessage(hwnd, Msg.WM_NCHITTEST, IntPtr.Zero, IntPtr.Zero).ToInt32();
+		}
 	}
 	// Windows / Native messaging support
 

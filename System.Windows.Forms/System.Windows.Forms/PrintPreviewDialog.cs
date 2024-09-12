@@ -30,6 +30,7 @@ using System.ComponentModel.Design;
 using System.ComponentModel.Design.Serialization;
 using System.Collections;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Reflection;
@@ -466,6 +467,7 @@ namespace System.Windows.Forms {
  
 		[Browsable(false)]
 		[EditorBrowsable(EditorBrowsableState.Never)]
+		[AllowNull]
 		public override Cursor Cursor {
 			get {
 				return base.Cursor;
@@ -525,6 +527,7 @@ namespace System.Windows.Forms {
  
 		[Browsable(false)]
 		[EditorBrowsable(EditorBrowsableState.Never)]
+		[AllowNull]
 		public override Font Font {
 			get {
 				return base.Font;
@@ -736,6 +739,7 @@ namespace System.Windows.Forms {
  
 		[Browsable(false)]
 		[EditorBrowsable(EditorBrowsableState.Never)]
+		[AllowNull]
 		public override string Text {
 			get {
 				return base.Text;

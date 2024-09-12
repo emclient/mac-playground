@@ -1,5 +1,6 @@
 using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -40,6 +41,8 @@ namespace System.Windows.Forms
 		internal AutoCompleteStringCollection auto_complete_custom_source;
 		internal AutoCompleteMode auto_complete_mode = AutoCompleteMode.None;
 		internal AutoCompleteSource auto_complete_source = AutoCompleteSource.None;
+
+		internal Func<int[], string[], bool> ShouldChangeTextsInRanges { get; set; }
 
 		// Just to make friends happy
 		internal bool has_been_focused = false;
@@ -120,6 +123,22 @@ namespace System.Windows.Forms
 
 		internal virtual void HandleLinkClicked(NSTextView textView, NSObject link, nuint charIndex)
 		{
+		}
+
+		internal virtual bool TextViewShouldChangeTextInRanges(NSTextView textView, NSValue[] affectedRanges, string[] replacementStrings)
+		{
+			if (ShouldChangeTextsInRanges == null)
+				return true;
+
+			var ranges = new int[affectedRanges.Length * 2];
+			for(var i = 0; i < affectedRanges.Length; ++i)
+			{
+				var range = affectedRanges[i].RangeValue;
+				ranges[2 * i] = (int)range.Location;
+				ranges[2 * i + 1] = (int)range.Length;
+			}
+			
+			return ShouldChangeTextsInRanges(ranges, replacementStrings);
 		}
 
 		// macOS-specific, but intentionally protected
@@ -261,6 +280,7 @@ namespace System.Windows.Forms
 		[Editor("System.Windows.Forms.Design.StringArrayEditor, " + Consts.AssemblySystem_Design, typeof(System.Drawing.Design.UITypeEditor))]
 		[Localizable(true)]
 		[MWFCategory("Appearance")]
+		[AllowNull]
 		public string[] Lines
 		{
 			get
@@ -419,6 +439,7 @@ namespace System.Windows.Forms
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[AllowNull]
 		public virtual string SelectedText
 		{
 			get { return Imp.SelectedText; }
@@ -467,6 +488,7 @@ namespace System.Windows.Forms
 
 		[Editor("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design, typeof (System.Drawing.Design.UITypeEditor))]
 		[Localizable(true)]
+		[AllowNull]
 		public override string Text
 		{
 			get { return Imp.Text; }
@@ -792,6 +814,12 @@ namespace System.Windows.Forms
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
+			switch (keyData)
+			{
+			 	case Keys.Back:
+			 		return false;
+			}
+
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
 		protected override bool ProcessDialogKey(Keys keyData)
@@ -831,7 +859,7 @@ namespace System.Windows.Forms
 			{
 				base.WndProc(ref m);
 
-				m.Result = (IntPtr)1; // Do not deliver the original event to the native field editor.
+				m.Result = (IntPtr)0; // Do not deliver the original event to the native field editor.
 				return;
 			}
 

@@ -93,15 +93,9 @@ namespace System.Drawing
 			{
 				var attrs = nativeFontDescriptor.GetAttributes ();
 				familyName = attrs.FamilyName;
-				// if the font description attributes do not contain a value for FamilyName then we
-				// need to try and create the font to get the family name from the actual font.
 				if (string.IsNullOrEmpty (familyName)) 
-				{
-					using (var font = new CTFont(nativeFontDescriptor, 0))
-						familyName = extendedName; //font.FamilyName
-				}
+					familyName = extendedName; //font.FamilyName
 			}
-
 		}
 
 		private bool NativeStyleAvailable(FontStyle style)

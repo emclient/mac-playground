@@ -45,6 +45,8 @@ namespace System.Windows.Forms
 					textView.TextContainer.WidthTracksTextView = true;
 					textView.RichText = owner.richtext;
 					textView.ShouldUpdateTouchBarItemIdentifiers = TextViewUpdateTouchBarItemIdentifiers;
+					textView.ShouldChangeTextInRange = TextViewShouldChangeTextInRange;
+					textView.ShouldChangeTextInRanges = TextViewShouldChangeTextInRanges;
 
 					if (NSProcessInfo.ProcessInfo.IsOperatingSystemAtLeastVersion(new NSOperatingSystemVersion(10,12,1)))
 						textView.AutomaticTextCompletionEnabled = true;
@@ -410,6 +412,16 @@ namespace System.Windows.Forms
 			internal string[] TextViewUpdateTouchBarItemIdentifiers(NSTextView textView, string[] identifiers)
 			{
 				return identifiers;
+			}
+
+			public bool TextViewShouldChangeTextInRange(NSTextView textView, NSRange affectedCharRange, string replacementString)
+			{
+				return owner.TextViewShouldChangeTextInRanges(textView, new NSValue[] { NSValue.FromRange(affectedCharRange) } , new string[] { replacementString });
+			}
+
+			public bool TextViewShouldChangeTextInRanges(NSTextView textView, NSValue[] affectedRanges, string[] replacementStrings)
+			{
+				return owner.TextViewShouldChangeTextInRanges(textView, affectedRanges, replacementStrings);
 			}
 
 			internal virtual bool TextViewLinkClicked(NSTextView textView, NSObject link, nuint charIndex)

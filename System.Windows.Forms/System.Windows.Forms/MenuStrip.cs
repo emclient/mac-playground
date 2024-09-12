@@ -212,12 +212,12 @@ namespace System.Windows.Forms
 		
 		private void ToolStripMenuTracker_AppFocusChange (object sender, EventArgs e)
 		{
-			this.GetTopLevelToolStrip ().Dismiss (ToolStripDropDownCloseReason.AppFocusChange);
+			this.GetTopLevelToolStrip ()?.Dismiss (ToolStripDropDownCloseReason.AppFocusChange);
 		}
 
 		private void ToolStripMenuTracker_AppClicked (object sender, EventArgs e)
 		{
-			this.GetTopLevelToolStrip ().Dismiss (ToolStripDropDownCloseReason.AppClicked);
+			this.GetTopLevelToolStrip ()?.Dismiss (ToolStripDropDownCloseReason.AppClicked);
 		}
 		
 		internal void RefreshMdiItems ()

@@ -268,6 +268,8 @@ namespace System.Drawing.Drawing2D
 			ctAttributes.Font = font.nativeFont;
 			// -- end font 
 
+			ctAttributes.ParagraphStyle = Graphics.DefaultParagraphStyle;
+
 			if (fontColor.HasValue) {
 
 				// Font color

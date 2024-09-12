@@ -25,6 +25,7 @@
 
 
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Windows.Forms {
 
@@ -63,6 +64,7 @@ namespace System.Windows.Forms {
 		}
 
 		[Browsable (false)]
+		[AllowNull]
 		public virtual DataGridViewCellStyle DefaultCellStyle {
 			get {
 				if (defaultCellStyle == null) {
@@ -238,6 +240,7 @@ namespace System.Windows.Forms {
 
 		[Browsable (false)]
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
+		[AllowNull]
 		protected DataGridViewHeaderCell HeaderCellCore {
 			get { return headerCellCore; }
 			set { headerCellCore = value; }

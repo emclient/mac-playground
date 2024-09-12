@@ -22,12 +22,33 @@ namespace System.Windows.Forms
 				XplatUI.SendMessage(grabHandle, Msg.WM_CANCELMODE, IntPtr.Zero, IntPtr.Zero);
 		}
 
+		NSMenu nsMenu;
 		internal NSMenu ToNSMenu()
 		{
-			var menu = new NSMenu();
-			menu.Delegate = new MonoMenuDelegate(this, menu);
-			menu.AutoEnablesItems = false;
-			return menu;
+			if (nsMenu == null)
+			{
+				nsMenu = new NSMenu();
+				nsMenu.Delegate = new MonoMenuDelegate(this, nsMenu);
+				nsMenu.AutoEnablesItems = false;
+			}
+			return nsMenu;
+		}
+
+		protected override void Dispose (bool disposing)
+		{
+			if (disposing)
+			{
+				if (nsMenu != null)
+				{
+					nsMenu.Delegate?.Dispose();
+					nsMenu.Delegate = null;
+					nsMenu.RemoveAllItems();
+					nsMenu.Dispose();
+					nsMenu = null;
+				}
+			}
+
+			base.Dispose(disposing);
 		}
 
 		[Register("__xmonomac_internal_ActionDispatcher")]
@@ -142,6 +163,11 @@ namespace System.Windows.Forms
 			{
 				// Early opening before we call NSMenu.PopUpMenu
 				beforePopupCalled = true;
+				RecreateNativeItems();
+			}
+
+			internal virtual void RecreateNativeItems()
+			{
 				menu.RemoveAllItems();
 				foreach (ToolStripItem item in owner.Items)
 				{
@@ -188,7 +214,26 @@ namespace System.Windows.Forms
 				if (!beforePopupCalled)
 					BeforePopup();
 
+				// Get rid of expansion triangles when there is no visible menu in the submenu
+				for (int i = 0; i < menu.Items.Length && i < owner.Items.Count; ++i)
+				  	RemoveSubmenuIfEmpty(menu.Items[i], owner.Items[i]);
+
 				owner.OnOpened(EventArgs.Empty);
+			}
+
+			void RemoveSubmenuIfEmpty(NSMenuItem item, ToolStripItem ownerItem)
+			{
+				if (item.HasSubmenu && ownerItem is ToolStripDropDownItem dropDownItem)
+					if (!ContainsVisibleItems(dropDownItem))
+						item.Submenu = null;
+			}
+
+			bool ContainsVisibleItems(ToolStripDropDownItem item)
+			{
+				foreach(ToolStripItem sub in item.DropDownItems)
+					if (sub.InternalVisible)
+						return true;
+				return false;
 			}
 
 			public override void MenuDidClose(NSMenu menu)
@@ -198,9 +243,12 @@ namespace System.Windows.Forms
 				owner.CancelGrab();
 				owner.currentMenu = null;
 				owner.Close();
-				owner.is_visible = false;
-				owner.OnVisibleChanged(EventArgs.Empty);
 				beforePopupCalled = false;
+
+				XplatUICocoa.UpdateModifiers(NSEvent.CurrentModifierFlags);
+
+				if (Application.KeyboardCapture == owner)
+					Application.KeyboardCapture.KeyboardActive = false;
 			}	
 		}
 

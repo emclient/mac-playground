@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using System.Drawing.Imaging;
+using System.Drawing.Mac;
 using CoreGraphics;
 using CoreImage;
 using Foundation;
@@ -37,31 +39,44 @@ namespace System.Drawing
 			if (image == null)
 				throw new ArgumentNullException(nameof(image));
 
-			image = GetRepresentation(context, image, rect.Size.ToSize());
+			image = GetRepresentation(image, rect.Size.ToSize());
 
 			if (image.nativeMetafilePage != null) {
-				var dst = new CGRect(rect.X, rect.Y, rect.Width, rect.Height);
-				var src = image.nativeMetafilePage.GetBoxRect(CGPDFBox.Media);
-				var scale = (float)(src.Width == 0 || src.Height == 0 ? 1 : Math.Min(dst.Width / src.Width, dst.Height / src.Height));
-
-				// Let’s not use image.nativeMetafilePage.GetDrawingTransform(), because it limits the scale to 1.0.
-				var t = CGAffineTransform.MakeTranslation(-src.X, -src.Y);
-				t.Scale(scale, scale);
-				t.Translate(dst.X, dst.Y);
-
-				// Flip vertically
-				t.Translate(0, -dst.GetMidY());
-				t.Scale(1, -1);
-				t.Translate(0, dst.GetMidY());
-
-				context.SaveState();
-				context.ConcatCTM(t);
-				context.DrawPDFPage(image.nativeMetafilePage);
-				context.RestoreState();
-			}
-			else if (image.NativeCGImage != null) {
+				DrawPdfPage (image.nativeMetafilePage, rect);
+			} else if (image.NativeCGImage != null) {
 				DrawImage (rect, image.NativeCGImage, image.imageTransform);
 			}
+		}
+
+		internal void DrawPdfPage(CGPDFPage pdfPage, RectangleF destRect)
+		{
+			var srcRect = pdfPage.GetBoxRect(CGPDFBox.Media).ToRectangleF();
+			DrawPdfPage(pdfPage, srcRect, destRect);
+		}
+
+		internal void DrawPdfPage(CGPDFPage pdfPage, RectangleF srcRect, RectangleF destRect)
+		{
+			Debug.Assert(pdfPage != null);
+
+			var dst = destRect.ToCGRect();
+			var src = srcRect.ToCGRect();
+			var scale = (float)(src.Width == 0 || src.Height == 0 ? 1 : Math.Min(dst.Width / src.Width, dst.Height / src.Height));
+
+			// Let’s not use the pdfPage.GetDrawingTransform(), because it limits the scale to 1.0.
+			var t = CGAffineTransform.MakeTranslation(-src.X, -src.Y);
+			t.Scale(scale, scale);
+			t.Translate(dst.X, dst.Y);
+
+			// Flip vertically
+			t.Translate(0, -dst.GetMidY());
+			t.Scale(1, -1);
+			t.Translate(0, dst.GetMidY());
+
+			context.SaveState();
+			SetClip(destRect);
+			context.ConcatCTM(t);
+			context.DrawPDFPage(pdfPage);
+			context.RestoreState();
 		}
 
 		/// <summary>
@@ -264,48 +279,49 @@ namespace System.Drawing
 		public void DrawImage (Image image, RectangleF destRect, RectangleF srcRect, GraphicsUnit srcUnit)
 		{			
 			if (image == null)
-				throw new ArgumentNullException ("image");
+				throw new ArgumentNullException(nameof(image));
 
-			var srcRect1 = srcRect;
+			var rep = GetRepresentation(image, image.Size);
 
-			// If the source units are not the same we need to convert them
-			// The reason we check for Pixel here is that our graphics already has the Pixel's baked into the model view transform
+			if (srcRect.Size.IsEmpty || destRect.Size.IsEmpty)
+				return;
+
 			if (srcUnit != graphicsUnit && srcUnit != GraphicsUnit.Pixel) 
-			{
-				ConversionHelpers.GraphicsUnitConversion (srcUnit, graphicsUnit, image.HorizontalResolution, image.VerticalResolution,  ref srcRect1);
+				ConversionHelpers.GraphicsUnitConversion (srcUnit, graphicsUnit, image.HorizontalResolution, image.VerticalResolution,  ref srcRect);
+
+			// Scale the source rect to match the chosen representation
+			float kx = rep.Width / image.Width;
+			float ky = rep.Height / image.Height;
+			srcRect = new RectangleF(srcRect.X * kx, srcRect.Y * ky, srcRect.Width * kx, srcRect.Height * ky);
+
+			if (rep.nativeMetafilePage != null) {
+				DrawPdfPage(rep.nativeMetafilePage, destRect);
+			} else if (rep.NativeCGImage != null) {
+				DrawCGImage(rep.NativeCGImage, srcRect, destRect, rep.imageTransform);
 			}
-
-			if (srcRect1.Location == Point.Empty && srcRect1.Size == image.Size)
-			{
-				DrawImage(image, destRect);
-				return;
-			}
-
-			if (image.NativeCGImage == null)
-				throw new NotImplementedException();
-
-			// Obtain the subImage
-			var subImage = image.NativeCGImage.WithImageInRect (new CGRect(srcRect1.X, srcRect1.Y, srcRect1.Width, srcRect1.Height));
-
-			// If we do not have anything to draw then we exit here
-			if (subImage == null || subImage.Width == 0 || subImage.Height == 0)
-				return;
-
-			var transform = image.imageTransform;
-			// Reset our height on the transform to account for subImage
-			transform.Ty = (float)subImage.Height;
-
-			// Make sure we scale the image in case the source rectangle
-			// overruns our subimage bouncs width and/or height
-			float scaleX = subImage.Width/srcRect1.Width;
-			float scaleY = subImage.Height/srcRect1.Height;
-			transform.Scale (scaleX, scaleY);
-
-			// Now draw our image
-			DrawImage (destRect, subImage, transform);
-
 		}
 
+		internal void DrawCGImage(CGImage rep, RectangleF srcRect, RectangleF destRect, CGAffineTransform imageTransform)
+		{
+			Debug.Assert(rep != null);
+
+			// Create the main transformation from the source and destination rects
+			var sx = destRect.Width / srcRect.Width;
+			var sy = destRect.Height / srcRect.Height;
+			var tx = destRect.X - srcRect.X  * sx;
+			var ty = destRect.Y - srcRect.Y  * sy;
+			var t1 = new CGAffineTransform(sx, 0, 0, sy, tx, ty);
+
+			// Concat the image transformation with the main one
+			var t = imageTransform;
+			t.Multiply(t1);
+
+			context.SaveState();
+			context.ClipToRect(destRect.ToCGRect());
+			context.ConcatCTM(t);
+			context.DrawImage(new CGRect(0, 0, rep.Width, rep.Height), rep);
+			context.RestoreState();
+		}
 
 		/// <summary>
 		/// Draws the specified portion of the specified Image at the specified location and with the specified size.
@@ -655,9 +671,9 @@ namespace System.Drawing
 
 						ciFilter.SetValueForKey (result, new NSString ("inputImage"));
 
-						var inputRVector = new CIVector (imageAttrs.colorMatrix.Matrix00, imageAttrs.colorMatrix.Matrix01, imageAttrs.colorMatrix.Matrix02, imageAttrs.colorMatrix.Matrix03);
-						var inputGVector = new CIVector (imageAttrs.colorMatrix.Matrix10, imageAttrs.colorMatrix.Matrix11, imageAttrs.colorMatrix.Matrix12, imageAttrs.colorMatrix.Matrix13);
-						var inputBVector = new CIVector (imageAttrs.colorMatrix.Matrix20, imageAttrs.colorMatrix.Matrix21, imageAttrs.colorMatrix.Matrix22, imageAttrs.colorMatrix.Matrix23);
+						var inputRVector = new CIVector (imageAttrs.colorMatrix.Matrix00, imageAttrs.colorMatrix.Matrix10, imageAttrs.colorMatrix.Matrix20, imageAttrs.colorMatrix.Matrix30);
+						var inputGVector = new CIVector (imageAttrs.colorMatrix.Matrix01, imageAttrs.colorMatrix.Matrix11, imageAttrs.colorMatrix.Matrix21, imageAttrs.colorMatrix.Matrix31);
+						var inputBVector = new CIVector (imageAttrs.colorMatrix.Matrix02, imageAttrs.colorMatrix.Matrix12, imageAttrs.colorMatrix.Matrix22, imageAttrs.colorMatrix.Matrix32);
 						var inputAVector = new CIVector (imageAttrs.colorMatrix.Matrix30, imageAttrs.colorMatrix.Matrix31, imageAttrs.colorMatrix.Matrix32, imageAttrs.colorMatrix.Matrix33);
 						var inputBiasVector = new CIVector (imageAttrs.colorMatrix.Matrix40, imageAttrs.colorMatrix.Matrix41, imageAttrs.colorMatrix.Matrix42, imageAttrs.colorMatrix.Matrix43);
 
@@ -800,16 +816,26 @@ namespace System.Drawing
 			DrawImageUnscaled (image, rect.X, rect.Y, width, height);			
 		}
 
-		internal static Image GetRepresentation(CGContext context, Image image, Size destSize)
+		internal Image GetRepresentation(Image image, Size destSize)
 		{
 			Image best = image;
+
+			var devSize = this.ConvertToDeviceResolution(destSize);
 			if (image.representations != null)
-			{
-				var size = context.ConvertSizeToDeviceSpace(new CGSize(destSize.Width, destSize.Height));
 				foreach (Image img in image.representations)
-					if (Math.Abs(img.Height - size.Height) < Math.Abs(best.Height - size.Height))
+					if (Math.Abs(img.Height - devSize.Height) < Math.Abs(best.Height - devSize.Height))
 						best = img;
+
+			if (best.Size != devSize && image.representationProvider != null)
+			{
+				var rep = image.representationProvider(devSize);
+				if (rep != null)
+				{
+					image.AddRepresentation(rep);
+					best = rep;
+				}
 			}
+
 			return best;
 		}
 

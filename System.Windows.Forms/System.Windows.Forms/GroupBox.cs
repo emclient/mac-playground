@@ -29,6 +29,7 @@
 //
 //
 
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.ComponentModel;
 using System.ComponentModel.Design;
@@ -148,6 +149,8 @@ namespace System.Windows.Forms
 
 		public GroupBox ()
 		{
+			AccessibleRole = AccessibleRole.Grouping;
+
 			TabStop = false;
 			flat_style = FlatStyle.Standard;
 
@@ -222,6 +225,7 @@ namespace System.Windows.Forms
 		}
 
 		[Localizable(true)]
+		[AllowNull]
 		public override string Text {
 			get { return base.Text; }
 			set {

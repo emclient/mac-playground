@@ -379,10 +379,10 @@ namespace System.Windows.Forms
 		private void InvalidateCheckbox (int index)
 		{
 			Rectangle area = GetItemDisplayRectangle (index, TopIndex);
-			area.X += 2;
-			area.Y += (area.Height - 11) / 2;
-			area.Width = 11;
-			area.Height = 11;
+			var size = ThemeEngine.Current.CheckBoxSize();
+			area.Y += (area.Height - size) / 2;
+			area.Width = size;
+			area.Height = size;
 			Invalidate (area);
 		}
 

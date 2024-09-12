@@ -27,13 +27,15 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Drawing.Text;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Versioning;
 using System.Runtime.InteropServices;
 
 namespace System.Windows.Forms {
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[ComVisible (true)]
 	[Designer ("System.Windows.Forms.Design.ButtonBaseDesigner, " + Consts.AssemblySystem_Design)]
-	public abstract class ButtonBase : Control
+	public abstract class ButtonBase : Control, ICommandBindingTargetProvider
 	{
 		#region Local Variables
 		private FlatStyle		flat_style;
@@ -286,6 +288,7 @@ namespace System.Windows.Forms {
 		[SettingsBindable (true)]
 		[Editor ("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design,
 			 typeof (System.Drawing.Design.UITypeEditor))]
+		[AllowNull]
 		public override string Text {
 			get { return base.Text; }
 			set { base.Text = value; }
@@ -483,6 +486,16 @@ namespace System.Windows.Forms {
 		{
 			Invalidate ();
 			base.OnGotFocus (e);
+		}
+
+		protected override void OnClick(EventArgs e)
+		{
+			base.OnClick(e);
+
+			// We won't let the preview feature warnings bubble further up beyond this point.
+#pragma warning disable CA2252 // Suppress 'Opt in to preview features' (https://aka.ms/dotnet-warnings/preview-features)
+			OnRequestCommandExecute(e);
+#pragma warning restore CA2252
 		}
 
 		protected override void OnKeyDown (KeyEventArgs kevent)
@@ -715,6 +728,150 @@ namespace System.Windows.Forms {
 			base.OnPaintBackground (e);
 		}
 		#endregion	// Internal Methods
+
+		#region Data Binding
+
+		// Backing fields for the infrastructure to make ToolStripItem bindable and introduce (bindable) ICommand.
+		private System.Windows.Input.ICommand? _command;
+		private object? _commandParameter;
+
+		internal static readonly object s_commandChangedEvent = new();
+		internal static readonly object s_commandParameterChangedEvent = new();
+		internal static readonly object s_commandCanExecuteChangedEvent = new();
+
+		/// <summary>
+		///  Gets or sets the <see cref="System.Windows.Input.ICommand"/> whose <see cref="System.Windows.Input.ICommand.Execute(object?)"/>
+		///  method will be called when the <see cref="Control.Click"/> event gets invoked.
+		/// </summary>
+		[RequiresPreviewFeatures]
+		[Bindable(true)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		//[SRCategory(nameof(SR.CatData))]
+		//[SRDescription(nameof(SR.CommandComponentCommandDescr))]
+		public System.Windows.Input.ICommand? Command
+		{
+			get => _command;
+			set => ICommandBindingTargetProvider.CommandSetter(this, value, ref _command);
+		}
+
+		/// <summary>
+		///  Occurs when the <see cref="System.Windows.Input.ICommand.CanExecute(object?)"/> status of the
+		///  <see cref="System.Windows.Input.ICommand"/> which is assigned to the <see cref="Command"/> property has changed.
+		/// </summary>
+		[RequiresPreviewFeatures]
+		//[SRCategory(nameof(SR.CatData))]
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		//[SRDescription(nameof(SR.CommandCanExecuteChangedEventDescr))]
+		public event EventHandler? CommandCanExecuteChanged
+		{
+			add => Events.AddHandler(s_commandCanExecuteChangedEvent, value);
+			remove => Events.RemoveHandler(s_commandCanExecuteChangedEvent, value);
+		}
+
+		/// <summary>
+		///  Occurs when the assigned <see cref="System.Windows.Input.ICommand"/> of the <see cref="Command"/> property has changed.
+		/// </summary>
+		[RequiresPreviewFeatures]
+		//[SRCategory(nameof(SR.CatData))]
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		//[SRDescription(nameof(SR.CommandChangedEventDescr))]
+		public event EventHandler? CommandChanged
+		{
+			add => Events.AddHandler(s_commandChangedEvent, value);
+			remove => Events.RemoveHandler(s_commandChangedEvent, value);
+		}
+
+		/// <summary>
+		///  Gets or sets the parameter that is passed to the <see cref="System.Windows.Input.ICommand"/>
+		///  which is assigned to the <see cref="Command"/> property.
+		/// </summary>
+		[Bindable(true)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		//[SRCategory(nameof(SR.CatData))]
+		//[SRDescription(nameof(SR.CommandComponentCommandParameterDescr))]
+		public object? CommandParameter
+		{
+			[RequiresPreviewFeatures]
+			get => _commandParameter;
+
+			// We need to opt into preview features on the getter and the setter rather than on top of the property,
+			// because we calling a preview feature from the setter.
+			[RequiresPreviewFeatures]
+			set
+			{
+				if (!Equals(_commandParameter, value))
+				{
+					_commandParameter = value;
+					OnCommandParameterChanged(EventArgs.Empty);
+				}
+			}
+		}
+
+		/// <summary>
+		///  Occurs when the value of the <see cref="CommandParameter"/> property has changed.
+		/// </summary>
+		[RequiresPreviewFeatures]
+		//[SRCategory(nameof(SR.CatData))]
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		//[SRDescription(nameof(SR.CommandParameterChangedEventDescr))]
+		public event EventHandler? CommandParameterChanged
+		{
+			add => Events.AddHandler(s_commandParameterChangedEvent, value);
+			remove => Events.RemoveHandler(s_commandParameterChangedEvent, value);
+		}
+
+		bool? ICommandBindingTargetProvider.PreviousEnabledStatus { get; set; }
+
+		/// <summary>
+		///  Raises the <see cref="ButtonBase.CommandChanged"/> event.
+		/// </summary>
+		/// <param name="e">An empty <see cref="EventArgs"/> instance.</param>
+		[RequiresPreviewFeatures]
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected virtual void OnCommandChanged(EventArgs e)
+			=> RaiseEvent(s_commandChangedEvent, e);
+
+		/// <summary>
+		///  Raises the <see cref="ButtonBase.CommandCanExecuteChanged"/> event.
+		/// </summary>
+		/// <param name="e">An empty <see cref="EventArgs"/> instance.</param>
+		[RequiresPreviewFeatures]
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected virtual void OnCommandCanExecuteChanged(EventArgs e)
+			=> ((EventHandler?)Events[s_commandCanExecuteChangedEvent])?.Invoke(this, e);
+
+		/// <summary>
+		///  Raises the <see cref="ButtonBase.CommandParameterChanged"/> event.
+		/// </summary>
+		/// <param name="e">An empty <see cref="EventArgs"/> instance.</param>
+		[RequiresPreviewFeatures]
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected virtual void OnCommandParameterChanged(EventArgs e) => RaiseEvent(s_commandParameterChangedEvent, e);
+
+		/// <summary>
+		///  Called in the context of <see cref="OnClick(EventArgs)"/> to invoke <see cref="System.Windows.Input.ICommand.Execute(object?)"/> if the context allows.
+		/// </summary>
+		/// <param name="e">An empty <see cref="EventArgs"/> instance.</param>
+		[RequiresPreviewFeatures]
+		protected virtual void OnRequestCommandExecute(EventArgs e)
+			=> ICommandBindingTargetProvider.RequestCommandExecute(this);
+
+		// Called by the CommandProviderManager's command handling logic.
+		[RequiresPreviewFeatures]
+		void ICommandBindingTargetProvider.RaiseCommandChanged(EventArgs e)
+			=> OnCommandChanged(e);
+
+		// Called by the CommandProviderManager's command handling logic.
+		[RequiresPreviewFeatures]
+		void ICommandBindingTargetProvider.RaiseCommandCanExecuteChanged(EventArgs e)
+			=> OnCommandCanExecuteChanged(e);
+
+		private void RaiseEvent(object key, EventArgs e)
+			=> ((EventHandler?)Events[key])?.Invoke(this, e);
+
+		#endregion
 
 		#region ButtonBaseAccessibleObject sub-class
 		[ComVisible (true)]

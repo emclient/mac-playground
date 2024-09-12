@@ -11,8 +11,6 @@ using MacApi.CoreServices.SearchKit;
 using SearchKit;
 using System.Runtime.InteropServices;
 using UniformTypeIdentifiers;
-using UTType = MacApi.CoreServices.UTType;
-using UTTypes = MacApi.CoreServices.UTTypes;
 #endif
 
 namespace FormsTest
@@ -115,7 +113,7 @@ namespace FormsTest
 			return (name, ext, mime);
 		}
 
-		[DllImport("Indexer")]
+		[DllImport("MacLib")]
 		static extern IntPtr extractTermsFromUrl(IntPtr url);
 
 		string[] ExtractTermsFromUrl(NSUrl url, string name, string? hint = null)

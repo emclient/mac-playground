@@ -28,6 +28,7 @@
 
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
@@ -243,6 +244,7 @@ namespace System.Windows.Forms {
 
 		[AmbientValue(null)]
 		[Localizable(true)]
+		[AllowNull]
 		public Font CalendarFont {
 			set {
 				month_calendar.Font = value;
@@ -532,6 +534,7 @@ namespace System.Windows.Forms {
 		[Browsable(false)]
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[AllowNull]
 		public override string Text {
 			set {
 				DateTime parsed_value;

@@ -32,7 +32,7 @@ using System.ComponentModel;
 namespace System.Windows.Forms
 {
 	[TypeConverter (typeof (TableLayoutPanelCellPositionTypeConverter))]
-	public struct TableLayoutPanelCellPosition {
+	public struct TableLayoutPanelCellPosition : IEquatable<TableLayoutPanelCellPosition> {
 		int column, row;
 
 		public TableLayoutPanelCellPosition (int column, int row)
@@ -81,15 +81,18 @@ namespace System.Windows.Forms
 			return !(p1.column == p2.column && p1.row == p2.row);
 		}
 
-		public override bool Equals (object other)
+
+		public override bool Equals(object other)
 		{
-			if (other == null)
+			if (other is not TableLayoutPanelCellPosition otherCellPosition) {
 				return false;
-			if (!(other is TableLayoutPanelCellPosition))
-				return false;
-			TableLayoutPanelCellPosition o = (TableLayoutPanelCellPosition) other;
-			return o.column == column && o.row == row;
+			}
+
+			return Equals (otherCellPosition);
 		}
+
+		public bool Equals (TableLayoutPanelCellPosition other)
+			=> Row == other.Row && Column == other.Column;
 	}
 	
 	internal class TableLayoutPanelCellPositionTypeConverter : TypeConverter

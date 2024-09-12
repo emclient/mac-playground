@@ -18,7 +18,7 @@ namespace FormsTest
 		{
 			base.OnLoad(e);
 
-			var type = typeof(Microsoft.Extensions.Logging.LoggerFactory);
+			var type = typeof(System.Windows.Forms.Control);
 			var assembly = type.Assembly;
 
 			var nonPublicStaticProperties = type.GetMembers(System.Reflection.BindingFlags.SetProperty | System.Reflection.BindingFlags.GetProperty | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);

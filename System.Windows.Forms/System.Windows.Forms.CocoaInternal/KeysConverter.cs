@@ -1,11 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using AppKit;
 using CoreGraphics;
 using Foundation;
-using NSKey = MacApi.AppKit.NSKey;
 
 namespace System.Windows.Forms.CocoaInternal
 {
@@ -200,7 +199,7 @@ namespace System.Windows.Forms.CocoaInternal
 			{
 				foreach (var flags in modifiers)
 				{
-					foreach (NSKey key in Enum.GetValues(typeof(NSKey)))
+					foreach (NSKey key in Enum.GetValues<NSKey>())
 					{
 						var deadKeyStateCopy = deadKeyState;
 						string chars = GetCharactersForKeyPress((ushort)key, flags, ref deadKeyStateCopy, keyboard);

@@ -25,18 +25,15 @@
 //THE SOFTWARE.
 //
 
-using System;
-using System.Drawing;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using AppKit;
+using Foundation;
 using CoreGraphics;
 using ObjCRuntime;
+using System.Windows.Forms.Mac;
 
 namespace System.Windows.Forms.CocoaInternal
 {
-	partial class MonoContentView : MonoView
+	partial class MonoContentView : MonoView, INSTextInputClient
 	{
 		public MonoContentView (NativeHandle instance) : base (instance)
 		{
@@ -52,5 +49,73 @@ namespace System.Windows.Forms.CocoaInternal
 				return Window == null || Window.IsOpaque;
 			}
 		}
+
+		public override void MouseDragged(NSEvent theEvent)
+		{
+			// NOTE: When using custom title bar (NSWindowStyle.FullSizeContentView),
+			// the NSWindow.IsMovable property can be set to false,
+			// otherwise the window could be dragged by the *whole* former titlebar area,
+			// even if there was an active edit box under the mouse pointer.
+			// So, the following lines allow the window to be dragged by the exposed part
+			// of the content view, which is probably the custom title bar.
+
+			if (!Window.IsMovable
+				&& Window.StyleMask.HasFlag(NSWindowStyle.FullSizeContentView)
+				&& XplatUICocoa.LastMouseDown != null
+				&& XplatUICocoa.LastMouseDown.Window == Window
+				&& XplatUICocoa.LastMouseDown.ClickCount == 1
+			)
+				Window.PerformWindowDrag(theEvent);
+			else
+				eventResponder.MouseDragged(theEvent);
+		}
+
+		public override void MouseUp(NSEvent theEvent)
+		{
+			if (theEvent.IsLeftDoubleClick() && Window.StyleMask.HasFlag(NSWindowStyle.FullSizeContentView))
+				if (Window.PerformDoubleClickInCaption(theEvent))
+					return;
+
+			base.MouseUp(theEvent);
+		}
+
+		// Deriving from INSTextInputClient allows for dispatching Text Input events to edit views with embed popup windows,
+		// such as suggestion lists, when these popups are displayed and handle key strokes.
+		// The implementation is not important, the only thing that matters is adopting the NSTextInputClient protocol,
+		// so that the system gets tricked in the right moment.
+
+		#region INSTextInputClient
+
+		public bool HasMarkedText => false;
+
+		public NSRange MarkedRange => new NSRange(0, 0);
+
+		public NSRange SelectedRange => new NSRange(0, 0);
+
+		public NSString[] ValidAttributesForMarkedText => new NSString[] {};
+
+		public NSWindowLevel WindowLevel => Window?.Level ?? NSWindowLevel.Normal;
+
+		public NSAttributedString GetAttributedSubstring(NSRange proposedRange, out NSRange actualRange)
+		{
+			actualRange = proposedRange;
+			return new NSAttributedString();
+		}
+
+		public nuint GetCharacterIndex(CGPoint point) => 0;
+
+		public CGRect GetFirstRect(NSRange characterRange, out NSRange actualRange)
+		{
+			actualRange = characterRange;
+			return new CGRect();
+		}
+
+		public void InsertText(NSObject text, NSRange replacementRange) {}
+
+		public void SetMarkedText(NSObject text, NSRange selectedRange, NSRange replacementRange) {}
+
+		public void UnmarkText() {}
+
+		#endregion INSTextInputView
 	}
 }

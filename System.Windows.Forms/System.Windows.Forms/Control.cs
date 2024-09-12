@@ -35,14 +35,13 @@
 #undef DebugMessages
 #undef DebugPreferredSizeCache
 
-//#define USE_INITIAL_ANCHOR_VALUES
-
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.ComponentModel.Design.Serialization;
 using System.Collections;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Reflection;
@@ -50,6 +49,8 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
 using System.Windows.Forms.Extensions.Drawing;
+using System.Drawing.Mac;
+
 
 #if MAC
 using System.Windows.Forms.Mac;
@@ -129,15 +130,7 @@ namespace System.Windows.Forms
 		// Please leave the next 2 as internal until DefaultLayout (2.0) is rewritten
 		internal int			dist_right; // distance to the right border of the parent
 		internal int			dist_bottom; // distance to the bottom border of the parent
-#if USE_INITIAL_ANCHOR_VALUES
-		internal enum AnchorValueCalculation {
-			//Prepare,
-			Calculate,
-			Done
-		}
-		private AnchorValueCalculation	anchor_value_calculation = AnchorValueCalculation.Calculate;
-		internal Padding				anchor_values;
-#endif // USE_INITIAL_ANCHOR_VALUES
+
 		// to be categorized...
 		ControlCollection       child_controls_; // our children
 		Control                 parent_; // our parent control
@@ -168,6 +161,7 @@ namespace System.Windows.Forms
 		Point auto_scroll_offset;
 		private AutoSizeMode auto_size_mode;
 		private bool suppressing_key_press;
+		private object? data_context;
 
 		#endregion	// Local Variables
 
@@ -759,7 +753,7 @@ namespace System.Windows.Forms
 				if (container != null) { 
 					// Inform any container controls about the loss of a child control
 					// so that they can update their active control
-					container.ChildControlRemoved (value);
+					container.ChildControlRemoved (value, owner);
 				}
 			}
 
@@ -1020,11 +1014,6 @@ namespace System.Windows.Forms
 
 		#region Internal Properties
 
-		internal bool IsRunningOnMac
-		{
-			get { return (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix); }
-		}
-
 		internal Rectangle PaddingClientRectangle
 		{
 			get {
@@ -1100,6 +1089,56 @@ namespace System.Windows.Forms
 			}
 		}
 		#endregion	// Internal Properties
+
+		#region Data Binding
+
+		/// <summary>
+		///  Gets or sets the data context for the purpose of data binding.
+		///  This is an ambient property.
+		/// </summary>
+		/// <remarks>
+		///  Data context is a concept that allows elements to inherit information from their parent elements
+		///  about the data source that is used for binding. It's the duty of deriving controls which inherit from
+		///  this class to handle the provided data source accordingly. For example, UserControls, which use
+		///  <see cref="BindingSource"/> components for data binding scenarios could either handle the
+		///  <see cref="DataContextChanged"/> event or override <see cref="OnDataContextChanged(EventArgs)"/> to provide
+		///  the relevant data from the data context to a BindingSource component's <see cref="BindingSource.DataSource"/>.
+		/// </remarks>
+		//[SRCategory(nameof(SR.CatData))]
+		[Browsable(false)]
+		[Bindable(true)]
+		public virtual object? DataContext
+		{
+			get
+			{
+				return data_context ?? parent?.DataContext;
+			}
+			set
+			{
+				if (Equals (value, DataContext)) {
+					return;
+				}
+
+				// When DataContext was different than its parent before, but now it is about to become the same,
+				// we're removing it altogether, so it can inherit the value from its parent.
+				if (data_context != null && Equals (parent?.DataContext, value)) {
+					data_context = null;
+					OnDataContextChanged (EventArgs.Empty);
+					return;
+				}
+
+				data_context = value;
+				OnDataContextChanged (EventArgs.Empty);
+			}
+		}
+
+		private bool ShouldSerializeDataContext()
+			=> data_context != null;
+
+		private void ResetDataContext()
+			=> data_context = null;
+
+		#endregion
 
 		#region Private & Internal Methods
 		
@@ -1253,16 +1292,32 @@ namespace System.Windows.Forms
 			// Only here to be overriden by our actual controls; this is needed by the accessibility class
 		}
 
+		internal static IntPtr MakeParam (Point p) {
+			return MakeParam(p.X, p.Y);
+		}
+
 		internal static IntPtr MakeParam (int low, int high){
 			return new IntPtr (high << 16 | low & 0xffff);
 		}
 
+		internal static int LowOrder (IntPtr param) {
+			return (short)(param.ToInt64() & 0xffff);
+		}
+
 		internal static int LowOrder (int param) {
-			return ((int)(short)(param & 0xffff));
+			return (short)(param & 0xffff);
+		}
+
+		internal static int HighOrder (IntPtr param) {
+			return (short)((param.ToInt64() >> 16) & 0xffff);
 		}
 
 		internal static int HighOrder (long param) {
-			return ((int)(short)(param >> 16));
+			return (short)(param >> 16);
+		}
+
+		internal static Point MakePoint (IntPtr p) {
+			return new Point(LowOrder(p), HighOrder(p));
 		}
 
 		// This method exists so controls overriding OnPaintBackground can have default background painting done
@@ -1691,7 +1746,7 @@ namespace System.Windows.Forms
 			ClientRect = new Rectangle (0, 0, clientSize.Width, clientSize.Height);
 			cp = this.CreateParams;
 
-			if (XplatUI.CalculateWindowRect (ref ClientRect, cp, out WindowRect))
+			if (XplatUI.CalculateWindowRect (window.Handle, ref ClientRect, cp, out WindowRect))
 				return new Size (WindowRect.Width, WindowRect.Height);
 
 			return Size.Empty;
@@ -1737,39 +1792,6 @@ namespace System.Windows.Forms
 				dist_bottom = value;
 			}
 		}
-
-		#if USE_INITIAL_ANCHOR_VALUES
-		internal Padding AnchorValues {
-			get {
-				if (AnchorValueCalculation.Calculate == anchor_value_calculation  && null != this.Parent) {
-					// RGS TEST
-					if (this.Name == "table_Shortcuts") {
-						Console.WriteLine ("Control.AnchorValues()'" + this.Name + "'");
-					}
-					// RGS TEST
-
-					AnchorStyles anchor_styles = this.Anchor;
-					anchor_values = Padding.Empty;
-					if ((anchor_styles & AnchorStyles.Left) != 0) {
-						anchor_values.Left = this.Bounds.Left;
-					}
-					if ((anchor_styles & AnchorStyles.Right) != 0) {
-						anchor_values.Right = this.Parent.ClientSize.Width - this.Bounds.Right;
-					}
-					if ((anchor_styles & AnchorStyles.Top) != 0) {
-						anchor_values.Top = this.Bounds.Top;
-					}
-					if ((anchor_styles & AnchorStyles.Bottom) != 0) {
-						anchor_values.Bottom = this.Parent.ClientSize.Height - this.Bounds.Bottom;
-					}
-
-					anchor_value_calculation = AnchorValueCalculation.Done;
-				}
-
-				return anchor_values;
-			}
-		}
-		#endif // USE_INITIAL_ANCHOR_VALUES
 		
 		private Cursor GetAvailableCursor ()
 		{
@@ -2232,6 +2254,11 @@ namespace System.Windows.Forms
 			}
 		}
 
+		[Browsable(false)]
+		public int DeviceDpi { 
+			get { return 96; }
+		}
+
 		internal IntPtr GetCapture()
 		{
 			XplatUI.GrabInfo(out IntPtr hwnd, out bool confined, out Rectangle area);
@@ -2377,6 +2404,7 @@ namespace System.Windows.Forms
 		
 		[AmbientValue(null)]
 		[MWFCategory("Appearance")]
+		[AllowNull]
 		public virtual Cursor Cursor {
 			get {
 				if (use_wait_cursor)
@@ -2584,6 +2612,7 @@ namespace System.Windows.Forms
 		[AmbientValue(null)]
 		[Localizable(true)]
 		[MWFCategory("Appearance")]
+		[AllowNull]
 		public virtual Font Font {
 			[return: MarshalAs (UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof (Font))]
 			get {
@@ -2823,6 +2852,7 @@ namespace System.Windows.Forms
 		}
 
 		[Browsable(false)]
+		[AllowNull]
 		public string Name {
 			get {
 				return name;
@@ -3097,6 +3127,7 @@ namespace System.Windows.Forms
 		[Localizable(true)]
 		[BindableAttribute(true)]
 		[MWFCategory("Appearance")]
+		[AllowNull]
 		public virtual string Text {
 			get {
 				// Our implementation ignores ControlStyles.CacheText - we always cache
@@ -3707,7 +3738,6 @@ namespace System.Windows.Forms
 				return cached_preferred_size;
 #endif
 
-			proposedSize = ApplySizeConstraints(proposedSize);
 			Size retsize = ApplySizeConstraints (GetPreferredSizeCore (proposedSize));
 
 			if (can_cache_preferred_size && proposedSize == Size.Empty) {
@@ -4100,6 +4130,7 @@ namespace System.Windows.Forms
 			}
 			c = ctl;
 			do {
+				Control prev = c;
 				c = GetNextControl(c, forward);
 				if (c == null) {
 					if (wrap) {
@@ -4107,13 +4138,15 @@ namespace System.Windows.Forms
 						continue;
 					}
 					break;
+				} else if (c == prev) {
+					return false; // Safety brake
 				}
 
 #if DebugFocus
 				Console.WriteLine("{0} {1}", c, c.CanSelect);
 #endif
 				if (c.CanSelect && ((c.parent == this) || nested) && (c.TabStop || !tabStopOnly)) {
-					c.Select (true, true);
+					c.Select (true, forward);
 					return true;
 				}
 			} while (c != ctl); // If we wrap back to ourselves we stop
@@ -4277,7 +4310,15 @@ namespace System.Windows.Forms
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected virtual void DefWndProc(ref Message m) {
-			window.DefWndProc(ref m);
+			
+			switch ((Msg)m.Msg) {
+				case Msg.WM_NCHITTEST: // This should be in XplatUI*, but we would have to lookup the Control or the NSView once more.
+					m.Result = (int)(Enabled ? HitTest.HTCLIENT : HitTest.HTNOWHERE);
+                    break;
+				default:
+					window.DefWndProc(ref m);
+					break;
+			}
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -4532,7 +4573,7 @@ namespace System.Windows.Forms
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected void RecreateHandle() {
 			//FIXME: RecreateHandle does not work well on Mac
-			if (IsRunningOnMac)
+			if (OperatingSystem.IsMacOS())
 				return;
 
 			if (!IsHandleCreated)
@@ -4627,16 +4668,17 @@ namespace System.Windows.Forms
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected LeftRightAlignment RtlTranslateAlignment(LeftRightAlignment align) {
-			if (right_to_left == RightToLeft.No) {
-				return align;
-			}
-
-			if (align == LeftRightAlignment.Left) {
-				return LeftRightAlignment.Right;
-			}
-
-			// align must be LeftRightAlignment.Right;
-			return LeftRightAlignment.Left;
+ 
+            if (RightToLeft.Yes == RightToLeft) {
+                if (LeftRightAlignment.Left == align) {
+                    return LeftRightAlignment.Right;
+                }
+                else if (LeftRightAlignment.Right == align) {
+                    return LeftRightAlignment.Left;
+                }
+            }
+ 
+            return align;
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -4874,10 +4916,10 @@ namespace System.Windows.Forms
 			rect = new Rectangle(0, 0, 0, 0);
 			cp = CreateParams;
 
-			XplatUI.CalculateWindowRect(ref rect, cp, out rect);
+			XplatUI.CalculateWindowRect(window.Handle, ref rect, cp, out rect);
 			UpdateBounds(x, y, width, height, width - (rect.Right - rect.Left), height - (rect.Bottom - rect.Top));
 		}
-
+		
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected void UpdateBounds(int x, int y, int width, int height, int clientWidth, int clientHeight) {
 			// UpdateBounds only seems to set our sizes and fire events but not update the GUI window to match
@@ -5185,6 +5227,16 @@ namespace System.Windows.Forms
 					return;
 				}
 
+				case Msg.WM_DPICHANGED_BEFOREPARENT: {
+					WmDpiChangedBeforeParent(ref m);
+					return;
+				}
+
+				case Msg.WM_DPICHANGED_AFTERPARENT: {
+					WmDpiChangedAfterParent(ref m);
+					return;
+				}
+
 				default:
 					DefWndProc(ref m);
 					return;
@@ -5194,6 +5246,14 @@ namespace System.Windows.Forms
 		#endregion	// Public Instance Methods
 
 		#region WM methods
+
+		private void WmDpiChangedBeforeParent(ref Message m) {
+			OnDpiChangedBeforeParent(EventArgs.Empty);
+		}
+
+		private void WmDpiChangedAfterParent(ref Message m) {
+			OnDpiChangedAfterParent(EventArgs.Empty);
+		}
 
 		internal virtual void WmDrawFocusRingMask(ref Message m)
 		{
@@ -5312,11 +5372,6 @@ namespace System.Windows.Forms
 			if (ClientRectangle.Contains(x, y))
 				HandleClick(mouse_clicks, me);
 
-			if (this.IsRunningOnMac && 0 != (MsgButtons.MK_CONTROL & (MsgButtons)m.WParam.ToInt32()))
-			{
-				PointToScreen(ref x, ref y);
-				XplatUI.SendMessage(m.HWnd, Msg.WM_CONTEXTMENU, m.HWnd, (IntPtr)(x + (y << 16)));
-			}
 			OnMouseUp(me);
 
 			if (CaptureInternal) {
@@ -5343,6 +5398,14 @@ namespace System.Windows.Forms
 			{
 				if (CanSelect)
 					Select(true, true);
+			}
+
+			if (OperatingSystem.IsMacOS() && 0 != (MsgButtons.MK_CONTROL & (MsgButtons)m.WParam.ToInt32())) {
+				int lparam = (int)m.LParam.ToInt32();
+				int x = LowOrder(lparam);
+				int y = HighOrder(lparam);
+				PointToScreen(ref x, ref y);
+				XplatUI.SendMessage(m.HWnd, Msg.WM_CONTEXTMENU, m.HWnd, (IntPtr)(x + (y << 16)));
 			}
 
 			CaptureInternal = true;
@@ -5406,20 +5469,13 @@ namespace System.Windows.Forms
 
 		private void WmRButtonUp (ref Message m)
 		{
-			MouseEventArgs	me;
-			Point		pt;
-
-			pt = new Point(LowOrder ((int) m.LParam.ToInt32 ()), HighOrder ((int) m.LParam.ToInt32 ()));
-			pt = PointToScreen(pt);
-
-			me = new MouseEventArgs (FromParamToMouseButtons ((int) m.WParam.ToInt32()) | MouseButtons.Right, 
+			MouseEventArgs	me = new MouseEventArgs (FromParamToMouseButtons ((int) m.WParam.ToInt32()) | MouseButtons.Right, 
 				mouse_clicks, 
 				LowOrder ((int) m.LParam.ToInt32 ()), HighOrder ((int) m.LParam.ToInt32 ()), 
 				0);
 
 			HandleClick(mouse_clicks, me);
 
-			XplatUI.SendMessage(m.HWnd, Msg.WM_CONTEXTMENU, m.HWnd, (IntPtr)(pt.X + (pt.Y << 16)));
 			OnMouseUp (me);
 
 			if (CaptureInternal) {
@@ -5440,6 +5496,10 @@ namespace System.Windows.Forms
 				mouse_clicks, LowOrder((int)m.LParam.ToInt32()), HighOrder((int)m.LParam.ToInt32()),
 				0));
 			}
+
+			Point pt = new Point(LowOrder ((int) m.LParam.ToInt32 ()), HighOrder ((int) m.LParam.ToInt32 ()));
+			pt = PointToScreen(pt);
+			XplatUI.SendMessage(m.HWnd, Msg.WM_CONTEXTMENU, m.HWnd, (IntPtr)(pt.X + (pt.Y << 16)));
 		}
 
 		private void WmRButtonDblClick (ref Message m) {
@@ -5511,6 +5571,7 @@ namespace System.Windows.Forms
 		}
 
 		private void WmMouseEnter (ref Message m) {
+			DefWndProc(ref m);
 			if (is_entered) {
 				return;
 			}
@@ -5519,6 +5580,7 @@ namespace System.Windows.Forms
 		}
 
 		private void WmMouseLeave (ref Message m) {
+			DefWndProc(ref m);
 			is_entered=false;
 			OnMouseLeave(EventArgs.Empty);
 		}
@@ -5595,7 +5657,7 @@ namespace System.Windows.Forms
 		private void WmKeys (ref Message m)
 		{
 			if (ProcessKeyMessage(ref m)) {
-				m.Result = IntPtr.Zero;
+				m.Result = (IntPtr)0;
 				return;
 			}
 			DefWndProc (ref m);
@@ -5791,6 +5853,22 @@ namespace System.Windows.Forms
 				eh (this, e);
 				
 			for (int i = 0; i < child_controls.Count; i++) child_controls[i].OnParentCursorChanged (e);
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected virtual void OnDataContextChanged(EventArgs e)
+		{
+			if (is_disposing)
+			{
+				return;
+			}
+
+			if (Events[DataContextEvent] is EventHandler eventHandler)
+			{
+				eventHandler(this, e);
+			}
+
+			for (int i = 0; i < child_controls.Count; i++) child_controls[i].OnDataContextChanged (e);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -6165,6 +6243,32 @@ namespace System.Windows.Forms
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		protected virtual void OnParentCursorChanged (EventArgs e)
 		{
+			if (cursor is null)
+			{
+				OnCursorChanged(e);
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected virtual void OnParentDataContextChanged (EventArgs e)
+		{
+			if (data_context != null)
+			{
+				// If this DataContext was the same as the Parent's just became,
+				if (Equals (data_context, Parent.DataContext))
+				{
+					// we need to make it ambient again by removing it.
+					data_context = null;
+
+					// Even though internally we don't store it any longer, and the
+					// value we had stored therefore changed, technically the value
+					// remains the same, so we don't raise the DataContextChanged event.
+					return;
+				}
+			}
+
+			// In every other case we're going to raise the event.
+			OnDataContextChanged (e);
 		}
 
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
@@ -6330,6 +6434,21 @@ namespace System.Windows.Forms
 				if (c.Visible)
 					c.OnParentVisibleChanged (e);
 		}
+
+		[Browsable(true)]
+		protected virtual void OnDpiChangedBeforeParent (EventArgs e) {
+			EventHandler eh = (EventHandler)Events[DpiChangedBeforeParentEvent];
+			if (eh != null)
+				eh (this, e);
+		}
+
+		[Browsable(true)]
+		protected virtual void OnDpiChangedAfterParent (EventArgs e) {
+			EventHandler eh = (EventHandler)Events[DpiChangedAfterParentEvent];
+			if (eh != null)
+				eh (this, e);
+		}
+
 		#endregion	// OnXXX methods
 
 		#region Events
@@ -6346,6 +6465,7 @@ namespace System.Windows.Forms
 		static object ControlAddedEvent = new object ();
 		static object ControlRemovedEvent = new object ();
 		static object CursorChangedEvent = new object ();
+		static object DataContextEvent = new object ();
 		static object DockChangedEvent = new object ();
 		static object DoubleClickEvent = new object ();
 		static object DragDropEvent = new object ();
@@ -6401,6 +6521,8 @@ namespace System.Windows.Forms
 		static object ValidatedEvent = new object ();
 		static object ValidatingEvent = new object ();
 		static object VisibleChangedEvent = new object ();
+		static object DpiChangedBeforeParentEvent = new object ();
+		static object DpiChangedAfterParentEvent = new object ();
 
 		[Browsable (false)]
 		[EditorBrowsable (EditorBrowsableState.Never)]
@@ -6485,6 +6607,12 @@ namespace System.Windows.Forms
 		public event DragEventHandler DragDrop {
 			add { Events.AddHandler (DragDropEvent, value); }
 			remove { Events.RemoveHandler (DragDropEvent, value); }
+		}
+
+		public event EventHandler? DataContextChanged
+		{
+			add { Events.AddHandler (DataContextEvent, value); }
+			remove { Events.RemoveHandler (DataContextEvent, value); }
 		}
 
 		public event DragEventHandler DragEnter {
@@ -6760,6 +6888,18 @@ namespace System.Windows.Forms
 			remove { Events.RemoveHandler (VisibleChangedEvent, value); }
 		}
 
+		public event EventHandler? DpiChangedBeforeParent
+		{
+			add => Events.AddHandler(DpiChangedBeforeParentEvent, value);
+			remove => Events.RemoveHandler(DpiChangedBeforeParentEvent, value);
+		}
+
+		public event EventHandler? DpiChangedAfterParent
+		{
+			add { Events.AddHandler(DpiChangedAfterParentEvent, value); }
+			remove { Events.RemoveHandler(DpiChangedAfterParentEvent, value); }
+		}		
+
 #endregion  // Events
 
 		[Conditional("DEBUG")]
@@ -6773,8 +6913,8 @@ namespace System.Windows.Forms
 		// The class Focusing now causes 'parent' and 'child_controls' to return different values
 		// when selecting / not selecting the next control.
 
-		private Control focusing_parent;
-		private ControlCollection focusing_controls;
+		private Control focusing_parent = null;
+		private ControlCollection focusing_controls = null;
 
 		Control parent
 		{
@@ -6788,6 +6928,15 @@ namespace System.Windows.Forms
 			set { child_controls_ = value; }
 		}
 
+		static int GetSystemDpi()
+		{
+#if MAC
+			return (int)(NSScreen.MainScreen?.DeviceDPI().Width ?? 72);
+#else
+			return 72;
+#endif
+		}
+		
 		public override string ToString()
 		{
 			return $"{GetType().Name}, \"{Text}\", {Name}, {Size.Width}x{Size.Height}, {GetType().FullName}";

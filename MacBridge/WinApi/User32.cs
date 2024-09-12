@@ -31,36 +31,7 @@ namespace WinApi
 
         public static IntPtr WindowFromPoint(POINT p)
         {
-            p.Y = screenSize.Height - p.Y;
-            var screenLocation = new CGPoint(p.X, p.Y);
-
-			nint below = 0;
-			while (true)
-			{
-				var wnum = NSWindow.WindowNumberAtPoint(screenLocation, below);
-				var window = NSApplication.SharedApplication.WindowWithWindowNumber(wnum);
-				if (window == null)
-					break;
-
-				var windowLocation = window.ConvertScreenToBase(screenLocation);
-				var view = HitTestIgnoringGrab(window, windowLocation);
-
-				// Embedded native control? => Find MonoView parent
-				while (view != null && !(view is MonoView))
-					view = view.Superview;
-
-				if (view == null)
-					break;
-
-				if (Control.FromHandle(view.Handle) is Control c && HTTransparent(c))
-				{
-					below = wnum;
-					continue;
-				}
-				return view.Handle;
-			}
-
-            return IntPtr.Zero;
+			return XplatUI.GetWindowFromPoint(p.X, p.Y);
         }
 
 		internal static bool HTTransparent(Control c)
@@ -710,14 +681,8 @@ namespace WinApi
 
 		public static bool GetCursorPos(out Point p)
 		{
-			CGPoint q = CGPoint.Empty;
-			NSApplication.SharedApplication.InvokeOnMainThread(() =>
-			{
-				var e = CGEventCreate(IntPtr.Zero);
-				q = CGEventGetLocation(e);
-				CFRelease(e);
-			});
-			p = new Point((int)q.X, (int)q.Y);
+			XplatUI.GetCursorPos(IntPtr.Zero, out var x, out var y);
+			p = new Point(x, y);
 			return true;
 		}
 

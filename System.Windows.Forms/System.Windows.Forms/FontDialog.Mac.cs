@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Mac;
+using System.Windows.Forms.Mac;
 using AppKit;
 using CoreGraphics;
 using Foundation;
@@ -151,6 +152,7 @@ namespace System.Windows.Forms
 		{
 			var controller = new FontPanelController(this);
 
+			NSApplication.SharedApplication.BeginInvokeOnMainThread(NSApplication.SharedApplication.Menu.InvokeMenuWillOpenDeep);
 			if (DialogResult.Cancel == controller.RunModal())
 				return false;
 
@@ -224,7 +226,7 @@ namespace System.Windows.Forms
 			panel.SetPanelFont(owner.Font.ToNSFont(), false);
 
 			//Preset color and other attributes:
-			if (owner.Color != null)
+			//if (owner.Color != null) // always true
 			{
 				SelectedForeColor = owner.Color.ToNSColor();
 				SelectedAttributes[AttributeKeys.NSColor] = owner.Color.ToNSColor();
@@ -240,6 +242,7 @@ namespace System.Windows.Forms
 
 			NSFontManager.SharedFontManager.SetSelectedAttributes(SelectedAttributes, false);
 
+			NSApplication.SharedApplication.BeginInvokeOnMainThread(NSApplication.SharedApplication.Menu.InvokeMenuWillOpenDeep);
 			NSApplication.SharedApplication.RunModalForWindow(panel);
 
 			panel.Delegate = prevDelegate;

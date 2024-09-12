@@ -44,6 +44,9 @@ namespace System.Windows.Forms
 		
 		public ContextMenuStrip (IContainer container) : base ()
 		{
+			ArgumentNullException.ThrowIfNull(container);
+
+			container.Add(this);
 		}
 		#endregion
 

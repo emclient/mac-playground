@@ -4,6 +4,7 @@ T:System.Diagnostics.CodeAnalysis.MemberNotNullAttribute
 // These attributes should be excluded from reference assemblies.
 
 T:System.ComponentModel.Design.Serialization.RootDesignerSerializerAttribute
+T:System.ComponentModel.DesignerSerializationVisibilityAttribute
 T:System.Configuration.ConfigurationPropertyAttribute
 T:System.Diagnostics.CodeAnalysis.DynamicDependencyAttribute
 T:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute

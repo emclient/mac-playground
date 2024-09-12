@@ -41,9 +41,8 @@ namespace System.Windows.Forms.Theming.Default
 			label.DrawImage (dc, label.Image, rect, label.ImageAlign);
 
 			if (label.Enabled) {
-				dc.DrawString (label.Text, label.Font,
-					ThemeEngine.Current.ResPool.GetSolidBrush (label.ForeColor),
-					rect, label.string_format);
+				TextFormatFlags flags = label.CreateTextFormatFlags(label.Size);
+				TextRenderer.DrawText(dc, label.Text, label.Font, rect, label.ForeColor, flags);
 			} else {
 				ControlPaint.DrawStringDisabled (
 					dc, label.Text, label.Font, label.BackColor, rect, label.string_format);

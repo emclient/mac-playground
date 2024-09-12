@@ -24,6 +24,7 @@
 //
 
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
@@ -76,6 +77,7 @@ namespace System.Windows.Forms.Design
 			set { firstActivate = value; }
 		}
 
+		[AllowNull]
 		public Icon Icon {
 			get { return icon; }
 			set { icon = value; }

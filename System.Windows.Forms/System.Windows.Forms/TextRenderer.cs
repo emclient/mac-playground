@@ -138,7 +138,7 @@ namespace System.Windows.Forms
 					flags |= TextFormatFlags.SingleLine;
 
 				// Calculate the text bounds (there is often padding added)
-				Rectangle new_bounds = PadRectangle (bounds, flags);
+				Rectangle new_bounds = PadRectangle (bounds, flags, font);
 				new_bounds.Offset ((int)(dc as Graphics).Transform.OffsetX, (int)(dc as Graphics).Transform.OffsetY);
 
 				IntPtr hdc = IntPtr.Zero;
@@ -215,7 +215,9 @@ namespace System.Windows.Forms
 
 				if (text != null && text.Length > 0) {
 					StringFormat sf = FlagsToStringFormat(flags | (TextFormatFlags)TextFormatFlagsEx.Win32TextRenderer);
-					Rectangle new_bounds = PadDrawStringRectangle(bounds, flags);
+					Rectangle new_bounds = PadDrawStringRectangle(bounds, flags, font);
+					if (flags.HasFlag(TextFormatFlags.SingleLine))
+						text = text.Replace("\n", "");
 					g.DrawString(text, font, ThemeEngine.Current.ResPool.GetSolidBrush(foreColor), new_bounds, sf);
 				}
 
@@ -265,8 +267,6 @@ namespace System.Windows.Forms
 				return retval;
 			}
 			else {
-				StringFormat sf = FlagsToStringFormat (flags);
-
 				Size retval;
 
 				int proposedWidth;
@@ -274,16 +274,21 @@ namespace System.Windows.Forms
 					proposedWidth = Int32.MaxValue;
 				else {
 					proposedWidth = proposedSize.Width;
-					if ((flags & TextFormatFlags.NoPadding) == 0)
-						proposedWidth -= 9;
 				}
-				if (dc is Graphics)
-					retval = (dc as Graphics).MeasureString (text, font, proposedWidth, sf).ToSize ();
-				else
-					retval = TextRenderer.MeasureString (text, font, proposedWidth, sf).ToSize ();
+				if (flags.HasFlag(TextFormatFlags.SingleLine))
+					text = text.Replace("\n", "");
+				using (StringFormat sf = FlagsToStringFormat (flags | (TextFormatFlags)TextFormatFlagsEx.Win32TextRenderer)) {
+					if (dc is Graphics)
+						retval = (dc as Graphics).MeasureString (text, font, proposedWidth, sf).ToSize ();
+					else
+						retval = TextRenderer.MeasureString (text, font, proposedWidth, sf).ToSize ();
+				}
 
-				if (retval.Width > 0 && (flags & TextFormatFlags.NoPadding) == 0)
-					retval.Width += 9;
+				if (retval.Width > 0 && (flags & TextFormatFlags.LeftAndRightPadding) != 0) {
+					retval.Width += 4 * (1 + (font ?? SystemFonts.DefaultFont).Height / 8);
+				} else if (retval.Width > 0 && (flags & TextFormatFlags.NoPadding) == 0) {
+					retval.Width += 2 * (1 + (font ?? SystemFonts.DefaultFont).Height / 8);
+				}
 
 				return retval;
 			}
@@ -404,7 +409,7 @@ namespace System.Windows.Forms
 		static Dictionary<int, StringFormat> flagsToFormat = new Dictionary<int, StringFormat>();
 		
 		// NOTE: You must not modify the output from this method! Use Clone() if necessary.
-		private static StringFormat FlagsToStringFormat (TextFormatFlags flags)
+		internal static StringFormat FlagsToStringFormat (TextFormatFlags flags)
 		{
 			if (!flagsToFormat.TryGetValue((int)flags, out StringFormat format))
 				flagsToFormat[(int)flags] = format = FlagsToStringFormatInternal(flags);
@@ -475,17 +480,23 @@ namespace System.Windows.Forms
 
 			// It seems that Win32 TextRenderer behaves likes this:
 			if ((flags & (TextFormatFlags)TextFormatFlagsEx.Win32TextRenderer) != 0)
+			{
 				if ((flags & TextFormatFlags.WordBreak) == 0 && (flags & TextFormatFlags.TextBoxControl) == 0)
 					sf.FormatFlags |= StringFormatFlags.NoWrap;
+				if (sf.Trimming == StringTrimming.Character)
+					sf.Trimming = StringTrimming.None;
+			}
 
 			return sf;
 		}
 
-		private static Rectangle PadRectangle (Rectangle r, TextFormatFlags flags)
+		private static Rectangle PadRectangle (Rectangle r, TextFormatFlags flags, Font font)
 		{
+			font ??= SystemFonts.DefaultFont;
 			if ((flags & TextFormatFlags.NoPadding) == 0 && (flags & TextFormatFlags.Right) == 0 && (flags & TextFormatFlags.HorizontalCenter) == 0) {
-				r.X += 3;
-				r.Width -= 3;
+				int d = 1 + font.Height / 8;
+				r.X += d;
+				r.Width -= d;
 			}
 			if ((flags & TextFormatFlags.NoPadding) == 0 && (flags & TextFormatFlags.Right) == TextFormatFlags.Right) {
 				r.Width -= 4;
@@ -504,29 +515,19 @@ namespace System.Windows.Forms
 			return r;
 		}
 
-		private static Rectangle PadDrawStringRectangle (Rectangle r, TextFormatFlags flags)
+		private static Rectangle PadDrawStringRectangle (Rectangle r, TextFormatFlags flags, Font font)
 		{
-			if ((flags & TextFormatFlags.NoPadding) == 0 && (flags & TextFormatFlags.Right) == 0 && (flags & TextFormatFlags.HorizontalCenter) == 0) {
-				r.X += 1;
-				r.Width -= 1;
-			}
-			if ((flags & TextFormatFlags.NoPadding) == 0 && (flags & TextFormatFlags.Right) == TextFormatFlags.Right) {
-				r.Width -= 4;
-			}
-			if ((flags & TextFormatFlags.NoPadding) == TextFormatFlags.NoPadding) {
-				r.X -= 1;
-			}
-			if ((flags & TextFormatFlags.NoPadding) == 0 && (flags & TextFormatFlags.Bottom) == TextFormatFlags.Bottom) {
-				r.Y += 1;
-			}
-			if ((flags & TextFormatFlags.LeftAndRightPadding) == TextFormatFlags.LeftAndRightPadding) {
-				r.X += 2;
-				r.Width -= 2;
-			}
-			if ((flags & TextFormatFlags.VerticalCenter) == TextFormatFlags.VerticalCenter && XplatUI.RunningOnUnix) {
-				//r.Y -= 1;
-			}
+			font ??= SystemFonts.DefaultFont;
 
+			if (flags.HasFlag(TextFormatFlags.LeftAndRightPadding)) {
+				int d = 2 * (1 + font.Height / 8);
+				r.X += d;
+				r.Width -= 2 * d;
+			} else if (!flags.HasFlag(TextFormatFlags.NoPadding)) {
+				int d = 1 + font.Height / 8;
+				r.X += d;
+				r.Width -= 2 * d;
+			}
 			return r;
 		}
 #endregion

@@ -1,10 +1,11 @@
-<Project>
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- enable NuGet TargetMonikers fallback to native -->
   <PropertyGroup>
-    <MacDirectoryBuildPropsPath>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory)/.., '$(_DirectoryBuildPropsFile)'))</MacDirectoryBuildPropsPath>
+    <_NuGetTargetFallbackMoniker>$(_NuGetTargetFallbackMoniker);native,Version=v0.0</_NuGetTargetFallbackMoniker>
   </PropertyGroup>
-  <Import Project="$(MacDirectoryBuildPropsPath)\$(_DirectoryBuildPropsFile)" Condition="Exists('$(MacDirectoryBuildPropsPath)\$(_DirectoryBuildPropsFile)')"/>
 
   <PropertyGroup>
-    <SkipMacProjects Condition="$(SkipMacProjects) == ''">false</SkipMacProjects>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 </Project>

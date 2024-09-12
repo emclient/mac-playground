@@ -443,7 +443,7 @@ namespace System.Drawing.Drawing2D {
 		public void AddEllipse (RectangleF rect)
 		{
 			const float C1 = 0.552285f;
-			const float C2 = 0.552285f;
+			//const float C2 = 0.552285f;
 			float rx = rect.Width / 2;
 			float ry = rect.Height / 2;
 			float cx = rect.X + rx;

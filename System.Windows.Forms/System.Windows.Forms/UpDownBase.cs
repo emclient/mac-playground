@@ -29,6 +29,7 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -289,6 +290,7 @@ namespace System.Windows.Forms
 		}
 
 		[Localizable(true)]
+		[AllowNull]
 		public override string Text {
 			get {
 				if (txtView != null) {
@@ -398,11 +400,6 @@ namespace System.Windows.Forms
 			base.OnHandleDestroyed (e);
 		}
 
-		protected override void OnLayout (LayoutEventArgs e)
-		{
-			base.OnLayout(e);
-		}
-
 		protected override void OnMouseDown (MouseEventArgs e)
 		{
 			base.OnMouseDown (e);
@@ -476,11 +473,6 @@ namespace System.Windows.Forms
 				UserEdit = true;
 
 			OnTextChanged(e);
-		}
-
-		internal override int OverrideHeight (int height)
-		{
-			return Math.Min (height, PreferredHeight);
 		}
 
 		protected abstract void UpdateEditText ();

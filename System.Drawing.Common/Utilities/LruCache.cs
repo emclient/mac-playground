@@ -58,6 +58,15 @@ namespace System.Drawing
 			}
 		}
 
+		public void Clear()
+		{
+			lock(listLock)
+			{
+				lruList.Clear();
+				cacheMap.Clear();
+			}
+		}
+
 		public int Count
 		{
 			get { return cacheMap.Count; }

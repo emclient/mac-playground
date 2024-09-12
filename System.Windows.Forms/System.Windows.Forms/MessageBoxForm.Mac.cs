@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
-using System.Windows.Forms;
+using System.Linq;
+using System.Windows.Forms.Mac;
 using System.Windows.Forms.CocoaInternal;
 using AppKit;
 using Foundation;
@@ -67,10 +69,23 @@ namespace System.Windows.Forms
 			}
 
 			using (var c = new ModalDialogContext ()) {
-				int index = (int)alert.RunModal() - (int)NSAlertButtonReturn.First;
-				if (index >= buttons.Count)
-					return DialogResult.Cancel;
-				return buttons[index].Result;
+				if (NSApplication.SharedApplication is NSApplication app && app.Menu is NSMenu menu)
+					app.BeginInvokeOnMainThread(() => { try { menu.InvokeMenuWillOpenDeep(); } catch(Exception e) { Debug.Assert(false, e.ToString()); } });
+				
+				try
+				{
+					int index = (int)alert.RunModal() - (int)NSAlertButtonReturn.First;
+					if (index >= buttons.Count)
+						return DialogResult.Cancel;
+					return buttons[index].Result;
+				}
+				catch (Exception e)
+				{
+					e.Data["MessageText"] = alert.MessageText ?? "";
+					e.Data["InformativeText"] = alert.InformativeText ?? "";
+					e.Data["Buttons"] = string.Join(", ", alert.Buttons.Select((x) => x.Title ?? ""));
+					throw;
+				}
 			}
 		}
 

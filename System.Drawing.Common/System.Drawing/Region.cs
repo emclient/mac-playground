@@ -455,12 +455,15 @@ namespace System.Drawing
 
 		public void Complement(RectangleF rect)
 		{
-			throw new NotImplementedException ();
+			Complement(new Region(rect));
 		}
 
 		public void Complement(Region region)
 		{
-			throw new NotImplementedException ();
+			using (Region copy = new Region(this)) {
+				Union(region);
+				Exclude(copy);
+			}
 		}
 
 		public void Complement(GraphicsPath path)

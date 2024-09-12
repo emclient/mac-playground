@@ -8,9 +8,6 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms.Extensions.IO;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Linq;
 using CoreFoundation;
 using System.Reflection;
 using System.Collections.Specialized;
@@ -20,6 +17,8 @@ using AppKit;
 using Foundation;
 using ObjCRuntime;
 using CoreGraphics;
+using UniformTypeIdentifiers;
+using System.Diagnostics;
 
 namespace System.Windows.Forms.Mac
 {
@@ -61,7 +60,7 @@ namespace System.Windows.Forms.Mac
 			return (NSString)value;
 		}
 
-		internal static void ToKeyMsg(this NSEvent e, out Msg msg, out IntPtr wParam, out IntPtr lParam)
+		internal static bool ToKeyMsg(this NSEvent e, out Msg msg, out IntPtr wParam, out IntPtr lParam)
 		{
 			var key = KeysConverter.GetKeys(e);
 			var isExtendedKey = XplatUICocoa.IsCtrlDown || XplatUICocoa.IsCmdDown || e.Characters.Length == 0 || !KeysConverter.IsChar(e.Characters[0], key) && KeysConverter.DeadKeyState == 0;
@@ -76,6 +75,8 @@ namespace System.Windows.Forms.Mac
 
 			var isSysKey = false;// altDown && !cmdDown
 			msg = isSysKey ? (e.Type == NSEventType.KeyDown ? Msg.WM_SYSKEYDOWN : Msg.WM_SYSKEYUP) : (e.Type == NSEventType.KeyDown ? Msg.WM_KEYDOWN : Msg.WM_KEYUP);
+
+			return key != Keys.None;
 		}
 
 		public static bool IsMouse(this NSEvent e, out NSMouseFlags flags)
@@ -108,7 +109,11 @@ namespace System.Windows.Forms.Mac
 
 		public static NSEvent RetargetMouseEvent(this NSEvent e, NSView target, NSMouseFlags props)
 		{
-			var p = target.Window.ConvertScreenToBase(e.Window.ConvertBaseToScreen(e.LocationInWindow));
+			if (target.Window == null)
+				return e;
+
+			var l = e.Window != null ? e.Window.ConvertPointToScreen(e.LocationInWindow) : e.LocationInWindow;
+			var p = target.Window.ConvertPointFromScreen(l);
 			var clickCount = props.HasFlag(NSMouseFlags.ClickCount) ? e.ClickCount : 0;
 			var pressure = props.HasFlag(NSMouseFlags.Pressure) ? e.Pressure : 0;
 			return e.Type == NSEventType.ScrollWheel
@@ -122,7 +127,7 @@ namespace System.Windows.Forms.Mac
 			var target = NSApplication.SharedApplication.WindowWithWindowNumber(wnum);
 			if (target != null)
 			{
-				var location = target.ConvertScreenToBase(locationOnScreen);
+				var location = target.ConvertPointFromScreen(locationOnScreen);
 				var clickCount = props.HasFlag(NSMouseFlags.ClickCount) ? e.ClickCount : 0;
 				var pressure = props.HasFlag(NSMouseFlags.Pressure) ? e.Pressure : 0;
 				return e.Type == NSEventType.ScrollWheel
@@ -204,7 +209,7 @@ namespace System.Windows.Forms.Mac
 
 		public static uint ButtonNumberToWParam(this NSEvent e)
 		{
-			switch (e.ButtonNumber)
+			switch (e.ButtonNumberEx())
 			{
 				case 0: return (uint)MsgButtons.MK_LBUTTON;
 				case 1: return (uint)MsgButtons.MK_RBUTTON;
@@ -232,16 +237,43 @@ namespace System.Windows.Forms.Mac
 			return e.ModifierFlags.ToWParam();
 		}
 
+		public static int ButtonNumberEx(this NSEvent e)
+		{
+			switch (e.Type)
+			{
+				case NSEventType.LeftMouseDown:
+				case NSEventType.LeftMouseUp:
+					return 0;
+				case NSEventType.RightMouseDown:
+				case NSEventType.RightMouseUp:
+					return 1;
+				case NSEventType.OtherMouseDown:
+				case NSEventType.OtherMouseUp:
+					return 2;
+				default:
+					return 0;
+			}
+		}
+
 		// 
 		internal static Msg AdjustForButton(this Msg msg, NSEvent e)
 		{
-			int button = (int)e.ButtonNumber;
+			int button = (int)e.ButtonNumberEx();
 			if (button >= (int)NSMouseButtons.Excessive)
 				button = (int)NSMouseButtons.X;
 			int offset = 3 * (button - (int)NSMouseButtons.Left);
 			if (button >= (int)NSMouseButtons.X)
 				++offset;
 			return msg + offset;
+		}
+
+		public static void TraverseSubviews(this NSView view, Action<NSView> action)
+		{
+			foreach (var v in view.Subviews)
+			{
+				action(v);
+				TraverseSubviews(v, action);
+			}
 		}
 
 		public static bool Contains(this NSView self, NSView view)
@@ -268,6 +300,47 @@ namespace System.Windows.Forms.Mac
 			return null;
 		}
 
+		static IntPtr enclosingMenuItem = Selector.GetHandle("enclosingMenuItem");
+		public static NSMenuItem EnclosingMenuItem(this NSView view)
+		{
+			var ptr = LibObjc.IntPtr_objc_msgSend(view.Handle, enclosingMenuItem);
+			return ObjCRuntime.Runtime.GetNSObject(ptr) as NSMenuItem;
+		}
+
+		public static bool IsCopyPaste(this NSMenuItem item)
+		{
+			switch (item.KeyEquivalent)
+			{
+				case "x":
+				case "c":
+				case "v":
+				case "a":
+					if (item.KeyEquivalentModifierMask == NSEventModifierMask.CommandKeyMask)
+						return true;
+					break;
+			}
+			
+			switch (item.Action?.Name)
+			{
+				case "cut:":
+				case "copy:":
+				case "paste:":
+				case "selectAll:":
+					return true;
+			}
+			
+			return false;
+		}
+
+		public static IDisposable HideCopyPasteMenuItems(NSMenu? menu = null)
+		{
+			return MenuItemIterator.IterateItems(
+				menu ?? NSApplication.SharedApplication.Menu,
+				x => !x.Hidden && x.IsCopyPaste() ? x.Hidden = true : false,
+				x => x.Hidden = false
+			);
+		}
+
 		public static Control ToControl(this NSView view)
 		{
 			return view.IsSwfControl() ? Control.FromHandle(view.Handle) : Control.FromChildHandle(view.Handle);
@@ -288,6 +361,18 @@ namespace System.Windows.Forms.Mac
 					result[i] = rects[i];
 				return result;
 			}
+		}
+
+		static IntPtr getClipsToBoundsHandle = Selector.GetHandle("clipsToBounds");
+		public static bool GetClipsToBounds(this NSView view)
+		{
+			return LibObjc.bool_objc_msgSend(view.Handle, getClipsToBoundsHandle);
+		}
+
+		static IntPtr setClipsToBoundsHandle = Selector.GetHandle("setClipsToBounds:");
+		public static void SetClipsToBounds(this NSView view, bool value)
+		{
+			LibObjc.void_objc_msgSend_Bool(view.Handle, setClipsToBoundsHandle, value);
 		}
 
 		public static string GetString(this NSTextView self)
@@ -397,6 +482,18 @@ namespace System.Windows.Forms.Mac
 			return handle != IntPtr.Zero ? new Class(handle) : null;
 		}
 
+		[System.Diagnostics.Conditional("DEBUG")]
+        public static void NotImplemented(MethodBase method)
+        {
+            Console.WriteLine("Not Implemented: " + method.ReflectedType.Name + "." + method.Name);
+        }
+
+		[System.Diagnostics.Conditional("DEBUG")]
+        public static void NotImplemented(this NSObject o, MethodBase method)
+        {
+            Console.WriteLine("Not Implemented: " + method.ReflectedType.Name + "." + method.Name);
+        }
+
 		public static bool RespondsToSelector(this Type type, string selector)
 		{
 			return type.GetClass()?.RespondsToSelector(new Selector(selector)) ?? false;
@@ -406,6 +503,13 @@ namespace System.Windows.Forms.Mac
 		{
 			var obj = ObjCRuntime.Runtime.GetNSObject(@class.Handle);
 			return obj?.RespondsToSelector(selector) ?? false;
+		}
+
+		public static bool IsAccessibilitySelector(this Selector sel)
+		{
+			var name = sel.Name;
+			return name.StartsWith("accessibility", StringComparison.InvariantCulture)
+				 || name.StartsWith("setAccessibility", StringComparison.InvariantCulture);
 		}
 
 		public static bool AddMethod(this NSObject obj, Selector selector, Delegate imp)
@@ -473,6 +577,46 @@ namespace System.Windows.Forms.Mac
 			var ptr = LibObjc.IntPtr_objc_msgSend(self.Handle, selector.Handle);
 			var array = NSArray.ArrayFromHandle<NSWindow>(ptr);
 			return array;
+		}
+
+		public static bool PerformDoubleClickInCaption(this NSWindow window, NSEvent e)
+		{
+			if (window.StyleMask.HasFlag(NSWindowStyle.FullSizeContentView))
+			{
+				var action = NSUserDefaults.StandardUserDefaults.StringForKey("AppleActionOnDoubleClick");
+				
+				if (string.IsNullOrEmpty(action))
+				{
+					var miniaturize = NSUserDefaults.StandardUserDefaults.IntForKey("AppleMiniaturizeOnDoubleClick");
+					action = miniaturize != 0 ? "Minimize" : "Maximize";
+				}
+
+				switch (action)
+				{
+					case "None":
+						return true;
+					case "Maximize":
+						if (window.StyleMask.HasFlag(NSWindowStyle.Resizable))
+						{
+							window.PerformZoom(window);
+							return true;
+						}
+						break;
+					case "Minimize":
+						if (window.StyleMask.HasFlag(NSWindowStyle.Miniaturizable))
+						{
+							window.PerformMiniaturize(window);
+							return true;
+						}
+						break;
+				}
+			}
+			return false;
+		}
+
+		public static bool IsLeftDoubleClick(this NSEvent e)
+		{
+			return e.Type == NSEventType.LeftMouseUp && e.ClickCount == 2;
 		}
 
 		public static bool IsChildOf(this NSWindow window, NSWindow parent)
@@ -567,26 +711,117 @@ namespace System.Windows.Forms.Mac
 			return keysConverter;
 		}
 
-		public static bool ToKeyEquivalentAndModifiers(this Keys keys, out string keyEquivalent, out NSEventModifierMask mask)
+		public static bool ToKeyEquivalentAndModifiers(this Keys keys, out string keyEquivalent, out NSEventModifierMask mask, bool requireModifier = true)
 		{
 			var mods = keys & Keys.Modifiers;
 			mask = mods.ToNSEventModifierMask();
 
 			var parts = (GetKeysConverter().ConvertToString(keys) ?? "").Split('+');
-			keyEquivalent = (mods != 0 && parts.Length > 1) ? parts[parts.Length - 1].ToLowerInvariant() : null;
-			keyEquivalent = keyEquivalent?.KeysAsStringToSymbol();
+			keyEquivalent = (mods != 0 && parts.Length > 1) || (mods == 0 && parts.Length > 0) ? parts[parts.Length - 1].ToLowerInvariant() : null;
+			keyEquivalent = keyEquivalent?.KeysAsStringToSymbol(true);
 
-			return mask != 0 && keyEquivalent != null;
+			return mask != 0 || !requireModifier && keyEquivalent != null;
 		}
 
-		public static string ToSymbol(this Keys keys)
+		public static bool ToKeyEquivalentAndModifiers(this string shortcutKeyDisplayString, out string keyEquivalent, out NSEventModifierMask mask, bool requireModifier = true)
 		{
-			return KeysAsStringToSymbol(keys.ToString());
+			try
+			{
+				if (!string.IsNullOrEmpty(shortcutKeyDisplayString))
+				{
+					var expanded = shortcutKeyDisplayString.ExpandAppleMenuShortcut();
+					if (keysConverter.ConvertFromString(expanded) is Keys scut)
+					{
+						if (scut.ToKeyEquivalentAndModifiers(out var e, out var m, false))
+						{
+							keyEquivalent = e;
+							mask = m;
+							return true;
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Console.Error.WriteLine(e);
+			}
+			keyEquivalent = string.Empty;
+			mask = 0;
+			return false;
+		}		
+
+		public static string ToSymbol(this Keys keys, bool includeApplePrivateUnicodeSymbols = false)
+		{
+			return KeysAsStringToSymbol(keys.ToString(), includeApplePrivateUnicodeSymbols);
 		}
 
-		public static string KeysAsStringToSymbol(this string keysAsString)
+		public static string KeysAsStringToSymbol(this string keysAsString, bool includeApplePrivateUnicodeSymbols = false)
 		{
-			return ShortcutSubst[keysAsString] ?? keysAsString;
+			var subst = ShortcutSubst[keysAsString] ?? keysAsString;
+			if (includeApplePrivateUnicodeSymbols)
+				subst = ApplePrivateShortcutSubst[subst] ?? subst;
+			return subst;
+		}
+
+		// Converts "⌘⇧J" to Cmd+Shift+J, for example
+		public static string ExpandAppleMenuShortcut(this string shortcut, string separator = "+")
+		{
+			var sepIndex = shortcut.IndexOf(separator);
+			if (sepIndex > 0 && sepIndex < shortcut.Length - 1 || shortcut.Length == 0)
+				return shortcut; // If there is a separator in the middle of the shortcut, then it's not a NSMenuItem shortcut.
+
+			bool prefix = true;
+			string result = "", sep = "";
+			for (int i = 0; i < shortcut.Length; ++i)
+			{
+				var c = shortcut[i];
+
+				// Modifiers can be only in the prefix (if any)
+				bool isAppleModifierSymbol = c.IsAppleModifierSymbol();
+				if (!prefix && isAppleModifierSymbol)
+				{
+					Debug.Assert(false, $"Unsupported shortcut form: {shortcut}");
+					return shortcut;
+				}
+
+				prefix &= isAppleModifierSymbol;
+				
+				if (prefix)
+				{
+					var s = c.ToString();
+					result += $"{sep}{SubstNames[s] ?? s}";
+					sep = separator;
+				}
+				else
+				{
+					var s = shortcut.Substring(i);
+					result += $"{sep}{SubstNames[s] ?? s}";
+					break;
+				}
+			}
+
+			return result;
+		}
+
+		const string appleModifiers = "⌃⌘⌥⇧";
+		public static bool IsAppleModifierSymbol(this char c)
+		{
+			return appleModifiers.IndexOf(c) >= 0;
+		}
+
+		static StringDictionary StringDictionaryFromKeysAndValuesInterlaced(string[] namesAndValues, bool inversed = false)
+		{
+			int a = 0, b = 0;
+			if (inversed) a = 1; else b = 1;
+
+			var sd = new StringDictionary();
+			for (int i = 0; i < namesAndValues.Length - 1; i += 2)
+			{
+				var key = namesAndValues[i + a];
+				if (!sd.ContainsKey(key))
+					sd[key] = namesAndValues[i + b];
+			}
+			return sd;
 		}
 
 		static StringDictionary subst;
@@ -595,12 +830,19 @@ namespace System.Windows.Forms.Mac
 			get
 			{
 				if (subst == null)
-				{
-					subst = new StringDictionary();
-					for (int i = 0; i < keyNames.Length - 1; i += 2)
-						subst[keyNames[i]] = keyNames[i + 1];
-				}
+					subst = StringDictionaryFromKeysAndValuesInterlaced(keyNames);
 				return subst;
+			}
+		}
+
+		static StringDictionary names;
+		static StringDictionary SubstNames
+		{
+			get
+			{
+				if (names == null)
+					names = StringDictionaryFromKeysAndValuesInterlaced(keyNames, true);
+				return names;
 			}
 		}
 
@@ -648,16 +890,16 @@ namespace System.Windows.Forms.Mac
 			"OemPlus", "=",
 
 			"NumLock", "⌧",
-			"NumPad0", "0(Num)",
-			"NumPad1", "1(Num)",
-			"NumPad2", "2(Num)",
-			"NumPad3", "3(Num)",
-			"NumPad4", "4(Num)",
-			"NumPad5", "5(Num)",
-			"NumPad6", "6(Num)",
-			"NumPad7", "7(Num)",
-			"NumPad8", "8(Num)",
-			"NumPad9", "9(Num)",
+			"NumPad0", "0",
+			"NumPad1", "1",
+			"NumPad2", "2",
+			"NumPad3", "3",
+			"NumPad4", "4",
+			"NumPad5", "5",
+			"NumPad6", "6",
+			"NumPad7", "7",
+			"NumPad8", "8",
+			"NumPad9", "9",
 
 			"Multiply", "*",
 			"Add", "+",
@@ -688,12 +930,36 @@ namespace System.Windows.Forms.Mac
 			"Right", "→",
 			"Down", "↓",
 
-			"PrintScreen", "0xF72E",
-			"Insert", "0xF727",
-			"Execute", "0xF742",
-			"Help", "0xF746",
-			"Scroll", "0xF72F",
+			"PrintScreen", "\xF72E",
+			"Insert", "\xF727",
+			"Execute", "\xF742",
+			"Help", "\xF746",
+			"Scroll", "\xF72F",
+		};
 
+		static StringDictionary? applePrivateShortcutSubst;
+		static StringDictionary ApplePrivateShortcutSubst
+		{
+			get
+			{
+				if (applePrivateShortcutSubst == null)
+					applePrivateShortcutSubst = StringDictionaryFromKeysAndValuesInterlaced(applePrivateUnicodeSymbols);
+				return applePrivateShortcutSubst;
+			}
+		}
+
+		static StringDictionary? applePrivateShortcutNames;
+		static StringDictionary ApplePrivateShortcutNames
+		{
+			get
+			{
+				if (applePrivateShortcutNames == null)
+					applePrivateShortcutNames = StringDictionaryFromKeysAndValuesInterlaced(applePrivateUnicodeSymbols, true);
+				return applePrivateShortcutNames;
+			}
+		}
+
+		static readonly string[] applePrivateUnicodeSymbols = {
 			 "F1", "\xF704",
 			 "F2", "\xF705",
 			 "F3", "\xF706",
@@ -791,12 +1057,16 @@ namespace System.Windows.Forms.Mac
 			return info.OperatingSystemVersion.Major >= 12;
 		}
 
+		public static bool IsSonomaOrHigher(this NSProcessInfo info)
+		{
+			return info.OperatingSystemVersion.Major >= 14;
+		}
+
 		public static Size GetDeviceDpi(this Control control)
 		{
 			var form = control?.FindForm() ?? Form.ActiveForm;
 			var view = ObjCRuntime.Runtime.GetNSObject(form?.Handle ?? IntPtr.Zero) as NSView;
-			var screen = view?.Window?.Screen ?? NSApplication.SharedApplication.MainWindow?.Screen;
-			return screen?.DeviceDPI().ToSDSize() ?? new Size(72, 72);
+			return view?.Window?.DeviceDPI().ToSDSize() ?? new Size(72, 72);
 		}
 
 		#region NSPasteboard Extensions
@@ -966,6 +1236,7 @@ namespace System.Windows.Forms.Mac
 		public static string AccessibilityRole(this Control control)
 		{
 			var role = (control?.AccessibilityObject is AccessibleObject obj) ? obj.Role : control.AccessibleRole;
+			//Console.WriteLine($"AccessibilityRole({control.GetType().Name}: {role}->{role.ToNSAccessibilityRole()})");
 			return role.ToNSAccessibilityRole();
 		}
 
@@ -1026,7 +1297,7 @@ namespace System.Windows.Forms.Mac
 
 		public static string AccessibleTextLabel(this Control control)
 		{
-			return control?.AccessiblePreviousLabel()?.Text;
+			return (control?.AccessiblePreviousLabel()?.Text ?? control.AccessibleName)?.RemoveMnemonic();
 		}
 
 		public static Label AccessiblePreviousLabel(this Control control)
@@ -1048,7 +1319,9 @@ namespace System.Windows.Forms.Mac
 
 		public static string ToNSAccessibilityRole(this AccessibleRole role)
 		{
-			return (int)role > 0 && (int)role < accessibilityRoles.Length ? accessibilityRoles[(int)role] : null;
+			var result = (int)role > 0 && (int)role < accessibilityRoles.Length ? accessibilityRoles[(int)role] : null;
+			//Console.WriteLine($"{role} -> {result}");
+			return result;
 		}
 		
 		readonly static string[] accessibilityRoles = new string[] {
@@ -1109,12 +1382,12 @@ namespace System.Windows.Forms.Mac
 			NSAccessibilityRoles.UnknownRole, //Animation	= 54,
 			NSAccessibilityRoles.UnknownRole, //Equation	= 55,
 			NSAccessibilityRoles.PopUpButtonRole, //ButtonDropDown	= 56,
-			NSAccessibilityRoles.PopUpButtonRole, //ButtonMenu	= 57,
+			"AXMenuButton", //ButtonMenu	= 57,
 			NSAccessibilityRoles.PopUpButtonRole, //ButtonDropDownGrid= 58,
 			NSAccessibilityRoles.UnknownRole, //WhiteSpace	= 59,
 			NSAccessibilityRoles.TabGroupRole, //PageTabList	= 60,
 			NSAccessibilityRoles.UnknownRole, //Clock		= 61,
-			NSAccessibilityRoles.UnknownRole, //Default		= -1,
+			null,// NSAccessibilityRoles.UnknownRole, //Default		= -1,
 			NSAccessibilityRoles.SplitterRole, //SplitButton	= 62,
 			NSAccessibilityRoles.TextAreaRole,  //IpAddress	= 63,
 			NSAccessibilityRoles.ButtonRole, //OutlineButton	= 64
@@ -1158,8 +1431,109 @@ namespace System.Windows.Forms.Mac
 			if (0 != (modifiers & NSEventModifierMask.AlternateKeyMask)) // alt (mac) => ctrl (win)
 				keystate |= 8;
 
-			var idata = XplatUICocoa.DraggedData as IDataObject ?? view.ToIDataObject(sender.DraggingPasteboard);
+			var idata = XplatUICocoa.DraggedData as IDataObject ?? view.ToIDataObject(sender);
 			return new DragEventArgs(idata, keystate, q.X, q.Y, allowed, effect);
+		}
+
+		public static IDataObject ToIDataObject(this NSView view, INSDraggingInfo draginfo)
+		{
+			var idata = view.ToIDataObject(draginfo.DraggingPasteboard);
+			if (idata != null)
+				return idata;
+
+			// The following code takes place when dropping images on macOS >= Ventura,
+			// where real NSImage instances are transferred via the pasteboard,
+			// instead of file promises or file URLs.
+			// It seems that only one class can be in the following array,
+			// and it must not be the NSPasteboardItem's class.
+			// If it were NSPasteboardItem, then the item received
+			// would be empty.
+			var classes = CoreFoundation.CFArray.Create(
+				typeof(NSImage).GetClass()
+				//,typeof(NSString).GetClass()
+				//,typeof(NSUrl).GetClass()
+				//,typeof(NSColor).GetClass(),
+				//,typeof(NSAttributedString).GetClass()
+			);
+
+			draginfo.EnumerateDraggingItems(NSDraggingItemEnumerationOptions.Concurrent, view, classes.Handle, new NSDictionary(), (NSDraggingItem item, nint index, ref bool stop) => {
+				if (item.Item is NSImage image) {
+					idata = new DataObject();
+					idata.SetData(DataFormats.FileDrop, new NSImageFileDropProvider(image));
+					idata.SetData(DataFormats.Bitmap, new NSImageBitmapProvider(image));
+					stop = true;
+				}
+			});
+
+			return idata;
+		}
+
+		class NSImageBitmapProvider : DataObject.IDropDataProvider
+		{
+			NSImage image;
+			public NSImageBitmapProvider(NSImage image) => this.image = image;
+			public object GetData(string format) => image.ToBitmap();
+		}
+
+		class NSImageFileDropProvider : DataObject.IDropDataProvider
+		{
+			NSImage image;
+			public NSImageFileDropProvider(NSImage image) => this.image = image;
+			public object GetData(string format)
+			{
+				System.Diagnostics.Debug.Assert(format == DataFormats.FileDrop);
+
+				foreach (var rep in image.Representations())
+					if (rep.BitsPerSample == 0)
+						if (SaveAsPdf() is string pdf)
+							return new string[] { pdf };
+
+				if (SaveAsPng() is string png)
+					return new string[] { png };
+
+				return null;
+			}
+
+			string SaveAsPng()
+			{
+				if (image.AsTiff() is NSData tiffData)
+				{
+					var rep = new NSBitmapImageRep(tiffData);
+				    var data = rep.RepresentationUsingTypeProperties(NSBitmapImageFileType.Png);
+					var path = CreateTempFileName("png");
+					if (data.Save(path, (NSDataWritingOptions)0, out var _))
+						return path;
+				}
+				return null;
+			}
+
+			string SaveAsPdf()
+			{
+				var frame = new CGRect(CGPoint.Empty, image.Size);
+				var view = new NSImageView(frame);
+				view.Image = image;
+				var data = view.DataWithPdfInsideRect(frame);
+				var path = CreateTempFileName("pdf");
+				if (data.Save(path, (NSDataWritingOptions)0, out var _))
+					return path;
+				return null;
+			}
+
+			string CreateTempFileName(string extension)
+			{
+				var folder = NSFileManager.TemporaryDirectory;
+				var now = DateTime.Now.ToString("HHmmss");
+				var fm = NSFileManager.DefaultManager;
+				var suffix = "";
+				for (int i = 1; i < 100000; ++i)
+				{
+					var path = new NSUrl(folder, true).Append($"{now}{suffix}", false).AppendPathExtension(extension).Path;
+					if (!fm.FileExists(path))
+						return path;
+					suffix = $"-{i}";
+				}
+				return new NSUrl(folder, true).Append($"{new Guid().ToString()}", false).AppendPathExtension(extension).Path;
+			}
 		}
 
 		public static IDataObject ToIDataObject(this NSView view, NSPasteboard pboard)
@@ -1247,6 +1621,7 @@ namespace System.Windows.Forms.Mac
 				var control = view.GetDropControl();
 				if (null != control)
 				{
+					// TODO: Prevent expensive data conversions here!
 					var e = view.ToDragEventArgs(sender);
 					using var _ = XplatUICocoa.ToggleDraggedData(e);
 					control.DndOver(e);
@@ -1291,11 +1666,6 @@ namespace System.Windows.Forms.Mac
 			}
 		}
 
-		public static void DraggingEndedInternal(this NSView view, INSDraggingInfo sender)
-		{
-			XplatUICocoa.DraggedData = null; // Clear data box for next dragging session
-		}
-
 		public static Point ToMonoScreen(this NSView src, CGPoint p, NSView view)
 		{
 			if (view != null)
@@ -1330,6 +1700,11 @@ namespace System.Windows.Forms.Mac
 					case XplatUICocoa.IDataObjectPboardType:
 					case XplatUICocoa.UTTypeFileUrl:
 						return true;
+					default:
+						var utt = UTType.CreateFromIdentifier(type);
+						if (utt != null && utt.ConformsTo(UTTypes.Image))
+							return true;
+						break;
 				}
 			}
 			return false;
@@ -1339,6 +1714,7 @@ namespace System.Windows.Forms.Mac
 		{
 			try
 			{
+				XplatUICocoa.PerformDragOperationCalled = true;
 				if (view.GetDropControl() is IDropTarget dt)
 				{
 					var e = view.ToDragEventArgs(sender, XplatUICocoa.DraggingEffects);
@@ -1346,7 +1722,9 @@ namespace System.Windows.Forms.Mac
 					{
 						using var _ = XplatUICocoa.ToggleDraggedData(e);
 						dt.OnDragDrop(e);
-						sender.DraggingPasteboard.ClearContents();
+						if (e.Effect != UnusedDndEffect)
+							XplatUICocoa.DraggingEffects = e.Effect;
+
 						return true;
 					}
 				}
@@ -1355,6 +1733,21 @@ namespace System.Windows.Forms.Mac
 			{
 			}
 			return false;
+		}
+
+		public static void DraggingEndedInternal(this NSView view, INSDraggingInfo sender)
+		{
+			sender.DraggingPasteboard.ClearContents();
+			XplatUICocoa.OnDraggingEnded(view, sender);
+		}
+		
+		public static void InvokeMenuWillOpenDeep(this NSMenu? menu)
+		{
+			menu?.Delegate?.MenuWillOpen(menu);
+
+			foreach (var item in menu.Items)
+				if (item.HasSubmenu)
+					InvokeMenuWillOpenDeep(item.Submenu);
 		}
 
 		#endregion
@@ -1442,5 +1835,50 @@ namespace System.Windows.Forms.Mac
 		Down = 0x04,
 		Up = 0x08,
 		Drag = 0x10,
+	}
+
+	public delegate bool SelectMenuItemCallback(NSMenuItem item);
+	public delegate void RestoreMenuItemCallback(NSMenuItem item);
+
+	class MenuItemIterator : IDisposable
+	{
+		RestoreMenuItemCallback restoreCallback;
+		List<NSMenuItem> items = new();
+
+		public static MenuItemIterator IterateItems(NSMenu menu, SelectMenuItemCallback selectCallback, RestoreMenuItemCallback restoreCallback)
+		{
+			return new MenuItemIterator(menu, selectCallback, restoreCallback);
+		}
+
+		MenuItemIterator(NSMenu menu, SelectMenuItemCallback selectCallback, RestoreMenuItemCallback restoreCallback)
+		{
+			this.restoreCallback = restoreCallback;
+			Iterate(menu, selectCallback);
+		}
+
+		void Iterate(NSMenu menu, SelectMenuItemCallback callback)
+		{
+			foreach (var item in menu.Items)
+			{
+				if (callback(item))
+					items.Add(item);
+				if (item.HasSubmenu)
+					Iterate(item.Submenu, callback);
+			}
+		}
+
+		void Iterate(List<NSMenuItem> items, RestoreMenuItemCallback callback, bool clearItems)
+		{
+			foreach (var item in items)
+				callback(item);
+
+			if (clearItems)
+				items.Clear();
+		}
+
+		public void Dispose()
+		{
+			Iterate(items, restoreCallback, true);
+		}
 	}
 }

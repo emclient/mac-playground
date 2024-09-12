@@ -1557,6 +1557,10 @@ namespace System.Windows.Forms
 		
 		#endregion // CheckedListBox
 		
+		public override int CheckBoxSize() {
+			return 11;
+		}
+		
 		#region ComboBox		
 		public override void DrawComboBoxItem (ComboBox ctrl, DrawItemEventArgs e)
 		{

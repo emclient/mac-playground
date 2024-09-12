@@ -29,6 +29,7 @@
 
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Drawing.Imaging;
@@ -127,6 +128,7 @@ namespace System.Windows.Forms
 		public Label ()
 		{
 			// Defaults in the Spec
+			AccessibleRole = AccessibleRole.StaticText;
 			autosize = false;
 			TabStop = false;
 			string_format = new StringFormat();
@@ -393,8 +395,11 @@ namespace System.Windows.Forms
 			if (Text == string.Empty) {
 				size = new Size (0, Font.Height);
 			} else {
-				size = Size.Ceiling (TextRenderer.MeasureString (Text, Font, proposed.Width <= 1 ? int.MaxValue : (proposed.Width - bordersAndPaddings.Width), string_format));
-				size.Width += 3;
+				Size deflated = new Size(
+					proposed.Width <= 1 ? int.MaxValue : (proposed.Width - bordersAndPaddings.Width),
+					proposed.Height - bordersAndPaddings.Height);
+				TextFormatFlags flags = CreateTextFormatFlags(deflated);
+				size = Size.Ceiling(TextRenderer.MeasureText(Text, Font, deflated, flags));
 			}
 
 			return size + bordersAndPaddings;
@@ -507,8 +512,9 @@ namespace System.Windows.Forms
 			set {
 				if (use_mnemonic != value) {
 					use_mnemonic = value;
-					SetUseMnemonic (use_mnemonic);
 					Invalidate ();
+					if (Parent != null && AutoSize)
+						Parent.PerformLayout (this, "UseMnemonic");
 				}
 			}
 		}
@@ -716,12 +722,19 @@ namespace System.Windows.Forms
 		[DefaultValue (false)]
 		public bool UseCompatibleTextRendering {
 			get { return use_compatible_text_rendering; }
-			set { use_compatible_text_rendering = value; }
+			set {
+					if (use_compatible_text_rendering != value) {
+						use_compatible_text_rendering = value;
+						if (Parent != null && AutoSize)
+							Parent.PerformLayout (this, "UseCompatibleTextRendering");
+					}
+				}
 		}
 
 		[SettingsBindable (true)]
 		[Editor ("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design,
 			 typeof (System.Drawing.Design.UITypeEditor))]
+		[AllowNull]
 		public override string Text {
 			get { return base.Text; }
 			set { base.Text = value; }
@@ -760,7 +773,7 @@ namespace System.Windows.Forms
 				// The effect of the TextBoxControl flag is that in-word line breaking will occur if needed, this happens when AutoSize 
 				// is false and a one-word line still doesn't fit the binding box (width).  The other effect is that partially visible 
 				// lines are clipped; this is how GDI+ works by default.
-				flags &= ~(TextFormatFlags.WordBreak | TextFormatFlags.TextBoxControl);
+				//flags &= ~(TextFormatFlags.WordBreak | TextFormatFlags.TextBoxControl);
 			}
 
 			return flags;

@@ -28,6 +28,11 @@
 
 using System.Globalization;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using Foundation;
+using AppKit;
+
+
 
 #if MAC
 using MacApi.Carbon;
@@ -56,6 +61,7 @@ namespace System.Windows.Forms {
 		#endregion	// Private Constructor
 
 		#region Public Static Properties
+		[AllowNull]
 		public static InputLanguage CurrentInputLanguage {
 			get {
 				if (current_input == null)
@@ -84,28 +90,37 @@ namespace System.Windows.Forms {
 				if (all == null)
 				{
 					var ils = new List<InputLanguage>();
-					var sources = TextInputSource.List();
-					foreach (var source in sources)
-					{
-						try
+
+					Action action = delegate {
+						var sources = TextInputSource.List();
+							
+						foreach (var source in sources)
 						{
-							if (source.Category == TextInputSource.kTISCategoryKeyboardInputSource && source.Type == TextInputSource.kTISTypeKeyboardLayout)
+							try
 							{
-								var lang = source.FirstLanguage;
-								var culture = CultureInfo.GetCultureInfo(lang);
-								var il = new InputLanguage(IntPtr.Zero, culture, source.LocalizedName);
-								ils.Add(il);
+								if (source.Category == TextInputSource.kTISCategoryKeyboardInputSource && source.Type == TextInputSource.kTISTypeKeyboardLayout)
+								{
+									var lang = source.FirstLanguage;
+									var culture = CultureInfo.GetCultureInfo(lang);
+									var il = new InputLanguage(IntPtr.Zero, culture, source.LocalizedName);
+									ils.Add(il);
+								}
+							}
+							catch 
+							{
 							}
 						}
-						catch 
-						{
-						}
-					}
 
-					if (ils.Count == 0)
-						ils.Add(new InputLanguage(IntPtr.Zero, new CultureInfo(string.Empty), "U.S."));
+						if (ils.Count == 0)
+							ils.Add(new InputLanguage(IntPtr.Zero, new CultureInfo(string.Empty), "U.S."));
 
-					all = new InputLanguageCollection(ils.ToArray());
+						all = new InputLanguageCollection(ils.ToArray());
+					};
+
+					if (NSThread.IsMain)
+						action();
+					else
+						NSApplication.SharedApplication.InvokeOnMainThread(action);
 				}
 
 				return all;

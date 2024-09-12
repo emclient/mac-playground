@@ -867,7 +867,7 @@ namespace System.Windows.Forms
 					if (mainForm == null)
 						continue;
 
-					if (Modal && mainForm.DialogResult != DialogResult.None)
+					if (Modal && mainForm.CheckCloseDialog(false))
 						break;
 
 					// If our Form doesn't have a handle anymore, it means it was destroyed and we need to *wait* for WM_QUIT.
@@ -973,13 +973,13 @@ namespace System.Windows.Forms
 						{
 							if (m.WParam.ToInt32() == (int)Keys.Menu)
 							{
-								keyboard_capture.GetTopLevelToolStrip().Dismiss(ToolStripDropDownCloseReason.Keyboard);
+								keyboard_capture.GetTopLevelToolStrip()?.Dismiss(ToolStripDropDownCloseReason.Keyboard);
 								drop = true;
 								return IntPtr.Zero;
 							}
 						}
 
-						m.HWnd = keyboard_capture.Handle;
+						msg.hwnd = keyboard_capture.Handle;
 					}
 					goto default;
 
@@ -987,35 +987,27 @@ namespace System.Windows.Forms
 				case Msg.WM_MBUTTONDOWN:
 				case Msg.WM_RBUTTONDOWN:
 				case Msg.WM_XBUTTONDOWN:
-					Control c2 = Control.FromHandle(msg.hwnd);
-					if (keyboard_capture != null) {
-						// The target is not a winforms control (an embedded control, perhaps), so
-						// release everything
-						if (c2 == null) {
-							ToolStripManager.FireAppClicked ();
-							goto default;
-						}
-
-						// Skip clicks on owner windows, eg. expanded ComboBox
-						if (Control.IsChild (keyboard_capture.Handle, msg.hwnd)) {
-							goto default;
-						}
-
-						// Native menus have their own closing mechanism.
-						if (ToolStripManager.DismissingHandledNatively)
-							goto default;
-
-						// Close any active toolstrips drop-downs if we click outside of them,
-						// but also don't close them all if we click outside of the top-most
-						// one, but into its owner.
-						Point c2_point = c2.PointToScreen (new Point ((short)(m.LParam.ToInt32() & 0xffff), (short)(m.LParam.ToInt32() >> 16)));
-						while (keyboard_capture != null && !keyboard_capture.ClientRectangle.Contains (keyboard_capture.PointToClient (c2_point))) {
-							keyboard_capture.Dismiss ();
-						}
-					}
-					if (c2 != null && !c2.Enabled)
+					if (PreFilterMouseButtonPressed(msg.hwnd, Control.MakePoint(msg.lParam), false))
 						break;
 					goto default;
+				case Msg.WM_NCLBUTTONDOWN:
+				case Msg.WM_NCMBUTTONDOWN:
+				case Msg.WM_NCRBUTTONDOWN:
+					// This is to FireAppClick when the user clicks the caption, window border etc.
+					// TODO: Check/correct the coordinates of the point in lparam
+					if (PreFilterMouseButtonPressed(msg.hwnd, Control.MakePoint(msg.lParam), true))
+						break;
+					goto default;
+				case Msg.WM_PARENTNOTIFY: {
+					// This is to FireAppClick when the user clicks a native control that is nested deeper in the hierarchy (e.g. WebView),
+					// becase in such cases, the WM_LBUTTONDOWN etc is NOT sent (the native control handles NSEvent directly).
+					Msg cause = (Msg)Control.LowOrder(msg.wParam);
+					if (cause == Msg.WM_LBUTTONDOWN || cause == Msg.WM_RBUTTONDOWN || cause == Msg.WM_MBUTTONDOWN || cause == Msg.WM_XBUTTONDOWN || cause == Msg.WM_NCLBUTTONDOWN || cause == Msg.WM_NCRBUTTONDOWN || cause == Msg.WM_NCMBUTTONDOWN) {
+						if (PreFilterMouseButtonPressed(IntPtr.Zero, Control.MakePoint(msg.lParam), true))
+							break;
+					}
+					goto default;
+				}
 				case Msg.WM_LBUTTONDBLCLK:
 				case Msg.WM_MBUTTONDBLCLK:
 				case Msg.WM_RBUTTONDBLCLK:
@@ -1032,18 +1024,69 @@ namespace System.Windows.Forms
 					if (up != null && !up.Enabled)
 						break;
 					goto default;
+				case Msg.WM_ACTIVATE:
+					// Close toolstrips when another form gets activated
+					if (0 != Control.LowOrder(m.WParam)) {
+						Form? becomesActive = Control.FromHandle(m.HWnd) as Form;
+						Form? toolstripOwner = keyboard_capture?.TopLevelControl as Form;
+						if (becomesActive != null && toolstripOwner != null && becomesActive != toolstripOwner)
+							ToolStripManager.FireAppFocusChanged(toolstripOwner);
+					}
+					goto default;
+				case Msg.WM_ACTIVATEAPP:
+					// Close toolstrips when the app gets deactivated
+					if (0 == Control.LowOrder(m.WParam))
+						ToolStripManager.FireAppFocusChanged(null);
+					goto default;
 				case Msg.WM_QUIT:
 					quit = true; // make sure we exit
 					break;
 				default:
 					if (PreTranslateMessage(ref msg))
-						return (IntPtr)1;
+						return (IntPtr)0;
 
 					XplatUI.TranslateMessage(ref msg);
 					return XplatUI.DispatchMessage(ref msg);
 			}
 
 			return IntPtr.Zero;
+		}
+
+		private static bool PreFilterMouseButtonPressed(IntPtr hwnd, Point pt, bool screen_coords)
+		{
+			if (hwnd == IntPtr.Zero && screen_coords)
+				hwnd = XplatUI.GetWindowFromPoint(pt.X, pt.Y);
+
+			Control c2 = Control.FromHandle(hwnd);
+			if (keyboard_capture != null) {
+				// The target is not a winforms control (an embedded control, perhaps), so
+				// release everything
+				if (c2 == null) {
+					ToolStripManager.FireAppClicked ();
+					return false;
+				}
+
+				// Skip clicks on owner windows, eg. expanded ComboBox
+				if (Control.IsChild (keyboard_capture.Handle, hwnd)) {
+					return false;
+				}
+
+				// Native menus have their own closing mechanism.
+				if (ToolStripManager.DismissingHandledNatively)
+					return false;
+
+				// Close any active toolstrips drop-downs if we click outside of them,
+				// but also don't close them all if we click outside of the top-most
+				// one, but into its owner.
+				Point pt_screen = screen_coords ? pt : c2.PointToScreen(pt);
+				while (keyboard_capture != null && !keyboard_capture.ClientRectangle.Contains (keyboard_capture.PointToClient(pt_screen))) {
+					keyboard_capture.Dismiss();
+				}
+			}
+			if (c2 != null && !c2.Enabled)
+				return true;
+			
+			return false;
 		}
 
 		private static bool PreTranslateMessage(ref MSG msg)

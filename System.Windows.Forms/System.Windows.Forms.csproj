@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-macos</TargetFrameworks>
-    <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.1</TargetFrameworks>
+    <TargetFramework>net8.0-macos</TargetFramework>
     <DefineConstants>NET_4_5</DefineConstants>
     <NoWarn>1699,618,612,809,3001,3002,3003</NoWarn>
     <EnableDefaultItems>false</EnableDefaultItems>
@@ -14,16 +13,16 @@
     <AssemblyVersion>5.0.0</AssemblyVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
+  <PropertyGroup>
+    <NoWarn>CA1416;CS3021;CS0618;CS0612;SYSLIB0014;CA2200;CS0809;CS0675;CS0067</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
     <DefineConstants>$(DefineConstants);MAC;MACOS_THEME</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
-    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
+  <ItemGroup>
     <ProjectReference Include="..\System.Drawing.Common\System.Drawing.Common.csproj" />
     <ProjectReference Include="..\MacApi\MacApi.csproj" />
   </ItemGroup>
@@ -31,7 +30,7 @@
     <ProjectReference Include="..\Mono.WebBrowser\Mono.WebBrowser.csproj" />
     <ProjectReference Include="..\System.Windows.Forms.Primitives\System.Windows.Forms.Primitives.csproj" />
   </ItemGroup>
-  <ItemGroup Condition="'$(SkipMacProjects)' != 'true'">
+  <ItemGroup>
     <Compile Include="Assembly\Consts.cs" />
     <Compile Include="Assembly\MonoTODOAttribute.cs" />
     <Compile Include="Assembly\AssemblyInfo.cs" />
@@ -170,6 +169,7 @@
     <Compile Include="System.Windows.Forms\AxHost.cs" />
     <Compile Include="System.Windows.Forms\BaseCollection.cs" />
     <Compile Include="System.Windows.Forms\BatteryChargeStatus.cs" />
+    <Compile Include="System.Windows.Forms\BindableComponent.cs" />
     <Compile Include="System.Windows.Forms\Binding.cs" />
     <Compile Include="System.Windows.Forms\BindingCompleteContext.cs" />
     <Compile Include="System.Windows.Forms\BindingCompleteEventArgs.cs" />
@@ -381,6 +381,7 @@
     <Compile Include="System.Windows.Forms\DockingBehavior.cs" />
     <Compile Include="System.Windows.Forms\DockStyle.cs" />
     <Compile Include="System.Windows.Forms\DomainUpDown.cs" />
+    <Compile Include="System.Windows.Forms\DpiChangedEventArgs.cs" />
     <Compile Include="System.Windows.Forms\DragAction.cs" />
     <Compile Include="System.Windows.Forms\DragDropEffects.cs" />
     <Compile Include="System.Windows.Forms\DragEventArgs.cs" />
@@ -455,7 +456,8 @@
     <Compile Include="System.Windows.Forms\IBindableComponent.cs" />
     <Compile Include="System.Windows.Forms\IBounds.cs" />
     <Compile Include="System.Windows.Forms\IButtonControl.cs" />
-    <Compile Include="System.Windows.Forms\ICommandExecutor.cs" />
+    <Compile Include="System.Windows.Forms\ICommandBindingTargetProvider.cs" />
+    <Compile Include="System.Windows.Forms\ICommandExecutor.cs" />    
     <Compile Include="System.Windows.Forms\IComponentEditorPageSite.cs" />
     <Compile Include="System.Windows.Forms\IContainerControl.cs" />
     <Compile Include="System.Windows.Forms\ICurrencyManagerProvider.cs" />
@@ -864,7 +866,7 @@
     <Compile Include="System.Drawing.Design\*.cs" />
     <Compile Include="TypeForwards.cs" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
     <Compile Include="System.Windows.Forms.VisualStyles\UXTheme.cs" />
     <Compile Include="System.Windows.Forms.VisualStyles\VisualStylesNative.cs" />
     <Compile Include="System.Windows.Forms\ComboBox.Win.cs" />
@@ -884,7 +886,7 @@
     <Compile Include="System.Windows.Forms\Win32DnD.cs" />
     <Compile Include="System.Windows.Forms\XplatUIWin32.cs" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-macos'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-macos'">
     <Compile Include="System.Windows.Forms.CocoaInternal\Cursor.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectPasteboard.cs" />
     <Compile Include="System.Windows.Forms.CocoaInternal\DataObjectProvider.cs" />
@@ -1188,17 +1190,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsDesktop.App.Ref" Version="6.0.9" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
-    <PackageReference Include="Microsoft.NETCore.App.Ref" Version="6.0.9" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
+    <PackageReference Include="Microsoft.WindowsDesktop.App.Ref" Version="8.0.3" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
+    <PackageReference Include="Microsoft.NETCore.App.Ref" Version="8.0.3" PrivateAssets="All" GeneratePathProperty="true" ExcludeAssets="All" />   
   </ItemGroup>
   <PropertyGroup>
     <ApiCompatExcludeAttributeList>..\ApiCompatExcludeAttributes.txt,ApiCompatExcludeAttributes.Mobile.txt</ApiCompatExcludeAttributeList>
-    <ContractDependencyPaths>$(PkgMicrosoft_NETCore_App_Ref)\ref\net6.0</ContractDependencyPaths>
+    <ContractDependencyPaths>$(PkgMicrosoft_NETCore_App_Ref)\ref\net8.0</ContractDependencyPaths>
   </PropertyGroup>
   <ItemGroup>
-    <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\net6.0\System.Windows.Forms.dll" />
+    <ResolvedMatchingContract Include="$(PkgMicrosoft_WindowsDesktop_App_Ref)\ref\net8.0\System.Windows.Forms.dll" />
   </ItemGroup>
-  <ItemGroup Condition="'$(SkipMacProjects)' != 'true'">
-    <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="6.0.0-beta.21466.2" PrivateAssets="All" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.DotNet.ApiCompat" Version="8.0.0-beta.24170.6" PrivateAssets="All" />
   </ItemGroup>
 </Project>

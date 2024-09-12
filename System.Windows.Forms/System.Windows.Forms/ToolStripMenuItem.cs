@@ -231,6 +231,7 @@ namespace System.Windows.Forms
 
 		protected override void Dispose (bool disposing)
 		{
+			ToolStripManager.RemoveToolStripMenuItem(this);
 			base.Dispose (disposing);
 		}
 
@@ -253,16 +254,20 @@ namespace System.Windows.Forms
 			if (!this.Enabled)
 				return;
 
-			if (this.CheckOnClick)
-				this.Checked = !this.Checked;
-
 			if (this.HasDropDownItems) {
+
+				if (this.CheckOnClick)
+					this.Checked = !this.Checked;
+
 				base.OnClick (e);
 				return;
 			}
 				
 			if (this.OwnerItem is ToolStripDropDownItem)
 				(this.OwnerItem as ToolStripDropDownItem).OnDropDownItemClicked (new ToolStripItemClickedEventArgs (this));
+
+			if (this.CheckOnClick)
+				this.Checked = !this.Checked;
 
 			if (this.IsOnDropDown) {
 				ToolStrip ts = this.GetTopLevelToolStrip ();

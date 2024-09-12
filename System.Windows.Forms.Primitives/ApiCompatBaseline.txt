@@ -3,3 +3,22 @@ CannotChangeAttribute : Attribute 'System.ComponentModel.RefreshPropertiesAttrib
 CannotChangeAttribute : Attribute 'System.ComponentModel.RefreshPropertiesAttribute' on 'System.Windows.Forms.Padding.Left' changed from '[RefreshPropertiesAttribute(1)]' in the contract to '[RefreshPropertiesAttribute(RefreshProperties.All)]' in the implementation.
 CannotChangeAttribute : Attribute 'System.ComponentModel.RefreshPropertiesAttribute' on 'System.Windows.Forms.Padding.Right' changed from '[RefreshPropertiesAttribute(1)]' in the contract to '[RefreshPropertiesAttribute(RefreshProperties.All)]' in the implementation.
 CannotChangeAttribute : Attribute 'System.ComponentModel.RefreshPropertiesAttribute' on 'System.Windows.Forms.Padding.Top' changed from '[RefreshPropertiesAttribute(1)]' in the contract to '[RefreshPropertiesAttribute(RefreshProperties.All)]' in the implementation.
+
+# .NET 8
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Message.Equals(System.Object)' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Message.Equals(System.Windows.Forms.Message)' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Message.GetHashCode()' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Message.GetLParam(System.Type)' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Message.ToString()' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Padding.All.get()' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Padding.Bottom.get()' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Padding.Equals(System.Object)' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Padding.Equals(System.Windows.Forms.Padding)' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Padding.GetHashCode()' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Padding.Horizontal.get()' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Padding.Left.get()' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Padding.Right.get()' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Padding.Size.get()' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Padding.Top.get()' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Padding.ToString()' in the contract but not the implementation.
+CannotRemoveAttribute : Attribute 'System.Runtime.CompilerServices.IsReadOnlyAttribute' exists on 'System.Windows.Forms.Padding.Vertical.get()' in the contract but not the implementation.

@@ -33,6 +33,7 @@ namespace System.Windows.Forms
 		internal static object DraggedData = null;
 		internal static DragDropEffects DraggingAllowedEffects = DragDropEffects.None;
 		internal static DragDropEffects DraggingEffects = DragDropEffects.None;
+		internal static bool PerformDragOperationCalled;
 		internal static event EventHandler DraggingEnded;
 
 		internal NSDraggingSession draggingSession;
@@ -72,12 +73,15 @@ namespace System.Windows.Forms
 					Application.AddMessageFilter(filter);
 					DraggingAllowedEffects = allowedEffects;
 					DraggingEffects = DragDropEffects.None;
+					PerformDragOperationCalled = false;
 					try
 					{
 						draggingSource.Cancelled = false;
 						draggingSource.ViewHandle = handle;
 						draggingSession = view.BeginDraggingSession(items, LastMouseDown, draggingSource);
 						DoEvents();
+						if (!PerformDragOperationCalled)
+							DraggingEffects = DragDropEffects.None;
 					}
 					finally
 					{
@@ -138,6 +142,14 @@ namespace System.Windows.Forms
 			}
 
 			return items.ToArray();
+		}
+
+		internal static void OnDraggingEnded(NSView view, INSDraggingInfo sender)
+		{
+			DraggedData = null;
+			LastMouseDown = null;
+
+			DraggingEnded?.Invoke(sender, EventArgs.Empty);
 		}
 
 		internal NSPasteboardItem NewPasteboardItem()
@@ -211,12 +223,17 @@ namespace System.Windows.Forms
 						var path = Path.Combine(folder, unique);
 						try
 						{
-							var stream = GetStream(cdata, dndCurrentFileIndex);
+							// Create the file first, even if we are not sure that the data is available, 
+							// to prevent freezing the DnD operation and crashing the appliaction.
 							using (var outputStream = File.Create(path))
+							{
+								var stream = GetStream(cdata, dndCurrentFileIndex);
 								stream.CopyTo(outputStream);
+							}
 						}
-						catch (IOException) { } // TODO: Handle this
-						catch (UnauthorizedAccessException) { }
+						catch (Exception e) {
+							Console.Error.WriteLine($"Failed to provide data for promised file: \"{filename}\".\n{e}");
+						}
 					}
 				}
 			}
@@ -345,11 +362,6 @@ namespace System.Windows.Forms
 			public override void DraggedImageEndedAtOperation(NSImage image, CGPoint screenPoint, NSDragOperation operation)
 			{
 				//Console.WriteLine($"MonoDraggingSource.DraggedImageEndedAtOperation({screenPoint.X},{screenPoint.Y},{operation}");
-
-				XplatUICocoa.DraggedData = null;
-				XplatUICocoa.DraggingEffects = operation.ToDragDropEffects();
-				XplatUICocoa.DraggingEnded(this, new EventArgs());
-				XplatUICocoa.LastMouseDown = null;
 			}
 
 			public override void DraggedImageMovedTo(NSImage image, CGPoint screenPoint)
@@ -401,7 +413,7 @@ namespace System.Windows.Forms
 		{
 			public bool PreFilterMessage(ref Message m)
 			{
-				if (m.Msg >= (int)Msg.WM_MOUSEFIRST && m.Msg <= (int)Msg.WM_MOUSELAST)
+				if (m.Msg == (int)Msg.WM_MOUSEMOVE) // Prevent re-entering OnMouseMove during DND
 					return true;
 				return false;
 			}

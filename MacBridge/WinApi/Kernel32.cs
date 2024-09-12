@@ -51,40 +51,6 @@ namespace WinApi
 			return path.Length;
 		}
 
-		public static IntPtr LocalAlloc(uint uFlags, UIntPtr uBytes)
-		{
-			IntPtr ptr = Marshal.AllocHGlobal((int)uBytes.ToUInt32());
-			localHeap[ptr] = uBytes;
-			return ptr;
-		}
-
-		public static IntPtr LocalReAlloc(IntPtr hMem, IntPtr bytes, int flags)
-		{
-			if (localHeap.ContainsKey(hMem))
-			{
-				localHeap.Remove((hMem));
-				hMem = Marshal.ReAllocHGlobal(hMem, bytes);
-				localHeap[hMem] = new UIntPtr((ulong)bytes);
-
-				if (0 != (flags & Win32.GMEM_ZEROINIT))
-				{
-					//FIXME
-				}
-				return hMem;
-			}
-			return IntPtr.Zero;
-		}
-
-		public static IntPtr LocalFree(IntPtr hMem)
-		{
-			return localHeap.ContainsKey(hMem) ? IntPtr.Zero : hMem;
-		}
-
-		public static UIntPtr LocalSize(IntPtr hMem)
-		{
-			return localHeap.TryGetValue(hMem, out UIntPtr length) ? length : UIntPtr.Zero;
-		}
-
 		public static IntPtr GlobalAlloc(uint uFlags, UIntPtr dwBytes)
 		{
 			IntPtr ptr = Marshal.AllocHGlobal((int)dwBytes.ToUInt32());

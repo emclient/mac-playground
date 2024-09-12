@@ -27,11 +27,6 @@ namespace MacApi
 			get { return Path.Combine(LibraryDirectory, "Cookies"); }
 		}
 
-		public static string ApplicationSupportDirectory
-		{
-			get { return FirstSearchPathFor(NSSearchPathDirectory.ApplicationSupportDirectory) ?? Path.Combine(LibraryDirectory, "Application Support"); }
-		}
-
 		private static string? FirstSearchPathFor(NSSearchPathDirectory directory, NSSearchPathDomain domainMask = NSSearchPathDomain.User, bool expandTilde = true)
 		{
 			var paths = NSSearchPath.GetDirectories(directory, domainMask, expandTilde);

@@ -40,9 +40,10 @@ namespace MacBridge.Test
         public void DoSomeWork()
         {
             var ec = Thread.CurrentThread.ExecutionContext;
-            var cc = Thread.CurrentContext;
             Console.WriteLine("EC: " + ec.ToString());
-            Console.WriteLine("CC: " + ec.ToString());
+
+            //var cc = Thread.CurrentContext;
+            //Console.WriteLine("CC: " + ec.ToString());
 
             Thread.Sleep(2000);
         }

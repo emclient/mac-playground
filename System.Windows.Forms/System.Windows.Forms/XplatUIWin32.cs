@@ -1896,6 +1896,12 @@ namespace System.Windows.Forms {
 			return;
 		}
 
+		internal override IntPtr GetWindowFromPoint (int x, int y)
+		{
+			DriverDebug ("GetWindowFromPoint ({0}, {1}): Called", x, y);
+			return Win32WindowFromPoint(new POINT { x = x, y = y});
+		}
+
 		internal override void Activate(IntPtr handle) {
 			Win32SetActiveWindow(handle);
 			// delayed timer enabled
@@ -2310,7 +2316,7 @@ namespace System.Windows.Forms {
 			grab_hwnd = IntPtr.Zero;
 		}
 
-		internal override bool CalculateWindowRect(ref Rectangle ClientRect, CreateParams cp, out Rectangle WindowRect) {
+		internal override bool CalculateWindowRect(IntPtr hwnd, ref Rectangle ClientRect, out Rectangle WindowRect) {
 			RECT	rect;
 
 			rect.left=ClientRect.Left;
@@ -3422,6 +3428,9 @@ namespace System.Windows.Forms {
 
 		[DllImport ("user32.dll", EntryPoint="ClientToScreen", CallingConvention=CallingConvention.StdCall)]
 		private extern static bool Win32ClientToScreen(IntPtr hWnd, ref POINT pt);
+
+		[DllImport ("user32.dll", EntryPoint="WindowFromPoint", CallingConvention=CallingConvention.StdCall)]
+		private extern static bool Win32WindowFromPoint(in POINT pt);
 
 		// This function returns the parent OR THE OWNER!
 		// Use GetAncestor to only get the parent.

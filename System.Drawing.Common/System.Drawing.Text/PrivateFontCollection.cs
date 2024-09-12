@@ -65,6 +65,8 @@ namespace System.Drawing.Text
 		public new FontFamily[] Families
 		{
 			get { 
+				if(nativeFontDescriptors == null) return Array.Empty<FontFamily>();
+
 				var families = new List<FontFamily> ();
 
 				var familyNames = new List<string>(nativeFontDescriptors.Keys);

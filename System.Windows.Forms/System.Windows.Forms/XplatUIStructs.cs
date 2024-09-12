@@ -341,6 +341,10 @@ namespace System.Windows.Forms
 		WM_MOUSEHOVER             = 0x02A1,
 		WM_NCMOUSELEAVE           = 0x02A2,
 		WM_MOUSELEAVE             = 0x02A3,
+		WM_DPICHANGED             = 0x02E0,
+		WM_DPICHANGED_BEFOREPARENT= 0x02E2,
+		WM_DPICHANGED_AFTERPARENT = 0x02E3,
+		WM_GETDPISCALEDSIZE       = 0x02E4,
 		WM_CUT                    = 0x0300,
 		WM_COPY                   = 0x0301,
 		WM_PASTE                  = 0x0302,
@@ -424,7 +428,30 @@ namespace System.Windows.Forms
 
 	}
 
-	#if PUBLIC_TYPES
+#if PUBLIC_TYPES
+	public
+#else
+	internal
+#endif
+
+	enum Imn {
+		IMN_CLOSESTATUSWINDOW = 0x1,
+		IMN_OPENSTATUSWINDOW = 0x2,
+		IMN_CHANGECANDIDATE = 0x3,
+		IMN_CLOSECANDIDATE = 0x4,
+		IMN_OPENCANDIDATE = 0x5,
+		IMN_SETCONVERSIONMODE = 0x6,
+		IMN_SETSENTENCEMODE = 0x7,
+		IMN_SETOPENSTATUS = 0x8,
+		IMN_SETCANDIDATEPOS = 0x9,
+		IMN_SETCOMPOSITIONFONT = 0xa,
+		IMN_SETCOMPOSITIONWINDOW = 0xb,
+		IMN_SETSTATUSWINDOWPOS = 0xc,
+		IMN_GUIDELINE = 0xd,
+		IMN_PRIVATE = 0xe,
+	}
+
+#if PUBLIC_TYPES
 	public
 #else
 	internal

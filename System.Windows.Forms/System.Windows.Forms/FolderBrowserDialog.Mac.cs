@@ -1,9 +1,10 @@
 using System;
 using System.ComponentModel;
-using System.Windows.Forms;
+using System.Windows.Forms.Mac;
 using System.Windows.Forms.CocoaInternal;
 using AppKit;
 using Foundation;
+using ObjCRuntime;
 
 namespace System.Windows.Forms
 {
@@ -39,6 +40,7 @@ namespace System.Windows.Forms
 				if (!String.IsNullOrWhiteSpace(SelectedPath) && System.IO.Directory.Exists(SelectedPath) && IsSubfolderOf(SelectedPath, RootFolder))
 					panel.DirectoryUrl = NSUrl.FromFilename(SelectedPath);
 
+				NSApplication.SharedApplication.BeginInvokeOnMainThread(NSApplication.SharedApplication.Menu.InvokeMenuWillOpenDeep);
 				if (NSModalResponse.OK != (NSModalResponse)(int)panel.RunModal())
 					return false;
 
@@ -55,6 +57,11 @@ namespace System.Windows.Forms
 		[DefaultValue("")]
 		[Localizable(true)]
 		public string Description { get; set; }
+
+		[Browsable(true)]
+		[DefaultValue(false)]
+		[Localizable(true)]
+		public bool UseDescriptionForTitle { get; set; }
 
 		// Gets or sets the root folder where the browsing starts from.
 		[Browsable(true)]

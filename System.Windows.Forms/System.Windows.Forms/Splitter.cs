@@ -31,6 +31,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -188,6 +189,7 @@ namespace System.Windows.Forms {
 
 		[Browsable(false)]
 		[EditorBrowsable(EditorBrowsableState.Never)]
+		[AllowNull]
 		public override Font Font {
 			get {
 				return base.Font;
@@ -347,6 +349,7 @@ namespace System.Windows.Forms {
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[EditorBrowsable(EditorBrowsableState.Never)]
+		[AllowNull]
 		public override string Text {
 			get {
 				return base.Text;

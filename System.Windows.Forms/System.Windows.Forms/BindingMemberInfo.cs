@@ -27,7 +27,7 @@
 // COMPLETE
 
 namespace System.Windows.Forms {
-	public struct BindingMemberInfo {
+	public struct BindingMemberInfo : IEquatable<BindingMemberInfo> {
 		private string		data_member;
 		private string		data_field;
 		private string		data_path;
@@ -75,15 +75,18 @@ namespace System.Windows.Forms {
 		#endregion	// Public Instance Properties
 
 		#region Public Instance Methods
-		public override bool Equals(object otherObject) {
-			if (otherObject is BindingMemberInfo) {
-				return ((this.data_field == ((BindingMemberInfo)otherObject).data_field) &&
-					(this.data_path == ((BindingMemberInfo)otherObject).data_path) &&
-					(this.data_member == ((BindingMemberInfo)otherObject).data_member));
-			} else {
+		public override bool Equals(object otherObject)
+		{
+			if (otherObject is not BindingMemberInfo otherMember)
+			{
 				return false;
 			}
+
+			return Equals(otherMember);
 		}
+
+		public bool Equals(BindingMemberInfo other)
+			=> string.Equals(BindingMember, other.BindingMember, StringComparison.OrdinalIgnoreCase);		
 
 		public override int GetHashCode() {
 			return this.data_member.GetHashCode();

@@ -30,6 +30,7 @@
 
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Text;
@@ -346,6 +347,7 @@ namespace System.Windows.Forms
 		[Editor("System.Windows.Forms.Design.StringArrayEditor, " + Consts.AssemblySystem_Design, typeof(System.Drawing.Design.UITypeEditor))]
 		[Localizable(true)]
 		[MWFCategory("Appearance")]
+		[AllowNull]
 		public string[] Lines {
 			get {
 				int count;
@@ -518,6 +520,7 @@ namespace System.Windows.Forms
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[AllowNull]
 		public virtual string SelectedText {
 			get {
 				string retval = document.GetSelection ();
@@ -608,6 +611,7 @@ namespace System.Windows.Forms
 		[Editor ("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design,
 			 typeof (System.Drawing.Design.UITypeEditor))]
 		[Localizable(true)]
+		[AllowNull]
 		public override string Text {
 			get {
 				if (document == null || document.Root == null || document.Root.text == null)

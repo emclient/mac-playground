@@ -3,7 +3,7 @@
 This is a mix of code that was developed during our effort to port eM Client to macOS. It is a hodgepodge of various projects and experiments. The notable ones are listed below. The code is released as-is.
 
 To test the experiments:
-* Install .NET6 SDK for Mac
+* Install .NET8 SDK for Mac
 * Install dotnet macos workload
 * Open solution folder in Visual Studio Code (not in MS Visual Studio)
 * Run

@@ -77,6 +77,7 @@ namespace System.Drawing {
 		protected ImageFlags pixelFlags;
 
 		internal ArrayList representations;
+		internal Func<Size, Image> representationProvider;
 
 		~Image ()
 		{
@@ -239,10 +240,15 @@ namespace System.Drawing {
 		/// </summary>
 		public object Clone ()
 		{
+			return Clone(true);
+		}
+
+		internal Image Clone(bool deep)
+		{
 			var clone = new Bitmap(this);
-			if (representations != null)
+			if (deep && representations != null)
 				foreach (Image rep in representations)
-					clone.AddRepresentation((Image)rep.Clone());
+					clone.AddRepresentation(rep.Clone(false));
 			return clone;
 		}
 
@@ -254,11 +260,18 @@ namespace System.Drawing {
 
 		protected virtual void Dispose (bool disposing)
 		{
+			representationProvider = null;
+
 			if (disposing) {
 				if (nativeCGImage != null) {
 					nativeCGImage.Dispose();
 					nativeCGImage = null;
 				}
+			}
+			if (representations != null) {
+				foreach (Image rep in representations)
+					rep.Dispose();
+				representations.Clear();
 			}
 		}
 		

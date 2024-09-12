@@ -75,7 +75,7 @@ namespace FormsTest
 
 		void AddTextureBrushControls()
 		{
-			var modes = Enum.GetValues(typeof(System.Drawing.Drawing2D.WrapMode));
+			var modes = Enum.GetValues<System.Drawing.Drawing2D.WrapMode>();
 			for (int i = 0; i < 20; ++i)
 				foreach (System.Drawing.Drawing2D.WrapMode mode in modes)
 				{

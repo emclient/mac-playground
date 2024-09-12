@@ -27,6 +27,7 @@
 //
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -168,6 +169,7 @@ namespace System.Windows.Forms
 		[Browsable (false)]
 		[EditorBrowsable (EditorBrowsableState.Never)]
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
+		[AllowNull]
 		public override Cursor Cursor {
 			get { return base.Cursor; }
 			set { base.Cursor = value; }

@@ -83,6 +83,8 @@ namespace System.Windows.Forms
 		const int InitialToolTipDelay = 500;
 		const int ToolTipDelay = 5000;
 
+		private List<ToolStripDropDown> activeDropDowns = new List<ToolStripDropDown>();
+
 #if MAC
 		internal bool native_rendering = true;
 #else
@@ -734,6 +736,8 @@ namespace System.Windows.Forms
 			if (!IsDisposed) {
 
 				if(disposing) {
+					KeyboardActive = false;
+
 					// Event Handler must be stopped before disposing Items.
 					Events.Dispose();
 
@@ -1166,15 +1170,21 @@ namespace System.Windows.Forms
 		{
 		}
 
-		protected override void Select (bool directed, bool forward)
-		{
-			foreach (ToolStripItem tsi in this.DisplayedItems)
-				if (tsi.CanSelect) {
-					tsi.Select ();
-					break;
-				}
-		}
-		
+        protected override void Select(bool directed, bool forward) {
+            bool correctParentActiveControl = true;
+            if (Parent != null) {
+                IContainerControl c = Parent.InternalGetContainerControl();
+ 
+                if (c != null) {
+                    c.ActiveControl = this;
+                    correctParentActiveControl = c.ActiveControl == this;
+                }
+            }
+            if (directed && correctParentActiveControl) {
+                 SelectNextToolStripItem(null, forward);
+            }
+        }
+
 		protected override void SetBoundsCore (int x, int y, int width, int height, BoundsSpecified specified)
 		{
 			base.SetBoundsCore (x, y, width, height, specified);
@@ -1340,6 +1350,9 @@ namespace System.Windows.Forms
 		#endregion
 
 		#region Internal Properties
+
+		internal List<ToolStripDropDown> ActiveDropDowns { get { return activeDropDowns; } }
+
 		internal virtual bool KeyboardActive
 		{
 			get { return this.keyboard_active; }
@@ -1514,7 +1527,7 @@ namespace System.Windows.Forms
 		
 		internal virtual void HandleItemClick (ToolStripItem dismissingItem)
 		{
-			this.GetTopLevelToolStrip ().Dismiss (ToolStripDropDownCloseReason.ItemClicked);
+			this.GetTopLevelToolStrip ()?.Dismiss (ToolStripDropDownCloseReason.ItemClicked);
 		}
 		
 		internal void NotifySelectedChanged (ToolStripItem tsi)

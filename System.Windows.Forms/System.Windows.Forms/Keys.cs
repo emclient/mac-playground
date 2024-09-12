@@ -233,4 +233,16 @@ namespace System.Windows.Forms {
 		Packet		= 0x000000E7,
 		Sleep		= 0x0000005F
 	}
+
+	static class KeysEx {
+#if MAC
+		public static bool IsCloseWindow(this Keys k) {
+			return k == (Keys.Cmd | Keys.W);
+		}
+#else
+		public static bool IsCloseWindow(this Keys k) {
+			return k == (Keys.Control | Keys.F4) || k == (Keys.Control | Keys.W);
+		}
+#endif
+	}
 }

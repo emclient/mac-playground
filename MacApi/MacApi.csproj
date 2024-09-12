@@ -1,11 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-macos</TargetFrameworks>
-    <TargetFrameworks Condition="'$(SkipMacProjects)' == 'true'">netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net8.0-macos</TargetFrameworks>
     <DefineConstants>MAC</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <EnableDefaultItems Condition="'$(TargetFramework)' != 'net6.0-macos'">false</EnableDefaultItems>
-    <EnableDefaultCompileItems Condition="'$(TargetFramework)' != 'net6.0-macos'">false</EnableDefaultCompileItems>
-    <EnableDefaultEmbeddedResourceItems Condition="'$(TargetFramework)' != 'net6.0-macos'">false</EnableDefaultEmbeddedResourceItems>
+    <NoWarn>CA1416</NoWarn>
   </PropertyGroup>
 </Project>

@@ -67,9 +67,8 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 40;
-            this.button2.Text = "New Form";
-            this.toolTip.SetToolTip(this.button2, "Open a new window like this" +
-        " ljshdfg jlwdhfg");
+            this.button2.Text = "New";
+            this.toolTip.SetToolTip(this.button2, "Opens a new window");
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -94,7 +93,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(49, 17);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Jméno";
+            this.label1.Text = "Name";
             // 
             // label2
             // 
@@ -123,7 +122,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(121, 21);
             this.label4.TabIndex = 6;
-            this.label4.Text = "Tři sta stříkaček";
+            this.label4.Text = "Tři sta třicet tři stříkaček";
             // 
             // label5
             // 
@@ -133,7 +132,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(149, 28);
             this.label5.TabIndex = 7;
-            this.label5.Text = "stříkalo zvesela";
+            this.label5.Text = "stříkalo přes";
             // 
             // panel1
             // 
@@ -155,7 +154,7 @@
             this.panel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.panel2.Location = new System.Drawing.Point(380, 36);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(256, 366);
+            this.panel2.Size = new System.Drawing.Size(316, 366);
             this.panel2.TabIndex = 8;
             // 
             // label7
@@ -166,7 +165,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(177, 38);
             this.label7.TabIndex = 8;
-            this.label7.Text = "na toho vola";
+            this.label7.Text = "třista třicet tři stříbrných střech";
             // 
             // label6
             // 
@@ -176,7 +175,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(52, 17);
             this.label6.TabIndex = 9;
-            this.label6.Text = "Náhled";
+            this.label6.Text = "Preview";
             // 
             // dialogTypeCombo
             // 
@@ -208,7 +207,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(652, 446);
+            this.ClientSize = new System.Drawing.Size(720, 446);
             this.Controls.Add(this.dialogTypeCombo);
             this.Controls.Add(this.filterTextBox);
             this.Controls.Add(this.label6);
@@ -223,7 +222,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "Fonty";
+            this.Text = "Fonts";
             this.panel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

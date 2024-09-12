@@ -30,6 +30,69 @@ namespace System.Windows.Forms.CocoaInternal
 			//-[WebCoreResourceHandleAsOperationQueueDelegate connection:willSendRequest:redirectResponse:] + 53
 			if (args.Contains("-wrapConnectionWillSendRequestRedirectResponse"))
 				connectionSwizzle = new Swizzle<ConnectionWillSendRequestRedirectResponseDelegate>(new Class("WebCoreResourceHandleAsOperationQueueDelegate"), Selector.GetHandle("connection:willSendRequest:redirectResponse:"), ConnectionWillSendRequestRedirectResponse);
+
+			// setControlSizeSwizzle = new Swizzle<SetControlSizeDelegate>(new Class("NSScroller"), Selector.GetHandle("setControlSize:"), SetControlSize);
+			// initWithFrameSwizzle = new Swizzle<InitWithFrameDelegate>(new Class("NSScroller"), Selector.GetHandle("initWithFrame:"), InitWithFrame);
+			// addSubviewSwizzle = new Swizzle<AddSubviewDelegate>(new Class("NSView"), Selector.GetHandle("addSubview:"), AddSubview);
+		}
+
+		// NSView addSubview: --------------
+
+		delegate void AddSubviewDelegate(IntPtr @this, IntPtr @selector, IntPtr @view);
+		static Swizzle<AddSubviewDelegate> addSubviewSwizzle;
+
+		static void AddSubview(IntPtr thisPtr, IntPtr selectorPtr, IntPtr viewPtr)
+		{
+			var @this = ObjCRuntime.Runtime.GetNSObject(@thisPtr);
+			var view = ObjCRuntime.Runtime.GetNSObject(@viewPtr);
+
+			if (view is NSScroller scroller)
+			{
+				Console.WriteLine(Separator);
+				Console.WriteLine("AddSubview(NSScroller)");
+				Console.WriteLine($" - {@this.GetType().Name}");
+			}
+
+			using (var unswizzle = addSubviewSwizzle.Restore())
+				unswizzle.Delegate(@thisPtr, @selectorPtr, viewPtr);
+
+			// if (ObjCRuntime.Runtime.GetNSObject(@this) is NSScroller scroller)
+			// 	scroller.ControlSize = NSControlSize.Large;
+		}
+		
+		// NSScroller initWithFrame --------------
+
+		delegate IntPtr InitWithFrameDelegate(IntPtr @this, IntPtr @selector, CGRect rect);
+		static Swizzle<InitWithFrameDelegate> initWithFrameSwizzle;
+
+		static IntPtr InitWithFrame(IntPtr @this, IntPtr @selector, CGRect frame)
+		{
+			Console.WriteLine(Separator);
+			Console.WriteLine($"#NSScroller.InitWithFrame({frame})");
+
+			var result = IntPtr.Zero;
+			using (var unswizzle = initWithFrameSwizzle.Restore())
+				result = unswizzle.Delegate(@this, @selector, frame);
+
+			if (ObjCRuntime.Runtime.GetNSObject(@this) is NSScroller scroller)
+			 	scroller.ControlSize = NSControlSize.Small;
+
+			return result;
+		}
+
+		// NSScroller setControlSize --------------
+
+		delegate void SetControlSizeDelegate(IntPtr @this, IntPtr @selector, nint style);
+		static Swizzle<SetControlSizeDelegate> setControlSizeSwizzle;
+
+		static void SetControlSize(IntPtr @this, IntPtr @selector, nint size)
+		{
+			var nsize = (AppKit.NSControlSize)size;
+			Console.WriteLine(Separator);
+			Console.WriteLine($"# SetControlSize({nsize})");
+
+			using (var unswizzle = setControlSizeSwizzle.Restore())
+				unswizzle.Delegate(@this, @selector, size);
 		}
 
 		// NSUrlInitWithString --------------

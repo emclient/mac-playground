@@ -1065,6 +1065,16 @@ namespace System.Windows.Forms {
 			return base.ProcessDialogKey(keyData);
 		}
 
+		internal void SetSelectionRangeSafe(SelectionRange range)
+		{
+			SetSelectionRangeSafe(range.Start, range.End);
+		}
+
+		internal void SetSelectionRangeSafe(DateTime start, DateTime end)
+		{
+			SetSelectionRange(ApplyConstraints(start), ApplyConstraints(end));
+		}
+
 		internal virtual bool MoveLeft(bool shift)
 		{
 			if (shift) 
@@ -1072,10 +1082,10 @@ namespace System.Windows.Forms {
 				var range = focused_date > SelectionRange.Start
 					? new SelectionRange(SelectionRange.Start, focused_date = focused_date.AddDays(-1))
 					: new SelectionRange(focused_date = focused_date.AddDays(-1), SelectionRange.End);
-				SelectionRange = range;
+				SetSelectionRangeSafe(range);
 			}
 			else
-				SelectDate(focused_date.AddDays(-1));
+				SelectDate(ApplyConstraints(focused_date.AddDays(-1)));
 
 			Invalidate();
 			return true;
@@ -1085,11 +1095,14 @@ namespace System.Windows.Forms {
 		{
 			if (shift) {
 				if ((SelectionRange.End - SelectionRange.Start).Days < MaxSelectionCount - 1)
-					SelectionRange = focused_date < SelectionRange.End
+				{
+					var range = focused_date < SelectionRange.End
 						? new SelectionRange(focused_date = focused_date.AddDays(1), SelectionRange.End)
 						: new SelectionRange(SelectionRange.Start, focused_date = focused_date.AddDays(1));
+					SetSelectionRangeSafe(range);
+				}
 			} else {
-				SelectDate(focused_date.AddDays(1));
+				SelectDate(ApplyConstraints(focused_date.AddDays(1)));
 			}
 			
 			Invalidate();
@@ -1099,11 +1112,14 @@ namespace System.Windows.Forms {
 		internal virtual bool MoveUp(bool shift)
 		{
 			if (shift)
-				SelectionRange = focused_date < SelectionRange.End
+			{
+				var range = focused_date < SelectionRange.End
 					? new SelectionRange(focused_date = focused_date.AddDays(-7), SelectionRange.End)
 					: new SelectionRange(SelectionRange.Start, focused_date = focused_date.AddDays(-7));
+				SetSelectionRangeSafe(range);
+			}
 			else
-				SelectDate(focused_date.AddDays(-7));
+				SelectDate(ApplyConstraints(focused_date.AddDays(-7)));
 
 			Invalidate();
 			return true;
@@ -1111,12 +1127,14 @@ namespace System.Windows.Forms {
 
 		internal virtual bool MoveDown(bool shift)
 		{
-			if (shift)
-				SelectionRange = focused_date < SelectionRange.End
+			if (shift) {
+				var range = focused_date < SelectionRange.End
 					? new SelectionRange(focused_date = focused_date.AddDays(Math.Min(7, (SelectionRange.End - SelectionRange.Start).Days)), SelectionRange.End)
 					: new SelectionRange(SelectionRange.Start, focused_date = SelectionRange.Start.AddDays(Math.Min(MaxSelectionCount, 7 * (1 + (SelectionRange.End - SelectionRange.Start).Days / 7) - 1)));
+				SetSelectionRangeSafe(range);
+			}
 			else
-				SelectDate(focused_date.AddDays(7));
+				SelectDate(ApplyConstraints(focused_date.AddDays(7)));
 
 			Invalidate();
 			return true;
@@ -1308,13 +1326,18 @@ namespace System.Windows.Forms {
 				}
 			}
 			if (!(CurrentMonth.Year + years > MaxDate.Year)) {
-				newDate = CurrentMonth.AddYears (years);
-				if (MaxDate >= newDate && MinDate <= newDate) {
-					CurrentMonth = newDate;
-				}
+				CurrentMonth = ApplyConstraints(CurrentMonth.AddYears(years));
 			}
 		}
 		
+		internal DateTime ApplyConstraints(DateTime date) {
+			if (date > MaxDate)
+				return MaxDate;
+			if (date < MinDate)
+				return MinDate;
+			return date;
+		}
+
 		internal bool IsYearGoingUp {
 			get {
 				return is_year_going_up;
@@ -1385,9 +1408,8 @@ namespace System.Windows.Forms {
 				
 				if (value.Month != current_month.Month ||
 					value.Year != current_month.Year) {
-					this.SelectionRange = new SelectionRange(
-						this.SelectionStart.Add(value.Subtract(current_month)),
-						this.SelectionEnd.Add(value.Subtract(current_month)));
+					var diff = value.Month - CurrentMonth.Month;
+					SetSelectionRangeSafe(SelectionStart.AddMonths(diff), SelectionEnd.AddMonths(diff));
 					current_month = value;
 					UpdateBoldedDates();
 					this.Invalidate();
@@ -1656,7 +1678,7 @@ namespace System.Windows.Forms {
 
 			// Avoid re-setting SelectionRange to the same value and fire an extra DateChanged event
 			if (range.Start != selection_range.Start || range.End != selection_range.End)
-				SelectionRange = range;
+				SetSelectionRangeSafe(range);
 		}
 
 		// attempts to add the date to the selection without throwing exception
@@ -1803,53 +1825,18 @@ namespace System.Windows.Forms {
 		// called when today context menu is clicked
 		private void TodayMenuItemClickHandler (object sender, EventArgs e)
 		{
-			this.SetSelectionRange (DateTime.Now.Date, DateTime.Now.Date);
+			this.SetSelectionRangeSafe (DateTime.Now.Date, DateTime.Now.Date);
 			this.OnDateSelected (new DateRangeEventArgs (SelectionStart, SelectionEnd));
 		}
 
 		// called when month context menu is clicked
 		private void MonthMenuItemClickHandler (object sender, EventArgs e) {
 			ToolStripMenuItem item = sender as ToolStripMenuItem;
-			if (item != null && month_title_click_location != Point.Empty) {
-				// establish which month we want to move to
-				if (item.Parent == null) {
-					return;
-				}
-				int new_month = item.Parent.Items.IndexOf (item) + 1;
-				if (new_month == 0) {
-					return;
-				}
-				// okay let's establish which calendar was hit
-				Size month_size = this.SingleMonthSize;
-				for (int i=0; i < CalendarDimensions.Height; i++) {
-					for (int j=0; j < CalendarDimensions.Width; j++) {
-						int month_index = (i * CalendarDimensions.Width) + j;
-						Rectangle month_rect = new Rectangle ( new Point (0, 0), month_size);
-						if (j == 0) {
-							month_rect.X = this.ClientRectangle.X + 1;
-						} else {
-							month_rect.X = this.ClientRectangle.X + 1 + ((j)*(month_size.Width+calendar_spacing.Width));
-						}
-						if (i == 0) {
-							month_rect.Y = this.ClientRectangle.Y + 1;
-						} else {
-							month_rect.Y = this.ClientRectangle.Y + 1 + ((i)*(month_size.Height+calendar_spacing.Height));
-						}
-						// see if the point is inside
-						if (month_rect.Contains (month_title_click_location)) {
-							DateTime clicked_month = CurrentMonth.AddMonths (month_index);
-							// get the month that we want to move to
-							int month_offset = new_month - clicked_month.Month;
-							
-							// move forward however more months we need to
-							this.CurrentMonth = this.CurrentMonth.AddMonths (month_offset);
-							break;
-						}
-					}
-				}
-
-				// clear the point
-				month_title_click_location = Point.Empty;
+			if (item != null) {
+			 	int new_month = month_menu.Items.IndexOf (item) + 1;
+				if (new_month > 0) {
+			 		this.CurrentMonth = ApplyConstraints(CurrentMonth.AddMonths(new_month - CurrentMonth.Month));
+			 	}
 			}
 		}
 		
@@ -1891,7 +1878,7 @@ namespace System.Windows.Forms {
 						button_size.Width,
 						button_size.Height));
 				int scroll = (scroll_change == 0 ? CalendarDimensions.Width * CalendarDimensions.Height : scroll_change);
-				this.CurrentMonth = this.CurrentMonth.AddMonths (-scroll);
+				this.CurrentMonth = ApplyConstraints(this.CurrentMonth.AddMonths(-scroll));
 			} else {
 				// invalidate the next monthbutton
 				this.Invalidate(
@@ -1901,7 +1888,7 @@ namespace System.Windows.Forms {
 						button_size.Width,
 						button_size.Height));
 				int scroll = (scroll_change == 0 ? CalendarDimensions.Width * CalendarDimensions.Height : scroll_change);
-				this.CurrentMonth = this.CurrentMonth.AddMonths (scroll);
+				this.CurrentMonth = ApplyConstraints(this.CurrentMonth.AddMonths (scroll));
 			}
 		}
 		
@@ -2053,9 +2040,11 @@ namespace System.Windows.Forms {
 				case HitArea.NextMonthDate:
 					DoDateMouseDown (hti);
 
-					// select date before updating click_state
-					SelectDate (clicked_date);
-					date_selected_event_pending = true;
+					if (clicked_date.Date >= MinDate.Date && clicked_date.Date <= MaxDate.Date) {
+						// select date before updating click_state
+						SelectDate (clicked_date);
+						date_selected_event_pending = true;
+					}
 
 					// leave clicked state blank if drop down window
 					if (owner == null) {
@@ -2091,7 +2080,7 @@ namespace System.Windows.Forms {
 					}
 					break;
 				case HitArea.TodayLink:
-					this.SetSelectionRange (DateTime.Now.Date, DateTime.Now.Date);
+					this.SetSelectionRangeSafe (DateTime.Now.Date, DateTime.Now.Date);
 					this.OnDateSelected (new DateRangeEventArgs (SelectionStart, SelectionEnd));
 					break;
 				default:
@@ -2135,10 +2124,10 @@ namespace System.Windows.Forms {
 							if (date < first_select_start_date.AddDays ((MaxSelectionCount-1)*-1)) {
 								date = first_select_start_date.AddDays ((MaxSelectionCount-1)*-1);
 							}
-							this.SetSelectionRange (date, first_select_start_date);
+							this.SetSelectionRangeSafe (date, first_select_start_date);
 						} else {
 							DateTime date = GetFirstDateInMonth (this.SelectionStart);
-							this.SetSelectionRange (date, date);
+							this.SetSelectionRangeSafe (date, date);
 						}
 						e.Handled = true;
 						break;
@@ -2149,10 +2138,10 @@ namespace System.Windows.Forms {
 							if (date > first_select_start_date.AddDays (MaxSelectionCount-1)) {
 								date = first_select_start_date.AddDays (MaxSelectionCount-1);
 							}
-							this.SetSelectionRange (date, first_select_start_date);
+							this.SetSelectionRangeSafe (date, first_select_start_date);
 						} else {
 							DateTime date = GetLastDateInMonth (this.SelectionStart);
-							this.SetSelectionRange (date, date);
+							this.SetSelectionRangeSafe (date, date);
 						}
 						e.Handled = true;
 						break;
@@ -2162,7 +2151,7 @@ namespace System.Windows.Forms {
 							this.AddTimeToSelection (-1, false);
 						} else {
 							DateTime date = this.SelectionStart.AddMonths (-1);
-							this.SetSelectionRange (date, date);
+							this.SetSelectionRangeSafe (date, date);
 						}
 						e.Handled = true;
 						break;
@@ -2172,7 +2161,7 @@ namespace System.Windows.Forms {
 							this.AddTimeToSelection (1, false);
 						} else {
 							DateTime date = this.SelectionStart.AddMonths (1);
-							this.SetSelectionRange (date, date);
+							this.SetSelectionRangeSafe (date, date);
 						}
 						e.Handled = true;
 						break;
@@ -2182,7 +2171,7 @@ namespace System.Windows.Forms {
 							this.AddTimeToSelection (-7, true);
 						} else {
 							DateTime date = this.SelectionStart.AddDays (-7);
-							this.SetSelectionRange (date, date);
+							this.SetSelectionRangeSafe (date, date);
 						}
 						e.Handled = true;
 						break;
@@ -2192,7 +2181,7 @@ namespace System.Windows.Forms {
 							this.AddTimeToSelection (7, true);
 						} else {
 							DateTime date = this.SelectionStart.AddDays (7);
-							this.SetSelectionRange (date, date);
+							this.SetSelectionRangeSafe (date, date);
 						}
 						e.Handled = true;
 						break;
@@ -2202,7 +2191,7 @@ namespace System.Windows.Forms {
 							this.AddTimeToSelection (-1, true);
 						} else {
 							DateTime date = this.SelectionStart.AddDays (-1);
-							this.SetSelectionRange (date, date);
+							this.SetSelectionRangeSafe (date, date);
 						}
 						e.Handled = true;
 						break;
@@ -2212,7 +2201,7 @@ namespace System.Windows.Forms {
 							this.AddTimeToSelection (1, true);
 						} else {
 							DateTime date = this.SelectionStart.AddDays (1);
-							this.SetSelectionRange (date, date);
+							this.SetSelectionRangeSafe (date, date);
 						}
 						e.Handled = true;
 						break;

@@ -29,6 +29,8 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
+using System.Drawing.Mac;
+
 #if MAC
 using System.Windows.Forms.Mac;
 using AppKit;
@@ -49,6 +51,10 @@ namespace System.Windows.Forms
 		private double opacity = 1D;
 		private ToolStripItem owner_item;
 		internal Control source_control = null;
+		internal bool is_auto_generated = false;
+		internal bool state_in_visible_core = false;
+		internal Point show_position = Point.Empty;
+		internal ToolStripDropDownDirection show_direction;
 
 		#region Public Constructor
 		public ToolStripDropDown () : base ()
@@ -346,59 +352,139 @@ namespace System.Windows.Forms
 			this.Visible = false;
 		}
 
+		internal virtual bool UseNativeMenu()
+		{
+			foreach (var item in this.Items)
+				if (!(item is ToolStripMenuItem || item is ToolStripSeparator))
+					return false;
+			return true;
+		}
+
 		protected override void SetVisibleCore(bool visible)
 		{
-			if (this.Visible == visible)
+			if (state_in_visible_core)
 				return;
+			
+			state_in_visible_core = true;
 
-			if (visible)
-			{
-				// TODO: Move here the code from Show().
+			try {
+				if (this.Visible == visible)
+					return;
+
+				if (visible)
+				{
+					CancelEventArgs e = new CancelEventArgs();
+					this.OnOpening(e);
+
+					if (e.Cancel)
+						return;
+
+					if (OwnerToolStrip != null) {
+						OwnerToolStrip.ActiveDropDowns.Add(this);
+					}
+
+					// The tracker lets us know when the form is clicked or loses focus
+					ToolStripManager.AppClicked += new EventHandler(ToolStripMenuTracker_AppClicked);
+					ToolStripManager.AppFocusChange += new EventHandler(ToolStripMenuTracker_AppFocusChange);
+
+					// Prevent closing native menus by the Application object - it would be too early, in MouseDown.
+					// Native menus will close automatically, *after MouseUp*. This way, we can handle both
+					// ways of selecting the item: mouse_down-move-mouse_up and click-move-click.
+					var useNativeMenu = UseNativeMenu();
+					ToolStripManager.DismissingHandledNatively = useNativeMenu;
+
 #if MAC
-				if (currentMenu != null)
-					this.is_visible = true;
-				else
+					if (useNativeMenu && currentMenu != null)
+					{
+						((MonoMenuDelegate)currentMenu.Delegate).BeforePopup();
+						var show_point = CalculateShowPoint(show_position, show_direction, currentMenu.Size.ToSDSize());
+						PostMouseUp(source_control, show_point);
+						NSApplication.SharedApplication.BeginInvokeOnMainThread(delegate {
+							if (currentMenu != null)
+							{
+								// The keyboard capture would redirect keystrokes to the current tool strip.
+								// However, we need the typing to be handled by the embedded edit boxes (if any).
+								Application.KeyboardCapture = null;
+
+								// The edit commands (cut, copy, paste, select all) would be processed by the main menu,
+								// which means they would be redirected the current window and the popup menu would be closed.
+								// Hiding (inactivating) them temporarily allows the edit boxes embedded in our menu items to handle them properly.
+								using var _ = Mac.Extensions.HideCopyPasteMenuItems();
+
+								if (source_control != null) {
+									var winPosition = source_control.PointToClient(show_point);
+									currentMenu.PopUpMenu(null, new CGPoint(winPosition.X, winPosition.Y), source_control.Handle.ToNSView());
+								} else {
+									Size displaySize;
+									XplatUI.GetDisplaySize(out displaySize);
+									currentMenu.PopUpMenu(null, new CGPoint(show_point.X, displaySize.Height - show_point.Y), null);
+								}
+							}
+						});
+					}
+					if (currentMenu != null)
+						this.is_visible = true;
+					else
 #endif
-					base.SetVisibleCore(visible);
-			}
-			else
-			{
-				// Give users a chance to cancel the close
-				ToolStripDropDownClosingEventArgs e = new ToolStripDropDownClosingEventArgs(closeReason);
-				this.OnClosing(e);
+						base.SetVisibleCore(visible);
 
-				if (e.Cancel)
-					return;
+					ToolStripManager.SetActiveToolStrip(this, ToolStripManager.ActivatedByKeyboard);
 
-				// Don't actually close if AutoClose == true unless explicitly called
-				if (!this.auto_close && closeReason != ToolStripDropDownCloseReason.CloseCalled)
-					return;
-
-				// Detach from the tracker
-				ToolStripManager.AppClicked -= new EventHandler(ToolStripMenuTracker_AppClicked); ;
-				ToolStripManager.AppFocusChange -= new EventHandler(ToolStripMenuTracker_AppFocusChange);
-
-				// Owner MenuItem needs to be told to redraw (it's no longer selected)
-				if (owner_item != null)
-					owner_item.Invalidate();
-
-				// Recursive hide all child dropdowns
-				foreach (ToolStripItem tsi in this.Items)
-					tsi.Dismiss(closeReason);
-
-				// Hide this dropdown
-#if MAC
-				if (this.currentMenu != null) {
-					this.currentMenu.CancelTracking();
-					this.is_visible = false;
-				} else {
-					base.SetVisibleCore(visible);
+					// Called from NSMenuDelegate for native menus
+					if (!useNativeMenu)
+						this.OnOpened(EventArgs.Empty);
 				}
-#else
-				base.SetVisibleCore(visible);
-#endif
+				else
+				{
+					// Give users a chance to cancel the close
+					ToolStripDropDownClosingEventArgs e = new ToolStripDropDownClosingEventArgs(closeReason);
+					this.OnClosing(e);
 
-				this.OnClosed(new ToolStripDropDownClosedEventArgs(closeReason));
+					DismissActiveDropDowns();
+
+					if (e.Cancel)
+						return;
+
+					// Don't actually close if AutoClose == true unless explicitly called
+					if (!this.auto_close && closeReason != ToolStripDropDownCloseReason.CloseCalled)
+						return;
+
+					// Detach from the tracker
+					ToolStripManager.AppClicked -= new EventHandler(ToolStripMenuTracker_AppClicked); ;
+					ToolStripManager.AppFocusChange -= new EventHandler(ToolStripMenuTracker_AppFocusChange);
+
+					// Owner MenuItem needs to be told to redraw (it's no longer selected)
+					if (owner_item != null)
+						owner_item.Invalidate();
+
+					// Recursive hide all child dropdowns
+					foreach (ToolStripItem tsi in this.Items)
+						tsi.Dismiss(closeReason);
+
+					// Hide this dropdown
+	#if MAC
+					if (currentMenu != null) {
+						is_visible = false;
+						currentMenu.CancelTracking();
+						currentMenu = null;
+					} else {
+						base.SetVisibleCore(visible);
+					}
+	#else
+					base.SetVisibleCore(visible);
+	#endif
+					ToolStrip owner_toolstrip = OwnerToolStrip;
+					if (owner_toolstrip != null) {
+                    	owner_toolstrip.ActiveDropDowns.Remove(this);
+						ToolStrip up = owner_toolstrip.ActiveDropDowns.Count > 0 ? owner_toolstrip.ActiveDropDowns[owner_toolstrip.ActiveDropDowns.Count - 1] : owner_toolstrip;
+						ToolStripManager.SetActiveToolStrip(up, closeReason == ToolStripDropDownCloseReason.Keyboard);
+                    }
+					ActiveDropDowns.Clear();
+
+					this.OnClosed(new ToolStripDropDownClosedEventArgs(closeReason));
+				}
+			} finally {
+				state_in_visible_core = false;
 			}
 		}
 
@@ -462,8 +548,10 @@ namespace System.Windows.Forms
 							direction = ToolStripDropDownDirection.BelowLeft;
 						break;
 					case ToolStripDropDownDirection.Right:
-						if (show_point.X + size.Width > bestScreen.WorkingArea.Right)
-							direction = ToolStripDropDownDirection.Left;
+						if (show_point.X + size.Width > bestScreen.WorkingArea.Right) {
+							int x = bestScreen.WorkingArea.Right - size.Width - 1;
+							show_point.X = Math.Max(x, bestScreen.WorkingArea.Left);
+						}
 						break;
 				}
 
@@ -491,8 +579,10 @@ namespace System.Windows.Forms
 							direction = ToolStripDropDownDirection.AboveLeft;
 						break;
 					case ToolStripDropDownDirection.Right:
-						if (show_point.Y + size.Height > bestScreen.WorkingArea.Bottom && show_point.Y - size.Height > 0)
-							direction = ToolStripDropDownDirection.AboveRight;
+						if (show_point.Y + size.Height > bestScreen.WorkingArea.Bottom) {
+							int y = bestScreen.WorkingArea.Bottom - size.Height - 1;
+							show_point.Y = Math.Max(y, bestScreen.WorkingArea.Top);
+						}
 						break;
 				}
 			}
@@ -556,9 +646,23 @@ namespace System.Windows.Forms
 
 		private void ShowInternal (Control control, Point screenPosition, ToolStripDropDownDirection direction)
 		{
+			show_position = screenPosition;
+			show_direction = direction;
+
+			SetSourceControl(control);
+
 			this.PerformLayout();
 
-			Point show_point = CalculateShowPoint(screenPosition, direction, Size);
+			Point show_point;
+#if MAC
+			if (UseNativeMenu())
+			{
+				currentMenu = ToNSMenu();
+				show_point = CalculateShowPoint(screenPosition, direction, new Size((int)currentMenu.Size.Width, (int)currentMenu.Size.Height));
+			}
+			else
+#endif
+ 			show_point = CalculateShowPoint(screenPosition, direction, Size);
 
 			if (this.Location != show_point)
 				this.Location = show_point;
@@ -567,54 +671,7 @@ namespace System.Windows.Forms
 			if (Visible)
 				return;
 
-			SetSourceControl(control);
-
-			CancelEventArgs e = new CancelEventArgs();
-			this.OnOpening(e);
-
-			if (e.Cancel)
-				return;
-
-			// The tracker lets us know when the form is clicked or loses focus
-			ToolStripManager.AppClicked += new EventHandler(ToolStripMenuTracker_AppClicked);
-			ToolStripManager.AppFocusChange += new EventHandler(ToolStripMenuTracker_AppFocusChange);
-
-			bool useNativeMenu = true;
-			foreach (var item in this.Items)
-				useNativeMenu &= item is ToolStripMenuItem || item is ToolStripSeparator;
-
-			// Prevent closing native menus by the Application object - it would be too early, in MouseDown.
-			// Native menus will close automatically, *after MouseUp*. This way, we can handle both
-			// ways of selecting the item: mouse_down-move-mouse_up and click-move-click.
-			ToolStripManager.DismissingHandledNatively = useNativeMenu;
-
-#if MAC
-			if (useNativeMenu)
-			{
-				currentMenu = ToNSMenu();
-				((MonoMenuDelegate)currentMenu.Delegate).BeforePopup();
-				show_point = CalculateShowPoint(screenPosition, direction, new Size((int)currentMenu.Size.Width, (int)currentMenu.Size.Height));
-				PostMouseUp(control, show_point);
-				NSApplication.SharedApplication.BeginInvokeOnMainThread(delegate {
-					if (control != null) {
-						var winPosition = control.PointToClient(show_point);
-						currentMenu.PopUpMenu(null, new CGPoint(winPosition.X, winPosition.Y), control.Handle.ToNSView());
-					} else {
-						Size displaySize;
-						XplatUI.GetDisplaySize(out displaySize);
-						currentMenu.PopUpMenu(null, new CGPoint(show_point.X, displaySize.Height - show_point.Y), null);
-					}
-				});
-			}
-#endif
-
 			base.Show();
-
-			ToolStripManager.SetActiveToolStrip(this, ToolStripManager.ActivatedByKeyboard);
-
-			// Called from NSMenuDelegate for native menus
-			if (!useNativeMenu)
-				this.OnOpened(EventArgs.Empty);
 		}
 
 		#endregion
@@ -635,11 +692,6 @@ namespace System.Windows.Forms
 			return base.CreateLayoutSettings (style);
 		}
 		
-		protected override void Dispose (bool disposing)
-		{
-			base.Dispose (disposing);
-		}
-
 		protected virtual void OnClosed (ToolStripDropDownClosedEventArgs e)
 		{
 			ToolStripDropDownClosedEventHandler eh = (ToolStripDropDownClosedEventHandler)(Events [ClosedEvent]);
@@ -667,8 +719,24 @@ namespace System.Windows.Forms
 			base.OnItemClicked (e);
 		}
 
+        internal Size GetSuggestedSize() {
+            if (AutoSize) {
+                return GetPreferredSize(Size.Empty);
+            }
+            return this.Size;
+        }
+ 
+         internal void AdjustSize() {
+            Size size = GetSuggestedSize();
+            if (size != this.Size) {
+                this.Size = size;
+            }
+        }
+ 
 		protected override void OnLayout (LayoutEventArgs e)
 		{
+			AdjustSize();
+
 			// Find the widest menu item, so we know how wide to make our dropdown
 			int widest = 0;
 
@@ -691,11 +759,13 @@ namespace System.Windows.Forms
 				if (!tsi.Available)
 					continue;
 
+				Size preferred_size = tsi.GetPreferredSize (Size.Empty);
+				if (preferred_size.Height == 0)
+					continue;
+
 				y += tsi.Margin.Top;
 
 				int height = 0;
-
-				Size preferred_size = tsi.GetPreferredSize (Size.Empty);
 
 				if (preferred_size.Height > 22)
 					height = preferred_size.Height;
@@ -708,7 +778,9 @@ namespace System.Windows.Forms
 				y += height + tsi.Margin.Bottom;
 			}
 
-			this.Size = new Size (widest, y + this.Padding.Bottom);
+			if (Items.Count != 0)
+				this.Size = new Size (widest, y + this.Padding.Bottom);
+
 			this.SetDisplayedItems ();
 			this.OnLayoutCompleted (EventArgs.Empty);
 			this.Invalidate ();
@@ -1011,19 +1083,21 @@ namespace System.Windows.Forms
 
 		internal override void Dismiss (ToolStripDropDownCloseReason reason)
 		{
+			// ContextMenuStrip won't have a parent
+			if (this.OwnerItem != null) {
+				// Ensure Submenu loses keyboard capture when closing.
+				ToolStripManager.SetActiveToolStrip (null, false);
+			}
+
 			this.Close (reason);
 			base.Dismiss (reason);
-
-			// ContextMenuStrip won't have a parent
-			if (this.OwnerItem == null)
-			{
-				ToolStripManager.ToolStripDropDownDismissed(this, reason);
-				return;
-			}
-			
-			// Ensure Submenu loes keyboard capture when closing.
-			ToolStripManager.SetActiveToolStrip (null, false);			
 		}
+
+    	private void DismissActiveDropDowns() {
+			// We can't iterate through the active dropdown collection here as changing visibility changes the collection.
+			foreach (ToolStripDropDown dropDown in ActiveDropDowns.ToArray())
+				dropDown.Visible = false;     
+       }
 
 		internal override ToolStrip GetTopLevelToolStrip ()
 		{
@@ -1055,7 +1129,7 @@ namespace System.Windows.Forms
 					if (this.OwnerItem == null)
 						return true;
 						
-					ToolStrip parent_strip = this.OwnerItem.Parent;
+					ToolStrip parent_strip = this.OwnerItem.Parent ?? OwnerToolStrip;
 					ToolStripManager.SetActiveToolStrip (parent_strip, true);
 					
 					if (parent_strip is MenuStrip && keyData == Keys.Left) {
@@ -1083,12 +1157,12 @@ namespace System.Windows.Forms
 		
 		private void ToolStripMenuTracker_AppFocusChange (object sender, EventArgs e)
 		{
-			this.GetTopLevelToolStrip ().Dismiss (ToolStripDropDownCloseReason.AppFocusChange);
+			this.GetTopLevelToolStrip ()?.Dismiss (ToolStripDropDownCloseReason.AppFocusChange);
 		}
 
 		private void ToolStripMenuTracker_AppClicked (object sender, EventArgs e)
 		{
-			this.GetTopLevelToolStrip ().Dismiss (ToolStripDropDownCloseReason.AppClicked);
+			this.GetTopLevelToolStrip ()?.Dismiss (ToolStripDropDownCloseReason.AppClicked);
 		}
 		#endregion
 
@@ -1112,6 +1186,26 @@ namespace System.Windows.Forms
 				return null;
 			}
 		}
+
+   		internal ToolStrip OwnerToolStrip {
+            get {
+                if (owner_item != null) {
+                    ToolStrip owner = owner_item.Parent;
+                    if (owner != null) { 
+                        return owner;
+                    }
+ 
+                    // might not actually be placed on the overflow, just check for sure.
+                    if (owner_item.Placement == ToolStripItemPlacement.Overflow && owner_item.Owner != null) {
+                        return owner_item.Owner.OverflowButton.DropDown;
+                    }
+                    if (owner == null) {
+                        return owner_item.Owner;
+                    }
+                }
+                return null;
+            }
+        }		
 		#endregion
 
 		#region ToolStripDropDownAccessibleObject

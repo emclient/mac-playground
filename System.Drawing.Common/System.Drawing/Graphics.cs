@@ -16,6 +16,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Drawing.Mac;
+using System.Reflection;
 using CoreGraphics;
 #if __MACOS__
 using AppKit;
@@ -32,7 +33,7 @@ namespace System.Drawing {
 #if __MACOS__
 		private NSView focusedView;
 #endif
-		private bool hasClientTransform;
+		private bool hasClientTransform = false;
 		internal Pen LastPen;
 		internal Brush LastBrush;
 		internal CGRect boundingBox;
@@ -162,7 +163,7 @@ namespace System.Drawing {
 				}
 			}
 
-			g.screenScale = g.context.GetCTM().A; // view.Layer?.ContentsScale ?? 1f;
+			g.screenScale = g.context.GetUserSpaceToDeviceSpaceTransform().A; // view.Layer?.ContentsScale ?? 1f;
 
 			return g;
 		}
@@ -253,9 +254,10 @@ namespace System.Drawing {
 		{
 			if (hdc != IntPtr.Zero)
 			{
-				//var context = new CGContext(hdc);
-				CGContext context = (CGContext)Activator.CreateInstance(typeof(CGContext), new object?[] { hdc });
-				return new Graphics(context);
+				var ctor = typeof(CGContext).GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, CallingConventions.HasThis, new Type[] { typeof(ObjCRuntime.NativeHandle), typeof(bool) }, null);
+				var context = (CGContext)ctor.Invoke(new object?[] {(ObjCRuntime.NativeHandle)hdc, false } );
+				var flipped = context.ConvertPointToUserSpace(new CGPoint(0.0, 1.0)).Y < context.ConvertPointToUserSpace(new CGPoint(0.0, 0.0)).Y;
+				return new Graphics(context, flipped);
 			}
 			return null;
 		}
@@ -364,6 +366,9 @@ namespace System.Drawing {
 
 		public void DrawLine (Pen pen, Point pt1, Point pt2)
 		{
+			if (pt1 == pt2)
+				return;
+
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 
@@ -454,6 +459,9 @@ namespace System.Drawing {
 		
 		public void DrawLine (Pen pen, PointF pt1, PointF pt2)
 		{
+			if (pt1 == pt2)
+				return;
+
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 
@@ -473,6 +481,9 @@ namespace System.Drawing {
 
 		public void DrawLine (Pen pen, int x1, int y1, int x2, int y2)
 		{
+			if (x1 == x2 && y1 == y2)
+				return;
+
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 
@@ -485,6 +496,9 @@ namespace System.Drawing {
 
 		public void DrawLine (Pen pen, float x1, float y1, float x2, float y2)
 		{
+			if (x1 == x2 && y1 == y2)
+				return;
+
 			if (pen == null)
 				throw new ArgumentNullException ("pen");
 
@@ -508,7 +522,8 @@ namespace System.Drawing {
 			PreparePen (pen);
 			MoveTo (points [0]);
 			for (int i = 1; i < count; i++)
-				LineTo (points [i]);
+				if (points[i] != points[i-1])
+					LineTo (points [i]);
 			StrokePen (pen);
 		}
 		
@@ -526,9 +541,9 @@ namespace System.Drawing {
 			PreparePen (pen);
 			MoveTo (points [0]);
 			for (int i = 1; i < count; i++)
-				LineTo (points [i]);
+				if (points[i] != points[i-1])
+					LineTo (points [i]);
 			StrokePen (pen);
-
 		}
 
 		internal void RectanglePath (float x1, float y1, float x2, float y2)
@@ -566,6 +581,16 @@ namespace System.Drawing {
 			StrokePen (pen);
 		}
 		
+		/// <summary>
+		/// Draws the outline of a rectangle specified by <paramref name="rect"/>.
+		/// </summary>
+		/// <param name="pen">A Pen that determines the color, width, and style of the rectangle.</param>
+		/// <param name="rect">A Rectangle structure that represents the rectangle to draw.</param>
+		public void DrawRectangle (Pen pen, RectangleF rect)
+		{
+			DrawRectangle (pen, rect.X, rect.Y, rect.Width, rect.Height);
+		}
+
 		public void DrawRectangle (Pen pen, Rectangle rect)
 		{
 			if (pen == null)
@@ -1290,7 +1315,7 @@ namespace System.Drawing {
 				throw new NotImplementedException ();
 			}
 			set {
-				throw new NotImplementedException ();
+				//throw new NotImplementedException ();
 			}
 		}
 		
@@ -1559,7 +1584,7 @@ namespace System.Drawing {
 			if (icon == null)
 				throw new ArgumentNullException ("icon");
 
-			var scaledSize = context.ConvertSizeToDeviceSpace(new CGSize(targetRect.Width, targetRect.Height));
+			var scaledSize = this.ConvertToDeviceResolution(new CGSize(targetRect.Width, targetRect.Height));
 			icon = new Icon(icon, new Size((int)scaledSize.Width, (int)scaledSize.Height));
 
 			DrawImage (icon.ToBitmap (), targetRect);
@@ -1620,6 +1645,18 @@ namespace System.Drawing {
 				throw new ArgumentNullException ("brush");
 			DrawEllipticalArc(rect, startAngle, sweepAngle, true);
 			brush.FillPath(this);
+		}
+
+		/// <summary>
+		/// Fills the interior of a pie section defined by an ellipse and two radial lines.
+		/// </summary>
+		/// <param name="brush">A Brush that determines the characteristics of the fill.</param>
+		/// <param name="rect">A Rectangle structure that represents the bounding rectangle that defines the ellipse from which the pie section comes.</param>
+		/// <param name="startAngle">Angle in degrees measured clockwise from the x-axis to the first side of the pie section.</param>
+		/// <param name="sweepAngle">Angle in degrees measured clockwise from the <paramref name="startAngle"/> parameter to the second side of the pie section.</param>
+		public void FillPie (Brush brush, RectangleF rect, float startAngle, float sweepAngle)
+		{
+			FillPie (brush, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle);
 		}
 
 		public void FillPie (Brush brush, int x, int y, int width, int height, int startAngle, int sweepAngle)
@@ -1863,6 +1900,11 @@ namespace System.Drawing {
 		public static IntPtr GetHalftonePalette ()
 		{
 			throw new PlatformNotSupportedException ();
+		}
+
+		public override string ToString()
+		{
+			return $"isFlipped={isFlipped}, hasClientTransform={hasClientTransform}, graphicsUnit={graphicsUnit}, smoothingMode={smoothingMode}, screenScale={screenScale}, canUseLockFocus={canUseLockFocus}";
 		}
 	}
 }

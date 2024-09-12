@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -30,6 +31,7 @@ namespace System.Windows.Forms {
 		[EditorBrowsable(EditorBrowsableState.Always)]
 		[Localizable(true)]
 		[Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + Consts.AssemblySystem_Design, typeof (System.Drawing.Design.UITypeEditor))]
+		[AllowNull]
 		public AutoCompleteStringCollection AutoCompleteCustomSource
 		{
 			get
@@ -200,6 +202,7 @@ namespace System.Windows.Forms {
 
 		[DefaultValue("")]
 		[Localizable(true)]
+		[AllowNull]
 		public virtual string PlaceholderText { get; set; } = string.Empty; // PAF: FIXME: Just dummy accessor, no real functionality present
 
 		#endregion // Public Instance Properties
